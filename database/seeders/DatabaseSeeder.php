@@ -30,5 +30,19 @@ class DatabaseSeeder extends Seeder
         /**
          * Aqui ya son seeders de prueba, que se debe de obviar para producción
          */
+        $this->call([
+            UsuariosSeeder::class,
+            InmueblesSeeder::class,
+            PrincipalInmueblesSeeder::class,
+            CaracteristicasInmueblesSeeder::class,
+            ExtraInmueblesSeeder::class,
+            ExtraInmuebleCaracteristicasInmueblesSeeder::class,
+            OperacionTipoInmueblesSeeder::class,
+            UbicacionesInmueblesSeeder::class,
+            MultimediaInmueblesSeeder::class,
+            ImagenesInmueblesSeeder::class,
+            AvisosSeeder::class,
+            HistorialAvisosSeeder::class,
+        ]);
     }
 }
