@@ -1,0 +1,31 @@
+.signin-image {
+  background-image: url(/images/signup.webp?422317e1ed999c17e82817c594b3c3a4);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: calc(100vh - 48px);
+}
+
+.input-signin::-moz-placeholder {
+  opacity: 0.5;
+}
+
+.input-signin::placeholder {
+  opacity: 0.5;
+}
+
+.signin-form {
+  display: grid;
+  place-items: center;
+  height: calc(100vh - 48px);
+}
+
+.signin-form .signin-form-content {
+  width: 100%;
+  max-width: 500px;
+}
+
+.footer-container {
+  height: 48px;
+}
+

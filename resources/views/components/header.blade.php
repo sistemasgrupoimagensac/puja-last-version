@@ -1,9 +1,9 @@
 <header class="custom-container">
 
   {{-- Navbar Desktop --}}
-  <div class=" d-lg-block">
-      <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
+  <div class="d-lg-block">
+      <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid p-0">
   
           <a class="navbar-brand" href="/">
             <img class="navbar-logo-puja" src="{{ asset('images/svg/logo_puja.svg') }}" alt="logo de pujainmobiliaria">
@@ -185,13 +185,14 @@
               </li>
   
             </ul>
-            <a class="button-clear btn mx-1" href="#publica_aqui">Publica Aquí</a>
+            <a class="button-clear btn mx-1" href="/publica-tu-inmueble">Publica Aquí</a>
             <a class="button-orange btn mx-1" href="#iniciar_sesion">Iniciar Sesión</a>
           </div>
   
         </div>
       </nav>
   </div>
+
 
 </header> 
 
@@ -205,6 +206,14 @@
       <i class="fa-solid fa-xmark icon-orange fa-xl m-3"></i>
     </button>
   </div>
+
+  {{-- Linea divisora --}}
+  <hr class="m-0">
+
+  <a class="button-orange btn m-4" href="#iniciar_sesion">Iniciar Sesión</a>
+  <a class="button-clear aside-menu btn mx-4" href="/publica-tu-inmueble">Publica Aquí</a>
+
+
   <div class="offcanvas-body">
 
     {{-- Contenido Navbar en tamaño responsivo --}}
@@ -471,7 +480,7 @@
         </div>
       </div>
 
-
     </div>
   </div>
+
 </div>

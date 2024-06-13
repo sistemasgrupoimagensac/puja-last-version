@@ -4,6 +4,10 @@
     Home
 @endsection
 
+@section('header')
+  @include('components.header')
+@endsection
+
 @section('content')
 
     {{-- Main: incluye el buscador y Titular --}}
@@ -42,7 +46,7 @@
                     
                     <div class="input-group input-group-lg">
                         <input type="text" class="form-control" placeholder="Dirección" aria-label="direccion" aria-describedby="direccion" name="direccion">
-                        <input class="button-orange btn"  type="submit" value="Buscar">
+                        <input class="button-orange btn" type="submit" value="Buscar">
                     </div>
                 </div>
             </form>
@@ -52,12 +56,10 @@
     
     {{-- Sección de Recomendados --}}
     <section class="custom-container">
-        <h3 class="mx-3 my-5 font-weight-bold fs-md-5 mx-md-5">Nuestras recomendaciones para ti</h3>
+        <h3 class="mx-3 my-5 font-weight-bold fs-md-5 mx-md-5">Nuestras recomendaciones</h3>
 
-        <div class="">
-            @if(sizeof($avisos_grupo) > 0)
+        <div>
             @include('components.carousel')
-            @endif
         </div>
     </section>
     {{-- Sección de Recomendados --}}
@@ -138,3 +140,12 @@
     {{-- Sección de Destacados --}}
 
 @endsection
+
+@section('footer')
+  @include('components.footer')
+@endsection
+
+@push('scripts')
+    <script src="{{ asset('js/scripts/home.js') }}"></script>
+    <script src="{{ asset('js/scripts/components/card_simple.js') }}"></script>
+@endpush

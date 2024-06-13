@@ -1,0 +1,19 @@
+.custom-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.text-with-overflow {
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
+}
+
+.icon-orange {
+  color: $orange;
+}
+
+.icon-white {
+  color: white;
+}

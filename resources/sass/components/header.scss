@@ -1,0 +1,27 @@
+.navbar-logo-puja {
+    width: 120px;
+}
+
+.header-nav-item {
+    position: static;
+
+    .header-nav-link.show {
+        color: $orange;
+    }
+
+    .header-dropdown-menu {
+        position: absolute;
+        width: 100%;
+        max-width: $xl;
+        top: 95%;
+        left: 50%;
+        transform: translate(-50%, 0%);
+    }
+}
+
+// offcanvas - menu resposive
+
+.custom-accordion-button:not(.collapsed){
+    color: $orange;
+}
+

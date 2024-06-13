@@ -1,0 +1,25 @@
+.filters-dropdown-li {
+  cursor: pointer;
+
+  &:hover {
+    background-color: $light_gray;
+  }
+
+  &:active {
+    color: $orange;
+    background-color: transparent;
+  }
+}
+
+.filters-price-desktop {
+  ul {
+    width: 320px;
+    .button-filter-price {
+      cursor: pointer;
+    } 
+  }
+}
+
+.filter-additional-input {
+  cursor: pointer;
+}

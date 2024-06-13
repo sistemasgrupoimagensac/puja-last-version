@@ -1,0 +1,18 @@
+@import '../variables';
+
+.publica-container {
+  display: flex;
+  align-items: center;
+}
+
+.publica-card {
+  width: 300px;
+  transition: transform .1s ease, background-color .1s ease;
+  background-color: $gray-100;
+}
+
+.publica-card:hover {
+  transform: scale(1.03);
+  background-color: $white;
+}
+

@@ -1,0 +1,76 @@
+// simple card ===========================================================================
+.simple-card {
+  width: 18rem;
+  min-width: 18rem;
+  height: 24rem;
+  margin: 1rem;
+
+  .card-image-container {
+    width: 100%;
+    height: 12.5rem;
+
+    .card-image-custom {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+}
+
+.card-simple-address-overflow {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// inmueble card ======================================================================
+.card-inmueble-description {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3; /* Limita el texto a 3 líneas */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2rem;
+}
+
+.card-inmueble-content {
+  height: 220px;
+}
+
+.card-inmueble-image {
+  width: 100%;
+  height: 16rem;
+  object-fit: cover;
+  object-position: center;
+}
+
+.card-inmueble-title {
+  font-size: 1rem;
+}
+
+.card-inmuebles-features {
+  font-size: 1rem;
+}
+
+@media (min-width: $lg) { 
+  .card-inmueble {
+    height: 300px; 
+  }
+
+  .card-inmueble-content {
+    height: 100%;
+  }
+
+  .card-inmueble-image {
+    height: 100%;
+  }
+
+  .card-inmueble-title {
+    font-size: 1.6rem;
+  }
+
+  .card-inmuebles-features {
+    font-size: 1.2rem;
+  }
+}

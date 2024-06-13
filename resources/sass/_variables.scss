@@ -1,0 +1,50 @@
+// Body
+$body-bg: #f8fafc;
+
+// Typography
+$font-family-sans-serif: "Hind", sans-serif;
+$font-size-base: 1rem;
+$line-height-base: 1.6;
+
+// Colores Puja
+$orange: #fb7125;
+$light_orange: #ff8543;
+$dark_orange: #f15a09;
+$light_gray: #eeeeee;
+$dark_gray: #1F1F1F;
+$text-dark: #212529;
+
+// Colores Bootstrap
+$white:    #fff;
+$gray-100: #f8f9fa;
+$gray-200: #e9ecef;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
+$gray-600: #6c757d;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;
+$black:    #000;
+
+// Tamaños de pantallas
+$xs: 0;
+$sm: 576px;
+$md: 768px;
+$lg: 992px;
+$xl: 1200px;
+$xxl: 1400px;
+
+// Bootstrap variables
+$accordion-border-width: 0px;
+$accordion-border-color: transparent;
+$accordion-button-active-bg: transparent;
+$accordion-button-focus-border-color: transparent;
+$accordion-button-focus-box-shadow: transparent;
+$primary: $orange;
+$zindex-sticky: 1000;
+$zindex-dropdown: 1020;
+
+$body-bg: white;
+
+$carousel-transition-duration: 0;

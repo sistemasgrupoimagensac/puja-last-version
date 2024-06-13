@@ -1,11 +1,11 @@
 <footer class="footer-container py-4">
-  <div class="container d-flex flex-column flex-md-row justify-content-md-between">
+  <div class="container d-flex flex-column flex-md-row justify-content-md-between positio-relative">
 
     <div class="d-flex flex-column my-4">
       <img src={{ asset('images/svg/logoblanco_puja.svg') }} class="footer-img-logo" alt="logo de pujainmobiliaria del footer">  
     </div>
 
-    <div class="d-flex flex-column text-center m-2">
+    <div class="d-flex flex-column text-center m-2 my-4">
       <h4 class="mb-3">Menú</h4>
       <a class="footer-link-puja" href="">Alquiler</a>
       <a class="footer-link-puja" href="">Compra</a>
@@ -13,7 +13,7 @@
       <a class="footer-link-puja" href="">Publicar</a>
     </div>
 
-    <div class="d-flex flex-column text-center m-2">
+    <div class="d-flex flex-column text-center m-2 my-4">
       <h4 class="mb-3">Anunciantes</h4>
       <a class="footer-link-puja" href="">Agencias</a>
       <a class="footer-link-puja" href="">Agentes</a>
@@ -21,7 +21,7 @@
       <a class="footer-link-puja" href="">Constructores</a>
     </div>
 
-    <div class="d-flex flex-column text-center m-2">
+    <div class="d-flex flex-column text-center m-2 my-4">
       <h4 class="mb-3">Contáctanos</h4>
       <p class="p-0 m-0">Av. Canaval y Moreyra 290</p>
       <p class="p-0 m-0">Oficina No 41 y 42</p>
@@ -31,7 +31,7 @@
       <p class="p-0 m-0">+51 934 339 375</p>
     </div>
 
-    <div class="d-flex flex-column text-center m-2">
+    <div class="d-flex flex-column text-center m-2 my-4">
 
       <h4 class="mb-3">Síguenos</h4>
       <div class=" fs-1 mb-3">
@@ -44,9 +44,16 @@
       </div>
       <div class="d-flex flex-column">
         <i class="fs-1 fa-solid fa-book-open icon-white"></i>
-        <p>Libro de reclamaciones</p>
+        <p class="m-0">Libro de reclamaciones</p>
       </div>
     </div>
 
+  </div>
+  <div class="d-flex justify-content-center">
+    <small class="m-0 ms-4 position-absolute">
+      &#169 <span id="currentYear"></span>
+      <a class="footer-link-puja" href="https://grupoimagensac.com.pe/" target="blank"> Grupo Inmobiliario Imagen SAC </a>
+      <i class="fa-solid fa-heart text-danger"></i>
+    </small>
   </div>
 </footer>

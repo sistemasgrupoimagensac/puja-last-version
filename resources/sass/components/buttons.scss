@@ -1,0 +1,28 @@
+.button-clear {
+  &:hover {
+    background-color: $light_gray;
+  }
+
+  &.aside-menu {
+    background-color: $light_gray;
+  }
+}
+
+.button-orange {
+  background-color: $orange;
+  color: white;
+
+  &:hover {
+    background-color: $dark_orange;
+    color: white;
+  }
+}
+
+.general-button {
+  border: none;
+  background-color: transparent;
+}
+
+.button-filter.btn-outline-primary {
+  --bs-btn-active-color: white; /* Cambia el color a blanco */
+}

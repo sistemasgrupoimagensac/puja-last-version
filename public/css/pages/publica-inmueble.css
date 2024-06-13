@@ -1,0 +1,16 @@
+.publica-container {
+  display: flex;
+  align-items: center;
+}
+
+.publica-card {
+  width: 300px;
+  transition: transform 0.1s ease, background-color 0.1s ease;
+  background-color: #f8f9fa;
+}
+
+.publica-card:hover {
+  transform: scale(1.03);
+  background-color: #fff;
+}
+

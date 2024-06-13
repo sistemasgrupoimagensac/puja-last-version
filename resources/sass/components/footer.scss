@@ -1,0 +1,22 @@
+.footer-container {
+  background-color: $dark_gray;
+  color: white;
+}
+
+.footer-img-logo {
+  height: 4rem;
+}
+
+.footer-link-puja {
+  text-decoration: none;
+  color: white;
+
+  &:hover {
+    text-decoration: none;
+    color: $orange;
+  }
+}
+
+.footer-svg-libro-reclamaciones {
+  height: 1.6rem;
+}

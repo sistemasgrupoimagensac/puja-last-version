@@ -1,0 +1,31 @@
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Hind');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// fontawesome
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+
+// Flickity
+@import '~flickity/dist/flickity.min.css';
+
+// Importar estilos globales
+@import 'global.scss';
+
+// Importar header y footer
+@import 'components/footer.scss'; // estilos del header
+@import 'components/header.scss'; // estilos del footer
+
+// Importar componentes
+@import 'components/main_home.scss'; // estilos del <main> del home
+@import 'components/buttons.scss';
+@import 'components/cards.scss';
+@import 'components/filters.scss';
