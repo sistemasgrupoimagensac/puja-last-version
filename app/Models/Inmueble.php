@@ -39,4 +39,61 @@ class Inmueble extends Model
     {
         return $this->hasMany(Aviso::class, 'inmueble_id');
     }
+
+    public function fullName()
+    {
+        return optional(optional(optional($this->principal)->operacion)->tipoOperacion)->tipo . ' - ' . optional(optional(optional($this->principal)->operacion)->tipoInmueble)->tipo;
+    }
+
+    public function imagenPrincipal()
+    {
+        return optional($this->multimedia)->imagen_principal;
+    }
+
+    public function precioSoles()
+    {
+        $price = optional(optional($this->principal)->caracteristicas)->precio_soles;
+
+        if (null == $price) {
+            return null;
+        }
+
+        return 'S/ ' . number_format(optional(optional($this->principal)->caracteristicas)->precio_soles);
+    }
+
+    public function precioDolares()
+    {
+        $price = optional(optional($this->principal)->caracteristicas)->precio_dolares;
+
+        if (null == $price) {
+            return null;
+        }
+
+        return 'USD ' . number_format(optional(optional($this->principal)->caracteristicas)->precio_dolares);
+    }
+
+    public function address()
+    {
+        return optional(optional($this->principal)->ubicacion)->direccion;
+    }
+
+    public function ubicacionGeografica()
+    {
+        return optional(optional(optional($this->principal)->ubicacion)->distrito)->nombre . ', '. optional(optional(optional($this->principal)->ubicacion)->provincia)->nombre;
+    }
+
+    public function area()
+    {
+        return optional(optional($this->principal)->caracteristicas)->area_total;
+    }
+
+    public function dormitorios()
+    {
+        return optional(optional($this->principal)->caracteristicas)->habitaciones;
+    }
+
+    public function banios()
+    {
+        return optional(optional($this->principal)->caracteristicas)->banios;
+    }
 }
