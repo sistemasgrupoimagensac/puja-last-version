@@ -17,4 +17,14 @@ class CaracteristicaInmueble extends Model
     {
         return $this->belongsTo(PrincipalInmueble::class, 'principal_inmueble_id');
     }
+
+    public function currencySoles() :string
+    {
+        return 'S/ ';
+    }
+
+    public function currencyDolares() :string
+    {
+        return '$';
+    }
 }

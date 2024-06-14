@@ -5,7 +5,7 @@
 @endsection
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/layouts/inmueble.css') }}">
+    @vite(['resources/sass/pages/inmueble.scss'])
 @endpush
 
 @section('header')
@@ -23,15 +23,11 @@
           
           {{-- Imagenes --}}
           <div class="images-wrapper" data-bs-toggle="modal" data-bs-target="#ImagesProperty">
-            <div class="first-image card-image-container shadow">
-              <img src="{{ asset('images/house_2.webp') }}" class="card-image-custom rounded" alt="imagen inmueble">
+            @foreach($aviso->inmueble->imagenes as $image)
+            <div class="image-inmueble card-image-container shadow">
+              <img src="{{ $image->imagen }}" class="card-image-custom rounded" alt="{{ $aviso->inmueble->title() }}">
             </div>
-            <div class="second-image card-image-container shadow">
-            <img src="{{ asset('images/house_1.webp') }}" class="card-image-custom rounded" alt="imagen inmueble">
-            </div>
-            <div class="third-image card-image-container shadow">
-              <img src="{{ asset('images/house_3.webp') }}" class="card-image-custom rounded" alt="imagen inmueble">
-            </div>
+            @endforeach
           </div>
 
           {{-- modal --}}
@@ -45,15 +41,11 @@
                   {{-- imagenes carrusel --}}
                   <div id="carouselImagesInmueble" class="carousel slide carousel-fade">
                     <div class="carousel-inner">
-                      <div class="carousel-item active">
-                        <img src="{{ asset('images/house_1.webp') }}" class="d-block w-100" alt="...">
+                      @foreach($aviso->inmueble->imagenes as $image)
+                      <div class="carousel-item @if($loop->first) active @endif">
+                        <img src="{{ $image->imagen }}" class="d-block w-100" alt="{{ $aviso->inmueble->title() }}">
                       </div>
-                      <div class="carousel-item">
-                        <img src="{{ asset('images/house_2.webp') }}" class="d-block w-100" alt="...">
-                      </div>
-                      <div class="carousel-item">
-                        <img src="{{ asset('images/casa-prueba.webp') }}" class="d-block w-100" alt="...">
-                      </div>
+                      @endforeach
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselImagesInmueble" data-bs-slide="prev">
                       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -79,21 +71,17 @@
                 
                 {{-- title --}}
                 <h1 class="p-0 h3 fw-bold">
-                  <span>Casa</span> {{-- category --}}
-                  <span>en</span>
-                  <span>Venta</span> {{-- type --}}
-                  <span>en</span>
-                  <span>San Isidro</span> {{-- district --}}
+                  {{ $aviso->inmueble->title() }}
                 </h1>
       
                 {{-- direccion --}}
                 <h5 class="p-0">
                   <i class="fa-solid fa-location-dot icon-orange"></i>
-                  <span>Calle Manuel A. Fuentes</span> {{-- address --}}
+                  <span>{{ $aviso->inmueble->address() }}</span> {{-- address --}}
                   <span>, </span>
-                  <span>San Isidro</span> {{-- district --}}
+                  <span>{{ $aviso->inmueble->distrito() }}</span> {{-- district --}}
                   <span>, </span>
-                  <span>Lima</span> {{-- departament --}}
+                  <span>{{ $aviso->inmueble->provincia() }}</span> {{-- departament --}}
                 </h5>
     
               </div>
@@ -103,12 +91,12 @@
     
                 <div class="d-flex flex-column align-items-start align-items-md-end mt-4 mt-md-0">
                   <h2 class="m-0 fw-bolder">
-                    <span>S/. </span>
-                    <span>2,100,000</span>
+                    <span>{{ $aviso->inmueble->currencySoles() }}</span>
+                    <span>{{ number_format($aviso->inmueble->precioSoles()) }}</span>
                   </h2>
                   <h3 class="m-0 fw-bolder text-secondary">
-                    <small>USD </small>
-                    <small>567,568</small>
+                    <small>{{ $aviso->inmueble->currencyDolares() }}</small>
+                    <small>{{ number_format($aviso->inmueble->precioDolares()) }}</small>
                   </h3>
                 </div>
     
@@ -118,7 +106,7 @@
 
 
             <h4 class="p-0 m-0 mt-4">
-              ID: 83946
+              ID: {{ $aviso->id }}
             </h4>
 
           </div>
@@ -127,66 +115,78 @@
           <div class="d-flex flex-wrap justify-content-between gap-4 mt-4 px-3 py-4 border rounded shadow">
 
             {{-- dormitorios --}}
+            @if($aviso->inmueble->dormitorios())
             <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
               <div class="d-flex">
                 <i class="fa-solid fa-bed fa-lg icon-orange p-1"></i>
-                <h5 class="text-secondary m-1 fw-bold"> 3 </h5>
+                <h5 class="text-secondary m-1 fw-bold"> {{ $aviso->inmueble->dormitorios() }} </h5>
               </div>
               <h6 class="text-secondary m-0"> dorm. </h6>
             </div>
+            @endif
 
             {{-- baño completo --}}
+            @if($aviso->inmueble->banios())
             <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
               <div class="d-flex">
                 <i class="fa-solid fa-bath fa-lg icon-orange p-1"></i>
-                <h5 class="text-secondary m-1 fw-bold"> 2 </h5>
+                <h5 class="text-secondary m-1 fw-bold"> {{ $aviso->inmueble->banios() }} </h5>
               </div>
               <h6 class="text-secondary m-0"> bañ. </h6>
             </div>
+            @endif
 
             {{-- medio baño --}}
+            @if($aviso->inmueble->medioBanios())
             <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
               <div class="d-flex">
                 <i class="fa-solid fa-toilet fa-lg icon-orange p-1"></i>
-                <h5 class="text-secondary m-1 fw-bold"> 1 </h5>
+                <h5 class="text-secondary m-1 fw-bold"> {{ $aviso->inmueble->medioBanios() }} </h5>
               </div>
               <h6 class="text-secondary m-0"> 1/2 bañ. </h6>
             </div>
+            @endif
             
             {{-- estacionamientos --}}
+            @if($aviso->inmueble->estacionamientos())
             <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
               <div class="d-flex">
                 <i class="fa-solid fa-car fa-lg icon-orange p-1"></i>
-                <h5 class="text-secondary m-1 fw-bold"> 3 </h5>
+                <h5 class="text-secondary m-1 fw-bold"> {{ $aviso->inmueble->estacionamientos() }} </h5>
               </div>
               <h6 class="text-secondary m-0"> estacion. </h6>
             </div>
+            @endif
 
             {{-- area total --}}
+            @if($aviso->inmueble->area())
             <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
               <div class="d-flex">
                 <i class="fa-solid fa-ruler-combined fa-lg icon-orange p-1"></i>
                 <h5 class="text-secondary m-1 fw-bold"> 
-                  <span>100</span>
+                  <span>{{ $aviso->inmueble->area() }}</span>
                   <span>m</span>
                   <sup>2</sup>
                 </h5>
               </div>
               <h6 class="text-secondary m-0"> area total </h6>
             </div>
+            @endif
             
             {{-- area techada --}}
+            @if($aviso->inmueble->areaConstruida())
             <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
               <div class="d-flex">
                 <i class="fa-solid fa-ruler-combined fa-lg icon-orange p-1"></i>
                 <h5 class="text-secondary m-1 fw-bold"> 
-                  <span>100</span>
+                  <span>{{ $aviso->inmueble->areaConstruida() }}</span>
                   <span>m</span>
                   <sup>2</sup>
                 </h5>
               </div>
-              <h6 class="text-secondary m-0"> area techada </h6>
+              <h6 class="text-secondary m-0"> area construida </h6>
             </div>
+            @endif
 
           </div>
 
@@ -198,9 +198,9 @@
               <span>15</span>
               años
             </p>
-            <p class="short-text" id="shortText">{!! nl2br($shortText) !!}</p>
-            <p class="full-text" id="fullText">{!! nl2br($fullText) !!}</p>
-            @if(strlen($shortText) > $charLimit)
+            <p class="short-text" id="shortText">{!! nl2br($aviso->inmueble->shortDescription()) !!}</p>
+            <p class="full-text" id="fullText">{!! nl2br($aviso->inmueble->description()) !!}</p>
+            @if(strlen($aviso->inmueble->shortDescription()) > $aviso->inmueble->charLimit())
               <button class="ver-mas-btn btn btn-secondary" id="verMasBtn">Ver más</button>
               <button class="ver-menos-btn btn btn-secondary" id="verMenosBtn">Ver menos</button>
             @endif
@@ -337,5 +337,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('js/scripts/inmueble.js') }}"></script>
+    @vite(['resources/js/scripts/inmueble.js'])
 @endpush

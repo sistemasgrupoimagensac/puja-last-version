@@ -5,7 +5,7 @@
 @endsection
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/pages/signin.css') }}">
+    @vite(['resources/sass/pages/signin.scss'])
 @endpush
 
 @section('content')

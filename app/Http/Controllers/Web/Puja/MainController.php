@@ -15,7 +15,7 @@ class MainController extends Controller
 
     public function __invoke(Request $request)
     {
-        $avisos_grupo = (new ObtenerAvisosPrincipales($this->repository))->__invoke();
-        return view('home', compact('avisos_grupo'));
+        $avisos = (new ObtenerAvisosPrincipales($this->repository))->__invoke();
+        return view('home', compact('avisos'));
     }
 }

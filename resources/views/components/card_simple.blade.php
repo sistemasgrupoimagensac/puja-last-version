@@ -1,7 +1,7 @@
 <div class="card simple-card bg-white">
-  <a href="{{ $link }}" class="text-decoration-none text-reset h-100">
+  <a href="{{ $link }}" target="_blank" class="text-decoration-none text-reset h-100">
       <div class="card-image-container">
-          <img src="{{ asset($image) }}" class="card-image-custom" alt="imagen inmueble">
+          <img src="{{ $image }}" class="card-image-custom" alt="{{ $title }}">
       </div>
   
       <div class="card-body px-3 py-2">
@@ -25,9 +25,9 @@
 
   <div class="card-footer d-flex justify-content-between align-items-center">
       <p class="m-0">
-          <small class="text-body-secondary mr-2">{{ $area }} m<sup>2</sup></small>
-          <small class="text-body-secondary mr-2">{{ $bedrooms }} Dorm.</small>
-          <small class="text-body-secondary mr-2">{{ $bathrooms }} Bañ.</small>
+          @if($area)<small class="text-body-secondary mr-2">{{ $area }} m<sup>2</sup></small>@endif
+          @if($bedrooms)<small class="text-body-secondary mr-2">{{ $bedrooms }} Dorm.</small>@endif
+          @if($bathrooms)<small class="text-body-secondary mr-2">{{ $bathrooms }} Bañ.</small>@endif
       </p>
 
       <button class="general-button p-0 heart-button" data-like="{{ $like ? 'true' : 'false' }}">

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Str;
 
 class Aviso extends Model
 {
@@ -29,5 +30,10 @@ class Aviso extends Model
     public function historial(): BelongsToMany
     {
         return $this->belongsToMany(EstadoAviso::class, 'historial_avisos', 'aviso_id', 'estado_aviso_id');
+    }
+
+    public function link()
+    {
+        return Str::slug($this->inmueble->title() . ' ' . $this->id);
     }
 }

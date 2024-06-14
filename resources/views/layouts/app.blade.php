@@ -8,7 +8,7 @@
     <meta name="description" content="Servicio online de remates de inmuebles a nivel nacional - Grupo Imagen 2024"/>
     <link rel="shortcut icon" href="{{ asset('favicon.png') }}" type="image/x-icon">
     <title>Pujainmobiliaria - @yield('title')</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
+    @vite(['resources/sass/app.scss'])
     @stack('styles')
 </head>
 
@@ -20,7 +20,7 @@
 
   @yield('footer')
 
-  <script src="{{ asset('js/app.js') }}"></script>
+  @vite(['resources/js/app.js'])
   @stack('scripts')
 </body>
 

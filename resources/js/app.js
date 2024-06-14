@@ -1,11 +1,8 @@
 import './bootstrap';
+import 'popper.js';
+import 'bootstrap';
+import 'flickity';
 
-
-try {
-    require('popper.js');
-    require('bootstrap');
-    require('flickity');
-} catch (e) {}
 
 // cambiar color boton de acordeon del offcanvas añadiendo la clase collapsed desde el comienzo
 document.querySelectorAll('.custom-accordion-button').forEach((button) => {

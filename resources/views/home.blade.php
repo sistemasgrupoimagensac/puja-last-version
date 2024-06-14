@@ -146,6 +146,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('js/scripts/home.js') }}"></script>
-    <script src="{{ asset('js/scripts/components/card_simple.js') }}"></script>
+    @vite(['resources/js/scripts/home.js', 'resources/js/scripts/components/card_simple.js'])
 @endpush

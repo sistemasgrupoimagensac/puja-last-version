@@ -4,14 +4,17 @@ namespace App\Services\Aviso;
 
 use App\Repositories\AvisoRepository;
 
-class ObtenerAvisosPrincipales
+class ObtenerAviso
 {
+    /**
+     * Create a new class instance.
+     */
     public function __construct(protected AvisoRepository $repository)
     {
     }
 
-    public function __invoke()
+    public function __invoke(int $id)
     {
-        return $this->repository->getPrincipales();
+        return $this->repository->getInmueble($id);
     }
 }

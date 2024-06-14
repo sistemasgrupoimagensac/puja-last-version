@@ -6,7 +6,7 @@
 
 {{-- Estilos personalizados para esta página --}}
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/pages/publica-inmueble.css') }}">
+    @vite(['resources/sass/pages/publica-inmueble.scss'])
 @endpush
 
 @section('header')

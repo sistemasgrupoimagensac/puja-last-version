@@ -17,7 +17,18 @@ class AvisoRepository
 
     public function getPrincipales()
     {
-        return $this->model->where('estado', 1)->whereHas('inmueble', fn($q) => $q->where('estado', 1))->whereHas('historial', fn($q) => $q->where('estados_avisos.id', 3))->get();
+        return $this->model->where('estado', 1)
+                            ->whereHas('inmueble', fn($q) => $q->where('estado', 1))
+                            ->whereHas('historial', fn($q) => $q->where('estados_avisos.id', 3))
+                            ->get();
+    }
+
+    public function getInmueble(int $id)
+    {
+        return $this->model->where('estado', 1)
+                    ->where('id', $id)
+                    ->whereHas('inmueble', fn($q) => $q->where('estado', 1))
+                    ->first();
     }
 
     public function getByFilter()

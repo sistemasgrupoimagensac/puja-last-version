@@ -84,5 +84,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('js/scripts/inmuebles.js') }}"></script>
+    @vite(['resources/js/scripts/inmuebles.js'])
 @endpush
