@@ -26,14 +26,14 @@ class InmuebleController extends Controller
         return view('inmueble', compact('aviso'));
     }
 
-    public function getIdSlug($slug)
+    public function getIdSlug(string $slug): int
     {
-        $url = explode('-', $slug);
-        $id = end($url);
+        $url_parts = explode('-', $slug);
+        $id = end($url_parts);
         if (!is_numeric($id)) {
             abort(404);
         }
 
-        return $id;
+        return (int) $id;
     }
 }
