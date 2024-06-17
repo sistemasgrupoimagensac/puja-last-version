@@ -25,3 +25,11 @@ Route::get('/publica-tu-inmueble', function() {
 Route::get('/sign-in', function() {
     return view('auth.signin');
 });
+
+Route::get('/recuperar-password', function() {
+    return view('auth.recoverpassword');
+});
+
+Route::get('/register', function() {
+    return view('auth.register');
+});
