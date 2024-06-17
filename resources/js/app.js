@@ -3,6 +3,8 @@ import 'popper.js';
 import 'bootstrap';
 import 'flickity';
 
+import '@fortawesome/fontawesome-free/css/all.css';
+import '@fortawesome/fontawesome-free/js/all.js';
 
 // cambiar color boton de acordeon del offcanvas añadiendo la clase collapsed desde el comienzo
 document.querySelectorAll('.custom-accordion-button').forEach((button) => {

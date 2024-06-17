@@ -63,7 +63,7 @@
               </div>
                 
               <div class="form-floating">
-                <input type="password" class="form-control" id="surename_register" name="surename_register" placeholder="Apellido">
+                <input type="text" class="form-control" id="surename_register" name="surename_register" placeholder="Apellido">
                 <label class="text-secondary" for="surename_register">Apellido</label>
               </div>
 

@@ -36,7 +36,7 @@
       <h4 class="mb-3">Síguenos</h4>
       <div class=" fs-1 mb-3">
           <a class="text-decoration-none" href="https://www.facebook.com/pujainmobiliaria">
-            <i class=" fa-brands fa-facebook-f img-fluid text-center icon m-auto p-2 icon-white"></i>
+            <i class="fa-brands fa-facebook-f text-center icon m-auto p-2 icon-white"></i>
           </a>
           <a class="text-decoration-none" href="https://www.instagram.com/pujainmobiliaria/">
             <i class="fa-brands fa-instagram text-center icon m-auto p-2 icon-white"></i>
