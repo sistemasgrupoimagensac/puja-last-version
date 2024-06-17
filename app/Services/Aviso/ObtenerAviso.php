@@ -3,6 +3,7 @@
 namespace App\Services\Aviso;
 
 use App\Repositories\AvisoRepository;
+use App\Services\Url\ParsearUrl;
 
 class ObtenerAviso
 {
@@ -13,8 +14,16 @@ class ObtenerAviso
     {
     }
 
-    public function __invoke(int $id)
+    public function __invoke($inmueble)
     {
-        return $this->repository->getInmueble($id);
+        $id_slug = ParsearUrl::forSingle($inmueble);
+
+        $aviso = $this->repository->getInmueble($id_slug);
+
+        if (null == $aviso) {
+            throw new \Exception("No existe el aviso", 404);
+        }
+
+        return $aviso;
     }
 }
