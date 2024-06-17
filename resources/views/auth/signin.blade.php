@@ -27,7 +27,7 @@
         </div>
   
   
-        <form action="#">
+        <form method="POST" action="{{ route('login') }}">
           @csrf
 
           <div class="d-flex flex-column gap-4 input-group-lg">
