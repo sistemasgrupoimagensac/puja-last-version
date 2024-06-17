@@ -1,23 +1,23 @@
 @import '../variables';
 
 .signin-image {
-  background-image: url('resources/images/signin6.webp');
+  background-image: url('images/register.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   height: 100vh;
 }
 
-.input-signin::placeholder {
+.input::placeholder {
   opacity: 0.5;
 }
 
-.signin-form {
+.register-form {
   display: grid;
   place-items: center;
   height: 100vh;
   
-  .signin-form-content {
+  .register-form-content {
     width: 100%;
     max-width: 500px;
 
@@ -40,16 +40,4 @@
   }
 }
 
-.hr-container {
-  position: relative;
-  text-align: center;
 
-   span {
-    position: absolute;
-    top: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #fff;
-    padding: 0 10px;
-   }
-}
