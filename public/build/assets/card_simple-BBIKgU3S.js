@@ -1,0 +1,1 @@
+const t=document.querySelectorAll(".heart-button");t.forEach(function(e){e.addEventListener("click",function(){const a=e.querySelector(".fa-heart"),s=e.dataset.like==="true";s?(a.classList.remove("fa-solid"),a.classList.add("fa-regular")):(a.classList.remove("fa-regular"),a.classList.add("fa-solid")),e.dataset.like=s?"false":"true"})});

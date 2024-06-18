@@ -63,3 +63,11 @@ Route::get('/sign-in', function() {
 Route::post('/store', [LoginController::class, 'store']);
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('/recuperar-password', function() {
+    return view('auth.recoverpassword');
+});
+
+Route::get('/register', function() {
+    return view('auth.register');
+});

@@ -15,25 +15,11 @@ class InmuebleController extends Controller
 
     public function __invoke(Request $request, $inmueble)
     {
-        $id_slug = $this->getIdSlug($inmueble);
-        
-        $aviso = (new ObtenerAviso($this->repository))->__invoke($id_slug);
-
-        if (null == $aviso) {
-            abort(404);
+        try {
+            $aviso = (new ObtenerAviso($this->repository))->__invoke($inmueble);
+            return view('inmueble', compact('aviso'));
+        } catch (\Exception $e) {
+            abort($e->getCode());
         }
-
-        return view('inmueble', compact('aviso'));
-    }
-
-    public function getIdSlug(string $slug): int
-    {
-        $url_parts = explode('-', $slug);
-        $id = end($url_parts);
-        if (!is_numeric($id)) {
-            abort(404);
-        }
-
-        return (int) $id;
     }
 }
