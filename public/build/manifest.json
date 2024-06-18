@@ -115,6 +115,16 @@
     "src": "resources/sass/app.scss",
     "isEntry": true
   },
+  "resources/sass/components/whatsapp_modal_contact.scss": {
+    "file": "assets/whatsapp_modal_contact-oApYAwuG.css",
+    "src": "resources/sass/components/whatsapp_modal_inmueble_contact.scss",
+    "isEntry": true
+  },
+  "resources/sass/components/whatsapp_modal_inmueble_contact.scss": {
+    "file": "assets/whatsapp_modal_contact-oApYAwuG.css",
+    "src": "resources/sass/components/whatsapp_modal_inmueble_contact.scss",
+    "isEntry": true
+  },
   "resources/sass/pages/inmueble.scss": {
     "file": "assets/inmueble-GkmtGkzL.css",
     "src": "resources/sass/pages/inmueble.scss",
