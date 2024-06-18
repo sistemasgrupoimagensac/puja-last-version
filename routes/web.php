@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', App\Http\Controllers\Web\Puja\MainController::class);
 
 Route::prefix('/inmuebles')->group(function() {
-    Route::get('/{operacion}', App\Http\Controllers\Web\Puja\InmueblesController::class)->name('busqueda_inmuebles');
+    // Route::get('/{operacion}', App\Http\Controllers\Web\Puja\InmueblesController::class)->name('busqueda_inmuebles');
+    Route::get('/search', App\Http\Controllers\Web\Puja\InmueblesController::class)->name('search');
 });
 
 Route::prefix('/inmueble')->name('inmueble.')->group(function() {
@@ -14,9 +15,9 @@ Route::prefix('/inmueble')->name('inmueble.')->group(function() {
 
 // hasta aqui
 
-Route::get('/inmuebles', function() {
-    return view('inmuebles');
-});
+// Route::get('/inmuebles', function() {
+//     return view('inmuebles');
+// });
 
 Route::get('/publica-tu-inmueble', function() {
     return view('publicatuinmueble');

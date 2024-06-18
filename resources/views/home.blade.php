@@ -15,7 +15,7 @@
         <div class="main-home-background-image"></div>
         <div class="main-home-search d-flex flex-column h-100 w-100 px-3">
 
-            <form action="/inmuebles" method="" class="m-auto">
+            <form action="{{ route('search') }}" method="" class="m-auto">
                 @csrf
                 <h1 class="main-home-titular text-white font-weight-bold text-center mb-5">Consigue tu Próximo Inmueble</h1>
                 <div class="main-home-filter">
