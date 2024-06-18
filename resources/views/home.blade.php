@@ -16,7 +16,6 @@
         <div class="main-home-search d-flex flex-column h-100 w-100 px-3">
 
             <form action="{{ route('search') }}" method="" class="m-auto">
-                @csrf
                 <h1 class="main-home-titular text-white font-weight-bold text-center mb-5">Consigue tu Próximo Inmueble</h1>
                 <div class="main-home-filter">
 
@@ -24,10 +23,11 @@
                         
                         <div class="input-group-lg mr-4">
                             <select class="form-select" aria-label="Tipo de Propiedad" name="categoria">
-                                <option value="1" selected>Departamento</option>
-                                <option value="2">Casa</option>
-                                <option value="3">Terreno</option>
-                                <option value="4">Oficina</option>
+                                <option value="1" selected>Casa</option>
+                                <option value="2">Departamento</option>
+                                <option value="3">Oficina</option>
+                                <option value="4">Terreno</option>
+                                <option value="5">Local</option>
                             </select>
                         </div>
                        

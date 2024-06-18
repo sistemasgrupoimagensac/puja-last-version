@@ -7,9 +7,9 @@
     <div class="btn-group d-none d-xl-inline-flex">
       <button type="button" class="btn border dropdown-toggle py-2 " data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="true">
         <i class="fa-solid fa-tag icon-orange me-2"></i>
-        <span id="trasactionfiltertittle">Venta</span>
+        <span id="trasactionfiltertittle">@if(request()->get('transaccion') == 1) Venta @elseif(request()->get('transaccion') == 2) Alquiler @elseif(request()->get('transaccion') == 3) Remate @endif</span>
       </button>
-      <ul class="dropdown-menu ">
+      <ul class="dropdown-menu">
         <li class="dropdown-item filters-dropdown-li trasaction" data-value="venta">
           Venta
         </li>

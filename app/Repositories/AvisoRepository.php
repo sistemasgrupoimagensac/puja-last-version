@@ -37,8 +37,13 @@ class AvisoRepository
                         ->whereHas('historial', fn($q) => $q->where('estados_avisos.id', 3))
                         ->whereHas('inmueble', fn($q) => $q->where('estado', 1))
                         ->whereHas('inmueble.principal.operacion', function($q) use($request){
+
                             if ($request->transaccion) {
                                 $q->where('tipo_operacion_id', $request->transaccion);
+                            }
+
+                            if ($request->categoria) {
+                                $q->where('tipo_inmueble_id', $request->categoria);
                             }
                         })
                         ->get();
