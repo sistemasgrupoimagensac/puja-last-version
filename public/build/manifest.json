@@ -1,0 +1,105 @@
+{
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.ttf": {
+    "file": "assets/fa-brands-400-DHHcbFjz.ttf",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.ttf"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2": {
+    "file": "assets/fa-brands-400-Ch568Ea9.woff2",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.ttf": {
+    "file": "assets/fa-regular-400-C54-fRIQ.ttf",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.ttf"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.woff2": {
+    "file": "assets/fa-regular-400-9VThgXHM.woff2",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.woff2"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.ttf": {
+    "file": "assets/fa-solid-900-Cm9M9sZB.ttf",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.ttf"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2": {
+    "file": "assets/fa-solid-900-QWY35r5r.woff2",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.ttf": {
+    "file": "assets/fa-v4compatibility-DLBX5pNp.ttf",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.ttf"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2": {
+    "file": "assets/fa-v4compatibility-BRdYr4HJ.woff2",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2"
+  },
+  "resources/images/signin6.webp": {
+    "file": "assets/signin6-ZAlOjiDJ.webp",
+    "src": "resources/images/signin6.webp"
+  },
+  "resources/images/slide1.webp": {
+    "file": "assets/slide1-CFAUMLwB.webp",
+    "src": "resources/images/slide1.webp"
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-DsB-Db59.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "css": [
+      "assets/app-DMqKAXLC.css"
+    ],
+    "assets": [
+      "assets/fa-brands-400-Ch568Ea9.woff2",
+      "assets/fa-brands-400-DHHcbFjz.ttf",
+      "assets/fa-regular-400-9VThgXHM.woff2",
+      "assets/fa-regular-400-C54-fRIQ.ttf",
+      "assets/fa-solid-900-QWY35r5r.woff2",
+      "assets/fa-solid-900-Cm9M9sZB.ttf",
+      "assets/fa-v4compatibility-BRdYr4HJ.woff2",
+      "assets/fa-v4compatibility-DLBX5pNp.ttf"
+    ]
+  },
+  "resources/js/scripts/components/card_simple.js": {
+    "file": "assets/card_simple-BBIKgU3S.js",
+    "name": "card_simple",
+    "src": "resources/js/scripts/components/card_simple.js",
+    "isEntry": true
+  },
+  "resources/js/scripts/home.js": {
+    "file": "assets/home-BrnziL0-.js",
+    "name": "home",
+    "src": "resources/js/scripts/home.js",
+    "isEntry": true
+  },
+  "resources/js/scripts/inmueble.js": {
+    "file": "assets/inmueble-D7Sxe37j.js",
+    "name": "inmueble",
+    "src": "resources/js/scripts/inmueble.js",
+    "isEntry": true
+  },
+  "resources/js/scripts/inmuebles.js": {
+    "file": "assets/inmuebles-GbVgHsrM.js",
+    "name": "inmuebles",
+    "src": "resources/js/scripts/inmuebles.js",
+    "isEntry": true
+  },
+  "resources/sass/app.scss": {
+    "file": "assets/app-DpT1QKDU.css",
+    "src": "resources/sass/app.scss",
+    "isEntry": true
+  },
+  "resources/sass/pages/inmueble.scss": {
+    "file": "assets/inmueble-FQFK8Gyn.css",
+    "src": "resources/sass/pages/inmueble.scss",
+    "isEntry": true
+  },
+  "resources/sass/pages/publica-inmueble.scss": {
+    "file": "assets/publica-inmueble-B15HIJiP.css",
+    "src": "resources/sass/pages/publica-inmueble.scss",
+    "isEntry": true
+  },
+  "resources/sass/pages/signin.scss": {
+    "file": "assets/signin-qPFV7dQw.css",
+    "src": "resources/sass/pages/signin.scss",
+    "isEntry": true
+  }
+}
