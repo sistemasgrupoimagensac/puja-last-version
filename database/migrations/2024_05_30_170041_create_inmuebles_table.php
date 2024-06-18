@@ -120,16 +120,16 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('inmuebles');
-        Schema::dropIfExists('principal_inmuebles');
-        Schema::dropIfExists('operaciones_tipos_inmuebles');
-        Schema::dropIfExists('ubicaciones_inmuebles');
-        Schema::dropIfExists('caracteristicas_inmuebles');
-        Schema::dropIfExists('multimedia_inmuebles');
         Schema::dropIfExists('imagenes_multimedia_inmuebles');
         Schema::dropIfExists('videos_multimedia_inmuebles');
         Schema::dropIfExists('planos_multimedia_inmuebles');
-        Schema::dropIfExists('extras_inmuebles');
+        Schema::dropIfExists('multimedia_inmuebles');
         Schema::dropIfExists('extra_inmueble_caracteristicas');
+        Schema::dropIfExists('extras_inmuebles');
+        Schema::dropIfExists('operaciones_tipos_inmuebles');
+        Schema::dropIfExists('ubicaciones_inmuebles');
+        Schema::dropIfExists('caracteristicas_inmuebles');
+        Schema::dropIfExists('principal_inmuebles');
+        Schema::dropIfExists('inmuebles');
     }
 };

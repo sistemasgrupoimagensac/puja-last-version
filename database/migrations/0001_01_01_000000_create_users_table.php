@@ -32,7 +32,8 @@ return new class extends Migration
             $table->string('nombres', 200);
             $table->string('apellidos', 200);
             $table->string('email', 150);
-            $table->string('password');
+            $table->string('password')->nullable();
+            $table->string('google_id')->nullable();
             $table->foreignId('tipo_documento_id')->nullable()->constrained(table: 'tipos_documento');
             $table->string('numero_documento', 50)->nullable();
             $table->string('celular', 15)->nullable();
@@ -66,9 +67,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('users');
         Schema::dropIfExists('tipos_documento');
         Schema::dropIfExists('tipos_usuario');
-        Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
     }
