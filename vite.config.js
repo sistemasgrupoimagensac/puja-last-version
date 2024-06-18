@@ -13,6 +13,10 @@ export default defineConfig({
                 'resources/sass/pages/recover-password.scss',
                 'resources/sass/pages/register.scss',
                 'resources/sass/pages/signin.scss',
+                // sass - components
+                'resources/sass/components/whatsapp_modal_contact.scss',
+                'resources/sass/components/whatsapp_modal_inmueble_contact.scss',
+
                 // js
                 'resources/js/app.js',
                 // js - scripts
