@@ -37,6 +37,9 @@
           </div>
 
         </form>
+        {{-- <input class="btn button-orange w-100" type="submit" value="Ingresar"> --}}
+        <a class="btn button-orange w-100 mt-2" href="/google-auth/redirect">SSO GOOGLE</a>
+
 
       </div>
     </div>

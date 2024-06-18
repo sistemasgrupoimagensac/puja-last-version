@@ -14,6 +14,7 @@ class TiposUsuariosSeeder extends Seeder
     public function run(): void
     {
         $tipos_usuario = [
+            ['tipo' => 'CreadoPorGoogle', 'created_at' => now(), 'updated_at' => now()],
             ['tipo' => 'Propietario', 'created_at' => now(), 'updated_at' => now()],
             ['tipo' => 'Inmobiliaria', 'created_at' => now(), 'updated_at' => now()],
             ['tipo' => 'Constructora', 'created_at' => now(), 'updated_at' => now()],

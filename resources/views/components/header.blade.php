@@ -186,7 +186,7 @@
   
             </ul>
             <a class="button-clear btn mx-1" href="/publica-tu-inmueble">Publica Aquí</a>
-            <a class="button-orange btn mx-1" href="#iniciar_sesion">Iniciar Sesión</a>
+            <a class="button-orange btn mx-1" href="{{ route('sign-in') }}">Iniciar Sesión</a>
             <a class="button-orange btn mx-1" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar sesion</a>
 			<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
 				@csrf
