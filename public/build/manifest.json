@@ -1,27 +1,27 @@
 {
   "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.ttf": {
     "file": "assets/fa-brands-400-DHHcbFjz.ttf",
-    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.ttf"
+    "src": "resources/webfonts/fa-brands-400.ttf"
   },
   "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2": {
     "file": "assets/fa-brands-400-Ch568Ea9.woff2",
-    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2"
+    "src": "resources/webfonts/fa-brands-400.woff2"
   },
   "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.ttf": {
     "file": "assets/fa-regular-400-C54-fRIQ.ttf",
-    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.ttf"
+    "src": "resources/webfonts/fa-regular-400.ttf"
   },
   "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.woff2": {
     "file": "assets/fa-regular-400-9VThgXHM.woff2",
-    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.woff2"
+    "src": "resources/webfonts/fa-regular-400.woff2"
   },
   "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.ttf": {
     "file": "assets/fa-solid-900-Cm9M9sZB.ttf",
-    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.ttf"
+    "src": "resources/webfonts/fa-solid-900.ttf"
   },
   "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2": {
     "file": "assets/fa-solid-900-QWY35r5r.woff2",
-    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2"
+    "src": "resources/webfonts/fa-solid-900.woff2"
   },
   "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.ttf": {
     "file": "assets/fa-v4compatibility-DLBX5pNp.ttf",
@@ -30,6 +30,10 @@
   "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2": {
     "file": "assets/fa-v4compatibility-BRdYr4HJ.woff2",
     "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2"
+  },
+  "resources/images/register.webp": {
+    "file": "assets/register-B7iavYq6.webp",
+    "src": "resources/images/register.webp"
   },
   "resources/images/signin6.webp": {
     "file": "assets/signin6-ZAlOjiDJ.webp",
@@ -58,10 +62,28 @@
       "assets/fa-v4compatibility-DLBX5pNp.ttf"
     ]
   },
+  "resources/js/scripts/components/back_button.js": {
+    "file": "assets/back_button-adUlwIRb.js",
+    "name": "back_button",
+    "src": "resources/js/scripts/components/back_button.js",
+    "isEntry": true
+  },
   "resources/js/scripts/components/card_simple.js": {
     "file": "assets/card_simple-BBIKgU3S.js",
     "name": "card_simple",
     "src": "resources/js/scripts/components/card_simple.js",
+    "isEntry": true
+  },
+  "resources/js/scripts/components/whatsapp_modal_contact.js": {
+    "file": "assets/whatsapp_modal_contact-Dx5yDBCx.js",
+    "name": "whatsapp_modal_contact",
+    "src": "resources/js/scripts/components/whatsapp_modal_contact.js",
+    "isEntry": true
+  },
+  "resources/js/scripts/components/whatsapp_modal_inmueble_contact.js": {
+    "file": "assets/whatsapp_modal_inmueble_contact-Dx5yDBCx.js",
+    "name": "whatsapp_modal_inmueble_contact",
+    "src": "resources/js/scripts/components/whatsapp_modal_inmueble_contact.js",
     "isEntry": true
   },
   "resources/js/scripts/home.js": {
@@ -71,7 +93,7 @@
     "isEntry": true
   },
   "resources/js/scripts/inmueble.js": {
-    "file": "assets/inmueble-D7Sxe37j.js",
+    "file": "assets/inmueble-DfCT9KiT.js",
     "name": "inmueble",
     "src": "resources/js/scripts/inmueble.js",
     "isEntry": true
@@ -82,13 +104,29 @@
     "src": "resources/js/scripts/inmuebles.js",
     "isEntry": true
   },
+  "resources/js/scripts/register.js": {
+    "file": "assets/register-mf-rGVhW.js",
+    "name": "register",
+    "src": "resources/js/scripts/register.js",
+    "isEntry": true
+  },
   "resources/sass/app.scss": {
-    "file": "assets/app-DpT1QKDU.css",
+    "file": "assets/app-b36KmRor.css",
     "src": "resources/sass/app.scss",
     "isEntry": true
   },
+  "resources/sass/components/whatsapp_modal_contact.scss": {
+    "file": "assets/whatsapp_modal_contact-oApYAwuG.css",
+    "src": "resources/sass/components/whatsapp_modal_inmueble_contact.scss",
+    "isEntry": true
+  },
+  "resources/sass/components/whatsapp_modal_inmueble_contact.scss": {
+    "file": "assets/whatsapp_modal_contact-oApYAwuG.css",
+    "src": "resources/sass/components/whatsapp_modal_inmueble_contact.scss",
+    "isEntry": true
+  },
   "resources/sass/pages/inmueble.scss": {
-    "file": "assets/inmueble-FQFK8Gyn.css",
+    "file": "assets/inmueble-GkmtGkzL.css",
     "src": "resources/sass/pages/inmueble.scss",
     "isEntry": true
   },
@@ -97,9 +135,43 @@
     "src": "resources/sass/pages/publica-inmueble.scss",
     "isEntry": true
   },
+  "resources/sass/pages/recover-password.scss": {
+    "file": "assets/recover-password-D--AjwqR.css",
+    "src": "resources/sass/pages/recover-password.scss",
+    "isEntry": true
+  },
+  "resources/sass/pages/register.scss": {
+    "file": "assets/register-QN0B4dgf.css",
+    "src": "resources/sass/pages/register.scss",
+    "isEntry": true
+  },
   "resources/sass/pages/signin.scss": {
     "file": "assets/signin-qPFV7dQw.css",
     "src": "resources/sass/pages/signin.scss",
     "isEntry": true
+  },
+  "resources/webfonts/fa-brands-400.ttf": {
+    "file": "assets/fa-brands-400-DHHcbFjz.ttf",
+    "src": "resources/webfonts/fa-brands-400.ttf"
+  },
+  "resources/webfonts/fa-brands-400.woff2": {
+    "file": "assets/fa-brands-400-Ch568Ea9.woff2",
+    "src": "resources/webfonts/fa-brands-400.woff2"
+  },
+  "resources/webfonts/fa-regular-400.ttf": {
+    "file": "assets/fa-regular-400-C54-fRIQ.ttf",
+    "src": "resources/webfonts/fa-regular-400.ttf"
+  },
+  "resources/webfonts/fa-regular-400.woff2": {
+    "file": "assets/fa-regular-400-9VThgXHM.woff2",
+    "src": "resources/webfonts/fa-regular-400.woff2"
+  },
+  "resources/webfonts/fa-solid-900.ttf": {
+    "file": "assets/fa-solid-900-Cm9M9sZB.ttf",
+    "src": "resources/webfonts/fa-solid-900.ttf"
+  },
+  "resources/webfonts/fa-solid-900.woff2": {
+    "file": "assets/fa-solid-900-QWY35r5r.woff2",
+    "src": "resources/webfonts/fa-solid-900.woff2"
   }
 }

@@ -23,8 +23,8 @@
           
           {{-- Imagenes --}}
           <div class="images-wrapper" data-bs-toggle="modal" data-bs-target="#ImagesProperty">
-            @foreach($aviso->inmueble->imagenes as $image)
-            <div class="image-inmueble card-image-container shadow">
+            @foreach($aviso->inmueble->imagenes as $n => $image)
+            <div class="@if($n == 0) first-image @elseif($n == 1) second-image @elseif($n == 2) third-image @else  @endif card-image-container shadow">
               <img src="{{ $image->imagen }}" class="card-image-custom rounded" alt="{{ $aviso->inmueble->title() }}">
             </div>
             @endforeach
@@ -290,29 +290,34 @@
               <form class="d-flex flex-column gap-3 p-3">
                 @csrf
                   <h5 class="form-title">Contactar</h5>
+
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="contact-name" name="contact-name" placeholder="Nombre Completo" required>
+                    <label class="text-secondary" for="contact-name">Nombre Completo</label>
+                  </div>
+
+                  <div class="form-floating">
+                    <input type="email" class="form-control" id="contact-email" name="contact-email" placeholder="Correo electrónico" required>
+                    <label class="text-secondary" for="contact-email">Correo electrónico</label>
+                  </div>  
+
+                  <div class="form-floating">
+                    <input type="phone" class="form-control" id="contact-phone" name="contact-phone" placeholder="Teléfono" required>
+                    <label class="text-secondary" for="contact-phone">Teléfono</label>
+                  </div>  
+
+                      
+                  {{-- Mensaje --}}
+                  <div class="form-floating">
+                    <textarea class="form-control" placeholder="Contactame" id="contact-message" style="height: 100px">¡Hola! Deseo que me contacten por este inmueble</textarea>
+                    <label for="contact-message" class="text-secondary">Mensaje</label>
+                  </div>
+
+                  <x-whatsapp-modal-inmueble-contact></x-whatsapp-modal-inmueble-contact>
   
-                  {{-- nombre --}}
-                  <input class="form-control bg-white" type="text" name="contact-name" id="contact-name"
-                      placeholder="Nombre completo">
-  
-                  {{-- email --}}
-                  <input class="form-control bg-white" type="email" name="contact-email" id="contact-email"
-                      placeholder="Correo electrónico">
-  
-                  {{-- telefono --}}
-                  <input class="form-control bg-white" type="phone" name="contact-phone" id="contact-phone"
-                      placeholder="Teléfono">
-  
-                  {{-- mensaje --}}
-                  <textarea class="form-control bg-white" name="contact-message" id="contact-message" rows="4"
-                      placeholder="Deja tu mensaje">¡Hola! Deseo que me contacten por este inmueble</textarea>
-  
+                  {{-- contacto por correo --}}
                   <button class="btn btn-light border-secondary-subtle">
-                      <i class="fab fa-whatsapp"></i> WhatsApp
-                  </button>
-  
-                  <button class="btn btn-light border-secondary-subtle">
-                      <i class="fas fa-envelope"></i> Email
+                    <i class="fas fa-envelope"></i> Email
                   </button>
   
                   <div class="form-group d-flex gap-3 align-items-top mb-2">
