@@ -292,27 +292,45 @@
                   <h5 class="form-title">Contactar</h5>
   
                   {{-- nombre --}}
-                  <input class="form-control bg-white" type="text" name="contact-name" id="contact-name"
-                      placeholder="Nombre completo">
+                  {{-- <input class="form-control bg-white" type="text" name="contact-name" id="contact-name"
+                      placeholder="Nombre completo"> --}}
+
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="contact-name" name="contact-name" placeholder="Nombre Completo" required>
+                    <label class="text-secondary" for="contact-name">Nombre Completo</label>
+                  </div>
   
                   {{-- email --}}
-                  <input class="form-control bg-white" type="email" name="contact-email" id="contact-email"
-                      placeholder="Correo electrónico">
+                  {{-- <input class="form-control bg-white" type="email" name="contact-email" id="contact-email"
+                      placeholder="Correo electrónico"> --}}
+
+                  <div class="form-floating">
+                    <input type="email" class="form-control" id="contact-email" name="contact-email" placeholder="Correo electrónico" required>
+                    <label class="text-secondary" for="contact-email">Correo electrónico</label>
+                  </div>  
   
                   {{-- telefono --}}
-                  <input class="form-control bg-white" type="phone" name="contact-phone" id="contact-phone"
-                      placeholder="Teléfono">
+                  {{-- <input class="form-control bg-white" type="phone" name="contact-phone" id="contact-phone"
+                      placeholder="Teléfono"> --}}
+
+                  <div class="form-floating">
+                    <input type="phone" class="form-control" id="contact-phone" name="contact-phone" placeholder="Teléfono" required>
+                    <label class="text-secondary" for="contact-phone">Teléfono</label>
+                  </div>  
+
+                      
+                  {{-- Mensaje --}}
+                  <div class="form-floating">
+                    <textarea class="form-control" placeholder="Contactame" id="contact-message" style="height: 100px">¡Hola! Deseo que me contacten por este inmueble</textarea>
+                    <label for="contact-message" class="text-secondary">Mensaje</label>
+                  </div>
+
+                  {{-- <x-whatsapp-modal-contact></x-whatsapp-modal-contact> --}}
+                  <x-whatsapp-modal-inmueble-contact></x-whatsapp-modal-inmueble-contact>
   
-                  {{-- mensaje --}}
-                  <textarea class="form-control bg-white" name="contact-message" id="contact-message" rows="4"
-                      placeholder="Deja tu mensaje">¡Hola! Deseo que me contacten por este inmueble</textarea>
-  
+                  {{-- contacto por correo --}}
                   <button class="btn btn-light border-secondary-subtle">
-                      <i class="fab fa-whatsapp"></i> WhatsApp
-                  </button>
-  
-                  <button class="btn btn-light border-secondary-subtle">
-                      <i class="fas fa-envelope"></i> Email
+                    <i class="fas fa-envelope"></i> Email
                   </button>
   
                   <div class="form-group d-flex gap-3 align-items-top mb-2">

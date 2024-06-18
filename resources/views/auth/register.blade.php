@@ -22,8 +22,14 @@
     <div class="register-form col my-4 m-md-0 px-md-5">
       <div class="register-form-content">
 
+        {{-- register title --}}
         <div class="d-flex justify-content-between align-items-end mb-4">
-          <h1 class="h5 fw-bold m-0">registro</h1>
+          <div class="d-flex gap-3 align-items-center">
+
+            <x-back-button></x-back-button>
+            <h1 class="h5 fw-bold m-0">registro</h1>
+
+          </div>
           <a href="/">
             <img src="{{ asset('images/svg/logo_puja.svg') }}" class="signin-puja-logo" alt="Logo Pujainmobiliaria">
           </a>
