@@ -56,6 +56,20 @@
     
     {{-- Sección de Recomendados --}}
     <section class="custom-container">
+        {{-- <p>{{ session("user") }}</p> --}}
+        @if (session('user'))
+            @php
+                $user = json_decode(session('user'));
+            @endphp
+
+            <div class="alert alert-success">
+                <p>ID: {{ $user->id }}</p>
+                <p>Nombres: {{ $user->nombres }}</p>
+                <p>Email: {{ $user->email }}</p>
+                <p>Imagen: <img src="{{ $user->imagen }}" alt="User Avatar"></p>
+            </div>
+        @endif
+
         <h3 class="mx-3 my-5 font-weight-bold fs-md-5 mx-md-5">Nuestras recomendaciones</h3>
 
         <div>

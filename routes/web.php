@@ -3,29 +3,38 @@
 use App\Http\Controllers\LoginController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 
 Route::get('/', App\Http\Controllers\Web\Puja\MainController::class);
 
 Route::get('/google-auth/redirect', function () {
-    return Socialite::driver('google')->redirect();
+    return Socialite::driver('google')
+        ->with(['prompt' => 'select_account'])
+        ->redirect();
 });
  
 Route::get('/google-auth/callback', function () {
     $user_google = Socialite::driver('google')->user();
 
-    // dd($user_google);
+    $existingUser = User::where('google_id', $user_google->id)->first();
     
     $user = User::updateOrCreate([
         'google_id' => $user_google->id,
     ],[
         'nombres' => $user_google->name,
         'email' => $user_google->email,
+        'imagen' => $user_google->avatar,
     ]);
 
     Auth::login($user);
-    return redirect()->intended('/');
+    if ($existingUser) {
+        return redirect('/');
+    } else {
+        return redirect('/')->with('user', $user->toJson());
+    }
+
 });
 
 Route::prefix('/inmuebles')->group(function() {

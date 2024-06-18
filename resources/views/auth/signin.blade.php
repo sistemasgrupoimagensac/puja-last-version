@@ -38,7 +38,7 @@
 
         </form>
         {{-- <input class="btn button-orange w-100" type="submit" value="Ingresar"> --}}
-        <a class="btn button-orange w-100 mt-2" href="/google-auth/redirect">SSO GOOGLE</a>
+        <a class="btn button-orange w-100 mt-2" href="/google-auth/redirect">Inicia Sesion con Google</a>
 
 
       </div>

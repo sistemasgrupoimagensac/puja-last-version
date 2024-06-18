@@ -186,8 +186,12 @@
   
             </ul>
             <a class="button-clear btn mx-1" href="/publica-tu-inmueble">Publica Aquí</a>
-            <a class="button-orange btn mx-1" href="{{ route('sign-in') }}">Iniciar Sesión</a>
-            <a class="button-orange btn mx-1" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar sesion</a>
+            @guest
+                <a class="button-orange btn mx-1" href="{{ route('sign-in') }}">Iniciar Sesión</a>
+            @endguest
+            @auth
+              <a class="button-orange btn mx-1" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar sesion</a>
+            @endauth
 			<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
 				@csrf
 			</form>
