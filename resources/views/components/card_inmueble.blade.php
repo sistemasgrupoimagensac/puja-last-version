@@ -81,11 +81,9 @@
             {{ $user }}
           </p>
 
-          <div class="d-flex">
+          <div class="d-flex gap-2">
 
-            <button class="btn btn-light border-secondary-subtle me-3 bg-white">
-              <i class="fab fa-whatsapp"></i> WhatsApp
-            </button>
+            <x-whatsapp-modal-contact></x-whatsapp-modal-contact>
 
             <button class="btn btn-light border-secondary-subtle bg-white">
               <i class="fas fa-envelope"></i> Email
@@ -95,11 +93,4 @@
       </div>
     </div>
   </div>
-
-
-
-
-
-
-
 </div>
