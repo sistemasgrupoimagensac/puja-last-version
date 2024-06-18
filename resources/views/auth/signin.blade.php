@@ -57,7 +57,7 @@
 
         </form>
         {{-- <input class="btn button-orange w-100" type="submit" value="Ingresar"> --}}
-        <a class="btn button-orange w-100 mt-2" href="/google-auth/redirect">Inicia Sesion con Google</a>
+        {{-- <a class="btn button-orange w-100 mt-2" href="/google-auth/redirect">Inicia Sesion con Google</a> --}}
 
 
         <div class="w-100 text-center">
@@ -71,7 +71,7 @@
         </div>
 
         <div class="w-100 text-center">
-          <a href="#" class="">
+          <a href="/google-auth/redirect" class="">
             <img src="{{ asset('images/google.png') }}" class="sigin-logo-google" alt="Logo log Google">
           </a>
         </div>
