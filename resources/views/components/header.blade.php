@@ -187,7 +187,7 @@
             </ul>
             <a class="button-clear btn mx-1" href="/publica-tu-inmueble">Publica Aquí</a>
             @guest
-                <a class="button-orange btn mx-1" href="{{ route('sign-in') }}">Iniciar Sesión</a>
+                <a class="button-orange btn mx-1" href="{{ route("sign-in", ['profile_type' => "owner"]) }}">Iniciar Sesión</a>
             @endguest
             @auth
               <a class="button-orange btn mx-1" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar sesion</a>

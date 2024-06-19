@@ -41,6 +41,8 @@
 
           <div class="d-flex flex-column gap-3 input-group-lg">
 
+			<input type="hidden" name="user_type" value="{{ $profile_type }}">
+
             <div class="form-floating">
               <input type="email" class="form-control" id="signin_email" name="signin_email" placeholder="Telefono">
               <label class="text-secondary" for="signin_email">Correo electrónico</label>
@@ -83,7 +85,7 @@
 
         <div class="d-flex flex-column align-items-center mt-5 bg-secondary bg-opacity-10 rounded-3 py-2 w-100">
           <p class="">si no tienes una cuenta registrate aquí</p>
-          <a href="/register" class=" text-decoration-none fw-bold">REGISTRATE</a>
+          <a href="/register/{{ $profile_type }}" class=" text-decoration-none fw-bold">REGISTRATE</a>
         </div>
         
       </div>
