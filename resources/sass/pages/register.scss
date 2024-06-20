@@ -1,18 +1,13 @@
 @import '../variables';
 
-
-
-  .register-image {
-    // background-image: url('../../images/register.webp');
-    // background-size: cover;
-    // background-position: center;
-    // background-repeat: no-repeat;
-    // height: 100vh;
-    width: 100%;
-    // height: 100;
-  }
-
-
+.register-image {
+  background-image: url('../../images/register.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100%;
+}
 
 .input::placeholder {
   opacity: 0.5;
@@ -21,8 +16,7 @@
 .register-form {
   display: grid;
   place-items: center;
-  height: 100vh;
-  
+
   .register-form-content {
     width: 100%;
     max-width: 500px;

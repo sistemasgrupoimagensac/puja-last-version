@@ -16,8 +16,7 @@
   <div class="row m-0 p-0">
 
     {{--  image --}}
-    {{-- <div class="register-image d-none d-md-block col m-0 px-5"></div> --}}
-    <img src="../../images/register.webp" alt="" class="register-image d-none d-md-block col m-0 px-5">
+    <div class="register-image d-none d-md-block col m-0 px-5"></div>
 
     {{-- register --}}
     <div class="register-form col py-4 m-md-0 px-md-5">
