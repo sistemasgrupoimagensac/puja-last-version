@@ -3,10 +3,11 @@
 .publica-container {
   display: flex;
   align-items: center;
+  margin: 34px auto;
 }
 
 .publica-card {
-  width: 300px;
+  width: 260px;
   transition: transform .1s ease, background-color .1s ease;
   background-color: $gray-100;
 }

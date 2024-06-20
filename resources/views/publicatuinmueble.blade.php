@@ -24,7 +24,7 @@
 
         <h2 class="card-title text-center fw-bold">Dueño</h2>
         <div>
-          <img class="m-4" src="{{ asset('images/svg/owner.svg') }}" alt="logo dueño">
+          <img class="m-2" src="{{ asset('images/svg/owner.svg') }}" alt="logo dueño">
         </div>
       </div>
       <div class="card-footer p-0 m-0 bg-primary">
@@ -37,7 +37,7 @@
 
         <h2 class="card-title text-center fw-bold">Corredor</h2>
         <div>
-          <img class="m-4" src="{{ asset('images/svg/broker.svg') }}" alt="imagen contrato">
+          <img class="m-3" src="{{ asset('images/svg/broker.svg') }}" alt="imagen contrato">
         </div>
       </div>
       <div class="card-footer p-0 m-0 bg-primary">
@@ -50,7 +50,7 @@
 
         <h2 class="card-title text-center fw-bold">Acreedor</h2>
         <div>
-          <img class="m-4" src="{{ asset('images/svg/creditor.svg') }}" alt="imagen contrato">
+          <img class="m-2" src="{{ asset('images/svg/creditor.svg') }}" alt="imagen contrato">
         </div>
       </div>
       <div class="card-footer p-0 m-0 bg-primary">
@@ -63,7 +63,7 @@
 
         <h2 class="card-title text-center fw-bold">Proyecto</h2>
         <div>
-          <img class="m-4" src="{{ asset('images/svg/project.svg') }}" alt="logo constructora">
+          <img class="m-2" src="{{ asset('images/svg/project.svg') }}" alt="logo constructora">
         </div>
 
       </div>
@@ -78,7 +78,7 @@
 @endsection
 
 @section('footer')
-  @include('components.footer')
+  <x-footer></x-footer>	
 @endsection
 
 {{-- JS personalizado para esta página --}}

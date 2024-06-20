@@ -141,7 +141,7 @@
 @endsection
 
 @section('footer')
-  @include('components.footer')
+  <x-footer></x-footer>
 @endsection
 
 @push('scripts')
