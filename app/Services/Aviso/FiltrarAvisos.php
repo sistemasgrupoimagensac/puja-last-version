@@ -15,9 +15,9 @@ class FiltrarAvisos
     {
     }
 
-    public function __invoke(Request $request)
+    public function __invoke(array $slug, Request $request)
     {
-        $avisos = $this->repository->getByfilter($request);
+        $avisos = $this->repository->getByfilter($slug, $request);
 
         return $avisos;
     }

@@ -10,5 +10,5 @@ class TipoOperacion extends Model
     use HasFactory;
 
     protected $table = "tipos_operaciones";
-    protected $fillable = ['tipo', 'estado',];
+    protected $fillable = ['tipo', 'estado', 'plural', 'slug',];
 }

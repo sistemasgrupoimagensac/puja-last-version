@@ -7,9 +7,9 @@
 
     <div class="d-flex flex-column text-center m-2 my-4">
       <h4 class="mb-3">Menú</h4>
-      <a class="footer-link-puja" href="">Alquiler</a>
-      <a class="footer-link-puja" href="">Compra</a>
-      <a class="footer-link-puja" href="">Remate</a>
+      <a class="footer-link-puja" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler')]) }}">Alquiler</a>
+      <a class="footer-link-puja" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta')]) }}">Compra</a>
+      <a class="footer-link-puja" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate')]) }}">Remate</a>
       <a class="footer-link-puja" href="">Publicar</a>
     </div>
 

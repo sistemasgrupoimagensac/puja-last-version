@@ -31,19 +31,19 @@ class AvisoRepository
                     ->first();
     }
 
-    public function getByFilter($request)
+    public function getByFilter($slug, $request)
     {
         return $this->model->where('estado', 1)
                         ->whereHas('historial', fn($q) => $q->where('estados_avisos.id', 3))
                         ->whereHas('inmueble', fn($q) => $q->where('estado', 1))
-                        ->whereHas('inmueble.principal.operacion', function($q) use($request){
+                        ->whereHas('inmueble.principal.operacion', function($q) use($slug){
 
-                            if ($request->transaccion) {
-                                $q->where('tipo_operacion_id', $request->transaccion);
+                            if ($slug['operacion'] != null) {
+                                $q->where('tipo_operacion_id', ($slug['operacion'])->id);
                             }
 
-                            if ($request->categoria) {
-                                $q->where('tipo_inmueble_id', $request->categoria);
+                            if ($slug['tipo_inmueble'] != null) {
+                                $q->where('tipo_inmueble_id', ($slug['tipo_inmueble'])->id);
                             }
                         })
                         ->get();
