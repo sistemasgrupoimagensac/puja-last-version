@@ -14,8 +14,8 @@ class TiposOperacionesSeeder extends Seeder
     public function run(): void
     {
         $status_property = [
-            ['tipo' => 'Venta', 'created_at' => now(), 'updated_at' => now()],
-            ['tipo' => 'Alquiler', 'created_at' => now(), 'updated_at' => now()],
+            ['tipo' => 'Venta', 'plural' => 'Ventas', 'slug' => 'venta', 'created_at' => now(), 'updated_at' => now()],
+            ['tipo' => 'Alquiler', 'plural' => 'Alquileres', 'slug' => 'alquiler', 'created_at' => now(), 'updated_at' => now()],
         ];
 
         DB::table('tipos_operaciones')->insert($status_property);

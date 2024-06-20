@@ -2,7 +2,7 @@
   <div class="row g-0 h-100">
 
     <div class="col-lg-4 h-100">
-      <a href="{{ $link }}" class="text-decoration-none text-reset">
+      <a href="{{ $link }}" target="_blank" class="text-decoration-none text-reset">
         <img src="{{ asset($image) }}" class="card-inmueble-image rounded" alt="imagen inmueble">
       </a>
     </div>
@@ -12,7 +12,7 @@
 
         {{-- Contenido Card Inmueble --}}
         <div class="card-inmueble-content p-3">
-          <a href="{{ $link }}" class="text-decoration-none text-reset">
+          <a href="{{ $link }}" target="_blank" class="text-decoration-none text-reset">
 
             <div class="h-100 d-flex flex-column justify-content-between">
               {{-- Titulo del inmueble --}}

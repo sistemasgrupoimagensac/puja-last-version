@@ -15,8 +15,7 @@
         <div class="main-home-background-image"></div>
         <div class="main-home-search d-flex flex-column h-100 w-100 px-3">
 
-            <form action="/inmuebles" method="" class="m-auto">
-                @csrf
+            <form action="{{ route('filter_search') }}" method="" class="m-auto">
                 <h1 class="main-home-titular text-white font-weight-bold text-center mb-5">Consigue tu Próximo Inmueble</h1>
                 <div class="main-home-filter">
 
@@ -24,10 +23,9 @@
                         
                         <div class="input-group-lg mr-4">
                             <select class="form-select" aria-label="Tipo de Propiedad" name="categoria">
-                                <option value="1" selected>Departamento</option>
-                                <option value="2">Casa</option>
-                                <option value="3">Terreno</option>
-                                <option value="4">Oficina</option>
+                                @foreach($tipos_inmuebles as $tipo)
+                                <option value="{{ $tipo->id }}" @if($loop->first) selected @endif>{{ $tipo->tipo }}</option>
+                                @endforeach
                             </select>
                         </div>
                        
@@ -81,14 +79,14 @@
                     </h2>
                     <div id="flush-colapsaVentas" class="accordion-collapse collapse" data-bs-parent="#acordionVentas">
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="">Venta Departamentos Lima</a></li>
-                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="">Venta Departamentos Lince</a></li>
-                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="">Venta Departamentos San Isidro</a></li>
-                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="">Venta Departamentos Breña</a></li>
-                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="">Venta Departamentos Jesús María</a></li>
-                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="">Venta Departamentos San Borja</a></li>
-                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="">Venta Departamentos La Victoria</a></li>
-                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="">Venta Departamentos Surco</a></li>
+                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Departamentos en Venta en Lima')]) }}">Venta Departamentos Lima</a></li>
+                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Departamentos en Venta en Lince')]) }}">Venta Departamentos Lince</a></li>
+                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Departamentos en Venta en San Isidro')]) }}">Venta Departamentos San Isidro</a></li>
+                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Departamentos en Venta en Breña')]) }}">Venta Departamentos Breña</a></li>
+                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Departamentos en Venta en Jesús María')]) }}">Venta Departamentos Jesús María</a></li>
+                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Departamentos en Venta en San Borja')]) }}">Venta Departamentos San Borja</a></li>
+                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Departamentos en Venta en La Victoria')]) }}">Venta Departamentos La Victoria</a></li>
+                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Departamentos en Venta en Surco')]) }}">Venta Departamentos Surco</a></li>
                         </ul>
                     </div>
                 </div>
@@ -103,13 +101,13 @@
                     </h2>
                     <div id="flush-colapsaAlquiler" class="accordion-collapse collapse md:show" data-bs-parent="#acordionAlquiler">
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="">Alquier Departamentos en Lima</a></li>
-                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="">Alquier Departamentos en La Molina</a></li>
-                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="">Alquier Departamentos en Surco</a></li>
-                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="">Alquier Departamentos en Surquillo</a></li>
-                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="">Alquier Departamentos en Lince</a></li>
-                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="">Alquier Departamentos en San Borja</a></li>
-                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="">Alquier Departamentos en San Isidro</a></li>
+                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Departamentos en Alquiler en Lima')]) }}">Alquiler Departamentos en Lima</a></li>
+                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Departamentos en Alquiler en La Molina')]) }}">Alquiler Departamentos en La Molina</a></li>
+                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Departamentos en Alquiler en Surco')]) }}">Alquiler Departamentos en Surco</a></li>
+                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Departamentos en Alquiler en Surquillo')]) }}">Alquiler Departamentos en Surquillo</a></li>
+                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Departamentos en Alquiler en Lince')]) }}">Alquiler Departamentos en Lince</a></li>
+                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Departamentos en Alquiler en San Borja')]) }}">Alquiler Departamentos en San Borja</a></li>
+                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Departamentos en Alquiler en San Isidro')]) }}">Alquiler Departamentos en San Isidro</a></li>
                         </ul>
                     </div>
                 </div>
@@ -124,12 +122,12 @@
                     </h2>
                     <div id="flush-colapsaRemates" class="accordion-collapse collapse" data-bs-parent="#acordionRemates">
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="">Remates Terrenos en Arequipa</a></li>
-                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="">Remates Terrenos en Tacna</a></li>
-                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="">Remates Terrenos en Cajamarca</a></li>
-                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="">Remates Terrenos en Ica</a></li>
-                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="">Remates Terrenos en Barranca</a></li>
-                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="">Remates Terrenos en Piura</a></li>
+                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Terrenos en Remate en Arequipa')]) }}">Remates Terrenos en Arequipa</a></li>
+                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Terrenos en Remate en Tacna')]) }}">Remates Terrenos en Tacna</a></li>
+                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Terrenos en Remate en Cajamarca')]) }}">Remates Terrenos en Cajamarca</a></li>
+                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Terrenos en Remate en Ica')]) }}">Remates Terrenos en Ica</a></li>
+                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Terrenos en Remate en Barranca')]) }}">Remates Terrenos en Barranca</a></li>
+                            <li class="list-group-item"><a class="text-decoration-none text-body-secondary" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Terrenos en Remate en Piura')]) }}">Remates Terrenos en Piura</a></li>
                         </ul>
                     </div>
                 </div>
