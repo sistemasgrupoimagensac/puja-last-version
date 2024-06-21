@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnuncioController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', App\Http\Controllers\Web\Puja\MainController::class);
@@ -34,3 +35,12 @@ Route::get('/recuperar-password', function() {
 Route::get('/register', function() {
     return view('auth.register');
 });
+
+// Route::get('testalpine', function () {
+//     return view('TEST_ALPINE');
+// });
+
+Route::get('/crear-anuncio', [AnuncioController::class, 'create'])->name('anuncios.create');
+Route::post('/guardar-anuncio/paso1', [AnuncioController::class, 'storePaso1'])->name('anuncios.store.paso1');
+Route::post('/guardar-anuncio/paso2/{id}', [AnuncioController::class, 'storePaso2'])->name('anuncios.store.paso2');
+Route::post('/guardar-anuncio/paso3/{id}', [AnuncioController::class, 'storePaso3'])->name('anuncios.store.paso3');
