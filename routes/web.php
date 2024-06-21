@@ -46,4 +46,3 @@ Route::post('/guardar-aviso/paso3/{id}', [AvisoController::class, 'storePaso3'])
 Route::post('/guardar-aviso/paso4/{id}', [AvisoController::class, 'storePaso4'])->name('avisos.store.paso4');
 Route::post('/guardar-aviso/paso5/{id}', [AvisoController::class, 'storePaso5'])->name('avisos.store.paso5');
 Route::post('/guardar-aviso/paso6/{id}', [AvisoController::class, 'storePaso6'])->name('avisos.store.paso6');
-
