@@ -27,11 +27,17 @@
               <div class="d-flex flex-column flex-lg-row-reverse justify-content-between align-items-lg-center">
                 {{-- Precion del inmueble --}}
                 <h2 class="fw-bolder">
-                  <span>S/. </span>
-                  <span> {{ number_format($price) }} </span>
+                  @if($price)
+                  <span>{{ $currency }}</span>
+                  <span>{{ number_format($price) }}</span>
+                  @endif
+                  @if($price && $price_dolar)
                   <span> - </span>
-                  <span>USD </span>
-                  <span> {{ number_format($price / $exchange, 0) }} </span>
+                  @endif
+                  @if($price_dolar)
+                  <span>{{ $currency_dolar }}</span>
+                  <span>{{ number_format($price_dolar) }}</span>
+                  @endif
                 </h2>
 
                 {{-- Caracteristicas del inmueble --}}

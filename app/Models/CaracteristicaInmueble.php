@@ -25,6 +25,6 @@ class CaracteristicaInmueble extends Model
 
     public function currencyDolares() :string
     {
-        return '$';
+        return 'USD ';
     }
 }

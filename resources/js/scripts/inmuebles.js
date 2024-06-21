@@ -29,6 +29,9 @@ function compareMaxMin (maximo, minimo) {
     }
 }
 
+// formulario de filtros generales
+const formFilterInmueble = document.getElementById('formFilterInmueble')
+
 // logica para cambiar nombre del titulo del filtro TRANSACCION ===================================================================
 const dropdownItemsVenta = document.querySelectorAll('.filters-dropdown-li.trasaction')
 const filterTitleVenta = document.getElementById('trasactionfiltertittle')
@@ -39,13 +42,17 @@ dropdownItemsVenta.forEach(function(item) {
 
         const selectedValue = this.getAttribute('data-value')
 
-        if (selectedValue === 'venta') {
-            filterTitleVenta.textContent = 'Venta'
-        } else if (selectedValue === 'alquiler') {
-            filterTitleVenta.textContent = 'Alquiler'
-        } else if (selectedValue === 'remate') {
-            filterTitleVenta.textContent = 'Remate'
-        }
+        formFilterInmueble.querySelectorAll('[name="transaccion"]').forEach(function(operacion) {
+            if (selectedValue === 'todos') {
+                operacion.checked = false
+            }else {
+                if (operacion.value === selectedValue) {
+                    operacion.checked = true
+                }
+            }
+        })
+        
+        formFilterInmueble.submit()
     })
 })
 
@@ -59,20 +66,16 @@ dropdownItemsTipo.forEach(function(item) {
 
         const selectedValue = this.getAttribute('data-value')
 
-        if (selectedValue === 'departamento') {
-            filterTitleTipo.textContent = 'Departamento'
-        } else if (selectedValue === 'casa') {
-            filterTitleTipo.textContent = 'Casa'
-        } else if (selectedValue === 'local_comercial') {
-            filterTitleTipo.textContent = 'Local Comercial'
-        } else if (selectedValue === 'oficina') {
-            filterTitleTipo.textContent = 'Oficina'
-        } else if (selectedValue === 'terreno') {
-            filterTitleTipo.textContent = 'Terreno / Lote'
-        } else if (selectedValue === 'casa_campo') {
-            filterTitleTipo.textContent = 'Casa de Campo'
-        } else if (selectedValue === 'casa_playa') {
-            filterTitleTipo.textContent = 'Casa de Playa'
-        }
+        formFilterInmueble.querySelectorAll('[name="categoria"]').forEach(function(tipo_inmueble) {
+            if (selectedValue === 'todos') {
+                tipo_inmueble.checked = false
+            }else {
+                if (tipo_inmueble.value === selectedValue) {
+                    tipo_inmueble.checked = true
+                }
+            }
+        })
+        
+        formFilterInmueble.submit()
     })
 })

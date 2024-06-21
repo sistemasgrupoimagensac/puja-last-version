@@ -7,16 +7,25 @@
     <div class="btn-group d-none d-xl-inline-flex">
       <button type="button" class="btn border dropdown-toggle py-2 " data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="true">
         <i class="fa-solid fa-tag icon-orange me-2"></i>
-        <span id="trasactionfiltertittle">@if(request()->get('transaccion') == 1) Venta @elseif(request()->get('transaccion') == 2) Alquiler @elseif(request()->get('transaccion') == 3) Remate @endif</span>
+        <span id="trasactionfiltertittle">
+          @if(!$url_parse['operacion'])
+          Todos
+          @else
+          {{ ($url_parse['operacion'])->tipo }}
+          @endif
+        </span>
       </button>
       <ul class="dropdown-menu">
-        <li class="dropdown-item filters-dropdown-li trasaction" data-value="venta">
+        <li class="dropdown-item filters-dropdown-li @if(optional($url_parse['operacion'])->id != null) trasaction @endif" data-value="todos">
+          Todos
+        </li>
+        <li class="dropdown-item filters-dropdown-li @if(optional($url_parse['operacion'])->id != 1) trasaction @endif" data-value="1">
           Venta
         </li>
-        <li class="dropdown-item filters-dropdown-li trasaction" data-value="alquiler">
+        <li class="dropdown-item filters-dropdown-li @if(optional($url_parse['operacion'])->id != 2) trasaction @endif" data-value="2">
           Alquiler
         </li>
-        <li class="dropdown-item filters-dropdown-li trasaction" data-value="remate">
+        <li class="dropdown-item filters-dropdown-li @if(optional($url_parse['operacion'])->id != 3) trasaction @endif" data-value="3">
           Remate
         </li>
       </ul>
@@ -26,30 +35,23 @@
     <div class="btn-group d-none d-xl-inline-flex">
       <button type="button" class="btn border dropdown-toggle py-2 " data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="true">
         <i class="fa-solid fa-city icon-orange me-2"></i>
-        <span id="tipofiltertittle">Departamento</span>
+        <span id="tipofiltertittle">
+          @if(!$url_parse['tipo_inmueble'])
+          Todos
+          @else
+          {{ ($url_parse['tipo_inmueble'])->tipo }}
+          @endif
+        </span>
       </button>
       <ul class="dropdown-menu ">
-        <li class="dropdown-item filters-dropdown-li tipo" data-value="departamento">
-          Departamento
+        <li class="dropdown-item filters-dropdown-li @if(optional($url_parse['tipo_inmueble'])->id !== null) tipo @endif" data-value="todos">
+          Todos
         </li>
-        <li class="dropdown-item filters-dropdown-li tipo" data-value="casa">
-          Casa
+        @foreach($tipos_inmuebles as $tipo)
+        <li class="dropdown-item filters-dropdown-li @if(optional($url_parse['tipo_inmueble'])->id !== $tipo->id) tipo @endif" data-value="{{ $tipo->id }}">
+          {{ $tipo->tipo }}
         </li>
-        <li class="dropdown-item filters-dropdown-li tipo" data-value="local_comercial">
-          Local Comercial
-        </li>
-        <li class="dropdown-item filters-dropdown-li tipo" data-value="oficina">
-          Oficina
-        </li>
-        <li class="dropdown-item filters-dropdown-li tipo" data-value="terreno">
-          Terreno / Lote
-        </li>
-        <li class="dropdown-item filters-dropdown-li tipo" data-value="casa_campo">
-          Casa de Campo
-        </li>
-        <li class="dropdown-item filters-dropdown-li tipo" data-value="casa_playa">
-          Casa de Playa
-        </li>
+        @endforeach
       </ul>
     </div>
   
@@ -183,9 +185,9 @@
       <!-- Modal Filtros Generales -->
       <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-          <div class="modal-content ">
+          <div class="modal-content">
       
-            <form class="modal-body overflow-x-hidden p-0">
+            <form id="formFilterInmueble" class="modal-body overflow-x-hidden p-0" action="{{ route('filter_search') }}" method="get">
               <div class="modal-header justify-content-between p-2 ps-4">
                 
                 {{-- Filtros Modal - titulo --}}
@@ -201,13 +203,13 @@
       
                 {{-- tipo de transaccion --}}
                 <div class="btn-group w-100" role="group">
-                  <input type="radio" class="btn-check" name="tipo_transaccion" id="comprarfilter" autocomplete="off" value="comprar" checked>
+                  <input type="radio" class="btn-check" name="transaccion" id="comprarfilter" autocomplete="off" value="1" @if(optional($url_parse['operacion'])->id === 1) checked @endif>
                   <label class="btn btn-outline-primary button-filter" for="comprarfilter">Comprar</label>
                 
-                  <input type="radio" class="btn-check" name="tipo_transaccion" id="alquilarfilter" autocomplete="off" value="alquilar">
+                  <input type="radio" class="btn-check" name="transaccion" id="alquilarfilter" autocomplete="off" value="2" @if(optional($url_parse['operacion'])->id === 2) checked @endif>
                   <label class="btn btn-outline-primary button-filter" for="alquilarfilter">Alquilar</label>
                 
-                  <input type="radio" class="btn-check" name="tipo_transaccion" id="rematesfilter" autocomplete="off" value="remates">
+                  <input type="radio" class="btn-check" name="transaccion" id="rematesfilter" autocomplete="off" value="3" @if(optional($url_parse['operacion'])->id === 3) checked @endif>
                   <label class="btn btn-outline-primary button-filter" for="rematesfilter">Remates</label>
                 </div>
         
@@ -217,19 +219,19 @@
                   <div class="container text-center my-2 px-1">
                     <div class="row">
           
-                      <input type="radio" class="btn-check" name="tipo_inmueble" id="departamento" autocomplete="off" value="departamento" checked>
+                      <input type="radio" class="btn-check" name="categoria" id="departamento" autocomplete="off" value="2" @if(optional($url_parse['tipo_inmueble'])->id === 2) checked @endif>
                       <label class="btn button-clear aside-menu col m-2 p-1 d-flex flex-column justify-content-center" for="departamento">
                         <i class="fa-solid fa-building text-secondary fa-xl my-4"></i>
                         <small class="text-secondary">Departamento</small>
                       </label>
               
-                      <input type="radio" class="btn-check" name="tipo_inmueble" id="casa" autocomplete="off" value="casa">
+                      <input type="radio" class="btn-check" name="categoria" id="casa" autocomplete="off" value="1" @if(optional($url_parse['tipo_inmueble'])->id === 1) checked @endif>
                       <label class="btn button-clear aside-menu col m-2 p-1 d-flex flex-column justify-content-center" for="casa">
                         <i class="fa-solid fa-house-user text-secondary fa-xl my-4"></i>
                         <small class="text-secondary">Casa</small>
                       </label>
           
-                      <input type="radio" class="btn-check" name="tipo_inmueble" id="local_comercial" autocomplete="off" value="local_comercial">
+                      <input type="radio" class="btn-check" name="categoria" id="local_comercial" autocomplete="off" value="5" @if(optional($url_parse['tipo_inmueble'])->id === 5) checked @endif>
                       <label class="btn button-clear aside-menu col m-2 p-1 d-flex flex-column justify-content-center" for="local_comercial">
                         <i class="fa-solid fa-shop text-secondary fa-xl my-4"></i>
                         <small class="text-secondary">Local Comercial</small>
@@ -239,19 +241,19 @@
           
                     <div class="row">
           
-                      <input type="radio" class="btn-check" name="tipo_inmueble" id="oficina" autocomplete="off" value="oficina">
+                      <input type="radio" class="btn-check" name="categoria" id="oficina" autocomplete="off" value="3" @if(optional($url_parse['tipo_inmueble'])->id === 3) checked @endif>
                       <label class="btn button-clear aside-menu col m-2 p-1 d-flex flex-column justify-content-center" for="oficina">
                         <i class="fa-regular fa-building text-secondary fa-xl my-4"></i>
                         <small class="text-secondary">Oficina</small>
                       </label>
               
-                      <input type="radio" class="btn-check" name="tipo_inmueble" id="terreno" autocomplete="off" value="terreno">
+                      <input type="radio" class="btn-check" name="categoria" id="terreno" autocomplete="off" value="4" @if(optional($url_parse['tipo_inmueble'])->id === 4) checked @endif>
                       <label class="btn button-clear aside-menu col m-2 p-1 d-flex flex-column justify-content-center" for="terreno">
                         <i class="fa-solid fa-mountain-sun text-secondary fa-xl my-4"></i>
                         <small class="text-secondary">Terreno</small>
                       </label>
           
-                      <input type="radio" class="btn-check" name="tipo_inmueble" id="local_industrial" autocomplete="off" value="local_industrial">
+                      <input type="radio" class="btn-check" name="categoria" id="local_industrial" autocomplete="off" value="5">
                       <label class="btn button-clear aside-menu col m-2 p-1 d-flex flex-column justify-content-center" for="local_industrial">
                         <i class="fa-solid fa-industry text-secondary fa-xl my-4"></i>
                         <small class="text-secondary">Local Industrial</small>

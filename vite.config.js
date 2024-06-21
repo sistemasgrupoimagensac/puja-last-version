@@ -16,6 +16,7 @@ export default defineConfig({
                 // sass - components
                 'resources/sass/components/whatsapp_modal_contact.scss',
                 'resources/sass/components/whatsapp_modal_inmueble_contact.scss',
+                'resources/sass/components/menu_panel.scss',
 
                 // js
                 'resources/js/app.js',
