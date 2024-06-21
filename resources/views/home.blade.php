@@ -66,9 +66,10 @@
     {{-- Sección de Destacados --}}
     <section class="custom-container">
 
-        <h3 class="m-5 font-weight-bold fs-md-5">Busca entre todos nuestro inmuebles</h3>
+        {{-- <h3 class="m-3 font-weight-bold fs-md-5">Busca entre todos nuestro inmuebles</h3> --}}
+        <h3 class="mx-3 my-5 font-weight-bold fs-md-5 mx-md-5">Busca entre todos nuestro inmuebles</h3>
 
-        <div class="d-flex flex-column flex-lg-row justify-content-between m-5">
+        <div class="d-flex flex-column flex-lg-row justify-content-between m-3">
 
             <div class="accordion accordion-flush" id="acordionVentas">
                 <div class="accordion-item">
@@ -140,7 +141,7 @@
 @endsection
 
 @section('footer')
-  @include('components.footer')
+  <x-footer></x-footer>
 @endsection
 
 @push('scripts')

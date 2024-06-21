@@ -57,3 +57,11 @@
     </small>
   </div>
 </footer>
+
+@push('styles')
+    @vite(['resources/sass/components/footer.scss'])
+@endpush
+
+@push('scripts')
+    @vite([ 'resources/js/scripts/components/footer.js' ])
+@endpush

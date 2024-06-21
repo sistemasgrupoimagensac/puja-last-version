@@ -186,7 +186,7 @@
   
             </ul>
             <a class="button-clear btn mx-1" href="/publica-tu-inmueble">Publica Aquí</a>
-            <a class="button-orange btn mx-1" href="#iniciar_sesion">Iniciar Sesión</a>
+            <a class="button-orange btn mx-1" href="/sign-in">Iniciar Sesión</a>
           </div>
   
         </div>
@@ -210,7 +210,7 @@
   {{-- Linea divisora --}}
   <hr class="m-0">
 
-  <a class="button-orange btn m-4" href="#iniciar_sesion">Iniciar Sesión</a>
+  <a class="button-orange btn m-4" href="/sign-in">Iniciar Sesión</a>
   <a class="button-clear aside-menu btn mx-4" href="/publica-tu-inmueble">Publica Aquí</a>
 
 

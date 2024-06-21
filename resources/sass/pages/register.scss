@@ -1,11 +1,12 @@
 @import '../variables';
 
-.signin-image {
+.register-image {
   background-image: url('../../images/register.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   height: 100vh;
+  width: 100%;
 }
 
 .input::placeholder {
@@ -15,28 +16,15 @@
 .register-form {
   display: grid;
   place-items: center;
-  height: 100vh;
-  
+
   .register-form-content {
     width: 100%;
     max-width: 500px;
 
-    .signin-puja-logo {
+    .register-puja-logo {
       width: 120px;
     }
 
-    .signin-recuperar-password {
-      color: $dark_gray;
-      text-decoration: none;
-      font-weight: bold;
-      &:hover {
-        color: $orange;
-      }
-    }
-
-    .sigin-logo-google {
-      width: 30px;
-    }
   }
 }
 

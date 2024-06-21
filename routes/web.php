@@ -35,3 +35,15 @@ Route::get('/recuperar-password', function() {
 Route::get('/register', function() {
     return view('auth.register');
 });
+
+
+// rutas de la creacion del aviso
+use App\Http\Controllers\AvisoController;
+
+Route::get('/crear-aviso', [AvisoController::class, 'create'])->name('avisos.create');
+Route::post('/guardar-aviso/paso1', [AvisoController::class, 'storePaso1'])->name('avisos.store.paso1');
+Route::post('/guardar-aviso/paso2/{id}', [AvisoController::class, 'storePaso2'])->name('avisos.store.paso2');
+Route::post('/guardar-aviso/paso3/{id}', [AvisoController::class, 'storePaso3'])->name('avisos.store.paso3');
+Route::post('/guardar-aviso/paso4/{id}', [AvisoController::class, 'storePaso4'])->name('avisos.store.paso4');
+Route::post('/guardar-aviso/paso5/{id}', [AvisoController::class, 'storePaso5'])->name('avisos.store.paso5');
+Route::post('/guardar-aviso/paso6/{id}', [AvisoController::class, 'storePaso6'])->name('avisos.store.paso6');
