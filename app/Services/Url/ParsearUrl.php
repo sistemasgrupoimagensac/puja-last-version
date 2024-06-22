@@ -4,6 +4,7 @@ namespace App\Services\Url;
 
 use App\Repositories\TipoInmuebleRepository;
 use App\Repositories\TipoOperacionRepository;
+use Illuminate\Support\Str;
 
 class ParsearUrl
 {
@@ -39,7 +40,7 @@ class ParsearUrl
         }
 
         if (array_key_exists(2, $url_parts)) {
-            $direccion = $url_parts[2];
+            $direccion = str_replace('-', ' ', $url_parts[2]);
         }
 
         return [
@@ -49,13 +50,15 @@ class ParsearUrl
         ];
     }
 
-    public function makeUrl($tipo_inmueble = null, $tipo_operacion = null): string
+    public function makeUrl($tipo_inmueble = null, $tipo_operacion = null, $direccion = null): string
     {
         $inmuebles_url = 'inmuebles';
         $operacion_url = 'venta-y-alquiler';
+        $direccion_url = null;
 
         $inmueble = $tipo_inmueble ? $this->tipo_inmueble_repository->getById($tipo_inmueble) : null;
         $operacion = $tipo_operacion ? $this->tipo_operacion_repository->getById($tipo_operacion) : null;
+        $address = $direccion ? Str::slug($direccion) : null;
 
 
         if ($inmueble) {
@@ -66,6 +69,10 @@ class ParsearUrl
             $operacion_url = $operacion->slug;
         }
 
-        return $inmuebles_url . self::DELIMITER . $operacion_url;
+        if ($address && !empty(trim($address))) {
+            $direccion_url = self::DELIMITER . trim($address);
+        }
+
+        return $inmuebles_url . self::DELIMITER . $operacion_url . $direccion_url;
     }
 }

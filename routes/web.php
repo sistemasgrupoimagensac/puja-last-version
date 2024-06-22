@@ -13,11 +13,12 @@ Route::prefix('/inmueble')->name('inmueble.')->group(function() {
     Route::get('/{inmueble}', App\Http\Controllers\Web\Puja\InmuebleController::class)->name('single');
 });
 
-// hasta aqui
+Route::prefix('/panel')->name('panel.')->group(function() {
+    Route::get('/', fn() => redirect()->route('panel.mis-avisos'));
+    Route::get('/avisos', App\Http\Controllers\Web\Panel\MisAvisosController::class)->name('mis-avisos');
+});
 
-// Route::get('/inmuebles', function() {
-//     return view('inmuebles');
-// });
+// hasta aqui
 
 Route::get('/publica-tu-inmueble', function() {
     return view('publicatuinmueble');

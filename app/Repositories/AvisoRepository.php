@@ -37,13 +37,20 @@ class AvisoRepository
                         ->whereHas('historial', fn($q) => $q->where('estados_avisos.id', 3))
                         ->whereHas('inmueble', fn($q) => $q->where('estado', 1))
                         ->whereHas('inmueble.principal.operacion', function($q) use($slug){
-
                             if ($slug['operacion'] != null) {
                                 $q->where('tipo_operacion_id', ($slug['operacion'])->id);
                             }
 
                             if ($slug['tipo_inmueble'] != null) {
                                 $q->where('tipo_inmueble_id', ($slug['tipo_inmueble'])->id);
+                            }
+                        })
+                        ->whereHas('inmueble.principal.ubicacion', function($q) use($slug) {
+                            if ($slug['direccion'] != null) {
+                                $q->where('direccion', 'like', '%'.$slug['direccion'].'%')
+                                    ->orWhereHas('departamento', fn($q) => $q->where('nombre', 'like', '%'.$slug['direccion'].'%'))
+                                    ->orWhereHas('provincia', fn($q) => $q->where('nombre', 'like', '%'.$slug['direccion'].'%'))
+                                    ->orWhereHas('distrito', fn($q) => $q->where('nombre', 'like', '%'.$slug['direccion'].'%'));
                             }
                         })
                         ->get();
