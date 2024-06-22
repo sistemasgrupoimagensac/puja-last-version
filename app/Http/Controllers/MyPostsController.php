@@ -4,12 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Aviso;
+use App\Models\CaracteristicaInmueble;
+use App\Models\ExtraInmueble;
+use App\Models\ExtraInmueblesCaracteristicas;
+use App\Models\ImagenInmueble;
+use App\Models\Inmueble;
+use App\Models\MultimediaInmueble;
+use App\Models\OperacionTipoInmueble;
+use App\Models\PlanoInmueble;
+use App\Models\PrincipalInmueble;
+use App\Models\UbicacionInmueble;
+use App\Models\VideoInmueble;
+use Database\Seeders\ExtraInmuebleCaracteristicasInmueblesSeeder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class MyPostsController extends Controller
 {
+
+    // Método invocable
+    /* public function __invoke(Request $request)
+    {
+        // Lógica para el método invocable
+        return view('avisos.index', $data);
+    } */
+
     public function index (){
         $userId = Auth::id();
 
@@ -80,6 +101,324 @@ class MyPostsController extends Controller
         }
         
         dd($av);
-        return view('avisos', compact('avisos', 'userId'));
+        return view('avisos.index', compact('avisos', 'userId'));
     }
+
+    public function create (){
+        return view('avisos.create');
+    }
+    
+    public function store (Request $request){
+        // dd("aaa".Auth::check());
+        if (!Auth::check()) {
+            return redirect('/');
+        }
+        $user_id = Auth::id();
+
+        $validator = Validator::make($request->all(), [
+            'principal' => 'boolean',
+            'ubicacion' => 'boolean',
+            'caracteristicas' => 'boolean',
+            'multimedia' => 'boolean',
+            'extras' => 'boolean',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Errores de validación',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $inmueble = Inmueble::updateOrCreate([
+            "codigo_unico" => "1",
+            "user_id" => $user_id,
+            ],[
+            "estado" => 1,
+        ]);
+        $principal_inmueble = PrincipalInmueble::updateOrCreate([
+            "inmueble_id" => $inmueble->id,
+            ],[
+            "estado" => 1,
+        ]);
+
+        $aviso = Aviso::updateOrCreate([
+            "inmueble_id" => $inmueble->id,
+        ],[
+            "fecha_publicacion" => now(),
+            "estado" => 1,
+        ]);
+
+        /* $hist_aviso = Histo::updateOrCreate([
+            "inmueble_id" => $inmueble->id,
+        ],[
+            "fecha_publicacion" => now(),
+            "estado" => 1,
+        ]); */
+        
+        if ($request->principal) {
+            $validator = Validator::make($request->all(), [
+                'tipo_operacion_id' => 'required|integer|digits_between:1,3',
+                'tipo_inmueble_id' => 'required|integer|digits_between:1,3',
+                'subtipo_inmueble_id' => 'required|integer|digits_between:1,3',
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'message' => 'Errores de validación',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            $ope_tipo_inmueble = OperacionTipoInmueble::updateOrCreate([
+                "principal_inmueble_id" => $principal_inmueble->id,
+            ],[
+                "tipo_operacion_id" => $request->tipo_operacion_id,
+                "tipo_inmueble_id" => $request->tipo_inmueble_id,
+                "subtipo_inmueble_id" => $request->subtipo_inmueble_id,
+                "estado" => 1,
+            ]);
+
+            if ($ope_tipo_inmueble) {
+                return response()->json([
+                    'message' => 'Registro correcto',
+                    'error' => false
+                ], 201);
+            } else {
+                return response()->json([
+                    'message' => 'No se pudo guardar el registro operaciones',
+                    'error' => true
+                ], 422);
+            }
+        }
+        
+        if ($request->ubicacion) {
+            $validator = Validator::make($request->all(), [
+                'direccion' => 'required|string|max:250',
+                'departamento_id' => 'required|integer|digits_between:1,3',
+                'provincia_id' => 'required|integer|digits_between:1,5',
+                'distrito_id' => 'required|integer|digits_between:1,7',
+                'latitud' => 'string|max:500',
+                'longitud' => 'string|max:500',
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'message' => 'Errores de validación',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            $ubi_inmueble = UbicacionInmueble::updateOrCreate([
+                "principal_inmueble_id" => $principal_inmueble->id,
+            ],[
+                "direccion" => $request->direccion,
+                "departamento_id" => $request->departamento_id,
+                "provincia_id" => $request->provincia_id,
+                "distrito_id" => $request->distrito_id,
+                "latitud" => $request->latitud,
+                "longitud" => $request->longitud,
+                "estado" => 1,
+            ]);
+
+            if ($ubi_inmueble) {
+                return response()->json([
+                    'message' => 'Registro correcto',
+                    'error' => false
+                ], 201);
+            } else {
+                return response()->json([
+                    'message' => 'No se pudo guardar el registro de ubicacion',
+                    'error' => true
+                ], 422);
+            }
+        }
+        
+        if ($request->caracteristicas) {
+            $validator = Validator::make($request->all(), [
+                'habitaciones' => 'required|integer|digits_between:1,3',
+                'banios' => 'required|integer|digits_between:1,3',
+                'medio_banios' => 'integer|digits_between:1,3',
+                'estacionamientos' => 'required|integer|digits_between:1,3',
+                'area_construida' => 'numeric',
+                'area_total' => 'numeric',
+                'antiguedad' => 'integer',
+                'anios_antiguedad' => 'integer',
+                'precio_soles' => 'numeric',
+                'precio_dolares' => 'numeric',
+                'titulo' => 'string|max:100',
+                'descripcion' => 'string|max:250',
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'message' => 'Errores de validación',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            $carac_inmueble = CaracteristicaInmueble::updateOrCreate([
+                "principal_inmueble_id" => $principal_inmueble->id,
+            ],[
+                "habitaciones" => $request->habitaciones,
+                "banios" => $request->banios,
+                "medio_banios" => $request->medio_banios,
+                "estacionamientos" => $request->estacionamientos,
+                "area_construida" => $request->area_construida,
+                "area_total" => $request->area_total,
+                "antiguedad" => $request->antiguedad,
+                "anios_antiguedad" => $request->anios_antiguedad,
+                "precio_soles" => $request->precio_soles,
+                "precio_dolares" => $request->precio_dolares,
+                "titulo" => $request->titulo,
+                "descripcion" => $request->descripcion,
+                "estado" => 1,
+            ]);
+
+            if ($carac_inmueble) {
+                return response()->json([
+                    'message' => 'Registro correcto',
+                    'error' => false
+                ], 201);
+            } else {
+                return response()->json([
+                    'message' => 'No se pudo guardar el registro de caracteristicas',
+                    'error' => true
+                ], 422);
+            }
+        }
+        
+        if ($request->multimedia) {
+            $existingImgMain = MultimediaInmueble::where('inmueble_id', $inmueble->id)->first();
+            if ( !$existingImgMain || ( $existingImgMain && $request->hasFile('imagen_principal') ) ) {
+                $validator = Validator::make($request->all(), [
+                    'imagen_principal' => 'required|image|mimes:jpeg,jpg,png|max:4096',
+                    // 'imagen.*' => 'required|image|mimes:jpeg,jpg,png|max:4096',
+                    // 'video' => 'required|image|mimes:jpeg,jpg,png|max:4096',
+                ]);
+                if ($validator->fails()) {
+                    return response()->json([
+                        'message' => 'Errores de validación',
+                        'errors' => $validator->errors()
+                    ], 422);
+                }
+                $image = $request->file('imagen_principal');
+                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('images'), $imageName);
+
+                $multim_inmueble = MultimediaInmueble::updateOrCreate([
+                    "inmueble_id" => $inmueble->id,
+                    ],[
+                    "imagen_principal" => $imageName,
+                    "estado" => 1,
+                ]);
+                if (!$multim_inmueble) {
+                    return response()->json([
+                        'message' => 'No se pudo guardar el registro de multimedia inmueble',
+                        'error' => true
+                    ], 422);
+                }
+            }
+
+            $multi_inmueble_id = MultimediaInmueble::where('inmueble_id', $inmueble->id)->value('id');
+
+            if ( $request->hasFile('imagen') ) {
+                foreach ($request->file('imagen') as $imagen) {
+                    $imagenName = time() . '_' . uniqid() . '.' . $imagen->getClientOriginalExtension();
+                    $imagen->move(public_path('images'), $imagenName);
+        
+                    $img_inmueble = ImagenInmueble::create([
+                        'multimedia_inmueble_id' => $multi_inmueble_id,
+                        'imagen' => $imagenName,
+                        "estado" => 1,
+                    ]);
+
+                    if (!$img_inmueble) {
+                        return response()->json([
+                            'message' => 'No se pudo guardar el registro de la imagen principal inmueble',
+                            'error' => true
+                        ], 422);
+                    }
+                }
+            }
+
+            if ( $request->hasFile('video') ) {
+                $video = $request->file('video'); 
+                $videoName = time() . '_' . uniqid() . '.' . $video->getClientOriginalExtension();
+                $video->move(public_path('videos'), $videoName);
+
+                $video_inmueble = VideoInmueble::create([
+                    'multimedia_inmueble_id' => $multi_inmueble_id,
+                    'video' => $videoName,
+                    "estado" => 1,
+                ]);
+
+                if (!$video_inmueble) {
+                    return response()->json([
+                        'message' => 'No se pudo guardar el registro del video inmueble',
+                        'error' => true
+                    ], 422);
+                }
+            }
+
+            if ( $request->hasFile('planos') ) {
+                foreach ($request->file('planos') as $plano) {
+                    $planoName = time() . '_' . uniqid() . '.' . $plano->getClientOriginalExtension();
+                    $plano->move(public_path('planos'), $planoName);
+        
+                    $plano_inmueble = PlanoInmueble::create([
+                        'multimedia_inmueble_id' => $multi_inmueble_id,
+                        'plano' => $planoName,
+                        "estado" => 1,
+                    ]);
+
+                    if (!$plano_inmueble) {
+                        return response()->json([
+                            'message' => 'No se pudo guardar el registro de los planos inmueble',
+                            'error' => true
+                        ], 422);
+                    }
+                }
+            }
+        }
+        
+        if ($request->extras) {
+            // $extra_inmueble = ExtraInmueble::where('inmueble_id', $inmueble->id)->first();
+            $extra_inmueble = ExtraInmueble::updateOrCreate([
+                "inmueble_id" => $inmueble->id,
+                ],[
+                "estado" => 1,
+            ]);
+
+            $request->validate([
+                'options' => 'required|array',
+                'options.*' => 'required|integer',
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'message' => 'Errores de validación',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+    
+            ExtraInmueblesCaracteristicas::where('extra_inmueble_id', $extra_inmueble->id)->update([
+                'estado' => 0,
+            ]);
+            $selectedOptions = $request->input('options', []);
+    
+            foreach ($selectedOptions as $option) {
+                $extra_carac = ExtraInmueblesCaracteristicas::updateOrCreate([
+                    'extra_inmueble_id' => $extra_inmueble->id,
+                    'caracteristica_extra_id' => $option,
+                    ],[
+                    'estado' => 1,
+                ]);
+
+                if (!$extra_carac) {
+                    return response()->json([
+                        'message' => 'No se pudo guardar el registro de una caracteristica extra',
+                        'error' => true
+                    ], 422);
+                }
+            }
+        }
+    }
+
+
 }
