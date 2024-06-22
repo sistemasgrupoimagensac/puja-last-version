@@ -1,0 +1,12 @@
+@import '../variables';
+
+.crear-aviso-menu-paso {
+  font-size: 1.6rem;
+}
+
+
+@media (min-width: $lg) {
+  .crear-aviso-menu-paso {
+    font-size: 1.1rem;
+  }
+}

@@ -289,7 +289,12 @@
             <div class="rounded bg-white border shadow">
               <form class="d-flex flex-column gap-3 p-3">
                 @csrf
-                  <h5 class="form-title">Contactar</h5>
+                <div class="d-flex justify-content-between align-items-center">
+
+                  <h5 class="form-title m-0">Contactar</h5>
+                  {{-- <i class="fa-regular fa-square-caret-down fa-lg me-1"></i> --}}
+                  <i class="fa-solid fa-arrow-down fa-lg me-1"></i>
+                </div>
 
                   <div class="form-floating">
                     <input type="text" class="form-control" id="contact-name" name="contact-name" placeholder="Nombre Completo" required>
