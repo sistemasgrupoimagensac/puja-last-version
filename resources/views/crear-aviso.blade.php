@@ -34,7 +34,7 @@
 
         <!-- Paso 1: Operación y tipo de inmueble -->
         <div x-show="step === 1">
-          <form @submit.prevent="nextStep('tipo_operacion', 'tipo_inmueble', 'subtipo_inmueble')"
+          <form @submit.prevent="nextStep(1)"
             class="d-flex flex-column gap-4 my-5">
             @csrf
             <h2>Operación y tipo de inmueble</h2>
@@ -80,7 +80,7 @@
 
         <!-- Paso 2: Ubicación -->
         <div x-show="step === 2">
-          <form @submit.prevent="nextStep('direccion', 'departamento', 'provincia', 'distrito')"
+          <form @submit.prevent="nextStep(2)"
             class="d-flex flex-column gap-4 my-5">
             @csrf
             <h2>Ubicación</h2>
@@ -110,8 +110,7 @@
 
         <!-- Paso 3: Características -->
         <div x-show="step === 3">
-          <form
-            @submit.prevent="nextStep('dormitorios', 'banios', 'medio_banios', 'area_construida', 'area_total', 'antiguedad', 'anios_antiguedad', 'precio_soles', 'precio_dolares')"
+          <form @submit.prevent="nextStep(3)"
             class="d-flex flex-column gap-4 my-5">
             @csrf
             <h2>Características</h2>
@@ -122,7 +121,8 @@
               <div class="d-flex justify-content-between gap-4">
                 <div class="form-group w-100">
                   <label class="text-secondary" for="dormitorios">Dormitorios</label>
-                  <input type="number" id="dormitorios" x-model="dormitorios" min="0" max="99" class="form-control" required>
+                  <input type="number" id="dormitorios" x-model="dormitorios" min="0" max="99"
+                    class="form-control" required>
                 </div>
 
                 <div class="form-group w-100">
@@ -217,7 +217,8 @@
                   <label class="text-secondary" for="precio_soles">Precio soles</label>
                   <div class="input-group mb-3">
                     <span class="input-group-text">S/.</span>
-                    <input type="number" id="precio_soles" x-model="precio_soles" min="99" max="999999999" class="form-control" required>
+                    <input type="number" id="precio_soles" x-model="precio_soles" min="99" max="999999999"
+                      class="form-control" required>
                   </div>
                 </div>
 
@@ -225,7 +226,8 @@
                   <label class="text-secondary" for="precio_dolares">Precio dólares</label>
                   <div class="input-group mb-3">
                     <span class="input-group-text">US$</span>
-                    <input type="number" id="precio_dolares" x-model="precio_dolares" min="99" max="99999999" class="form-control" required>
+                    <input type="number" id="precio_dolares" x-model="precio_dolares" min="99" max="99999999"
+                      class="form-control" required>
                   </div>
                 </div>
               </div>
@@ -241,22 +243,46 @@
 
         <!-- Paso 4: Multimedia (fotos, videos, planos) -->
         <div x-show="step === 4">
-          <form @submit.prevent="nextStep('fotos', 'videos', 'planos')" enctype="multipart/form-data"
+          <form @submit.prevent="nextStep(4)" enctype="multipart/form-data"
             class="d-flex flex-column gap-4 my-5">
             @csrf
             <h2>Multimedia</h2>
+
+            <!-- Input para seleccionar imágenes -->
             <div class="form-group">
-              <label class="text-secondary">Fotos</label>
-              <input type="file" multiple class="form-control" @change="handleFiles($event, 'fotos')">
+              <label for="images" class="form-label">Seleccionar imágenes</label>
+              <input type="file" id="images" class="form-control" multiple
+                @change="handleFiles($event, 'fotos')">
+              <!-- Mostrar miniaturas de las imágenes seleccionadas -->
+              <div class="mt-3" x-show="fotos.length > 0">
+                <h4>Miniaturas</h4>
+                <div class="row">
+                  <template x-for="(foto, index) in fotos" :key="index">
+                    <div class="col-md-3 mb-3">
+                      <img :src="URL.createObjectURL(foto)" class="img-thumbnail" style="max-width: 100%;"
+                        :alt="'Imagen ' + (index + 1)">
+                      <!-- Botón para eliminar imagen -->
+                      <button type="button" class="btn btn-danger btn-sm mt-2"
+                        @click="eliminarImagen('fotos', index)">Eliminar</button>
+                    </div>
+                  </template>
+                </div>
+              </div>
             </div>
+
+            <!-- Input para videos -->
             <div class="form-group">
               <label class="text-secondary">Videos</label>
               <input type="text" x-model="videos" class="form-control" placeholder="URL de videos">
             </div>
+
+            <!-- Input para planos -->
             <div class="form-group">
               <label class="text-secondary">Planos</label>
               <input type="file" multiple class="form-control" @change="handleFiles($event, 'planos')">
             </div>
+
+            <!-- Botones de navegación -->
             <div class="d-flex justify-content-between gap-2 w-100">
               <button type="button" @click="prevStep()" class="btn btn-secondary w-100">Atrás</button>
               <button type="submit" class="btn button-orange w-100">Continuar</button>
@@ -264,9 +290,10 @@
           </form>
         </div>
 
+
         <!-- Paso 5: Adicionales -->
         <div x-show="step === 5">
-          <form @submit.prevent="nextStep('acceso_playa', 'aire_acondicionado')" class="d-flex flex-column gap-4 my-5">
+          <form @submit.prevent="nextStep(5)" class="d-flex flex-column gap-4 my-5">
             @csrf
             <h2>Adicionales</h2>
             <div class="form-group">
@@ -287,8 +314,7 @@
 
         <!-- Paso 6: Comodidades -->
         <div x-show="step === 6">
-          <form x-show="step === 6" @submit.prevent="nextStep('acceso_parque', 'ascensores')"
-            class="d-flex flex-column gap-4 my-5">
+          <form @submit.prevent="nextStep(6)" class="d-flex flex-column gap-4 my-5">
             @csrf
             <h2>Comodidades</h2>
             <div class="form-group">
@@ -312,34 +338,37 @@
 
   </div>
 
-  {{-- SCRIPT --}}
+  {{-- SCRIPTS --}}
   <script>
     function avisoForm() {
       return {
-        step: {{ session('step', 4) }},
+        step: {{ session('step', 1) }},
         aviso_id: {{ session('aviso_id', 'null') }},
         tipo_operacion: '',
         tipo_inmueble: '',
-        subtipo_inmueble: '',
         direccion: '',
         departamento: '',
         provincia: '',
         distrito: '',
-        dormitorios: null,
-        banios: null,
-        medio_banios: null,
-        area_construida: null,
-        area_total: null,
-        antiguedad: null,
         fotos: [],
         videos: '',
         planos: [],
+        dormitorios: '',
+        banios: '',
+        medio_banios: '',
+        estacionamiento: '',
+        area_construida: '',
+        area_total: '',
+        antiguedad: '',
+        anios_antiguedad: '',
+        precio_soles: '',
+        precio_dolares: '',
         acceso_playa: false,
         aire_acondicionado: false,
         acceso_parque: false,
         ascensores: false,
 
-        nextStep(...fields) {
+        nextStep(step) {
           const stepMap = {
             1: '/guardar-aviso/paso1',
             2: `/guardar-aviso/paso2/${this.aviso_id}`,
@@ -349,27 +378,63 @@
             6: `/guardar-aviso/paso6/${this.aviso_id}`,
           };
 
-          let data = {};
-          fields.forEach(field => data[field] = this[field]);
+          // Crear formData para enviar al servidor
+          const formData = new FormData();
 
-          fetch(stepMap[this.step], {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-              },
-              body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(data => {
-              if (this.step === 1) {
-                this.aviso_id = data.id;
-              }
-              this.step++;
-            })
-            .catch(error => {
-              console.error('Error:', error);
+          // Agregar los campos del formulario actual al formData
+          if (step === 1) {
+            formData.append('tipo_operacion', this.tipo_operacion);
+            formData.append('tipo_inmueble', this.tipo_inmueble);
+          } else if (step === 2) {
+            formData.append('direccion', this.direccion);
+            formData.append('departamento', this.departamento);
+            formData.append('provincia', this.provincia);
+            formData.append('distrito', this.distrito);
+          } else if (step === 3) {
+            formData.append('dormitorios', this.dormitorios);
+            formData.append('banios', this.banios);
+            formData.append('medio_banios', this.medio_banios);
+            formData.append('estacionamiento', this.estacionamiento);
+            formData.append('area_construida', this.area_construida);
+            formData.append('area_total', this.area_total);
+            formData.append('antiguedad', this.antiguedad);
+            formData.append('anios_antiguedad', this.anios_antiguedad);
+            formData.append('precio_soles', this.precio_soles);
+            formData.append('precio_dolares', this.precio_dolares);
+          } else if (step === 4) {
+            this.fotos.forEach((foto, index) => {
+              formData.append(`foto_${index}`, foto);
             });
+            this.planos.forEach((plano, index) => {
+              formData.append(`plano_${index}`, plano);
+            });
+            formData.append('videos', this.videos);
+          } else if (step === 5) {
+            formData.append('acceso_playa', this.acceso_playa);
+            formData.append('aire_acondicionado', this.aire_acondicionado);
+          } else if (step === 6) {
+            formData.append('acceso_parque', this.acceso_parque);
+            formData.append('ascensores', this.ascensores);
+          }
+
+          // Realizar la solicitud fetch
+          fetch(stepMap[step], {
+            method: 'POST',
+            body: formData,
+            headers: {
+              'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (step === 1) {
+              this.aviso_id = data.id;
+            }
+            this.step++;
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
         },
 
         prevStep() {
@@ -379,15 +444,24 @@
         handleFiles(event, type) {
           const files = event.target.files;
           if (type === 'fotos') {
-            this.fotos = files;
+            this.fotos.push(...files);
           } else if (type === 'planos') {
-            this.planos = files;
+            this.planos.push(...files);
+          }
+        },
+
+        eliminarImagen(type, index) {
+          if (type === 'fotos') {
+            this.fotos.splice(index, 1); // Eliminar imagen del array de fotos
+          } else if (type === 'planos') {
+            this.planos.splice(index, 1); // Eliminar plano del array de planos
           }
         }
       };
     }
   </script>
 @endsection
+
 
 @push('scripts')
   @vite(['resources/js/scripts/crear-aviso.js'])
