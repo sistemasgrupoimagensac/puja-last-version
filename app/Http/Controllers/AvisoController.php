@@ -42,9 +42,18 @@ class AvisoController extends Controller
         return response()->json(['status' => 'success']);
     }
 
+    // public function storePaso6(Request $request, $id)
+    // {
+    //     // Simular paso 6 sin interactuar con la base de datos
+    //     return response()->json(['status' => 'success']);
+    // }
+
     public function storePaso6(Request $request, $id)
-    {
-        // Simular paso 6 sin interactuar con la base de datos
-        return response()->json(['status' => 'success']);
-    }
+{
+    // $aviso = Aviso::findOrFail($id);
+    // $aviso->update($request->only('acceso_parque', 'ascensores', 'biblioteca', 'cancha_futbol', 'centro_deportivo', 'club_house', 'conserje', 'ingreso_independiente', 'internet_wifi', 'parque_interno', 'parrilla', 'recepcion', 'sala_entretenimiento', 'sala_reuniones', 'sauna', 'television_cable', 'vista_mar', 'zona_centrica'));
+    // Aquí podrías realizar alguna lógica adicional si es necesario
+
+    return response()->json(['redirect' => route('panel.mis-avisos')]);
+}
 }

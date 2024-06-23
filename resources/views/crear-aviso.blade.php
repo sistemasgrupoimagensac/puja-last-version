@@ -34,8 +34,7 @@
 
         <!-- Paso 1: Operación y tipo de inmueble -->
         <div x-show="step === 1">
-          <form @submit.prevent="nextStep(1)"
-            class="d-flex flex-column gap-4 my-5">
+          <form @submit.prevent="nextStep(1)" class="d-flex flex-column gap-4 my-5">
             @csrf
             <h2>Operación y tipo de inmueble</h2>
 
@@ -80,8 +79,7 @@
 
         <!-- Paso 2: Ubicación -->
         <div x-show="step === 2">
-          <form @submit.prevent="nextStep(2)"
-            class="d-flex flex-column gap-4 my-5">
+          <form @submit.prevent="nextStep(2)" class="d-flex flex-column gap-4 my-5">
             @csrf
             <h2>Ubicación</h2>
             <div class="form-group">
@@ -110,8 +108,7 @@
 
         <!-- Paso 3: Características -->
         <div x-show="step === 3">
-          <form @submit.prevent="nextStep(3)"
-            class="d-flex flex-column gap-4 my-5">
+          <form @submit.prevent="nextStep(3)" class="d-flex flex-column gap-4 my-5">
             @csrf
             <h2>Características</h2>
 
@@ -243,8 +240,7 @@
 
         <!-- Paso 4: Multimedia (fotos, videos, planos) -->
         <div x-show="step === 4">
-          <form @submit.prevent="nextStep(4)" enctype="multipart/form-data"
-            class="d-flex flex-column gap-4 my-5">
+          <form @submit.prevent="nextStep(4)" enctype="multipart/form-data" class="d-flex flex-column gap-4 my-5">
             @csrf
             <h2>Multimedia</h2>
 
@@ -298,7 +294,7 @@
 
             <div class="mt-4">
               <h2>Adicionales</h2>
-     
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="add_01" value="add_01" id="add_01">
                 <label class="form-check-label text-secondary filter-additional-input" for="add_01">
@@ -442,7 +438,7 @@
                   Jardín Externo
                 </label>
               </div>
-              
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="add_19" value="add_19" id="add_19">
                 <label class="form-check-label text-secondary filter-additional-input" for="add_19">
@@ -450,7 +446,7 @@
                   Jacuzzi
                 </label>
               </div>
-              
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="add_20" value="add_20" id="add_20">
                 <label class="form-check-label text-secondary filter-additional-input" for="add_20">
@@ -458,7 +454,7 @@
                   Juegos para niños
                 </label>
               </div>
-              
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="add_21" value="add_21" id="add_21">
                 <label class="form-check-label text-secondary filter-additional-input" for="add_21">
@@ -466,7 +462,7 @@
                   Kitchenette
                 </label>
               </div>
-              
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="add_22" value="add_22" id="add_22">
                 <label class="form-check-label text-secondary filter-additional-input" for="add_22">
@@ -474,7 +470,7 @@
                   Lavandería
                 </label>
               </div>
-              
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="add_23" value="add_23" id="add_23">
                 <label class="form-check-label text-secondary filter-additional-input" for="add_23">
@@ -482,7 +478,7 @@
                   Pet Friendly
                 </label>
               </div>
-              
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="add_24" value="add_24" id="add_24">
                 <label class="form-check-label text-secondary filter-additional-input" for="add_24">
@@ -490,7 +486,7 @@
                   Piscina
                 </label>
               </div>
-              
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="add_25" value="add_25" id="add_25">
                 <label class="form-check-label text-secondary filter-additional-input" for="add_25">
@@ -498,7 +494,7 @@
                   Servicios Básicos
                 </label>
               </div>
-              
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="add_26" value="add_26" id="add_26">
                 <label class="form-check-label text-secondary filter-additional-input" for="add_26">
@@ -506,7 +502,7 @@
                   Tanque de Agua
                 </label>
               </div>
-              
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="add_27" value="add_27" id="add_27">
                 <label class="form-check-label text-secondary filter-additional-input" for="add_27">
@@ -514,7 +510,7 @@
                   Terma Eléctrica
                 </label>
               </div>
-              
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="add_28" value="add_28" id="add_28">
                 <label class="form-check-label text-secondary filter-additional-input" for="add_28">
@@ -522,7 +518,7 @@
                   Terraza
                 </label>
               </div>
-              
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="add_29" value="add_29" id="add_29">
                 <label class="form-check-label text-secondary filter-additional-input" for="add_29">
@@ -530,7 +526,7 @@
                   Triplex
                 </label>
               </div>
-              
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="add_30" value="add_30" id="add_30">
                 <label class="form-check-label text-secondary filter-additional-input" for="add_30">
@@ -564,8 +560,8 @@
             <div class="mt-4">
 
               <h2>Comodidades</h2>
-              
-              
+
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="comf_01" value="comf_01" id="comf_01">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_01">
@@ -573,7 +569,7 @@
                   Biblioteca
                 </label>
               </div>
-  
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="comf_02" value="comf_02" id="comf_02">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_02">
@@ -581,7 +577,7 @@
                   Cancha de Fútbol
                 </label>
               </div>
-  
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="comf_03" value="comf_03" id="comf_03">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_03">
@@ -589,7 +585,7 @@
                   Centro Deportivo
                 </label>
               </div>
-  
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="comf_04" value="comf_04" id="comf_04">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_04">
@@ -597,7 +593,7 @@
                   Club House
                 </label>
               </div>
-  
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="comf_15" value="comf_15" id="comf_15">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_15">
@@ -605,7 +601,7 @@
                   Conserje
                 </label>
               </div>
-  
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="comf_05" value="comf_05" id="comf_05">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_05">
@@ -613,7 +609,7 @@
                   Ingreso Independiente
                 </label>
               </div>
-  
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="comf_06" value="comf_06" id="comf_06">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_06">
@@ -621,7 +617,7 @@
                   Internet / WiFi
                 </label>
               </div>
-  
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="comf_07" value="comf_07" id="comf_07">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_07">
@@ -629,7 +625,7 @@
                   Parque Interno
                 </label>
               </div>
-  
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="comf_08" value="comf_08" id="comf_08">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_08">
@@ -637,7 +633,7 @@
                   Parrilla
                 </label>
               </div>
-  
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="comf_16" value="comf_16" id="comf_16">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_16">
@@ -645,7 +641,7 @@
                   Recepción
                 </label>
               </div>
-  
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="comf_09" value="comf_09" id="comf_09">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_09">
@@ -653,7 +649,7 @@
                   Sala de Entretenimiento
                 </label>
               </div>
-  
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="comf_10" value="comf_10" id="comf_10">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_10">
@@ -661,7 +657,7 @@
                   Sala de Reuniones
                 </label>
               </div>
-  
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="comf_11" value="comf_11" id="comf_11">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_11">
@@ -669,7 +665,7 @@
                   Sauna
                 </label>
               </div>
-  
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="comf_12" value="comf_12" id="comf_12">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_12">
@@ -677,7 +673,7 @@
                   Televisión por Cable
                 </label>
               </div>
-  
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="comf_13" value="comf_13" id="comf_13">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_13">
@@ -685,7 +681,7 @@
                   Vista al Mar
                 </label>
               </div>
-  
+
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="comf_14" value="comf_14" id="comf_14">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_14">
@@ -711,7 +707,7 @@
   <script>
     function avisoForm() {
       return {
-        step: {{ session('step', 5) }},
+        step: {{ session('step', 1) }},
         aviso_id: {{ session('aviso_id', 'null') }},
         tipo_operacion: '',
         tipo_inmueble: '',
@@ -747,10 +743,8 @@
             6: `/guardar-aviso/paso6/${this.aviso_id}`,
           };
 
-          // Crear formData para enviar al servidor
           const formData = new FormData();
 
-          // Agregar los campos del formulario actual al formData
           if (step === 1) {
             formData.append('tipo_operacion', this.tipo_operacion);
             formData.append('tipo_inmueble', this.tipo_inmueble);
@@ -779,31 +773,37 @@
             });
             formData.append('videos', this.videos);
           } else if (step === 5) {
-            formData.append('acceso_playa', this.acceso_playa);
-            formData.append('aire_acondicionado', this.aire_acondicionado);
+            document.querySelectorAll('input[name^="add_"]:checked').forEach((checkbox) => {
+              formData.append('adicionales[]', checkbox.value);
+            });
           } else if (step === 6) {
-            formData.append('acceso_parque', this.acceso_parque);
-            formData.append('ascensores', this.ascensores);
+            document.querySelectorAll('input[name^="comf_"]:checked').forEach((checkbox) => {
+              formData.append('comodidades[]', checkbox.value);
+            });
           }
 
-          // Realizar la solicitud fetch
           fetch(stepMap[step], {
-            method: 'POST',
-            body: formData,
-            headers: {
-              'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            }
-          })
-          .then(response => response.json())
-          .then(data => {
-            if (step === 1) {
-              this.aviso_id = data.id;
-            }
-            this.step++;
-          })
-          .catch(error => {
-            console.error('Error:', error);
-          });
+              method: 'POST',
+              body: formData,
+              headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+              }
+            })
+            .then(response => response.json())
+            .then(data => {
+              if (step === 1) {
+                this.aviso_id = data.id;
+              } else if (step === 6) {
+                // Redirigir a la página de "mis-avisos"
+                window.location.href = data.redirect;
+              }
+              this.step++;
+
+            })
+
+            .catch(error => {
+              console.error('Error:', error);
+            });
         },
 
         prevStep() {
@@ -821,17 +821,12 @@
 
         eliminarImagen(type, index) {
           if (type === 'fotos') {
-            this.fotos.splice(index, 1); // Eliminar imagen del array de fotos
+            this.fotos.splice(index, 1);
           } else if (type === 'planos') {
-            this.planos.splice(index, 1); // Eliminar plano del array de planos
+            this.planos.splice(index, 1);
           }
         }
       };
     }
   </script>
 @endsection
-
-
-@push('scripts')
-  @vite(['resources/js/scripts/crear-aviso.js'])
-@endpush
