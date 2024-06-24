@@ -89,6 +89,12 @@ Route::get('/register', function() {
     return view('auth.register');
 });
 
+// Ruta para planes de pago
+Route::get('/planes-inmobiliaria', function() {
+    return view('planes');
+});
+
+
 // rutas de la creacion del aviso
 
 Route::get('/crear-aviso', [AvisoController::class, 'create'])->name('avisos.create');

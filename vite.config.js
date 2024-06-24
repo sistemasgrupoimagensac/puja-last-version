@@ -20,6 +20,7 @@ export default defineConfig({
                 "resources/sass/components/whatsapp_modal_inmueble_contact.scss",
                 "resources/sass/components/menu_panel.scss",
                 "resources/sass/components/footer.scss",
+                "resources/sass/components/card_plan.scss",
 
                 // js
                 "resources/js/app.js",
@@ -35,6 +36,7 @@ export default defineConfig({
                 "resources/js/scripts/components/whatsapp_modal_contact.js",
                 "resources/js/scripts/components/whatsapp_modal_inmueble_contact.js",
                 "resources/js/scripts/components/footer.js",
+                "resources/js/scripts/components/card_plan.js",
             ],
             refresh: true,
         }),
