@@ -98,6 +98,11 @@ Route::get('/register', function() {
     return view('auth.register');
 });
 
+// Ruta para planes de pago
+Route::get('/register', function() {
+    return view('auth.register');
+});
+
 
 // rutas de la creacion del aviso
 
