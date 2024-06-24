@@ -32,7 +32,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categoria_caracteristicas_extra');
         Schema::dropIfExists('caracteristicas_extra');
+        Schema::dropIfExists('categoria_caracteristicas_extra');
     }
 };

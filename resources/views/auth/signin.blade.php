@@ -34,12 +34,14 @@
             <img src="{{ asset('images/svg/logo_puja.svg') }}" class="signin-puja-logo" alt="Logo Pujainmobiliaria">
           </a>
         </div>
-        
-        {{-- signin form --}}
-        <form action="#" class="my-3">
+  
+  
+        <form method="POST" action="{{ route('login') }}">
           @csrf
 
           <div class="d-flex flex-column gap-3 input-group-lg">
+
+			<input type="hidden" name="user_type" value="{{ $profile_type }}">
 
             <div class="form-floating">
               <input type="email" class="form-control" id="signin_email" name="signin_email" placeholder="Telefono">
@@ -61,6 +63,9 @@
           </div>
 
         </form>
+        {{-- <input class="btn button-orange w-100" type="submit" value="Ingresar"> --}}
+        {{-- <a class="btn button-orange w-100 mt-2" href="/google-auth/redirect">Inicia Sesion con Google</a> --}}
+
 
         <div class="w-100 text-center">
           <a href="/recuperar-password" class="signin-recuperar-password">¿Has olvidado tu contraseña?</a>
@@ -73,14 +78,14 @@
         </div>
 
         <div class="w-100 text-center">
-          <a href="#" class="">
+          <a href="/google-auth/redirect" class="">
             <img src="{{ asset('images/google.png') }}" class="sigin-logo-google" alt="Logo log Google">
           </a>
         </div>
 
         <div class="d-flex flex-column align-items-center mt-5 bg-secondary bg-opacity-10 rounded-3 py-2 w-100">
           <p class="">si no tienes una cuenta registrate aquí</p>
-          <a href="/register" class=" text-decoration-none fw-bold">REGISTRATE</a>
+          <a href="/register/{{ $profile_type }}" class=" text-decoration-none fw-bold">REGISTRATE</a>
         </div>
         
       </div>
