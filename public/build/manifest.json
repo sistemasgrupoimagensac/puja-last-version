@@ -44,7 +44,7 @@
     "src": "resources/images/slide1.webp"
   },
   "resources/js/app.js": {
-    "file": "assets/app-DsB-Db59.js",
+    "file": "assets/app-wzP-6cIt.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
@@ -68,10 +68,22 @@
     "src": "resources/js/scripts/components/back_button.js",
     "isEntry": true
   },
+  "resources/js/scripts/components/card_plan.js": {
+    "file": "assets/card_plan-DP2rzg_V.js",
+    "name": "card_plan",
+    "src": "resources/js/scripts/components/card_plan.js",
+    "isEntry": true
+  },
   "resources/js/scripts/components/card_simple.js": {
     "file": "assets/card_simple-BBIKgU3S.js",
     "name": "card_simple",
     "src": "resources/js/scripts/components/card_simple.js",
+    "isEntry": true
+  },
+  "resources/js/scripts/components/footer.js": {
+    "file": "assets/footer-CNMggH1b.js",
+    "name": "footer",
+    "src": "resources/js/scripts/components/footer.js",
     "isEntry": true
   },
   "resources/js/scripts/components/whatsapp_modal_contact.js": {
@@ -99,9 +111,15 @@
     "isEntry": true
   },
   "resources/js/scripts/inmuebles.js": {
-    "file": "assets/inmuebles-GbVgHsrM.js",
+    "file": "assets/inmuebles-ShTa-rtH.js",
     "name": "inmuebles",
     "src": "resources/js/scripts/inmuebles.js",
+    "isEntry": true
+  },
+  "resources/js/scripts/perfil.js": {
+    "file": "assets/perfil-Dk9EAyr4.js",
+    "name": "perfil",
+    "src": "resources/js/scripts/perfil.js",
     "isEntry": true
   },
   "resources/js/scripts/register.js": {
@@ -111,8 +129,24 @@
     "isEntry": true
   },
   "resources/sass/app.scss": {
-    "file": "assets/app-b36KmRor.css",
+    "file": "assets/app-D09fiS9w.css",
     "src": "resources/sass/app.scss",
+    "isEntry": true
+  },
+  "resources/sass/components/card_plan.scss": {
+    "file": "assets/card_plan-l0sNRNKZ.js",
+    "name": "card_plan",
+    "src": "resources/sass/components/card_plan.scss",
+    "isEntry": true
+  },
+  "resources/sass/components/footer.scss": {
+    "file": "assets/footer-CpFPmQVx.css",
+    "src": "resources/sass/components/footer.scss",
+    "isEntry": true
+  },
+  "resources/sass/components/menu_panel.scss": {
+    "file": "assets/menu_panel-BBxd21Df.css",
+    "src": "resources/sass/components/menu_panel.scss",
     "isEntry": true
   },
   "resources/sass/components/whatsapp_modal_contact.scss": {
@@ -125,13 +159,23 @@
     "src": "resources/sass/components/whatsapp_modal_inmueble_contact.scss",
     "isEntry": true
   },
+  "resources/sass/pages/crear-aviso.scss": {
+    "file": "assets/crear-aviso-DFUOon3T.css",
+    "src": "resources/sass/pages/crear-aviso.scss",
+    "isEntry": true
+  },
   "resources/sass/pages/inmueble.scss": {
     "file": "assets/inmueble-GkmtGkzL.css",
     "src": "resources/sass/pages/inmueble.scss",
     "isEntry": true
   },
+  "resources/sass/pages/perfil.scss": {
+    "file": "assets/perfil-DZt2ayef.css",
+    "src": "resources/sass/pages/perfil.scss",
+    "isEntry": true
+  },
   "resources/sass/pages/publica-inmueble.scss": {
-    "file": "assets/publica-inmueble-B15HIJiP.css",
+    "file": "assets/publica-inmueble-CduuE8--.css",
     "src": "resources/sass/pages/publica-inmueble.scss",
     "isEntry": true
   },
@@ -141,7 +185,7 @@
     "isEntry": true
   },
   "resources/sass/pages/register.scss": {
-    "file": "assets/register-QN0B4dgf.css",
+    "file": "assets/register-DlZ3NsLV.css",
     "src": "resources/sass/pages/register.scss",
     "isEntry": true
   },
