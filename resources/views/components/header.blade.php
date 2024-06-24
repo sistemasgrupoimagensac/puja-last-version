@@ -27,24 +27,24 @@
 
                     <div class="d-flex flex-column">
                       <h5 class="text-dark h6 fw-bold">Provincia</h5>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Lima</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Piura</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Callao</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Ica</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">La Libertad</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Arequipa</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Cusco</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Tumbes</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Junín</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Lima')]) }}">Lima</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Piura')]) }}">Piura</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Callao')]) }}">Callao</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Ica')]) }}">Ica</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en La Libertad')]) }}">La Libertad</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Arequipa')]) }}">Arequipa</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Cusco')]) }}">Cusco</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Tumbes')]) }}">Tumbes</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Junín')]) }}">Junín</a>
                     </div>
 
                     <div class="d-flex flex-column">
                       <h5 class="text-dark h6 fw-bold">Tipo de Propiedad</h5>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Departamento</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Casa</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Terreno / Lote</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Oficina</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Local Comercial</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Departamentos en Venta')]) }}">Departamento</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Casas en Venta')]) }}">Casa</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Terrenos en Venta')]) }}">Terreno / Lote</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Oficinas en Venta')]) }}">Oficina</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Locales en Venta')]) }}">Local Comercial</a>
                     </div>
 
                     <div class="d-flex flex-column">
@@ -79,24 +79,24 @@
 
                     <div class="d-flex flex-column">
                       <h5 class="text-dark h6 fw-bold">Provincia</h5>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Lima</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Piura</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Callao</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Ica</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">La Libertad</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Arequipa</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Cusco</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Tumbes</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Junín</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Lima')]) }}">Lima</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Piura')]) }}">Piura</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Callao')]) }}">Callao</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Ica')]) }}">Ica</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en La Libertad')]) }}">La Libertad</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Arequipa')]) }}">Arequipa</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Cusco')]) }}">Cusco</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Tumbes')]) }}">Tumbes</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Junín')]) }}">Junín</a>
                     </div>
 
                     <div class="d-flex flex-column">
                       <h5 class="text-dark h6 fw-bold">Tipo de Propiedad</h5>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Departamento</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Casa</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Terreno / Lote</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Oficina</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Local Comercial</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Departamentos en Alquiler')]) }}">Departamento</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Casas en Alquiler')]) }}">Casa</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Terrenos en Alquiler')]) }}">Terreno / Lote</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Oficinas en Alquiler')]) }}">Oficina</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Locales en Alquiler')]) }}">Local Comercial</a>
                     </div>
 
                     <div class="d-flex flex-column">
@@ -141,24 +141,24 @@
 
                     <div class="d-flex flex-column">
                       <h5 class="text-dark h6 fw-bold">Provincia</h5>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Lima</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Piura</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Callao</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Ica</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">La Libertad</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Arequipa</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Cusco</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Tumbes</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Junín</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Lima')]) }}">Lima</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Piura')]) }}">Piura</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Callao')]) }}">Callao</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Ica')]) }}">Ica</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en La Libertad')]) }}">La Libertad</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Arequipa')]) }}">Arequipa</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Cusco')]) }}">Cusco</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Tumbes')]) }}">Tumbes</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Junín')]) }}">Junín</a>
                     </div>
 
                     <div class="d-flex flex-column">
                       <h5 class="text-dark h6 fw-bold">Tipo de Propiedad</h5>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Departamento</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Casa</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Terreno / Lote</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Oficina</a>
-                      <a class="text-decoration-none text-dark mb-1" href="#">Local Comercial</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Departamentos en Remate')]) }}">Departamento</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Casas en Remate')]) }}">Casa</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Terrenos en Remate')]) }}">Terreno / Lote</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Oficinas en Remate')]) }}">Oficina</a>
+                      <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Locales en Remate')]) }}">Local Comercial</a>
                     </div>
 
                     <div class="d-flex flex-column">
@@ -218,7 +218,7 @@
   {{-- Linea divisora --}}
   <hr class="m-0">
 
-  <a class="button-orange btn m-4" href="#iniciar_sesion">Iniciar Sesión</a>
+  <a class="button-orange btn m-4" href="/sign-in">Iniciar Sesión</a>
   <a class="button-clear aside-menu btn mx-4" href="/publica-tu-inmueble">Publica Aquí</a>
 
 
@@ -249,15 +249,15 @@
                       <div class="accordion-body py-2">
                         <!-- Componentes Provincia -->
                         <div class="list-group">
-                          <a href="#" class="list-group-item list-group-item-action border-0 p-0">Lima</a>
-                          <a href="#" class="list-group-item list-group-item-action border-0 p-0">Piura</a>
-                          <a href="#" class="list-group-item list-group-item-action border-0 p-0">Callao</a>
-                          <a href="#" class="list-group-item list-group-item-action border-0 p-0">Ica</a>
-                          <a href="#" class="list-group-item list-group-item-action border-0 p-0">La Libertad</a>
-                          <a href="#" class="list-group-item list-group-item-action border-0 p-0">Arequipa</a>
-                          <a href="#" class="list-group-item list-group-item-action border-0 p-0">Cusco</a>
-                          <a href="#" class="list-group-item list-group-item-action border-0 p-0">Tumbes</a>
-                          <a href="#" class="list-group-item list-group-item-action border-0 p-0">Junín</a>
+                          <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Lima')]) }}" class="list-group-item list-group-item-action border-0 p-0">Lima</a>
+                          <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Piura')]) }}" class="list-group-item list-group-item-action border-0 p-0">Piura</a>
+                          <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Callao')]) }}" class="list-group-item list-group-item-action border-0 p-0">Callao</a>
+                          <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Ica')]) }}" class="list-group-item list-group-item-action border-0 p-0">Ica</a>
+                          <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en La Libertad')]) }}" class="list-group-item list-group-item-action border-0 p-0">La Libertad</a>
+                          <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Arequipa')]) }}" class="list-group-item list-group-item-action border-0 p-0">Arequipa</a>
+                          <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Cusco')]) }}" class="list-group-item list-group-item-action border-0 p-0">Cusco</a>
+                          <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Tumbes')]) }}" class="list-group-item list-group-item-action border-0 p-0">Tumbes</a>
+                          <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Junín')]) }}" class="list-group-item list-group-item-action border-0 p-0">Junín</a>
                         </div>
                       </div>
                     </div>
@@ -276,11 +276,11 @@
                       <div class="accordion-body py-2">
                         <!-- Componentes Dormitorios -->
                         <div class="list-group">
-                          <a href="#" class="list-group-item list-group-item-action border-0 p-0">Departamento</a>
-                          <a href="#" class="list-group-item list-group-item-action border-0 p-0">Casa</a>
-                          <a href="#" class="list-group-item list-group-item-action border-0 p-0">Terreno / Lote</a>
-                          <a href="#" class="list-group-item list-group-item-action border-0 p-0">Oficina</a>
-                          <a href="#" class="list-group-item list-group-item-action border-0 p-0">Local Comercial</a>
+                          <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Departamentos en Venta')]) }}" class="list-group-item list-group-item-action border-0 p-0">Departamento</a>
+                          <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Casas en Venta')]) }}" class="list-group-item list-group-item-action border-0 p-0">Casa</a>
+                          <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Terrenos en Venta')]) }}" class="list-group-item list-group-item-action border-0 p-0">Terreno / Lote</a>
+                          <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Oficinas en Venta')]) }}" class="list-group-item list-group-item-action border-0 p-0">Oficina</a>
+                          <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Locales en Venta')]) }}" class="list-group-item list-group-item-action border-0 p-0">Local Comercial</a>
                         </div>
                       </div>
                     </div>
@@ -336,15 +336,15 @@
                     <div class="accordion-body py-2">
                       <!-- Componentes Alquiler Provincia -->
                       <div class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action border-0 p-0">Lima</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 p-0">Piura</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 p-0">Callao</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 p-0">Ica</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 p-0">La Libertad</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 p-0">Arequipa</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 p-0">Cusco</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 p-0">Tumbes</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 p-0">Junín</a>
+                        <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Lima')]) }}" class="list-group-item list-group-item-action border-0 p-0">Lima</a>
+                        <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Piura')]) }}" class="list-group-item list-group-item-action border-0 p-0">Piura</a>
+                        <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Callao')]) }}" class="list-group-item list-group-item-action border-0 p-0">Callao</a>
+                        <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Ica')]) }}" class="list-group-item list-group-item-action border-0 p-0">Ica</a>
+                        <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en La Libertad')]) }}" class="list-group-item list-group-item-action border-0 p-0">La Libertad</a>
+                        <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Arequipa')]) }}" class="list-group-item list-group-item-action border-0 p-0">Arequipa</a>
+                        <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Cusco')]) }}" class="list-group-item list-group-item-action border-0 p-0">Cusco</a>
+                        <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Tumbes')]) }}" class="list-group-item list-group-item-action border-0 p-0">Tumbes</a>
+                        <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Junín')]) }}" class="list-group-item list-group-item-action border-0 p-0">Junín</a>
                       </div>
                     </div>
                   </div>
@@ -363,11 +363,11 @@
                     <div class="accordion-body py-2">
                       <!-- Componentes Alquiler Tipo de propiedad -->
                       <div class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action border-0 p-0">Departamento</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 p-0">Casa</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 p-0">Terreno / Lote</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 p-0">Oficina</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 p-0">Local Comercial</a>
+                        <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Departamentos en Alquiler')]) }}" class="list-group-item list-group-item-action border-0 p-0">Departamento</a>
+                        <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Casas en Alquiler')]) }}" class="list-group-item list-group-item-action border-0 p-0">Casa</a>
+                        <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Terrenos en Alquiler')]) }}" class="list-group-item list-group-item-action border-0 p-0">Terreno / Lote</a>
+                        <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Oficinas en Alquiler')]) }}" class="list-group-item list-group-item-action border-0 p-0">Oficina</a>
+                        <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Locales en Alquiler')]) }}" class="list-group-item list-group-item-action border-0 p-0">Local Comercial</a>
                       </div>
                     </div>
                   </div>
@@ -423,15 +423,15 @@
                     <div class="accordion-body py-2">
                       <!-- Componentes remates Provincia -->
                       <div class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action border-0 p-0">Lima</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 p-0">Piura</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 p-0">Callao</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 p-0">Ica</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 p-0">La Libertad</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 p-0">Arequipa</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 p-0">Cusco</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 p-0">Tumbes</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 p-0">Junín</a>
+                        <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Lima')]) }}" class="list-group-item list-group-item-action border-0 p-0">Lima</a>
+                        <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Piura')]) }}" class="list-group-item list-group-item-action border-0 p-0">Piura</a>
+                        <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Callao')]) }}" class="list-group-item list-group-item-action border-0 p-0">Callao</a>
+                        <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Ica')]) }}" class="list-group-item list-group-item-action border-0 p-0">Ica</a>
+                        <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en La Libertad')]) }}" class="list-group-item list-group-item-action border-0 p-0">La Libertad</a>
+                        <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Arequipa')]) }}" class="list-group-item list-group-item-action border-0 p-0">Arequipa</a>
+                        <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Cusco')]) }}" class="list-group-item list-group-item-action border-0 p-0">Cusco</a>
+                        <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Tumbes')]) }}" class="list-group-item list-group-item-action border-0 p-0">Tumbes</a>
+                        <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Junín')]) }}" class="list-group-item list-group-item-action border-0 p-0">Junín</a>
                       </div>
                     </div>
                   </div>
@@ -450,11 +450,11 @@
                     <div class="accordion-body py-2">
                       <!-- Componentes remates Tipo de propiedad -->
                       <div class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action border-0 p-0">Departamento</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 p-0">Casa</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 p-0">Terreno / Lote</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 p-0">Oficina</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 p-0">Local Comercial</a>
+                        <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Departamentos en Remate')]) }}" class="list-group-item list-group-item-action border-0 p-0">Departamento</a>
+                        <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Casas en Remate')]) }}" class="list-group-item list-group-item-action border-0 p-0">Casa</a>
+                        <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Terrenos en Remate')]) }}" class="list-group-item list-group-item-action border-0 p-0">Terreno / Lote</a>
+                        <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Oficinas en Remate')]) }}" class="list-group-item list-group-item-action border-0 p-0">Oficina</a>
+                        <a href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Locales en Remate')]) }}" class="list-group-item list-group-item-action border-0 p-0">Local Comercial</a>
                       </div>
                     </div>
                   </div>

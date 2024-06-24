@@ -2,7 +2,7 @@
   <div class="row g-0 h-100">
 
     <div class="col-lg-4 h-100">
-      <a href="{{ $link }}" class="text-decoration-none text-reset">
+      <a href="{{ $link }}" target="_blank" class="text-decoration-none text-reset">
         <img src="{{ asset($image) }}" class="card-inmueble-image rounded" alt="imagen inmueble">
       </a>
     </div>
@@ -12,7 +12,7 @@
 
         {{-- Contenido Card Inmueble --}}
         <div class="card-inmueble-content p-3">
-          <a href="{{ $link }}" class="text-decoration-none text-reset">
+          <a href="{{ $link }}" target="_blank" class="text-decoration-none text-reset">
 
             <div class="h-100 d-flex flex-column justify-content-between">
               {{-- Titulo del inmueble --}}
@@ -27,11 +27,17 @@
               <div class="d-flex flex-column flex-lg-row-reverse justify-content-between align-items-lg-center">
                 {{-- Precion del inmueble --}}
                 <h2 class="fw-bolder">
-                  <span>S/. </span>
-                  <span> {{ number_format($price) }} </span>
+                  @if($price)
+                  <span>{{ $currency }}</span>
+                  <span>{{ number_format($price) }}</span>
+                  @endif
+                  @if($price && $price_dolar)
                   <span> - </span>
-                  <span>USD </span>
-                  <span> {{ number_format($price / $exchange, 0) }} </span>
+                  @endif
+                  @if($price_dolar)
+                  <span>{{ $currency_dolar }}</span>
+                  <span>{{ number_format($price_dolar) }}</span>
+                  @endif
                 </h2>
 
                 {{-- Caracteristicas del inmueble --}}

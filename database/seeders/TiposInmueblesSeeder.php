@@ -14,11 +14,11 @@ class TiposInmueblesSeeder extends Seeder
     public function run(): void
     {
         $tipos = [
-            ['tipo' => 'Casa', 'created_at' => now(), 'updated_at' => now()],
-            ['tipo' => 'Departamento', 'created_at' => now(), 'updated_at' => now()],
-            ['tipo' => 'Oficina', 'created_at' => now(), 'updated_at' => now()],
-            ['tipo' => 'Terreno', 'created_at' => now(), 'updated_at' => now()],
-            ['tipo' => 'Local', 'created_at' => now(), 'updated_at' => now()],
+            ['tipo' => 'Casa', 'plural' => 'Casas', 'slug' => 'casas', 'created_at' => now(), 'updated_at' => now()],
+            ['tipo' => 'Departamento', 'plural' => 'Departamentos', 'slug' => 'departamentos', 'created_at' => now(), 'updated_at' => now()],
+            ['tipo' => 'Oficina', 'plural' => 'Oficinas', 'slug' => 'oficinas', 'created_at' => now(), 'updated_at' => now()],
+            ['tipo' => 'Terreno', 'plural' => 'Terrenos', 'slug' => 'terrenos', 'created_at' => now(), 'updated_at' => now()],
+            ['tipo' => 'Local', 'plural' => 'Locales', 'slug' => 'locales', 'created_at' => now(), 'updated_at' => now()],
         ];
         DB::table('tipos_inmuebles')->insert($tipos);
     }

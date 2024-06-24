@@ -16,11 +16,11 @@
   <div class="row m-0 p-0">
 
     {{--  image --}}
-    <div class="signin-image d-none d-md-block col m-0 px-5"></div>
+    <div class="register-image d-none d-md-block col m-0 px-5"></div>
 
-    {{--  --}}
-    <div class="register-form col my-4 m-md-0 px-md-5">
-		<div class="register-form-content">
+    {{-- register --}}
+    <div class="register-form col py-4 m-md-0 px-md-5">
+      <div class="register-form-content p-4">
 
 			{{-- register title --}}
 			<div class="d-flex justify-content-between align-items-end mb-4">
@@ -29,11 +29,11 @@
 					<x-back-button></x-back-button>
 					<h1 class="h5 fw-bold m-0">Registro</h1>
 
-				</div>
-				<a href="/">
-					<img src="{{ asset('images/svg/logo_puja.svg') }}" class="signin-puja-logo" alt="Logo Pujainmobiliaria">
-				</a>
-			</div>
+          </div>
+          <a href="/">
+            <img src="{{ asset('images/svg/logo_puja.svg') }}" class="register-puja-logo" alt="Logo Pujainmobiliaria">
+          </a>
+        </div>
 
 			<form action="/store" method="POST">
 			@csrf

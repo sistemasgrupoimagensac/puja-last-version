@@ -11,7 +11,7 @@ class TipoInmueble extends Model
     use HasFactory;
 
     protected $table = "tipos_inmuebles";
-    protected $fillable = ['tipo', 'estado',];
+    protected $fillable = ['tipo', 'estado', 'plural', 'slug',];
 
     public function subTiposInmuebles(): HasMany
     {
