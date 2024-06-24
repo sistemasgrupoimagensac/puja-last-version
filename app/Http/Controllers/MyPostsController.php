@@ -7,6 +7,7 @@ use App\Models\Aviso;
 use App\Models\CaracteristicaInmueble;
 use App\Models\ExtraInmueble;
 use App\Models\ExtraInmueblesCaracteristicas;
+use App\Models\HistorialAvisos;
 use App\Models\ImagenInmueble;
 use App\Models\Inmueble;
 use App\Models\MultimediaInmueble;
@@ -148,12 +149,11 @@ class MyPostsController extends Controller
             "estado" => 1,
         ]);
 
-        /* $hist_aviso = Histo::updateOrCreate([
-            "inmueble_id" => $inmueble->id,
+        $hist_aviso = HistorialAvisos::updateOrCreate([
+            "aviso_id" => $aviso->id,
         ],[
-            "fecha_publicacion" => now(),
-            "estado" => 1,
-        ]); */
+            "estado_aviso_id" => 1,
+        ]);
         
         if ($request->principal) {
             $validator = Validator::make($request->all(), [
@@ -322,10 +322,13 @@ class MyPostsController extends Controller
                 foreach ($request->file('imagen') as $imagen) {
                     $imagenName = time() . '_' . uniqid() . '.' . $imagen->getClientOriginalExtension();
                     $imagen->move(public_path('images'), $imagenName);
+
+
+                    $imagenUrl = url('images/' . $imagenName);
         
                     $img_inmueble = ImagenInmueble::create([
                         'multimedia_inmueble_id' => $multi_inmueble_id,
-                        'imagen' => $imagenName,
+                        'imagen' => $imagenUrl,
                         "estado" => 1,
                     ]);
 
@@ -417,6 +420,12 @@ class MyPostsController extends Controller
                     ], 422);
                 }
             }
+
+            $hist_aviso = HistorialAvisos::updateOrCreate([
+                "aviso_id" => $aviso->id,
+            ],[
+                "estado_aviso_id" => 3,
+            ]);
         }
     }
 

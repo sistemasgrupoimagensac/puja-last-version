@@ -17,8 +17,8 @@
         <input type="hidden" name="principal" value="0">
         <input type="hidden" name="ubicacion" value="0">
         <input type="hidden" name="caracteristicas" value="0">
-        <input type="hidden" name="multimedia" value="0">
-        <input type="hidden" name="extras" value="1">
+        <input type="hidden" name="multimedia" value="1">
+        <input type="hidden" name="extras" value="0">
 
         <input type="number" name="tipo_operacion_id">
         <input type="number" name="tipo_inmueble_id">
