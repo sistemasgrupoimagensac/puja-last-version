@@ -281,11 +281,24 @@
             <h2>Multimedia</h2>
             <input type="hidden" name="multimedia" :value="step === 4 ? 1 : 0">
 
+            <!-- Input para la imagen principal -->
+            <div class="form-group">
+              <label for="imagen_principal" class="form-label">Imagen Principal</label>
+              <input type="file" id="imagen_principal" class="form-control" @change="handleFiles($event, 'imagen_principal')">
+              <!-- Mostrar miniatura de la imagen principal seleccionada -->
+              <div class="mt-3" x-show="imagen_principal">
+                  <h4>Miniatura de Imagen Principal</h4>
+                  <img :src="URL.createObjectURL(imagen_principal)" class="img-thumbnail" style="max-width: 200px;" alt="Imagen Principal">
+                  <!-- Botón para eliminar la imagen principal -->
+                  <button type="button" class="btn btn-danger btn-sm mt-2" @click="eliminarImagen('imagen_principal')">Eliminar</button>
+              </div>
+            </div>
+
+
             <!-- Input para seleccionar imágenes -->
             <div class="form-group">
               <label for="images" class="form-label">Seleccionar imágenes</label>
-              <input type="file" id="images" class="form-control" multiple
-                @change="handleFiles($event, 'fotos')">
+              <input type="file" id="images" class="form-control" multiple @change="handleFiles($event, 'fotos')">
               <!-- Mostrar miniaturas de las imágenes seleccionadas -->
               <div class="mt-3" x-show="fotos.length > 0">
                 <h4>Miniaturas</h4>
@@ -745,7 +758,7 @@
   <script>
     function avisoForm() {
         return {
-            step: {{ session('step', 1) }},
+            step: {{ session('step', 4) }},
             aviso_id: {{ session('aviso_id', 'null') }},
             tipo_operacion: '',
             tipo_inmueble: '',
@@ -754,6 +767,7 @@
             provincia: '',
             distrito: '',
             fotos: [],
+            imagen_principal: null,
             videos: '',
             planos: [],
             dormitorios: '',
@@ -808,6 +822,18 @@
                     formData.append('caracteristicas', 1);
                     formData.append('ubicacion', 0);
                 } else if (step === 4) {
+                    // this.fotos.forEach((foto, index) => {
+                    //     formData.append(`foto_${index}`, foto);
+                    // });
+                    // this.planos.forEach((plano, index) => {
+                    //     formData.append(`plano_${index}`, plano);
+                    // });
+                    // formData.append('videos', this.videos);
+                    // formData.append('multimedia', 1);
+                    // formData.append('caracteristicas', 0);
+                    if (this.imagen_principal) {
+                        formData.append('imagen_principal', this.imagen_principal);
+                    }
                     this.fotos.forEach((foto, index) => {
                         formData.append(`foto_${index}`, foto);
                     });
@@ -864,6 +890,8 @@
                     this.fotos.push(...files);
                 } else if (type === 'planos') {
                     this.planos.push(...files);
+                } else if (type === 'imagen_principal') {
+                    this.imagen_principal = files[0];
                 }
             },
 
@@ -872,8 +900,11 @@
                     this.fotos.splice(index, 1);
                 } else if (type === 'planos') {
                     this.planos.splice(index, 1);
+                } else if (type === 'imagen_principal') {
+                    this.imagen_principal = null;
                 }
             },
+
 
             updateStepStatus() {
                 document.querySelector('input[name="operacion"]').value = this.step === 1 ? 1 : 0;
