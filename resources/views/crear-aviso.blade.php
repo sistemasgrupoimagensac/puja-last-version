@@ -110,16 +110,16 @@
             <div class="form-floating">
               <select x-model="provincia" class="form-select" id="provincia" required>
                 <option selected>Seleccione Provincia</option>
-                <option value="1">Lima</option>
-                <option value="2">Barranca</option>
-                <option value="3">Cajatambo</option>
-                <option value="4">Canta</option>
-                <option value="5">Cañete</option>
-                <option value="6">Huaral</option>
-                <option value="7">Huarochiri</option>
-                <option value="8">Huaura</option>
-                <option value="9">Oyón</option>
-                <option value="10">Yauyos</option>
+                <option value="101">Lima</option>
+                <option value="102">Barranca</option>
+                <option value="103">Cajatambo</option>
+                <option value="104">Canta</option>
+                <option value="105">Cañete</option>
+                <option value="106">Huaral</option>
+                <option value="107">Huarochiri</option>
+                <option value="108">Huaura</option>
+                <option value="109">Oyón</option>
+                <option value="110">Yauyos</option>
               </select>
               <label for="provincia">Provincia</label>
             </div>
@@ -127,17 +127,17 @@
             <div class="form-floating">
               <select x-model="distrito" class="form-select" id="distrito" required>
                 <option selected>Seleccione Distrito</option>
-                <option value="1">Ancón</option>
-                <option value="2">Ate</option>
-                <option value="3">Barranco</option>
-                <option value="4">Breña</option>
-                <option value="5">Carabayllo</option>
-                <option value="6">Chaclacayo</option>
-                <option value="7">Chorrillos</option>
-                <option value="8">Cieneguilla</option>
-                <option value="9">Comas</option>
-                <option value="10">El Agustino</option>
-                <option value="11">Independencia</option>
+                <option value="10101">Ancón</option>
+                <option value="10102">Ate</option>
+                <option value="10103">Barranco</option>
+                <option value="10104">Breña</option>
+                <option value="10105">Carabayllo</option>
+                <option value="10106">Chaclacayo</option>
+                <option value="10107">Chorrillos</option>
+                <option value="10108">Cieneguilla</option>
+                <option value="10109">Comas</option>
+                <option value="10110">El Agustino</option>
+                <option value="10111">Independencia</option>
               </select>
               <label for="distrito">Distrito</label>
             </div>
@@ -770,6 +770,7 @@
             departamento: '',
             provincia: '',
             distrito: '',
+            imagen_principal: '',
             fotos: [],
                 /* handleFiles(event) {
                     this.fotos = Array.from(event.target.files);
@@ -834,6 +835,7 @@
                     formData.append('caracteristicas', 1);
                     formData.append('ubicacion', 0);
                 } else if (step === 4) {
+                    formData.append('imagen_principal', this.imagen_principal);
                     /* this.fotos.forEach((foto, index) => {
                         formData.append(`foto_${index}`, foto);
                     });

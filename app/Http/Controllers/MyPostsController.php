@@ -106,7 +106,7 @@ class MyPostsController extends Controller
     }
 
     public function create (){
-        return view('avisos.create');
+        return view('crear-aviso');
     }
     
     public function store (Request $request){
@@ -131,7 +131,7 @@ class MyPostsController extends Controller
         }
 
         $inmueble = Inmueble::updateOrCreate([
-            "codigo_unico" => "2",
+            "codigo_unico" => "1",
             "user_id" => $user_id,
             ],[
             "estado" => 1,
@@ -432,7 +432,7 @@ class MyPostsController extends Controller
 
             $hist_aviso = HistorialAvisos::updateOrCreate([
                 "aviso_id" => $aviso->id,
-            ],[
+                ],[
                 "estado_aviso_id" => 3,
             ]);
         }
