@@ -37,6 +37,7 @@
           <form @submit.prevent="nextStep(1)" class="d-flex flex-column gap-4 my-5">
             @csrf
             <h2>Operación y tipo de inmueble</h2>
+            <input type="hidden" name="operacion" :value="step === 1 ? 1 : 0">
 
             <div class="d-flex flex-column">
               <label class="text-secondary">Tipo de operación</label>
@@ -82,6 +83,8 @@
           <form @submit.prevent="nextStep(2)" class="d-flex flex-column gap-4 my-5">
             @csrf
             <h2>Ubicación</h2>
+            <input type="hidden" name="ubicacion" :value="step === 2 ? 1 : 0">
+
             <div class="form-group">
               <label class="text-secondary">Dirección</label>
               <input type="text" x-model="direccion" class="form-control" placeholder="Dirección" required>
@@ -111,6 +114,7 @@
           <form @submit.prevent="nextStep(3)" class="d-flex flex-column gap-4 my-5">
             @csrf
             <h2>Características</h2>
+            <input type="hidden" name="caracteristicas" :value="step === 3 ? 1 : 0">
 
             <fieldset>
               <legend>Características Principales</legend>
@@ -118,28 +122,24 @@
               <div class="d-flex justify-content-between gap-4">
                 <div class="form-group w-100">
                   <label class="text-secondary" for="dormitorios">Dormitorios</label>
-                  <input type="number" id="dormitorios" x-model="dormitorios" min="0" max="99"
-                    class="form-control" required>
+                  <input type="number" id="dormitorios" x-model="dormitorios" min="0" max="99" class="form-control">
                 </div>
 
                 <div class="form-group w-100">
                   <label class="text-secondary" for="banios">Baños</label>
-                  <input type="number" id="banios" x-model="banios" min="0" max="99"
-                    class="form-control" required>
+                  <input type="number" id="banios" x-model="banios" min="0" max="99" class="form-control">
                 </div>
               </div>
 
               <div class="d-flex justify-content-between gap-4 mt-3">
                 <div class="form-group w-100">
                   <label class="text-secondary" for="medio_banios">Medio Baño</label>
-                  <input type="number" id="medio_banios" x-model="medio_banios" min="0" max="99"
-                    class="form-control" required>
+                  <input type="number" id="medio_banios" x-model="medio_banios" min="0" max="99" class="form-control">
                 </div>
 
                 <div class="form-group w-100">
                   <label class="text-secondary" for="estacionamiento">Estacionamientos</label>
-                  <input type="number" id="estacionamiento" x-model="estacionamiento" min="0" max="99"
-                    class="form-control" required>
+                  <input type="number" id="estacionamiento" x-model="estacionamiento" min="0" max="99" class="form-control">
                 </div>
               </div>
             </fieldset>
@@ -243,6 +243,7 @@
           <form @submit.prevent="nextStep(4)" enctype="multipart/form-data" class="d-flex flex-column gap-4 my-5">
             @csrf
             <h2>Multimedia</h2>
+            <input type="hidden" name="multimedia" :value="step === 4 ? 1 : 0">
 
             <!-- Input para seleccionar imágenes -->
             <div class="form-group">
@@ -294,6 +295,7 @@
 
             <div class="mt-4">
               <h2>Adicionales</h2>
+              <input type="hidden" name="adicionales" :value="step === 5 ? 1 : 0">
 
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="add_01" value="add_01" id="add_01">
@@ -560,7 +562,7 @@
             <div class="mt-4">
 
               <h2>Comodidades</h2>
-
+              <input type="hidden" name="comodidades" :value="step === 6 ? 1 : 0">
 
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="comf_01" value="comf_01" id="comf_01">
@@ -706,127 +708,147 @@
   {{-- SCRIPTS --}}
   <script>
     function avisoForm() {
-      return {
-        step: {{ session('step', 1) }},
-        aviso_id: {{ session('aviso_id', 'null') }},
-        tipo_operacion: '',
-        tipo_inmueble: '',
-        direccion: '',
-        departamento: '',
-        provincia: '',
-        distrito: '',
-        fotos: [],
-        videos: '',
-        planos: [],
-        dormitorios: '',
-        banios: '',
-        medio_banios: '',
-        estacionamiento: '',
-        area_construida: '',
-        area_total: '',
-        antiguedad: '',
-        anios_antiguedad: '',
-        precio_soles: '',
-        precio_dolares: '',
-        acceso_playa: false,
-        aire_acondicionado: false,
-        acceso_parque: false,
-        ascensores: false,
+        return {
+            step: {{ session('step', 1) }},
+            aviso_id: {{ session('aviso_id', 'null') }},
+            tipo_operacion: '',
+            tipo_inmueble: '',
+            direccion: '',
+            departamento: '',
+            provincia: '',
+            distrito: '',
+            fotos: [],
+            videos: '',
+            planos: [],
+            dormitorios: '',
+            banios: '',
+            medio_banios: '',
+            estacionamiento: '',
+            area_construida: '',
+            area_total: '',
+            antiguedad: '',
+            anios_antiguedad: '',
+            precio_soles: '',
+            precio_dolares: '',
+            acceso_playa: false,
+            aire_acondicionado: false,
+            acceso_parque: false,
+            ascensores: false,
 
-        nextStep(step) {
-          const stepMap = {
-            1: '/guardar-aviso/paso1',
-            2: `/guardar-aviso/paso2/${this.aviso_id}`,
-            3: `/guardar-aviso/paso3/${this.aviso_id}`,
-            4: `/guardar-aviso/paso4/${this.aviso_id}`,
-            5: `/guardar-aviso/paso5/${this.aviso_id}`,
-            6: `/guardar-aviso/paso6/${this.aviso_id}`,
-          };
+            nextStep(step) {
+                const stepMap = {
+                    1: '/guardar-aviso/paso1',
+                    2: `/guardar-aviso/paso2/${this.aviso_id}`,
+                    3: `/guardar-aviso/paso3/${this.aviso_id}`,
+                    4: `/guardar-aviso/paso4/${this.aviso_id}`,
+                    5: `/guardar-aviso/paso5/${this.aviso_id}`,
+                    6: `/guardar-aviso/paso6/${this.aviso_id}`,
+                };
 
-          const formData = new FormData();
+                const formData = new FormData();
 
-          if (step === 1) {
-            formData.append('tipo_operacion', this.tipo_operacion);
-            formData.append('tipo_inmueble', this.tipo_inmueble);
-          } else if (step === 2) {
-            formData.append('direccion', this.direccion);
-            formData.append('departamento', this.departamento);
-            formData.append('provincia', this.provincia);
-            formData.append('distrito', this.distrito);
-          } else if (step === 3) {
-            formData.append('dormitorios', this.dormitorios);
-            formData.append('banios', this.banios);
-            formData.append('medio_banios', this.medio_banios);
-            formData.append('estacionamiento', this.estacionamiento);
-            formData.append('area_construida', this.area_construida);
-            formData.append('area_total', this.area_total);
-            formData.append('antiguedad', this.antiguedad);
-            formData.append('anios_antiguedad', this.anios_antiguedad);
-            formData.append('precio_soles', this.precio_soles);
-            formData.append('precio_dolares', this.precio_dolares);
-          } else if (step === 4) {
-            this.fotos.forEach((foto, index) => {
-              formData.append(`foto_${index}`, foto);
-            });
-            this.planos.forEach((plano, index) => {
-              formData.append(`plano_${index}`, plano);
-            });
-            formData.append('videos', this.videos);
-          } else if (step === 5) {
-            document.querySelectorAll('input[name^="add_"]:checked').forEach((checkbox) => {
-              formData.append('adicionales[]', checkbox.value);
-            });
-          } else if (step === 6) {
-            document.querySelectorAll('input[name^="comf_"]:checked').forEach((checkbox) => {
-              formData.append('comodidades[]', checkbox.value);
-            });
-          }
+                if (step === 1) {
+                    formData.append('tipo_operacion', this.tipo_operacion);
+                    formData.append('tipo_inmueble', this.tipo_inmueble);
+                    formData.append('operacion', 1);
+                } else if (step === 2) {
+                    formData.append('direccion', this.direccion);
+                    formData.append('departamento', this.departamento);
+                    formData.append('provincia', this.provincia);
+                    formData.append('distrito', this.distrito);
+                    formData.append('ubicacion', 1);
+                    formData.append('operacion', 0);
+                } else if (step === 3) {
+                    formData.append('dormitorios', this.dormitorios);
+                    formData.append('banios', this.banios);
+                    formData.append('medio_banios', this.medio_banios);
+                    formData.append('estacionamiento', this.estacionamiento);
+                    formData.append('area_construida', this.area_construida);
+                    formData.append('area_total', this.area_total);
+                    formData.append('antiguedad', this.antiguedad);
+                    formData.append('anios_antiguedad', this.anios_antiguedad);
+                    formData.append('precio_soles', this.precio_soles);
+                    formData.append('precio_dolares', this.precio_dolares);
+                    formData.append('caracteristicas', 1);
+                    formData.append('ubicacion', 0);
+                } else if (step === 4) {
+                    this.fotos.forEach((foto, index) => {
+                        formData.append(`foto_${index}`, foto);
+                    });
+                    this.planos.forEach((plano, index) => {
+                        formData.append(`plano_${index}`, plano);
+                    });
+                    formData.append('videos', this.videos);
+                    formData.append('multimedia', 1);
+                    formData.append('caracteristicas', 0);
+                } else if (step === 5) {
+                    document.querySelectorAll('input[name^="add_"]:checked').forEach((checkbox) => {
+                        formData.append('adicionales[]', checkbox.value);
+                    });
+                    formData.append('adicionales', 1);
+                    formData.append('multimedia', 0);
+                } else if (step === 6) {
+                    document.querySelectorAll('input[name^="comf_"]:checked').forEach((checkbox) => {
+                        formData.append('comodidades[]', checkbox.value);
+                    });
+                    formData.append('comodidades', 1);
+                    formData.append('adicionales', 0);
+                }
 
-          fetch(stepMap[step], {
-              method: 'POST',
-              body: formData,
-              headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-              }
-            })
-            .then(response => response.json())
-            .then(data => {
-              if (step === 1) {
-                this.aviso_id = data.id;
-              } else if (step === 6) {
-                // Redirigir a la página de "mis-avisos"
-                window.location.href = data.redirect;
-              }
-              this.step++;
+                fetch(stepMap[step], {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (step === 1) {
+                        this.aviso_id = data.id;
+                    } else if (step === 6) {
+                        // Redirigir a la página de "mis-avisos"
+                        window.location.href = data.redirect;
+                    }
+                    this.step++;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            },
 
-            })
+            prevStep() {
+                this.step--;
+                this.updateStepStatus();
+            },
 
-            .catch(error => {
-              console.error('Error:', error);
-            });
-        },
+            handleFiles(event, type) {
+                const files = event.target.files;
+                if (type === 'fotos') {
+                    this.fotos.push(...files);
+                } else if (type === 'planos') {
+                    this.planos.push(...files);
+                }
+            },
 
-        prevStep() {
-          this.step--;
-        },
+            eliminarImagen(type, index) {
+                if (type === 'fotos') {
+                    this.fotos.splice(index, 1);
+                } else if (type === 'planos') {
+                    this.planos.splice(index, 1);
+                }
+            },
 
-        handleFiles(event, type) {
-          const files = event.target.files;
-          if (type === 'fotos') {
-            this.fotos.push(...files);
-          } else if (type === 'planos') {
-            this.planos.push(...files);
-          }
-        },
-
-        eliminarImagen(type, index) {
-          if (type === 'fotos') {
-            this.fotos.splice(index, 1);
-          } else if (type === 'planos') {
-            this.planos.splice(index, 1);
-          }
-        }
-      };
+            updateStepStatus() {
+                document.querySelector('input[name="operacion"]').value = this.step === 1 ? 1 : 0;
+                document.querySelector('input[name="ubicacion"]').value = this.step === 2 ? 1 : 0;
+                document.querySelector('input[name="caracteristicas"]').value = this.step === 3 ? 1 : 0;
+                document.querySelector('input[name="multimedia"]').value = this.step === 4 ? 1 : 0;
+                document.querySelector('input[name="adicionales"]').value = this.step === 5 ? 1 : 0;
+                document.querySelector('input[name="comodidades"]').value = this.step === 6 ? 1 : 0;
+            }
+        };
     }
-  </script>
+</script>
+
 @endsection
