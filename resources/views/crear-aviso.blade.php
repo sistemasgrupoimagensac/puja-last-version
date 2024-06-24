@@ -758,7 +758,7 @@
   <script>
     function avisoForm() {
         return {
-            step: {{ session('step', 4) }},
+            step: {{ session('step', 1) }},
             aviso_id: {{ session('aviso_id', 'null') }},
             tipo_operacion: '',
             tipo_inmueble: '',
@@ -822,15 +822,6 @@
                     formData.append('caracteristicas', 1);
                     formData.append('ubicacion', 0);
                 } else if (step === 4) {
-                    // this.fotos.forEach((foto, index) => {
-                    //     formData.append(`foto_${index}`, foto);
-                    // });
-                    // this.planos.forEach((plano, index) => {
-                    //     formData.append(`plano_${index}`, plano);
-                    // });
-                    // formData.append('videos', this.videos);
-                    // formData.append('multimedia', 1);
-                    // formData.append('caracteristicas', 0);
                     if (this.imagen_principal) {
                         formData.append('imagen_principal', this.imagen_principal);
                     }
