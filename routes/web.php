@@ -47,11 +47,13 @@ Route::prefix('/inmueble')->name('inmueble.')->group(function() {
     Route::get('/{inmueble}', App\Http\Controllers\Web\Puja\InmuebleController::class)->name('single');
 });
 
-Route::prefix('/panel')->name('panel.')->group(function() {
-    Route::get('/', fn() => redirect()->route('panel.mis-avisos'));
-    Route::get('/avisos', App\Http\Controllers\Web\Panel\MisAvisosController::class)->name('mis-avisos');
-    Route::get('/perfil', App\Http\Controllers\Web\Panel\PerfilController::class)->name('perfil');
-    Route::get('/password', App\Http\Controllers\Web\Panel\PasswordController::class)->name('password');
+Route::middleware(['auth'])->group(function() {
+    Route::prefix('/panel')->name('panel.')->group(function() {
+        Route::get('/', fn() => redirect()->route('panel.mis-avisos'));
+        Route::get('/avisos', App\Http\Controllers\Web\Panel\MisAvisosController::class)->name('mis-avisos');
+        Route::get('/perfil', App\Http\Controllers\Web\Panel\PerfilController::class)->name('perfil');
+        Route::get('/password', App\Http\Controllers\Web\Panel\PasswordController::class)->name('password');
+    });
 });
 
 // hasta aqui
