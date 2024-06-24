@@ -81,6 +81,11 @@ class Inmueble extends Model
         return optional(optional($this->principal)->caracteristicas)->precio_dolares;
     }
 
+    public function tituloReal()
+    {
+        return optional(optional($this->principal)->caracteristicas)->titulo;
+    }
+
     public function address()
     {
         return optional(optional($this->principal)->ubicacion)->direccion;

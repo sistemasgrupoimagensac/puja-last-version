@@ -14,6 +14,7 @@ export default defineConfig({
                 'resources/sass/pages/register.scss',
                 'resources/sass/pages/signin.scss',
                 'resources/sass/pages/crear-aviso.scss',
+                'resources/sass/pages/perfil.scss',
                 // sass - components
                 'resources/sass/components/whatsapp_modal_contact.scss',
                 'resources/sass/components/whatsapp_modal_inmueble_contact.scss',
@@ -27,6 +28,7 @@ export default defineConfig({
                 'resources/js/scripts/inmueble.js',
                 'resources/js/scripts/inmuebles.js',
                 'resources/js/scripts/register.js',
+                'resources/js/scripts/perfil.js',
                 // js - scripts - components
                 'resources/js/scripts/components/back_button.js',
                 'resources/js/scripts/components/card_simple.js',
