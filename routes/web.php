@@ -36,19 +36,6 @@ Route::get('/google-auth/callback', function () {
     }
 });
 
-// Route::prefix('/inmuebles')->group(function() {
-//     /* Route::get('/{operacion}', App\Http\Controllers\Web\Puja\InmueblesController::class)->name('busqueda_inmuebles');
-//     Route::prefix('/inmuebles')->controller(App\Http\Controllers\Web\Puja\InmueblesController::class)->group(function() { */
-//     Route::get('/{operacion}', 'busquedaInmuebles')->name('busqueda_inmuebles');
-//     Route::get('/filter/search', 'filterSearch')->name('filter_search');
-// });
-// // });
-
-Route::prefix('/inmuebles')->controller(App\Http\Controllers\Web\Puja\InmueblesController::class)->group(function() {
-    Route::get('/{operacion}', 'busquedaInmuebles')->name('busqueda_inmuebles');
-    Route::get('/filter/search', 'filterSearch')->name('filter_search');
-});
-
 Route::prefix('/inmuebles')->controller(App\Http\Controllers\Web\Puja\InmueblesController::class)->group(function() {
     Route::get('/{operacion}', 'busquedaInmuebles')->name('busqueda_inmuebles');
     Route::get('/filter/search', 'filterSearch')->name('filter_search');
@@ -58,9 +45,13 @@ Route::prefix('/inmueble')->name('inmueble.')->group(function() {
     Route::get('/{inmueble}', App\Http\Controllers\Web\Puja\InmuebleController::class)->name('single');
 });
 
-Route::prefix('/panel')->name('panel.')->group(function() {
-    Route::get('/', fn() => redirect()->route('panel.mis-avisos'));
-    Route::get('/avisos', App\Http\Controllers\Web\Panel\MisAvisosController::class)->name('mis-avisos');
+Route::middleware(['auth'])->group(function() {
+    Route::prefix('/panel')->name('panel.')->group(function() {
+        Route::get('/', fn() => redirect()->route('panel.mis-avisos'));
+        Route::get('/avisos', App\Http\Controllers\Web\Panel\MisAvisosController::class)->name('mis-avisos');
+        Route::get('/perfil', App\Http\Controllers\Web\Panel\PerfilController::class)->name('perfil');
+        Route::get('/password', App\Http\Controllers\Web\Panel\PasswordController::class)->name('password');
+    });
 });
 
 // hasta aqui

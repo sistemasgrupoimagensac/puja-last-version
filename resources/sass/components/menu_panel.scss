@@ -10,11 +10,9 @@
 
 #menu-container {
     a {
-        span {
-            color: $gray-600;
-        }
+        color: $gray-600;
 
-        &.active span{
+        &.active{
             color: $orange;
         }
     }
