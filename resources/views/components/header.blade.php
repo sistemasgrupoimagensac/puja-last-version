@@ -185,9 +185,13 @@
               </li>
   
             </ul>
-            <a class="button-clear btn mx-1" href="/publica-tu-inmueble">Publica Aquí</a>
+            @auth
+              <a href="{{ route("posts.create") }}" class="button-clear aside-menu btn mx-4">Publica Aquí</a>
+            @else
+              <a class="button-clear btn mx-1" href="/publica-tu-inmueble">Publica Aquí</a>
+            @endauth
             @guest
-                <a class="button-orange btn mx-1" href="{{ route('sign-in') }}">Iniciar Sesión</a>
+                <a class="button-orange btn mx-1" href="{{ route("sign-in", ['profile_type' => "owner"]) }}">Iniciar Sesión</a>
             @endguest
             @auth
               <a class="button-orange btn mx-1" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar sesion</a>

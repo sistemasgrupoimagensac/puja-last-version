@@ -111,6 +111,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('extra_inmueble_id')->constrained(table: 'extras_inmuebles');
             $table->foreignId('caracteristica_extra_id')->constrained(table: 'caracteristicas_extra');
+            $table->boolean('estado')->default(1);
             $table->timestamps();
         });
     }
