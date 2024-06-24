@@ -27,19 +27,20 @@ return new class extends Migration
 
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tipo_usuario_id')->constrained(table: 'tipos_usuario');
+            $table->foreignId('tipo_usuario_id')->default(1)->constrained(table: 'tipos_usuario');
             $table->string('codigo_unico', 200)->unique()->nullable();
             $table->string('nombres', 200);
-            $table->string('apellidos', 200);
+            $table->string('apellidos', 200)->nullable();
             $table->string('email', 150);
-            $table->string('password');
+            $table->string('password')->nullable();
+            $table->string('google_id')->nullable();
             $table->foreignId('tipo_documento_id')->nullable()->constrained(table: 'tipos_documento');
             $table->string('numero_documento', 50)->nullable();
             $table->string('celular', 15)->nullable();
             $table->string('imagen', 250)->nullable();
             $table->smallInteger('estado')->default(1);
-            $table->boolean('acepta_termino_condiciones');
-            $table->boolean('acepta_confidencialidad');
+            $table->boolean('acepta_termino_condiciones')->default(1);
+            $table->boolean('acepta_confidencialidad')->default(1);
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
@@ -66,9 +67,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('users');
         Schema::dropIfExists('tipos_documento');
         Schema::dropIfExists('tipos_usuario');
-        Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
     }

@@ -20,6 +20,7 @@ class User extends Authenticatable
         'apellidos',
         'email',
         'password',
+        'google_id',
         'tipo_documento_id',
         'numero_documento',
         'celular',

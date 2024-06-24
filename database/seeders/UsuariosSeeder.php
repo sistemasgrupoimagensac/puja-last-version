@@ -15,7 +15,7 @@ class UsuariosSeeder extends Seeder
     public function run(): void
     {
         $user_1 = [
-            'tipo_usuario_id'   => 1,
+            'tipo_usuario_id'   => 2,
             'codigo_unico'      => 'PUJA-001-001-001',
             'nombres'           => 'Alejandro',
             'apellidos'         => 'Rafael Chavez',
@@ -30,7 +30,7 @@ class UsuariosSeeder extends Seeder
         ];
 
         $user_2 = [
-            'tipo_usuario_id'   => 1,
+            'tipo_usuario_id'   => 2,
             'codigo_unico'      => 'PUJA-001-001-002',
             'nombres'           => 'Osquitar',
             'apellidos'         => 'Echegaray',

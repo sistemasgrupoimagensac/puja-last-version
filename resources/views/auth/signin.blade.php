@@ -34,9 +34,9 @@
             <img src="{{ asset('images/svg/logo_puja.svg') }}" class="signin-puja-logo" alt="Logo Pujainmobiliaria">
           </a>
         </div>
-        
-        {{-- signin form --}}
-        <form action="#" class="my-3">
+  
+  
+        <form method="POST" action="{{ route('login') }}">
           @csrf
 
           <div class="d-flex flex-column gap-3 input-group-lg">
@@ -61,6 +61,9 @@
           </div>
 
         </form>
+        {{-- <input class="btn button-orange w-100" type="submit" value="Ingresar"> --}}
+        {{-- <a class="btn button-orange w-100 mt-2" href="/google-auth/redirect">Inicia Sesion con Google</a> --}}
+
 
         <div class="w-100 text-center">
           <a href="/recuperar-password" class="signin-recuperar-password">¿Has olvidado tu contraseña?</a>
@@ -73,7 +76,7 @@
         </div>
 
         <div class="w-100 text-center">
-          <a href="#" class="">
+          <a href="/google-auth/redirect" class="">
             <img src="{{ asset('images/google.png') }}" class="sigin-logo-google" alt="Logo log Google">
           </a>
         </div>
