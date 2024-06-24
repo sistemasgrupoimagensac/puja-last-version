@@ -131,7 +131,7 @@ class MyPostsController extends Controller
         }
 
         $inmueble = Inmueble::updateOrCreate([
-            "codigo_unico" => "1",
+            "codigo_unico" => "2",
             "user_id" => $user_id,
             ],[
             "estado" => 1,
@@ -144,21 +144,21 @@ class MyPostsController extends Controller
 
         $aviso = Aviso::updateOrCreate([
             "inmueble_id" => $inmueble->id,
-        ],[
+            ],[
             "fecha_publicacion" => now(),
             "estado" => 1,
         ]);
 
         $hist_aviso = HistorialAvisos::updateOrCreate([
             "aviso_id" => $aviso->id,
-        ],[
+            ],[
             "estado_aviso_id" => 1,
         ]);
         
         if ($request->principal) {
             $validator = Validator::make($request->all(), [
                 'tipo_operacion_id' => 'required|integer|digits_between:1,3',
-                'tipo_inmueble_id' => 'required|integer|digits_between:1,3',
+                // 'tipo_inmueble_id' => 'required|integer|digits_between:1,3',
                 'subtipo_inmueble_id' => 'required|integer|digits_between:1,3',
             ]);
             if ($validator->fails()) {
@@ -168,21 +168,31 @@ class MyPostsController extends Controller
                 ], 422);
             }
 
+            $tipo_inmueble = 1;
+            if ( (int)$request->subtipo_inmueble_id >= 1 && (int)$request->subtipo_inmueble_id <= 5 ) {
+                //casa
+                $tipo_inmueble = 1;
+            } else if ( (int)$request->subtipo_inmueble_id >= 6 && (int)$request->subtipo_inmueble_id <= 11 ) {
+                //Depa
+                $tipo_inmueble = 2;
+            } else if ( (int)$request->subtipo_inmueble_id >= 12 && (int)$request->subtipo_inmueble_id <= 13 ) {
+                //Terreno
+                $tipo_inmueble = 3;
+            } else if ( (int)$request->subtipo_inmueble_id >= 14 && (int)$request->subtipo_inmueble_id <= 15 ) {
+                //Local
+                $tipo_inmueble = 4;
+            }
+
             $ope_tipo_inmueble = OperacionTipoInmueble::updateOrCreate([
                 "principal_inmueble_id" => $principal_inmueble->id,
-            ],[
+                ],[
                 "tipo_operacion_id" => $request->tipo_operacion_id,
-                "tipo_inmueble_id" => $request->tipo_inmueble_id,
+                "tipo_inmueble_id" => $tipo_inmueble,
                 "subtipo_inmueble_id" => $request->subtipo_inmueble_id,
                 "estado" => 1,
             ]);
 
-            if ($ope_tipo_inmueble) {
-                return response()->json([
-                    'message' => 'Registro correcto',
-                    'error' => false
-                ], 201);
-            } else {
+            if (!$ope_tipo_inmueble) {
                 return response()->json([
                     'message' => 'No se pudo guardar el registro operaciones',
                     'error' => true
@@ -193,9 +203,15 @@ class MyPostsController extends Controller
         if ($request->ubicacion) {
             $validator = Validator::make($request->all(), [
                 'direccion' => 'required|string|max:250',
-                'departamento_id' => 'required|integer|digits_between:1,3',
+
+                /* 'departamento_id' => 'required|integer|digits_between:1,3',
+                'provincia_id' => 'required|integer|digits_between:1,5',
+                'distrito_id' => 'required|integer|digits_between:1,7', */
+                
+                'departamento_id' => 'required|string|digits_between:1,3',
                 'provincia_id' => 'required|integer|digits_between:1,5',
                 'distrito_id' => 'required|integer|digits_between:1,7',
+
                 'latitud' => 'string|max:500',
                 'longitud' => 'string|max:500',
             ]);
@@ -218,12 +234,7 @@ class MyPostsController extends Controller
                 "estado" => 1,
             ]);
 
-            if ($ubi_inmueble) {
-                return response()->json([
-                    'message' => 'Registro correcto',
-                    'error' => false
-                ], 201);
-            } else {
+            if (!$ubi_inmueble) {
                 return response()->json([
                     'message' => 'No se pudo guardar el registro de ubicacion',
                     'error' => true
@@ -239,12 +250,12 @@ class MyPostsController extends Controller
                 'estacionamientos' => 'required|integer|digits_between:1,3',
                 'area_construida' => 'numeric',
                 'area_total' => 'numeric',
-                'antiguedad' => 'integer',
-                'anios_antiguedad' => 'integer',
+                'antiguedad' => 'string',
+                // 'anios_antiguedad' => 'integer',
                 'precio_soles' => 'numeric',
                 'precio_dolares' => 'numeric',
-                'titulo' => 'string|max:100',
-                'descripcion' => 'string|max:250',
+                // 'titulo' => 'string|max:100',
+                // 'descripcion' => 'string|max:250',
             ]);
             if ($validator->fails()) {
                 return response()->json([
@@ -263,20 +274,18 @@ class MyPostsController extends Controller
                 "area_construida" => $request->area_construida,
                 "area_total" => $request->area_total,
                 "antiguedad" => $request->antiguedad,
-                "anios_antiguedad" => $request->anios_antiguedad,
+                // "anios_antiguedad" => $request->anios_antiguedad,
+                "anios_antiguedad" => null,
                 "precio_soles" => $request->precio_soles,
                 "precio_dolares" => $request->precio_dolares,
-                "titulo" => $request->titulo,
-                "descripcion" => $request->descripcion,
+                // "titulo" => $request->titulo,
+                // "descripcion" => $request->descripcion,
+                "titulo" => null,
+                "descripcion" => null,
                 "estado" => 1,
             ]);
 
-            if ($carac_inmueble) {
-                return response()->json([
-                    'message' => 'Registro correcto',
-                    'error' => false
-                ], 201);
-            } else {
+            if (!$carac_inmueble) {
                 return response()->json([
                     'message' => 'No se pudo guardar el registro de caracteristicas',
                     'error' => true
@@ -427,6 +436,11 @@ class MyPostsController extends Controller
                 "estado_aviso_id" => 3,
             ]);
         }
+
+        return response()->json([
+            'message' => 'Registro exitos',
+            'error' => false
+        ], 201);
     }
 
 

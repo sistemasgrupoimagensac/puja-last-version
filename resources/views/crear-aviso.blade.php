@@ -43,15 +43,15 @@
               <label class="text-secondary">Tipo de operación</label>
               <div class="btn-group" role="group">
                 <input type="radio" class="btn-check" x-model="tipo_operacion" id="vender" autocomplete="off"
-                  value="vender" required>
+                  value="1" required>
                 <label class="btn btn-outline-secondary button-filter" for="vender">Vender</label>
 
                 <input type="radio" class="btn-check" x-model="tipo_operacion" id="alquilar" autocomplete="off"
-                  value="alquilar" required>
+                  value="2" required>
                 <label class="btn btn-outline-secondary button-filter" for="alquilar">Alquilar</label>
 
                 <input type="radio" class="btn-check" x-model="tipo_operacion" id="rematar" autocomplete="off"
-                  value="rematar" required>
+                  value="3" required>
                 <label class="btn btn-outline-secondary button-filter" for="rematar">Rematar</label>
               </div>
             </div>
@@ -59,17 +59,21 @@
             <div class="form-floating">
               <select x-model="tipo_inmueble" class="form-select" id="tipoinmueble" required>
                 <option selected></option>
-                <option value="departamento">Departamento</option>
-                <option value="departamento_penthouse">Penthouse</option>
-                <option value="casa_ciudad">Casa</option>
-                <option value="casa_campo">Casa de Campo</option>
-                <option value="casa_playa">Casa de Playa</option>
-                <option value="local_comercial">Local Comercial</option>
-                <option value="local_industrial">Local Industrial</option>
-                <option value="terreno">Terreno</option>
-                <option value="terreno_agricola">Terreno Agrícola</option>
-                <option value="terreno_industrial">Terreno Industrial</option>
-                <option value="terreno_comercial">Terreno Comercial</option>
+                <option value="1">Casa de playa</option>
+                <option value="2">Casa de campo</option>
+                <option value="3">Casa de ciudad</option>
+                <option value="4">Casa en condominio</option>
+                <option value="5">Casa en quinta</option>
+                <option value="6">Departamento de campo</option>
+                <option value="7">Departamento de ciudad</option>
+                <option value="8">Departamento de playa</option>
+                <option value="9">Departamento Loft</option>
+                <option value="10">Departamento PentHouse</option>
+                <option value="11">Minidepartamento</option>
+                <option value="12">Terreno lote</option>
+                <option value="13">Terreno agricola</option>
+                <option value="14">Local comercial</option>
+                <option value="15">Local industrial</option>
               </select>
               <label for="tipoinmueble">Tipo de inmueble</label>
             </div>
@@ -91,15 +95,15 @@
             </div>
             <div class="form-group">
               <label class="text-secondary">Departamento</label>
-              <input type="text" x-model="departamento" class="form-control" placeholder="Departamento" required>
+              <input type="number" x-model="departamento" class="form-control" placeholder="Departamento" value="1" >
             </div>
             <div class="form-group">
               <label class="text-secondary">Provincia</label>
-              <input type="text" x-model="provincia" class="form-control" placeholder="Provincia" required>
+              <input type="number" x-model="provincia" class="form-control" placeholder="Provincia" value="101" >
             </div>
             <div class="form-group">
               <label class="text-secondary">Distrito</label>
-              <input type="text" x-model="distrito" class="form-control" placeholder="Distrito" required>
+              <input type="number" x-model="distrito" class="form-control" placeholder="Distrito" value="10101" >
             </div>
 
             <div class="d-flex justify-content-between gap-2 w-100">
@@ -247,24 +251,23 @@
 
             <!-- Input para seleccionar imágenes -->
             <div class="form-group">
-              <label for="images" class="form-label">Seleccionar imágenes</label>
-              <input type="file" id="images" class="form-control" multiple
-                @change="handleFiles($event, 'fotos')">
-              <!-- Mostrar miniaturas de las imágenes seleccionadas -->
-              <div class="mt-3" x-show="fotos.length > 0">
-                <h4>Miniaturas</h4>
-                <div class="row">
-                  <template x-for="(foto, index) in fotos" :key="index">
-                    <div class="col-md-3 mb-3">
-                      <img :src="URL.createObjectURL(foto)" class="img-thumbnail" style="max-width: 100%;"
-                        :alt="'Imagen ' + (index + 1)">
-                      <!-- Botón para eliminar imagen -->
-                      <button type="button" class="btn btn-danger btn-sm mt-2"
-                        @click="eliminarImagen('fotos', index)">Eliminar</button>
+                <label for="images" class="form-label">Seleccionar imágenes</label>
+                <input type="file" id="images" class="form-control" multiple @change="handleFiles($event, 'fotos')">
+                <!-- Mostrar miniaturas de las imágenes seleccionadas -->
+                <div class="mt-3" x-show="fotos.length > 0">
+                    <h4>Miniaturas</h4>
+                    <div class="row">
+                        <template x-for="(foto, index) in fotos" :key="index">
+                            <div class="col-md-3 mb-3">
+                            <img :src="URL.createObjectURL(foto)" class="img-thumbnail" style="max-width: 100%;"
+                                :alt="'Imagen ' + (index + 1)">
+                            <!-- Botón para eliminar imagen -->
+                            <button type="button" class="btn btn-danger btn-sm mt-2"
+                                @click="eliminarImagen('fotos', index)">Eliminar</button>
+                            </div>
+                        </template>
                     </div>
-                  </template>
                 </div>
-              </div>
             </div>
 
             <!-- Input para videos -->
@@ -718,8 +721,14 @@
             provincia: '',
             distrito: '',
             fotos: [],
+                /* handleFiles(event) {
+                    this.fotos = Array.from(event.target.files);
+                }, */
             videos: '',
             planos: [],
+                /* handleFiles(event) {
+                    this.planos = Array.from(event.target.files);
+                }, */
             dormitorios: '',
             banios: '',
             medio_banios: '',
@@ -737,32 +746,35 @@
 
             nextStep(step) {
                 const stepMap = {
-                    1: '/guardar-aviso/paso1',
-                    2: `/guardar-aviso/paso2/${this.aviso_id}`,
-                    3: `/guardar-aviso/paso3/${this.aviso_id}`,
-                    4: `/guardar-aviso/paso4/${this.aviso_id}`,
-                    5: `/guardar-aviso/paso5/${this.aviso_id}`,
-                    6: `/guardar-aviso/paso6/${this.aviso_id}`,
+                    1: '/my-post/store',
+                    // 1: '/guardar-aviso/paso1',
+                    2: `/my-post/store`,
+                    3: `/my-post/store`,
+                    4: `/my-post/store`,
+                    5: `/my-post/store`,
+                    6: `/my-post/store`,
                 };
 
                 const formData = new FormData();
 
                 if (step === 1) {
-                    formData.append('tipo_operacion', this.tipo_operacion);
-                    formData.append('tipo_inmueble', this.tipo_inmueble);
-                    formData.append('operacion', 1);
+                    formData.append('tipo_operacion_id', this.tipo_operacion);
+                    formData.append('subtipo_inmueble_id', this.tipo_inmueble);
+                    formData.append('principal', 1);
                 } else if (step === 2) {
                     formData.append('direccion', this.direccion);
-                    formData.append('departamento', this.departamento);
-                    formData.append('provincia', this.provincia);
-                    formData.append('distrito', this.distrito);
+                    formData.append('departamento_id', this.departamento);
+                    formData.append('provincia_id', this.provincia);
+                    formData.append('distrito_id', this.distrito);
+                    formData.append('latitud', null);
+                    formData.append('longitud', null);
                     formData.append('ubicacion', 1);
-                    formData.append('operacion', 0);
+                    formData.append('principal', 0);
                 } else if (step === 3) {
-                    formData.append('dormitorios', this.dormitorios);
+                    formData.append('habitaciones', this.dormitorios);
                     formData.append('banios', this.banios);
                     formData.append('medio_banios', this.medio_banios);
-                    formData.append('estacionamiento', this.estacionamiento);
+                    formData.append('estacionamientos', this.estacionamiento);
                     formData.append('area_construida', this.area_construida);
                     formData.append('area_total', this.area_total);
                     formData.append('antiguedad', this.antiguedad);
@@ -772,13 +784,19 @@
                     formData.append('caracteristicas', 1);
                     formData.append('ubicacion', 0);
                 } else if (step === 4) {
-                    this.fotos.forEach((foto, index) => {
+                    /* this.fotos.forEach((foto, index) => {
                         formData.append(`foto_${index}`, foto);
                     });
                     this.planos.forEach((plano, index) => {
                         formData.append(`plano_${index}`, plano);
+                    }); */
+                    this.fotos.forEach((foto, index) => {
+                        formData.append("imagen[]", foto);
                     });
-                    formData.append('videos', this.videos);
+                    this.planos.forEach((plano, index) => {
+                        formData.append("planos[]", plano);
+                    });
+                    formData.append('video', this.videos);
                     formData.append('multimedia', 1);
                     formData.append('caracteristicas', 0);
                 } else if (step === 5) {

@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
+use App\Http\Controllers\AvisoController;
 
 Route::get('/', App\Http\Controllers\Web\Puja\MainController::class);
 
@@ -35,8 +36,19 @@ Route::get('/google-auth/callback', function () {
     }
 });
 
-Route::prefix('/inmuebles')->group(function() {
-    Route::get('/{operacion}', App\Http\Controllers\Web\Puja\InmueblesController::class)->name('busqueda_inmuebles');
+// Route::prefix('/inmuebles')->group(function() {
+//     /* Route::get('/{operacion}', App\Http\Controllers\Web\Puja\InmueblesController::class)->name('busqueda_inmuebles');
+//     Route::prefix('/inmuebles')->controller(App\Http\Controllers\Web\Puja\InmueblesController::class)->group(function() { */
+//     Route::get('/{operacion}', 'busquedaInmuebles')->name('busqueda_inmuebles');
+//     Route::get('/filter/search', 'filterSearch')->name('filter_search');
+// });
+// // });
+
+Route::prefix('/inmuebles')->controller(App\Http\Controllers\Web\Puja\InmueblesController::class)->group(function() {
+    Route::get('/{operacion}', 'busquedaInmuebles')->name('busqueda_inmuebles');
+    Route::get('/filter/search', 'filterSearch')->name('filter_search');
+});
+
 Route::prefix('/inmuebles')->controller(App\Http\Controllers\Web\Puja\InmueblesController::class)->group(function() {
     Route::get('/{operacion}', 'busquedaInmuebles')->name('busqueda_inmuebles');
     Route::get('/filter/search', 'filterSearch')->name('filter_search');
@@ -88,7 +100,6 @@ Route::get('/register', function() {
 
 
 // rutas de la creacion del aviso
-use App\Http\Controllers\AvisoController;
 
 Route::get('/crear-aviso', [AvisoController::class, 'create'])->name('avisos.create');
 Route::post('/guardar-aviso/paso1', [AvisoController::class, 'storePaso1'])->name('avisos.store.paso1');
