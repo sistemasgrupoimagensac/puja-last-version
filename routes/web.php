@@ -37,8 +37,8 @@ Route::get('/register', function() {
 });
 
 // Ruta para planes de pago
-Route::get('/register', function() {
-    return view('auth.register');
+Route::get('/planes-inmobiliaria', function() {
+    return view('planes');
 });
 
 
