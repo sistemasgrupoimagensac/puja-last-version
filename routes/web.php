@@ -9,7 +9,6 @@ use Laravel\Socialite\Facades\Socialite;
 
 Route::get('/', App\Http\Controllers\Web\Puja\MainController::class);
 
-<<<<<<< HEAD
 Route::get('/google-auth/redirect', function () {
     return Socialite::driver('google')
         ->with(['prompt' => 'select_account'])
@@ -38,11 +37,9 @@ Route::get('/google-auth/callback', function () {
 
 Route::prefix('/inmuebles')->group(function() {
     Route::get('/{operacion}', App\Http\Controllers\Web\Puja\InmueblesController::class)->name('busqueda_inmuebles');
-=======
 Route::prefix('/inmuebles')->controller(App\Http\Controllers\Web\Puja\InmueblesController::class)->group(function() {
     Route::get('/{operacion}', 'busquedaInmuebles')->name('busqueda_inmuebles');
     Route::get('/filter/search', 'filterSearch')->name('filter_search');
->>>>>>> main
 });
 
 Route::prefix('/inmueble')->name('inmueble.')->group(function() {
