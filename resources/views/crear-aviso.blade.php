@@ -85,21 +85,57 @@
             <h2>Ubicación</h2>
             <input type="hidden" name="ubicacion" :value="step === 2 ? 1 : 0">
 
-            <div class="form-group">
-              <label class="text-secondary">Dirección</label>
-              <input type="text" x-model="direccion" class="form-control" placeholder="Dirección" required>
+            <div class="form-floating">
+              <input type="text" id="direccion" x-model="direccion" class="form-control" placeholder="Dirección" required>
+              <label for="direccion">Dirección</label>
             </div>
-            <div class="form-group">
-              <label class="text-secondary">Departamento</label>
-              <input type="text" x-model="departamento" class="form-control" placeholder="Departamento" required>
+
+            <div class="form-floating">
+              <select x-model="departamento" class="form-select" id="departamento" required>
+                <option selected>Seleccione Departamento</option>
+                <option value="1">Lima</option>
+                <option value="2">Lima Provincias</option>
+                <option value="3">Trujillo</option>
+                <option value="4">Cusco</option>
+                <option value="5">Chiclayo</option>
+                <option value="6">Arequipa</option>
+              </select>
+              <label for="departamento">Departamento</label>
             </div>
-            <div class="form-group">
-              <label class="text-secondary">Provincia</label>
-              <input type="text" x-model="provincia" class="form-control" placeholder="Provincia" required>
+
+            <div class="form-floating">
+              <select x-model="provincia" class="form-select" id="provincia" required>
+                <option selected>Seleccione Provincia</option>
+                <option value="1">Lima</option>
+                <option value="2">Barranca</option>
+                <option value="3">Cajatambo</option>
+                <option value="4">Canta</option>
+                <option value="5">Cañete</option>
+                <option value="6">Huaral</option>
+                <option value="7">Huarochiri</option>
+                <option value="8">Huaura</option>
+                <option value="9">Oyón</option>
+                <option value="10">Yauyos</option>
+              </select>
+              <label for="provincia">Provincia</label>
             </div>
-            <div class="form-group">
-              <label class="text-secondary">Distrito</label>
-              <input type="text" x-model="distrito" class="form-control" placeholder="Distrito" required>
+
+            <div class="form-floating">
+              <select x-model="distrito" class="form-select" id="distrito" required>
+                <option selected>Seleccione Distrito</option>
+                <option value="1">Ancón</option>
+                <option value="2">Ate</option>
+                <option value="3">Barranco</option>
+                <option value="4">Breña</option>
+                <option value="5">Carabayllo</option>
+                <option value="6">Chaclacayo</option>
+                <option value="7">Chorrillos</option>
+                <option value="8">Cieneguilla</option>
+                <option value="9">Comas</option>
+                <option value="10">El Agustino</option>
+                <option value="11">Independencia</option>
+              </select>
+              <label for="distrito">Distrito</label>
             </div>
 
             <div class="d-flex justify-content-between gap-2 w-100">
