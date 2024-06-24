@@ -878,43 +878,43 @@
                       console.error('Error:', error)
                   })
                 }
-              },  
+            },  
 
-        prevStep() {
-            this.step--
-            this.updateStepStatus()
-        },
+            prevStep() {
+                this.step--
+                this.updateStepStatus()
+            },
 
-        handleFiles(event, type) {
-            const files = event.target.files
-            if (type === 'fotos') {
-                this.fotos.push(...files)
-            } else if (type === 'planos') {
-                this.planos.push(...files)
-            } else if (type === 'imagen_principal') {
-                this.imagen_principal = files[0]
+            handleFiles(event, type) {
+                const files = event.target.files
+                if (type === 'fotos') {
+                    this.fotos.push(...files)
+                } else if (type === 'planos') {
+                    this.planos.push(...files)
+                } else if (type === 'imagen_principal') {
+                    this.imagen_principal = files[0]
+                }
+            },
+
+            eliminarImagen(type, index) {
+                if (type === 'fotos') {
+                    this.fotos.splice(index, 1)
+                } else if (type === 'planos') {
+                    this.planos.splice(index, 1)
+                } else if (type === 'imagen_principal') {
+                    this.imagen_principal = null
+                }
+            },
+
+            updateStepStatus() {
+                document.querySelector('input[name="operacion"]').value = this.step === 1 ? 1 : 0
+                document.querySelector('input[name="ubicacion"]').value = this.step === 2 ? 1 : 0
+                document.querySelector('input[name="caracteristicas"]').value = this.step === 3 ? 1 : 0
+                document.querySelector('input[name="multimedia"]').value = this.step === 4 ? 1 : 0
+                document.querySelector('input[name="adicionales"]').value = this.step === 5 ? 1 : 0
+                document.querySelector('input[name="comodidades"]').value = this.step === 6 ? 1 : 0
             }
-        },
-
-        eliminarImagen(type, index) {
-            if (type === 'fotos') {
-                this.fotos.splice(index, 1)
-            } else if (type === 'planos') {
-                this.planos.splice(index, 1)
-            } else if (type === 'imagen_principal') {
-                this.imagen_principal = null
-            }
-        },
-
-        updateStepStatus() {
-            document.querySelector('input[name="operacion"]').value = this.step === 1 ? 1 : 0
-            document.querySelector('input[name="ubicacion"]').value = this.step === 2 ? 1 : 0
-            document.querySelector('input[name="caracteristicas"]').value = this.step === 3 ? 1 : 0
-            document.querySelector('input[name="multimedia"]').value = this.step === 4 ? 1 : 0
-            document.querySelector('input[name="adicionales"]').value = this.step === 5 ? 1 : 0
-            document.querySelector('input[name="comodidades"]').value = this.step === 6 ? 1 : 0
         }
-      }
     }
 </script>
 
