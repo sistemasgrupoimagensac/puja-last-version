@@ -43,15 +43,15 @@
               <label class="text-secondary">Tipo de operación</label>
               <div class="btn-group" role="group">
                 <input type="radio" class="btn-check" x-model="tipo_operacion" id="vender" autocomplete="off"
-                  value="1" required>
+                  value="vender" required>
                 <label class="btn btn-outline-secondary button-filter" for="vender">Vender</label>
 
                 <input type="radio" class="btn-check" x-model="tipo_operacion" id="alquilar" autocomplete="off"
-                  value="2" required>
+                  value="alquilar" required>
                 <label class="btn btn-outline-secondary button-filter" for="alquilar">Alquilar</label>
 
                 <input type="radio" class="btn-check" x-model="tipo_operacion" id="rematar" autocomplete="off"
-                  value="3" required>
+                  value="rematar" required>
                 <label class="btn btn-outline-secondary button-filter" for="rematar">Rematar</label>
               </div>
             </div>
@@ -59,21 +59,17 @@
             <div class="form-floating">
               <select x-model="tipo_inmueble" class="form-select" id="tipoinmueble" required>
                 <option selected></option>
-                <option value="1">Casa de playa</option>
-                <option value="2">Casa de campo</option>
-                <option value="3">Casa de ciudad</option>
-                <option value="4">Casa en condominio</option>
-                <option value="5">Casa en quinta</option>
-                <option value="6">Departamento de campo</option>
-                <option value="7">Departamento de ciudad</option>
-                <option value="8">Departamento de playa</option>
-                <option value="9">Departamento Loft</option>
-                <option value="10">Departamento PentHouse</option>
-                <option value="11">Minidepartamento</option>
-                <option value="12">Terreno lote</option>
-                <option value="13">Terreno agricola</option>
-                <option value="14">Local comercial</option>
-                <option value="15">Local industrial</option>
+                <option value="departamento">Departamento</option>
+                <option value="departamento_penthouse">Penthouse</option>
+                <option value="casa_ciudad">Casa</option>
+                <option value="casa_campo">Casa de Campo</option>
+                <option value="casa_playa">Casa de Playa</option>
+                <option value="local_comercial">Local Comercial</option>
+                <option value="local_industrial">Local Industrial</option>
+                <option value="terreno">Terreno</option>
+                <option value="terreno_agricola">Terreno Agrícola</option>
+                <option value="terreno_industrial">Terreno Industrial</option>
+                <option value="terreno_comercial">Terreno Comercial</option>
               </select>
               <label for="tipoinmueble">Tipo de inmueble</label>
             </div>
@@ -110,16 +106,16 @@
             <div class="form-floating">
               <select x-model="provincia" class="form-select" id="provincia" required>
                 <option selected>Seleccione Provincia</option>
-                <option value="101">Lima</option>
-                <option value="102">Barranca</option>
-                <option value="103">Cajatambo</option>
-                <option value="104">Canta</option>
-                <option value="105">Cañete</option>
-                <option value="106">Huaral</option>
-                <option value="107">Huarochiri</option>
-                <option value="108">Huaura</option>
-                <option value="109">Oyón</option>
-                <option value="110">Yauyos</option>
+                <option value="1">Lima</option>
+                <option value="2">Barranca</option>
+                <option value="3">Cajatambo</option>
+                <option value="4">Canta</option>
+                <option value="5">Cañete</option>
+                <option value="6">Huaral</option>
+                <option value="7">Huarochiri</option>
+                <option value="8">Huaura</option>
+                <option value="9">Oyón</option>
+                <option value="10">Yauyos</option>
               </select>
               <label for="provincia">Provincia</label>
             </div>
@@ -127,17 +123,17 @@
             <div class="form-floating">
               <select x-model="distrito" class="form-select" id="distrito" required>
                 <option selected>Seleccione Distrito</option>
-                <option value="10101">Ancón</option>
-                <option value="10102">Ate</option>
-                <option value="10103">Barranco</option>
-                <option value="10104">Breña</option>
-                <option value="10105">Carabayllo</option>
-                <option value="10106">Chaclacayo</option>
-                <option value="10107">Chorrillos</option>
-                <option value="10108">Cieneguilla</option>
-                <option value="10109">Comas</option>
-                <option value="10110">El Agustino</option>
-                <option value="10111">Independencia</option>
+                <option value="1">Ancón</option>
+                <option value="2">Ate</option>
+                <option value="3">Barranco</option>
+                <option value="4">Breña</option>
+                <option value="5">Carabayllo</option>
+                <option value="6">Chaclacayo</option>
+                <option value="7">Chorrillos</option>
+                <option value="8">Cieneguilla</option>
+                <option value="9">Comas</option>
+                <option value="10">El Agustino</option>
+                <option value="11">Independencia</option>
               </select>
               <label for="distrito">Distrito</label>
             </div>
@@ -301,23 +297,23 @@
 
             <!-- Input para seleccionar imágenes -->
             <div class="form-group">
-                <label for="images" class="form-label">Seleccionar imágenes</label>
-                <input type="file" id="images" class="form-control" multiple @change="handleFiles($event, 'fotos')">
-                <!-- Mostrar miniaturas de las imágenes seleccionadas -->
-                <div class="mt-3" x-show="fotos.length > 0">
-                    <h4>Miniaturas</h4>
-                    <div class="row">
-                        <template x-for="(foto, index) in fotos" :key="index">
-                            <div class="col-md-3 mb-3">
-                            <img :src="URL.createObjectURL(foto)" class="img-thumbnail" style="max-width: 100%;"
-                                :alt="'Imagen ' + (index + 1)">
-                            <!-- Botón para eliminar imagen -->
-                            <button type="button" class="btn btn-danger btn-sm mt-2"
-                                @click="eliminarImagen('fotos', index)">Eliminar</button>
-                            </div>
-                        </template>
+              <label for="images" class="form-label">Seleccionar imágenes</label>
+              <input type="file" id="images" class="form-control" multiple @change="handleFiles($event, 'fotos')">
+              <!-- Mostrar miniaturas de las imágenes seleccionadas -->
+              <div class="mt-3" x-show="fotos.length > 0">
+                <h4>Miniaturas</h4>
+                <div class="row">
+                  <template x-for="(foto, index) in fotos" :key="index">
+                    <div class="col-md-3 mb-3">
+                      <img :src="URL.createObjectURL(foto)" class="img-thumbnail" style="max-width: 100%"
+                        :alt="'Imagen ' + (index + 1)">
+                      <!-- Botón para eliminar imagen -->
+                      <button type="button" class="btn btn-danger btn-sm mt-2"
+                        @click="eliminarImagen('fotos', index)">Eliminar</button>
                     </div>
+                  </template>
                 </div>
+              </div>
             </div>
 
             <!-- Input para videos -->
