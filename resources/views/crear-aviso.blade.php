@@ -887,7 +887,7 @@
                   2: `/my-post/store`,
                   3: `/my-post/store`,
                   4: `/my-post/store`,
-                  6: `/my-post/store`, // No paso5, paso6 enviará datos de ambos
+                  6: `/my-post/store`,
               }
 
               if (step === 5) {
