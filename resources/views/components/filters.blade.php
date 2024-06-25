@@ -173,7 +173,7 @@
       </ul>
     </div>
   
-    {{-- Filtros Generales --}}
+    {{-- Filtros Generales MODAL --}}
     <div>
     
       <!-- Botón Filtros Generales -->
@@ -267,7 +267,7 @@
                 <div class="mt-4">
                   <h6 class="mb-2 text-primary">Precio</h6>
                   <div class="d-flex gap-3">
-                    <select type="text" class="form-select" name="preciominimo" id="preciominimo" aria-label="Precio mínimo">
+                    <select type="text" class="form-select" name="preciominimo" id="preciominimo_modal" aria-label="Precio mínimo">
                       <option value="null" selected>Sin Mínimo</option>
                       <option value="100">$100</option>
                       <option value="150">$150</option>
@@ -316,7 +316,7 @@
                       <option value="30000">$30,000</option>
                     </select>
         
-                    <select type="text" class="form-select" name="preciomaximo" id="preciomaximo" aria-label="Precio máximo">
+                    <select type="text" class="form-select" name="preciomaximo" id="preciomaximo_modal" aria-label="Precio máximo">
                       <option value="null" selected>Sin Máximo</option>
                       <option value="100">$100</option>
                       <option value="150">$150</option>

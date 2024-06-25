@@ -292,11 +292,12 @@
               <!-- Mostrar miniatura de la imagen principal seleccionada -->
               <div class="mt-3" x-show="imagen_principal">
                   <h4>Miniatura de Imagen Principal</h4>
-                  <img :src="URL.createObjectURL(imagen_principal)" class="img-thumbnail" style="max-width: 200px" alt="Imagen Principal">
+                  <img x-bind:src="imagen_principal ? URL.createObjectURL(imagen_principal) : ''" class="img-thumbnail" style="max-width: 200px" alt="Imagen Principal">
                   <!-- Botón para eliminar la imagen principal -->
                   <button type="button" class="btn btn-danger btn-sm mt-2" @click="eliminarImagen('imagen_principal')">Eliminar</button>
               </div>
             </div>
+
 
 
             <!-- Input para seleccionar imágenes -->
@@ -602,7 +603,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="comf_15" id="comf_05">
+                <input class="form-check-input" type="checkbox" name="options[]" value="5" id="comf_05">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_05">
                   <i class="fa-solid fa-comments icon-orange mx-2"></i>
                   Áreas Comunes
@@ -610,7 +611,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="comf_05" id="comf_06">
+                <input class="form-check-input" type="checkbox" name="options[]" value="6" id="comf_06">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_06">
                   <i class="fa-solid fa-elevator icon-orange mx-2"></i>
                   Ascensor(es)
@@ -618,7 +619,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="comf_06" id="comf_07">
+                <input class="form-check-input" type="checkbox" name="options[]" value="7" id="comf_07">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_07">
                   <i class="fa-solid fa-house-chimney-window icon-orange mx-2"></i>
                   Balcón
@@ -626,7 +627,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="comf_07" id="comf_08">
+                <input class="form-check-input" type="checkbox" name="options[]" value="8" id="comf_08">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_08">
                   <i class="fa-solid fa-fire icon-orange mx-2"></i>
                   Calefacción
@@ -634,7 +635,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="comf_08" id="comf_09">
+                <input class="form-check-input" type="checkbox" name="options[]" value="9" id="comf_09">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_09">
                   <i class="fa-solid fa-building-shield icon-orange mx-2"></i>
                   Caseta de Seguridad
@@ -642,7 +643,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="comf_16" id="comf_10">
+                <input class="form-check-input" type="checkbox" name="options[]" value="10" id="comf_10">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_10">
                   <i class="fa-solid fa-house-chimney icon-orange mx-2"></i>
                   Chimenea
@@ -650,7 +651,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="comf_09" id="comf_11">
+                <input class="form-check-input" type="checkbox" name="options[]" value="11" id="comf_11">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_11">
                   <i class="fa-solid fa-sink icon-orange mx-2"></i>
                   Cocina con Isla
@@ -658,7 +659,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="comf_10" id="comf_12">
+                <input class="form-check-input" type="checkbox" name="options[]" value="12" id="comf_12">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_12">
                   <i class="fa-solid fa-kitchen-set icon-orange mx-2"></i>
                   Cocina Equipada
@@ -666,7 +667,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="comf_11" id="comf_13">
+                <input class="form-check-input" type="checkbox" name="options[]" value="13" id="comf_13">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_13">
                   <i class="fa-solid fa-building icon-orange mx-2"></i>
                   Condominio
@@ -674,7 +675,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="comf_12" id="comf_14">
+                <input class="form-check-input" type="checkbox" name="options[]" value="14" id="comf_14">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_14">
                   <i class="fa-regular fa-building icon-orange mx-2"></i>
                   Duplex
@@ -879,17 +880,22 @@
             ascensores: false,
             adicionales: [],
             comodidades: [],
-            extras: [],
-
             nextStep(step) {
               const stepMap = {
+<<<<<<< HEAD
                   1: '/my-post/store',
                   2: `/my-post/store`,
                   3: `/my-post/store`,
                   4: `/my-post/store`,
                   6: `/my-post/store`,
+=======
+                  1: '/guardar-aviso/paso1',
+                  2: `/guardar-aviso/paso2/${this.aviso_id}`,
+                  3: `/guardar-aviso/paso3/${this.aviso_id}`,
+                  4: `/guardar-aviso/paso4/${this.aviso_id}`,
+                  6: `/guardar-aviso/paso6/${this.aviso_id}`, // No paso5, paso6 enviará datos de ambos
+>>>>>>> main
               }
-
               if (step === 5) {
                   this.adicionales = []
                   document.querySelectorAll('input[name="options[]"]:checked').forEach((checkbox) => {
@@ -901,14 +907,9 @@
                   document.querySelectorAll('input[name="options[]"]:checked').forEach((checkbox) => {
                       this.comodidades.push(checkbox.value)
                   })
-
-                  const combinedArray = this.adicionales.concat(this.comodidades);
-
                   const formData = new FormData()
                   formData.append('adicionales', JSON.stringify(this.adicionales))
                   formData.append('comodidades', JSON.stringify(this.comodidades))
-                  formData.append('extras', combinedArray)
-
                   fetch(stepMap[step], {
                       method: 'POST',
                       body: formData,
@@ -930,70 +931,69 @@
                       console.error('Error:', error)
                   })
               } else {
-                    // Proceder con el fetch normal para los pasos 1-4
-                    const formData = new FormData()
-
-                    if (step === 1) {
-                        formData.append('tipo_operacion_id', this.tipo_operacion)
-                        formData.append('subtipo_inmueble_id', this.tipo_inmueble)
-                        formData.append('principal', 1)
-                    } else if (step === 2) {
-                        formData.append('direccion', this.direccion)
-                        formData.append('departamento_id', this.departamento)
-                        formData.append('provincia_id', this.provincia)
-                        formData.append('distrito_id', this.distrito)
-                        formData.append('ubicacion', 1)
-                    } else if (step === 3) {
-                        formData.append('habitaciones', this.dormitorios)
-                        formData.append('banios', this.banios)
-                        formData.append('medio_banios', this.medio_banios)
-                        formData.append('estacionamientos', this.estacionamiento)
-                        formData.append('area_construida', this.area_construida)
-                        formData.append('area_total', this.area_total)
-                        formData.append('antiguedad', this.antiguedad)
-                        formData.append('anios_antiguedad', this.anios_antiguedad)
-                        formData.append('precio_soles', this.precio_soles)
-                        formData.append('precio_dolares', this.precio_dolares)
-                        formData.append('caracteristicas', 1)
-                    } else if (step === 4) {
-                        if (this.imagen_principal) {
-                            formData.append('imagen_principal', this.imagen_principal)
-                        }
-                        this.fotos.forEach((foto, index) => {
-                            formData.append(`imagen[]`, foto)
-                        })
-                        this.planos.forEach((plano, index) => {
-                            formData.append(`planos[]`, plano)
-                        })
-                        formData.append('video', this.videos)
-                        formData.append('multimedia', 1)
-                    }
-
-                    fetch(stepMap[step], {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (step === 1) {
-                            this.aviso_id = data.id
-                        }
-                        this.step++
-                    })
-                    .catch(error => {
-                        console.error('Error:', error)
-                    })
+                  // Proceder con el fetch normal para los pasos 1-4
+                  const formData = new FormData()
+                  if (step === 1) {
+                      formData.append('tipo_operacion', this.tipo_operacion)
+                      formData.append('tipo_inmueble', this.tipo_inmueble)
+                      formData.append('operacion', 1)
+                  } else if (step === 2) {
+                      formData.append('direccion', this.direccion)
+                      formData.append('departamento', this.departamento)
+                      formData.append('provincia', this.provincia)
+                      formData.append('distrito', this.distrito)
+                      formData.append('ubicacion', 1)
+                      formData.append('operacion', 0)
+                  } else if (step === 3) {
+                      formData.append('dormitorios', this.dormitorios)
+                      formData.append('banios', this.banios)
+                      formData.append('medio_banios', this.medio_banios)
+                      formData.append('estacionamiento', this.estacionamiento)
+                      formData.append('area_construida', this.area_construida)
+                      formData.append('area_total', this.area_total)
+                      formData.append('antiguedad', this.antiguedad)
+                      formData.append('anios_antiguedad', this.anios_antiguedad)
+                      formData.append('precio_soles', this.precio_soles)
+                      formData.append('precio_dolares', this.precio_dolares)
+                      formData.append('caracteristicas', 1)
+                      formData.append('ubicacion', 0)
+                  } else if (step === 4) {
+                      if (this.imagen_principal) {
+                          formData.append('imagen_principal', this.imagen_principal)
+                      }
+                      this.fotos.forEach((foto, index) => {
+                          formData.append(`foto_${index}`, foto)
+                      })
+                      this.planos.forEach((plano, index) => {
+                          formData.append(`plano_${index}`, plano)
+                      })
+                      formData.append('videos', this.videos)
+                      formData.append('multimedia', 1)
+                      formData.append('caracteristicas', 0)
+                  }
+                  fetch(stepMap[step], {
+                      method: 'POST',
+                      body: formData,
+                      headers: {
+                          'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                      }
+                  })
+                  .then(response => response.json())
+                  .then(data => {
+                      if (step === 1) {
+                          this.aviso_id = data.id
+                      }
+                      this.step++
+                  })
+                  .catch(error => {
+                      console.error('Error:', error)
+                  })
                 }
             },  
-
             prevStep() {
                 this.step--
                 this.updateStepStatus()
             },
-
             handleFiles(event, type) {
                 const files = event.target.files
                 if (type === 'fotos') {
@@ -1004,7 +1004,6 @@
                     this.imagen_principal = files[0]
                 }
             },
-
             eliminarImagen(type, index) {
                 if (type === 'fotos') {
                     this.fotos.splice(index, 1)
@@ -1014,7 +1013,6 @@
                     this.imagen_principal = null
                 }
             },
-
             updateStepStatus() {
                 document.querySelector('input[name="operacion"]').value = this.step === 1 ? 1 : 0
                 document.querySelector('input[name="ubicacion"]').value = this.step === 2 ? 1 : 0
