@@ -570,7 +570,7 @@
               <input type="hidden" name="comodidades" :value="step === 6 ? 1 : 0">
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="comf_01" id="comf_01">
+                <input class="form-check-input" type="checkbox" name="options[]" value="26" id="comf_01">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_01">
                   <i class="fa-solid fa-snowflake icon-orange mx-2"></i>
                   Aire Acondicionado
@@ -578,7 +578,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="comf_02" id="comf_02">
+                <input class="form-check-input" type="checkbox" name="options[]" value="27" id="comf_02">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_02">
                   <i class="fa-solid fa-warehouse icon-orange mx-2"></i>
                   Almacén
@@ -586,7 +586,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="comf_03" id="comf_03">
+                <input class="form-check-input" type="checkbox" name="options[]" value="28" id="comf_03">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_03">
                   <i class="fa-solid fa-couch icon-orange mx-2"></i>
                   Amoblado
@@ -594,7 +594,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="comf_04" id="comf_04">
+                <input class="form-check-input" type="checkbox" name="options[]" value="29" id="comf_04">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_04">
                   <i class="fa-solid fa-user-gear icon-orange mx-2"></i>
                   Área de Servicio
@@ -602,7 +602,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="comf_15" id="comf_05">
+                <input class="form-check-input" type="checkbox" name="options[]" value="30" id="comf_05">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_05">
                   <i class="fa-solid fa-comments icon-orange mx-2"></i>
                   Áreas Comunes
@@ -610,7 +610,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="comf_05" id="comf_06">
+                <input class="form-check-input" type="checkbox" name="options[]" value="31" id="comf_06">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_06">
                   <i class="fa-solid fa-elevator icon-orange mx-2"></i>
                   Ascensor(es)
@@ -618,7 +618,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="comf_06" id="comf_07">
+                <input class="form-check-input" type="checkbox" name="options[]" value="32" id="comf_07">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_07">
                   <i class="fa-solid fa-house-chimney-window icon-orange mx-2"></i>
                   Balcón
@@ -626,7 +626,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="comf_07" id="comf_08">
+                <input class="form-check-input" type="checkbox" name="options[]" value="33" id="comf_08">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_08">
                   <i class="fa-solid fa-fire icon-orange mx-2"></i>
                   Calefacción
@@ -634,7 +634,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="comf_08" id="comf_09">
+                <input class="form-check-input" type="checkbox" name="options[]" value="34" id="comf_09">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_09">
                   <i class="fa-solid fa-building-shield icon-orange mx-2"></i>
                   Caseta de Seguridad
@@ -642,7 +642,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="comf_16" id="comf_10">
+                <input class="form-check-input" type="checkbox" name="options[]" value="35" id="comf_10">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_10">
                   <i class="fa-solid fa-house-chimney icon-orange mx-2"></i>
                   Chimenea
@@ -650,7 +650,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="comf_09" id="comf_11">
+                <input class="form-check-input" type="checkbox" name="options[]" value="36" id="comf_11">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_11">
                   <i class="fa-solid fa-sink icon-orange mx-2"></i>
                   Cocina con Isla
@@ -658,7 +658,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="comf_10" id="comf_12">
+                <input class="form-check-input" type="checkbox" name="options[]" value="37" id="comf_12">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_12">
                   <i class="fa-solid fa-kitchen-set icon-orange mx-2"></i>
                   Cocina Equipada
@@ -666,7 +666,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="comf_11" id="comf_13">
+                <input class="form-check-input" type="checkbox" name="options[]" value="38" id="comf_13">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_13">
                   <i class="fa-solid fa-building icon-orange mx-2"></i>
                   Condominio
@@ -674,7 +674,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="comf_12" id="comf_14">
+                <input class="form-check-input" type="checkbox" name="options[]" value="39" id="comf_14">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_14">
                   <i class="fa-regular fa-building icon-orange mx-2"></i>
                   Duplex
@@ -682,7 +682,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="15" id="comf_15">
+                <input class="form-check-input" type="checkbox" name="options[]" value="40" id="comf_15">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_15">
                   <i class="fa-solid fa-fire-flame-simple icon-orange mx-2"></i>
                   Gas Natural
@@ -690,7 +690,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="16" id="comf_16">
+                <input class="form-check-input" type="checkbox" name="options[]" value="41" id="comf_16">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_16">
                   <i class="fa-solid fa-dumbbell icon-orange mx-2"></i>
                   Gimnasio
@@ -698,7 +698,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="17" id="comf_17">
+                <input class="form-check-input" type="checkbox" name="options[]" value="42" id="comf_17">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_17">
                   <i class="fa-solid fa-screwdriver-wrench icon-orange mx-2"></i>
                   Habitación de servicio
@@ -706,7 +706,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="18" id="comf_18">
+                <input class="form-check-input" type="checkbox" name="options[]" value="43" id="comf_18">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_18">
                   <i class="fa-solid fa-bath icon-orange mx-2"></i>
                   Habitación Principal con Baño
@@ -714,7 +714,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="19" id="comf_19">
+                <input class="form-check-input" type="checkbox" name="options[]" value="44" id="comf_19">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_19">
                   <i class="fa-solid fa-water-ladder icon-orange mx-2"></i>
                   Jacuzzi
@@ -722,7 +722,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="20" id="comf_20">
+                <input class="form-check-input" type="checkbox" name="options[]" value="45" id="comf_20">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_20">
                   <i class="fa-solid fa-sun-plant-wilt icon-orange mx-2"></i>
                   Jardín Externo
@@ -730,7 +730,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="21" id="comf_21">
+                <input class="form-check-input" type="checkbox" name="options[]" value="46" id="comf_21">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_21">
                   <i class="fa-solid fa-plant-wilt icon-orange mx-2"></i>
                   Jardín Interno
@@ -738,7 +738,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="22" id="comf_22">
+                <input class="form-check-input" type="checkbox" name="options[]" value="47" id="comf_22">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_22">
                   <i class="fa-solid fa-volleyball icon-orange mx-2"></i>
                   Juegos para Niños
@@ -746,7 +746,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="23" id="comf_23">
+                <input class="form-check-input" type="checkbox" name="options[]" value="48" id="comf_23">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_23">
                   <i class="fa-solid fa-calendar-week icon-orange mx-2"></i>
                   Kitchenette
@@ -754,7 +754,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="24" id="comf_24">
+                <input class="form-check-input" type="checkbox" name="options[]" value="49" id="comf_24">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_24">
                   <i class="fa-solid fa-soap icon-orange mx-2"></i>
                   Lavandería
@@ -762,7 +762,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="25" id="comf_25">
+                <input class="form-check-input" type="checkbox" name="options[]" value="50" id="comf_25">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_25">
                   <i class="fa-solid fa-dog icon-orange mx-2"></i>
                   Pet Friendly
@@ -770,7 +770,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="26" id="comf_26">
+                <input class="form-check-input" type="checkbox" name="options[]" value="51" id="comf_26">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_26">
                   <i class="fa-solid fa-person-swimming icon-orange mx-2"></i>
                   Piscina
@@ -778,7 +778,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="27" id="comf_27">
+                <input class="form-check-input" type="checkbox" name="options[]" value="52" id="comf_27">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_27">
                   <i class="fa-solid fa-faucet-drip icon-orange mx-2"></i>
                   Servicios Básicos
@@ -786,7 +786,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="28" id="comf_28">
+                <input class="form-check-input" type="checkbox" name="options[]" value="53" id="comf_28">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_28">
                   <i class="fa-solid fa-droplet icon-orange mx-2"></i>
                   Tanque de Agua
@@ -794,7 +794,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="29" id="comf_29">
+                <input class="form-check-input" type="checkbox" name="options[]" value="54" id="comf_29">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_29">
                   <i class="fa-solid fa-bolt icon-orange mx-2"></i>
                   Terma Eléctrica
@@ -802,7 +802,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="30" id="comf_30">
+                <input class="form-check-input" type="checkbox" name="options[]" value="55" id="comf_30">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_30">
                   <i class="fa-solid fa-umbrella-beach icon-orange mx-2"></i>
                   Terraza
@@ -810,7 +810,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="31" id="comf_31">
+                <input class="form-check-input" type="checkbox" name="options[]" value="56" id="comf_31">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_31">
                   <i class="fa-solid fa-hotel icon-orange mx-2"></i>
                   Triplex
@@ -818,7 +818,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="32" id="comf_32">
+                <input class="form-check-input" type="checkbox" name="options[]" value="57" id="comf_32">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_32">
                   <i class="fa-solid fa-video icon-orange mx-2"></i>
                   Video Vigilancia
@@ -826,7 +826,7 @@
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="33" id="comf_33">
+                <input class="form-check-input" type="checkbox" name="options[]" value="58" id="comf_33">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_33">
                   <i class="fa-solid fa-door-closed icon-orange mx-2"></i>
                   Walk In Closet

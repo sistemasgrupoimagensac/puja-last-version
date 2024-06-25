@@ -1,9 +1,13 @@
 // logica para que el precio minimo siempre sea menor que el precio maximo ==========================================
 const preciominimo = document.querySelector('#preciominimo')
 const preciomaximo = document.querySelector('#preciomaximo')
+const preciominimoModal = document.querySelector('#preciominimo_modal')
+const preciomaximoModal = document.querySelector('#preciomaximo_modal')
 
 preciominimo.addEventListener('change', () => compareMinMax(preciominimo, preciomaximo))
 preciomaximo.addEventListener('change', () => compareMaxMin(preciomaximo, preciominimo))
+preciominimoModal.addEventListener('change', () => compareMinMax(preciominimoModal, preciomaximoModal))
+preciomaximoModal.addEventListener('change', () => compareMaxMin(preciomaximoModal, preciominimoModal))
 
 // logica para que el área minima siempre sea menor que el area maxima
 const areaminima = document.querySelector('#areaminima')
