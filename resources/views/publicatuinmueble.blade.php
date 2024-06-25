@@ -9,7 +9,7 @@
 @endpush
 
 @section('header')
-	@include('components.header')
+	@include('components.header_login')
 @endsection
 
 @section('content')
