@@ -351,18 +351,18 @@
               <input type="hidden" name="adicionales" :value="step === 5 ? 1 : 0">
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="add_01" id="add_01">
+                <input class="form-check-input" type="checkbox" name="options[]" value="1" id="add_01">
                 <label class="form-check-label text-secondary filter-additional-input" for="add_01">
-                  <i class="fa-solid fa-couch icon-orange mx-2"></i>
-                  Amoblado
+                  <i class="fa-solid fa-house-flood-water icon-orange mx-2"></i>
+                  Acceso a la playa
                 </label>
               </div>
 
               <div class="form-check my-2">
-                <input class="form-check-input" type="checkbox" name="options[]" value="add_02" id="add_02">
+                <input class="form-check-input" type="checkbox" name="options[]" value="2" id="add_02">
                 <label class="form-check-label text-secondary filter-additional-input" for="add_02">
                   <i class="fa-solid fa-snowflake icon-orange mx-2"></i>
-                  Aire Acondicionado
+                  Acceso al campo
                 </label>
               </div>
 
@@ -762,7 +762,7 @@
   <script>
     function avisoForm() {
         return {
-            step: {{ session('step', 1) }},
+            step: {{ session('step', 5) }},
             aviso_id: {{ session('aviso_id', 'null') }},
             tipo_operacion: '',
             tipo_inmueble: '',
