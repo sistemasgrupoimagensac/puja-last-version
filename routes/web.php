@@ -94,6 +94,10 @@ Route::get('/planes-inmobiliaria', function() {
     return view('planes');
 });
 
+// Ruta landing de proyectos inmobiliarios
+Route::get('/proyectos', function() {
+    return view('landing-projects');
+});
 
 // rutas de la creacion del aviso
 

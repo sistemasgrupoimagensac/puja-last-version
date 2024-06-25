@@ -1,14 +1,14 @@
-const documentSelected = document.getElementById("document_register")
-const documentNumber = document.getElementById("label_doc_number_register")
-const nameInput = document.getElementById("label_name_register")
-const surenameInput = document.getElementById("surename_register")
+const documentSelected = document.getElementById("document_type")
+const documentNumber = document.getElementById("label_document_number")
+const nameInput = document.getElementById("label_name")
+const surenameInput = document.getElementById("surename")
 
 const registerSubmit = document.querySelector("#submit-register-button")
 
 const termsConditionCheck = document.querySelector("#terminos")
 const informationCheck = document.querySelector("#confidencialidad")
 
-// deshabilitar boton registrar
+// deshabilitar boton registrar =======================================================
 let termsState = false
 let informationState = false
 
@@ -42,9 +42,10 @@ function disableSubmit() {
 disableSubmit()
 
 
-// actualizar el placeholder de los campos
+// actualizar el placeholder de los campos =============================================
 documentSelected.addEventListener("change", function () {
     let selectedCategory = documentSelected.value
+    console.log(selectedCategory);
     let placeholderText = ""
     let placeholderName = ""
 

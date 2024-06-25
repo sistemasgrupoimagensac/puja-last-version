@@ -40,7 +40,7 @@
 			<div class="d-flex flex-column gap-4">
 
 				<fieldset class="d-flex flex-column gap-2">
-					<legend class="h6 m-0 p-0">Datos de Sesión</legend>
+					<legend class="h6 m-0 p-0 icon-orange">Datos de Sesión</legend>
 
 					<input type="hidden" value="{{ $profile_type }}" name="user_type">
 					<input type="hidden" value="CC-WW-12" name="unique_code">
@@ -64,7 +64,7 @@
 				</fieldset>
 
 				<fieldset class="d-flex flex-column gap-2">
-				<legend class="h6 m-0 p-0">Datos de Contacto</legend>
+				<legend class="h6 m-0 p-0 icon-orange">Datos de Contacto</legend>
 
 				<div class="form-floating">
 					<input type="text" class="form-control" id="name" name="name" placeholder="Nombre" required>
@@ -72,7 +72,7 @@
 				</div>
 					
 				<div class="form-floating">
-					<input type="text" class="form-control" id="lastname" name="lastname" placeholder="Apellido">
+					<input type="text" class="form-control" id="surename" name="lastname" placeholder="Apellido">
 					<label class="text-secondary" for="lastname">Apellido</label>
 				</div>
 
@@ -83,9 +83,9 @@
 
 				<div class="form-floating">
 					<select class="form-select" id="document_type" name="document_type">
-					<option value="1" selected>DNI</option>
-					<option value="2">RUC</option>
-					<option value="3">Otro Documento</option>
+					<option value="DNI" selected>DNI</option>
+					<option value="RUC">RUC</option>
+					<option value="OTRO_DOC">Otro Documento</option>
 					</select>
 					<label for="document_type">Documento</label>
 				</div>

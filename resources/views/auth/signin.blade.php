@@ -25,23 +25,21 @@
         {{-- signin title --}}
         <div class="d-flex justify-content-between align-items-end">
           <div class="d-flex gap-3 align-items-center">
-
             <x-back-button></x-back-button>
             <h1 class="h5 fw-bold m-0">inicia sesión</h1>
-  
           </div>
+
           <a href="/">
             <img src="{{ asset('images/svg/logo_puja.svg') }}" class="signin-puja-logo" alt="Logo Pujainmobiliaria">
           </a>
         </div>
-  
-  
-        <form method="POST" action="{{ route('login') }}">
+
+        {{-- sigin form --}}
+        <form method="POST" action="{{ route('login') }}" class="my-4">
           @csrf
 
           <div class="d-flex flex-column gap-3 input-group-lg">
-
-			<input type="hidden" name="user_type" value="{{ $profile_type }}">
+			      <input type="hidden" name="user_type" value="{{ $profile_type }}">
 
             <div class="form-floating">
               <input type="email" class="form-control" id="signin_email" name="signin_email" placeholder="Telefono">
@@ -59,12 +57,11 @@
                 Recuerdame
               </label>
             </div>
+
             <input class="btn button-orange w-100" type="submit" value="Ingresar">
           </div>
 
         </form>
-        {{-- <input class="btn button-orange w-100" type="submit" value="Ingresar"> --}}
-        {{-- <a class="btn button-orange w-100 mt-2" href="/google-auth/redirect">Inicia Sesion con Google</a> --}}
 
 
         <div class="w-100 text-center">
