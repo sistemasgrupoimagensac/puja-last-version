@@ -882,19 +882,11 @@
             comodidades: [],
             nextStep(step) {
               const stepMap = {
-<<<<<<< HEAD
                   1: '/my-post/store',
                   2: `/my-post/store`,
                   3: `/my-post/store`,
                   4: `/my-post/store`,
                   6: `/my-post/store`,
-=======
-                  1: '/guardar-aviso/paso1',
-                  2: `/guardar-aviso/paso2/${this.aviso_id}`,
-                  3: `/guardar-aviso/paso3/${this.aviso_id}`,
-                  4: `/guardar-aviso/paso4/${this.aviso_id}`,
-                  6: `/guardar-aviso/paso6/${this.aviso_id}`, // No paso5, paso6 enviará datos de ambos
->>>>>>> main
               }
               if (step === 5) {
                   this.adicionales = []
@@ -908,8 +900,18 @@
                       this.comodidades.push(checkbox.value)
                   })
                   const formData = new FormData()
-                  formData.append('adicionales', JSON.stringify(this.adicionales))
-                  formData.append('comodidades', JSON.stringify(this.comodidades))
+                  // formData.append('adicionales', JSON.stringify(this.adicionales))
+                  // formData.append('comodidades', JSON.stringify(this.comodidades))
+
+                  // let adicionalesArray = [...this.adicionales];
+                  let options = [...this.comodidades];
+
+                  options.forEach((option) => {
+                      formData.append('options[]', option);
+                  });
+
+                  formData.append('extras', 1)
+
                   fetch(stepMap[step], {
                       method: 'POST',
                       body: formData,
@@ -923,7 +925,7 @@
                           this.aviso_id = data.id
                       } else if (step === 6) {
                           // Redirigir a la página de "mis-avisos"
-                          window.location.href = data.redirect
+                          window.location.href = data.redirect_url
                       }
                       this.step++
                   })
@@ -934,21 +936,20 @@
                   // Proceder con el fetch normal para los pasos 1-4
                   const formData = new FormData()
                   if (step === 1) {
-                      formData.append('tipo_operacion', this.tipo_operacion)
-                      formData.append('tipo_inmueble', this.tipo_inmueble)
-                      formData.append('operacion', 1)
+                      formData.append('tipo_operacion_id', this.tipo_operacion)
+                      formData.append('subtipo_inmueble_id', this.tipo_inmueble)
+                      formData.append('principal', 1)
                   } else if (step === 2) {
                       formData.append('direccion', this.direccion)
-                      formData.append('departamento', this.departamento)
-                      formData.append('provincia', this.provincia)
-                      formData.append('distrito', this.distrito)
+                      formData.append('departamento_id', this.departamento)
+                      formData.append('provincia_id', this.provincia)
+                      formData.append('distrito_id', this.distrito)
                       formData.append('ubicacion', 1)
-                      formData.append('operacion', 0)
                   } else if (step === 3) {
-                      formData.append('dormitorios', this.dormitorios)
+                      formData.append('habitaciones', this.dormitorios)
                       formData.append('banios', this.banios)
                       formData.append('medio_banios', this.medio_banios)
-                      formData.append('estacionamiento', this.estacionamiento)
+                      formData.append('estacionamientos', this.estacionamiento)
                       formData.append('area_construida', this.area_construida)
                       formData.append('area_total', this.area_total)
                       formData.append('antiguedad', this.antiguedad)
@@ -956,20 +957,18 @@
                       formData.append('precio_soles', this.precio_soles)
                       formData.append('precio_dolares', this.precio_dolares)
                       formData.append('caracteristicas', 1)
-                      formData.append('ubicacion', 0)
                   } else if (step === 4) {
                       if (this.imagen_principal) {
                           formData.append('imagen_principal', this.imagen_principal)
                       }
                       this.fotos.forEach((foto, index) => {
-                          formData.append(`foto_${index}`, foto)
+                          formData.append(`imagen[]`, foto)
                       })
                       this.planos.forEach((plano, index) => {
-                          formData.append(`plano_${index}`, plano)
+                          formData.append(`planos[]`, plano)
                       })
-                      formData.append('videos', this.videos)
+                      formData.append('video', this.videos)
                       formData.append('multimedia', 1)
-                      formData.append('caracteristicas', 0)
                   }
                   fetch(stepMap[step], {
                       method: 'POST',
