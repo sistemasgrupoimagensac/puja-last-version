@@ -131,7 +131,7 @@ class MyPostsController extends Controller
         }
 
         $inmueble = Inmueble::updateOrCreate([
-            "codigo_unico" => "1",
+            "codigo_unico" => "4",
             "user_id" => $user_id,
             ],[
             "estado" => 1,
@@ -224,7 +224,7 @@ class MyPostsController extends Controller
 
             $ubi_inmueble = UbicacionInmueble::updateOrCreate([
                 "principal_inmueble_id" => $principal_inmueble->id,
-            ],[
+                ],[
                 "direccion" => $request->direccion,
                 "departamento_id" => $request->departamento_id,
                 "provincia_id" => $request->provincia_id,
@@ -266,7 +266,7 @@ class MyPostsController extends Controller
 
             $carac_inmueble = CaracteristicaInmueble::updateOrCreate([
                 "principal_inmueble_id" => $principal_inmueble->id,
-            ],[
+                ],[
                 "habitaciones" => $request->habitaciones,
                 "banios" => $request->banios,
                 "medio_banios" => $request->medio_banios,
@@ -332,8 +332,6 @@ class MyPostsController extends Controller
                 foreach ($request->file('imagen') as $imagen) {
                     $imagenName = time() . '_' . uniqid() . '.' . $imagen->getClientOriginalExtension();
                     $imagen->move(public_path('images'), $imagenName);
-
-
                     $imagenUrl = url('images/' . $imagenName);
         
                     $img_inmueble = ImagenInmueble::create([
@@ -438,6 +436,20 @@ class MyPostsController extends Controller
                 ],[
                 "estado_aviso_id" => 3,
             ]);
+
+            if (!$hist_aviso) {
+                return response()->json([
+                    'message' => 'Falló porque no se actualizo el historial avisos',
+                    'error' => true
+                ], 422);
+            } else {
+                return response()->json([
+                    'message' => 'Registro exitoso, finalizado correcto.',
+                    'status' => 'Success',
+                    'redirect_url' => route('filter_search'),
+                    'error' => false
+                ], 201);
+            }
         }
 
         return response()->json([
