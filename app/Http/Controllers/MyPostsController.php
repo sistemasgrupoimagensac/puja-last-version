@@ -204,13 +204,13 @@ class MyPostsController extends Controller
             $validator = Validator::make($request->all(), [
                 'direccion' => 'required|string|max:250',
 
-                /* 'departamento_id' => 'required|integer|digits_between:1,3',
-                'provincia_id' => 'required|integer|digits_between:1,5',
-                'distrito_id' => 'required|integer|digits_between:1,7', */
-                
-                'departamento_id' => 'required|string|digits_between:1,3',
+                'departamento_id' => 'required|integer|digits_between:1,3',
                 'provincia_id' => 'required|integer|digits_between:1,5',
                 'distrito_id' => 'required|integer|digits_between:1,7',
+                
+                /* 'departamento_id' => 'required|string|digits_between:1,3',
+                'provincia_id' => 'required|integer|digits_between:1,5',
+                'distrito_id' => 'required|integer|digits_between:1,7', */
 
                 'latitud' => 'string|max:500',
                 'longitud' => 'string|max:500',
@@ -310,11 +310,12 @@ class MyPostsController extends Controller
                 $image = $request->file('imagen_principal');
                 $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('images'), $imageName);
+                $imagenUrl1 = url('images/' . $imageName);
 
                 $multim_inmueble = MultimediaInmueble::updateOrCreate([
                     "inmueble_id" => $inmueble->id,
                     ],[
-                    "imagen_principal" => $imageName,
+                    "imagen_principal" => $imagenUrl1,
                     "estado" => 1,
                 ]);
                 if (!$multim_inmueble) {
@@ -354,10 +355,11 @@ class MyPostsController extends Controller
                 $video = $request->file('video'); 
                 $videoName = time() . '_' . uniqid() . '.' . $video->getClientOriginalExtension();
                 $video->move(public_path('videos'), $videoName);
+                $videoUrl = url('videos/' . $videoName);
 
                 $video_inmueble = VideoInmueble::create([
                     'multimedia_inmueble_id' => $multi_inmueble_id,
-                    'video' => $videoName,
+                    'video' => $videoUrl,
                     "estado" => 1,
                 ]);
 
@@ -373,10 +375,11 @@ class MyPostsController extends Controller
                 foreach ($request->file('planos') as $plano) {
                     $planoName = time() . '_' . uniqid() . '.' . $plano->getClientOriginalExtension();
                     $plano->move(public_path('planos'), $planoName);
+                    $planoUrl = url('videos/' . $planoName);
         
                     $plano_inmueble = PlanoInmueble::create([
                         'multimedia_inmueble_id' => $multi_inmueble_id,
-                        'plano' => $planoName,
+                        'plano' => $planoUrl,
                         "estado" => 1,
                     ]);
 
