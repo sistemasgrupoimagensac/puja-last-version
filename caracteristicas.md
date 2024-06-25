@@ -39,12 +39,10 @@ Cocina Con Isla
 Cocina Equipada
 Condominio
 Duplex
-Frente A Parque
 Gas Natural
 Gimnasio
 Habitación De Servicio
 Habitación Pricipal Con Baño
-Internet / Wifi
 Jacuzzi
 Jardín Externo
 Jardín Interno

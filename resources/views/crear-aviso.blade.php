@@ -361,7 +361,7 @@
               <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="options[]" value="2" id="add_02">
                 <label class="form-check-label text-secondary filter-additional-input" for="add_02">
-                  <i class="fa-solid fa-snowflake icon-orange mx-2"></i>
+                  <i class="fa-solid fa-tree-city icon-orange mx-2"></i>
                   Acceso al campo
                 </label>
               </div>
@@ -370,7 +370,7 @@
                 <input class="form-check-input" type="checkbox" name="options[]" value="add_03" id="add_03">
                 <label class="form-check-label text-secondary filter-additional-input" for="add_03">
                   <i class="fa-solid fa-warehouse icon-orange mx-2"></i>
-                  Almacén
+                  Aeropuerto Cerca
                 </label>
               </div>
 
