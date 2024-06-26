@@ -31,20 +31,20 @@
     "file": "assets/fa-v4compatibility-BRdYr4HJ.woff2",
     "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2"
   },
-  "resources/images/register.webp": {
-    "file": "assets/register-B7iavYq6.webp",
-    "src": "resources/images/register.webp"
+  "resources/images/bg1.webp": {
+    "file": "assets/bg1-D2QHcIHM.webp",
+    "src": "resources/images/bg1.webp"
   },
-  "resources/images/signin6.webp": {
-    "file": "assets/signin6-ZAlOjiDJ.webp",
-    "src": "resources/images/signin6.webp"
+  "resources/images/bg3.webp": {
+    "file": "assets/bg3-UVkOpnB3.webp",
+    "src": "resources/images/bg3.webp"
   },
   "resources/images/slide1.webp": {
     "file": "assets/slide1-CFAUMLwB.webp",
     "src": "resources/images/slide1.webp"
   },
   "resources/js/app.js": {
-    "file": "assets/app-wzP-6cIt.js",
+    "file": "assets/app-C7UrrJdd.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
@@ -69,7 +69,7 @@
     "isEntry": true
   },
   "resources/js/scripts/components/card_plan.js": {
-    "file": "assets/card_plan-DP2rzg_V.js",
+    "file": "assets/card_plan-l0sNRNKZ.js",
     "name": "card_plan",
     "src": "resources/js/scripts/components/card_plan.js",
     "isEntry": true
@@ -111,7 +111,7 @@
     "isEntry": true
   },
   "resources/js/scripts/inmuebles.js": {
-    "file": "assets/inmuebles-ShTa-rtH.js",
+    "file": "assets/inmuebles-CPANzQi2.js",
     "name": "inmuebles",
     "src": "resources/js/scripts/inmuebles.js",
     "isEntry": true
@@ -123,7 +123,7 @@
     "isEntry": true
   },
   "resources/js/scripts/register.js": {
-    "file": "assets/register-mf-rGVhW.js",
+    "file": "assets/register-D47g-ZrG.js",
     "name": "register",
     "src": "resources/js/scripts/register.js",
     "isEntry": true
@@ -134,7 +134,7 @@
     "isEntry": true
   },
   "resources/sass/components/card_plan.scss": {
-    "file": "assets/card_plan-l0sNRNKZ.js",
+    "file": "assets/card_plan-DP2rzg_V.js",
     "name": "card_plan",
     "src": "resources/sass/components/card_plan.scss",
     "isEntry": true
@@ -185,12 +185,12 @@
     "isEntry": true
   },
   "resources/sass/pages/register.scss": {
-    "file": "assets/register-DlZ3NsLV.css",
+    "file": "assets/register-D-H6y-iV.css",
     "src": "resources/sass/pages/register.scss",
     "isEntry": true
   },
   "resources/sass/pages/signin.scss": {
-    "file": "assets/signin-qPFV7dQw.css",
+    "file": "assets/signin-B3rtNiIW.css",
     "src": "resources/sass/pages/signin.scss",
     "isEntry": true
   },
