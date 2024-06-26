@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 use App\Http\Controllers\AvisoController;
+use App\Http\Controllers\ImagesController;
 
 Route::get('/', App\Http\Controllers\Web\Puja\MainController::class);
 
@@ -108,3 +109,6 @@ Route::post('/guardar-aviso/paso3/{id}', [AvisoController::class, 'storePaso3'])
 Route::post('/guardar-aviso/paso4/{id}', [AvisoController::class, 'storePaso4'])->name('avisos.store.paso4');
 Route::post('/guardar-aviso/paso5/{id}', [AvisoController::class, 'storePaso5'])->name('avisos.store.paso5');
 Route::post('/guardar-aviso/paso6/{id}', [AvisoController::class, 'storePaso6'])->name('avisos.store.paso6');
+
+
+Route::get('/images/{archivo}', [ImagesController::class, 'get_images']);

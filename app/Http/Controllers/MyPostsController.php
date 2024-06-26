@@ -20,6 +20,7 @@ use Database\Seeders\ExtraInmuebleCaracteristicasInmueblesSeeder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class MyPostsController extends Controller
@@ -327,10 +328,13 @@ class MyPostsController extends Controller
                         'errors' => $validator->errors()
                     ], 422);
                 }
+                
                 $image = $request->file('imagen_principal');
-                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('images'), $imageName);
-                $imagenUrl1 = url('images/' . $imageName);
+                $path = Storage::disk('wasabi')->put('images', $image);
+                $imageURL = basename($path);
+                // $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                // $image->move(public_path('images'), $imageName);
+                $imagenUrl1 = url('images/' . $imageURL);
 
                 $multim_inmueble = MultimediaInmueble::updateOrCreate([
                     "inmueble_id" => $inmueble->id,
@@ -350,13 +354,19 @@ class MyPostsController extends Controller
 
             if ( $request->hasFile('imagen') ) {
                 foreach ($request->file('imagen') as $imagen) {
-                    $imagenName = time() . '_' . uniqid() . '.' . $imagen->getClientOriginalExtension();
+
+                    // $image = $request->file('imagen_principal');
+                    $path = Storage::disk('wasabi')->put('images', $imagen);
+                    $imagenURL = basename($path);
+                    $imagenUrl_1 = url('images/' . $imagenURL);
+
+                    /* $imagenName = time() . '_' . uniqid() . '.' . $imagen->getClientOriginalExtension();
                     $imagen->move(public_path('images'), $imagenName);
-                    $imagenUrl = url('images/' . $imagenName);
+                    $imagenUrl = url('images/' . $imagenName); */
         
                     $img_inmueble = ImagenInmueble::create([
                         'multimedia_inmueble_id' => $multi_inmueble_id,
-                        'imagen' => $imagenUrl,
+                        'imagen' => $imagenUrl_1,
                         "estado" => 1,
                     ]);
 
@@ -370,15 +380,20 @@ class MyPostsController extends Controller
             }
 
             if ( $request->hasFile('video') ) {
-                $video = $request->file('video'); 
+                /* $video = $request->file('video'); 
                 $videoName = time() . '_' . uniqid() . '.' . $video->getClientOriginalExtension();
                 $video->move(public_path('videos'), $videoName);
-                $videoUrl = url('videos/' . $videoName);
+                $videoUrl = url('videos/' . $videoName); */
+
+                $video = $request->file('video');
+                $video_path = Storage::disk('wasabi')->put('videos', $video);
+                $videoURL = basename($video_path);
+                $videoUrl_2 = url('videos/' . $videoURL);
 
                 $video_inmueble = VideoInmueble::updateOrCreate([
                     'multimedia_inmueble_id' => $multi_inmueble_id,
                     ],[
-                    'video' => $videoUrl,
+                    'video' => $videoUrl_2,
                     "estado" => 1,
                 ]);
 
@@ -392,9 +407,13 @@ class MyPostsController extends Controller
 
             if ( $request->hasFile('planos') ) {
                 foreach ($request->file('planos') as $plano) {
-                    $planoName = time() . '_' . uniqid() . '.' . $plano->getClientOriginalExtension();
+                    /* $planoName = time() . '_' . uniqid() . '.' . $plano->getClientOriginalExtension();
                     $plano->move(public_path('planos'), $planoName);
-                    $planoUrl = url('videos/' . $planoName);
+                    $planoUrl = url('videos/' . $planoName); */
+
+                    $plano_path = Storage::disk('wasabi')->put('planos', $plano);
+                    $basename_plano_path = basename($plano_path);
+                    $planoUrl = url('planos/' . $basename_plano_path);
         
                     $plano_inmueble = PlanoInmueble::create([
                         'multimedia_inmueble_id' => $multi_inmueble_id,

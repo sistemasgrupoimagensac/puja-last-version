@@ -324,7 +324,7 @@
             <!-- Input para videos -->
             <div class="form-group">
               <label class="text-secondary">Videos</label>
-              <input type="file" x-model="videos" class="form-control" placeholder="URL de videos">
+              <input type="file" {{-- x-model="videos" --}} class="form-control" placeholder="URL de videos" @change="handleFiles($event, 'videos')">
             </div>
 
             <!-- Input para seleccionar videos 2 -->
