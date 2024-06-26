@@ -110,9 +110,11 @@ class MyPostsController extends Controller
     }
     
     public function store (Request $request){
-        // dd("aaa".Auth::check());
         if (!Auth::check()) {
-            return redirect('/');
+            return response()->json([
+                'message' => 'Usuario no logueado o perdio la sesión.',
+                'error' => true
+            ], 422);
         }
         $user_id = Auth::id();
 
@@ -122,6 +124,7 @@ class MyPostsController extends Controller
             'caracteristicas' => 'boolean',
             'multimedia' => 'boolean',
             'extras' => 'boolean',
+            'codigo_unico' => 'nullable|string',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -130,12 +133,29 @@ class MyPostsController extends Controller
             ], 422);
         }
 
+        $nuevoCodigoUnico = $request->codigo_unico;
+
+        if ( empty($nuevoCodigoUnico) ) {
+            $ultimoInmueble = Inmueble::orderBy('id', 'desc')->first(['codigo_unico']);
+            if ($ultimoInmueble && $ultimoInmueble->codigo_unico) {
+                $codigoUnico = $ultimoInmueble->codigo_unico;
+                $parteNumerica = substr($codigoUnico, 14); // Cortar los primeros 14 caracteres
+                $numero = intval($parteNumerica); // Convertir el resto de la cadena a un entero
+                $nuevoNumero = $numero + 1; // Sumar 1 al número
+                $nuevoCodigoUnico = substr($codigoUnico, 0, 14) . $nuevoNumero; // Crear el nuevo código
+            } else {
+                // Manejar el caso en que no hay registros o el campo es nulo
+                $nuevoCodigoUnico = 'INM-001-001-001'; // Puedes establecer un valor por defecto
+            }
+        }
+
         $inmueble = Inmueble::updateOrCreate([
-            "codigo_unico" => "6",
+            "codigo_unico" => $nuevoCodigoUnico,
             "user_id" => $user_id,
             ],[
             "estado" => 1,
         ]);
+        
         $principal_inmueble = PrincipalInmueble::updateOrCreate([
             "inmueble_id" => $inmueble->id,
             ],[
@@ -355,8 +375,9 @@ class MyPostsController extends Controller
                 $video->move(public_path('videos'), $videoName);
                 $videoUrl = url('videos/' . $videoName);
 
-                $video_inmueble = VideoInmueble::create([
+                $video_inmueble = VideoInmueble::updateOrCreate([
                     'multimedia_inmueble_id' => $multi_inmueble_id,
+                    ],[
                     'video' => $videoUrl,
                     "estado" => 1,
                 ]);
@@ -454,7 +475,8 @@ class MyPostsController extends Controller
 
         return response()->json([
             'message' => 'Registro exitos',
-            'error' => false
+            'error' => false,
+            'codigo_unico' => $inmueble->codigo_unico 
         ], 201);
     }
 

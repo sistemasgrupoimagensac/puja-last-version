@@ -324,14 +324,48 @@
             <!-- Input para videos -->
             <div class="form-group">
               <label class="text-secondary">Videos</label>
-              <input type="text" x-model="videos" class="form-control" placeholder="URL de videos">
+              <input type="file" x-model="videos" class="form-control" placeholder="URL de videos">
             </div>
 
+            <!-- Input para seleccionar videos 2 -->
+            {{-- <div class="form-group">
+              <label for="videos" class="form-label">Imagen Principal</label>
+              <input type="file" id="videos" class="form-control" @change="handleFiles($event, 'videos')">
+              <!-- Mostrar miniatura de la imagen principal seleccionada -->
+              <div class="mt-3" x-show="videos">
+                  <h4>Miniatura de Videos</h4>
+                  <img x-bind:src="videos ? URL.createObjectURL(videos) : ''" class="img-thumbnail" style="max-width: 200px" alt="Videos">
+                  <!-- Botón para eliminar la imagen principal -->
+                  <button type="button" class="btn btn-danger btn-sm mt-2" @click="eliminarImagen('videos')">Eliminar</button>
+              </div>
+            </div> --}}
+
             <!-- Input para planos -->
-            <div class="form-group">
+            {{-- <div class="form-group">
               <label class="text-secondary">Planos</label>
               <input type="file" multiple class="form-control" @change="handleFiles($event, 'planos')">
-            </div>
+            </div> --}}
+            
+            <!-- Input para seleccionar planos -->
+            <div class="form-group">
+              <label for="planos" class="form-label">Seleccionar imágenes</label>
+              <input type="file" id="planos" class="form-control" multiple @change="handleFiles($event, 'planos')">
+              <!-- Mostrar miniaturas de los planos seleccionadas -->
+              <div class="mt-3" x-show="planos.length > 0">
+                  <h4>Miniaturas</h4>
+                  <div class="row">
+                      <template x-for="(plano, index) in planos" :key="index">
+                          <div class="col-md-3 mb-3">
+                          <img :src="URL.createObjectURL(plano)" class="img-thumbnail" style="max-width: 100%;"
+                              :alt="'Plano ' + (index + 1)">
+                          <!-- Botón para eliminar plano -->
+                          <button type="button" class="btn btn-danger btn-sm mt-2"
+                              @click="eliminarImagen('planos', index)">Eliminar</button>
+                          </div>
+                      </template>
+                  </div>
+              </div>
+          </div>
 
             <!-- Botones de navegación -->
             <div class="d-flex justify-content-between gap-2 w-100">
@@ -862,7 +896,7 @@
             distrito: '',
             fotos: [],
             imagen_principal: null,
-            videos: '',
+            videos: null,
             planos: [],
             dormitorios: '',
             banios: '',
@@ -880,6 +914,7 @@
             ascensores: false,
             adicionales: [],
             comodidades: [],
+            codigo_unico: '',
             nextStep(step) {
               const stepMap = {
                   1: '/my-post/store',
@@ -888,13 +923,13 @@
                   4: `/my-post/store`,
                   6: `/my-post/store`,
               }
-              if (step === 5) {
+              if (step === 5) /* Extras 1 */ {
                   this.adicionales = []
                   document.querySelectorAll('input[name="options[]"]:checked').forEach((checkbox) => {
                       this.adicionales.push(checkbox.value)
                   })
                   this.step++
-              } else if (step === 6) {
+              } else if (step === 6) /* Extras 2 */ {
                   this.comodidades = []
                   document.querySelectorAll('input[name="options[]"]:checked').forEach((checkbox) => {
                       this.comodidades.push(checkbox.value)
@@ -911,6 +946,7 @@
                   });
 
                   formData.append('extras', 1)
+                  formData.append('codigo_unico', this.codigo_unico)
 
                   fetch(stepMap[step], {
                       method: 'POST',
@@ -935,17 +971,19 @@
               } else {
                   // Proceder con el fetch normal para los pasos 1-4
                   const formData = new FormData()
-                  if (step === 1) {
+                  if (step === 1) /* Tipo de operacion */ {
                       formData.append('tipo_operacion_id', this.tipo_operacion)
                       formData.append('subtipo_inmueble_id', this.tipo_inmueble)
                       formData.append('principal', 1)
-                  } else if (step === 2) {
+                      formData.append('codigo_unico', this.codigo_unico)
+                  } else if (step === 2) /* Ubicacion */ {
                       formData.append('direccion', this.direccion)
                       formData.append('departamento_id', this.departamento)
                       formData.append('provincia_id', this.provincia)
                       formData.append('distrito_id', this.distrito)
                       formData.append('ubicacion', 1)
-                  } else if (step === 3) {
+                      formData.append('codigo_unico', this.codigo_unico)
+                  } else if (step === 3) /* Caracteristicas */ {
                       formData.append('habitaciones', this.dormitorios)
                       formData.append('banios', this.banios)
                       formData.append('medio_banios', this.medio_banios)
@@ -957,7 +995,8 @@
                       formData.append('precio_soles', this.precio_soles)
                       formData.append('precio_dolares', this.precio_dolares)
                       formData.append('caracteristicas', 1)
-                  } else if (step === 4) {
+                      formData.append('codigo_unico', this.codigo_unico)
+                  } else if (step === 4) /* Multimedia */ {
                       if (this.imagen_principal) {
                           formData.append('imagen_principal', this.imagen_principal)
                       }
@@ -967,8 +1006,12 @@
                       this.planos.forEach((plano, index) => {
                           formData.append(`planos[]`, plano)
                       })
-                      formData.append('video', this.videos)
+                      if (this.videos) {
+                          formData.append('video', this.videos)
+                      }
+                      // formData.append('video', this.videos)
                       formData.append('multimedia', 1)
+                      formData.append('codigo_unico', this.codigo_unico)
                   }
                   fetch(stepMap[step], {
                       method: 'POST',
@@ -979,7 +1022,8 @@
                   })
                   .then(response => response.json())
                   .then(data => {
-                      if (step === 1) {
+                    this.codigo_unico = data.codigo_unico
+                    if (step === 1) {
                           this.aviso_id = data.id
                       }
                       this.step++
@@ -1001,6 +1045,8 @@
                     this.planos.push(...files)
                 } else if (type === 'imagen_principal') {
                     this.imagen_principal = files[0]
+                } else if (type === 'videos') {
+                    this.videos = files[0]
                 }
             },
             eliminarImagen(type, index) {
@@ -1010,6 +1056,8 @@
                     this.planos.splice(index, 1)
                 } else if (type === 'imagen_principal') {
                     this.imagen_principal = null
+                } else if (type === 'videos') {
+                    this.videos = null
                 }
             },
             updateStepStatus() {
