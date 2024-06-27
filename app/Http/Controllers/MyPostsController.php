@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Aviso;
+use App\Models\Caracteristica;
 use App\Models\CaracteristicaInmueble;
+use App\Models\Departamento;
+use App\Models\Distrito;
 use App\Models\ExtraInmueble;
 use App\Models\ExtraInmueblesCaracteristicas;
 use App\Models\HistorialAvisos;
@@ -14,6 +17,8 @@ use App\Models\MultimediaInmueble;
 use App\Models\OperacionTipoInmueble;
 use App\Models\PlanoInmueble;
 use App\Models\PrincipalInmueble;
+use App\Models\Provincia;
+use App\Models\SubTipoInmueble;
 use App\Models\UbicacionInmueble;
 use App\Models\VideoInmueble;
 use Database\Seeders\ExtraInmuebleCaracteristicasInmueblesSeeder;
@@ -497,6 +502,44 @@ class MyPostsController extends Controller
             'error' => false,
             'codigo_unico' => $inmueble->codigo_unico 
         ], 201);
+    }
+
+
+
+    public function get_subtipos() {
+        $subtipos = SubTipoInmueble::where('estado', 1)->get();
+        return response()->json([
+            'message' => 'Respuesta exitosa.',
+            'subtipos' => $subtipos,
+            'error' => false
+        ], 200);
+    }
+
+    public function getDepartamentos() {
+        $departamentos = Departamento::where('estado', 1)->get();
+        return response()->json([
+            'message' => 'Respuesta exitosa.',
+            'departamentos' => $departamentos,
+            'error' => false
+        ], 200);
+    }
+
+    public function getProvincias($departamentoId)
+    {
+        $provincias = Provincia::where('departamento_id', $departamentoId)->where('estado', 1)->get();
+        return response()->json($provincias);
+    }
+
+    public function getDistritos($provinciaId)
+    {
+        $distritos = Distrito::where('provincia_id', $provinciaId)->where('estado', 1)->get();
+        return response()->json($distritos);
+    }
+
+    public function getExtras($extra_id)
+    {
+        $extras = Caracteristica::where('categoria_caracteristica_id', $extra_id)->where('estado', 1)->get();
+        return response()->json($extras);
     }
 
 

@@ -112,3 +112,12 @@ Route::post('/guardar-aviso/paso6/{id}', [AvisoController::class, 'storePaso6'])
 
 
 Route::get('/images/{archivo}', [ImagesController::class, 'get_images']);
+
+Route::get('/my-post/operaciones/subtipos', [MyPostsController::class, 'get_subtipos']);
+
+// Route::get('/my-post/ubicacion/departamentos', [MyPostsController::class, 'get_ubicacion_depa']);
+Route::get('/my-post/ubicacion/departamentos', [MyPostsController::class, 'getDepartamentos']);
+Route::get('/my-post/ubicacion/provincias/{departamentoId}', [MyPostsController::class, 'getProvincias']);
+Route::get('/my-post/ubicacion/distritos/{provinciaId}', [MyPostsController::class, 'getDistritos']);
+
+Route::get('/my-post/extras/{extra_id}', [MyPostsController::class, 'getExtras']);

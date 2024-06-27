@@ -56,24 +56,12 @@
               </div>
             </div>
 
-            <div class="form-floating">
-              <select x-model="tipo_inmueble" class="form-select" id="tipoinmueble" required>
-                <option selected></option>
-                <option value="1">Casa de playa</option>
-                <option value="2">Casa de campo</option>
-                <option value="3">Casa de ciudad</option>
-                <option value="4">Casa en condominio</option>
-                <option value="5">Casa en quinta</option>
-                <option value="6">Departamento de campo</option>
-                <option value="7">Departamento de ciudad</option>
-                <option value="8">Departamento de playa</option>
-                <option value="9">Departamento Loft</option>
-                <option value="10">Departamento PentHouse</option>
-                <option value="11">Minidepartamento</option>
-                <option value="12">Terreno lote</option>
-                <option value="13">Terreno agricola</option>
-                <option value="14">Local comercial</option>
-                <option value="15">Local industrial</option>
+            <div class="form-floating" x-init="fetchSubtipos()">
+              <select x-model="selectedSubtipo" class="form-select" id="tipoinmueble" required>
+                <option selected value="">Selecciona un subtipo</option>
+                <template x-for="subtipo in subtipos" :key="subtipo.id">
+                    <option :value="subtipo.id" x-text="subtipo.subtipo"></option>
+                </template>
               </select>
               <label for="tipoinmueble">Tipo de inmueble</label>
             </div>
@@ -83,7 +71,7 @@
         </div>
 
         <!-- Paso 2: Ubicación -->
-        <div x-show="step === 2">
+        <div x-show="step === 2" x-init="initializeSecondStep()">
           <form @submit.prevent="nextStep(2)" class="d-flex flex-column gap-4 my-5">
             @csrf
             <h2>Ubicación</h2>
@@ -95,49 +83,31 @@
             </div>
 
             <div class="form-floating">
-              <select x-model="departamento" class="form-select" id="departamento" required>
-                <option selected>Seleccione Departamento</option>
-                <option value="1">Lima</option>
-                <option value="2">Lima Provincias</option>
-                <option value="3">Trujillo</option>
-                <option value="4">Cusco</option>
-                <option value="5">Chiclayo</option>
-                <option value="6">Arequipa</option>
+              <select x-model="selectedDepartamento" @change="fetchProvincias()" class="form-select" id="departamento" required>
+                  <option value="">Seleccione un Departamento</option>
+                  <template x-for="departamento in departamentos" :key="departamento.id">
+                      <option :value="departamento.id" x-text="departamento.nombre"></option>
+                  </template>
               </select>
               <label for="departamento">Departamento</label>
             </div>
 
             <div class="form-floating">
-              <select x-model="provincia" class="form-select" id="provincia" required>
-                <option selected>Seleccione Provincia</option>
-                <option value="101">Lima</option>
-                <option value="102">Barranca</option>
-                <option value="103">Cajatambo</option>
-                <option value="104">Canta</option>
-                <option value="105">Cañete</option>
-                <option value="106">Huaral</option>
-                <option value="107">Huarochiri</option>
-                <option value="108">Huaura</option>
-                <option value="109">Oyón</option>
-                <option value="110">Yauyos</option>
+              <select x-model="selectedProvincia" @change="fetchDistritos()" :disabled="!selectedDepartamento" class="form-select" id="provincia" required>
+                <option value="">Seleccione una Provincia</option>
+                <template x-for="provincia in provincias" :key="provincia.id">
+                    <option :value="provincia.id" x-text="provincia.nombre"></option>
+                </template>
               </select>
               <label for="provincia">Provincia</label>
             </div>
 
             <div class="form-floating">
-              <select x-model="distrito" class="form-select" id="distrito" required>
-                <option selected>Seleccione Distrito</option>
-                <option value="10101">Ancón</option>
-                <option value="10102">Ate</option>
-                <option value="10103">Barranco</option>
-                <option value="10104">Breña</option>
-                <option value="10105">Carabayllo</option>
-                <option value="10106">Chaclacayo</option>
-                <option value="10107">Chorrillos</option>
-                <option value="10108">Cieneguilla</option>
-                <option value="10109">Comas</option>
-                <option value="10110">El Agustino</option>
-                <option value="10111">Independencia</option>
+              <select x-model="selectedDistrito" :disabled="!selectedProvincia" class="form-select" id="distrito" required>
+                <option value="">Seleccione un Distrito</option>
+                <template x-for="distrito in distritos" :key="distrito.id">
+                    <option :value="distrito.id" x-text="distrito.nombre"></option>
+                </template>
               </select>
               <label for="distrito">Distrito</label>
             </div>
@@ -375,9 +345,8 @@
           </form>
         </div>
 
-
         <!-- Paso 5: Adicionales -->
-        <div x-show="step === 5">
+        <div x-show="step === 5" x-init="initializeQuintoStep(1)">
           <form @submit.prevent="nextStep(5)" class="d-flex flex-column gap-4 my-5">
             @csrf
 
@@ -385,7 +354,19 @@
               <h2>Adicionales</h2>
               <input type="hidden" name="adicionales" :value="step === 5 ? 1 : 0">
 
-              <div class="form-check my-2">
+              <div>
+                <template x-for="extra in extras" :key="extra.id">
+                  <div class="form-check my-2">
+                    <input class="form-check-input" type="checkbox" name="options[]" :id="'add_' + extra.id" :value="extra.id">
+                    <label class="form-check-label" :for="'add_' + extra.id">
+                    <i class="fa-solid fa-house-flood-water icon-orange mx-2"></i>
+                    <span x-text="extra.caracteristica"></span>
+                    </label>
+                  </div>
+                </template>
+              </div>
+
+              {{-- <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="options[]" value="1" id="add_01">
                 <label class="form-check-label text-secondary filter-additional-input" for="add_01">
                   <i class="fa-solid fa-house-flood-water icon-orange mx-2"></i>
@@ -583,7 +564,7 @@
                   <i class="fa-solid fa-industry icon-orange mx-2"></i>
                   Zona industrial
                 </label>
-              </div>
+              </div> --}}
 
             </div>
 
@@ -595,7 +576,7 @@
         </div>
 
         <!-- Paso 6: Comodidades -->
-        <div x-show="step === 6">
+        <div x-show="step === 6" x-init="initializeSextoStep(2)">
           <form @submit.prevent="nextStep(6)" class="d-flex flex-column gap-4 my-5">
             @csrf
 
@@ -604,7 +585,19 @@
               <h2>Comodidades</h2>
               <input type="hidden" name="comodidades" :value="step === 6 ? 1 : 0">
 
-              <div class="form-check my-2">
+              <div>
+                <template x-for="extra in extras2" :key="extra.id">
+                  <div class="form-check my-2">
+                    <input class="form-check-input" type="checkbox" name="options[]" :value="extra.id" :id="'add_' + extra.id">
+                    <label class="form-check-label text-secondary filter-additional-input" :for="'add_' + extra.id">
+                      <i class="fa-solid fa-snowflake icon-orange mx-2"></i>
+                    <span x-text="extra.caracteristica"></span>
+                    </label>
+                  </div>
+                </template>
+              </div>
+
+              {{-- <div class="form-check my-2">
                 <input class="form-check-input" type="checkbox" name="options[]" value="1" id="comf_01">
                 <label class="form-check-label text-secondary filter-additional-input" for="comf_01">
                   <i class="fa-solid fa-snowflake icon-orange mx-2"></i>
@@ -866,7 +859,7 @@
                   <i class="fa-solid fa-door-closed icon-orange mx-2"></i>
                   Walk In Closet
                 </label>
-              </div>
+              </div> --}}
 
             </div>
 
@@ -888,12 +881,24 @@
         return {
             step: {{ session('step', 1) }},
             aviso_id: {{ session('aviso_id', 'null') }},
+            
             tipo_operacion: '',
-            tipo_inmueble: '',
+            subtipos: [],
+            selectedSubtipo: '',
+
             direccion: '',
-            departamento: '',
-            provincia: '',
-            distrito: '',
+            departamentos: [],
+            provincias: [],
+            distritos: [],
+            selectedDepartamento: '',
+            selectedProvincia: '',
+            selectedDistrito: '',
+
+            extras: [],
+            extras2: [],
+            adicionales: [],
+            comodidades: [],
+
             fotos: [],
             imagen_principal: null,
             videos: null,
@@ -912,9 +917,20 @@
             aire_acondicionado: false,
             acceso_parque: false,
             ascensores: false,
-            adicionales: [],
-            comodidades: [],
             codigo_unico: '',
+
+            initializeSecondStep() {
+              this.fetchDepartamentos();
+              this.fetchProvincias();
+              this.fetchDistritos();
+            },
+            initializeQuintoStep(extra_id) {
+              this.fetchExtras(extra_id);
+            },
+            initializeSextoStep(extra_id) {
+              this.fetchExtras(extra_id);
+            },
+
             nextStep(step) {
               const stepMap = {
                   1: '/my-post/store',
@@ -924,22 +940,16 @@
                   6: `/my-post/store`,
               }
               if (step === 5) /* Extras 1 */ {
-                  this.adicionales = []
-                  document.querySelectorAll('input[name="options[]"]:checked').forEach((checkbox) => {
-                      this.adicionales.push(checkbox.value)
-                  })
+                  this.fetchExtras(1);
                   this.step++
               } else if (step === 6) /* Extras 2 */ {
-                  this.comodidades = []
+                  this.fetchExtras(2);
+                  let send_extras = []
                   document.querySelectorAll('input[name="options[]"]:checked').forEach((checkbox) => {
-                      this.comodidades.push(checkbox.value)
+                    send_extras.push(checkbox.value)
                   })
                   const formData = new FormData()
-                  // formData.append('adicionales', JSON.stringify(this.adicionales))
-                  // formData.append('comodidades', JSON.stringify(this.comodidades))
-
-                  // let adicionalesArray = [...this.adicionales];
-                  let options = [...this.comodidades];
+                  let options = [...send_extras];
 
                   options.forEach((option) => {
                       formData.append('options[]', option);
@@ -973,14 +983,17 @@
                   const formData = new FormData()
                   if (step === 1) /* Tipo de operacion */ {
                       formData.append('tipo_operacion_id', this.tipo_operacion)
-                      formData.append('subtipo_inmueble_id', this.tipo_inmueble)
+                      formData.append('subtipo_inmueble_id', this.selectedSubtipo)
                       formData.append('principal', 1)
                       formData.append('codigo_unico', this.codigo_unico)
                   } else if (step === 2) /* Ubicacion */ {
+                      this.fetchDepartamentos()
+                      this.fetchProvincias()
+                      this.fetchDistritos()
                       formData.append('direccion', this.direccion)
-                      formData.append('departamento_id', this.departamento)
-                      formData.append('provincia_id', this.provincia)
-                      formData.append('distrito_id', this.distrito)
+                      formData.append('departamento_id', this.selectedDepartamento)
+                      formData.append('provincia_id', this.selectedProvincia)
+                      formData.append('distrito_id', this.selectedDistrito)
                       formData.append('ubicacion', 1)
                       formData.append('codigo_unico', this.codigo_unico)
                   } else if (step === 3) /* Caracteristicas */ {
@@ -1009,7 +1022,6 @@
                       if (this.videos) {
                           formData.append('video', this.videos)
                       }
-                      // formData.append('video', this.videos)
                       formData.append('multimedia', 1)
                       formData.append('codigo_unico', this.codigo_unico)
                   }
@@ -1067,7 +1079,81 @@
                 document.querySelector('input[name="multimedia"]').value = this.step === 4 ? 1 : 0
                 document.querySelector('input[name="adicionales"]').value = this.step === 5 ? 1 : 0
                 document.querySelector('input[name="comodidades"]').value = this.step === 6 ? 1 : 0
-            }
+            },
+            fetchSubtipos() {
+              fetch('/my-post/operaciones/subtipos')
+              .then(response => response.json())
+              .then(data => {
+                if (!data.error) {
+                  this.subtipos = data.subtipos;
+                } else {
+                  console.error('Error fetching subtipos:', data.message);
+                }
+              })
+              .catch(error => {
+                  console.error('Error:', error);
+              });
+            },
+            fetchDepartamentos() {
+              fetch('/my-post/ubicacion/departamentos')
+              .then(response => response.json())
+              .then(data => {
+                  this.departamentos = data.departamentos;
+              })
+              .catch(error => {
+                  console.error('Error fetching departamentos:', error);
+              });
+            },
+            fetchProvincias() {
+              if (this.selectedDepartamento) {
+                fetch(`/my-post/ubicacion/provincias/${this.selectedDepartamento}`)
+                .then(response => response.json())
+                .then(data => {
+                  this.provincias = data;
+                  this.selectedProvincia = '';
+                  this.distritos = [];
+                  this.selectedDistrito = '';
+                })
+                .catch(error => {
+                  console.error('Error fetching provincias:', error);
+                });
+              } else {
+                this.provincias = [];
+                this.selectedProvincia = '';
+                this.distritos = [];
+                this.selectedDistrito = '';
+              }
+            },
+            fetchDistritos() {
+              if (this.selectedProvincia) {
+                fetch(`/my-post/ubicacion/distritos/${this.selectedProvincia}`)
+                .then(response => response.json())
+                .then(data => {
+                  this.distritos = data;
+                  this.selectedDistrito = '';
+                })
+                .catch(error => {
+                  console.error('Error fetching distritos:', error);
+                });
+              } else {
+                this.distritos = [];
+                this.selectedDistrito = '';
+              }
+            },
+            fetchExtras(extra_id) {
+              fetch(`/my-post/extras/${extra_id}`)
+              .then(response => response.json())
+              .then(data => {
+                if( extra_id== 1 ){
+                  this.extras = data;
+                } else if( extra_id== 2 ){
+                  this.extras2 = data;
+                }
+              })
+              .catch(error => {
+                console.error('Error fetching distritos:', error);
+              });
+            },
         }
     }
 </script>
