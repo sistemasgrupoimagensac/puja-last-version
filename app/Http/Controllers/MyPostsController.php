@@ -31,13 +31,6 @@ use Illuminate\Support\Facades\Validator;
 class MyPostsController extends Controller
 {
 
-    // Método invocable
-    /* public function __invoke(Request $request)
-    {
-        // Lógica para el método invocable
-        return view('avisos.index', $data);
-    } */
-
     public function index (){
         $userId = Auth::id();
 

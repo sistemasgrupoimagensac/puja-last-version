@@ -77,8 +77,6 @@ Route::get('/recuperar-password', function() {
     return view('auth.recoverpassword');
 });
 
-
-// Route::get('/invoke', MyPostsController::class);
 Route::get('/my-posts', [MyPostsController::class, 'index'])->name('posts.index');
 Route::get('/my-posts/create', [MyPostsController::class, 'create'])->name('posts.create');
 Route::post('/my-post/store', [MyPostsController::class, 'store'])->name('posts.store');

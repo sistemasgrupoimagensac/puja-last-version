@@ -31,6 +31,11 @@
     "file": "assets/fa-v4compatibility-BRdYr4HJ.woff2",
     "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2"
   },
+  "resources/css/app.css": {
+    "file": "assets/app-DIqX2nZF.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
   "resources/images/bg1.webp": {
     "file": "assets/bg1-D2QHcIHM.webp",
     "src": "resources/images/bg1.webp"
@@ -61,6 +66,12 @@
       "assets/fa-v4compatibility-BRdYr4HJ.woff2",
       "assets/fa-v4compatibility-DLBX5pNp.ttf"
     ]
+  },
+  "resources/js/profile-user.js": {
+    "file": "assets/profile-user-BMz6-FXG.js",
+    "name": "profile-user",
+    "src": "resources/js/profile-user.js",
+    "isEntry": true
   },
   "resources/js/scripts/components/back_button.js": {
     "file": "assets/back_button-adUlwIRb.js",

@@ -21,9 +21,12 @@ export default defineConfig({
                 "resources/sass/components/menu_panel.scss",
                 "resources/sass/components/footer.scss",
                 "resources/sass/components/card_plan.scss",
+                // CSS
+                "resources/css/app.css",
 
                 // js
                 "resources/js/app.js",
+                "resources/js/profile-user.js",
                 // js - scripts
                 'resources/js/scripts/home.js',
                 'resources/js/scripts/inmueble.js',
