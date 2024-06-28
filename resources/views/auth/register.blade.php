@@ -83,9 +83,9 @@
 
 				<div class="form-floating">
 					<select class="form-select" id="document_type" name="document_type">
-					<option value="DNI" selected>DNI</option>
-					<option value="RUC">RUC</option>
-					<option value="OTRO_DOC">Otro Documento</option>
+					<option value="1" selected>DNI</option>
+					<option value="2">RUC</option>
+					<option value="3">Otro Documento</option>
 					</select>
 					<label for="document_type">Documento</label>
 				</div>
