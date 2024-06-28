@@ -97,6 +97,12 @@
     "src": "resources/js/scripts/components/footer.js",
     "isEntry": true
   },
+  "resources/js/scripts/components/puja_modal_contact.js": {
+    "file": "assets/puja_modal_contact-DgeCCLPL.js",
+    "name": "puja_modal_contact",
+    "src": "resources/js/scripts/components/puja_modal_contact.js",
+    "isEntry": true
+  },
   "resources/js/scripts/components/whatsapp_modal_contact.js": {
     "file": "assets/whatsapp_modal_contact-Dx5yDBCx.js",
     "name": "whatsapp_modal_contact",
