@@ -241,6 +241,19 @@
                             </div>
                         </fieldset>
 
+                        <fieldset>
+                            <legend>Describe el inmueble</legend>
+                            <div class="form-floating mb-3">
+                                <input type="text" id="titulo" x-model="titulo" class="form-control" placeholder="Título del aviso" required>
+                                <label for="titulo">Título del aviso</label>
+                            </div>
+
+                            <div class="form-floating mb-2">
+                                <textarea class="form-control" placeholder="Descripción del aviso" x-model="description" id="description" rows="8" cols="50" style="with: 100%; height: 100px;"></textarea>
+                                <label for="description">Descripción del aviso</label>
+                            </div>
+                        </fieldset>
+
                         <div class="d-flex justify-content-between gap-2 w-100">
                             <button type="button" @click="prevStep()" class="btn btn-secondary w-100">Atrás</button>
                             <button type="submit" class="btn button-orange w-100">Continuar</button>
@@ -390,6 +403,8 @@
                 tipo_operacion: '',
                 subtipos: [],
                 selectedSubtipo: '',
+                titulo: '',
+                description: '',
 
                 direccion: '',
                 departamentos: [],
@@ -512,6 +527,8 @@
                             formData.append('anios_antiguedad', this.anios_antiguedad)
                             formData.append('precio_soles', this.precio_soles)
                             formData.append('precio_dolares', this.precio_dolares)
+                            formData.append('titulo', this.titulo)
+                            formData.append('description', this.description)
                             formData.append('caracteristicas', 1)
                             formData.append('codigo_unico', this.codigo_unico)
                         } else if (step === 4) /* Multimedia */ {

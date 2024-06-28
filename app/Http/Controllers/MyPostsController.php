@@ -273,8 +273,8 @@ class MyPostsController extends Controller
                 // 'anios_antiguedad' => 'integer',
                 'precio_soles' => 'numeric',
                 'precio_dolares' => 'numeric',
-                // 'titulo' => 'string|max:100',
-                // 'descripcion' => 'string|max:250',
+                'titulo' => 'string|max:100',
+                'description' => 'string|max:250',
             ]);
             if ($validator->fails()) {
                 return response()->json([
@@ -297,10 +297,8 @@ class MyPostsController extends Controller
                 "anios_antiguedad" => null,
                 "precio_soles" => $request->precio_soles,
                 "precio_dolares" => $request->precio_dolares,
-                // "titulo" => $request->titulo,
-                // "descripcion" => $request->descripcion,
-                "titulo" => null,
-                "descripcion" => null,
+                "titulo" => $request->titulo,
+                "descripcion" => $request->description,
                 "estado" => 1,
             ]);
 
