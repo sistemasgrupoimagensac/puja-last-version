@@ -22,6 +22,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('categoria_caracteristica_id')->constrained(table: 'categoria_caracteristicas_extra');
             $table->string('caracteristica', 200);
+            $table->string('icono', 60)->nullable();
             $table->boolean('estado')->default(1);
             $table->timestamps();
         });

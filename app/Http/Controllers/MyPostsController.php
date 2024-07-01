@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Aviso;
+use App\Models\Caracteristica;
 use App\Models\CaracteristicaInmueble;
+use App\Models\Departamento;
+use App\Models\Distrito;
 use App\Models\ExtraInmueble;
 use App\Models\ExtraInmueblesCaracteristicas;
 use App\Models\HistorialAvisos;
@@ -14,23 +17,19 @@ use App\Models\MultimediaInmueble;
 use App\Models\OperacionTipoInmueble;
 use App\Models\PlanoInmueble;
 use App\Models\PrincipalInmueble;
+use App\Models\Provincia;
+use App\Models\SubTipoInmueble;
 use App\Models\UbicacionInmueble;
 use App\Models\VideoInmueble;
 use Database\Seeders\ExtraInmuebleCaracteristicasInmueblesSeeder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class MyPostsController extends Controller
 {
-
-    // Método invocable
-    /* public function __invoke(Request $request)
-    {
-        // Lógica para el método invocable
-        return view('avisos.index', $data);
-    } */
 
     public function index (){
         $userId = Auth::id();
@@ -110,9 +109,11 @@ class MyPostsController extends Controller
     }
     
     public function store (Request $request){
-        // dd("aaa".Auth::check());
         if (!Auth::check()) {
-            return redirect('/');
+            return response()->json([
+                'message' => 'Usuario no logueado o perdio la sesión.',
+                'error' => true
+            ], 422);
         }
         $user_id = Auth::id();
 
@@ -122,6 +123,7 @@ class MyPostsController extends Controller
             'caracteristicas' => 'boolean',
             'multimedia' => 'boolean',
             'extras' => 'boolean',
+            'codigo_unico' => 'nullable|string',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -130,12 +132,29 @@ class MyPostsController extends Controller
             ], 422);
         }
 
+        $nuevoCodigoUnico = $request->codigo_unico;
+
+        if ( empty($nuevoCodigoUnico) ) {
+            $ultimoInmueble = Inmueble::orderBy('id', 'desc')->first(['codigo_unico']);
+            if ($ultimoInmueble && $ultimoInmueble->codigo_unico) {
+                $codigoUnico = $ultimoInmueble->codigo_unico;
+                $parteNumerica = substr($codigoUnico, 14); // Cortar los primeros 14 caracteres
+                $numero = intval($parteNumerica); // Convertir el resto de la cadena a un entero
+                $nuevoNumero = $numero + 1; // Sumar 1 al número
+                $nuevoCodigoUnico = substr($codigoUnico, 0, 14) . $nuevoNumero; // Crear el nuevo código
+            } else {
+                // Manejar el caso en que no hay registros o el campo es nulo
+                $nuevoCodigoUnico = 'INM-001-001-001'; // Puedes establecer un valor por defecto
+            }
+        }
+
         $inmueble = Inmueble::updateOrCreate([
-            "codigo_unico" => "7",
+            "codigo_unico" => "6",
             "user_id" => $user_id,
             ],[
             "estado" => 1,
         ]);
+        
         $principal_inmueble = PrincipalInmueble::updateOrCreate([
             "inmueble_id" => $inmueble->id,
             ],[
@@ -254,8 +273,8 @@ class MyPostsController extends Controller
                 // 'anios_antiguedad' => 'integer',
                 'precio_soles' => 'numeric',
                 'precio_dolares' => 'numeric',
-                // 'titulo' => 'string|max:100',
-                // 'descripcion' => 'string|max:250',
+                'titulo' => 'string|max:100',
+                'description' => 'string|max:250',
             ]);
             if ($validator->fails()) {
                 return response()->json([
@@ -278,10 +297,8 @@ class MyPostsController extends Controller
                 "anios_antiguedad" => null,
                 "precio_soles" => $request->precio_soles,
                 "precio_dolares" => $request->precio_dolares,
-                // "titulo" => $request->titulo,
-                // "descripcion" => $request->descripcion,
-                "titulo" => null,
-                "descripcion" => null,
+                "titulo" => $request->titulo,
+                "descripcion" => $request->description,
                 "estado" => 1,
             ]);
 
@@ -307,10 +324,13 @@ class MyPostsController extends Controller
                         'errors' => $validator->errors()
                     ], 422);
                 }
+                
                 $image = $request->file('imagen_principal');
-                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('images'), $imageName);
-                $imagenUrl1 = url('images/' . $imageName);
+                $path = Storage::disk('wasabi')->put('images', $image);
+                $imageURL = basename($path);
+                // $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                // $image->move(public_path('images'), $imageName);
+                $imagenUrl1 = url('images/' . $imageURL);
 
                 $multim_inmueble = MultimediaInmueble::updateOrCreate([
                     "inmueble_id" => $inmueble->id,
@@ -330,13 +350,19 @@ class MyPostsController extends Controller
 
             if ( $request->hasFile('imagen') ) {
                 foreach ($request->file('imagen') as $imagen) {
-                    $imagenName = time() . '_' . uniqid() . '.' . $imagen->getClientOriginalExtension();
+
+                    // $image = $request->file('imagen_principal');
+                    $path = Storage::disk('wasabi')->put('images', $imagen);
+                    $imagenURL = basename($path);
+                    $imagenUrl_1 = url('images/' . $imagenURL);
+
+                    /* $imagenName = time() . '_' . uniqid() . '.' . $imagen->getClientOriginalExtension();
                     $imagen->move(public_path('images'), $imagenName);
-                    $imagenUrl = url('images/' . $imagenName);
+                    $imagenUrl = url('images/' . $imagenName); */
         
                     $img_inmueble = ImagenInmueble::create([
                         'multimedia_inmueble_id' => $multi_inmueble_id,
-                        'imagen' => $imagenUrl,
+                        'imagen' => $imagenUrl_1,
                         "estado" => 1,
                     ]);
 
@@ -350,14 +376,20 @@ class MyPostsController extends Controller
             }
 
             if ( $request->hasFile('video') ) {
-                $video = $request->file('video'); 
+                /* $video = $request->file('video'); 
                 $videoName = time() . '_' . uniqid() . '.' . $video->getClientOriginalExtension();
                 $video->move(public_path('videos'), $videoName);
-                $videoUrl = url('videos/' . $videoName);
+                $videoUrl = url('videos/' . $videoName); */
 
-                $video_inmueble = VideoInmueble::create([
+                $video = $request->file('video');
+                $video_path = Storage::disk('wasabi')->put('videos', $video);
+                $videoURL = basename($video_path);
+                $videoUrl_2 = url('videos/' . $videoURL);
+
+                $video_inmueble = VideoInmueble::updateOrCreate([
                     'multimedia_inmueble_id' => $multi_inmueble_id,
-                    'video' => $videoUrl,
+                    ],[
+                    'video' => $videoUrl_2,
                     "estado" => 1,
                 ]);
 
@@ -371,9 +403,13 @@ class MyPostsController extends Controller
 
             if ( $request->hasFile('planos') ) {
                 foreach ($request->file('planos') as $plano) {
-                    $planoName = time() . '_' . uniqid() . '.' . $plano->getClientOriginalExtension();
+                    /* $planoName = time() . '_' . uniqid() . '.' . $plano->getClientOriginalExtension();
                     $plano->move(public_path('planos'), $planoName);
-                    $planoUrl = url('videos/' . $planoName);
+                    $planoUrl = url('videos/' . $planoName); */
+
+                    $plano_path = Storage::disk('wasabi')->put('planos', $plano);
+                    $basename_plano_path = basename($plano_path);
+                    $planoUrl = url('planos/' . $basename_plano_path);
         
                     $plano_inmueble = PlanoInmueble::create([
                         'multimedia_inmueble_id' => $multi_inmueble_id,
@@ -454,8 +490,47 @@ class MyPostsController extends Controller
 
         return response()->json([
             'message' => 'Registro exitos',
-            'error' => false
+            'error' => false,
+            'codigo_unico' => $inmueble->codigo_unico 
         ], 201);
+    }
+
+
+
+    public function get_subtipos() {
+        $subtipos = SubTipoInmueble::where('estado', 1)->get();
+        return response()->json([
+            'message' => 'Respuesta exitosa.',
+            'subtipos' => $subtipos,
+            'error' => false
+        ], 200);
+    }
+
+    public function getDepartamentos() {
+        $departamentos = Departamento::where('estado', 1)->get();
+        return response()->json([
+            'message' => 'Respuesta exitosa.',
+            'departamentos' => $departamentos,
+            'error' => false
+        ], 200);
+    }
+
+    public function getProvincias($departamentoId)
+    {
+        $provincias = Provincia::where('departamento_id', $departamentoId)->where('estado', 1)->get();
+        return response()->json($provincias);
+    }
+
+    public function getDistritos($provinciaId)
+    {
+        $distritos = Distrito::where('provincia_id', $provinciaId)->where('estado', 1)->get();
+        return response()->json($distritos);
+    }
+
+    public function getExtras($extra_id)
+    {
+        $extras = Caracteristica::where('categoria_caracteristica_id', $extra_id)->where('estado', 1)->get();
+        return response()->json($extras);
     }
 
 

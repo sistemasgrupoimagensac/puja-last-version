@@ -21,9 +21,12 @@ export default defineConfig({
                 "resources/sass/components/menu_panel.scss",
                 "resources/sass/components/footer.scss",
                 "resources/sass/components/card_plan.scss",
+                // CSS
+                "resources/css/app.css",
 
                 // js
                 "resources/js/app.js",
+                "resources/js/profile-user.js",
                 // js - scripts
                 'resources/js/scripts/home.js',
                 'resources/js/scripts/inmueble.js',
@@ -37,6 +40,7 @@ export default defineConfig({
                 "resources/js/scripts/components/whatsapp_modal_inmueble_contact.js",
                 "resources/js/scripts/components/footer.js",
                 "resources/js/scripts/components/card_plan.js",
+                "resources/js/scripts/components/puja_modal_contact.js",
             ],
             refresh: true,
         }),

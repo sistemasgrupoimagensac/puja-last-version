@@ -62,7 +62,7 @@ class LoginController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
             'document_type' => 'required|integer|max:1',
-            'phone' => 'integer|digits:9',
+            // 'phone' => 'integer|digits:9',
             'document_number' => 'required|string|max:30|unique:users,numero_documento',
             'imagen' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|nullable',
             // 'estado' => 'required|boolean',

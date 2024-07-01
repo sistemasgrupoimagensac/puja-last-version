@@ -321,9 +321,11 @@
                   <x-whatsapp-modal-inmueble-contact></x-whatsapp-modal-inmueble-contact>
   
                   {{-- contacto por correo --}}
-                  <button class="btn btn-light border-secondary-subtle">
-                    <i class="fas fa-envelope"></i> Email
+                  <button class="btn btn-light border-secondary-subtle" type="button" id="btn-enviar-form-single">
+                    <i class="fa-regular fa-paper-plane"></i> Enviar
                   </button>
+
+                  <x-puja-modal-contact :monto="number_format($aviso->inmueble->precioSoles())"></x-puja-modal-contact>
   
                   <div class="form-group d-flex gap-3 align-items-top mb-2">
                     <input type="checkbox" name="acepto_terminos_condiciones" id="terminos" class="form-check-input"/>
