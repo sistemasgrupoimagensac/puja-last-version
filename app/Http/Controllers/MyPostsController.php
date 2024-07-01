@@ -131,7 +131,7 @@ class MyPostsController extends Controller
         }
 
         $inmueble = Inmueble::updateOrCreate([
-            "codigo_unico" => "6",
+            "codigo_unico" => "7",
             "user_id" => $user_id,
             ],[
             "estado" => 1,
