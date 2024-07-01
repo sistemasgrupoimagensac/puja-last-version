@@ -13,7 +13,7 @@
 @endsection
 
 @section('content')
-  <div class="custom-container my-2">
+  <div class="custom-container my-2" x-data="showRemate()">
 
     <div class="d-flex flex-column flex-lg-row">
 
@@ -86,10 +86,9 @@
     
               </div>
     
-              {{-- Precion del inmueble --}}
-              {{-- <div class="d-flex justify-content-between align-items-end flex-md-column"> --}}
-    
-                <div class="d-flex flex-column align-items-start align-items-md-end mt-4 mt-md-0">
+              {{-- Precio del inmueble Alquiler y Venta --}}
+              <div x-show="!inmueble_remate">
+                <div class="d-flex flex-column align-items-start align-items-md-end mt-4 mt-md-0" x-show="!inmueble_remate">
                   <h2 class="m-0 fw-bolder">
                     <span>{{ $aviso->inmueble->currencySoles() }}</span>
                     <span>{{ number_format($aviso->inmueble->precioSoles()) }}</span>
@@ -99,9 +98,24 @@
                     <small>{{ number_format($aviso->inmueble->precioDolares()) }}</small>
                   </h3>
                 </div>
-    
-                
-                {{-- </div> --}}
+              </div>
+
+              {{-- Precio del inmueble Remate --}}
+              <div x-show="inmueble_remate">
+                <div class="d-flex flex-column align-items-start align-items-md-end mt-4 mt-md-0" x-show="!inmueble_remate">
+                  <small class="text-prim">Precio base remate</small>
+                  <h2 class="m-0 fw-bolder text-primary">
+                    <span>{{ $aviso->inmueble->currencyDolares() }}</span>
+                    <span>44,880</span>
+                  </h2>
+                  <small class="mt-3">Valor de la tasación</small>
+                  <h3 class="m-0 fw-bolder text-secondary">
+                    <small>{{ $aviso->inmueble->currencyDolares() }}</small>
+                    <small>79,200</small>
+                  </h3>
+                </div>
+              </div>
+
             </div>
 
 
@@ -111,81 +125,107 @@
 
           </div>
 
+          {{-- Card - Remate (OPCIONAL) --}}
+          <div class="description-container mt-4 bg-primary-subtle text-bg-light p-3 rounded shadow" x-show="inmueble_remate">
+            <h3 class="fw-bold">Detalles del Remate</h3>
+
+            <p>
+              <span class="fw-bolder">Lugar del remate:</span>
+              Sede del Centro de Arbitraje Comercial de Lima - CACLI, Av. Arequipa N° 330, Oficina 907 - Piso 9 - Urbanización Santa Beatriz
+            </p>
+
+            <p>
+              <span class="fw-bolder">Fecha y hora:</span>
+              Viernes 14 de Junio a las 11:00h
+            </p>
+
+            <p>
+              <span class="fw-bolder">Contacto:</span>
+              Dr. Gerardo Janampa
+            </p>
+
+            <p>
+              <span class="fw-bolder">Teléfono:</span>
+              955 072 414
+            </p>
+
+          </div>
+
           {{-- Card - Más datos del inmueble --}}
           <div class="d-flex flex-wrap justify-content-between gap-4 mt-4 px-3 py-4 border rounded shadow">
 
             {{-- dormitorios --}}
             @if($aviso->inmueble->dormitorios())
-            <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
-              <div class="d-flex">
-                <i class="fa-solid fa-bed fa-lg icon-orange p-1"></i>
-                <h5 class="text-secondary m-1 fw-bold"> {{ $aviso->inmueble->dormitorios() }} </h5>
+              <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
+                <div class="d-flex">
+                  <i class="fa-solid fa-bed fa-lg icon-orange p-1"></i>
+                  <h5 class="text-secondary m-1 fw-bold"> {{ $aviso->inmueble->dormitorios() }} </h5>
+                </div>
+                <h6 class="text-secondary m-0"> dorm. </h6>
               </div>
-              <h6 class="text-secondary m-0"> dorm. </h6>
-            </div>
             @endif
 
             {{-- baño completo --}}
             @if($aviso->inmueble->banios())
-            <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
-              <div class="d-flex">
-                <i class="fa-solid fa-bath fa-lg icon-orange p-1"></i>
-                <h5 class="text-secondary m-1 fw-bold"> {{ $aviso->inmueble->banios() }} </h5>
+              <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
+                <div class="d-flex">
+                  <i class="fa-solid fa-bath fa-lg icon-orange p-1"></i>
+                  <h5 class="text-secondary m-1 fw-bold"> {{ $aviso->inmueble->banios() }} </h5>
+                </div>
+                <h6 class="text-secondary m-0"> bañ. </h6>
               </div>
-              <h6 class="text-secondary m-0"> bañ. </h6>
-            </div>
             @endif
 
             {{-- medio baño --}}
             @if($aviso->inmueble->medioBanios())
-            <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
-              <div class="d-flex">
-                <i class="fa-solid fa-toilet fa-lg icon-orange p-1"></i>
-                <h5 class="text-secondary m-1 fw-bold"> {{ $aviso->inmueble->medioBanios() }} </h5>
+              <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
+                <div class="d-flex">
+                  <i class="fa-solid fa-toilet fa-lg icon-orange p-1"></i>
+                  <h5 class="text-secondary m-1 fw-bold"> {{ $aviso->inmueble->medioBanios() }} </h5>
+                </div>
+                <h6 class="text-secondary m-0"> 1/2 bañ. </h6>
               </div>
-              <h6 class="text-secondary m-0"> 1/2 bañ. </h6>
-            </div>
             @endif
             
             {{-- estacionamientos --}}
             @if($aviso->inmueble->estacionamientos())
-            <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
-              <div class="d-flex">
-                <i class="fa-solid fa-car fa-lg icon-orange p-1"></i>
-                <h5 class="text-secondary m-1 fw-bold"> {{ $aviso->inmueble->estacionamientos() }} </h5>
+              <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
+                <div class="d-flex">
+                  <i class="fa-solid fa-car fa-lg icon-orange p-1"></i>
+                  <h5 class="text-secondary m-1 fw-bold"> {{ $aviso->inmueble->estacionamientos() }} </h5>
+                </div>
+                <h6 class="text-secondary m-0"> estacion. </h6>
               </div>
-              <h6 class="text-secondary m-0"> estacion. </h6>
-            </div>
             @endif
 
             {{-- area total --}}
             @if($aviso->inmueble->area())
-            <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
-              <div class="d-flex">
-                <i class="fa-solid fa-ruler-combined fa-lg icon-orange p-1"></i>
-                <h5 class="text-secondary m-1 fw-bold"> 
-                  <span>{{ $aviso->inmueble->area() }}</span>
-                  <span>m</span>
-                  <sup>2</sup>
-                </h5>
+              <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
+                <div class="d-flex">
+                  <i class="fa-solid fa-ruler-combined fa-lg icon-orange p-1"></i>
+                  <h5 class="text-secondary m-1 fw-bold"> 
+                    <span>{{ $aviso->inmueble->area() }}</span>
+                    <span>m</span>
+                    <sup>2</sup>
+                  </h5>
+                </div>
+                <h6 class="text-secondary m-0"> area total </h6>
               </div>
-              <h6 class="text-secondary m-0"> area total </h6>
-            </div>
             @endif
             
             {{-- area techada --}}
             @if($aviso->inmueble->areaConstruida())
-            <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
-              <div class="d-flex">
-                <i class="fa-solid fa-ruler-combined fa-lg icon-orange p-1"></i>
-                <h5 class="text-secondary m-1 fw-bold"> 
-                  <span>{{ $aviso->inmueble->areaConstruida() }}</span>
-                  <span>m</span>
-                  <sup>2</sup>
-                </h5>
+              <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
+                <div class="d-flex">
+                  <i class="fa-solid fa-ruler-combined fa-lg icon-orange p-1"></i>
+                  <h5 class="text-secondary m-1 fw-bold"> 
+                    <span>{{ $aviso->inmueble->areaConstruida() }}</span>
+                    <span>m</span>
+                    <sup>2</sup>
+                  </h5>
+                </div>
+                <h6 class="text-secondary m-0"> area construida </h6>
               </div>
-              <h6 class="text-secondary m-0"> area construida </h6>
-            </div>
             @endif
 
           </div>
@@ -341,6 +381,14 @@
     </div>
 
   </div>
+
+  <script>
+    function showRemate() {
+      return {
+        inmueble_remate: false,
+      }
+    }
+  </script>
 
 @endsection
 

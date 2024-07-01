@@ -290,7 +290,7 @@
                             <div class="d-flex justify-content-between gap-4 mt-3">
                                 <div class="form-group w-100">
                                     <label class="text-secondary" for="telefono_contacto_remate">Teléfono del Contacto</label>
-                                    <input type="text" id="telefono_contacto_remate" x-model="telefono_contacto_remate" class="form-control">
+                                    <input type="phone" id="telefono_contacto_remate" x-model="telefono_contacto_remate" class="form-control">
                                 </div>
                             </div>
 
@@ -452,7 +452,7 @@
     <script>
         function avisoForm() {
             return {
-                step: {{ session('step', 3) }},
+                step: {{ session('step', 1) }},
                 aviso_id: {{ session('aviso_id', 'null') }},
 
                 // si la publicación la inició como acreedor:
