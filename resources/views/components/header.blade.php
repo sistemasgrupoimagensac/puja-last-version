@@ -185,11 +185,11 @@
                             if ( (int)$tipoUsuarioID === 2 ) {
                                 $tipoUsuario = "Propietario";
                             } else if ( (int)$tipoUsuarioID === 3 ) {
-                                $tipoUsuario = "Inmobiliario";
-                            } else if ( (int)$tipoUsuarioID === 4 ) {
-                                $tipoUsuario = "Constructor";
-                            } else if ( (int)$tipoUsuarioID === 5 ) {
                                 $tipoUsuario = "Corredor";
+                            } else if ( (int)$tipoUsuarioID === 4 ) {
+                                $tipoUsuario = "Acreedor";
+                            } else if ( (int)$tipoUsuarioID === 5 ) {
+                                $tipoUsuario = "Proyecto";
                             } else {
                                 $tipoUsuario = "Propietario";
                             }
@@ -232,7 +232,7 @@
                         </nav>
                     @else
                         <a class="button-clear btn mx-1" href="/publica-tu-inmueble">Publica Aquí</a>
-                        <a class="button-orange btn mx-1" href="{{ route("sign-in", ['profile_type' => "owner"]) }}">Iniciar Sesión</a>
+                        <a class="button-orange btn mx-1" href="{{ route("sign_in", ['profile_type' => 2]) }}">Iniciar Sesión</a>
                     @endauth
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
@@ -258,7 +258,7 @@
     {{-- Linea divisora --}}
     <hr class="m-0">
 
-  <a class="button-orange btn m-4" href="/sign-in">Iniciar Sesión</a>
+  <a class="button-orange btn m-4" href="{{ route("sign_in", ['profile_type' => 2]) }}">Iniciar Sesión</a>
   <a class="button-clear aside-menu btn mx-4" href="/publica-tu-inmueble">Publica Aquí</a>
 
 

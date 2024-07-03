@@ -61,17 +61,24 @@ Route::get('/publica-tu-inmueble', function() {
     return view('publicatuinmueble');
 });
 
-Route::get('/sign-in/{profile_type}', function($profile_type) {
+Route::get('/sign-in', [LoginController::class, 'sign_in'])->name('sign_in');
+
+/* Route::get('/sign-in/{profile_type}',function($profile_type) {
     return view('auth.signin', compact('profile_type'));
-})->name("sign-in");
+})->name("sign-in"); */
 
 Route::post('/store', [LoginController::class, 'store']);
 Route::post('login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/register/{profile_type}', function($profile_type) {
+Route::get('/register', [LoginController::class, 'register'])->name('login.register');
+
+/* Route::get('/register/{profile_type}', function($profile_type) {
     return view('auth.register', compact('profile_type'));
-});
+}); */
+/* Route::get('/register', function() {
+    return view('auth.register');
+}); */
 
 Route::get('/recuperar-password', function() {
     return view('auth.recoverpassword');
@@ -91,9 +98,7 @@ Route::get('/my-post/ubicacion/provincias/{departamentoId}', [MyPostsController:
 Route::get('/my-post/ubicacion/distritos/{provinciaId}', [MyPostsController::class, 'getDistritos']);
 Route::get('/my-post/extras/{extra_id}', [MyPostsController::class, 'getExtras']);
 
-Route::get('/register', function() {
-    return view('auth.register');
-});
+
 
 // Ruta para planes de pago
 Route::get('/planes-inmobiliaria', function() {

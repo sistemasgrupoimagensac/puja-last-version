@@ -450,7 +450,7 @@
                 aviso_id: {{ session('aviso_id', 'null') }},
 
                 // si la publicación la inició como acreedor:
-                perfil_acreedor: @json($user_type == 5),
+                perfil_acreedor: @json($user_type == 4),
                 // mostrar_campo:false,
                 // mostrar_campo: @json($user_type == 5),
                 
