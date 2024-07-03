@@ -224,7 +224,7 @@
 
                             <div class="d-flex justify-content-between gap-4">
                                 {{-- Precios para alquiler o venta --}}
-                                <div class="form-group w-100" x-show="perfil_acreedor || tipo_operacion != 3">
+                                <div class="form-group w-100" x-show="!perfil_acreedor || (perfil_acreedor && tipo_operacion != 3)">
                                     <label class="text-secondary" for="precio_soles">Precio soles</label>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">S/.</span>
@@ -232,7 +232,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group w-100" x-show="perfil_acreedor || tipo_operacion != 3">
+                                <div class="form-group w-100" x-show="!perfil_acreedor || (perfil_acreedor && tipo_operacion != 3)">
                                     <label class="text-secondary" for="precio_dolares">Precio dólares</label>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">US$</span>
@@ -241,7 +241,7 @@
                                 </div>
 
                                 {{-- Precios para remate --}}
-                                <div class="form-group w-100" x-show="!perfil_acreedor && tipo_operacion == 3">
+                                <div class="form-group w-100" x-show="perfil_acreedor && tipo_operacion == 3">
                                     <label class="text-secondary" for="base_remate">Base de Remate</label>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">US$</span>
@@ -249,7 +249,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group w-100" x-show="!perfil_acreedor && tipo_operacion == 3">
+                                <div class="form-group w-100" x-show="perfil_acreedor && tipo_operacion == 3">
                                     <label class="text-secondary" for="valor_tasacion">Valor de Tasación</label>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">US$</span>
@@ -259,7 +259,7 @@
                             </div>
                         </fieldset>
 
-                        <fieldset x-show="!perfil_acreedor && tipo_operacion == 3">
+                        <fieldset x-show="perfil_acreedor && tipo_operacion == 3">
                             <legend>Detalles del Remate</legend>
 
                             <div class="d-flex justify-content-between gap-4">
@@ -509,6 +509,7 @@
                 }, */
 
                 initializeSecondStep() {
+                    console.log(this.perfil_acreedor)
                     this.fetchDepartamentos();
                     this.fetchProvincias();
                     this.fetchDistritos();
@@ -596,6 +597,16 @@
                             formData.append('anios_antiguedad', this.anios_antiguedad)
                             formData.append('precio_soles', this.precio_soles)
                             formData.append('precio_dolares', this.precio_dolares)
+                            
+                            formData.append('remate_precio_base', this.base_remate)
+                            formData.append('remate_valor_tasacion', this.valor_tasacion)
+                            formData.append('remate_partida_registral', this.partida_registral)
+                            formData.append('remate_direccion', this.direccion_remate)
+                            formData.append('remate_fecha', this.fecha_remate)
+                            formData.append('remate_hora', this.hora_remate)
+                            formData.append('remate_nombre_contacto', this.contacto_remate)
+                            formData.append('remate_telef_contacto', this.telefono_contacto_remate)
+
                             formData.append('titulo', this.titulo)
                             formData.append('description', this.description)
                             formData.append('caracteristicas', 1)

@@ -62,6 +62,16 @@ return new class extends Migration
             $table->integer('anios_antiguedad')->nullable();
             $table->float('precio_soles')->nullable();
             $table->float('precio_dolares')->nullable();
+            
+            $table->float('remate_precio_base')->nullable();
+            $table->float('remate_valor_tasacion')->nullable();
+            $table->string('remate_partida_registral', 250)->nullable();
+            $table->string('remate_direccion', 250)->nullable();
+            $table->string('remate_fecha', 15)->nullable();
+            $table->string('remate_hora', 10)->nullable();
+            $table->string('remate_nombre_contacto', 250)->nullable();
+            $table->string('remate_telef_contacto', 250)->nullable();
+
             $table->string('titulo', 250)->nullable();
             $table->text('descripcion')->nullable();
             $table->boolean('estado')->default(1);
