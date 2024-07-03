@@ -279,7 +279,7 @@ class MyPostsController extends Controller
                 'area_construida' => 'numeric',
                 'area_total' => 'numeric',
                 'antiguedad' => 'string',
-                'anios_antiguedad' => 'integer',
+                'anios_antiguedad' => 'nullable|integer',
                 'precio_soles' => 'nullable|numeric',
                 'precio_dolares' => 'nullable|numeric',
                 
