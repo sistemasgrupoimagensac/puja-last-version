@@ -105,7 +105,14 @@ class MyPostsController extends Controller
     }
 
     public function create (){
-        return view('crear-aviso');
+        if (!Auth::check()) {
+            return response()->json([
+                'message' => 'Usuario no logueado o perdio la sesión.',
+                'error' => true
+            ], 422);
+        }
+        $user_type = Auth::user()->tipo_usuario_id;
+        return view('crear-aviso', compact('user_type'));
     }
     
     public function store (Request $request){
@@ -135,7 +142,9 @@ class MyPostsController extends Controller
         $nuevoCodigoUnico = $request->codigo_unico;
 
         if ( empty($nuevoCodigoUnico) ) {
-            $ultimoInmueble = Inmueble::orderBy('id', 'desc')->first(['codigo_unico']);
+            $ultimoInmueble = Inmueble::where('codigo_unico', 'like', 'INM-001-001%')
+                ->orderBy('id', 'desc')
+                ->first(['codigo_unico']);
             if ($ultimoInmueble && $ultimoInmueble->codigo_unico) {
                 $codigoUnico = $ultimoInmueble->codigo_unico;
                 $parteNumerica = substr($codigoUnico, 14); // Cortar los primeros 14 caracteres
@@ -149,7 +158,7 @@ class MyPostsController extends Controller
         }
 
         $inmueble = Inmueble::updateOrCreate([
-            "codigo_unico" => "6",
+            "codigo_unico" => "$nuevoCodigoUnico",
             "user_id" => $user_id,
             ],[
             "estado" => 1,
