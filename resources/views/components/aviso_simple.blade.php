@@ -4,7 +4,7 @@
             <div class="col-lg-3 col-xl-2 h-100">
                 <div class="image-aviso h-100">
                     <a href="{{ $link }}" target="_blank" class="text-decoration-none text-reset">
-                      <img src="{{ $image }}" class="card-inmueble-image rounded" alt="imagen inmueble">
+                        <img src="{{ $image }}" class="card-inmueble-image rounded" alt="imagen inmueble">
                     </a>
                 </div>
             </div>
@@ -31,18 +31,18 @@
                 <div class="text-secondary d-flex justify-content-between align-items-center py-2">
                     <p class="m-0 info-footer-aviso">
                         ID:
-                      <span class="id-aviso ms-1">{{ $id }}</span>
+                        <span class="id-aviso ms-1">{{ $codigo_unico }}</span>
                     </p>
           
-                    <div class="d-flex gap-2">                              
-                      <button class="btn btn-light border-secondary-subtle bg-white" title="Editar aviso">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                      </button>
-                      <a href="{{ $link }}" target="_blank" class="btn btn-light border-secondary-subtle bg-white" title="Ir al aviso">
-                          <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                      </a>
+                    <div class="d-flex gap-2">                             
+                        <button class="btn btn-light border-secondary-subtle bg-white" title="Editar aviso" onclick="window.location.href='{{ route('posts.edit', ['aviso' => $id]) }}'">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                        <a href="{{ $link }}" target="_blank" class="btn btn-light border-secondary-subtle bg-white" title="Ir al aviso">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
                     </div>
-                  </div>
+                </div>
             </div>
         </div>
     </div>

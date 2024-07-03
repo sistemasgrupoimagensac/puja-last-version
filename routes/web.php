@@ -81,7 +81,7 @@ Route::get('/my-posts', [MyPostsController::class, 'index'])->name('posts.index'
 Route::get('/my-posts/create', [MyPostsController::class, 'create'])->name('posts.create');
 Route::post('/my-post/store', [MyPostsController::class, 'store'])->name('posts.store');
 // Route::get('/my-posts/{id}', [MyPostsController::class, 'show'])->name('posts.show');
-// Route::get('/my-posts/{id}/edit', [MyPostsController::class, 'edit'])->name('posts.edit');
+Route::get('/my-posts/{aviso}/edit', [MyPostsController::class, 'edit'])->name('posts.edit');
 // Route::put('/my-posts/{id}', [MyPostsController::class, 'update'])->name('posts.update');
 // Route::delete('/my-posts/{id}', [MyPostsController::class, 'destroy'])->name('posts.destroy');
 
@@ -106,4 +106,5 @@ Route::get('/proyectos', function() {
 });
 
 Route::get('/images/{archivo}', [ImagesController::class, 'get_images']);
+Route::get('/videos/{archivo}', [ImagesController::class, 'get_videos']);
 

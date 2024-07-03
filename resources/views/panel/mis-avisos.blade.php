@@ -16,9 +16,11 @@
                 <h2>Mis avisos</h2>
 
                 <section class="my-3">
+                    {{-- @php dd($avisos); @endphp --}}
                     @foreach($avisos as $aviso)
                     @include('components.aviso_simple', [
-                        'id' => $aviso->inmueble->codigo_unico,
+                        'id' => $aviso->id,
+                        'codigo_unico' => $aviso->inmueble->codigo_unico,
                         'link' => route('inmueble.single', ['inmueble' => $aviso->link()]),
                         'title' => $aviso->inmueble->tituloReal() ?? 'Aviso sin título',
                         'image' => $aviso->inmueble->imagenPrincipal(),

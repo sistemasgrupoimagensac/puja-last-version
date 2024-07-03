@@ -273,8 +273,8 @@ class MyPostsController extends Controller
                 // 'anios_antiguedad' => 'integer',
                 'precio_soles' => 'numeric',
                 'precio_dolares' => 'numeric',
-                'titulo' => 'string|max:100',
-                'description' => 'string|max:250',
+                // 'titulo' => 'string|max:100',
+                // 'description' => 'string|max:250',
             ]);
             if ($validator->fails()) {
                 return response()->json([
@@ -297,8 +297,8 @@ class MyPostsController extends Controller
                 "anios_antiguedad" => null,
                 "precio_soles" => $request->precio_soles,
                 "precio_dolares" => $request->precio_dolares,
-                "titulo" => $request->titulo,
-                "descripcion" => $request->description,
+                // "titulo" => $request->titulo,
+                // "descripcion" => $request->description,
                 "estado" => 1,
             ]);
 
@@ -495,7 +495,35 @@ class MyPostsController extends Controller
         ], 201);
     }
 
+    public function edit (Aviso $aviso){
+        $inmueble = Inmueble::where("id", $aviso->inmueble_id)->first();
+        $principal_inmueble_id = PrincipalInmueble::where("inmueble_id", $aviso->inmueble_id)->pluck('id')->first();
+        $caract_inmueble_id = CaracteristicaInmueble::where("principal_inmueble_id", $principal_inmueble_id)->first();
 
+        $op_inmueble = OperacionTipoInmueble::where("principal_inmueble_id", $principal_inmueble_id)->first();
+        $ubi_inmueble = UbicacionInmueble::where("principal_inmueble_id", $principal_inmueble_id)->first();
+
+        $mult_inmueble = MultimediaInmueble::where("inmueble_id", $aviso->inmueble_id)->first();
+        $imgs_inmueble = ImagenInmueble::where("multimedia_inmueble_id", $mult_inmueble->id)->first();
+        $videos_inmueble = VideoInmueble::where("multimedia_inmueble_id", $mult_inmueble->id)->first();
+        if(!$videos_inmueble){
+            $videos_inmueble = "";
+        }
+        $planos_inmueble = PlanoInmueble::where("multimedia_inmueble_id", $mult_inmueble->id)->first();
+
+        $extra_inmueble = ExtraInmueble::where("inmueble_id", $aviso->inmueble_id)->first();
+        $extra_carac_inmueble = ExtraInmueblesCaracteristicas::where("extra_inmueble_id", $extra_inmueble->id)->first();
+
+        // dd($imgs_inmueble);
+
+        if ($aviso) {
+            // dd($aviso);
+            return view("actualizar-aviso", compact('inmueble','op_inmueble', 'ubi_inmueble', 'caract_inmueble_id', 'mult_inmueble', 'imgs_inmueble', 'videos_inmueble', 'planos_inmueble', 'extra_inmueble', 'extra_carac_inmueble'));
+        } else {
+            dd("Aviso no encontrado, $aviso no existe");
+        }
+        return view('actualizar-aviso');
+    }
 
     public function get_subtipos() {
         $subtipos = SubTipoInmueble::where('estado', 1)->get();
