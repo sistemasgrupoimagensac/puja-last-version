@@ -1,24 +1,16 @@
-<div class="card" style="width:18rem;">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <h6 class="card-subtitle mb-2 text-muted ">Card subtitle</h6>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    b5
+<label class="card btn btn-lg {{ $className }} p-0 shadow" for="{{ $plan }}" style="width:14rem; height: 14rem">
+  <div>
+    <div class="card-body p-0">
+      <h2 class="card-title mt-3">{{ $title }}</h2>
+      <h6 class="card-subtitle mb-2">S/.{{ $price }} por {{ $time }} días</h6>
+      <hr>
+      <p class="card-text">{{ $text }}</p>
+      <ul class=" list-unstyled">
+        <li></li>
+      </ul>
+    </div>
   </div>
-</div>
-
-<div class="card text-center card-plan-container">
-  <div class="card-body">
-    <h5 class="card-title icon-orange">Special title treatment</h5>
-    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
-  <div class="card-footer text-body-secondary">
-    2 days ago
-  </div>
-</div>
-
-
+</label>
 
 @push('styles')
     @vite(['resources/sass/components/card_plan.scss'])

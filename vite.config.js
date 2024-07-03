@@ -15,6 +15,7 @@ export default defineConfig({
                 'resources/sass/pages/signin.scss',
                 'resources/sass/pages/crear-aviso.scss',
                 'resources/sass/pages/perfil.scss',
+                'resources/sass/pages/planes.scss',
                 // sass - components
                 "resources/sass/components/whatsapp_modal_contact.scss",
                 "resources/sass/components/whatsapp_modal_inmueble_contact.scss",

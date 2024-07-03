@@ -9,7 +9,7 @@
 @endpush
 
 @section('content')
-    <div x-data="avisoForm()" class="">
+    <div x-data="avisoForm()">
 
         <!-- Menú de los pasos -->
         <div class="py-2 py-lg-4 bg-body-tertiary border-bottom">
@@ -129,119 +129,174 @@
                 </div>
 
                 <!-- Paso 3: Características -->
-                <div x-show="step === 3">
+                <div x-show="step === 3" x-init="initializeThridStep()">
                     <form @submit.prevent="nextStep(3)" class="d-flex flex-column gap-4 my-5">
                         @csrf
                         <h2>Características</h2>
                         <input type="hidden" name="caracteristicas" :value="step === 3 ? 1 : 0">
 
                         <fieldset>
-                        <legend>Características Principales</legend>
+                            <legend>Características Principales</legend>
 
-                        <div class="d-flex justify-content-between gap-4">
-                            <div class="form-group w-100">
-                                <label class="text-secondary" for="dormitorios">Dormitorios</label>
-                                <input type="number" id="dormitorios" x-model="dormitorios" min="0" max="99" class="form-control">
+                            <div class="d-flex justify-content-between gap-4">
+                                <div class="form-group w-100">
+                                    <label class="text-secondary" for="dormitorios">Dormitorios</label>
+                                    <input type="number" id="dormitorios" x-model="dormitorios" min="0" max="99" class="form-control">
+                                </div>
+
+                                <div class="form-group w-100">
+                                    <label class="text-secondary" for="banios">Baños</label>
+                                    <input type="number" id="banios" x-model="banios" min="0" max="99" class="form-control">
+                                </div>
                             </div>
 
-                            <div class="form-group w-100">
-                                <label class="text-secondary" for="banios">Baños</label>
-                                <input type="number" id="banios" x-model="banios" min="0" max="99" class="form-control">
-                            </div>
-                        </div>
+                            <div class="d-flex justify-content-between gap-4 mt-3">
+                                <div class="form-group w-100">
+                                    <label class="text-secondary" for="medio_banios">Medio Baño</label>
+                                    <input type="number" id="medio_banios" x-model="medio_banios" min="0" max="99" class="form-control">
+                                </div>
 
-                        <div class="d-flex justify-content-between gap-4 mt-3">
-                            <div class="form-group w-100">
-                                <label class="text-secondary" for="medio_banios">Medio Baño</label>
-                                <input type="number" id="medio_banios" x-model="medio_banios" min="0" max="99" class="form-control">
+                                <div class="form-group w-100">
+                                    <label class="text-secondary" for="estacionamiento">Estacionamientos</label>
+                                    <input type="number" id="estacionamiento" x-model="estacionamiento" min="0" max="99" class="form-control">
+                                </div>
                             </div>
-
-                            <div class="form-group w-100">
-                                <label class="text-secondary" for="estacionamiento">Estacionamientos</label>
-                                <input type="number" id="estacionamiento" x-model="estacionamiento" min="0" max="99" class="form-control">
-                            </div>
-                        </div>
                         </fieldset>
 
                         <fieldset>
-                        <legend>Superficie</legend>
+                            <legend>Superficie</legend>
 
-                        <div class="d-flex justify-content-between gap-4">
-                            <div class="form-group w-100">
-                                <label class="text-secondary" for="area_construida">Área Construida</label>
-                                <div class="input-group mb-3">
-                                    <input type="number" id="area_construida" x-model="area_construida" min="0" max="999999" class="form-control" required>
-                                    <span class="input-group-text">m<sup>2</sup></span>
+                            <div class="d-flex justify-content-between gap-4">
+                                <div class="form-group w-100">
+                                    <label class="text-secondary" for="area_construida">Área Construida</label>
+                                    <div class="input-group mb-3">
+                                        <input type="number" id="area_construida" x-model="area_construida" min="0" max="999999" class="form-control" required>
+                                        <span class="input-group-text">m<sup>2</sup></span>
+                                    </div>
+                                </div>
+                                <div class="form-group w-100">
+                                    <label class="text-secondary" for="area_total">Área Total</label>
+                                    <div class="input-group mb-3">
+                                        <input type="number" id="area_total" x-model="area_total" min="0" max="999999" class="form-control" required>
+                                        <span class="input-group-text">m<sup>2</sup></span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group w-100">
-                                <label class="text-secondary" for="area_total">Área Total</label>
-                                <div class="input-group mb-3">
-                                    <input type="number" id="area_total" x-model="area_total" min="0" max="999999" class="form-control" required>
-                                    <span class="input-group-text">m<sup>2</sup></span>
-                                </div>
-                            </div>
-                        </div>
                         </fieldset>
 
                         <fieldset>
-                        <legend>Antigüedad</legend>
-
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" x-model="antiguedad" id="estreno" value="estreno" required>
-                            <label class="form-check-label" for="estreno">
-                                Estreno
-                            </label>
-                        </div>
-
-                        <div class="d-flex align-items-center justify-content-between my-2">
+                            <legend>Antigüedad</legend>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" x-model="antiguedad" id="antiguedad" value="antiguedad" required>
-                                <label class="form-check-label" for="antiguedad">
-                                    Años de antigüedad
+                                <input class="form-check-input" type="radio" x-model="antiguedad" id="estreno" value="estreno" required>
+                                <label class="form-check-label" for="estreno">
+                                    Estreno
                                 </label>
                             </div>
 
-                            <div class="form-group" x-show="antiguedad === 'antiguedad'">
-                                <div class="input-group">
-                                    <input type="number" x-model="anios_antiguedad" min="0" max="99" class="form-control border" :required="antiguedad === 'antiguedad'">
+                            <div class="d-flex align-items-center justify-content-between my-2">
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" x-model="antiguedad" id="antiguedad" value="antiguedad" required>
+                                    <label class="form-check-label" for="antiguedad">
+                                        Años de antigüedad
+                                    </label>
                                 </div>
+
+                                <div class="form-group" x-show="antiguedad === 'antiguedad'">
+                                    <div class="input-group">
+                                        <input type="number" x-model="anios_antiguedad" min="0" max="99" class="form-control border" :required="antiguedad === 'antiguedad'">
+                                    </div>
+                                </div>
+
                             </div>
 
-                        </div>
-
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" x-model="antiguedad" id="construccion" value="construccion" required>
-                            <label class="form-check-label" for="construccion">
-                                En construcción
-                            </label>
-                        </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" x-model="antiguedad" id="construccion" value="construccion" required>
+                                <label class="form-check-label" for="construccion">
+                                    En construcción
+                                </label>
+                            </div>
                         </fieldset>
 
                         <fieldset>
                             <legend>Precio</legend>
 
                             <div class="d-flex justify-content-between gap-4">
-                                <div class="form-group w-100">
+                                {{-- Precios para alquiler o venta --}}
+                                <div class="form-group w-100" x-show="!mostrar_campo">
                                     <label class="text-secondary" for="precio_soles">Precio soles</label>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">S/.</span>
-                                        <input type="number" id="precio_soles" x-model="precio_soles" min="99" max="999999999" class="form-control" required>
+                                        <input type="number" id="precio_soles" x-model="precio_soles" min="99" max="999999999" class="form-control">
                                     </div>
                                 </div>
 
-                                <div class="form-group w-100">
+                                <div class="form-group w-100" x-show="!mostrar_campo">
                                     <label class="text-secondary" for="precio_dolares">Precio dólares</label>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">US$</span>
-                                        <input type="number" id="precio_dolares" x-model="precio_dolares" min="99" max="99999999" class="form-control" required>
+                                        <input type="number" id="precio_dolares" x-model="precio_dolares" min="99" max="99999999" class="form-control">
+                                    </div>
+                                </div>
+
+                                {{-- Precios para remate --}}
+                                <div class="form-group w-100" x-show="mostrar_campo">
+                                    <label class="text-secondary" for="base_remate">Base de Remate</label>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text">US$</span>
+                                        <input type="number" id="base_remate" x-model="base_remate" min="99" max="999999999" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="form-group w-100" x-show="mostrar_campo">
+                                    <label class="text-secondary" for="valor_tasacion">Valor de Tasación</label>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text">US$</span>
+                                        <input type="number" id="valor_tasacion" x-model="valor_tasacion" min="99" max="99999999" class="form-control">
                                     </div>
                                 </div>
                             </div>
                         </fieldset>
 
-                        <fieldset>
+                        <fieldset x-show="mostrar_campo">
+                            <legend>Detalles del Remate</legend>
+
+                            <div class="d-flex justify-content-between gap-4">
+                                <div class="form-group w-100">
+                                    <label class="text-secondary" for="direccion_remate">Dirección del Remate</label>
+                                    <input type="text" id="direccion_remate" x-model="direccion_remate" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between gap-4 mt-3">
+                                <div class="form-group w-100">
+                                    <label class="text-secondary" for="fecha_remate">Fecha del Remate</label>
+                                    <input type="date" id="fecha_remate" x-model="fecha_remate" class="form-control">
+                                </div>
+                                <div class="form-group w-100">
+                                    <label class="text-secondary" for="hora_remate">Hora del Remate</label>
+                                    <input type="time" id="hora_remate" x-model="hora_remate" min="07:00" max="22:00" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between gap-4 mt-3">
+                                <div class="form-group w-100">
+                                    <label class="text-secondary" for="contacto_remate">Nombre del Contacto</label>
+                                    <input type="text" id="contacto_remate" x-model="contacto_remate" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between gap-4 mt-3">
+                                <div class="form-group w-100">
+                                    <label class="text-secondary" for="telefono_contacto_remate">Teléfono del Contacto</label>
+                                    <input type="phone" id="telefono_contacto_remate" x-model="telefono_contacto_remate" class="form-control">
+                                </div>
+                            </div>
+
+                        </fieldset>
+
+                        {{-- <fieldset>
                             <legend>Describe el inmueble</legend>
                             <div class="form-floating mb-3">
                                 <input type="text" id="titulo" x-model="titulo" class="form-control" placeholder="Título del aviso" required>
@@ -252,7 +307,7 @@
                                 <textarea class="form-control" placeholder="Descripción del aviso" x-model="description" id="description" rows="8" cols="50" style="with: 100%; height: 100px;"></textarea>
                                 <label for="description">Descripción del aviso</label>
                             </div>
-                        </fieldset>
+                        </fieldset> --}}
 
                         <div class="d-flex justify-content-between gap-2 w-100">
                             <button type="button" @click="prevStep()" class="btn btn-secondary w-100">Atrás</button>
@@ -399,6 +454,10 @@
             return {
                 step: {{ session('step', 1) }},
                 aviso_id: {{ session('aviso_id', 'null') }},
+
+                // si la publicación la inició como acreedor:
+                perfil_acreedor: true,
+                mostrar_campo:false,
                 
                 tipo_operacion: '',
                 subtipos: [],
@@ -438,6 +497,19 @@
                 acceso_parque: false,
                 ascensores: false,
                 codigo_unico: '',
+
+                // detalles de remate
+                base_remate: '',
+                valor_tasacion: '',
+                direccion_remate: '',
+                fecha_remate: '',
+                hora_remate: '',
+                contacto_remate: '',
+                telefono_contacto_remate: '',
+
+                initializeThridStep() {
+                    this.mostrar_campo = this.perfil_acreedor;
+                },
 
                 initializeSecondStep() {
                     this.fetchDepartamentos();
@@ -567,10 +639,12 @@
                         })
                     }
                 },  
+
                 prevStep() {
                     this.step--
                     this.updateStepStatus()
                 },
+
                 handleFiles(event, type) {
                     const files = event.target.files
                     if (type === 'fotos') {
@@ -583,6 +657,7 @@
                         this.videos = files[0]
                     }
                 },
+
                 eliminarImagen(type, index) {
                     if (type === 'fotos') {
                         this.fotos.splice(index, 1)
@@ -594,6 +669,7 @@
                         this.videos = null
                     }
                 },
+
                 updateStepStatus() {
                     document.querySelector('input[name="operacion"]').value = this.step === 1 ? 1 : 0
                     document.querySelector('input[name="ubicacion"]').value = this.step === 2 ? 1 : 0
@@ -602,6 +678,7 @@
                     document.querySelector('input[name="adicionales"]').value = this.step === 5 ? 1 : 0
                     document.querySelector('input[name="comodidades"]').value = this.step === 6 ? 1 : 0
                 },
+
                 fetchSubtipos() {
                     fetch('/my-post/operaciones/subtipos')
                     .then(response => response.json())
@@ -616,6 +693,7 @@
                         console.error('Error:', error);
                     });
                 },
+
                 fetchDepartamentos() {
                     fetch('/my-post/ubicacion/departamentos')
                     .then(response => response.json())
@@ -626,6 +704,7 @@
                         console.error('Error fetching departamentos:', error);
                     });
                 },
+
                 fetchProvincias() {
                     if (this.selectedDepartamento) {
                         fetch(`/my-post/ubicacion/provincias/${this.selectedDepartamento}`)
@@ -646,6 +725,7 @@
                         this.selectedDistrito = '';
                     }
                 },
+
                 fetchDistritos() {
                     if (this.selectedProvincia) {
                         fetch(`/my-post/ubicacion/distritos/${this.selectedProvincia}`)
@@ -662,6 +742,7 @@
                         this.selectedDistrito = '';
                     }
                 },
+
                 fetchExtras(extra_id) {
                     fetch(`/my-post/extras/${extra_id}`)
                     .then(response => response.json())
