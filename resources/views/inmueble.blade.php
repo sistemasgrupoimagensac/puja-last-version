@@ -385,7 +385,7 @@
   <script>
     function showRemate() {
       return {
-        inmueble_remate: false,
+        inmueble_remate: true,
       }
     }
   </script>

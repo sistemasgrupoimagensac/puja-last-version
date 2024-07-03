@@ -271,6 +271,13 @@
 
                             <div class="d-flex justify-content-between gap-4 mt-3">
                                 <div class="form-group w-100">
+                                    <label class="text-secondary" for="partida_registral">Partida Registral</label>
+                                    <input type="text" id="partida_registral" x-model="partida_registral" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between gap-4 mt-3">
+                                <div class="form-group w-100">
                                     <label class="text-secondary" for="fecha_remate">Fecha del Remate</label>
                                     <input type="date" id="fecha_remate" x-model="fecha_remate" class="form-control">
                                 </div>
@@ -295,19 +302,6 @@
                             </div>
 
                         </fieldset>
-
-                        {{-- <fieldset>
-                            <legend>Describe el inmueble</legend>
-                            <div class="form-floating mb-3">
-                                <input type="text" id="titulo" x-model="titulo" class="form-control" placeholder="Título del aviso" required>
-                                <label for="titulo">Título del aviso</label>
-                            </div>
-
-                            <div class="form-floating mb-2">
-                                <textarea class="form-control" placeholder="Descripción del aviso" x-model="description" id="description" rows="8" cols="50" style="with: 100%; height: 100px;"></textarea>
-                                <label for="description">Descripción del aviso</label>
-                            </div>
-                        </fieldset> --}}
 
                         <div class="d-flex justify-content-between gap-2 w-100">
                             <button type="button" @click="prevStep()" class="btn btn-secondary w-100">Atrás</button>
@@ -452,12 +446,12 @@
     <script>
         function avisoForm() {
             return {
-                step: {{ session('step', 1) }},
+                step: {{ session('step', 3) }},
                 aviso_id: {{ session('aviso_id', 'null') }},
 
                 // si la publicación la inició como acreedor:
                 perfil_acreedor: true,
-                mostrar_campo:false,
+                mostrar_campo: false,
                 
                 tipo_operacion: '',
                 subtipos: [],
@@ -502,6 +496,7 @@
                 base_remate: '',
                 valor_tasacion: '',
                 direccion_remate: '',
+                partida_registral: '',
                 fecha_remate: '',
                 hora_remate: '',
                 contacto_remate: '',
