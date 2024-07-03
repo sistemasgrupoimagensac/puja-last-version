@@ -40,10 +40,6 @@
     "file": "assets/bg3-UVkOpnB3.webp",
     "src": "resources/images/bg3.webp"
   },
-  "resources/images/signin2.webp": {
-    "file": "assets/signin2-Dgp9tqGo.webp",
-    "src": "resources/images/signin2.webp"
-  },
   "resources/images/slide1.webp": {
     "file": "assets/slide1-CFAUMLwB.webp",
     "src": "resources/images/slide1.webp"
@@ -80,7 +76,7 @@
     "isEntry": true
   },
   "resources/js/scripts/components/card_plan.js": {
-    "file": "assets/card_plan-l0sNRNKZ.js",
+    "file": "assets/card_plan-DP2rzg_V.js",
     "name": "card_plan",
     "src": "resources/js/scripts/components/card_plan.js",
     "isEntry": true
@@ -151,7 +147,7 @@
     "isEntry": true
   },
   "resources/sass/components/card_plan.scss": {
-    "file": "assets/card_plan-DP2rzg_V.js",
+    "file": "assets/card_plan-l0sNRNKZ.js",
     "name": "card_plan",
     "src": "resources/sass/components/card_plan.scss",
     "isEntry": true
@@ -212,7 +208,7 @@
     "isEntry": true
   },
   "resources/sass/pages/signin.scss": {
-    "file": "assets/signin-HzzIHOrs.css",
+    "file": "assets/signin-DHw37iqX.css",
     "src": "resources/sass/pages/signin.scss",
     "isEntry": true
   },

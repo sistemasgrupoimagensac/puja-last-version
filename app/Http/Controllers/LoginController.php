@@ -19,8 +19,19 @@ class LoginController extends Controller
         } else {
             $profile_type = 2;
         }
+        switch ($profile_type) {
+            case '2':
+                $imagen_path = "/images/signin2.webp";
+                break;
+            case '4':
+                $imagen_path = "/images/signin.webp";
+                break;
+            default:
+                return view('publicatuinmueble');
+                break;
+        }
         session(['profile_type' => $request->query('profile_type')]);
-        return view('auth.signin', compact('profile_type'));
+        return view('auth.signin', compact('profile_type', 'imagen_path'));
     }
 
     public function register(Request $request)

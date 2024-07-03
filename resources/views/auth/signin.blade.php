@@ -11,6 +11,11 @@
 @section('content')
 
 <section>
+  <style>
+    .signin-image{
+      background-image: url('{{ asset($imagen_path) }}');
+    }
+  </style>
 
   {{-- signin body --}}
   <div class="row m-0 p-0">
