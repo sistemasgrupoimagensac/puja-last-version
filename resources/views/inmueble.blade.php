@@ -149,6 +149,11 @@
               955 072 414
             </p>
 
+            <p>
+              <span class="fw-bolder">Partida Registral:</span>
+              <span class="px-2 bg-body-tertiary rounded">P01327262</span>
+            </p>
+
           </div>
 
           {{-- Card - Más datos del inmueble --}}

@@ -446,7 +446,7 @@
     <script>
         function avisoForm() {
             return {
-                step: {{ session('step', 3) }},
+                step: {{ session('step', 1) }},
                 aviso_id: {{ session('aviso_id', 'null') }},
 
                 // si la publicación la inició como acreedor:
