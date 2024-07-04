@@ -18,7 +18,7 @@
 <div class="container publica-container">
   <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center my-5 px-5 gap-3 w-100">
 
-		<a href="{{ route("sign-in", ['profile_type' => "owner"]) }}" class="card shadow-lg publica-card text-decoration-none text-reset border-0">
+		<a href="{{ route("sign_in", ['profile_type' => 2]) }}" class="card shadow-lg publica-card text-decoration-none text-reset border-0">
 			<div class="card-body">
 
         <h2 class="card-title text-center fw-bold">Propietario</h2>
@@ -44,7 +44,7 @@
       </div>
     </a>
 
-    <a href="{{ route("sign-in", ['profile_type' => "broker"]) }}" class="card shadow-lg publica-card text-decoration-none text-reset border-0">
+    <a href="{{ route("sign_in", ['profile_type' => 4]) }}" class="card shadow-lg publica-card text-decoration-none text-reset border-0">
       <div class="card-body">
 
         <h2 class="card-title text-center fw-bold">Acreedor</h2>

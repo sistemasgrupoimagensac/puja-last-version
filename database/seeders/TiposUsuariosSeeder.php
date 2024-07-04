@@ -16,9 +16,15 @@ class TiposUsuariosSeeder extends Seeder
         $tipos_usuario = [
             ['tipo' => 'CreadoPorGoogle', 'created_at' => now(), 'updated_at' => now()],
             ['tipo' => 'Propietario', 'created_at' => now(), 'updated_at' => now()],
-            ['tipo' => 'Inmobiliaria', 'created_at' => now(), 'updated_at' => now()],
-            ['tipo' => 'Constructora', 'created_at' => now(), 'updated_at' => now()],
             ['tipo' => 'Corredor', 'created_at' => now(), 'updated_at' => now()],
+            ['tipo' => 'Acreedor', 'created_at' => now(), 'updated_at' => now()],
+            ['tipo' => 'Proyecto', 'created_at' => now(), 'updated_at' => now()],
+
+            // ['tipo' => 'CreadoPorGoogle', 'created_at' => now(), 'updated_at' => now()],
+            // ['tipo' => 'Propietario', 'created_at' => now(), 'updated_at' => now()],
+            // ['tipo' => 'Inmobiliaria', 'created_at' => now(), 'updated_at' => now()],
+            // ['tipo' => 'Constructora', 'created_at' => now(), 'updated_at' => now()],
+            // ['tipo' => 'Corredor', 'created_at' => now(), 'updated_at' => now()],
         ];
 
         DB::table('tipos_usuario')->insert($tipos_usuario);

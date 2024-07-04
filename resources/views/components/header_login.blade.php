@@ -18,7 +18,7 @@
               
             </ul>
 
-            <a class="button-orange btn mx-1" href="{{ route("sign-in", ['profile_type' => "owner"]) }}">Iniciar Sesión</a>
+            <a class="button-orange btn mx-1" href="{{ route("sign_in", ['profile_type' => 2]) }}">Iniciar Sesión</a>
           </div>
   
         </div>

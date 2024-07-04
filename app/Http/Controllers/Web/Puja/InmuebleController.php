@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\AvisoRepository;
 use App\Services\Aviso\ObtenerAviso;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InmuebleController extends Controller
 {
@@ -17,6 +18,7 @@ class InmuebleController extends Controller
     {
         try {
             $aviso = (new ObtenerAviso($this->repository))->__invoke($inmueble);
+            // $user_type = Auth::user()->tipo_usuario_id;
             return view('inmueble', compact('aviso'));
         } catch (\Exception $e) {
             abort($e->getCode());

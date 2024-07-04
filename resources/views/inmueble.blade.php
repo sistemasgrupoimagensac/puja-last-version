@@ -13,7 +13,7 @@
 @endsection
 
 @section('content')
-  <div class="custom-container my-2" x-data="showRemate()">
+  <div class="custom-container my-2" {{-- x-data="showRemate()" --}}>
 
     <div class="d-flex flex-column flex-lg-row">
 
@@ -86,35 +86,35 @@
     
               </div>
     
-              {{-- Precio del inmueble Alquiler y Venta --}}
-              <div x-show="!inmueble_remate">
-                <div class="d-flex flex-column align-items-start align-items-md-end mt-4 mt-md-0" x-show="!inmueble_remate">
-                  <h2 class="m-0 fw-bolder">
-                    <span>{{ $aviso->inmueble->currencySoles() }}</span>
-                    <span>{{ number_format($aviso->inmueble->precioSoles()) }}</span>
-                  </h2>
-                  <h3 class="m-0 fw-bolder text-secondary">
-                    <small>{{ $aviso->inmueble->currencyDolares() }}</small>
-                    <small>{{ number_format($aviso->inmueble->precioDolares()) }}</small>
-                  </h3>
-                </div>
-              </div>
+                {{-- Precio del inmueble Alquiler y Venta --}}
+                @if($aviso->inmueble->precioSoles())
+                    <div class="d-flex flex-column align-items-start align-items-md-end mt-4 mt-md-0">
+                        <h2 class="m-0 fw-bolder">
+                            <span>{{ $aviso->inmueble->currencySoles() }}</span>
+                            <span>{{ number_format($aviso->inmueble->precioSoles()) }}</span>
+                        </h2>
+                        <h3 class="m-0 fw-bolder text-secondary">
+                            <small>{{ $aviso->inmueble->currencyDolares() }}</small>
+                            <small>{{ number_format($aviso->inmueble->precioDolares()) }}</small>
+                        </h3>
+                    </div>
+                @endif
 
-              {{-- Precio del inmueble Remate --}}
-              <div x-show="inmueble_remate">
-                <div class="d-flex flex-column align-items-start align-items-md-end mt-4 mt-md-0" x-show="!inmueble_remate">
-                  <small class="text-prim">Precio base remate</small>
-                  <h2 class="m-0 fw-bolder text-primary">
-                    <span>{{ $aviso->inmueble->currencyDolares() }}</span>
-                    <span>44,880</span>
-                  </h2>
-                  <small class="mt-3">Valor de la tasación</small>
-                  <h3 class="m-0 fw-bolder text-secondary">
-                    <small>{{ $aviso->inmueble->currencyDolares() }}</small>
-                    <small>79,200</small>
-                  </h3>
-                </div>
-              </div>
+                {{-- Precio del inmueble Remate --}}
+                @if($aviso->inmueble->remate_precio_base())
+                    <div class="d-flex flex-column align-items-start align-items-md-end mt-4 mt-md-0">
+                        <small class="text-prim">Precio base remate</small>
+                        <h2 class="m-0 fw-bolder text-primary">
+                            <span>{{ $aviso->inmueble->currencyDolares() }}</span>
+                            <span> {{ $aviso->inmueble->remate_precio_base() }} </span>
+                        </h2>
+                        <small class="mt-3">Valor de la tasación</small>
+                        <h3 class="m-0 fw-bolder text-secondary">
+                            <small>{{ $aviso->inmueble->currencyDolares() }}</small>
+                            <span> {{ $aviso->inmueble->remate_valor_tasacion() }} </span>
+                        </h3>
+                    </div>
+                @endif
 
             </div>
 
@@ -126,35 +126,48 @@
           </div>
 
           {{-- Card - Remate (OPCIONAL) --}}
-          <div class="description-container mt-4 bg-primary-subtle text-bg-light p-3 rounded shadow" x-show="inmueble_remate">
-            <h3 class="fw-bold">Detalles del Remate</h3>
+            
+            @if($aviso->inmueble->remate_precio_base())
+                <div class="description-container mt-4 bg-primary-subtle text-bg-light p-3 rounded shadow">
+                    <h3 class="fw-bold">Detalles del Remate</h3>
 
-            <p>
-              <span class="fw-bolder">Lugar del remate:</span>
-              Sede del Centro de Arbitraje Comercial de Lima - CACLI, Av. Arequipa N° 330, Oficina 907 - Piso 9 - Urbanización Santa Beatriz
-            </p>
+                    @if($aviso->inmueble->remate_direccion())
+                    <p>
+                        <span class="fw-bolder">Lugar del remate:</span>
+                        {{ $aviso->inmueble->remate_direccion() }}
+                    </p>
+                    @endif
 
-            <p>
-              <span class="fw-bolder">Fecha y hora:</span>
-              Viernes 14 de Junio a las 11:00h
-            </p>
+                    @if($aviso->inmueble->remate_fecha())
+                    <p>
+                        <span class="fw-bolder">Fecha y hora:</span>
+                        {{ $aviso->inmueble->remate_fecha() }} {{ $aviso->inmueble->remate_hora() ? $aviso->inmueble->remate_hora() : "" }}
+                    </p>
+                    @endif
 
-            <p>
-              <span class="fw-bolder">Contacto:</span>
-              Dr. Gerardo Janampa
-            </p>
+                    @if($aviso->inmueble->remate_nombre_contacto())
+                    <p>
+                        <span class="fw-bolder">Contacto:</span>
+                        {{ $aviso->inmueble->remate_nombre_contacto() }}
+                    </p>
+                    @endif
 
-            <p>
-              <span class="fw-bolder">Teléfono:</span>
-              955 072 414
-            </p>
+                    @if($aviso->inmueble->remate_telef_contacto())
+                    <p>
+                        <span class="fw-bolder">Teléfono:</span>
+                        {{ $aviso->inmueble->remate_telef_contacto() }}
+                    </p>
+                    @endif
 
-            <p>
-              <span class="fw-bolder">Partida Registral:</span>
-              <span class="px-2 bg-body-tertiary rounded">P01327262</span>
-            </p>
+                    @if($aviso->inmueble->remate_partida_registral())
+                    <p>
+                        <span class="fw-bolder">Partida Registral:</span>
+                        <span class="px-2 bg-body-tertiary rounded">{{ $aviso->inmueble->remate_partida_registral() }}</span>
+                    </p>
+                    @endif
 
-          </div>
+                </div>
+            @endif
 
           {{-- Card - Más datos del inmueble --}}
           <div class="d-flex flex-wrap justify-content-between gap-4 mt-4 px-3 py-4 border rounded shadow">
@@ -387,13 +400,13 @@
 
   </div>
 
-  <script>
+  {{-- <script>
     function showRemate() {
       return {
         inmueble_remate: true,
       }
     }
-  </script>
+  </script> --}}
 
 @endsection
 

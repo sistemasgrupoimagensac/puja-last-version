@@ -105,7 +105,14 @@ class MyPostsController extends Controller
     }
 
     public function create (){
-        return view('crear-aviso');
+        if (!Auth::check()) {
+            return response()->json([
+                'message' => 'Usuario no logueado o perdio la sesión.',
+                'error' => true
+            ], 422);
+        }
+        $user_type = Auth::user()->tipo_usuario_id;
+        return view('crear-aviso', compact('user_type'));
     }
     
     public function store (Request $request){
@@ -135,7 +142,9 @@ class MyPostsController extends Controller
         $nuevoCodigoUnico = $request->codigo_unico;
 
         if ( empty($nuevoCodigoUnico) ) {
-            $ultimoInmueble = Inmueble::orderBy('id', 'desc')->first(['codigo_unico']);
+            $ultimoInmueble = Inmueble::where('codigo_unico', 'like', 'INM-001-001%')
+                ->orderBy('id', 'desc')
+                ->first(['codigo_unico']);
             if ($ultimoInmueble && $ultimoInmueble->codigo_unico) {
                 $codigoUnico = $ultimoInmueble->codigo_unico;
                 $parteNumerica = substr($codigoUnico, 14); // Cortar los primeros 14 caracteres
@@ -149,7 +158,7 @@ class MyPostsController extends Controller
         }
 
         $inmueble = Inmueble::updateOrCreate([
-            "codigo_unico" => "6",
+            "codigo_unico" => "$nuevoCodigoUnico",
             "user_id" => $user_id,
             ],[
             "estado" => 1,
@@ -270,9 +279,19 @@ class MyPostsController extends Controller
                 'area_construida' => 'numeric',
                 'area_total' => 'numeric',
                 'antiguedad' => 'string',
-                // 'anios_antiguedad' => 'integer',
-                'precio_soles' => 'numeric',
-                'precio_dolares' => 'numeric',
+                'anios_antiguedad' => 'nullable|integer',
+                'precio_soles' => 'nullable|numeric',
+                'precio_dolares' => 'nullable|numeric',
+                
+                'remate_precio_base' => 'nullable|numeric',
+                'remate_valor_tasacion' => 'nullable|numeric',
+                'remate_partida_registral' => 'nullable|string',
+                'remate_direccion' => 'nullable|string',
+                'remate_fecha' => 'nullable|string',
+                'remate_hora' => 'nullable|string',
+                'remate_nombre_contacto' => 'nullable|string',
+                'remate_telef_contacto' => 'nullable|string',
+
                 // 'titulo' => 'string|max:100',
                 // 'description' => 'string|max:250',
             ]);
@@ -293,10 +312,19 @@ class MyPostsController extends Controller
                 "area_construida" => $request->area_construida,
                 "area_total" => $request->area_total,
                 "antiguedad" => $request->antiguedad,
-                // "anios_antiguedad" => $request->anios_antiguedad,
-                "anios_antiguedad" => null,
+                "anios_antiguedad" => $request->anios_antiguedad,
                 "precio_soles" => $request->precio_soles,
                 "precio_dolares" => $request->precio_dolares,
+                
+                "remate_precio_base" => $request->remate_precio_base,
+                "remate_valor_tasacion" => $request->remate_valor_tasacion,
+                "remate_partida_registral" => $request->remate_partida_registral,
+                "remate_direccion" => $request->remate_direccion,
+                "remate_fecha" => $request->remate_fecha,
+                "remate_hora" => $request->remate_hora,
+                "remate_nombre_contacto" => $request->remate_nombre_contacto,
+                "remate_telef_contacto" => $request->remate_telef_contacto,
+
                 // "titulo" => $request->titulo,
                 // "descripcion" => $request->description,
                 "estado" => 1,

@@ -10,7 +10,7 @@
 
 @section('content')
     <div x-data="avisoForm()">
-
+        
         <!-- Menú de los pasos -->
         <div class="py-2 py-lg-4 bg-body-tertiary border-bottom">
             <div class="d-flex justify-content-around fw-semibold text-light-emphasis">
@@ -129,7 +129,7 @@
                 </div>
 
                 <!-- Paso 3: Características -->
-                <div x-show="step === 3" x-init="initializeThridStep()">
+                <div x-show="step === 3" {{-- x-init="initializeThridStep()" --}}>
                     <form @submit.prevent="nextStep(3)" class="d-flex flex-column gap-4 my-5">
                         @csrf
                         <h2>Características</h2>
@@ -224,7 +224,7 @@
 
                             <div class="d-flex justify-content-between gap-4">
                                 {{-- Precios para alquiler o venta --}}
-                                <div class="form-group w-100" x-show="!mostrar_campo">
+                                <div class="form-group w-100" x-show="!perfil_acreedor || (perfil_acreedor && tipo_operacion != 3)">
                                     <label class="text-secondary" for="precio_soles">Precio soles</label>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">S/.</span>
@@ -232,7 +232,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group w-100" x-show="!mostrar_campo">
+                                <div class="form-group w-100" x-show="!perfil_acreedor || (perfil_acreedor && tipo_operacion != 3)">
                                     <label class="text-secondary" for="precio_dolares">Precio dólares</label>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">US$</span>
@@ -241,7 +241,7 @@
                                 </div>
 
                                 {{-- Precios para remate --}}
-                                <div class="form-group w-100" x-show="mostrar_campo">
+                                <div class="form-group w-100" x-show="perfil_acreedor && tipo_operacion == 3">
                                     <label class="text-secondary" for="base_remate">Base de Remate</label>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">US$</span>
@@ -249,7 +249,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group w-100" x-show="mostrar_campo">
+                                <div class="form-group w-100" x-show="perfil_acreedor && tipo_operacion == 3">
                                     <label class="text-secondary" for="valor_tasacion">Valor de Tasación</label>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">US$</span>
@@ -259,7 +259,7 @@
                             </div>
                         </fieldset>
 
-                        <fieldset x-show="mostrar_campo">
+                        <fieldset x-show="perfil_acreedor && tipo_operacion == 3">
                             <legend>Detalles del Remate</legend>
 
                             <div class="d-flex justify-content-between gap-4">
@@ -450,8 +450,9 @@
                 aviso_id: {{ session('aviso_id', 'null') }},
 
                 // si la publicación la inició como acreedor:
-                perfil_acreedor: true,
-                mostrar_campo: false,
+                perfil_acreedor: @json($user_type == 4),
+                // mostrar_campo:false,
+                // mostrar_campo: @json($user_type == 5),
                 
                 tipo_operacion: '',
                 subtipos: [],
@@ -502,11 +503,13 @@
                 contacto_remate: '',
                 telefono_contacto_remate: '',
 
-                initializeThridStep() {
+                /* initializeThridStep() {
+                    console.log(this.perfil_acreedor)
                     this.mostrar_campo = this.perfil_acreedor;
-                },
+                }, */
 
                 initializeSecondStep() {
+                    console.log(this.perfil_acreedor)
                     this.fetchDepartamentos();
                     this.fetchProvincias();
                     this.fetchDistritos();
@@ -594,6 +597,16 @@
                             formData.append('anios_antiguedad', this.anios_antiguedad)
                             formData.append('precio_soles', this.precio_soles)
                             formData.append('precio_dolares', this.precio_dolares)
+                            
+                            formData.append('remate_precio_base', this.base_remate)
+                            formData.append('remate_valor_tasacion', this.valor_tasacion)
+                            formData.append('remate_partida_registral', this.partida_registral)
+                            formData.append('remate_direccion', this.direccion_remate)
+                            formData.append('remate_fecha', this.fecha_remate)
+                            formData.append('remate_hora', this.hora_remate)
+                            formData.append('remate_nombre_contacto', this.contacto_remate)
+                            formData.append('remate_telef_contacto', this.telefono_contacto_remate)
+
                             formData.append('titulo', this.titulo)
                             formData.append('description', this.description)
                             formData.append('caracteristicas', 1)

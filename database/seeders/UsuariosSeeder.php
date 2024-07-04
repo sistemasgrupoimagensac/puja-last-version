@@ -45,7 +45,7 @@ class UsuariosSeeder extends Seeder
         ];
 
         $user_3 = [
-            'tipo_usuario_id'   => 2,
+            'tipo_usuario_id'   => 4,
             'codigo_unico'      => 'PUJA-001-001-003',
             'nombres'           => 'Luz',
             'apellidos'         => 'Pantoja',
@@ -60,7 +60,7 @@ class UsuariosSeeder extends Seeder
         ];
 
         $user_4 = [
-            'tipo_usuario_id'   => 2,
+            'tipo_usuario_id'   => 4,
             'codigo_unico'      => 'PUJA-001-001-004',
             'nombres'           => 'Sofia',
             'apellidos'         => 'Huaripata',
@@ -75,7 +75,7 @@ class UsuariosSeeder extends Seeder
         ];
 
         $user_5 = [
-            'tipo_usuario_id'   => 2,
+            'tipo_usuario_id'   => 4,
             'codigo_unico'      => 'PUJA-001-001-005',
             'nombres'           => 'Estefano',
             'apellidos'         => 'Cervantes Hurtado',
@@ -90,7 +90,7 @@ class UsuariosSeeder extends Seeder
         ];
 
         $user_6 = [
-            'tipo_usuario_id'   => 2,
+            'tipo_usuario_id'   => 4,
             'codigo_unico'      => 'PUJA-001-001-006',
             'nombres'           => 'Gerardo ',
             'apellidos'         => 'Janampa',

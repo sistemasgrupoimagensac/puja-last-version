@@ -36,10 +36,6 @@
     "src": "resources/css/app.css",
     "isEntry": true
   },
-  "resources/images/bg1.webp": {
-    "file": "assets/bg1-D2QHcIHM.webp",
-    "src": "resources/images/bg1.webp"
-  },
   "resources/images/bg3.webp": {
     "file": "assets/bg3-UVkOpnB3.webp",
     "src": "resources/images/bg3.webp"
@@ -191,6 +187,11 @@
     "src": "resources/sass/pages/perfil.scss",
     "isEntry": true
   },
+  "resources/sass/pages/planes.scss": {
+    "file": "assets/planes-B4OMW8nM.css",
+    "src": "resources/sass/pages/planes.scss",
+    "isEntry": true
+  },
   "resources/sass/pages/publica-inmueble.scss": {
     "file": "assets/publica-inmueble-CduuE8--.css",
     "src": "resources/sass/pages/publica-inmueble.scss",
@@ -207,7 +208,7 @@
     "isEntry": true
   },
   "resources/sass/pages/signin.scss": {
-    "file": "assets/signin-B3rtNiIW.css",
+    "file": "assets/signin-DHw37iqX.css",
     "src": "resources/sass/pages/signin.scss",
     "isEntry": true
   },

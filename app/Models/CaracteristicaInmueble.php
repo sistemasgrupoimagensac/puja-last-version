@@ -11,7 +11,32 @@ class CaracteristicaInmueble extends Model
     use HasFactory;
 
     protected $table = "caracteristicas_inmuebles";
-    protected $fillable = ['principal_inmueble_id', 'habitaciones', 'banios', 'medio_banios', 'estacionamientos', 'area_construida', 'area_total', 'antiguedad', 'anios_antiguedad', 'precio_soles', 'precio_dolares', 'titulo', 'descripcion', 'estado'];
+    protected $fillable = [
+        'principal_inmueble_id',
+        'habitaciones',
+        'banios',
+        'medio_banios',
+        'estacionamientos',
+        'area_construida',
+        'area_total',
+        'antiguedad',
+        'anios_antiguedad',
+        'precio_soles',
+        'precio_dolares',
+
+        'remate_precio_base',
+        'remate_valor_tasacion',
+        'remate_partida_registral',
+        'remate_direccion',
+        'remate_fecha',
+        'remate_hora',
+        'remate_nombre_contacto',
+        'remate_telef_contacto',
+
+        'titulo',
+        'descripcion',
+        'estado'
+    ];
 
     public function principalInmueble(): BelongsTo
     {

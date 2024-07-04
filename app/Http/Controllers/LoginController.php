@@ -11,6 +11,39 @@ use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
+
+    public function sign_in(Request $request)
+    {
+        if ($request->has('profile_type')) {
+            $profile_type = $request->query('profile_type');
+        } else {
+            $profile_type = 2;
+        }
+        switch ($profile_type) {
+            case '2':
+                $imagen_path = "/images/signin2.webp";
+                break;
+            case '4':
+                $imagen_path = "/images/signin.webp";
+                break;
+            default:
+                return view('publicatuinmueble');
+                break;
+        }
+        session(['profile_type' => $request->query('profile_type')]);
+        return view('auth.signin', compact('profile_type', 'imagen_path'));
+    }
+
+    public function register(Request $request)
+    {
+        if ($request->session()->has('profile_type')) {
+            $profile_type = $request->session()->get('profile_type');
+        } else {
+            return view('publicatuinmueble');
+        }
+        return view('auth.register', compact('profile_type'));
+    }
+
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [

@@ -11,6 +11,11 @@
 @section('content')
 
 <section>
+  <style>
+    .signin-image{
+      background-image: url('{{ asset($imagen_path) }}');
+    }
+  </style>
 
   {{-- signin body --}}
   <div class="row m-0 p-0">
@@ -82,7 +87,12 @@
 
         <div class="d-flex flex-column align-items-center mt-5 bg-secondary bg-opacity-10 rounded-3 py-2 w-100">
           <p class="">si no tienes una cuenta registrate aquí</p>
-          <a href="/register/{{ $profile_type }}" class=" text-decoration-none fw-bold">REGISTRATE</a>
+          @isset($profile_type)
+            <a href="{{ route("login.register", ['profile_type' => $profile_type]) }}" class=" text-decoration-none fw-bold">REGISTRATE</a>
+          @else
+            <a href="{{ route("login.register", ['profile_type' => 2]) }}" class=" text-decoration-none fw-bold">REGISTRATE</a>
+          @endisset
+              
         </div>
         
       </div>

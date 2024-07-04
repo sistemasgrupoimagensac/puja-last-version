@@ -166,4 +166,40 @@ class Inmueble extends Model
     {
         return 300;
     }
+
+
+    public function remate_precio_base()
+    {
+        return optional(optional($this->principal)->caracteristicas)->remate_precio_base;
+    }
+    public function remate_valor_tasacion()
+    {
+        return optional(optional($this->principal)->caracteristicas)->remate_valor_tasacion;
+    }
+    public function remate_partida_registral()
+    {
+        return optional(optional($this->principal)->caracteristicas)->remate_partida_registral;
+    }
+    public function remate_direccion()
+    {
+        return optional(optional($this->principal)->caracteristicas)->remate_direccion;
+    }
+    public function remate_fecha()
+    {
+        return optional(optional($this->principal)->caracteristicas)->remate_fecha;
+    }
+    public function remate_hora()
+    {
+        return optional(optional($this->principal)->caracteristicas)->remate_hora;
+    }
+    public function remate_nombre_contacto()
+    {
+        return optional(optional($this->principal)->caracteristicas)->remate_nombre_contacto;
+    }
+    public function remate_telef_contacto()
+    {
+        return optional(optional($this->principal)->caracteristicas)->remate_telef_contacto;
+    }
+
+
 }
