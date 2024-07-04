@@ -40,7 +40,6 @@ export default defineConfig({
                 "resources/js/scripts/components/whatsapp_modal_contact.js",
                 "resources/js/scripts/components/whatsapp_modal_inmueble_contact.js",
                 "resources/js/scripts/components/footer.js",
-                "resources/js/scripts/components/card_plan.js",
                 "resources/js/scripts/components/puja_modal_contact.js",
             ],
             refresh: true,
