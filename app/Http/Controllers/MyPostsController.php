@@ -112,7 +112,8 @@ class MyPostsController extends Controller
             ], 422);
         }
         $user_type = Auth::user()->tipo_usuario_id;
-        return view('crear-aviso', compact('user_type'));
+        $es_acreedor = $user_type == 4 ? true : false;
+        return view('crear-aviso', compact('es_acreedor'));
     }
     
     public function store (Request $request){
@@ -272,10 +273,10 @@ class MyPostsController extends Controller
         
         if ($request->caracteristicas) {
             $validator = Validator::make($request->all(), [
-                'habitaciones' => 'required|integer|digits_between:1,3',
-                'banios' => 'required|integer|digits_between:1,3',
-                'medio_banios' => 'integer|digits_between:1,3',
-                'estacionamientos' => 'required|integer|digits_between:1,3',
+                'habitaciones' => 'nullable|integer|digits_between:1,3',
+                'banios' => 'nullable|integer|digits_between:1,3',
+                'medio_banios' => 'nullable|integer|digits_between:1,3',
+                'estacionamientos' => 'nullable|integer|digits_between:1,3',
                 'area_construida' => 'numeric',
                 'area_total' => 'numeric',
                 'antiguedad' => 'string',
