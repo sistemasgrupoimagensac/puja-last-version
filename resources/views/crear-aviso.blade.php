@@ -32,11 +32,11 @@
                 </div>
                 <div :class="{ 'text-primary': step === 5 }" class="crear-aviso-menu-paso">
                     <span>5</span>
-                    <span class="d-none d-lg-inline">. Adicionales</span>
+                    <span class="d-none d-lg-inline">. Comodidades</span>
                 </div>
                 <div :class="{ 'text-primary': step === 6 }" class="crear-aviso-menu-paso">
                     <span>6</span>
-                    <span class="d-none d-lg-inline">. Comodidades</span>
+                    <span class="d-none d-lg-inline">. Adicionales</span>
                 </div>
             </div>
         </div>
@@ -386,11 +386,11 @@
                 </div>
 
                 <!-- Paso 5: Adicionales -->
-                <div x-show="step === 5" x-init="initializeQuintoStep(1)">
+                <div x-show="step === 5" x-init="initializeQuintoStep(2)">
                     <form @submit.prevent="nextStep(5)" class="d-flex flex-column gap-4 my-5">
                         @csrf
                         <div class="mt-4">
-                            <h2>Adicionales</h2>
+                            <h2>Comodidades</h2>
                             <input type="hidden" name="adicionales" :value="step === 5 ? 1 : 0">
 
                             <div>
@@ -413,11 +413,11 @@
                 </div>
 
                 <!-- Paso 6: Comodidades -->
-                <div x-show="step === 6" x-init="initializeSextoStep(2)">
+                <div x-show="step === 6" x-init="initializeSextoStep(1)">
                     <form @submit.prevent="nextStep(6)" class="d-flex flex-column gap-4 my-5">
                         @csrf
                         <div class="mt-4">
-                            <h2>Comodidades</h2>
+                            <h2>Adicionales</h2>
                             <input type="hidden" name="comodidades" :value="step === 6 ? 1 : 0">
                             <div>
                                 <template x-for="extra in extras2" :key="extra.id">
@@ -449,10 +449,7 @@
                 step: {{ session('step', 1) }},
                 aviso_id: {{ session('aviso_id', 'null') }},
 
-                // si la publicación la inició como acreedor:
-                perfil_acreedor: @json($user_type == 4),
-                // mostrar_campo:false,
-                // mostrar_campo: @json($user_type == 5),
+                perfil_acreedor: @json($es_acreedor),
                 
                 tipo_operacion: '',
                 subtipos: [],
@@ -531,10 +528,10 @@
                     }
 
                     if (step === 5) /* Extras 1 */ {
-                        this.fetchExtras(1);
+                        // this.fetchExtras(1);
                         this.step++
                     } else if (step === 6) /* Extras 2 */ {
-                        this.fetchExtras(2);
+                        // this.fetchExtras(2);
                         let send_extras = []
                         document.querySelectorAll('input[name="options[]"]:checked').forEach((checkbox) => {
                             send_extras.push(checkbox.value)
@@ -577,9 +574,6 @@
                             formData.append('principal', 1)
                             formData.append('codigo_unico', this.codigo_unico)
                         } else if (step === 2) /* Ubicacion */ {
-                            this.fetchDepartamentos()
-                            this.fetchProvincias()
-                            this.fetchDistritos()
                             formData.append('direccion', this.direccion)
                             formData.append('departamento_id', this.selectedDepartamento)
                             formData.append('provincia_id', this.selectedProvincia)
@@ -755,9 +749,9 @@
                     fetch(`/my-post/extras/${extra_id}`)
                     .then(response => response.json())
                     .then(data => {
-                        if( extra_id== 1 ){
+                        if( extra_id== 2 ){
                             this.extras = data;
-                        } else if( extra_id== 2 ){
+                        } else if( extra_id== 1 ){
                             this.extras2 = data;
                         }
                     })
