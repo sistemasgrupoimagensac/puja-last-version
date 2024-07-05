@@ -8,12 +8,16 @@ use Illuminate\View\Component;
 
 class WhatsappModalContact extends Component
 {
+    public $idCaracteristica;
+    public $isPuja;
+
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct($idCaracteristica = null, $isPuja = null)
     {
-        //
+        $this->idCaracteristica = $idCaracteristica;
+        $this->isPuja = $isPuja;
     }
 
     /**

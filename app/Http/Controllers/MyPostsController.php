@@ -273,6 +273,7 @@ class MyPostsController extends Controller
         
         if ($request->caracteristicas) {
             $validator = Validator::make($request->all(), [
+                'is_puja' => 'nullable|boolean',
                 'habitaciones' => 'nullable|integer|digits_between:1,3',
                 'banios' => 'nullable|integer|digits_between:1,3',
                 'medio_banios' => 'nullable|integer|digits_between:1,3',
@@ -281,11 +282,11 @@ class MyPostsController extends Controller
                 'area_total' => 'numeric',
                 'antiguedad' => 'string',
                 'anios_antiguedad' => 'nullable|integer',
-                'precio_soles' => 'nullable|numeric',
-                'precio_dolares' => 'nullable|numeric',
+                'precio_soles' => 'nullable|string',
+                'precio_dolares' => 'nullable|string',
                 
-                'remate_precio_base' => 'nullable|numeric',
-                'remate_valor_tasacion' => 'nullable|numeric',
+                'remate_precio_base' => 'nullable|string',
+                'remate_valor_tasacion' => 'nullable|string',
                 'remate_partida_registral' => 'nullable|string',
                 'remate_direccion' => 'nullable|string',
                 'remate_fecha' => 'nullable|string',
@@ -303,9 +304,15 @@ class MyPostsController extends Controller
                 ], 422);
             }
 
+            $request->precio_soles          ? $precio_soles = $this->convertStringToFloat($request->precio_soles)                   : $precio_soles = null;
+            $request->precio_dolares        ? $precio_dolares = $this->convertStringToFloat($request->precio_dolares)               : $precio_dolares = null;
+            $request->remate_precio_base    ? $remate_precio_base = $this->convertStringToFloat($request->remate_precio_base)       : $remate_precio_base = null;
+            $request->remate_valor_tasacion ? $remate_valor_tasacion = $this->convertStringToFloat($request->remate_valor_tasacion) : $remate_valor_tasacion = null;
+
             $carac_inmueble = CaracteristicaInmueble::updateOrCreate([
                 "principal_inmueble_id" => $principal_inmueble->id,
                 ],[
+                "is_puja" => $request->is_puja,
                 "habitaciones" => $request->habitaciones,
                 "banios" => $request->banios,
                 "medio_banios" => $request->medio_banios,
@@ -314,11 +321,11 @@ class MyPostsController extends Controller
                 "area_total" => $request->area_total,
                 "antiguedad" => $request->antiguedad,
                 "anios_antiguedad" => $request->anios_antiguedad,
-                "precio_soles" => $request->precio_soles,
-                "precio_dolares" => $request->precio_dolares,
+                "precio_soles" => $precio_soles,
+                "precio_dolares" => $precio_dolares,
                 
-                "remate_precio_base" => $request->remate_precio_base,
-                "remate_valor_tasacion" => $request->remate_valor_tasacion,
+                "remate_precio_base" => $remate_precio_base,
+                "remate_valor_tasacion" => $remate_valor_tasacion,
                 "remate_partida_registral" => $request->remate_partida_registral,
                 "remate_direccion" => $request->remate_direccion,
                 "remate_fecha" => $request->remate_fecha,
@@ -464,35 +471,37 @@ class MyPostsController extends Controller
                 "estado" => 1,
             ]);
 
-            $request->validate([
-                'options' => 'required|array',
-                'options.*' => 'required|integer',
-            ]);
-            if ($validator->fails()) {
-                return response()->json([
-                    'message' => 'Errores de validación',
-                    'errors' => $validator->errors()
-                ], 422);
-            }
-    
             ExtraInmueblesCaracteristicas::where('extra_inmueble_id', $extra_inmueble->id)->update([
                 'estado' => 0,
             ]);
             $selectedOptions = $request->input('options', []);
-    
-            foreach ($selectedOptions as $option) {
-                $extra_carac = ExtraInmueblesCaracteristicas::updateOrCreate([
-                    'extra_inmueble_id' => $extra_inmueble->id,
-                    'caracteristica_extra_id' => $option,
-                    ],[
-                    'estado' => 1,
-                ]);
 
-                if (!$extra_carac) {
+            if ( $request->options ) {
+                $request->validate([
+                    'options' => 'required|array',
+                    'options.*' => 'required|integer',
+                ]);
+                if ($validator->fails()) {
                     return response()->json([
-                        'message' => 'No se pudo guardar el registro de una caracteristica extra',
-                        'error' => true
+                        'message' => 'Errores de validación',
+                        'errors' => $validator->errors()
                     ], 422);
+                }
+        
+                foreach ($selectedOptions as $option) {
+                    $extra_carac = ExtraInmueblesCaracteristicas::updateOrCreate([
+                        'extra_inmueble_id' => $extra_inmueble->id,
+                        'caracteristica_extra_id' => $option,
+                        ],[
+                        'estado' => 1,
+                    ]);
+    
+                    if (!$extra_carac) {
+                        return response()->json([
+                            'message' => 'No se pudo guardar el registro de una caracteristica extra',
+                            'error' => true
+                        ], 422);
+                    }
                 }
             }
 
@@ -590,5 +599,14 @@ class MyPostsController extends Controller
         return response()->json($extras);
     }
 
+
+
+
+    // Funciones XD
+
+    private function convertStringToFloat($value)
+    {
+        return floatval(str_replace(',', '', $value));
+    }
 
 }

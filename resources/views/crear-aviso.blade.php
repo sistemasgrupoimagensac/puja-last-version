@@ -139,6 +139,21 @@
                             <legend>Características Principales</legend>
 
                             <div class="d-flex justify-content-between gap-4">
+                                <div x-show="tipo_operacion != 3">
+                                    <div class="form-check form-switch form-group w-100">
+                                        <label class="form-check-label" for="is_puja">Desea recibir ofertas de precios</label>
+                                        <input class="form-check-input" type="checkbox" role="switch" id="is_puja" x-model="is_puja">
+                                        <span data-bs-toggle="tooltip"
+                                            data-bs-placement="top"
+                                            data-bs-custom-class="custom-tooltip" 
+                                            data-bs-title="Seleccionar el campo si queremos que los posibles compradores puedan enviarnos sus montos que ofrecen.">
+                                            <i class="fa-solid fa-circle-info ms-2"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between gap-4">
                                 <div class="form-group w-100">
                                     <label class="text-secondary" for="dormitorios">Dormitorios</label>
                                     <input type="number" id="dormitorios" x-model="dormitorios" min="0" max="99" class="form-control">
@@ -228,7 +243,7 @@
                                     <label class="text-secondary" for="precio_soles">Precio soles</label>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">S/.</span>
-                                        <input type="number" id="precio_soles" x-model="precio_soles" min="99" max="999999999" class="form-control">
+                                        <input type="text" id="precio_soles" x-model="precio_soles" class="form-control" @input="formatAmount('precio_soles')" @blur="formatAmount('precio_soles', true)">
                                     </div>
                                 </div>
 
@@ -236,7 +251,7 @@
                                     <label class="text-secondary" for="precio_dolares">Precio dólares</label>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">US$</span>
-                                        <input type="number" id="precio_dolares" x-model="precio_dolares" min="99" max="99999999" class="form-control">
+                                        <input type="text" id="precio_dolares" x-model="precio_dolares" class="form-control" @input="formatAmount('precio_dolares')" @blur="formatAmount('precio_dolares', true)">
                                     </div>
                                 </div>
 
@@ -245,7 +260,7 @@
                                     <label class="text-secondary" for="base_remate">Base de Remate</label>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">US$</span>
-                                        <input type="number" id="base_remate" x-model="base_remate" min="99" max="999999999" class="form-control">
+                                        <input type="text" id="base_remate" x-model="base_remate" class="form-control" @input="formatAmount('base_remate')" @blur="formatAmount('base_remate', true)">
                                     </div>
                                 </div>
 
@@ -253,7 +268,7 @@
                                     <label class="text-secondary" for="valor_tasacion">Valor de Tasación</label>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">US$</span>
-                                        <input type="number" id="valor_tasacion" x-model="valor_tasacion" min="99" max="99999999" class="form-control">
+                                        <input type="text" id="valor_tasacion" x-model="valor_tasacion" class="form-control" @input="formatAmount('valor_tasacion')" @blur="formatAmount('valor_tasacion', true)">
                                     </div>
                                 </div>
                             </div>
@@ -385,7 +400,7 @@
                     </form>
                 </div>
 
-                <!-- Paso 5: Adicionales -->
+                <!-- Paso 5: Comodidades -->
                 <div x-show="step === 5" x-init="initializeQuintoStep(2)">
                     <form @submit.prevent="nextStep(5)" class="d-flex flex-column gap-4 my-5">
                         @csrf
@@ -412,7 +427,7 @@
                     </form>
                 </div>
 
-                <!-- Paso 6: Comodidades -->
+                <!-- Paso 6: Adicionales -->
                 <div x-show="step === 6" x-init="initializeSextoStep(1)">
                     <form @submit.prevent="nextStep(6)" class="d-flex flex-column gap-4 my-5">
                         @csrf
@@ -450,6 +465,8 @@
                 aviso_id: {{ session('aviso_id', 'null') }},
 
                 perfil_acreedor: @json($es_acreedor),
+
+                is_puja: false,
                 
                 tipo_operacion: '',
                 subtipos: [],
@@ -499,14 +516,37 @@
                 hora_remate: '',
                 contacto_remate: '',
                 telefono_contacto_remate: '',
+                formatAmount(modelName, final = false) {
+                    // Remover todos los caracteres no numéricos
+                    let numericValue = this[modelName].replace(/\D/g, '');
+                    console.log(typeof(this[modelName]))
+
+                    if (numericValue === '') {
+                        this[modelName] = '';
+                        return;
+                    }
+
+                    // Convertir a número y formatear con separador de miles
+                    let formattedValue = parseInt(numericValue).toLocaleString('en-US');
+
+                    // Actualizar el valor del input
+                    this[modelName] = formattedValue;
+                },
 
                 /* initializeThridStep() {
                     console.log(this.perfil_acreedor)
                     this.mostrar_campo = this.perfil_acreedor;
                 }, */
-
+                init() {
+                    this.$watch('tipo_operacion', value => {
+                        if (value == 3) {
+                            this.is_puja = false;
+                        }
+                    });
+                },
                 initializeSecondStep() {
                     console.log(this.perfil_acreedor)
+                    console.log("is_puja", this.is_puja)
                     this.fetchDepartamentos();
                     this.fetchProvincias();
                     this.fetchDistritos();
@@ -581,6 +621,7 @@
                             formData.append('ubicacion', 1)
                             formData.append('codigo_unico', this.codigo_unico)
                         } else if (step === 3) /* Caracteristicas */ {
+                            formData.append('is_puja', this.is_puja ? 1 : 0)
                             formData.append('habitaciones', this.dormitorios)
                             formData.append('banios', this.banios)
                             formData.append('medio_banios', this.medio_banios)

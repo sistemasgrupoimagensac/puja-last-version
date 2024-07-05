@@ -89,7 +89,7 @@
 
           <div class="d-flex gap-2">
 
-            <x-whatsapp-modal-contact></x-whatsapp-modal-contact>
+            <x-whatsapp-modal-contact :idCaracteristica="$idCaracteristica" :isPuja="$isPuja"></x-whatsapp-modal-contact>
 
             <button class="btn btn-light border-secondary-subtle bg-white">
               <i class="fas fa-envelope"></i> Email
