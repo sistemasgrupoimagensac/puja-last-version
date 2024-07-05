@@ -45,7 +45,7 @@
     "src": "resources/images/slide1.webp"
   },
   "resources/js/app.js": {
-    "file": "assets/app-C7UrrJdd.js",
+    "file": "assets/app-CSpuSSoB.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
@@ -75,12 +75,6 @@
     "src": "resources/js/scripts/components/back_button.js",
     "isEntry": true
   },
-  "resources/js/scripts/components/card_plan.js": {
-    "file": "assets/card_plan-l0sNRNKZ.js",
-    "name": "card_plan",
-    "src": "resources/js/scripts/components/card_plan.js",
-    "isEntry": true
-  },
   "resources/js/scripts/components/card_simple.js": {
     "file": "assets/card_simple-BBIKgU3S.js",
     "name": "card_simple",
@@ -100,7 +94,7 @@
     "isEntry": true
   },
   "resources/js/scripts/components/whatsapp_modal_contact.js": {
-    "file": "assets/whatsapp_modal_contact-Dx5yDBCx.js",
+    "file": "assets/whatsapp_modal_contact-BUM2Unt-.js",
     "name": "whatsapp_modal_contact",
     "src": "resources/js/scripts/components/whatsapp_modal_contact.js",
     "isEntry": true
@@ -147,8 +141,7 @@
     "isEntry": true
   },
   "resources/sass/components/card_plan.scss": {
-    "file": "assets/card_plan-DP2rzg_V.js",
-    "name": "card_plan",
+    "file": "assets/card_plan-B2XpCAMk.css",
     "src": "resources/sass/components/card_plan.scss",
     "isEntry": true
   },

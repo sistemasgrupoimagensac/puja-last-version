@@ -25,6 +25,8 @@
       'type' => $aviso->inmueble->type(),
       'category' => $aviso->inmueble->category(),
       'currency' => $aviso->inmueble->currencySoles(),
+      'idCaracteristica' => $aviso->inmueble->idCaracteristica(),
+      'isPuja' => $aviso->inmueble->is_puja() == 1 ? $aviso->inmueble->is_puja() : 0,
       'price' => $aviso->inmueble->precioSoles(),
       'currency_dolar' => $aviso->inmueble->currencyDolares(),
       'price_dolar' => $aviso->inmueble->precioDolares(),

@@ -369,6 +369,14 @@
                     <label class="text-secondary" for="contact-phone">Teléfono</label>
                   </div>  
 
+                  @if ( $aviso->inmueble->is_puja() )
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="contact-name" name="contact-name" placeholder="Nombre Completo" required>
+                    <label class="text-secondary" for="contact-name">Monto Puja</label>
+                  </div>
+                      
+                  @endif
+
                       
                   {{-- Mensaje --}}
                   <div class="form-floating">

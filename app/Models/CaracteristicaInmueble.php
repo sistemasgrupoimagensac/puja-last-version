@@ -13,6 +13,7 @@ class CaracteristicaInmueble extends Model
     protected $table = "caracteristicas_inmuebles";
     protected $fillable = [
         'principal_inmueble_id',
+        'is_puja',
         'habitaciones',
         'banios',
         'medio_banios',

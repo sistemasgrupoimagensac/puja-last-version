@@ -71,6 +71,11 @@ class Inmueble extends Model
         return optional(optional($this->principal)->caracteristicas)->currencyDolares();
     }
 
+    public function idCaracteristica()
+    {
+        return optional(optional($this->principal)->caracteristicas)->id;
+    }
+
     public function precioSoles()
     {
         return optional(optional($this->principal)->caracteristicas)->precio_soles;
@@ -122,6 +127,11 @@ class Inmueble extends Model
     public function areaConstruida()
     {
         return optional(optional($this->principal)->caracteristicas)->area_construida;
+    }
+
+    public function is_puja()
+    {
+        return optional(optional($this->principal)->caracteristicas)->is_puja;
     }
 
     public function dormitorios()
