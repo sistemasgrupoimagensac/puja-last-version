@@ -12,15 +12,14 @@
   @include('components.header')
 @endsection
 
-
 @section('content')
 
 <div class="container my-5" x-data="pricingData()">
-  <h1 class="text-center fw-bold">Elige tu plan</h1>
+  <h1 class="text-center fw-bold">Elige tu paquete de avisos</h1>
   <form>
     @csrf
     <div class="d-flex flex-column align-items-center my-5 gap-5">
-      <!-- número de avisos -->
+      <!-- número de avisos del plan -->
       <fieldset>
         <legend class="text-secondary h6 mb-3">1. Selecciona el número de avisos.</legend>
         <div role="group" class="planes-numero-avisos justify-content-center d-flex flex-wrap w-100 gap-3 gap-lg-4 px-1 p-lg-0 mt-4" x-data="{ open: false }">
@@ -60,9 +59,10 @@
         </div>
       </fieldset>
 
+      {{-- duración del plan --}}
       <fieldset>
-        <legend class="h6 text-secondary mb-3">2. Elige el tiempo de duración de tu plan.</legend>
-        <div role="group" class="planes-numero-avisos d-flex flex-column align-items-center flex-lg-row gap-3 gap-lg-4 px-1 p-lg-0 mt-4">
+        <legend class="h6 text-secondary mb-3">2. Elige el tiempo de duración.</legend>
+        <div role="group" class="planes-numero-avisos d-flex flex-column align-items-center flex-md-row gap-3 gap-lg-4 px-1 p-lg-0 mt-4">
           <div>
             <input type="radio" class="btn-check" id="90" value="90" autocomplete="off" x-model="periodoPlan">
             <label class="btn btn-lg btn-outline-secondary fs-4 px-0 py-1" for="90">90 días</label>
@@ -80,16 +80,16 @@
 
       <!-- categoria de plan -->
       <fieldset>
-        <legend class="text-secondary text-left h6 mb-3">3. Selecciona el mejor plan para ti.</legend>
-        <div role="group" class="d-flex flex-column align-items-center flex-lg-row gap-4 mt-4">
+        <legend class="text-secondary text-left h6 mb-3">3. Selecciona el mejor paquete para ti.</legend>
+        <div role="group" class="d-flex flex-column align-items-center flex-md-row gap-4 mt-4">
           <!-- plan basico -->
           <div>
-            <input type="radio" class="btn-check" x-model="tipoPlan" id="basic_plan" value="basic_plan" autocomplete="off">
+            <input type="radio" class="btn-check" x-model="tipoPlan" id="basico" value="basico" autocomplete="off">
             <x-card-plan
               title="Básico"
               price="prices.basico"
               time="periodoPlan"
-              plan="basic_plan"
+              plan="basico"
               className="btn-dark border-secondary"
               avisos="avisos.basico"
             />
@@ -97,12 +97,12 @@
 
           <!-- plan estandar -->
           <div>
-            <input type="radio" class="btn-check" x-model="tipoPlan" id="standard_plan" value="standard_plan" autocomplete="off" checked>
+            <input type="radio" class="btn-check" x-model="tipoPlan" id="estandar" value="estandar" autocomplete="off" checked>
             <x-card-plan
               title="Estándar"
               price="prices.estandar"
               time="periodoPlan"
-              plan="standard_plan"
+              plan="estandar"
               className="btn-warning border-warning"
               avisos="avisos.estandar"
             />
@@ -110,12 +110,12 @@
 
           <!-- plan superior -->
           <div>
-            <input type="radio" class="btn-check" x-model="tipoPlan" id="advance_plan" value="advance_plan" autocomplete="off">
+            <input type="radio" class="btn-check" x-model="tipoPlan" id="superior" value="superior" autocomplete="off">
             <x-card-plan
               title="Superior"
               price="prices.superior"
               time="periodoPlan"
-              plan="advance_plan"
+              plan="superior"
               className="btn-success border-success"
               avisos="avisos.superior"
             />
@@ -124,27 +124,93 @@
         </div>
       </fieldset>
 
-      {{-- modal de pago de paquete --}}
-      
+      {{-- MODAL PAGO --}}
       <!-- Button trigger modal -->
-      <button type="button" class="btn button-orange fs-3 px-5 rounded-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Seleccionar Plan
+      <button type="button" class="btn button-orange fs-4 rounded-3 px-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Seleccionar Paquete
       </button>
     
       <!-- Modal -->
       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-          <div class="modal-content">
-            <div class="modal-body">
-              <h3>Plan que elegido</h3>
-              <p><span>S/.</span><span x-text=""></span></p>
-            </div>
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+
+          <div class="modal-content rounded-4 position-relative custom" x-data="creditCardData()">
+            <form>
+              @csrf
+
+              <div class="modal-body p-0">
+              <button type="button" class="btn-close p-2 m-2 position-absolute bg-white top-0 end-0 z-1" data-bs-dismiss="modal" aria-label="Close"></button>
+                
+                <div class="d-flex flex-column flex-lg-row h-100">
+                  {{-- plan contratado --}}
+                  <div class="z-0 col p-lg-5">
+                    <x-card-plan-checkout
+                      showPlan="tipoPlan === 'basico'"
+                      title="Básico"
+                      bgColor="text-bg-dark"
+                    />
+    
+                    <x-card-plan-checkout
+                      showPlan="tipoPlan === 'estandar'"
+                      title="Estándar"
+                      bgColor="text-bg-warning"
+                    />
+    
+                    <x-card-plan-checkout
+                      showPlan="tipoPlan === 'superior'"
+                      title="Superior"
+                      bgColor="text-bg-success"
+                    />
+                  </div>
+    
+                  {{-- Datos de la tarjeta de crédito --}}
+                  <div class="m-2 col p-lg-5 m-lg-0">
+                    <h6 class="icon-orange fw-bold">Pago con tarjeta</h6>
+                    {{-- Número de la tarjeta de crédito o débito --}}
+                    <div class="mb-3">
+                      <label for="numeroTarjeta" class="form-label m-0 custom">Número de Tarjeta</label>
+                      <div class="input-group">
+                        <input type="text" class="form-control credit-card-input shadow-none" id="numeroTarjeta" x-model="numeroTarjeta" inputmode="numeric" minlength="19" maxlength="19" @input="formatCardNumber">
+                        <span class="input-group-text"><i class="fa-regular fa-credit-card"></i></span>
+                      </div>
+                    </div>
+  
+                    {{-- Nombre de la tarjeta --}}
+                    <div class="mb-3">
+                      <label for="nombreTarjeta" class="form-label m-0 custom">Nombre en la Tarjeta</label>
+                      <div class="input-group">
+                        <input type="text" class="form-control shadow-none" id="nombreTarjeta" x-model="nombreTarjeta" inputmode="latin-name" maxlength="26">
+                      </div>
+                    </div>
+  
+                    <div class="d-flex justify-content-between">
+                      {{-- Fecha de vencimiento --}}
+                      <div class="mb-3 col-7">
+                        <label for="fechaTarjeta" class="form-label m-0 custom">Fecha de Vencimiento</label>
+                        <input type="text" class="form-control shadow-none" id="fechaTarjeta" x-model="fechaTarjeta" placeholder="MM/AA" maxlength="5" @input="formatExpiryDate">
+                      </div>
+                      {{-- CVC de la tarjeta --}}
+                      <div class="mb-3 col-4">
+                        <label for="cvcTarjeta" class="form-label m-0 custom">CVC</label>
+                        <input type="password" class="form-control shadow-none" id="cvcTarjeta" x-model="cvcTarjeta" placeholder="&#9679;&#9679;&#9679;" size="1" minlength="3" maxlength="3"/>
+                      </div>
+                    </div>
+
+                  </div>
+                  
+                </div>
+              </div>
+              <div class="d-flex justify-content-center w-100">
+                <button type="button" class="btn button-orange fs-3 rounded-3 m-2 mx-lg-5 w-100">Pagar S/. <span x-text="prices[tipoPlan]"></span></button>
+              </div>
+              <small class="text-body-tertiary p-3 px-lg-5">Al hacer clic en Pagar, está aceptando nuestros <a href="#">Términos y Condiciones de Contratación</a></small>
+            </form>
+
           </div>
         </div>
       </div>
-    </div>
 
-    
+    </div>    
   </form>
   
 </div>
@@ -155,7 +221,7 @@
       // campos formulario
       numAvisos: '5',
       periodoPlan: '90',
-      tipoPlan: 'standard_plan',
+      tipoPlan: 'estandar',
 
       prices: {
         basico: 259,
@@ -186,29 +252,62 @@
         '200': [ [200,0,0], [160,38,2], [120,60,20] ]
       },
       updatePrices() {
-        const selectedPrices = this.priceTable[this.numAvisos][this.periodoPlan];
-        this.prices.basico = selectedPrices[0];
-        this.prices.estandar = selectedPrices[1];
-        this.prices.superior = selectedPrices[2];
+        const selectedPrices = this.priceTable[this.numAvisos][this.periodoPlan]
+        this.prices.basico = selectedPrices[0]
+        this.prices.estandar = selectedPrices[1]
+        this.prices.superior = selectedPrices[2]
       },
       updateAvisosDistribution() {
-        const selectAvisos = this.avisosDistribution[this.numAvisos];
-        this.avisos.basico = selectAvisos[0];
-        this.avisos.estandar = selectAvisos[1];
-        this.avisos.superior = selectAvisos[2];
+        const selectAvisos = this.avisosDistribution[this.numAvisos]
+        this.avisos.basico = selectAvisos[0]
+        this.avisos.estandar = selectAvisos[1]
+        this.avisos.superior = selectAvisos[2]
       },
       init() {
         this.$watch('numAvisos', () => {
           this.updatePrices() 
           this.updateAvisosDistribution()
-        });
+        })
         this.$watch('periodoPlan', () => {
           this.updatePrices()
-        });
-      }
+        })
+      },
     }
   }
 
+  function creditCardData() {
+
+    return {
+      // tarjeta de credito
+      numeroTarjeta: '',
+      nombreTarjeta: '',
+      fechaTarjeta: '',
+      cvcTarjeta: '',
+
+      formatCardNumber() {
+        let input = this.numeroTarjeta.replace(/\D/g, '')
+        this.numeroTarjeta = input.replace(/(.{4})/g, '$1 ').trim()
+      },
+
+      formatExpiryDate() {
+        let input = this.fechaTarjeta.replace(/\D/g, '')
+
+        if (input.length > 0 && input.length <= 2) {
+          if (parseInt(input, 10) > 12) {
+            input = '12'
+          }
+        }
+
+        if (input.length = 2) {
+          input = input.substring(0, 4) 
+          input = input.replace(/(\d{2})(\d{1,2})/, '$1/$2') 
+        }
+
+        this.fechaTarjeta = input
+      },
+
+    }
+  }
 </script>
 
 @endsection
