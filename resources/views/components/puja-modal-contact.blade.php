@@ -4,7 +4,7 @@
 
     <div class="row m-0 p-0">
 
-      <div class="d-none d-md-block col p-0">
+      {{-- <div class="d-none d-md-block col p-0">
         <div class="modal-image-container">
           <img src="{{ asset('images/signin5.webp') }}" class="modal-image-custom" alt="Imagen pujando por casa">
         </div>
@@ -37,6 +37,23 @@
   
         </form>
 
+      </div> --}}
+
+      <div class="row m-0 p-0">
+
+        <div class="d-none d-md-block col p-0">
+          <div class="modal-image-container">
+            <img src="{{ asset('images/signin5.webp') }}" class="modal-image-custom" alt="Imagen pujando por casa">
+          </div>
+        </div>
+  
+        <div class="col p-4">
+  
+          <p class="h4 text-center mt-4">Le enviamos tus datos al anunciante</p>
+          <p class="h4 text-center mt-4">por medio de whatsapp</p>
+  
+        </div>
+  
       </div>
 
     </div>
