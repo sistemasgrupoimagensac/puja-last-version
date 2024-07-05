@@ -15,7 +15,7 @@
 @section('content')
 
 <div class="container my-5" x-data="pricingData()">
-  <h1 class="text-center fw-bold">Elige tu paquete de avisos</h1>
+  <h1 class="text-center fw-bold h2">¿cuantos inmuebles quieres publicar?</h1>
 
   {{-- SWITCH PAQUETES MIXTOS O TOP --}}
   <div class="text-center mt-5 mb-3">
@@ -142,20 +142,20 @@
         <div role="group" class="d-flex flex-column align-items-center flex-md-row gap-4 mt-4">
           <!-- plan basico -->
           <div>
-            <input type="radio" class="btn-check" x-model="tipoPlan" id="basico" value="basico" autocomplete="off">
+            <input type="radio" class="btn-check" x-model="tipoPlan" id="basico" value="basico" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
             <x-card-plan
               title="Básico"
               price="prices.basico"
               time="periodoPlan"
               plan="basico"
-              className="btn-dark border-secondary"
+              className="btn-secondary border-secondary"
               avisos="avisos.basico"
             />
           </div>
 
           <!-- plan estandar -->
           <div>
-            <input type="radio" class="btn-check" x-model="tipoPlan" id="estandar" value="estandar" autocomplete="off" checked>
+            <input type="radio" class="btn-check" x-model="tipoPlan" id="estandar" value="estandar" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
             <x-card-plan
               title="Estándar"
               price="prices.estandar"
@@ -168,7 +168,7 @@
 
           <!-- plan superior -->
           <div>
-            <input type="radio" class="btn-check" x-model="tipoPlan" id="superior" value="superior" autocomplete="off">
+            <input type="radio" class="btn-check" x-model="tipoPlan" id="superior" value="superior" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
             <x-card-plan
               title="Superior"
               price="prices.superior"
@@ -183,13 +183,7 @@
       </fieldset>
 
       {{-- MODAL PAGO --}}
-      <!-- Button trigger modal -->
-      <button type="button" class="btn button-orange fs-4 rounded-3 px-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Seleccionar Paquete
-      </button>
-    
-      <!-- Modal -->
-      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="modalPago" tabindex="-1" aria-labelledby="modalPagoLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
 
           <div class="modal-content rounded-4 position-relative custom" x-data="creditCardData()">
@@ -259,7 +253,7 @@
                 </div>
               </div>
               <div class="d-flex justify-content-center w-100">
-                <button type="button" class="btn button-orange fs-3 rounded-3 m-2 mx-lg-5 w-100">Pagar S/. <span x-text="prices[tipoPlan]"></span></button>
+                <button type="button" class="btn button-orange fs-3 rounded-3 m-2 mx-lg-5 w-100">Pagar S/ <span x-text="prices[tipoPlan]"></span></button>
               </div>
               <small class="text-body-tertiary p-3 px-lg-5">Al hacer clic en Pagar, está aceptando nuestros <a href="#">Términos y Condiciones de Contratación</a></small>
             </form>

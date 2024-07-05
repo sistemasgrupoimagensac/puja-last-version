@@ -226,7 +226,7 @@
                                 <div class="form-group w-100">
                                     <label class="text-secondary" for="precio_soles">Precio soles</label>
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text">S/.</span>
+                                        <span class="input-group-text">S/</span>
                                         <input type="number" id="precio_soles" x-model="precio_soles" min="99" max="999999999" class="form-control" required>
                                     </div>
                                 </div>
