@@ -16,66 +16,124 @@
 
 <div class="container my-5" x-data="pricingData()">
   <h1 class="text-center fw-bold">Elige tu paquete de avisos</h1>
+
+  {{-- SWITCH PAQUETES MIXTOS O TOP --}}
+  <div class="text-center mt-5 mb-3">
+    <div class="btn-group btn-group-lg" role="group" aria-label="Basic radio toggle button group">
+      <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked @click="paqueteMixto = true">
+      <label class="btn btn-outline-dark" for="btnradio1">Paquetes Mixtos</label>
+
+      <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" @click="paqueteMixto = false">
+      <label class="btn btn-outline-dark" for="btnradio2">Paquetes Top</label>
+    </div>
+  </div>
+
   <form>
     @csrf
-    <div class="d-flex flex-column align-items-center my-5 gap-5">
+    <div class="d-flex flex-column align-items-center py-3 gap-5">
       <!-- número de avisos del plan -->
       <fieldset>
         <legend class="text-secondary h6 mb-3">1. Selecciona el número de avisos.</legend>
-        <div role="group" class="planes-numero-avisos justify-content-center d-flex flex-wrap w-100 gap-3 gap-lg-4 px-1 p-lg-0 mt-4" x-data="{ open: false }">
-          <div>
-            <input type="radio" class="btn-check" id="5avisos" value="5" autocomplete="off" x-model="numAvisos">
-            <label class="btn btn-lg btn-outline-secondary button-filter fs-3 px-0 py-2" for="5avisos">5 Avisos</label>
-          </div>
-          <div>
-            <input type="radio" class="btn-check" id="10avisos" value="10" autocomplete="off" x-model="numAvisos">
-            <label class="btn btn-lg btn-outline-secondary button-filter fs-3 px-0 py-2" for="10avisos">10 Avisos</label>
-          </div>
-          <div>
-            <input type="radio" class="btn-check" id="25avisos" value="25" autocomplete="off" x-model="numAvisos">
-            <label class="btn btn-lg btn-outline-secondary button-filter fs-3 px-0 py-2" for="25avisos">25 Avisos</label>
-          </div> 
-          <div x-show="open" x-transition.duration.200ms>
-            <input type="radio" class="btn-check" id="50avisos" value="50" autocomplete="off" x-model="numAvisos">
-            <label class="btn btn-lg btn-outline-secondary button-filter fs-3 px-0 py-2" for="50avisos">50 Avisos</label>
-          </div>
-          <div x-show="open" x-transition.duration.200ms>
-            <input type="radio" class="btn-check" id="75avisos" value="75" autocomplete="off" x-model="numAvisos">
-            <label class="btn btn-lg btn-outline-secondary button-filter fs-3 px-0 py-2" for="75avisos">75 Avisos</label>
-          </div>
-          <div x-show="open" x-transition.duration.200ms>
-            <input type="radio" class="btn-check" id="100avisos" value="100" autocomplete="off" x-model="numAvisos">
-            <label class="btn btn-lg btn-outline-secondary button-filter fs-3 px-0 py-2" for="100avisos">100 Avisos</label>
-          </div>
-          <div x-show="open" x-transition.duration.200ms>
-            <input type="radio" class="btn-check" id="200avisos" value="200" autocomplete="off" x-model="numAvisos">
-            <label class="btn btn-lg btn-outline-secondary button-filter fs-3 px-0 py-2" for="200avisos">200 Avisos</label>
-          </div>
-    
-          <div class="avisos-desplegar d-flex align-items-center justify-content-center icon-orange border rounded" x-on:click="open = ! open">
-            <p class="m-0" x-show="!open">mostrar más</p>
-            <p class="m-0" x-show="open">mostrar menos</p>
+
+        {{-- PAQUETES TOP --}}
+        <div x-show="!paqueteMixto">
+          <div role="group" class="planes-numero-avisos d-flex flex-column flex-md-row justify-content-center align-items-center w-100 gap-3 gap-lg-4 px-1 p-lg-0 mt-4" x-data="{ open: false }">
+            <div>
+              <input type="radio" class="btn-check" id="1avisotop" value="1" autocomplete="off" x-model="numAvisos">
+              <label class="btn btn-lg btn-outline-secondary button-filter fs-3 px-0 py-2" for="1avisotop">1 Aviso</label>
+            </div>
+            <div>
+              <input type="radio" class="btn-check" id="3avisotop" value="3" autocomplete="off" x-model="numAvisos">
+              <label class="btn btn-lg btn-outline-secondary button-filter fs-3 px-0 py-2" for="3avisotop">3 Avisos</label>
+            </div>
+            <div>
+              <input type="radio" class="btn-check" id="5avisotop" value="5" autocomplete="off" x-model="numAvisos">
+              <label class="btn btn-lg btn-outline-secondary button-filter fs-3 px-0 py-2" for="5avisotop">5 Avisos</label>
+            </div> 
           </div>
         </div>
+
+        {{-- PAQUETES MIXTOS --}}
+        <div x-show="paqueteMixto">
+          <div role="group" class="planes-numero-avisos justify-content-center d-flex flex-wrap w-100 gap-3 gap-lg-4 px-1 p-lg-0 mt-4" x-data="{ open: false }">
+            <div>
+              <input type="radio" class="btn-check" id="5avisos" value="5" autocomplete="off" x-model="numAvisos">
+              <label class="btn btn-lg btn-outline-secondary button-filter fs-3 px-0 py-2" for="5avisos">5 Avisos</label>
+            </div>
+            <div>
+              <input type="radio" class="btn-check" id="10avisos" value="10" autocomplete="off" x-model="numAvisos">
+              <label class="btn btn-lg btn-outline-secondary button-filter fs-3 px-0 py-2" for="10avisos">10 Avisos</label>
+            </div>
+            <div>
+              <input type="radio" class="btn-check" id="25avisos" value="25" autocomplete="off" x-model="numAvisos">
+              <label class="btn btn-lg btn-outline-secondary button-filter fs-3 px-0 py-2" for="25avisos">25 Avisos</label>
+            </div> 
+            <div x-show="open" x-transition.duration.200ms>
+              <input type="radio" class="btn-check" id="50avisos" value="50" autocomplete="off" x-model="numAvisos">
+              <label class="btn btn-lg btn-outline-secondary button-filter fs-3 px-0 py-2" for="50avisos">50 Avisos</label>
+            </div>
+            <div x-show="open" x-transition.duration.200ms>
+              <input type="radio" class="btn-check" id="75avisos" value="75" autocomplete="off" x-model="numAvisos">
+              <label class="btn btn-lg btn-outline-secondary button-filter fs-3 px-0 py-2" for="75avisos">75 Avisos</label>
+            </div>
+            <div x-show="open" x-transition.duration.200ms>
+              <input type="radio" class="btn-check" id="100avisos" value="100" autocomplete="off" x-model="numAvisos">
+              <label class="btn btn-lg btn-outline-secondary button-filter fs-3 px-0 py-2" for="100avisos">100 Avisos</label>
+            </div>
+            <div x-show="open" x-transition.duration.200ms>
+              <input type="radio" class="btn-check" id="200avisos" value="200" autocomplete="off" x-model="numAvisos">
+              <label class="btn btn-lg btn-outline-secondary button-filter fs-3 px-0 py-2" for="200avisos">200 Avisos</label>
+            </div>
+      
+            <div class="avisos-desplegar d-flex align-items-center justify-content-center icon-orange border rounded" x-on:click="open = ! open">
+              <p class="m-0" x-show="!open">mostrar más</p>
+              <p class="m-0" x-show="open">mostrar menos</p>
+            </div>
+          </div>
+        </div>
+
       </fieldset>
 
       {{-- duración del plan --}}
       <fieldset>
         <legend class="h6 text-secondary mb-3">2. Elige el tiempo de duración.</legend>
-        <div role="group" class="planes-numero-avisos d-flex flex-column align-items-center flex-md-row gap-3 gap-lg-4 px-1 p-lg-0 mt-4">
-          <div>
-            <input type="radio" class="btn-check" id="90" value="90" autocomplete="off" x-model="periodoPlan">
-            <label class="btn btn-lg btn-outline-secondary fs-4 px-0 py-1" for="90">90 días</label>
-          </div>
-          <div>
-            <input type="radio" class="btn-check" id="180" value="180" autocomplete="off" x-model="periodoPlan">
-            <label class="btn btn-lg btn-outline-secondary fs-4 px-0 py-1" for="180">180 días</label>
-          </div>
-          <div>
-            <input type="radio" class="btn-check" id="365" value="365" autocomplete="off" x-model="periodoPlan">
-            <label class="btn btn-lg btn-outline-secondary fs-4 px-0 py-1" for="365">365 días</label>
+        {{-- PAQUETES TOP --}}
+        <div x-show="!paqueteMixto">
+          <div role="group" class="planes-numero-avisos d-flex flex-column flex-md-row justify-content-center align-items-center w-100 gap-3 gap-lg-4 px-1 p-lg-0 mt-4">
+            <div>
+              <input type="radio" class="btn-check" id="30top" value="30" autocomplete="off" x-model="periodoPlan">
+              <label class="btn btn-lg btn-outline-secondary fs-4 px-0 py-1" for="30top">30 días</label>
+            </div>
+            <div>
+              <input type="radio" class="btn-check" id="60top" value="60" autocomplete="off" x-model="periodoPlan">
+              <label class="btn btn-lg btn-outline-secondary fs-4 px-0 py-1" for="60top">60 días</label>
+            </div>
+            <div>
+              <input type="radio" class="btn-check" id="90top" value="90" autocomplete="off" x-model="periodoPlan">
+              <label class="btn btn-lg btn-outline-secondary fs-4 px-0 py-1" for="90top">90 días</label>
+            </div>
           </div>
         </div>
+
+        {{-- PAQUETES MIXTOS --}}
+        <div x-show="paqueteMixto">
+          <div role="group" class="planes-numero-avisos d-flex flex-column flex-md-row justify-content-center align-items-center w-100 gap-3 gap-lg-4 px-1 p-lg-0 mt-4">
+            <div>
+              <input type="radio" class="btn-check" id="90mix" value="90" autocomplete="off" x-model="periodoPlan">
+              <label class="btn btn-lg btn-outline-secondary fs-4 px-0 py-1" for="90mix">90 días</label>
+            </div>
+            <div>
+              <input type="radio" class="btn-check" id="180mix" value="180" autocomplete="off" x-model="periodoPlan">
+              <label class="btn btn-lg btn-outline-secondary fs-4 px-0 py-1" for="180mix">180 días</label>
+            </div>
+            <div>
+              <input type="radio" class="btn-check" id="365mix" value="365" autocomplete="off" x-model="periodoPlan">
+              <label class="btn btn-lg btn-outline-secondary fs-4 px-0 py-1" for="365mix">365 días</label>
+            </div>
+          </div>
+
+        </div>
+
       </fieldset>
 
       <!-- categoria de plan -->
@@ -222,6 +280,8 @@
       numAvisos: '5',
       periodoPlan: '90',
       tipoPlan: 'estandar',
+
+      paqueteMixto: true,
 
       prices: {
         basico: 259,
