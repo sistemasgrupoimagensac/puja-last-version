@@ -175,13 +175,19 @@
     "src": "resources/sass/pages/inmueble.scss",
     "isEntry": true
   },
+  "resources/sass/pages/landing-projects.scss": {
+    "file": "assets/landing-projects-l0sNRNKZ.js",
+    "name": "landing-projects",
+    "src": "resources/sass/pages/landing-projects.scss",
+    "isEntry": true
+  },
   "resources/sass/pages/perfil.scss": {
     "file": "assets/perfil-DZt2ayef.css",
     "src": "resources/sass/pages/perfil.scss",
     "isEntry": true
   },
   "resources/sass/pages/planes.scss": {
-    "file": "assets/planes-B4OMW8nM.css",
+    "file": "assets/planes-D4JH_WyR.css",
     "src": "resources/sass/pages/planes.scss",
     "isEntry": true
   },
