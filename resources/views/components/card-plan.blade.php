@@ -1,4 +1,4 @@
-<label class="card btn btn-lg {{ $className }} p-0 card-plan-label" for="{{ $plan }}" style="width:14rem; height: 14rem">
+<label class="card btn btn-lg {{ $className }} p-0 card-plan-label rounded-4" for="{{ $plan }}" style="width:14rem; height: 14rem">
   <div>
     <div class="card-body p-0">
       <h2 class="card-title fw-bolder mt-3">{{ $title }}</h2>

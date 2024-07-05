@@ -21,3 +21,65 @@
     }
   }
 }
+
+// MODAL pago =============================================
+.modal-content.custom {
+  max-height: 680px;
+  height: calc(100vh - 60px);
+
+  .plan-checkout-card {
+
+    
+    .card {
+      height: 200px;
+      border-radius: 0%;
+
+      .card-title {
+        font-size: 2.4rem;
+
+      }
+    }
+  }
+}
+
+.credit-card-input {
+  font-family: monospace;
+  letter-spacing: 0.05em;
+}
+
+.form-label.custom {
+  font-size: .9rem;
+}
+
+// MEDIA QUERIES ========================================
+
+@media (min-width: $lg) {
+
+
+
+  .modal-content.custom {
+    max-height: 480px;
+    // min-width: 100vw;
+
+    .plan-checkout-card {
+      height: 100%;
+      // padding: 2rem;
+      
+      
+      
+      .card {
+        height: 100%;
+        border-radius: 1rem;
+
+        .card-title {
+          font-size: 2.8rem;
+  
+        }
+      }
+    }
+
+
+  }
+  
+
+}
