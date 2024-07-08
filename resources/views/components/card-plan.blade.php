@@ -6,16 +6,22 @@
       <hr>
       <div class="d-flex justify-content-center">
 
-        <ul class="list-unstyled text-start h6">
-          <template x-for="(aviso, index) in {{ $avisos }}">
-            <li>
-              <span x-text="aviso"></span>
-              <template x-if="index===0"><span>avisos típicos</span></template>
-              <template x-if="index===1"><span>avisos top</span></template>
-              <template x-if="index===2"><span>avisos top plus</span></template>
-            </li>
-          </template>
-        </ul>
+        @if ($plan === 'top')
+          <p><span x-text={{ $avisos }}></span> avisos top</p>
+        @elseif ($plan === 'topPlus')
+          <p><span x-text={{ $avisos }}></span> avisos top plus</p>
+        @else     
+          <ul class="list-unstyled text-start h6 mb-4">
+            <template x-for="(aviso, index) in {{ $avisos }}">
+              <li>
+                <span x-text="aviso"></span>
+                <template x-if="index===0"><span>avisos típicos</span></template>
+                <template x-if="index===1"><span>avisos top</span></template>
+                <template x-if="index===2"><span>avisos top plus</span></template>
+              </li>
+            </template>
+          </ul>
+        @endif
 
       </div>
     </div>
