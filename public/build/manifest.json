@@ -129,6 +129,12 @@
     "src": "resources/js/scripts/perfil.js",
     "isEntry": true
   },
+  "resources/js/scripts/planes.js": {
+    "file": "assets/planes-57hdFlSU.js",
+    "name": "planes",
+    "src": "resources/js/scripts/planes.js",
+    "isEntry": true
+  },
   "resources/js/scripts/register.js": {
     "file": "assets/register-D47g-ZrG.js",
     "name": "register",
