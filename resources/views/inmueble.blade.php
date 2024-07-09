@@ -264,47 +264,25 @@
             @endif
           </div>
 
+          
+
           {{-- Adicionales --}}
           <div class="mt-5">
             <h3 class="fw-bold">Más Características</h3>
 
             <ul class="list-unstyled d-flex flex-wrap justify-content-between">
-              <li class="mt-3" style="min-width: 250px;">
-                <h6 class="text-secondary">
-                  <i class="fa-solid fa-video fa-lg icon-orange me-2"></i>
-                  Video Vigilancia
-                </h6>
-              </li>
-              <li class="mt-3" style="min-width: 250px;">
-                <h6 class="text-secondary">
-                  <i class="fa-solid fa-umbrella-beach fa-lg icon-orange me-2"></i>
-                  Terraza
-                </h6>
-              </li>
-              <li class="mt-3" style="min-width: 250px;">
-                <h6 class="text-secondary">
-                  <i class="fa-solid fa-droplet fa-lg icon-orange me-2"></i>
-                  Tanque de Agua
-                </h6>
-              </li>
-              <li class="mt-3" style="min-width: 250px;">
-                <h6 class="text-secondary">
-                  <i class="fa-solid fa-person-swimming fa-lg icon-orange me-2"></i>
-                  Piscina
-                </h6>
-              </li>
-              <li class="mt-3" style="min-width: 250px;">
-                <h6 class="text-secondary">
-                  <i class="fa-solid fa-sun-plant-wilt fa-lg icon-orange me-2"></i>
-                  Jardín Externo
-                </h6>
-              </li>
-              <li class="mt-3" style="min-width: 250px;">
-                <h6 class="text-secondary">
-                  <i class="fa-solid fa-bath fa-lg icon-orange me-2"></i>
-                  Habitación principal con baño
-                </h6>
-              </li>
+              {{-- @dd($aviso->inmueble->extra->caracteristicas); --}}
+              @foreach($aviso->inmueble->extra->caracteristicas as $caracteristica)
+                  {{-- <li>{{ $caracteristica->caracteristica }}: {{ $caracteristica->id }}</li> --}}
+                  @if ( $caracteristica->categoria_caracteristica_id == 1 )
+                  <li class="mt-3" style="min-width: 250px;">
+                    <h6 class="text-secondary">
+                      <i class="fa-solid {{ $caracteristica->icono }} icon-orange me-2"></i>
+                      {{ $caracteristica->caracteristica }}
+                    </h6>
+                  </li>
+                  @endif
+              @endforeach
             </ul>
 
 
@@ -315,24 +293,17 @@
             <h3 class="fw-bold">Comodidades</h3>
 
             <ul class="list-unstyled d-flex flex-wrap justify-content-between">
-              <li class="mt-3" style="min-width: 250px;">
-                <h6 class="text-secondary">
-                  <i class="fa-solid fa-tree fa-lg icon-orange me-2"></i>
-                  Parque Interno
-                </h6>
-              </li>
-              <li class="mt-3" style="min-width: 250px;">
-                <h6 class="text-secondary">
-                  <i class="fa-solid fa-water fa-lg icon-orange me-2"></i>
-                  Vista al Mar
-                </h6>
-              </li>
-              <li class="mt-3" style="min-width: 250px;">
-                <h6 class="text-secondary">
-                  <i class="fa-solid fa-arrows-to-circle fa-lg icon-orange me-2"></i>
-                  Zona Céntrica
-                </h6>
-              </li>
+              @foreach($aviso->inmueble->extra->caracteristicas as $caracteristica)
+                {{-- <li>{{ $caracteristica->caracteristica }}: {{ $caracteristica->id }}</li> --}}
+                @if ( $caracteristica->categoria_caracteristica_id == 2 )
+                <li class="mt-3" style="min-width: 250px;">
+                  <h6 class="text-secondary">
+                    <i class="fa-solid {{ $caracteristica->icono }} icon-orange me-2"></i>
+                    {{ $caracteristica->caracteristica }}
+                  </h6>
+                </li>
+                @endif
+              @endforeach
             </ul>
 
           </div>
@@ -370,9 +341,14 @@
                   </div>  
 
                   @if ( $aviso->inmueble->is_puja() )
-                  <div class="form-floating">
-                    <input type="text" class="form-control" id="contact-name" name="contact-name" placeholder="Nombre Completo" required>
-                    <label class="text-secondary" for="contact-name">Monto Puja</label>
+                  <div class="input-group has-validation">
+                    <div class="form-floating is-invalid">
+                      <input type="text" class="form-control is-invalid" id="monto_puja" placeholder="Monto a ofrecer">
+                      <label for="monto_puja">Monto a ofrecer</label>
+                    </div>
+                    <div class="invalid-feedback">
+                      Envíale tu monto oferta a quien publicó el inmueble.
+                    </div>
                   </div>
                       
                   @endif

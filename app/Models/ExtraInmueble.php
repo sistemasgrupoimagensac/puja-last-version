@@ -21,6 +21,6 @@ class ExtraInmueble extends Model
 
     public function caracteristicas(): BelongsToMany
     {
-        return $this->belongsToMany(Caracteristica::class, 'extra_inmueble_caracteristicas', 'extra_inmueble_id', 'caracteristica_extra_id');
+        return $this->belongsToMany(Caracteristica::class, 'extra_inmueble_caracteristicas', 'extra_inmueble_id', 'caracteristica_extra_id')->wherePivot('estado', 1);
     }
 }
