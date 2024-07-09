@@ -31,6 +31,10 @@ use Illuminate\Support\Facades\Validator;
 class MyPostsController extends Controller
 {
 
+    public function openpay () {
+        return view('open-pay.index');
+    }
+
     public function index (){
         $userId = Auth::id();
 
