@@ -1,0 +1,1 @@
+const e="mxrefdlpjxylc7yqelk3",d="pk_652e3b97a398409c97bbe4c8fd359743";document.addEventListener("DOMContentLoaded",()=>{OpenPay.setId(e),OpenPay.setApiKey(d),OpenPay.deviceData.setup("payment-form","deviceIdHiddenFieldName")});
