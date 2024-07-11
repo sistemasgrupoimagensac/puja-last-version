@@ -32,7 +32,10 @@ class MyPostsController extends Controller
 {
 
     public function openpay () {
-        return view('open-pay.index');
+        // return view('open-pay.index');
+        $latitude = -12.09706477059002;
+        $longitude = -77.02302118294135;
+        return view('openpay', compact('latitude', 'longitude'));
     }
 
     public function index (){
@@ -117,7 +120,10 @@ class MyPostsController extends Controller
         }
         $user_type = Auth::user()->tipo_usuario_id;
         $es_acreedor = $user_type == 4 ? true : false;
-        return view('crear-aviso', compact('es_acreedor'));
+        // $latitude = -12.09706477059002;
+        // $longitude = -77.02302118294135;
+        // return view('openpay', compact('latitude', 'longitude'));
+        return view('crear-aviso', compact('es_acreedor'/* ,'latitude', 'longitude' */));
     }
     
     public function store (Request $request){

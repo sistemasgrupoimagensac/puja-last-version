@@ -121,6 +121,13 @@
                             <label for="distrito">Distrito</label>
                         </div>
 
+                        {{-- <div x-init="initMap"> --}}
+                            <div id="map" style="width: 600px; height: 600px"></div>
+                            <input type="hidden" x-model="latitude" name="latitude">
+                            <input type="hidden" x-model="longitude" name="longitude">
+                        {{-- </div> --}}
+
+
                         <div class="d-flex justify-content-between gap-2 w-100">
                             <button type="button" @click="prevStep()" class="btn btn-secondary w-100">Atrás</button>
                             <button type="submit" class="btn button-orange w-100">Continuar</button>
@@ -516,6 +523,50 @@
                 hora_remate: '',
                 contacto_remate: '',
                 telefono_contacto_remate: '',
+
+                map: null,
+                marker: null,
+                latitude: null,
+                longitude: null,
+
+                initMap() {
+                    var defaultLocation = {lat: -12.09706477059002, lng: -77.02302118294135}; // Coordenadas iniciales de ejemplo
+                    this.map = new google.maps.Map(document.getElementById('map'), {
+                        zoom: 18,
+                        center: defaultLocation
+                    });
+
+                    this.map.addListener('click', (event) => {
+                        this.placeMarker(event.latLng);
+                    });
+
+                    // Colocar un marcador inicial si hay coordenadas preexistentes
+                    if (this.latitude && this.longitude) {
+                        this.placeMarker({ lat: this.latitude, lng: this.longitude });
+                    }
+                },
+                placeMarker(location) {
+                    if (this.marker) {
+                        this.marker.setPosition(location);
+                    } else {
+                        this.marker = new google.maps.Marker({
+                            position: location,
+                            map: this.map
+                        });
+                    }
+                    this.latitude = location.lat();
+                    this.longitude = location.lng();
+                    console.log("Coordinates set to:", this.latitude, this.longitude); // Verificar coordenadas aquí
+                },
+                /* validateLocation() {
+                    console.log('Validating location:', this.latitude, this.longitude); // Verificar coordenadas antes de validar
+                    if (this.latitude === null || this.longitude === null) {
+                        alert('Por favor, marque su ubicación en el mapa.');
+                        return false;
+                    }
+                    return true;
+                }, */
+
                 formatAmount(modelName, final = false) {
                     // Remover todos los caracteres no numéricos
                     let numericValue = this[modelName].replace(/\D/g, '');
@@ -559,6 +610,11 @@
                 },
 
                 nextStep(step) {
+                    /* if (step === 2) {
+                        if (!this.validateLocation()) {
+                            return;
+                        }
+                    } */
                     const stepMap = {
                         1: '/my-post/store',
                         2: `/my-post/store`,
@@ -619,6 +675,8 @@
                             formData.append('provincia_id', this.selectedProvincia)
                             formData.append('distrito_id', this.selectedDistrito)
                             formData.append('ubicacion', 1)
+                            formData.append('latitud', this.latitude);
+                            formData.append('longitud', this.longitude);
                             formData.append('codigo_unico', this.codigo_unico)
                         } else if (step === 3) /* Caracteristicas */ {
                             formData.append('is_puja', this.is_puja ? 1 : 0)
@@ -802,6 +860,22 @@
                 },
             }
         }
+
+        // Inicializar el mapa de Google
+        function initMap() {
+            const elements = document.querySelectorAll('[x-data]');
+
+            elements.forEach(element => {
+                const xDataFunction = new Function('return ' + element.getAttribute('x-data'))();
+                if (typeof xDataFunction.initMap === 'function') {
+                    xDataFunction.initMap();
+                }
+            });
+            // console.log("INIT MAP LAST:", this.longitude)
+        }
     </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuCCuPnZoJYgILw9e3PNom-ZG5TnsGNeg&callback=initMap"
+    async defer></script>
 
 @endsection

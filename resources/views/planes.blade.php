@@ -421,6 +421,12 @@
         fechaTarjeta: '',
         cvcTarjeta: '',
 
+        // Credenciales para las pruebas OPEN-PAY
+        id: 'myj31uzq1g183raeqliz',
+        sk: 'sk_2deb3b786d3d499bbefd088bfffad3ce',
+        pk: 'pk_4156b4121e8e470ca7f52c3db0e90883',
+        apiOpenPay: 'https://sandbox-api.openpay.pe',
+
         formatCardNumber() {
             let input = this.numeroTarjeta.replace(/\D/g, '')
             this.numeroTarjeta = input.replace(/(.{4})/g, '$1 ').trim()

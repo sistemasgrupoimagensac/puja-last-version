@@ -43,7 +43,7 @@ class DatabaseSeeder extends Seeder
             ImagenesInmueblesSeeder::class,
             AvisosSeeder::class,
             HistorialAvisosSeeder::class,
-            UserSubscriptionSeeder::class,
+            SubscriptionSeeder::class,
             SubscriptionLevelSeeder::class,
             SubscriptionOptionSeeder::class,
             UserSubscriptionSeeder::class,
