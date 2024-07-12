@@ -58,4 +58,39 @@ class User extends Authenticatable
     {
         return $this->hasMany(Inmueble::class, 'user_id');
     }
+
+    public function getDniAttribute()
+    {
+        return $this->attributes['numero_documento'];
+    }
+
+    public function getNameAttribute()
+    {
+        return $this->attributes['nombres'];
+    }
+
+    public function getLastNameAttribute()
+    {
+        return $this->attributes['apellidos'];
+    }
+
+    public function getAddressAttribute()
+    {
+        return "Calle Random 123 -- Accesor";
+    }
+
+    public function getBusinessNameAttribute()
+    {
+        return $this->attributes['nombres'];
+    }
+
+    public function getEmailAttribute()
+    {
+        return $this->attributes['email'];
+    }
+
+    public function getPhoneAttribute()
+    {
+        return $this->attributes['celular'];
+    }
 }
