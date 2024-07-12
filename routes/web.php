@@ -9,6 +9,7 @@ use Laravel\Socialite\Facades\Socialite;
 use App\Http\Controllers\AvisoController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\ImagesController;
+use App\Http\Controllers\OpenSSLTestController;
 use App\Http\Middleware\SessionData;
 
 Route::get('/', App\Http\Controllers\Web\Puja\MainController::class);
@@ -109,3 +110,14 @@ Route::post('/openpay/{id}', [BillingController::class, 'generarFactura'])->midd
 
 Route::get('/ope', [BillingController::class, 'metodo'])->middleware(SessionData::class);
 
+Route::get('/test-soap', function () {
+    if (class_exists('SoapClient')) {
+        return 'SoapClient is available.';
+    } else {
+        return 'SoapClient is not available.';
+    }
+});
+
+Route::get('/soap-test', [App\Http\Controllers\SoapTestController::class, 'test']);
+Route::get('/openssl-test', [OpenSSLTestController::class, 'test']);
+Route::get('/generate-rsa-key', [OpenSSLTestController::class, 'generateRsaKey']);
