@@ -10,6 +10,7 @@
     <title>Pujainmobiliaria - @yield('title')</title>
     @vite(['resources/sass/app.scss', 'resources/css/app.css'])
     @stack('styles')
+    @stack('scripts-head')
 </head>
 
 <body>

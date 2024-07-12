@@ -20,10 +20,10 @@
   {{-- SWITCH PAQUETES MIXTOS O TOP --}}
   <div class="text-center mt-5 mb-3">
     <div class="btn-group btn-group-lg" role="group" aria-label="Basic radio toggle button group">
-      <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked @click="categoriaPlan = 'mixto'">
+      <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked @click="categoriaPlan = 'mixto'" />
       <label class="btn btn-outline-dark" for="btnradio1">Paquetes Mixtos</label>
 
-      <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" @click="categoriaPlan = 'top'">
+      <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" @click="categoriaPlan = 'top'" />
       <label class="btn btn-outline-dark" for="btnradio2">Paquetes Top</label>
     </div>
   </div>
@@ -38,15 +38,15 @@
         <div x-show=" categoriaPlan === 'top' ">
           <div role="group" class="planes-numero-avisos d-flex flex-column flex-md-row justify-content-center align-items-center w-100 gap-3 gap-lg-4 px-1 p-lg-0 mt-4" x-data="{ open: false }">
             <div>
-              <input type="radio" class="btn-check" id="1avisotop" value="1" autocomplete="off" x-model="numAvisosTop">
+              <input type="radio" class="btn-check" id="1avisotop" value="1" autocomplete="off" x-model="numAvisosTop" />
               <label class="btn btn-lg btn-outline-secondary button-filter fs-3 px-0 py-2" for="1avisotop">1 Aviso</label>
             </div>
             <div>
-              <input type="radio" class="btn-check" id="3avisotop" value="3" autocomplete="off" x-model="numAvisosTop">
+              <input type="radio" class="btn-check" id="3avisotop" value="3" autocomplete="off" x-model="numAvisosTop" />
               <label class="btn btn-lg btn-outline-secondary button-filter fs-3 px-0 py-2" for="3avisotop">3 Avisos</label>
             </div>
             <div>
-              <input type="radio" class="btn-check" id="5avisotop" value="5" autocomplete="off" x-model="numAvisosTop">
+              <input type="radio" class="btn-check" id="5avisotop" value="5" autocomplete="off" x-model="numAvisosTop" />
               <label class="btn btn-lg btn-outline-secondary button-filter fs-3 px-0 py-2" for="5avisotop">5 Avisos</label>
             </div> 
           </div>
@@ -217,8 +217,8 @@
       <div class="modal fade" id="modalPago" tabindex="-1" aria-labelledby="modalPagoLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
 
-          <div class="modal-content rounded-4 position-relative custom" x-data="creditCardData()">
-            <form>
+          <div class="modal-content rounded-4 position-relative custom" id="modalPago2" x-data="creditCardData()" x-init="init()">
+            <form id="payment-form">
               @csrf
 
               <div class="modal-body p-0">
@@ -265,7 +265,7 @@
                     <div class="mb-3">
                       <label for="numeroTarjeta" class="form-label m-0 custom">Número de Tarjeta</label>
                       <div class="input-group">
-                        <input type="text" class="form-control credit-card-input shadow-none" id="numeroTarjeta" x-model="numeroTarjeta" inputmode="numeric" minlength="19" maxlength="19" @input="formatCardNumber">
+                        <input type="text" class="form-control credit-card-input shadow-none" id="numeroTarjeta" x-model="numeroTarjeta" inputmode="numeric" minlength="19" maxlength="19" @input="formatCardNumber" data_openpay_card />
                         <span class="input-group-text"><i class="fa-regular fa-credit-card"></i></span>
                       </div>
                     </div>
@@ -274,7 +274,7 @@
                     <div class="mb-3">
                       <label for="nombreTarjeta" class="form-label m-0 custom">Nombre en la Tarjeta</label>
                       <div class="input-group">
-                        <input type="text" class="form-control shadow-none" id="nombreTarjeta" x-model="nombreTarjeta" inputmode="latin-name" maxlength="26">
+                        <input type="text" class="form-control shadow-none" id="nombreTarjeta" x-model="nombreTarjeta" inputmode="latin-name" maxlength="26" data_openpay_card />
                       </div>
                     </div>
   
@@ -282,13 +282,18 @@
                       {{-- Fecha de vencimiento --}}
                       <div class="mb-3 col-7">
                         <label for="fechaTarjeta" class="form-label m-0 custom">Fecha de Vencimiento</label>
-                        <input type="text" class="form-control shadow-none" id="fechaTarjeta" x-model="fechaTarjeta" placeholder="MM/AA" maxlength="5" @input="formatExpiryDate">
+                        <input type="text" class="form-control shadow-none" id="fechaTarjeta" x-model="fechaTarjeta" placeholder="MM/AA" maxlength="5" @input="formatExpiryDate" data_openpay_card />
                       </div>
                       {{-- CVC de la tarjeta --}}
                       <div class="mb-3 col-4">
                         <label for="cvcTarjeta" class="form-label m-0 custom">CVC</label>
-                        <input type="password" class="form-control shadow-none" id="cvcTarjeta" x-model="cvcTarjeta" placeholder="&#9679;&#9679;&#9679;" size="1" minlength="3" maxlength="3"/>
+                        <input type="password" class="form-control shadow-none" id="cvcTarjeta" x-model="cvcTarjeta" size="1" minlength="3" maxlength="3" data_openpay_card/>
                       </div>
+                    </div>
+
+                    {{-- error de completar campos tarjeta de credito --}}
+                    <div class="card text-bg-danger" x-show="errorInputCreditcard">
+                      <p id="error-message" class="card-text text-center">Complete todos los campos de la tarjeta.</p>
                     </div>
 
                   </div>
@@ -296,12 +301,30 @@
                 </div>
               </div>
               <div class="d-flex justify-content-center w-100">
-                <button type="button" class="btn button-orange fs-3 rounded-3 m-2 mx-lg-5 w-100">Pagar S/ <span x-text="prices[tipoPlan]"></span></button>
+                <button type="button" class="btn button-orange fs-3 rounded-3 m-2 mx-lg-5 w-100" id="pay-button">Pagar S/ <span x-text="prices[tipoPlan]"></span></button>
               </div>
               <small class="text-body-tertiary p-3 px-lg-5">Al hacer clic en Pagar, está aceptando nuestros <a href="#">Términos y Condiciones de Contratación</a></small>
             </form>
 
           </div>
+        </div>
+      </div>
+
+      <!-- MODAL RESULTADO -->
+      <div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="resultModalLabel">Resultado del Pago</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="resultModalBody">
+                    <!-- Aquí se mostrará la información del pago -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
         </div>
       </div>
 
@@ -414,38 +437,248 @@
   }
 
   function creditCardData() {
-
     return {
-      // tarjeta de credito
-      numeroTarjeta: '',
-      nombreTarjeta: '',
-      fechaTarjeta: '',
-      cvcTarjeta: '',
+        // tarjeta de credito
+        numeroTarjeta: '',
+        nombreTarjeta: '',
+        fechaTarjeta: '',
+        cvcTarjeta: '',
+        deviceSessionId: '',
+        sk: '',
+        isProcessing: false,
+        errorInputCreditcard: false,
 
-      formatCardNumber() {
-        let input = this.numeroTarjeta.replace(/\D/g, '')
-        this.numeroTarjeta = input.replace(/(.{4})/g, '$1 ').trim()
-      },
+        formatCardNumber() {
+          let input = this.numeroTarjeta.replace(/\D/g, '')
+          this.numeroTarjeta = input.replace(/(.{4})/g, '$1 ').trim()
+        },
 
-      formatExpiryDate() {
-        let input = this.fechaTarjeta.replace(/\D/g, '')
+        formatExpiryDate() {
+          let input = this.fechaTarjeta.replace(/\D/g, '')
 
-        if (input.length > 0 && input.length <= 2) {
-          if (parseInt(input, 10) > 12) {
-            input = '12'
+          if (input.length > 0 && input.length <= 2) {
+            if (parseInt(input, 10) > 12) {
+              input = '12'
+            }
           }
-        }
 
-        if (input.length = 2) {
-          input = input.substring(0, 4) 
-          input = input.replace(/(\d{2})(\d{1,2})/, '$1/$2') 
-        }
+          if (input.length = 2) {
+            input = input.substring(0, 4) 
+            input = input.replace(/(\d{2})(\d{1,2})/, '$1/$2') 
+          }
 
-        this.fechaTarjeta = input
-      },
+          this.fechaTarjeta = input
+        },
+
+        isValidForm() {
+            return this.numeroTarjeta && this.nombreTarjeta && this.fechaTarjeta && this.cvcTarjeta
+        },
+
+        createToken(callback) {
+            const [month, year] = this.fechaTarjeta.split('/')
+            OpenPay.token.create({
+                "card_number": this.numeroTarjeta.replace(/\s+/g, ''),
+                "holder_name": this.nombreTarjeta,
+                "expiration_year": year,
+                "expiration_month": month,
+                "cvv2": this.cvcTarjeta,
+            }, callback, this.handleTokenError)
+        },
+
+        handleTokenSuccess(response) {
+            const source_id = response.data.id
+
+            const client = {
+                Cliente: 'Osquitar',
+                Telefono1: '999625263',
+                Correo: 'christiandominguez@gmail.com'
+            }
+
+            let clientNames = client.Cliente.split(' ')
+            let name = clientNames[0]
+            let last_name = clientNames.slice(1).join(" ")
+
+            const categoriaPlan = this.categoriaPlan
+            const tipoPlan = this.tipoPlan
+            const numAvisos = categoriaPlan === 'top' ? this.numAvisosTop : this.numAvisos
+            const periodoPlan = categoriaPlan === 'top' ? this.periodoPlanTop : this.periodoPlan
+            const price = this.prices[tipoPlan]
+
+            const formPost = {
+                "source_id": source_id,
+                "method": "card",
+                "amount": price,
+                "currency": 'PEN',
+                "description": `Paquete: ${categoriaPlan}, Plan: ${tipoPlan}, Días: ${periodoPlan}, Avisos: ${numAvisos}`,
+                "device_session_id": this.deviceSessionId,
+                "customer": {
+                    "name": name,
+                    "last_name": last_name,
+                    "phone_number": client.Telefono1,
+                    "email": client.Correo
+                }
+            }
+
+            this.processPayment(formPost)
+        },
+
+        handleTokenError(error) {
+            document.getElementById('error-message').innerText = error.data.description
+            this.isProcessing = false
+            document.getElementById('pay-button').disabled = false
+        },
+
+        showResultModal(data) {
+          console.log(data)
+
+            // Cierra la modal de pago
+            // var paymentModalEl = document.querySelector('.modal-content.custom').closest('.modal');
+            var paymentModal = bootstrap.Modal('#modalPago');
+            console.log(paymentModal);
+            // paymentModal.hide();
+            // paymentModal.hide();
+
+
+            // // Muestra la información en la nueva modal
+            // document.getElementById('resultModalBody').innerHTML = `
+            //     <p><strong>Monto:</strong> PEN ${data.amount}</p>
+            //     <p><strong>Autorización:</strong> ${data.authorization}</p>
+            //     <p><strong>Fecha:</strong> ${data.creation_date}</p>
+            //     <p><strong>Descripción:</strong> ${data.description}</p>
+            //     <p><strong>Estatus:</strong> ${data.status}</p>
+            // `;
+
+            // // Abre la nueva modal
+            // var resultModal = new bootstrap.Modal(document.getElementById('resultModal'));
+            // resultModal.show();
+        },
+
+        processPayment(formPost) {
+            fetch(`https://sandbox-api.openpay.pe/v1/mxrefdlpjxylc7yqelk3/charges`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Basic ${btoa(`${this.sk}:`)}`
+                },
+                body: JSON.stringify(formPost)
+            }).then(response => response.json())
+                .then(data => {
+                  
+
+                  const error = data.error_code
+                  
+                  if (error) {
+                    console.log('switch de error');
+                    switch (error) {
+                      case 3001:
+                        alert(`La tarjeta fue rechazada`)
+                        this.clearForm()
+                        this.isProcessing = false
+                        document.getElementById('pay-button').disabled = false
+                        break;
+
+                      case 3002:
+                        alert(`La tarjeta ha expirado`)
+                        this.clearForm()
+                        this.isProcessing = false
+                        document.getElementById('pay-button').disabled = false
+                        break;
+
+                      case 3003:
+                        alert(`La tarjeta no tiene fondos suficientes`)
+                        this.clearForm()
+                        this.isProcessing = false
+                        document.getElementById('pay-button').disabled = false
+                        break;
+
+                      case 3004:
+                        alert(`La tarjeta ha sido identificada como una tarjeta robada`)
+                        this.clearForm()
+                        this.isProcessing = false
+                        document.getElementById('pay-button').disabled = false
+                        break;
+
+                      case 3005:
+                        alert(`La tarjeta ha sido rechazada por el sistema antifraudes`)
+                        this.clearForm()
+                        this.isProcessing = false
+                        document.getElementById('pay-button').disabled = false
+                        break;
+
+                      default:
+                        alert('Hubo un error con el pago')
+                        this.clearForm()
+                        this.isProcessing = false
+                        document.getElementById('pay-button').disabled = false
+                        break;
+                    }
+
+                  } else {
+                    this.clearForm()
+                    this.isProcessing = false
+                    document.getElementById('pay-button').disabled = false
+                    // this.showResultModal(data);
+                    alert(`Pago de PEN ${data.amount} realizado con éxito.`)
+                  }
+                }).catch(error => {
+                  
+                    // document.getElementById('error-message').innerText = error.message
+                    // this.isProcessing = false
+                    // document.getElementById('pay-button').disabled = false
+                })
+        },
+
+        clearForm() {
+            this.numeroTarjeta = ''
+            this.nombreTarjeta = ''
+            this.fechaTarjeta = ''
+            this.cvcTarjeta = ''
+        },
+
+        initOpenPay() {
+            const id = 'mxrefdlpjxylc7yqelk3'
+            const pk = 'pk_652e3b97a398409c97bbe4c8fd359743'
+            const sk = 'sk_722fee3e81054123a7394a2128bb75c7'
+            OpenPay.setId(id)
+            OpenPay.setApiKey(pk)
+            OpenPay.setSandboxMode(true)
+            this.deviceSessionId = OpenPay.deviceData.setup("payment-form")
+            this.sk = sk
+        },
+
+        registerPayButton() {
+            document.getElementById('pay-button').addEventListener('click', () => {
+              const errorInline = document.getElementById('error-message')
+                if (this.isProcessing) return
+                if (this.isValidForm()) {
+                    this.isProcessing = true
+                    document.getElementById('pay-button').disabled = true
+                    this.createToken(this.handleTokenSuccess.bind(this))
+                } else {
+                  setTimeout(() => {
+                    this.errorInputCreditcard = false
+                  }, 3000)
+                  this.errorInputCreditcard = true
+                }
+            })
+        },
+
+        init() {
+          window.onload = () => {
+            this.initOpenPay()
+            this.$nextTick(() => {
+              this.registerPayButton()
+            })
+          }
+        },
 
     }
-  }
+}
+
+document.addEventListener('alpine:init', () => {
+    Alpine.data('creditCardData', creditCardData)
+})
+
 </script>
 @endsection
 
@@ -454,5 +687,10 @@
 @endsection
 
 @push('scripts')
-    @vite(['resources/js/scripts/planes.js'])
+  @vite(['resources/js/scripts/planes.js'])
+  @endpush
+  
+@push('scripts-head')  
+  <script src="https://js.openpay.pe/openpay.v1.min.js"></script>
+  <script src="https://js.openpay.pe/openpay-data.v1.min.js"></script>
 @endpush
