@@ -47,6 +47,7 @@ class DatabaseSeeder extends Seeder
             SubscriptionLevelSeeder::class,
             SubscriptionOptionSeeder::class,
             UserSubscriptionSeeder::class,
+            TipoDocumentosSeeder::class,
         ]);
     }
 }

@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 use App\Http\Controllers\AvisoController;
+use App\Http\Controllers\BillingController;
 use App\Http\Controllers\ImagesController;
+use App\Http\Middleware\SessionData;
 
 Route::get('/', App\Http\Controllers\Web\Puja\MainController::class);
 
@@ -101,5 +103,9 @@ Route::get('/images/{archivo}', [ImagesController::class, 'get_images']);
 Route::get('/videos/{archivo}', [ImagesController::class, 'get_videos']);
 
 
-Route::get('/openpay', [MyPostsController::class, 'openpay']);
+// Route::get('/openpay', [MyPostsController::class, 'openpay'])->middleware('sessiondata');
+// Route::post('/openpay/{id}', [BillingController::class, 'generarFactura'])->middleware(SessionData::class);
+Route::post('/openpay/{id}', [BillingController::class, 'generarFactura'])->middleware(SessionData::class);
+
+Route::get('/ope', [BillingController::class, 'metodo'])->middleware(SessionData::class);
 
