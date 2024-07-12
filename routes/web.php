@@ -91,7 +91,8 @@ Route::get('/my-post/extras/{extra_id}', [MyPostsController::class, 'getExtras']
 
 
 // Ruta para planes de pago
-Route::get('/planes-inmobiliaria', function() {
+Route::get('/planes-inmobiliaria', [App\Http\Controllers\PlanController::class, 'index']);
+/* Route::get('/planes-inmobiliaria', function() {
     try {
 
         return view('planes');
@@ -105,7 +106,7 @@ Route::get('/planes-inmobiliaria', function() {
             'error' => $th->getMessage() // Mensaje de error detallado
         ], 500); // Código de estado HTTP 500 (Internal Server Error)
     }
-});
+}); */
 
 // Ruta landing de proyectos inmobiliarios
 Route::get('/proyectos', function() {
