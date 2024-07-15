@@ -86,7 +86,7 @@
       
             <div class="avisos-desplegar d-flex align-items-center justify-content-center icon-orange border rounded" x-on:click="open = ! open">
               <p class="m-0" x-show="!open">mostrar más</p>
-              <p class="m-0" x-show="open">mostrar menos</p>
+              <p class="m-0" x-show="open">mostrar menos.</p>
             </div>
           </div>
         </div>
