@@ -83,11 +83,11 @@ class BillingController extends Controller
 
             $data->client;
 
-            return response()->json([
+            /* return response()->json([
                 'http_code' => 200,
                 'message' => 'Bien',
                 'data' => $data,
-            ]);
+            ]); */
 
             if($data->documentType->type_doc == '02') {
                 $response = $this->generarFEBoleta($request, $data);
