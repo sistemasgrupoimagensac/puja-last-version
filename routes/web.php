@@ -118,19 +118,6 @@ Route::get('/videos/{archivo}', [ImagesController::class, 'get_videos']);
 
 
 // Route::get('/openpay', [MyPostsController::class, 'openpay'])->middleware('sessiondata');
-// Route::post('/openpay/{id}', [BillingController::class, 'generarFactura'])->middleware(SessionData::class);
 Route::post('/openpay/{id}', [BillingController::class, 'generarFactura'])->middleware(SessionData::class);
 
-Route::get('/ope', [BillingController::class, 'metodo'])->middleware(SessionData::class);
 
-Route::get('/test-soap', function () {
-    if (class_exists('SoapClient')) {
-        return 'SoapClient is available.';
-    } else {
-        return 'SoapClient is not available.';
-    }
-});
-
-Route::get('/soap-test', [App\Http\Controllers\SoapTestController::class, 'test']);
-Route::get('/openssl-test', [OpenSSLTestController::class, 'test']);
-Route::get('/generate-rsa-key', [OpenSSLTestController::class, 'generateRsaKey']);

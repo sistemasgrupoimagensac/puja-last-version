@@ -32,7 +32,7 @@ class BillingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function metodo()
+    public function index()
     {
         //
     }
@@ -75,47 +75,38 @@ class BillingController extends Controller
     {
         try {
 
-        $data = UserSubscription::find($id);
-    
-        $data->state = 1;
-        $data->document_type_id = $request->document_type_id;
-        $data->save();
-
-        $data->client;
+            $data = UserSubscription::find($id);
         
-        /* return response()->json([
-            'http_code' => 200,
-            'message' => 'Bien',
-            'data' => $data,
-        ]); */
+            $data->state = 1;
+            $data->document_type_id = $request->document_type_id;
+            $data->save();
 
-        if($data->documentType->type_doc == '02') {
-            $response = $this->generarFEBoleta($request, $data);
-        }
-        else if($data->documentType->type_doc == '03')  {
-            $response = $this->generarFEFactura($request, $data);
-        }
-        else {
-            $response = $this->generarNotaVenta($request, $data);
-        }
+            $data->client;
 
-        return [
-            "data" => $response,
-            // 'data' => $response['data'],
-            // 'serie' => $response['serie'],
-            // 'message' => $response['message'],
-        ];
+            return response()->json([
+                'http_code' => 200,
+                'message' => 'Bien',
+                'data' => $data,
+            ]);
 
-        
-        /* return response()->json([
-            'http_code' => 200,
-            'message' => 'Bien',
-            'data' => $data,
-        ]); */
+            if($data->documentType->type_doc == '02') {
+                $response = $this->generarFEBoleta($request, $data);
+            }
+            else if($data->documentType->type_doc == '03')  {
+                $response = $this->generarFEFactura($request, $data);
+            }
+            else {
+                $response = $this->generarNotaVenta($request, $data);
+            }
+
+            return [
+                "data" => $response,
+                // 'data' => $response['data'],
+                // 'serie' => $response['serie'],
+                // 'message' => $response['message'],
+            ];
 
         } catch (\Throwable $th) {
-            // Capturar cualquier excepción o error que ocurra y retornar una respuesta de error
-
             return response()->json([
                 'http_code' => 500,
                 'message' => 'Error al generar la factura',

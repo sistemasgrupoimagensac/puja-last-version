@@ -19,14 +19,8 @@ class SessionData
             \Session::put('datos_empresa', $empresa);
             \Session::put('datos_fact_elect', $empresa->electronicBilling);
 
-            /* return response()->json([
-                'http_code' => 200,
-                'message' => 'sdfdsfdsf',
-                'data' => \Session::get('datos_empresa'),
-                'data2' => \Session::get('datos_fact_elect'),
-            ]); */
-
             return $next($request);
+            
         } catch (\Throwable $th) {
             return response()->json([
                 'http_code' => 500,
