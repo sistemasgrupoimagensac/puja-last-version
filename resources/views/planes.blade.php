@@ -336,7 +336,7 @@
 			return {
 				// campos formulario:
 				categoriaPlan: 'mixto',
-				tipoPlan: '',
+				tipoPlan: 'estandar',
         id: '',
 
 				// paquetes Mixtos
@@ -393,13 +393,20 @@
 					}
 				},
 
-        idsTable: {
-          'mixto' : {
-            '5': { '90': }
-          },
-          'top' : {
+        idsTop: {
+          '1': { '30': [1, 10], '60': [2, 11], '90': [3, 12]  },
+          '3': { '30': [4, 13], '60': [5, 14], '90': [6, 15]  },
+          '5': { '30': [7, 16], '60': [8, 17], '90': [9, 18]  },
+        },
 
-          }
+        idsMixto: {
+					'5': { '90': [19, 40, 61], '180': [26, 47, 68], '365': [33, 54, 75] },
+					'10': { '90': [20, 41, 62], '180': [27, 48, 69], '365': [34, 55, 76] },
+					'25': { '90': [21, 42, 63], '180': [28, 49, 70], '365': [35, 56, 77] },
+					'50': { '90': [22, 43, 64], '180': [29, 50, 71], '365': [36, 57, 78] },
+					'75': { '90': [23, 44, 65], '180': [30, 51, 72], '365': [37, 58, 79] },
+					'100': { '90': [24, 45, 66], '180': [31, 52, 73], '365': [38, 59, 80] },
+					'200': { '90': [25, 46, 67], '180': [32, 53, 74], '365': [39, 60, 81] }
         },
 
 				updatePrices() {
@@ -419,28 +426,56 @@
 					this.avisos.estandar = selectAvisos[1]
 					this.avisos.superior = selectAvisos[2]
 				},
+        updateIdMixtos() {
+          const selectedId = this.idsMixto[this.numAvisos][this.periodoPlan]
+          if(this.tipoPlan === 'basico') {
+            this.id = selectedId[0]
+          } else if (this.tipoPlan === 'estandar') {
+            this.id = selectedId[1]
+          } else if (this.tipoPlan === 'superior') {
+            this.id = selectedId[2]
+          }
+          console.log(this.id);
+        },
+        updateIdTop() {
+          const selectedId = this.idsTop[this.numAvisosTop][this.periodoPlanTop]
+          if(this.tipoPlan === 'top') {
+            this.id = selectedId[0]
+          } else if (this.tipoPlan === 'topPlus') {
+            this.id = selectedId[1]
+          }
+          console.log(this.id);
+        },
+
 				init() {
-					// paquetes mixtos
+					// paquetes MIXTOS ========================
 					this.$watch('numAvisos', () => {
 						this.updatePrices() 
 						this.updateAvisosDistribution()
+            this.updateIdMixtos()
 					})
 					this.$watch('periodoPlan', () => {
 						this.updatePrices()
+            this.updateIdMixtos()
 					})
-					// paquetes top
+
+					// paquetes TOP ============================
 					this.$watch('numAvisosTop', () => {
 						this.updatePricesTop() 
-						console.log(this.numAvisosTop);
+            this.updateIdTop()
 					})
 					this.$watch('periodoPlanTop', () => {
-						console.log(this.periodoPlanTop);
-						this.updatePricesTop()
+            this.updateIdTop()
 					})
 
 					this.$watch('tipoPlan', () => {
 						this.pricePlan = this.prices[this.tipoPlan]
 						this.pricePlaTop = this.prices[this.tipoPlan]
+
+            // update id
+            this.updateIdMixtos()
+            this.updateIdTop()
+        
 					})
 					this.$watch('categoriaPlan', () => {
 						this.updatePrices()
@@ -611,7 +646,6 @@
 							this.clearForm();
 							this.isProcessing = false
 							document.getElementById('pay-button').disabled = false
-							// this.showResultModal(data);
 							alert(`Pago de PEN ${data.amount} realizado con éxito.`)
 						}
 					}).catch(error => {
@@ -630,7 +664,7 @@
 									quantity: 1,
 									product: 
 										{
-											id: 1,
+											id: this.id,
 											name: "Plan" + this.tipoPlan,
 											type: 1
 										}
