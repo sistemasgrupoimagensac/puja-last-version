@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Middleware\SessionData;
+use App\Mail\SubscriptionMail;
 use Illuminate\Http\Request;
 use App\Models\SaleModel;
 use App\Models\DocumentType;
@@ -18,6 +19,8 @@ use Greenter\Model\Sale\Legend;
 use Luecano\NumeroALetras\NumeroALetras;
 use DateTime;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class BillingController extends Controller
 {
@@ -35,6 +38,33 @@ class BillingController extends Controller
     public function index()
     {
         //
+    }
+
+    public function sendMail($path)
+    {
+        
+        try {
+            
+            $pdfPath = public_path('billing/pdf/20605395181-03-B001-82-a4.pdf');
+            Log::info('Iniciando el envío de correo...');
+            Mail::to('pierreherreraoropeza@gmail.com')->send(new SubscriptionMail($pdfPath));
+            Log::info('Correo enviado.');
+
+            return response()->json([
+                'http_code' => 200,
+                'message' => 'Correo enviado.',
+                'param' => $path,
+            ], 200);
+
+        } catch (\Throwable $th) {
+            Log::error('Error al enviar el correo: ' . $th->getMessage());
+
+            return response()->json([
+                'http_code' => 500,
+                'message' => 'Error al generar la vista de planes',
+                'error' => $th->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -98,6 +128,14 @@ class BillingController extends Controller
             else {
                 $response = $this->generarNotaVenta($request, $data);
             }
+
+            // Mail::to('pierreherreraoropeza@gmail.com')->send(new SubscriptionMail);substr($cadena, 1)
+
+            // $pdfPath = public_path($response['data']['file_name']);
+            $pdfPath_fix = public_path(substr($response['data']['file_name'].'-a4.pdf', 1));
+            Log::info('Iniciando el envío de correo...');
+            Mail::to('pierreherreraoropeza@gmail.com')->send(new SubscriptionMail($pdfPath_fix));
+            Log::info('Correo enviado.');
 
             return [
                 "data" => $response,

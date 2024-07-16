@@ -120,4 +120,6 @@ Route::get('/videos/{archivo}', [ImagesController::class, 'get_videos']);
 // Route::get('/openpay', [MyPostsController::class, 'openpay'])->middleware('sessiondata');
 Route::post('/openpay/{id}', [BillingController::class, 'generarFactura'])->middleware(SessionData::class);
 
+Route::get('/send_mail', [BillingController::class, 'sendMail']);
+
 
