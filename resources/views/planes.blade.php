@@ -337,6 +337,7 @@
 				// campos formulario:
 				categoriaPlan: 'mixto',
 				tipoPlan: '',
+        id: '',
 
 				// paquetes Mixtos
 				numAvisos: 5,
@@ -357,16 +358,19 @@
 					top: 129,
 					topPlus: 239,
 				},
+
 				avisos: {
 					basico: [5,0,0],
 					estandar: [3,2,0],
 					superior: [2,2,1],
 				},
+
 				priceTableTop: {
 					'1': { '30': [129, 239], '60': [219, 406], '90': [290, 537] },
 					'3': { '30': [290, 540], '60': [495, 915], '90': [650, 1210] },
 					'5': { '30': [505, 715], '60': [850, 1220], '90': [1225, 1610] },
 				},
+
 				priceTable: {
 					'5': { '90': [259, 325, 405], '180': [490, 605, 745], '365': [719, 875, 1075] },
 					'10': { '90': [529, 649, 809], '180': [989, 1199, 1499], '365': [1449, 1769, 2179] },
@@ -376,6 +380,7 @@
 					'100': { '90': [1985, 2350, 3375], '180': [3970, 4630, 6190], '365': [5950, 6899, 9160] },
 					'200': { '90': [3390, 3980, 5190], '180': [6890, 8110, 10500], '365': [10400, 12099, 14990] }
 				},
+
 				avisosDistribution: {
 					'mixto' : {
 						'5': [ [5,0,0], [3,2,0], [2,2,1] ],
@@ -387,6 +392,16 @@
 						'200': [ [200,0,0], [160,38,2], [120,60,20] ]
 					}
 				},
+
+        idsTable: {
+          'mixto' : {
+            '5': { '90': }
+          },
+          'top' : {
+
+          }
+        },
+
 				updatePrices() {
 					const selectedPrices = this.priceTable[this.numAvisos][this.periodoPlan]
 					this.prices.basico = selectedPrices[0]
@@ -528,27 +543,8 @@
 
 				showResultModal(data) {
 					console.log(data)
-
-					// Cierra la modal de pago
-					// var paymentModalEl = document.querySelector('.modal-content.custom').closest('.modal');
 					var paymentModal = bootstrap.Modal('#modalPago');
 					console.log(paymentModal);
-					// paymentModal.hide();
-					// paymentModal.hide();
-
-
-					// // Muestra la información en la nueva modal
-					// document.getElementById('resultModalBody').innerHTML = `
-					//     <p><strong>Monto:</strong> PEN ${data.amount}</p>
-					//     <p><strong>Autorización:</strong> ${data.authorization}</p>
-					//     <p><strong>Fecha:</strong> ${data.creation_date}</p>
-					//     <p><strong>Descripción:</strong> ${data.description}</p>
-					//     <p><strong>Estatus:</strong> ${data.status}</p>
-					// `;
-
-					// // Abre la nueva modal
-					// var resultModal = new bootstrap.Modal(document.getElementById('resultModal'));
-					// resultModal.show();
 				},
 
 				processPayment(formPost) {
