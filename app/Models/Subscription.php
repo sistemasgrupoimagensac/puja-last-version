@@ -16,4 +16,9 @@ class Subscription extends Model
     {
         return $this->hasMany(SubscriptionLevel::class);
     }
+
+    public function options()
+    {
+        return $this->hasManyThrough(SubscriptionOption::class, SubscriptionLevel::class);
+    }
 }
