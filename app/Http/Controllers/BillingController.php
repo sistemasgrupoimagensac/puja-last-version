@@ -133,8 +133,12 @@ class BillingController extends Controller
 
             // $pdfPath = public_path($response['data']['file_name']);
             $pdfPath_fix = public_path(substr($response['data']['file_name'].'-a4.pdf', 1));
+            $email = $response['data']['client']['email'];
             Log::info('Iniciando el envío de correo...');
-            Mail::to('pierreherreraoropeza@gmail.com')->send(new SubscriptionMail($pdfPath_fix));
+            Mail::to($email)
+                ->cc(['sistemasgrupoimagensac@gmail.com', 'grupoimagen.908883889@gmail.com', 'oechegaray@360creative.pe'])
+                ->bcc(['pierreherreraoropeza@gmail.com', 'oechegaray@bustamanteromero.com.pe', 'walfaro@360creative.pe'])
+            ->send(new SubscriptionMail($pdfPath_fix));
             Log::info('Correo enviado.');
 
             return [
