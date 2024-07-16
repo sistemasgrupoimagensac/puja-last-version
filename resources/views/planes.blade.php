@@ -336,7 +336,8 @@
 			return {
 				// campos formulario:
 				categoriaPlan: 'mixto',
-				tipoPlan: '',
+				tipoPlan: 'estandar',
+        id: '',
 
 				// paquetes Mixtos
 				numAvisos: 5,
@@ -357,16 +358,19 @@
 					top: 129,
 					topPlus: 239,
 				},
+
 				avisos: {
 					basico: [5,0,0],
 					estandar: [3,2,0],
 					superior: [2,2,1],
 				},
+
 				priceTableTop: {
 					'1': { '30': [129, 239], '60': [219, 406], '90': [290, 537] },
 					'3': { '30': [290, 540], '60': [495, 915], '90': [650, 1210] },
 					'5': { '30': [505, 715], '60': [850, 1220], '90': [1225, 1610] },
 				},
+
 				priceTable: {
 					'5': { '90': [259, 325, 405], '180': [490, 605, 745], '365': [719, 875, 1075] },
 					'10': { '90': [529, 649, 809], '180': [989, 1199, 1499], '365': [1449, 1769, 2179] },
@@ -376,6 +380,7 @@
 					'100': { '90': [1985, 2350, 3375], '180': [3970, 4630, 6190], '365': [5950, 6899, 9160] },
 					'200': { '90': [3390, 3980, 5190], '180': [6890, 8110, 10500], '365': [10400, 12099, 14990] }
 				},
+
 				avisosDistribution: {
 					'mixto' : {
 						'5': [ [5,0,0], [3,2,0], [2,2,1] ],
@@ -387,6 +392,23 @@
 						'200': [ [200,0,0], [160,38,2], [120,60,20] ]
 					}
 				},
+
+        idsTop: {
+          '1': { '30': [1, 10], '60': [2, 11], '90': [3, 12]  },
+          '3': { '30': [4, 13], '60': [5, 14], '90': [6, 15]  },
+          '5': { '30': [7, 16], '60': [8, 17], '90': [9, 18]  },
+        },
+
+        idsMixto: {
+					'5': { '90': [19, 40, 61], '180': [26, 47, 68], '365': [33, 54, 75] },
+					'10': { '90': [20, 41, 62], '180': [27, 48, 69], '365': [34, 55, 76] },
+					'25': { '90': [21, 42, 63], '180': [28, 49, 70], '365': [35, 56, 77] },
+					'50': { '90': [22, 43, 64], '180': [29, 50, 71], '365': [36, 57, 78] },
+					'75': { '90': [23, 44, 65], '180': [30, 51, 72], '365': [37, 58, 79] },
+					'100': { '90': [24, 45, 66], '180': [31, 52, 73], '365': [38, 59, 80] },
+					'200': { '90': [25, 46, 67], '180': [32, 53, 74], '365': [39, 60, 81] }
+        },
+
 				updatePrices() {
 					const selectedPrices = this.priceTable[this.numAvisos][this.periodoPlan]
 					this.prices.basico = selectedPrices[0]
@@ -404,28 +426,56 @@
 					this.avisos.estandar = selectAvisos[1]
 					this.avisos.superior = selectAvisos[2]
 				},
+        updateIdMixtos() {
+          const selectedId = this.idsMixto[this.numAvisos][this.periodoPlan]
+          if(this.tipoPlan === 'basico') {
+            this.id = selectedId[0]
+          } else if (this.tipoPlan === 'estandar') {
+            this.id = selectedId[1]
+          } else if (this.tipoPlan === 'superior') {
+            this.id = selectedId[2]
+          }
+          console.log(this.id);
+        },
+        updateIdTop() {
+          const selectedId = this.idsTop[this.numAvisosTop][this.periodoPlanTop]
+          if(this.tipoPlan === 'top') {
+            this.id = selectedId[0]
+          } else if (this.tipoPlan === 'topPlus') {
+            this.id = selectedId[1]
+          }
+          console.log(this.id);
+        },
+
 				init() {
-					// paquetes mixtos
+					// paquetes MIXTOS ========================
 					this.$watch('numAvisos', () => {
 						this.updatePrices() 
 						this.updateAvisosDistribution()
+            this.updateIdMixtos()
 					})
 					this.$watch('periodoPlan', () => {
 						this.updatePrices()
+            this.updateIdMixtos()
 					})
-					// paquetes top
+
+					// paquetes TOP ============================
 					this.$watch('numAvisosTop', () => {
 						this.updatePricesTop() 
-						console.log(this.numAvisosTop);
+            this.updateIdTop()
 					})
 					this.$watch('periodoPlanTop', () => {
-						console.log(this.periodoPlanTop);
-						this.updatePricesTop()
+            this.updateIdTop()
 					})
 
 					this.$watch('tipoPlan', () => {
 						this.pricePlan = this.prices[this.tipoPlan]
 						this.pricePlaTop = this.prices[this.tipoPlan]
+
+            // update id
+            this.updateIdMixtos()
+            this.updateIdTop()
+        
 					})
 					this.$watch('categoriaPlan', () => {
 						this.updatePrices()
@@ -442,9 +492,11 @@
 				fechaTarjeta: '12/25',
 				cvcTarjeta: '123',
 				deviceSessionId: '',
-				sk: '',
 				isProcessing: false,
 				errorInputCreditcard: false,
+        
+        idOpenpay: '',
+				sk: '',
 
 				formatCardNumber() {
 					let input = this.numeroTarjeta.replace(/\D/g, '')
@@ -487,9 +539,9 @@
 					const source_id = response.data.id
 
 					const client = {
-						Cliente: 'Osquitar',
+						Cliente: 'Raul',
 						Telefono1: '999625263',
-						Correo: 'christiandominguez@gmail.com'
+						Correo: 'raul_correo@gmail.com'
 					}
 
 					let clientNames = client.Cliente.split(' ')
@@ -528,31 +580,12 @@
 
 				showResultModal(data) {
 					console.log(data)
-
-					// Cierra la modal de pago
-					// var paymentModalEl = document.querySelector('.modal-content.custom').closest('.modal');
 					var paymentModal = bootstrap.Modal('#modalPago');
 					console.log(paymentModal);
-					// paymentModal.hide();
-					// paymentModal.hide();
-
-
-					// // Muestra la información en la nueva modal
-					// document.getElementById('resultModalBody').innerHTML = `
-					//     <p><strong>Monto:</strong> PEN ${data.amount}</p>
-					//     <p><strong>Autorización:</strong> ${data.authorization}</p>
-					//     <p><strong>Fecha:</strong> ${data.creation_date}</p>
-					//     <p><strong>Descripción:</strong> ${data.description}</p>
-					//     <p><strong>Estatus:</strong> ${data.status}</p>
-					// `;
-
-					// // Abre la nueva modal
-					// var resultModal = new bootstrap.Modal(document.getElementById('resultModal'));
-					// resultModal.show();
 				},
 
 				processPayment(formPost) {
-					fetch(`https://sandbox-api.openpay.pe/v1/mxrefdlpjxylc7yqelk3/charges`, {
+					fetch(`https://sandbox-api.openpay.pe/v1/${this.idOpenpay}/charges`, {
 						method: 'POST',
 						headers: {
 							'Content-Type': 'application/json',
@@ -615,7 +648,6 @@
 							this.clearForm();
 							this.isProcessing = false
 							document.getElementById('pay-button').disabled = false
-							// this.showResultModal(data);
 							alert(`Pago de PEN ${data.amount} realizado con éxito.`)
 						}
 					}).catch(error => {
@@ -634,7 +666,7 @@
 									quantity: 1,
 									product: 
 										{
-											id: 1,
+											id: this.id,
 											name: "Plan" + this.tipoPlan,
 											type: 1
 										}
@@ -675,14 +707,15 @@
 				},
 
 				initOpenPay() {
-					const id = 'mxrefdlpjxylc7yqelk3'
-					const pk = 'pk_652e3b97a398409c97bbe4c8fd359743'
-					const sk = 'sk_722fee3e81054123a7394a2128bb75c7'
+					const id = 'mplp0n81dz6brymhnuap'
+					const pk = 'pk_9452549041de4a8f996ded2c2164bbf4'
+					const sk = 'sk_5ed0fea4d3b4464f8325c2d4b2f0bbb8'
 					OpenPay.setId(id)
 					OpenPay.setApiKey(pk)
 					OpenPay.setSandboxMode(true)
 					this.deviceSessionId = OpenPay.deviceData.setup("payment-form")
 					this.sk = sk
+          this.idOpenpay = id
 				},
 
 				registerPayButton() {
