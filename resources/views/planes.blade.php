@@ -492,9 +492,11 @@
 				fechaTarjeta: '12/25',
 				cvcTarjeta: '123',
 				deviceSessionId: '',
-				sk: '',
 				isProcessing: false,
 				errorInputCreditcard: false,
+        
+        idOpenpay: '',
+				sk: '',
 
 				formatCardNumber() {
 					let input = this.numeroTarjeta.replace(/\D/g, '')
@@ -537,9 +539,9 @@
 					const source_id = response.data.id
 
 					const client = {
-						Cliente: 'Osquitar',
+						Cliente: 'Raul',
 						Telefono1: '999625263',
-						Correo: 'christiandominguez@gmail.com'
+						Correo: 'raul_correo@gmail.com'
 					}
 
 					let clientNames = client.Cliente.split(' ')
@@ -583,7 +585,7 @@
 				},
 
 				processPayment(formPost) {
-					fetch(`https://sandbox-api.openpay.pe/v1/mxrefdlpjxylc7yqelk3/charges`, {
+					fetch(`https://sandbox-api.openpay.pe/v1/${this.idOpenpay}/charges`, {
 						method: 'POST',
 						headers: {
 							'Content-Type': 'application/json',
@@ -705,14 +707,15 @@
 				},
 
 				initOpenPay() {
-					const id = 'mxrefdlpjxylc7yqelk3'
-					const pk = 'pk_652e3b97a398409c97bbe4c8fd359743'
-					const sk = 'sk_722fee3e81054123a7394a2128bb75c7'
+					const id = 'mplp0n81dz6brymhnuap'
+					const pk = 'pk_9452549041de4a8f996ded2c2164bbf4'
+					const sk = 'sk_5ed0fea4d3b4464f8325c2d4b2f0bbb8'
 					OpenPay.setId(id)
 					OpenPay.setApiKey(pk)
 					OpenPay.setSandboxMode(true)
 					this.deviceSessionId = OpenPay.deviceData.setup("payment-form")
 					this.sk = sk
+          this.idOpenpay = id
 				},
 
 				registerPayButton() {
