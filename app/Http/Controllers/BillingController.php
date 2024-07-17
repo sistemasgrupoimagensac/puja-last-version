@@ -113,12 +113,6 @@ class BillingController extends Controller
 
             $data->client;
 
-            /* return response()->json([
-                'http_code' => 200,
-                'message' => 'Bien',
-                'data' => $data,
-            ]); */
-
             if($data->documentType->type_doc == '02') {
                 $response = $this->generarFEBoleta($request, $data);
             }
@@ -143,10 +137,10 @@ class BillingController extends Controller
             Log::info('Correo enviado.');
 
             return [
-                "data" => $response,
-                // 'data' => $response['data'],
-                // 'serie' => $response['serie'],
-                // 'message' => $response['message'],
+                // "data" => $response,
+                'data' => $response['data'],
+                'serie' => $response['serie'],
+                'message' => $response['message'],
             ];
 
         } catch (\Throwable $th) {
@@ -265,6 +259,7 @@ class BillingController extends Controller
     }
 
     public function generarFEBoleta($request, $data) {
+        try {
         
         $correlative = $this->generateCorrelative($data->document_type_id);
         
@@ -383,18 +378,8 @@ class BillingController extends Controller
             exit();
         }
 
-        try {
-            // Generar formato A4
-            $pdfA4 = $util->getPdfA4($invoice,'2', $data);
-        } catch (\Throwable $th) {
-            Log::error('Error al generar el PDF afuera de la funcion: ' . $th->getMessage());
-
-            return response()->json([
-                'http_code' => 500,
-                'message' => 'Error al generar el pdf afuera de la funcion',
-                'error' => $th->getMessage()
-            ], 500);
-        }
+        // Generar formato A4
+        $pdfA4 = $util->getPdfA4($invoice,'2', $data);
 
         $cdr = $result->getCdrResponse();
 
@@ -453,6 +438,19 @@ class BillingController extends Controller
             ];
         } else {
             echo 'Excepción';
+        }
+
+        } catch (\Throwable $th) {
+            Log::error('Error al generar el PDF: ' . $th->getMessage());
+            Log::error('Stack trace: ' . $th->getTraceAsString());
+
+            throw new \Exception('Error al querer nose el PDF: ' . $th);
+
+            return response()->json([
+                'http_code' => 500,
+                'message' => 'Error al generar el pdf',
+                'error' => $th->getMessage()
+            ], 500);
         }
     }
     

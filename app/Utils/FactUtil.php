@@ -180,6 +180,8 @@ class FactUtil
             if ($pdf === false) {
                 $error = $render->getExporter()->getError();
                 echo 'Error: '.$error;
+                Log::error('Error al renderizar el PDF: ' . $error);
+                throw new \Exception('Error al renderizar el PDF: ' . $error);
                 exit();
             }
 
@@ -189,6 +191,7 @@ class FactUtil
             return $pdf;
         } catch (\Throwable $th) {
             Log::error('Error al generar el PDF: ' . $th->getMessage());
+            Log::error('Stack trace: ' . $th->getTraceAsString());
 
             return response()->json([
                 'http_code' => 500,
