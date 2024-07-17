@@ -188,6 +188,13 @@ class FactUtil
             // Write html
             //$this->writeFile($document->getName().'.html', $render->getHtml());
 
+
+            $filePath = public_path('billing/pdf/' . $document->getName() . '.pdf');
+            file_put_contents($filePath, $pdf);
+
+            // Cambiar los permisos del archivo
+            chmod($filePath, 0666); // -rw-rw-rw-
+
             return $pdf;
         } catch (\Throwable $th) {
             Log::error('Error al generar el PDF: ' . $th->getMessage());
