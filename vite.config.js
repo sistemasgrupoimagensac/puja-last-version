@@ -23,6 +23,7 @@ export default defineConfig({
         "resources/sass/components/menu_panel.scss",
         "resources/sass/components/footer.scss",
         "resources/sass/components/card_plan.scss",
+        "resources/sass/components/card-plan-propietario.scss",
         // CSS
         "resources/css/app.css",
 

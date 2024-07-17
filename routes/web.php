@@ -121,3 +121,7 @@ Route::get('/videos/{archivo}', [ImagesController::class, 'get_videos']);
 Route::post('/openpay/{id}', [BillingController::class, 'generarFactura'])->middleware(SessionData::class);
 
 
+// Ruta planes de prietario (dueño)
+Route::get('/planes-propietario', function() {
+    return view('planes-propietario');
+});
