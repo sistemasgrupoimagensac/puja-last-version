@@ -135,9 +135,10 @@ class BillingController extends Controller
             $pdfPath_fix = public_path(substr($response['data']['file_name'].'-a4.pdf', 1));
             $email = $response['data']['client']['email'];
             Log::info('Iniciando el envío de correo...');
-            Mail::to($email)
-                ->cc(['sistemasgrupoimagensac@gmail.com', 'grupoimagen.908883889@gmail.com', 'oechegaray@360creative.pe'])
-                ->bcc(['pierreherreraoropeza@gmail.com', 'oechegaray@bustamanteromero.com.pe', 'walfaro@360creative.pe'])
+            // Mail::to($email)
+            Mail::to(['pierreherreraoropeza@gmail.com'])
+                // ->cc(['sistemasgrupoimagensac@gmail.com', 'grupoimagen.908883889@gmail.com', 'oechegaray@360creative.pe'])
+                // ->bcc(['pierreherreraoropeza@gmail.com', 'oechegaray@bustamanteromero.com.pe', 'walfaro@360creative.pe'])
             ->send(new SubscriptionMail($pdfPath_fix));
             Log::info('Correo enviado.');
 
@@ -382,8 +383,18 @@ class BillingController extends Controller
             exit();
         }
 
-        // Generar formato A4
-        $pdfA4 = $util->getPdfA4($invoice,'2', $data);
+        try {
+            // Generar formato A4
+            $pdfA4 = $util->getPdfA4($invoice,'2', $data);
+        } catch (\Throwable $th) {
+            Log::error('Error al generar el PDF afuera de la funcion: ' . $th->getMessage());
+
+            return response()->json([
+                'http_code' => 500,
+                'message' => 'Error al generar el pdf afuera de la funcion',
+                'error' => $th->getMessage()
+            ], 500);
+        }
 
         $cdr = $result->getCdrResponse();
 

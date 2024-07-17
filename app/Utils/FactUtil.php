@@ -137,54 +137,65 @@ class FactUtil
     }
 
     public function getPdfA4(DocumentInterface $document, $tipodocumento, $saleInvoice = null){
-        $html = new HtmlReport(__DIR__.'/../templates', [
-            'cache' => __DIR__ . '/../cache',
-            'strict_variables' => true,
-        ]);
+        try {
 
-        if($tipodocumento == '2' || $tipodocumento == '3') {
-            $html->setTemplate('invoice.html.twig');
+            $html = new HtmlReport(__DIR__.'/../templates', [
+                'cache' => __DIR__ . '/../cache',
+                'strict_variables' => true,
+            ]);
+
+            if($tipodocumento == '2' || $tipodocumento == '3') {
+                $html->setTemplate('invoice.html.twig');
+            }
+            else {
+                $html->setTemplate('invoiceNotaVenta.html.twig'); 
+            }
+
+            $render = new PdfReport($html);
+            $render->setOptions( [
+                'no-outline',
+                'viewport-size' => '1280x1024',
+                'page-width' => '21cm',
+                'page-height' => '29.7cm',
+                //'footer-html' => __DIR__.'/../resources/views/footer.html',
+            ]);
+            $binPath = self::getPathBin();
+            if (file_exists($binPath)) {
+                $render->setBinPath($binPath);
+            }
+            
+            $hash = $tipodocumento =='1' ? null : $this->getHash($document);
+            $params = self::getParametersPdf($tipodocumento);
+            $params['system']['hash'] = $hash;
+            
+            $footer = $tipodocumento =='1' ? '' : '<div> <center><span>Verifica la validez de este documento en: <a href="https://ww1.sunat.gob.pe/ol-ti-itconsvalicpe/ConsValiCpe.htm" style="color: black; text-decoration:none;">https://ww1.sunat.gob.pe/ol-ti-itconsvalicpe/ConsValiCpe.htm</a></span></center></div>';
+            $params['user']['footer'] = $footer;
+            // telefono
+            $params['user']['telefono'] = $this->datos_fact_elect->phone;
+            $params['user']['mensajeImpresion'] = $this->datos_fact_elect->message_print;
+            $params['sale'] = $saleInvoice;
+
+            $pdf = $render->render($document, $params);
+
+            if ($pdf === false) {
+                $error = $render->getExporter()->getError();
+                echo 'Error: '.$error;
+                exit();
+            }
+
+            // Write html
+            //$this->writeFile($document->getName().'.html', $render->getHtml());
+
+            return $pdf;
+        } catch (\Throwable $th) {
+            Log::error('Error al generar el PDF: ' . $th->getMessage());
+
+            return response()->json([
+                'http_code' => 500,
+                'message' => 'Error al generar el pdf',
+                'error' => $th->getMessage()
+            ], 500);
         }
-        else {
-            $html->setTemplate('invoiceNotaVenta.html.twig'); 
-        }
-
-        $render = new PdfReport($html);
-        $render->setOptions( [
-            'no-outline',
-            'viewport-size' => '1280x1024',
-            'page-width' => '21cm',
-            'page-height' => '29.7cm',
-            //'footer-html' => __DIR__.'/../resources/views/footer.html',
-        ]);
-        $binPath = self::getPathBin();
-        if (file_exists($binPath)) {
-            $render->setBinPath($binPath);
-        }
-        
-        $hash = $tipodocumento =='1' ? null : $this->getHash($document);
-        $params = self::getParametersPdf($tipodocumento);
-        $params['system']['hash'] = $hash;
-        
-        $footer = $tipodocumento =='1' ? '' : '<div> <center><span>Verifica la validez de este documento en: <a href="https://ww1.sunat.gob.pe/ol-ti-itconsvalicpe/ConsValiCpe.htm" style="color: black; text-decoration:none;">https://ww1.sunat.gob.pe/ol-ti-itconsvalicpe/ConsValiCpe.htm</a></span></center></div>';
-        $params['user']['footer'] = $footer;
-        // telefono
-        $params['user']['telefono'] = $this->datos_fact_elect->phone;
-        $params['user']['mensajeImpresion'] = $this->datos_fact_elect->message_print;
-        $params['sale'] = $saleInvoice;
-
-        $pdf = $render->render($document, $params);
-
-        if ($pdf === false) {
-            $error = $render->getExporter()->getError();
-            echo 'Error: '.$error;
-            exit();
-        }
-
-        // Write html
-        //$this->writeFile($document->getName().'.html', $render->getHtml());
-
-        return $pdf;
     }
 
     public function generator($item, $count)
