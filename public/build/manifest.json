@@ -140,6 +140,11 @@
     "src": "resources/sass/app.scss",
     "isEntry": true
   },
+  "resources/sass/components/card-plan-propietario.scss": {
+    "file": "assets/card-plan-propietario-B0KJmNON.css",
+    "src": "resources/sass/components/card-plan-propietario.scss",
+    "isEntry": true
+  },
   "resources/sass/components/card_plan.scss": {
     "file": "assets/card_plan-C4B44Xox.css",
     "src": "resources/sass/components/card_plan.scss",
