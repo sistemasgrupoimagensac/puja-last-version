@@ -14,7 +14,7 @@ use Twig\Source;
 use Twig\Template;
 
 /* invoice.html.twig */
-class __TwigTemplate_7605e3da65618740d59ace927eed0953 extends Template
+class __TwigTemplate_1baf5778cf711d14890f997c417252f9 extends Template
 {
     private $source;
     private $macros = [];
@@ -782,6 +782,6 @@ class __TwigTemplate_7605e3da65618740d59ace927eed0953 extends Template
 
     public function getSourceContext()
     {
-        return new Source("", "invoice.html.twig", "C:\\xampp\\htdocs\\puja-last-version\\app\\templates\\invoice.html.twig");
+        return new Source("", "invoice.html.twig", "/home/u599313479/domains/new.pujainmobiliaria.com.pe/app/templates/invoice.html.twig");
     }
 }
