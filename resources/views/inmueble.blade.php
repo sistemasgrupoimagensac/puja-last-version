@@ -22,13 +22,19 @@
         <div class="py-3">
           
           {{-- Imagenes --}}
-          <div class="images-wrapper" data-bs-toggle="modal" data-bs-target="#ImagesProperty">
+          <div class="images-wrapper position-relative" data-bs-toggle="modal" data-bs-target="#ImagesProperty">
+            
+            <div class="ribbon premium">Premium</div>
+    
             @foreach($aviso->inmueble->imagenes as $n => $image)
             <div class="@if($n == 0) first-image @elseif($n == 1) second-image @elseif($n == 2) third-image @else  @endif card-image-container shadow">
               <img src="{{ $image->imagen }}" class="card-image-custom rounded" alt="{{ $aviso->inmueble->title() }}">
             </div>
             @endforeach
+
           </div>
+          
+
 
           {{-- modal --}}
 
@@ -83,6 +89,8 @@
                   <span>, </span>
                   <span>{{ $aviso->inmueble->provincia() }}</span> {{-- departament --}}
                 </h5>
+
+                
     
               </div>
     
@@ -294,7 +302,6 @@
 
             <ul class="list-unstyled d-flex flex-wrap justify-content-between">
               @foreach($aviso->inmueble->extra->caracteristicas as $caracteristica)
-                {{-- <li>{{ $caracteristica->caracteristica }}: {{ $caracteristica->id }}</li> --}}
                 @if ( $caracteristica->categoria_caracteristica_id == 2 )
                 <li class="mt-3" style="min-width: 250px;">
                   <h6 class="text-secondary">
@@ -376,7 +383,6 @@
   
               </form>
             </div>
-
           </div>
       </div>
 

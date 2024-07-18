@@ -127,3 +127,18 @@ Route::get('/send_mail', [BillingController::class, 'sendMail']);
 Route::get('/planes-propietario', function() {
     return view('planes-propietario');
 });
+
+// Ruta Terminos de contratacion
+Route::get('/terminos-contratacion', function() {
+    return view('legal/terminos-contratacion');
+});
+
+// Ruta Terminos de uso
+Route::get('/terminos-uso', function() {
+    return view('legal/terminos-uso');
+});
+
+// Ruta politicas de privacidad
+Route::get('/politica-privacidad', function() {
+    return view('legal/politica-privacidad');
+});
