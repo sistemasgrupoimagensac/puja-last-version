@@ -21,10 +21,10 @@
 		<div class="text-center mt-5 mb-3">
 			<div class="btn-group btn-group-lg" role="group" aria-label="Basic radio toggle button group">
 				<input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked @click="categoriaPlan = 'mixto'" />
-				<label class="btn btn-outline-dark" for="btnradio1">Paquetes Mixtos</label>
+				<label class="btn btn-outline-dark" for="btnradio1">Planes Mixtos</label>
 
 				<input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" @click="categoriaPlan = 'top'" />
-				<label class="btn btn-outline-dark" for="btnradio2">Paquetes Top</label>
+				<label class="btn btn-outline-dark" for="btnradio2">Planes Top</label>
 			</div>
 		</div>
 

@@ -16,7 +16,6 @@
 
 	<div class="container my-5" x-data="pricingData()">
     <div class="text-center">
-
       <h1 class="text-center fw-bold h2">Publica tu inmueble</h1>
       <h3 class=" text-secondary h5">Selecciona el plan con el que quieres publicar</h3>
     </div>
@@ -60,16 +59,6 @@
               </div> 
             </div>
           </div>
-
-					{{-- PLAN UN AVISO --}}
-					{{-- <div x-show=" categoriaPlan === 'unaviso' ">
-						<div role="group" class="planes-numero-avisos justify-content-center d-flex flex-wrap w-100 gap-3 gap-lg-4 px-1 p-lg-0 mt-4">
-              <div>
-								<input type="radio" class="btn-check" id="unaviso" value="1" autocomplete="off" x-model="numAvisos" />
-								<label class="btn btn-lg btn-outline-secondary button-filter fs-3 px-0 py-2" for="unaviso">1 Aviso</label>
-							</div>
-						</div>
-					</div> --}}
 				</fieldset>
 
 				{{-- duración del plan --}}
@@ -267,38 +256,22 @@
 				periodoPlan: 30,
 				pricePlan: null,
 
-				// paquetes Top
-				// numAvisosTop: 3,
-				// periodoPlan: 30,
-				// pricePlanTop: null,
-
 				prices: {
 					topPlus: 239,
 					top: 129,
 					estandar: 79,
 				},
 
-				// avisos: {
-				// 	basico: [5,0,0],
-				// 	estandar: [3,2,0],
-				// 	superior: [2,2,1],
-				// },
-
-				// priceTableTop: {
-				// 	'3': { '30': [239, 129, 79], '60': [406, 219, 134], '90': [537, 290, 177] },
-				// 	'5': { '30': [239, 129, 79], '60': [406, 219, 134], '90': [537, 290, 177] },
-				// },
-
 				priceTable: {
 					'1': { '30': [239, 129, 79], '60': [406, 219, 134], '90': [537, 290, 177] },
-          '3': { '30': [645, 348, 213], '60': [1097, 592, 362], '90': [1451, 783, 479] },
-					'5': { '30': [1015, 548, 335], '60': [1726, 932, 570], '90': [2285, 1233, 755] },
+          '3': { '30': [540, 290, 177], '60': [915, 495, 302], '90': [1210, 650, 399] },
+					'5': { '30': [715, 505, 276], '60': [1220, 850, 470], '90': [1610, 1225, 622] },
 				},
 
         ids: {
-          '1': { '30': [1, 10], '60': [2, 11], '90': [3, 12]  },
-          '3': { '30': [4, 13], '60': [5, 14], '90': [6, 15]  },
-          '5': { '30': [7, 16], '60': [8, 17], '90': [9, 18]  },
+          '1': { '30': [1, 10], '60': [2, 11], '90': [3, 12] },
+          '3': { '30': [4, 13], '60': [5, 14], '90': [6, 15] },
+          '5': { '30': [7, 16], '60': [8, 17], '90': [9, 18] },
         },
 
 				updatePrices() {
@@ -307,17 +280,7 @@
 					this.prices.top = selectedPrices[1]
 					this.prices.estandar = selectedPrices[2]
 				},
-				// updatePricesTop() {
-				// 	const selectedPricesTop = this.priceTableTop[this.numAvisosTop][this.periodoPlan]
-				// 	this.prices.top = selectedPricesTop[0]
-				// 	this.prices.topPlus = selectedPricesTop[1]
-				// },
-				// updateAvisosDistribution() {
-				// 	const selectAvisos = this.avisosDistribution[this.categoriaPlan][this.numAvisos]
-				// 	this.avisos.basico = selectAvisos[0]
-				// 	this.avisos.estandar = selectAvisos[1]
-				// 	this.avisos.superior = selectAvisos[2]
-				// },
+
         updateIds() {
           const selectedId = this.ids[this.numAvisos][this.periodoPlan]
           if(this.tipoPlan === 'topPlus') {
@@ -329,19 +292,9 @@
           }
           console.log(this.id);
         },
-        // updateIdTop() {
-        //   const selectedId = this.idsTop[this.numAvisosTop][this.periodoPlan]
-        //   if(this.tipoPlan === 'top') {
-        //     this.id = selectedId[0]
-        //   } else if (this.tipoPlan === 'topPlus') {
-        //     this.id = selectedId[1]
-        //   }
-        //   console.log(this.id);
-        // },
 
 				init() {
           console.log(this.numAvisos, this.periodoPlan);
-					// paquetes unavisoS ========================
 					this.$watch('numAvisos', () => {
 						this.updatePrices() 
 					})
@@ -349,27 +302,6 @@
 						this.updatePrices()
 					})
 
-					// // paquetes TOP ============================
-					// this.$watch('numAvisosTop', () => {
-					// 	this.updatePricesTop() 
-          //   this.updateIdTop()
-					// })
-					// this.$watch('periodoPlan', () => {
-          //   this.updateIdTop()
-					// })
-
-					// this.$watch('tipoPlan', () => {
-					// 	this.pricePlan = this.prices[this.tipoPlan]
-					// 	this.pricePlaTop = this.prices[this.tipoPlan]
-
-          //   // update id
-          //   this.updateIdunavisos()
-          //   this.updateIdTop()
-        
-					// })
-					// this.$watch('categoriaPlan', () => {
-					// 	this.updatePrices()
-					// })
 				},
 			}
 		}
