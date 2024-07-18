@@ -216,6 +216,12 @@
     "src": "resources/sass/pages/signin.scss",
     "isEntry": true
   },
+  "resources/sass/pages/terminos.scss": {
+    "file": "assets/terminos-l0sNRNKZ.js",
+    "name": "terminos",
+    "src": "resources/sass/pages/terminos.scss",
+    "isEntry": true
+  },
   "resources/webfonts/fa-brands-400.ttf": {
     "file": "assets/fa-brands-400-DHHcbFjz.ttf",
     "src": "resources/webfonts/fa-brands-400.ttf"
