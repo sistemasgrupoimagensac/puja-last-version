@@ -123,3 +123,7 @@ Route::post('/openpay/{id}', [BillingController::class, 'generarFactura'])->midd
 Route::get('/send_mail', [BillingController::class, 'sendMail']);
 
 
+// Ruta planes de prietario (dueño)
+Route::get('/planes-propietario', function() {
+    return view('planes-propietario');
+});
