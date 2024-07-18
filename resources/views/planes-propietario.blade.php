@@ -103,7 +103,8 @@
 							<div>
 								<input type="radio" class="btn-check" x-model="tipoPlan" id="topPlus" value="topPlus" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
 								<x-card-plan-propietario
-									title="Plan Top Plus"
+									title="Top Plus"
+                  tipoAviso="Top Plus"
 									price="prices.topPlus"
 									time="periodoPlan"
 									plan="topPlus"
@@ -116,7 +117,8 @@
 							<div>
 								<input type="radio" class="btn-check" x-model="tipoPlan" id="top" value="top" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
 								<x-card-plan-propietario
-									title="Plan Top"
+									title="Top"
+                  tipoAviso="Top"
 									price="prices.top"
 									time="periodoPlan"
 									plan="top"
@@ -129,7 +131,8 @@
 							<div>
 								<input type="radio" class="btn-check" x-model="tipoPlan" id="estandar" value="estandar" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
 								<x-card-plan-propietario
-									title="Plan Estándar"
+									title="Estándar"
+                  tipoAviso="Típico"
 									price="prices.estandar"
 									time="periodoPlan"
 									plan="estandar"
@@ -153,36 +156,25 @@
 								<div class="modal-body p-0">
 									<button type="button" class="btn-close p-2 m-2 position-absolute bg-white top-0 end-0 z-1" data-bs-dismiss="modal" aria-label="Close"></button>
 									<div class="d-flex flex-column flex-lg-row h-100">
+
 										{{-- detalles del plan contratado --}}
 										<div class="z-0 col p-lg-5">
-											<x-card-plan-checkout
-											showPlan="basico"
-											title="Básico"
+											<x-card-plan-propietario-checkout
+											showPlan="topPlus"
+											title="Plan Top Plus"
 											bgColor="text-bg-dark"
 											/>
 							
-											<x-card-plan-checkout
-											showPlan="estandar"
-											title="Estándar"
+											<x-card-plan-propietario-checkout
+											showPlan="top"
+											title="Plan Top"
 											bgColor="text-bg-warning"
 											/>
 							
-											<x-card-plan-checkout
-											showPlan="superior"
-											title="Superior"
+											<x-card-plan-propietario-checkout
+											showPlan="estandar"
+											title="Plan Estandar"
 											bgColor="text-bg-success"
-											/>
-							
-											<x-card-plan-checkout
-											showPlan="top"
-											title="Top"
-											bgColor="text-bg-light"
-											/>
-							
-											<x-card-plan-checkout
-											showPlan="topPlus"
-											title="Top Plus"
-											bgColor="text-bg-danger"
 											/>
 										</div>
 							

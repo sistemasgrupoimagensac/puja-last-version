@@ -1,7 +1,7 @@
 <label class="card btn btn-lg {{ $className }} p-0 card-plan-propietario-label rounded-4" for="{{ $plan }}">
   <div>
     <div class="card-body p-0">
-      <h3 class="card-title fw-bolder mt-3">{{ $title }}</h3>
+      <h3 class="card-title fw-bolder mt-3">Plan {{ $title }}</h3>
       <h5 class="card-subtitle mb-2">S/ <span x-text="{{ $price }}"></span> por <span x-text="{{ $time }}"></span> días</h5>
       <hr>
       <div class="d-flex justify-content-center">
@@ -24,11 +24,22 @@
         @endif --}}
 
         <ul class="list-unstyled text-start h6 mb-4 px-4">
-          <li>Publicación de Aviso Top Plus</li>
-          <li>30 días de publicación</li>
-          <li>Genera interesados</li>
-          <li>Alta visibilidad</li>
-          <li>Exposición Óptima</li>
+          <li>Publicación de Aviso {{ $tipoAviso }}</li>
+          <li><span x-text="{{ $time }}"></span> días de publicación</li>
+
+          @if ( $plan === 'topPlus' )
+            <li>Genera interesados</li>
+            <li>Alta visibilidad</li>
+            <li>Exposición Óptima</li>
+          @elseif ( $plan === 'top' )
+            <li>Genera interesados</li>
+            <li>Alta visibilidad</li>
+
+          @elseif ( $plan === 'estandar' )
+            <li>Visibilidad Convencional</li>
+
+          @endif
+
         </ul>
 
       </div>

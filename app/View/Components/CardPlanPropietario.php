@@ -9,15 +9,17 @@ use Illuminate\View\Component;
 class CardPlanPropietario extends Component
 {
     public $title;
+    public $tipoAviso;
     public $price;
     public $time;
     public $plan;
     public $className;
     public $avisos;
 
-    public function __construct($title, $price, $time, $plan, $className, $avisos)
+    public function __construct($title, $tipoAviso, $price, $time, $plan, $className, $avisos)
     {
         $this->title = $title;
+        $this->tipoAviso = $tipoAviso;
         $this->price = $price;
         $this->time = $time;
         $this->plan = $plan;

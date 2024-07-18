@@ -7,4 +7,9 @@
 .card-plan-propietario-label {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   width: 16rem;
+  height: 17rem;
+  
+  .card-footer {
+    height: 50px;
+  }
 }
