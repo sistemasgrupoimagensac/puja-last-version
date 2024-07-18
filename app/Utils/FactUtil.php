@@ -12,6 +12,7 @@ use Greenter\See;
 use Greenter\XMLSecLibs\Certificate\X509Certificate;
 use Greenter\XMLSecLibs\Certificate\X509ContentType;
 use Greenter\Ws\Services\SunatEndpoints;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 
 class FactUtil
@@ -43,24 +44,24 @@ class FactUtil
     public function getSee()
     { 
         
-        /* $see = new See();
-        $basePath = $this->datos_empresa->path;
-        $path = public_path() . $basePath;
-        $pathToPfx = escapeshellarg($path . $this->datos_fact_elect->certificate_name);
-        $outputPem = escapeshellarg($path . 'default.pem');
-        $password = escapeshellarg($this->datos_fact_elect->certificate_pass);
-        $command = "openssl pkcs12 -in $pathToPfx -out $outputPem -nodes -passin pass:$password";
-
-        exec($command . ' 2>&1', $output, $returnVar);
-
-        if ($returnVar !== 0) {
-            // Log detailed error
-            Log::error("Command execution failed with return code $returnVar. Output: " . implode("\n", $output));
-            throw new \Exception("Error executing command: " . implode("\n", $output));
-        } */
-        
-
         $see = new See();
+
+        if (App::environment('production')) {
+            $basePath = $this->datos_empresa->path;
+            $path = public_path() . $basePath;
+            $pathToPfx = escapeshellarg($path . $this->datos_fact_elect->certificate_name);
+            $outputPem = escapeshellarg($path . 'default.pem');
+            $password = escapeshellarg($this->datos_fact_elect->certificate_pass);
+            $command = "openssl pkcs12 -in $pathToPfx -out $outputPem -nodes -passin pass:$password";
+
+            exec($command . ' 2>&1', $output, $returnVar);
+
+            if ($returnVar !== 0) {
+                // Log detailed error
+                Log::error("Command execution failed with return code $returnVar. Output: " . implode("\n", $output));
+                throw new \Exception("Error executing command: " . implode("\n", $output));
+            }
+        }
 
         $basePath = $this->datos_empresa->path;
         $path = public_path() . $basePath;
