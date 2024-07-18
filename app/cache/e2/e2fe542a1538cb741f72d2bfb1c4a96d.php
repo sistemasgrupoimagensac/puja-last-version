@@ -14,7 +14,7 @@ use Twig\Source;
 use Twig\Template;
 
 /* assets/style.css */
-class __TwigTemplate_8a139f2a54799f47c59f7145b3f3197b extends Template
+class __TwigTemplate_5381d6dd55f62d07a92038415f9f5b44 extends Template
 {
     private $source;
     private $macros = [];
@@ -56,6 +56,6 @@ class __TwigTemplate_8a139f2a54799f47c59f7145b3f3197b extends Template
 
     public function getSourceContext()
     {
-        return new Source("", "assets/style.css", "C:\\xampp\\htdocs\\puja-last-version\\app\\templates\\assets\\style.css");
+        return new Source("", "assets/style.css", "/home/u599313479/domains/new.pujainmobiliaria.com.pe/app/templates/assets/style.css");
     }
 }
