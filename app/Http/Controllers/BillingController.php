@@ -259,12 +259,9 @@ class BillingController extends Controller
     }
 
     public function generarFEBoleta($request, $data) {
-        try {
-        
         $correlative = $this->generateCorrelative($data->document_type_id);
         
         $util = FactUtil::getInstance();
-
 
         // Cliente
         $client = new Client();
@@ -438,19 +435,6 @@ class BillingController extends Controller
             ];
         } else {
             echo 'Excepción';
-        }
-
-        } catch (\Throwable $th) {
-            Log::error('Error al generar el PDF: ' . $th->getMessage());
-            Log::error('Stack trace: ' . $th->getTraceAsString());
-
-            throw new \Exception('Error al querer nose el PDF: ' . $th);
-
-            return response()->json([
-                'http_code' => 500,
-                'message' => 'Error al generar el pdf',
-                'error' => $th->getMessage()
-            ], 500);
         }
     }
     
