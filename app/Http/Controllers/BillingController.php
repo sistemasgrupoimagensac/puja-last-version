@@ -236,7 +236,7 @@ class BillingController extends Controller
             )
         ]);
 
-        $invoice->setObservacion($data->note);
+        $invoice->setObservacion($request->note);
 
         $datos_empresa = \Session::get('datos_empresa');
         $data->physical_proof_number = $correlative->correlative;
@@ -361,7 +361,7 @@ class BillingController extends Controller
             )
         ]);
 
-        $invoice->setObservacion($data->note);
+        $invoice->setObservacion($request->note);
 
         // Envío a SUNAT
         $see = $util->getSee();
@@ -555,7 +555,7 @@ class BillingController extends Controller
             )
         ]);
 
-        $invoice->setObservacion($data->note);
+        $invoice->setObservacion($request->note);
 
         // Envío a SUNAT
         $see = $util->getSee();
