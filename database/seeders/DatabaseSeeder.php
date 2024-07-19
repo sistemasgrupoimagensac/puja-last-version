@@ -43,11 +43,14 @@ class DatabaseSeeder extends Seeder
             ImagenesInmueblesSeeder::class,
             AvisosSeeder::class,
             HistorialAvisosSeeder::class,
-            SubscriptionSeeder::class,
-            SubscriptionLevelSeeder::class,
-            SubscriptionOptionSeeder::class,
-            UserSubscriptionSeeder::class,
+            // SubscriptionSeeder::class,
+            // SubscriptionLevelSeeder::class,
+            // SubscriptionOptionSeeder::class,
             TipoDocumentosSeeder::class,
+            PackageSeeder::class,
+            PlanSeeder::class,
+            PlanUserSeeder::class,
+            // UserSubscriptionSeeder::class,
         ]);
     }
 }

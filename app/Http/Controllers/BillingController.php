@@ -8,7 +8,7 @@ use App\Mail\SubscriptionMail;
 use Illuminate\Http\Request;
 use App\Models\SaleModel;
 use App\Models\DocumentType;
-use App\Models\UserSubscription;
+use App\Models\PlanUser;
 use App\Utils\FactUtil;
 use Greenter\Model\Client\Client;
 use Greenter\Model\Company\Address;
@@ -104,8 +104,8 @@ class BillingController extends Controller
     public function generarFactura(Request $request, $id)
     {
         try {
-
-            $data = UserSubscription::find($id);
+            
+            $data = PlanUser::find($id);
         
             $data->state = 1;
             $data->document_type_id = $request->document_type_id;
