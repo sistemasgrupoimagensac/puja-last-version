@@ -10,7 +10,8 @@
       <a class="footer-link-puja" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler')]) }}">Alquiler</a>
       <a class="footer-link-puja" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta')]) }}">Compra</a>
       <a class="footer-link-puja" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate')]) }}">Remate</a>
-      <a class="footer-link-puja" href="">Publicar</a>
+      <a class="footer-link-puja" href="/politica-privacidad" target="blank">Politicas de Privacidad</a>
+      <a class="footer-link-puja" href="/terminos-uso" target="blank">Terminos y Condiciones de Uso</a>
     </div>
 
     <div class="d-flex flex-column text-center m-2 my-4">

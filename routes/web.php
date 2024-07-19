@@ -11,6 +11,8 @@ use App\Http\Controllers\BillingController;
 use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\OpenSSLTestController;
 use App\Http\Middleware\SessionData;
+use App\Http\Controllers\DocumentoController;
+
 
 Route::get('/', App\Http\Controllers\Web\Puja\MainController::class);
 
@@ -142,3 +144,6 @@ Route::get('/terminos-uso', function() {
 Route::get('/politica-privacidad', function() {
     return view('legal/politica-privacidad');
 });
+
+
+// Route::post('/consultar-documento', [DocumentoController::class, 'consultar'])->name('consultar.documento');

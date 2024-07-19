@@ -20,11 +20,11 @@
 		{{-- SWITCH PAQUETES MIXTOS O TOP --}}
 		<div class="text-center mt-5 mb-3">
 			<div class="btn-group btn-group-lg" role="group" aria-label="Basic radio toggle button group">
-				<input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked @click="categoriaPlan = 'mixto'" />
-				<label class="btn btn-outline-dark" for="btnradio1">Planes Mixtos</label>
+				<input type="radio" class="btn-check" name="btnradio" id="mixtoCheck" autocomplete="off" checked @click="categoriaPlan = 'mixto'" />
+				<label class="btn btn-outline-dark" for="mixtoCheck">Planes Mixtos</label>
 
-				<input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" @click="categoriaPlan = 'top'" />
-				<label class="btn btn-outline-dark" for="btnradio2">Planes Top</label>
+				<input type="radio" class="btn-check" name="btnradio" id="topCheck" autocomplete="off" @click="categoriaPlan = 'top'" />
+				<label class="btn btn-outline-dark" for="topCheck">Planes Top</label>
 			</div>
 		</div>
 
@@ -296,15 +296,63 @@
 										
 									</div>
 								</div>
+
+								<div class="d-flex justify-content-start px-5">
+									<div>
+										<button type="button" class="btn btn-outline-secondary rounded-3 w-100" data-bs-target="#modalOtroDNI" data-bs-toggle="modal">
+											¿Desea pagar con una distinta Razón Social?</button>
+									</div>
+								</div>
+
 								<div class="d-flex justify-content-center w-100">
 									<button type="button" class="btn button-orange fs-3 rounded-3 m-2 mx-lg-5 w-100" id="pay-button">Pagar S/ 
 										<span x-text="prices[tipoPlan]"></span>
 									</button>
 								</div>
+
 								<small class="text-body-tertiary p-3 px-lg-5">Al hacer clic en Pagar, está aceptando nuestros 
 									<a href="/terminos-contratacion" target="blank">Términos y Condiciones de Contratación</a>
 								</small>
 							</form>
+						</div>
+					</div>
+				</div>
+
+				{{-- SEGUNDO MODAL - ELECCION DE DNI --}}
+				<div class="modal fade" id="modalOtroDNI" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+					<div class="modal-dialog modal-dialog-centered">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="m-0">Seleccione el remitente del comprobante</h5>
+							</div>
+							<div class="modal-body">
+								
+								
+								<div class="input-group mb-3">
+									<form action="{{ route('consultar.documento') }}" method="POST" class="w-100">
+											@csrf
+											<div class="d-flex gap-2 justify-content-between w-100">
+													<div class="btn-group" role="group">
+															<input type="radio" class="btn-check" name="btnradio" id="DNIcheck" autocomplete="off" value="DNI" checked>
+															<label class="btn btn-outline-danger" for="DNIcheck">DNI</label>
+							
+															<input type="radio" class="btn-check" name="btnradio" id="RUCcheck" autocomplete="off" value="RUC">
+															<label class="btn btn-outline-danger" for="RUCcheck">RUC</label>
+													</div>
+							
+													<input type="text" class="form-control shadow-none" name="documento" placeholder="documento" required>
+							
+													<input type="submit" class="btn btn-success" value="Consultar">
+											</div>
+									</form>
+							</div>
+							
+
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn button-orange" data-bs-target="#modalPago" data-bs-toggle="modal">Regresar</button>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -717,4 +765,8 @@
 @push('scripts-head')  
 	<script src="https://js.openpay.pe/openpay.v1.min.js"></script>
 	<script src="https://js.openpay.pe/openpay-data.v1.min.js"></script>
+@endpush
+
+@push('scripts')
+    @vite(['resources/js/scripts/planes.js'])
 @endpush
