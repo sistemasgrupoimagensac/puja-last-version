@@ -21,10 +21,10 @@
 		<div class="text-center mt-5 mb-3">
 			<div class="btn-group btn-group-lg" role="group" aria-label="Basic radio toggle button group">
 				<input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked @click="categoriaPlan = 'mixto'" />
-				<label class="btn btn-outline-dark" for="btnradio1">Paquetes Mixtos</label>
+				<label class="btn btn-outline-dark" for="btnradio1">Planes Mixtos</label>
 
 				<input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" @click="categoriaPlan = 'top'" />
-				<label class="btn btn-outline-dark" for="btnradio2">Paquetes Top</label>
+				<label class="btn btn-outline-dark" for="btnradio2">Planes Top</label>
 			</div>
 		</div>
 
@@ -229,7 +229,7 @@
 											title="Básico"
 											bgColor="text-bg-dark"
 											/>
-							
+
 											<x-card-plan-checkout
 											showPlan="estandar"
 											title="Estándar"
@@ -262,7 +262,7 @@
 											<div class="mb-3">
 												<label for="numeroTarjeta" class="form-label m-0 custom">Número de Tarjeta</label>
 												<div class="input-group">
-													<input type="text" class="form-control credit-card-input shadow-none" id="numeroTarjeta" x-model="numeroTarjeta" inputmode="numeric" minlength="19" maxlength="19" @input="formatCardNumber" data_openpay_card />
+													<input type="text" class="form-control credit-card-input shadow-none" id="numeroTarjeta" x-model="numeroTarjeta" inputmode="numeric" minlength="14" maxlength="19" @input="formatCardNumber" data_openpay_card />
 													<span class="input-group-text"><i class="fa-regular fa-credit-card"></i></span>
 												</div>
 											</div>
@@ -284,7 +284,7 @@
 												{{-- CVC de la tarjeta --}}
 												<div class="mb-3 col-4">
 													<label for="cvcTarjeta" class="form-label m-0 custom">CVC</label>
-													<input type="password" class="form-control shadow-none" id="cvcTarjeta" x-model="cvcTarjeta" size="1" minlength="3" maxlength="3" data_openpay_card/>
+													<input type="password" class="form-control shadow-none" id="cvcTarjeta" x-model="cvcTarjeta" size="1" minlength="3" maxlength="4" data_openpay_card/>
 												</div>
 											</div>
 
@@ -302,7 +302,7 @@
 									</button>
 								</div>
 								<small class="text-body-tertiary p-3 px-lg-5">Al hacer clic en Pagar, está aceptando nuestros 
-									<a href="#">Términos y Condiciones de Contratación</a>
+									<a href="/terminos-contratacion" target="blank">Términos y Condiciones de Contratación</a>
 								</small>
 							</form>
 						</div>
@@ -487,10 +487,10 @@
 		function creditCardData() {
 			return {
 				// tarjeta de credito
-				numeroTarjeta: '4242 4242 4242 4242',
-				nombreTarjeta: 'Oscar EcheGaray',
-				fechaTarjeta: '12/25',
-				cvcTarjeta: '123',
+				numeroTarjeta: '',
+				nombreTarjeta: '',
+				fechaTarjeta: '',
+				cvcTarjeta: '',
 				deviceSessionId: '',
 				isProcessing: false,
 				errorInputCreditcard: false,
@@ -595,65 +595,21 @@
 					})
 					.then(response => response.json())
 					.then( data => {
-						const error = data.error_code
-						
+						const error = data.error_code						
 						if (error) {
-							console.log('switch de error');
-							switch (error) {
-								case 3001:
-									alert(`La tarjeta fue rechazada`)
-									this.clearForm()
-									this.isProcessing = false
-									document.getElementById('pay-button').disabled = false
-									break;
-
-								case 3002:
-									alert(`La tarjeta ha expirado`)
-									this.clearForm()
-									this.isProcessing = false
-									document.getElementById('pay-button').disabled = false
-									break;
-
-								case 3003:
-									alert(`La tarjeta no tiene fondos suficientes`)
-									this.clearForm()
-									this.isProcessing = false
-									document.getElementById('pay-button').disabled = false
-									break;
-
-								case 3004:
-									alert(`La tarjeta ha sido identificada como una tarjeta robada`)
-									this.clearForm()
-									this.isProcessing = false
-									document.getElementById('pay-button').disabled = false
-									break;
-
-								case 3005:
-									alert(`La tarjeta ha sido rechazada por el sistema antifraudes`)
-									this.clearForm()
-									this.isProcessing = false
-									document.getElementById('pay-button').disabled = false
-									break;
-
-								default:
-									alert('Hubo un error con el pago')
-									this.clearForm()
-									this.isProcessing = false
-									document.getElementById('pay-button').disabled = false
-									break;
-							}
-
+							this.clearForm();
+							this.isProcessing = false
+							document.getElementById('pay-button').disabled = false
+							alert(`La tarjeta fue rechazada`)
 						} else {
 							this.factElectronica(formPost.amount)
 							this.clearForm();
 							this.isProcessing = false
 							document.getElementById('pay-button').disabled = false
-							alert(`Pago de PEN ${data.amount} realizado con éxito.`)
+							alert(`Pago realizado con éxito.`)
 						}
 					}).catch(error => {
-						// document.getElementById('error-message').innerText = error.message
-						// this.isProcessing = false
-						// document.getElementById('pay-button').disabled = false
+						console.log(error);
 					})
 				},
 

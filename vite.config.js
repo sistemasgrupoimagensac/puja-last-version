@@ -16,6 +16,7 @@ export default defineConfig({
         'resources/sass/pages/crear-aviso.scss',
         'resources/sass/pages/perfil.scss',
         'resources/sass/pages/planes.scss',
+        'resources/sass/pages/terminos.scss',
         'resources/sass/pages/landing-projects.scss',
         // sass - components
         "resources/sass/components/whatsapp_modal_contact.scss",

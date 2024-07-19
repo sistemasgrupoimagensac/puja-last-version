@@ -5,6 +5,11 @@
       <a href="{{ $link }}" target="_blank" class="text-decoration-none text-reset">
         <img src="{{ asset($image) }}" class="card-inmueble-image rounded" alt="imagen inmueble">
       </a>
+
+      {{-- @if ($tipoAviso === 'topPlus') --}}
+        <div class="ribbon premium">Premium</div>
+          
+      {{-- @endif --}}
     </div>
 
     <div class="col-lg-8">

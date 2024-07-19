@@ -136,12 +136,12 @@
     "isEntry": true
   },
   "resources/sass/app.scss": {
-    "file": "assets/app-D09fiS9w.css",
+    "file": "assets/app-CaoiENGI.css",
     "src": "resources/sass/app.scss",
     "isEntry": true
   },
   "resources/sass/components/card-plan-propietario.scss": {
-    "file": "assets/card-plan-propietario-B0KJmNON.css",
+    "file": "assets/card-plan-propietario-Oij-SZLH.css",
     "src": "resources/sass/components/card-plan-propietario.scss",
     "isEntry": true
   },
@@ -214,6 +214,12 @@
   "resources/sass/pages/signin.scss": {
     "file": "assets/signin-DHw37iqX.css",
     "src": "resources/sass/pages/signin.scss",
+    "isEntry": true
+  },
+  "resources/sass/pages/terminos.scss": {
+    "file": "assets/terminos-l0sNRNKZ.js",
+    "name": "terminos",
+    "src": "resources/sass/pages/terminos.scss",
     "isEntry": true
   },
   "resources/webfonts/fa-brands-400.ttf": {

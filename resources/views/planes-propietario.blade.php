@@ -16,7 +16,6 @@
 
 	<div class="container my-5" x-data="pricingData()">
     <div class="text-center">
-
       <h1 class="text-center fw-bold h2">Publica tu inmueble</h1>
       <h3 class=" text-secondary h5">Selecciona el plan con el que quieres publicar</h3>
     </div>
@@ -60,16 +59,6 @@
               </div> 
             </div>
           </div>
-
-					{{-- PLAN UN AVISO --}}
-					{{-- <div x-show=" categoriaPlan === 'unaviso' ">
-						<div role="group" class="planes-numero-avisos justify-content-center d-flex flex-wrap w-100 gap-3 gap-lg-4 px-1 p-lg-0 mt-4">
-              <div>
-								<input type="radio" class="btn-check" id="unaviso" value="1" autocomplete="off" x-model="numAvisos" />
-								<label class="btn btn-lg btn-outline-secondary button-filter fs-3 px-0 py-2" for="unaviso">1 Aviso</label>
-							</div>
-						</div>
-					</div> --}}
 				</fieldset>
 
 				{{-- duración del plan --}}
@@ -103,7 +92,8 @@
 							<div>
 								<input type="radio" class="btn-check" x-model="tipoPlan" id="topPlus" value="topPlus" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
 								<x-card-plan-propietario
-									title="Plan Top Plus"
+									title="Top Plus"
+                  tipoAviso="Top Plus"
 									price="prices.topPlus"
 									time="periodoPlan"
 									plan="topPlus"
@@ -116,7 +106,8 @@
 							<div>
 								<input type="radio" class="btn-check" x-model="tipoPlan" id="top" value="top" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
 								<x-card-plan-propietario
-									title="Plan Top"
+									title="Top"
+                  tipoAviso="Top"
 									price="prices.top"
 									time="periodoPlan"
 									plan="top"
@@ -129,7 +120,8 @@
 							<div>
 								<input type="radio" class="btn-check" x-model="tipoPlan" id="estandar" value="estandar" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
 								<x-card-plan-propietario
-									title="Plan Estándar"
+									title="Estándar"
+                  tipoAviso="Típico"
 									price="prices.estandar"
 									time="periodoPlan"
 									plan="estandar"
@@ -153,36 +145,25 @@
 								<div class="modal-body p-0">
 									<button type="button" class="btn-close p-2 m-2 position-absolute bg-white top-0 end-0 z-1" data-bs-dismiss="modal" aria-label="Close"></button>
 									<div class="d-flex flex-column flex-lg-row h-100">
+
 										{{-- detalles del plan contratado --}}
 										<div class="z-0 col p-lg-5">
-											<x-card-plan-checkout
-											showPlan="basico"
-											title="Básico"
+											<x-card-plan-propietario-checkout
+											showPlan="topPlus"
+											title="Plan Top Plus"
 											bgColor="text-bg-dark"
 											/>
 							
-											<x-card-plan-checkout
-											showPlan="estandar"
-											title="Estándar"
+											<x-card-plan-propietario-checkout
+											showPlan="top"
+											title="Plan Top"
 											bgColor="text-bg-warning"
 											/>
 							
-											<x-card-plan-checkout
-											showPlan="superior"
-											title="Superior"
+											<x-card-plan-propietario-checkout
+											showPlan="estandar"
+											title="Plan Estandar"
 											bgColor="text-bg-success"
-											/>
-							
-											<x-card-plan-checkout
-											showPlan="top"
-											title="Top"
-											bgColor="text-bg-light"
-											/>
-							
-											<x-card-plan-checkout
-											showPlan="topPlus"
-											title="Top Plus"
-											bgColor="text-bg-danger"
 											/>
 										</div>
 							
@@ -193,7 +174,7 @@
 											<div class="mb-3">
 												<label for="numeroTarjeta" class="form-label m-0 custom">Número de Tarjeta</label>
 												<div class="input-group">
-													<input type="text" class="form-control credit-card-input shadow-none" id="numeroTarjeta" x-model="numeroTarjeta" inputmode="numeric" minlength="19" maxlength="19" @input="formatCardNumber" data_openpay_card />
+													<input type="text" class="form-control credit-card-input shadow-none" id="numeroTarjeta" x-model="numeroTarjeta" inputmode="numeric" minlength="14" maxlength="19" @input="formatCardNumber" data_openpay_card />
 													<span class="input-group-text"><i class="fa-regular fa-credit-card"></i></span>
 												</div>
 											</div>
@@ -215,7 +196,7 @@
 												{{-- CVC de la tarjeta --}}
 												<div class="mb-3 col-4">
 													<label for="cvcTarjeta" class="form-label m-0 custom">CVC</label>
-													<input type="password" class="form-control shadow-none" id="cvcTarjeta" x-model="cvcTarjeta" size="1" minlength="3" maxlength="3" data_openpay_card/>
+													<input type="password" class="form-control shadow-none" id="cvcTarjeta" x-model="cvcTarjeta" size="1" minlength="3" maxlength="4" data_openpay_card/>
 												</div>
 											</div>
 
@@ -233,7 +214,7 @@
 									</button>
 								</div>
 								<small class="text-body-tertiary p-3 px-lg-5">Al hacer clic en Pagar, está aceptando nuestros 
-									<a href="#">Términos y Condiciones de Contratación</a>
+									<a href="/terminos-contratacion" target="blank">Términos y Condiciones de Contratación</a>
 								</small>
 							</form>
 						</div>
@@ -275,38 +256,22 @@
 				periodoPlan: 30,
 				pricePlan: null,
 
-				// paquetes Top
-				// numAvisosTop: 3,
-				// periodoPlan: 30,
-				// pricePlanTop: null,
-
 				prices: {
 					topPlus: 239,
 					top: 129,
 					estandar: 79,
 				},
 
-				// avisos: {
-				// 	basico: [5,0,0],
-				// 	estandar: [3,2,0],
-				// 	superior: [2,2,1],
-				// },
-
-				// priceTableTop: {
-				// 	'3': { '30': [239, 129, 79], '60': [406, 219, 134], '90': [537, 290, 177] },
-				// 	'5': { '30': [239, 129, 79], '60': [406, 219, 134], '90': [537, 290, 177] },
-				// },
-
 				priceTable: {
 					'1': { '30': [239, 129, 79], '60': [406, 219, 134], '90': [537, 290, 177] },
-          '3': { '30': [645, 348, 213], '60': [1097, 592, 362], '90': [1451, 783, 479] },
-					'5': { '30': [1015, 548, 335], '60': [1726, 932, 570], '90': [2285, 1233, 755] },
+          '3': { '30': [540, 290, 177], '60': [915, 495, 302], '90': [1210, 650, 399] },
+					'5': { '30': [715, 505, 276], '60': [1220, 850, 470], '90': [1610, 1225, 622] },
 				},
 
         ids: {
-          '1': { '30': [1, 10], '60': [2, 11], '90': [3, 12]  },
-          '3': { '30': [4, 13], '60': [5, 14], '90': [6, 15]  },
-          '5': { '30': [7, 16], '60': [8, 17], '90': [9, 18]  },
+          '1': { '30': [1, 10], '60': [2, 11], '90': [3, 12] },
+          '3': { '30': [4, 13], '60': [5, 14], '90': [6, 15] },
+          '5': { '30': [7, 16], '60': [8, 17], '90': [9, 18] },
         },
 
 				updatePrices() {
@@ -315,17 +280,7 @@
 					this.prices.top = selectedPrices[1]
 					this.prices.estandar = selectedPrices[2]
 				},
-				// updatePricesTop() {
-				// 	const selectedPricesTop = this.priceTableTop[this.numAvisosTop][this.periodoPlan]
-				// 	this.prices.top = selectedPricesTop[0]
-				// 	this.prices.topPlus = selectedPricesTop[1]
-				// },
-				// updateAvisosDistribution() {
-				// 	const selectAvisos = this.avisosDistribution[this.categoriaPlan][this.numAvisos]
-				// 	this.avisos.basico = selectAvisos[0]
-				// 	this.avisos.estandar = selectAvisos[1]
-				// 	this.avisos.superior = selectAvisos[2]
-				// },
+
         updateIds() {
           const selectedId = this.ids[this.numAvisos][this.periodoPlan]
           if(this.tipoPlan === 'topPlus') {
@@ -337,19 +292,9 @@
           }
           console.log(this.id);
         },
-        // updateIdTop() {
-        //   const selectedId = this.idsTop[this.numAvisosTop][this.periodoPlan]
-        //   if(this.tipoPlan === 'top') {
-        //     this.id = selectedId[0]
-        //   } else if (this.tipoPlan === 'topPlus') {
-        //     this.id = selectedId[1]
-        //   }
-        //   console.log(this.id);
-        // },
 
 				init() {
           console.log(this.numAvisos, this.periodoPlan);
-					// paquetes unavisoS ========================
 					this.$watch('numAvisos', () => {
 						this.updatePrices() 
 					})
@@ -357,27 +302,6 @@
 						this.updatePrices()
 					})
 
-					// // paquetes TOP ============================
-					// this.$watch('numAvisosTop', () => {
-					// 	this.updatePricesTop() 
-          //   this.updateIdTop()
-					// })
-					// this.$watch('periodoPlan', () => {
-          //   this.updateIdTop()
-					// })
-
-					// this.$watch('tipoPlan', () => {
-					// 	this.pricePlan = this.prices[this.tipoPlan]
-					// 	this.pricePlaTop = this.prices[this.tipoPlan]
-
-          //   // update id
-          //   this.updateIdunavisos()
-          //   this.updateIdTop()
-        
-					// })
-					// this.$watch('categoriaPlan', () => {
-					// 	this.updatePrices()
-					// })
 				},
 			}
 		}
@@ -385,10 +309,10 @@
 		function creditCardData() {
 			return {
 				// tarjeta de credito
-				numeroTarjeta: '4242 4242 4242 4242',
-				nombreTarjeta: 'Enrique',
-				fechaTarjeta: '12/25',
-				cvcTarjeta: '123',
+				numeroTarjeta: '',
+				nombreTarjeta: '',
+				fechaTarjeta: '',
+				cvcTarjeta: '',
 				deviceSessionId: '',
 				isProcessing: false,
 				errorInputCreditcard: false,
@@ -448,8 +372,8 @@
 
 					const categoriaPlan = this.categoriaPlan
 					const tipoPlan = this.tipoPlan
-					const numAvisos = this.numAvisos
-					const periodoPlan = this.periodoPlan
+					const numAvisos = categoriaPlan === 'top' ? this.numAvisosTop : this.numAvisos
+					const periodoPlan = categoriaPlan === 'top' ? this.periodoPlanTop : this.periodoPlan
 					const price = this.prices[tipoPlan]
 
 					const formPost = {
@@ -493,65 +417,21 @@
 					})
 					.then(response => response.json())
 					.then( data => {
-						const error = data.error_code
-						
+						const error = data.error_code						
 						if (error) {
-							console.log('switch de error');
-							switch (error) {
-								case 3001:
-									alert(`La tarjeta fue rechazada`)
-									this.clearForm()
-									this.isProcessing = false
-									document.getElementById('pay-button').disabled = false
-									break;
-
-								case 3002:
-									alert(`La tarjeta ha expirado`)
-									this.clearForm()
-									this.isProcessing = false
-									document.getElementById('pay-button').disabled = false
-									break;
-
-								case 3003:
-									alert(`La tarjeta no tiene fondos suficientes`)
-									this.clearForm()
-									this.isProcessing = false
-									document.getElementById('pay-button').disabled = false
-									break;
-
-								case 3004:
-									alert(`La tarjeta ha sido identificada como una tarjeta robada`)
-									this.clearForm()
-									this.isProcessing = false
-									document.getElementById('pay-button').disabled = false
-									break;
-
-								case 3005:
-									alert(`La tarjeta ha sido rechazada por el sistema antifraudes`)
-									this.clearForm()
-									this.isProcessing = false
-									document.getElementById('pay-button').disabled = false
-									break;
-
-								default:
-									alert('Hubo un error con el pago')
-									this.clearForm()
-									this.isProcessing = false
-									document.getElementById('pay-button').disabled = false
-									break;
-							}
-
+							this.clearForm();
+							this.isProcessing = false
+							document.getElementById('pay-button').disabled = false
+							alert(`La tarjeta fue rechazada`)
 						} else {
 							this.factElectronica(formPost.amount)
 							this.clearForm();
 							this.isProcessing = false
 							document.getElementById('pay-button').disabled = false
-							alert(`Pago de PEN ${data.amount} realizado con éxito.`)
+							alert(`Pago realizado con éxito.`)
 						}
 					}).catch(error => {
-						// document.getElementById('error-message').innerText = error.message
-						// this.isProcessing = false
-						// document.getElementById('pay-button').disabled = false
+						console.log(error);
 					})
 				},
 
