@@ -686,7 +686,7 @@ class BillingController extends Controller
 
         // Procesa los datos como necesites, por ejemplo, para generar la boleta o factura
 
-        return response()->json(['success' => true, 'message' => 'todo cachete']);
+        return response()->json(['success' => true, 'message' => $documento . $tipo]);
     }
 
 }
