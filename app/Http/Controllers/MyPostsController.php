@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class MyPostsController extends Controller
 {
@@ -530,7 +531,8 @@ class MyPostsController extends Controller
                 return response()->json([
                     'message' => 'Registro exitoso, finalizado correcto.',
                     'status' => 'Success',
-                    'redirect_url' => route('filter_search'),
+                    'redirect_url' => route('inmueble.single', ['inmueble' => $aviso->link()]),
+                    // 'redirect_url' => route('filter_search'),
                     'error' => false
                 ], 201);
             }
