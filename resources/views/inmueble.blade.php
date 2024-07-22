@@ -320,8 +320,8 @@
 
       {{-- Aside Formulario Contacto --}}
       <div class="col-lg-4 ps-lg-3">
-        
-          <button id="redirect-button">Publicar</button>
+
+          <button class="btn btn-warning border-secondary-subtle w-100" id="redirect-button">Publicar</button>
           <form id="redirect-form" action="{{ route('pagar.planes_propietario') }}" method="POST" style="display: none;">
               @csrf
               <input type="hidden" name="aviso_id" value="{{ $aviso->id }}">

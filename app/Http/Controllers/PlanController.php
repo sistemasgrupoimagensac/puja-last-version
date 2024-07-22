@@ -36,8 +36,40 @@ class PlanController extends Controller
     
     public function planes_propietario(Request $request){
         $aviso_id = $request->input('aviso_id');
-        
+
         return view ('planes-propietario',compact('aviso_id'));
+
+    }
+
+    public function contratar_plan(Request $request){
+
+        $user_id = 1;
+        // $user_id = auth()->id();
+        $plan_id = $request->plan_id;
+
+        $plan_user = PlanUser::create([
+            'user_id' => $user_id,
+            'plan_id' => $plan_id,
+            'estado' => 1,
+            'start_date' => now(),
+            'end_date' => now(),
+        ]);
+
+        if ( !$plan_user ){
+            return response()->json([
+                'http_code' => 400,
+                'status' => "KO",
+                'error' => true,
+                'message' => "Suscripción fallida.",
+            ], 400);
+        }
+        return response()->json([
+            'http_code' => 200,
+            'status' => "OK",
+            'error' => false,
+            'planuser_id' => $plan_user->id,
+            'message' => "Suscripción exitosa.",
+        ], 201);
 
     }
 
