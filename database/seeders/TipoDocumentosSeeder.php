@@ -29,7 +29,7 @@ class TipoDocumentosSeeder extends Seeder
                 'state' => 1,
                 'type_doc' => '02',
                 'name' => 'BOLETA DE VENTA',
-                'series' => 'B001',
+                'series' => 'B002',
                 'correlative' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
