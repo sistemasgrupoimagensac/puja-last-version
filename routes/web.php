@@ -146,4 +146,4 @@ Route::get('/politica-privacidad', function() {
 });
 
 
-// Route::post('/consultar-documento', [DocumentoController::class, 'consultar'])->name('consultar.documento');
+Route::post('/consultar-documento', [DocumentoController::class, 'consultar'])->name('consultar.documento');
