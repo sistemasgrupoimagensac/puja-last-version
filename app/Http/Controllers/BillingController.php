@@ -676,4 +676,17 @@ class BillingController extends Controller
 
         return $data;
     }
+
+
+    // RECIBE DATOS DE TIPO DE DOCUMENTO Y NUMERO DE DOCUMENTO (DNI 0 RUC)
+    public function recibirDatos(Request $request)
+    {
+        $documento = $request->input('documento');
+        $tipo = $request->input('tipo');
+
+        // Procesa los datos como necesites, por ejemplo, para generar la boleta o factura
+
+        return response()->json(['success' => true, 'message' => 'todo cachete']);
+    }
+
 }
