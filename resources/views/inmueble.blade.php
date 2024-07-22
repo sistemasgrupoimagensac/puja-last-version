@@ -320,6 +320,13 @@
 
       {{-- Aside Formulario Contacto --}}
       <div class="col-lg-4 ps-lg-3">
+
+          <button class="btn btn-warning border-secondary-subtle w-100" id="redirect-button">Publicar</button>
+          <form id="redirect-form" action="{{ route('pagar.planes_propietario') }}" method="POST" style="display: none;">
+              @csrf
+              <input type="hidden" name="aviso_id" value="{{ $aviso->id }}">
+          </form>
+
           <div class="sticky-lg-top py-3">
 
             <div class="rounded bg-white border shadow">
@@ -389,6 +396,13 @@
     </div>
 
   </div>
+
+  <script>
+      document.getElementById('redirect-button').addEventListener('click', function() {
+          // Enviar el formulario oculto
+          document.getElementById('redirect-form').submit();
+      });
+  </script>
 
   {{-- <script>
     function showRemate() {

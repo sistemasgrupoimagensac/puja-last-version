@@ -10,6 +10,7 @@ use App\Http\Controllers\AvisoController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\OpenSSLTestController;
+use App\Http\Controllers\PlanController;
 use App\Http\Middleware\SessionData;
 use App\Http\Controllers\DocumentoController;
 
@@ -94,6 +95,8 @@ Route::get('/my-post/extras/{extra_id}', [MyPostsController::class, 'getExtras']
 
 // Ruta para planes de pago
 Route::get('/planes-inmobiliaria', [App\Http\Controllers\PlanController::class, 'index']);
+Route::post('/pagar-plan', [App\Http\Controllers\PlanController::class, 'pay_plan']);
+Route::get('/planes-user', [App\Http\Controllers\PlanController::class, 'list_plans_user']);
 /* Route::get('/planes-inmobiliaria', function() {
     try {
 
@@ -124,6 +127,11 @@ Route::post('/openpay/{id}', [BillingController::class, 'generarFactura'])->midd
 
 Route::get('/send_mail', [BillingController::class, 'sendMail']);
 
+
+// Route::post('/pagar-planes-propietario', [PlanController::class, 'planes_propietario']);
+Route::post('/pagar-planes-propietario', [PlanController::class, 'planes_propietario'])->name('pagar.planes_propietario');
+
+Route::post('/contratar-plan', [PlanController::class, 'contratar_plan'])->name('contratar.plan');
 
 // Ruta planes de prietario (dueño)
 Route::get('/planes-propietario', function() {

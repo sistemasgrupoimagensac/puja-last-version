@@ -50,6 +50,11 @@ class User extends Authenticatable
         return $this->belongsTo(TipoUsuario::class, 'tipo_usuario_id');
     }
 
+    public function plans()
+    {
+        return $this->belongsToMany(Plan::class, 'plan_user')->withPivot('estado')->wherePivot('estado', 1);
+    }
+
     public function tipoDocumento(): BelongsTo
     {
         return $this->belongsTo(TipoDocumento::class, 'tipo_documento_id');

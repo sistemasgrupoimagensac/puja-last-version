@@ -17,6 +17,9 @@ return new class extends Migration
             $table->foreignId('plan_id')->constrained(table: 'plans')->onDelete('cascade');
             $table->foreignId('document_type_id')->nullable()->constrained(table: 'tipo_documentos')->onDelete('cascade');
             $table->boolean('estado')->default(1);
+            $table->integer('typical_ads_remaining')->default(0);
+            $table->integer('top_ads_remaining')->default(0);
+            $table->integer('premium_ads_remaining')->default(0);
             $table->datetime('start_date');
             $table->datetime('end_date');
             $table->integer('physical_proof_number')->nullable();

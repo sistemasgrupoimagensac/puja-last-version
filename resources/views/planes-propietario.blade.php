@@ -310,6 +310,7 @@
 		function pricingData() {
 			return {
 				// campos formulario:
+				aviso_id: {{$aviso_id}},
 				categoriaPlan: 'unaviso',
 				tipoPlan: 'topPlus',
         id: '',
@@ -506,7 +507,7 @@
 									product: 
 										{
 											id: this.id,
-											name: "Plan" + this.tipoPlan,
+											name: "Plan " + this.tipoPlan,
 											type: 1
 										}
 								}

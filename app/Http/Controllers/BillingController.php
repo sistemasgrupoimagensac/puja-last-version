@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\SaleModel;
 use App\Models\DocumentType;
 use App\Models\PlanUser;
+use App\Models\User;
 use App\Utils\FactUtil;
 use Greenter\Model\Client\Client;
 use Greenter\Model\Company\Address;
@@ -104,6 +105,32 @@ class BillingController extends Controller
     public function generarFactura(Request $request, $id)
     {
         try {
+
+            // $userId = auth()->id();
+
+            $details = $request->input('details');
+            $productName = $details[0]['product']['name'];
+            $productId = $details[0]['product']['id'];
+            
+            $num_doc = $request->num_doc;
+
+            $receipt_owner = null;
+            if ( $num_doc != "" ) {
+                $receipt_owner = $num_doc;
+            }
+
+            
+
+            return response()->json([
+                'http_code' => 200,
+                'message' => 'Correo enviado.',
+                // 'user_id' => $userId,
+                'productName' => $productName,
+                'num_doc' => $num_doc,
+                'request' => $request->all(),
+            ], 200);
+
+            // $plan_user = PlanUser::create
             
             $data = PlanUser::find($id);
         

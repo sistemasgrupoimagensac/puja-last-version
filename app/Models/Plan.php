@@ -16,4 +16,9 @@ class Plan extends Model
     {
         return $this->belongsTo(Package::class);
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'plan_user')->withPivot('estado');
+    }
 }
