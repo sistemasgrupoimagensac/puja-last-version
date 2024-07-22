@@ -30,7 +30,7 @@
 
 		<form>
 			@csrf
-			<div class="d-flex flex-column align-items-center py-3 gap-5">
+			<div class="d-flex flex-column align-items-center py-3 gap-5" x-data="consultaDocumento()">
 				<!-- número de avisos del plan -->
 				<fieldset>
 					<legend class="text-secondary h6 mb-3">1. Selecciona el número de avisos.</legend>
@@ -297,10 +297,18 @@
 									</div>
 								</div>
 
-								<div class="d-flex justify-content-start px-5">
+								<div class="d-flex justify-content-between align-items-center px-5">
 									<div>
 										<button type="button" class="btn btn-outline-secondary rounded-3 w-100" data-bs-target="#modalOtroDNI" data-bs-toggle="modal">
 											¿Desea pagar con una distinta Razón Social?</button>
+									</div>
+									<div>
+										<template x-if="resultados">
+											<div>
+													<p class="m-0"><span class="fw-bold">Nombre:</span> <span x-text="getNombre()"></span></p>
+											</div>
+									</template>
+
 									</div>
 								</div>
 
@@ -313,6 +321,7 @@
 								<small class="text-body-tertiary p-3 px-lg-5">Al hacer clic en Pagar, está aceptando nuestros 
 									<a href="/terminos-contratacion" target="blank">Términos y Condiciones de Contratación</a>
 								</small>
+
 							</form>
 						</div>
 					</div>
@@ -321,39 +330,47 @@
 				{{-- SEGUNDO MODAL - ELECCION DE DNI --}}
 				<div class="modal fade" id="modalOtroDNI" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
 					<div class="modal-dialog modal-dialog-centered">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="m-0">Seleccione el remitente del comprobante</h5>
-							</div>
-							<div class="modal-body">
-								
-								
-								<div class="input-group mb-3">
-									<form action="{{ route('consultar.documento') }}" method="POST" class="w-100">
-											@csrf
-											<div class="d-flex gap-2 justify-content-between w-100">
-													<div class="btn-group" role="group">
-															<input type="radio" class="btn-check" name="btnradio" id="DNIcheck" autocomplete="off" value="DNI" checked>
-															<label class="btn btn-outline-danger" for="DNIcheck">DNI</label>
-							
-															<input type="radio" class="btn-check" name="btnradio" id="RUCcheck" autocomplete="off" value="RUC">
-															<label class="btn btn-outline-danger" for="RUCcheck">RUC</label>
-													</div>
-							
-													<input type="text" class="form-control shadow-none" name="documento" placeholder="documento" required>
-							
-													<input type="submit" class="btn btn-success" value="Consultar">
+							<div class="modal-content">
+									<div class="modal-header">
+											<h5 class="m-0">Seleccione el remitente del comprobante</h5>
+									</div>
+									<div class="modal-body">
+											<div class="input-group mb-3">
+													<form @submit.prevent="consultarDocumento" class="w-100">
+															@csrf
+															<div class="d-flex gap-2 justify-content-between w-100">
+																	<div class="btn-group" role="group">
+																			<input type="radio" class="btn-check" name="btnradio" id="DNIcheck" autocomplete="off" value="DNI" x-model="tipo" checked>
+																			<label class="btn btn-outline-secondary" for="DNIcheck">DNI</label>
+			
+																			<input type="radio" class="btn-check" name="btnradio" id="RUCcheck" autocomplete="off" value="RUC" x-model="tipo">
+																			<label class="btn btn-outline-secondary" for="RUCcheck">RUC</label>
+																	</div>
+			
+																	<input type="text" class="form-control shadow-none" name="documento" placeholder="documento" x-model="documento" required>
+			
+																	<input type="submit" class="btn btn-secondary" value="Consultar">
+															</div>
+													</form>
 											</div>
-									</form>
+			
+											<!-- Div para mostrar los resultados -->
+											<template x-if="resultados">
+													<div class="mt-3">
+															<p>Nombre: <span x-text="getNombre()"></span></p>
+													</div>
+											</template>
+			
+											<!-- Div para mostrar los errores -->
+											<div class="mt-3 alert alert-danger" x-show="error" x-text="error"></div>
+									</div>
+									<div class="modal-footer">
+											<button type="button" class="btn button-orange" data-bs-target="#modalPago" data-bs-toggle="modal">
+												<i class="fa-solid fa-arrow-left"></i>
+												Regresar
+											</button>
+									</div>
 							</div>
-							
-
-
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn button-orange" data-bs-target="#modalPago" data-bs-toggle="modal">Regresar</button>
-							</div>
-						</div>
 					</div>
 				</div>
 
@@ -754,6 +771,81 @@
 		document.addEventListener('alpine:init', () => {
 			Alpine.data('creditCardData', creditCardData)
 		})
+
+		function consultaDocumento() {
+				return {
+						documento: '',
+						tipo: 'DNI',
+						resultados: null,
+						error: null,
+						consultarDocumento() {
+								this.resultados = null;
+								this.error = null;
+
+								const apiURL = this.tipo === 'DNI' ? 'https://apiperu.dev/api/dni' : 'https://apiperu.dev/api/ruc';
+								const token = 'db3ed63994d8aef68d6a7db28083109d033ee0e32211ecd7932a86dd15093a31';
+								const bodyTipoDoc = this.tipo === 'DNI' ? 'dni' : 'ruc';
+
+								fetch(apiURL, {
+										method: 'POST',
+										headers: {
+												'Accept': 'application/json',
+												'Content-Type': 'application/json',
+												'Authorization': `Bearer ${token}`
+										},
+										body: JSON.stringify({ [bodyTipoDoc]: this.documento })
+								})
+								.then(response => response.json())
+								.then(data => {
+										if (data.success) {
+												console.log('Response:', data);
+												this.resultados = data.data;
+												this.enviarDatosAlBackend();
+										} else {
+												this.error = 'Error al realizar la consulta.';
+										}
+								})
+								.catch(error => {
+										console.error('Error:', error.message);
+										this.error = 'Error al realizar la consulta.';
+								});
+						},
+
+						enviarDatosAlBackend() {
+								const dataToSend = {
+										documento: this.documento,
+										tipo: this.tipo,
+								};
+
+								fetch('/enviar-datos-dni-ruc', {
+										method: 'POST',
+										headers: {
+												'Accept': 'application/json',
+												'Content-Type': 'application/json',
+												'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+										},
+										body: JSON.stringify(dataToSend)
+								})
+								.then(response => response.json())
+								.then(data => {
+										console.log('Response from backend:', data);
+								})
+								.catch(error => {
+										console.error('Error sending data to backend:', error.message);
+								});
+						},
+
+						getNombre() {
+								if (this.tipo === 'DNI' && this.resultados) {
+										return this.resultados.nombre_completo;
+								} else if (this.tipo === 'RUC' && this.resultados) {
+										return this.resultados.nombre_o_razon_social;
+								}
+								return '';
+						}
+				}
+		}
+
 	</script>
 
 @endsection
@@ -763,10 +855,7 @@
 @endsection
   
 @push('scripts-head')  
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<script src="https://js.openpay.pe/openpay.v1.min.js"></script>
 	<script src="https://js.openpay.pe/openpay-data.v1.min.js"></script>
-@endpush
-
-@push('scripts')
-    @vite(['resources/js/scripts/planes.js'])
 @endpush

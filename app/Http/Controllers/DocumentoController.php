@@ -9,8 +9,13 @@ class DocumentoController extends Controller
 {
     public function consultar(Request $request)
     {
+       
         $documento = $request->input('documento');
         $tipo = $request->input('btnradio');
+
+        if (!$documento || !$tipo) {
+            return response()->json(['error' => 'Faltan parámetros requeridos.'], 400);
+        }
 
         // Determina la URL de la API en función del tipo de documento
         $apiURL = $tipo === 'DNI' ? 'https://apiperu.dev/api/dni' : 'https://apiperu.dev/api/ruc';
@@ -25,10 +30,10 @@ class DocumentoController extends Controller
         ]);
 
         if ($response->successful()) {
-            $data = $response->json();
-            return view('resultados', compact('data'));
+            return response()->json($response->json());
         } else {
-            return back()->withErrors(['message' => 'Error al realizar la consulta.']);
+            return response()->json(['error' => 'Error al realizar la consulta.'], $response->status());
         }
+
     }
 }
