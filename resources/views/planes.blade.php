@@ -694,7 +694,10 @@
 								}
 							],
 							document_type_id: 2,
-							note: ""
+							note: "",
+							num_doc: '',
+							tipo_doc: '',
+							nombre_doc: '',
 						};
 
 						fetch(`/openpay/1`, {

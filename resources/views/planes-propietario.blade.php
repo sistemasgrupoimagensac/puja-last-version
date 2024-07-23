@@ -307,65 +307,138 @@
 	</div>
 
 	<script>
+		// function pricingData() {
+		// 	return {
+		// 		// campos formulario:
+		// 		aviso_id: {{$aviso_id}},
+		// 		categoriaPlan: 'unaviso',
+		// 		tipoPlan: 'topPlus',
+    //     id: '',
+
+		// 		// plan unaviso
+		// 		numAvisos: 1,
+		// 		periodoPlan: 30,
+		// 		pricePlan: null,
+
+		// 		prices: {
+		// 			topPlus: 239,
+		// 			top: 129,
+		// 			estandar: 79,
+		// 		},
+
+		// 		priceTable: {
+		// 			'1': { '30': [239, 129, 79], '60': [406, 219, 134], '90': [537, 290, 177] },
+    //       '3': { '30': [540, 290, 177], '60': [915, 495, 302], '90': [1210, 650, 399] },
+		// 			'5': { '30': [715, 505, 276], '60': [1220, 850, 470], '90': [1610, 1225, 622] },
+		// 		},
+
+    //     ids: {
+    //       '1': { '30': [1, 10], '60': [2, 11], '90': [3, 12] },
+    //       '3': { '30': [4, 13], '60': [5, 14], '90': [6, 15] },
+    //       '5': { '30': [7, 16], '60': [8, 17], '90': [9, 18] },
+    //     },
+
+		// 		updatePrices() {
+		// 			const selectedPrices = this.priceTable[this.numAvisos][this.periodoPlan]
+		// 			this.prices.topPlus = selectedPrices[0]
+		// 			this.prices.top = selectedPrices[1]
+		// 			this.prices.estandar = selectedPrices[2]
+		// 		},
+
+    //     updateIds() {
+    //       const selectedId = this.ids[this.numAvisos][this.periodoPlan]
+    //       if(this.tipoPlan === 'topPlus') {
+    //         this.id = selectedId[0]
+    //       } else if (this.tipoPlan === 'top') {
+    //         this.id = selectedId[1]
+    //       } else if (this.tipoPlan === 'estandar') {
+    //         this.id = selectedId[2]
+    //       }
+    //     },
+
+		// 		init() {
+		// 			this.$watch('numAvisos', () => {
+		// 				this.updatePrices() 
+		// 				this.updateIds()
+		// 			})
+		// 			this.$watch('periodoPlan', () => {
+		// 				this.updatePrices()
+		// 				this.updateIds()
+		// 			})
+
+		// 		},
+		// 	}
+		// }
+
 		function pricingData() {
-			return {
-				// campos formulario:
-				aviso_id: {{$aviso_id}},
-				categoriaPlan: 'unaviso',
-				tipoPlan: 'topPlus',
-        id: '',
+				return {
+						// campos formulario:
+						aviso_id: {{$aviso_id}},
+						categoriaPlan: 'unaviso',
+						tipoPlan: 'topPlus',
+						id: '',
 
-				// plan unaviso
-				numAvisos: 1,
-				periodoPlan: 30,
-				pricePlan: null,
+						// plan unaviso
+						numAvisos: 1,
+						periodoPlan: 30,
 
-				prices: {
-					topPlus: 239,
-					top: 129,
-					estandar: 79,
-				},
+						prices: {
+								topPlus: 239,
+								top: 129,
+								estandar: 79,
+						},
 
-				priceTable: {
-					'1': { '30': [239, 129, 79], '60': [406, 219, 134], '90': [537, 290, 177] },
-          '3': { '30': [540, 290, 177], '60': [915, 495, 302], '90': [1210, 650, 399] },
-					'5': { '30': [715, 505, 276], '60': [1220, 850, 470], '90': [1610, 1225, 622] },
-				},
+						priceTable: {
+								'1': { '30': [239, 129, 79], '60': [406, 219, 134], '90': [537, 290, 177] },
+								'3': { '30': [540, 290, 177], '60': [915, 495, 302], '90': [1210, 650, 399] },
+								'5': { '30': [715, 505, 276], '60': [1220, 850, 470], '90': [1610, 1225, 622] },
+						},
 
-        ids: {
-          '1': { '30': [1, 10], '60': [2, 11], '90': [3, 12] },
-          '3': { '30': [4, 13], '60': [5, 14], '90': [6, 15] },
-          '5': { '30': [7, 16], '60': [8, 17], '90': [9, 18] },
-        },
+						ids: {
+								'1': { '30': [1, 10], '60': [2, 11], '90': [3, 12] },
+								'3': { '30': [4, 13], '60': [5, 14], '90': [6, 15] },
+								'5': { '30': [7, 16], '60': [8, 17], '90': [9, 18] },
+						},
 
-				updatePrices() {
-					const selectedPrices = this.priceTable[this.numAvisos][this.periodoPlan]
-					this.prices.topPlus = selectedPrices[0]
-					this.prices.top = selectedPrices[1]
-					this.prices.estandar = selectedPrices[2]
-				},
+						updatePrices() {
+								const selectedPrices = this.priceTable[this.numAvisos][this.periodoPlan];
+								this.prices.topPlus = selectedPrices[0];
+								this.prices.top = selectedPrices[1];
+								this.prices.estandar = selectedPrices[2];
+						},
 
-        updateIds() {
-          const selectedId = this.ids[this.numAvisos][this.periodoPlan]
-          if(this.tipoPlan === 'topPlus') {
-            this.id = selectedId[0]
-          } else if (this.tipoPlan === 'top') {
-            this.id = selectedId[1]
-          } else if (this.tipoPlan === 'estandar') {
-            this.id = selectedId[2]
-          }
-        },
+						updateIds() {
+								const selectedId = this.ids[this.numAvisos][this.periodoPlan];
+								if (this.tipoPlan === 'topPlus') {
+										this.id = selectedId[0];
+								} else if (this.tipoPlan === 'top') {
+										this.id = selectedId[1];
+								} else if (this.tipoPlan === 'estandar') {
+										this.id = selectedId[2];
+								}
 
-				init() {
-					this.$watch('numAvisos', () => {
-						this.updatePrices() 
-					})
-					this.$watch('periodoPlan', () => {
-						this.updatePrices()
-					})
+								// Pasar el id actualizado a creditCardData
+								const creditCardScope = Alpine.store('creditCardData');
+								creditCardScope.id = this.id;
+						},
 
-				},
-			}
+						init() {
+								this.$watch('numAvisos', () => {
+										this.updatePrices()
+										this.updateIds()
+										console.log(this.id)
+								})
+								this.$watch('periodoPlan', () => {
+										this.updatePrices()
+										this.updateIds()
+										console.log(this.id)
+								})
+								this.$watch('tipoPlan', () => {
+									this.updateIds()
+									console.log(this.id)
+								})
+						},
+				}
 		}
 
 		function creditCardData() {
@@ -381,6 +454,9 @@
         
         idOpenpay: '',
 				sk: '',
+
+				// id del plan:
+				id: '6',
 
 				formatCardNumber() {
 					let input = this.numeroTarjeta.replace(/\D/g, '')
@@ -491,11 +567,43 @@
 							this.isProcessing = false
 							document.getElementById('pay-button').disabled = false
 							alert(`Pago realizado con éxito.`)
+							this.contratarPlan();
 						}
 					}).catch(error => {
 						console.log(error)
 					})
 				},
+
+				contratarPlan() {
+						const dataToSend = {
+								plan_id: this.id,
+						};
+
+						console.log(dataToSend);
+
+						fetch('/contratar-plan', {
+								method: 'POST',
+								headers: {
+										'Accept': 'application/json',
+										'Content-Type': 'application/json',
+										'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+								},
+								body: JSON.stringify(dataToSend)
+						})
+						.then(response => response.json())
+						.then(data => {
+								if (data.status === "OK") {
+										console.log('Suscripción exitosa:', data);
+								} else {
+										console.error('Error en la suscripción:', data.message);
+								}
+						})
+						.catch(error => {
+								console.error('Error sending data to backend:', error.message);
+						});
+				},
+
+
 
 				factElectronica(price){
 					try {
@@ -513,7 +621,10 @@
 								}
 							],
 							document_type_id: 2,
-							note: ""
+							note: "",
+							num_doc: '',
+							tipo_doc: '',
+							nombre_doc: '',
 						}
 
 						fetch(`/openpay/1`, {
@@ -587,9 +698,14 @@
 			}
 		}
 
+		// document.addEventListener('alpine:init', () => {
+		// 	Alpine.data('creditCardData', creditCardData)
+		// })
+
 		document.addEventListener('alpine:init', () => {
-			Alpine.data('creditCardData', creditCardData)
-		})
+				Alpine.store('creditCardData', creditCardData());
+				Alpine.data('pricingData', pricingData);
+		});
 
 		function consultaDocumento() {
 				return {
