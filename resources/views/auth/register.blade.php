@@ -64,36 +64,36 @@
 				</fieldset>
 
 				<fieldset class="d-flex flex-column gap-2">
-				<legend class="h6 m-0 p-0 icon-orange">Datos de Contacto</legend>
+					<legend class="h6 m-0 p-0 icon-orange">Datos de Contacto</legend>
 
-				<div class="form-floating">
-					<input type="text" class="form-control" id="name" name="name" placeholder="Nombre" required>
-					<label class="text-secondary" for="name" id="label_name">Nombre</label>
-				</div>
-					
-				<div class="form-floating">
-					<input type="text" class="form-control" id="surename" name="lastname" placeholder="Apellido">
-					<label class="text-secondary" for="lastname">Apellido</label>
-				</div>
+					<div class="form-floating">
+						<input type="text" class="form-control" id="name" name="name" placeholder="Nombre" required>
+						<label class="text-secondary" for="name" id="label_name">Nombre</label>
+					</div>
+						
+					<div class="form-floating">
+						<input type="text" class="form-control" id="surename" name="lastname" placeholder="Apellido">
+						<label class="text-secondary" for="lastname">Apellido</label>
+					</div>
 
-				<div class="form-floating">
-					<input type="phone" class="form-control" id="phone" name="phone" placeholder="Telefono">
-					<label class="text-secondary" for="phone">Teléfono</label>
-				</div>
+					<div class="form-floating">
+						<input type="phone" class="form-control" id="phone" name="phone" placeholder="Telefono">
+						<label class="text-secondary" for="phone">Teléfono</label>
+					</div>
 
-				<div class="form-floating">
-					<select class="form-select" id="document_type" name="document_type">
-					<option value="1" selected>DNI</option>
-					<option value="2">RUC</option>
-					<option value="3">Otro Documento</option>
-					</select>
-					<label for="document_type">Documento</label>
-				</div>
+					<div class="form-floating">
+						<select class="form-select" id="document_type" name="document_type">
+							<option value="DNI" selected>DNI</option>
+							<option value="RUC">RUC</option>
+							<option value="OTRO_DOC">Otro Documento</option>
+						</select>
+						<label for="document_type">Documento</label>
+					</div>
 
-				<div class="form-floating">
-					<input type="text" class="form-control" id="document_number" name="document_number" placeholder="DNI" required>
-					<label class="text-secondary" for="document_number" id="label_document_number">DNI</label>
-				</div>
+					<div class="form-floating">
+						<input type="text" class="form-control" id="document_number" name="document_number" placeholder="DNI" required>
+						<label class="text-secondary" for="document_number" id="label_document_number">DNI</label>
+					</div>
 
 				</fieldset>
 	
