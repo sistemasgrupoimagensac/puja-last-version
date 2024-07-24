@@ -545,7 +545,7 @@ class MyPostsController extends Controller
             $hist_aviso = HistorialAvisos::updateOrCreate([
                 "aviso_id" => $aviso->id,
                 ],[
-                "estado_aviso_id" => 3,
+                "estado_aviso_id" => 1,
             ]);
 
             if (!$hist_aviso) {

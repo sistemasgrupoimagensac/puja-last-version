@@ -102,7 +102,7 @@ Route::get('/my-post/extras/{extra_id}', [MyPostsController::class, 'getExtras']
 // Ruta para planes de pago
 Route::get('/planes-inmobiliaria', [App\Http\Controllers\PlanController::class, 'index']);
 Route::post('/pagar-plan', [App\Http\Controllers\PlanController::class, 'pay_plan']);
-Route::get('/planes-user', [App\Http\Controllers\PlanController::class, 'list_plans_user']);
+Route::post('/planes-user', [App\Http\Controllers\PlanController::class, 'list_plans_user']);
 /* Route::get('/planes-inmobiliaria', function() {
     try {
 
@@ -118,6 +118,11 @@ Route::get('/planes-user', [App\Http\Controllers\PlanController::class, 'list_pl
         ], 500); // Código de estado HTTP 500 (Internal Server Error)
     }
 }); */
+// Route::post('/pagar-planes-propietario', [PlanController::class, 'planes_propietario']);
+Route::post('/pagar-planes-propietario', [PlanController::class, 'planes_propietario'])->name('pagar.planes_propietario');
+
+Route::post('/publicar-aviso', [PlanController::class, 'post_ad']);
+Route::post('/usar-plan', [PlanController::class, 'use_plan']);
 
 // Ruta landing de proyectos inmobiliarios
 Route::get('/proyectos', function() {
@@ -132,13 +137,6 @@ Route::get('/videos/{archivo}', [ImagesController::class, 'get_videos']);
 Route::post('/openpay/{id}', [BillingController::class, 'generarFactura'])->middleware(SessionData::class);
 
 Route::get('/send_mail', [BillingController::class, 'sendMail']);
-
-
-// Route::post('/pagar-planes-propietario', [PlanController::class, 'planes_propietario']);
-Route::post('/pagar-planes-propietario', [PlanController::class, 'planes_propietario'])->name('pagar.planes_propietario');
-
-Route::post('/contratar-plan', [PlanController::class, 'contratar_plan'])->name('contratar.plan');
-Route::post('/usar-plan', [PlanController::class, 'usar_plan'])->name('usar.plan');
 
 // Ruta planes de prietario (dueño)
 Route::get('/planes-propietario', function() {
