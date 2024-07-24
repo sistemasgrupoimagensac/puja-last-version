@@ -69,7 +69,10 @@ Route::get('/publica-tu-inmueble', function() {
 
 Route::get('/sign-in', [LoginController::class, 'sign_in'])->name('sign_in');
 Route::post('/store', [LoginController::class, 'store']);
+
+// ruta de actualizacion de usuario logueado con google
 Route::post('/store-completeUserGoogle', [LoginController::class, 'complete_user_google']);
+
 Route::post('login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/register', [LoginController::class, 'register'])->name('login.register');
@@ -80,10 +83,6 @@ Route::get('/recuperar-password', function() {
 
 Route::get('/my-posts', [MyPostsController::class, 'index'])->name('posts.index');
 Route::get('/my-posts/create', [MyPostsController::class, 'create'])->name('posts.create');
-
-// Ruta para guardar los campos faltantes del usuario logueado con Google
-Route::post('/update-user-data', [MyPostsController::class, 'updateUserData'])->name('update.user.data');
-
 
 Route::post('/my-post/store', [MyPostsController::class, 'store'])->name('posts.store');
 // Route::get('/my-posts/{id}', [MyPostsController::class, 'show'])->name('posts.show');

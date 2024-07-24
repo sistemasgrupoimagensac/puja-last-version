@@ -12,9 +12,7 @@
     <div x-data="avisoForm()">
 
         {{-- Si esta logueado con Google y faltan datos, se los debe pedir por medio de este Modal --}}
-        <div x-data="completarRegistro()" x-init="@if($show_modal) $('#staticBackdropRegister').modal('show'); @endif">
-
-            {{-- Si esta logueado con Google y faltan datos, se los debe pedir por medio de este Modal --}}
+        <div>
             <div class="modal fade" id="staticBackdropRegister" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content p-2">
@@ -31,9 +29,9 @@
                 
                                     <div class="form-floating">
                                         <select class="form-select" id="document_type" name="document_type" required>
-                                            <option value="DNI" selected>DNI</option>
-                                            <option value="RUC">RUC</option>
-                                            <option value="OTRO_DOC">Otro Documento</option>
+                                            <option value="1" selected>DNI</option>
+                                            <option value="2">RUC</option>
+                                            <option value="3">Otro Documento</option>
                                         </select>
                                         <label for="document_type">Documento</label>
                                     </div>
@@ -48,15 +46,15 @@
                                         <label class="text-secondary" for="direccion" id="label_direccion">Dirección</label>
                                     </div>
                 
+                                    
+                                    <small>
+                                        <div class="form-group d-flex gap-3 align-items-center">
+                                            <input type="checkbox" name="accept_terms" id="terminos" class="form-check-input m-0" required/>
+                                            <label for="terminos">Acepto los <a href="/terminos-uso" target="blank" class="custom-link-register text-decoration-none">Términos y Condiciones de Uso</a> y las <a href="/politica-privacidad" target="blank" class="custom-link-register text-decoration-none">Políticas de Privacidad</a></label>
+                                        </div>
+                                        
+                                    </small>
                                 </fieldset>
-    
-                                <small>
-                                    <div class="form-group d-flex gap-3 align-items-center">
-                                        <input type="checkbox" name="accept_terms" id="terminos" class="form-check-input m-0" required/>
-                                        <label for="terminos">Acepto los <a href="/terminos-uso" target="blank" class="custom-link-register text-decoration-none">Términos y Condiciones de Uso</a> y las <a href="/politica-privacidad" target="blank" class="custom-link-register text-decoration-none">Políticas de Privacidad</a></label>
-                                    </div>
-                            
-                                </small>
                             
                                 <input class="btn button-orange w-100 fw-bold p-2" type="submit" id="submit-register-button" value="COMPLETAR REGISTRO">
                             </form>
@@ -67,7 +65,6 @@
             </div>
         </div>
         
-
         <!-- Menú de los pasos -->
         <div class="py-2 py-lg-4 bg-body-tertiary border-bottom">
             <div class="d-flex justify-content-around fw-semibold text-light-emphasis">
@@ -654,8 +651,6 @@
                     });
                 },
                 initializeSecondStep() {
-                    console.log(this.perfil_acreedor)
-                    console.log("is_puja", this.is_puja)
                     this.fetchDepartamentos();
                     this.fetchProvincias();
                     this.fetchDistritos();
@@ -916,33 +911,47 @@
                         console.error('Error fetching distritos:', error);
                     });
                 },
-            }
-        }
 
-        function completarRegistro() {
-            return {
                 submitForm() {
-                    let formData = new FormData(document.querySelector('#formRegistro'));
-                    fetch('{{ route('update.user.data') }}', {
+                    let form = document.querySelector('#formRegistro');
+                    let formData = {
+                        phone: form.phone.value,
+                        document_type: form.document_type.value,
+                        document_number: form.document_number.value,
+                        direccion: form.direccion.value,
+                        accept_terms: form.terminos.checked
+                    };
+
+                    console.log('Form Data:', formData);
+
+                    fetch('/store-completeUserGoogle', {
                         method: 'POST',
                         headers: {
+                            'Content-Type': 'application/json',
                             'X-CSRF-TOKEN': '{{ csrf_token() }}',
                             'Accept': 'application/json',
                         },
-                        body: formData
-                    }).then(response => response.json())
-                    .then(data => {
-                        if(data.success) {
-                            $('#staticBackdropRegister').modal('hide');
-                        } else {
-                            alert(data.message);
+                        body: JSON.stringify(formData)
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
                         }
-                    }).catch(error => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        alert(data.message);
+                        location.reload()
+                    })
+                    .catch(error => {
                         console.error('Error:', error);
                     });
                 }
             }
         }
+
+        window.showModal = @json($show_modal)
+
 
         // Inicializar el mapa de Google
         function initMap() {
