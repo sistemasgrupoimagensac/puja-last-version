@@ -1,4 +1,8 @@
 {
+  "_bootstrap.esm-DOzSzUNx.js": {
+    "file": "assets/bootstrap.esm-DOzSzUNx.js",
+    "name": "bootstrap.esm"
+  },
   "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.ttf": {
     "file": "assets/fa-brands-400-DHHcbFjz.ttf",
     "src": "resources/webfonts/fa-brands-400.ttf"
@@ -45,10 +49,13 @@
     "src": "resources/images/slide1.webp"
   },
   "resources/js/app.js": {
-    "file": "assets/app-CSpuSSoB.js",
+    "file": "assets/app-CwKow91v.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
+    "imports": [
+      "_bootstrap.esm-DOzSzUNx.js"
+    ],
     "css": [
       "assets/app-DMqKAXLC.css"
     ],
@@ -130,10 +137,19 @@
     "isEntry": true
   },
   "resources/js/scripts/register.js": {
-    "file": "assets/register-D47g-ZrG.js",
+    "file": "assets/register-CgPpaSnC.js",
     "name": "register",
     "src": "resources/js/scripts/register.js",
     "isEntry": true
+  },
+  "resources/js/scripts/updatePlaceholdersRegister.js": {
+    "file": "assets/updatePlaceholdersRegister-cJWqqd2b.js",
+    "name": "updatePlaceholdersRegister",
+    "src": "resources/js/scripts/updatePlaceholdersRegister.js",
+    "isEntry": true,
+    "imports": [
+      "_bootstrap.esm-DOzSzUNx.js"
+    ]
   },
   "resources/sass/app.scss": {
     "file": "assets/app-CaoiENGI.css",
@@ -192,7 +208,7 @@
     "isEntry": true
   },
   "resources/sass/pages/planes.scss": {
-    "file": "assets/planes-BnhYE3IN.css",
+    "file": "assets/planes-Dv5ZKaP_.css",
     "src": "resources/sass/pages/planes.scss",
     "isEntry": true
   },
