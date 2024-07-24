@@ -150,15 +150,17 @@ class LoginController extends Controller
 
     }
 
+    // actualizar registro de usuario logueado con Google
     public function complete_user_google(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
-            'document_type' => 'required|integer|max:1',
+            'document_type' => 'required|string|max:1',
             'document_number' => 'required|string|max:30|unique:users,numero_documento',
-            'phone' => 'integer|digits:9',
-            'accept_terms' => 'accepted',
-            'accept_confid' => 'accepted',
+            'phone' => 'string|min:6|max:15',
         ]);
+        
+
         if ($validator->fails()) {
             return response()->json([
                 'http_code' => 400,
@@ -168,20 +170,20 @@ class LoginController extends Controller
             ], 422);
         }
         $acceptTerms = $request->has('accept_terms') ? true : false;
-        $acceptConfid = $request->has('accept_confid') ? true : false;
+    
         if (!Auth::check()) {
             return redirect()->route('sign_in')->with('error', 'Inicia sesión, por favor.');
         }
 
-        // $user_id = 8;
+
         $user_id = auth()->id();
+
         $user = User::findOrFail($user_id);
         $user->update([
             'tipo_documento_id' => $request->input('document_type'),
             'numero_documento' => $request->input('document_number'),
             'celular' => $request->input('phone'),
             'acepta_termino_condiciones' => $acceptTerms,
-            'acepta_confidencialidad' => $acceptConfid,
         ]);
 
         return response()->json([

@@ -579,8 +579,6 @@
 								plan_id: this.id,
 						};
 
-						console.log(dataToSend);
-
 						fetch('/contratar-plan', {
 								method: 'POST',
 								headers: {

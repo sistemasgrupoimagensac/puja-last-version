@@ -1,8 +1,8 @@
+import * as bootstrap from 'bootstrap';
+
 const documentSelected = document.getElementById("document_type")
 const documentNumber = document.getElementById("label_document_number")
-
 const registerSubmit = document.querySelector("#submit-register-button")
-
 const termsConditionCheck = document.querySelector("#terminos")
 
 // deshabilitar boton registrar =======================================================
@@ -17,7 +17,6 @@ termsConditionCheck.addEventListener("change", () => {
     disableSubmit()
 })
 
-
 function disableSubmit() {
     if (termsState === false) {
         registerSubmit.disabled = true
@@ -25,9 +24,7 @@ function disableSubmit() {
         registerSubmit.disabled = false
     }
 }
-
 disableSubmit()
-
 
 // actualizar el placeholder de los campos =============================================
 documentSelected.addEventListener("change", function () {
@@ -36,23 +33,29 @@ documentSelected.addEventListener("change", function () {
   let placeholderName = ""
 
   switch (selectedCategory) {
-    case "DNI":
+    case "1":
       placeholderText = "DNI"
-
       break
-    case "RUC":
+    case "2":
       placeholderText = "RUC"
-
       break
-    case "OTRO_DOC":
+    case "3":
       placeholderText = "Otro Documento"
-
       break
     default:
       placeholderText = "Documento"
-
   }
 
   documentNumber.textContent = placeholderText
 
 })
+
+// Mostrar modal para completar registro de usuario logueado con Google
+document.addEventListener('DOMContentLoaded', function() {
+  if (showModal) {
+      var myModal = new bootstrap.Modal(document.getElementById('staticBackdropRegister'), {
+          keyboard: false
+      });
+      myModal.show();
+  }
+});
