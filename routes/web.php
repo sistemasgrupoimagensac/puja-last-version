@@ -137,6 +137,7 @@ Route::get('/send_mail', [BillingController::class, 'sendMail']);
 Route::post('/pagar-planes-propietario', [PlanController::class, 'planes_propietario'])->name('pagar.planes_propietario');
 
 Route::post('/contratar-plan', [PlanController::class, 'contratar_plan'])->name('contratar.plan');
+Route::post('/usar-plan', [PlanController::class, 'usar_plan'])->name('usar.plan');
 
 // Ruta planes de prietario (dueño)
 Route::get('/planes-propietario', function() {
