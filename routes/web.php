@@ -69,6 +69,7 @@ Route::get('/publica-tu-inmueble', function() {
 
 Route::get('/sign-in', [LoginController::class, 'sign_in'])->name('sign_in');
 Route::post('/store', [LoginController::class, 'store']);
+Route::post('/store-completeUserGoogle', [LoginController::class, 'complete_user_google']);
 Route::post('login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/register', [LoginController::class, 'register'])->name('login.register');

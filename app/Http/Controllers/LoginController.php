@@ -150,6 +150,49 @@ class LoginController extends Controller
 
     }
 
+    public function complete_user_google(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'document_type' => 'required|integer|max:1',
+            'document_number' => 'required|string|max:30|unique:users,numero_documento',
+            'phone' => 'integer|digits:9',
+            'accept_terms' => 'accepted',
+            'accept_confid' => 'accepted',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'http_code' => 400,
+                'status' => "Error",
+                'message' => 'Errores de validación',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+        $acceptTerms = $request->has('accept_terms') ? true : false;
+        $acceptConfid = $request->has('accept_confid') ? true : false;
+        if (!Auth::check()) {
+            return redirect()->route('sign_in')->with('error', 'Inicia sesión, por favor.');
+        }
+
+        // $user_id = 8;
+        $user_id = auth()->id();
+        $user = User::findOrFail($user_id);
+        $user->update([
+            'tipo_documento_id' => $request->input('document_type'),
+            'numero_documento' => $request->input('document_number'),
+            'celular' => $request->input('phone'),
+            'acepta_termino_condiciones' => $acceptTerms,
+            'acepta_confidencialidad' => $acceptConfid,
+        ]);
+
+        return response()->json([
+            'http_code' => 200,
+            'status' => "OK",
+            'message' => 'Actualización correcta.',
+            'error' => false
+        ], 200);
+
+    }
+
     public function logout()
     {
         Auth::logout();
