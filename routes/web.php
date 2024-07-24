@@ -79,6 +79,11 @@ Route::get('/recuperar-password', function() {
 
 Route::get('/my-posts', [MyPostsController::class, 'index'])->name('posts.index');
 Route::get('/my-posts/create', [MyPostsController::class, 'create'])->name('posts.create');
+
+// Ruta para guardar los campos faltantes del usuario logueado con Google
+Route::post('/update-user-data', [MyPostsController::class, 'updateUserData'])->name('update.user.data');
+
+
 Route::post('/my-post/store', [MyPostsController::class, 'store'])->name('posts.store');
 // Route::get('/my-posts/{id}', [MyPostsController::class, 'show'])->name('posts.show');
 Route::get('/my-posts/{aviso}/edit', [MyPostsController::class, 'edit'])->name('posts.edit');
