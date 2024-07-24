@@ -105,33 +105,6 @@ class BillingController extends Controller
     public function generarFactura(Request $request, $id)
     {
         try {
-
-            // $userId = auth()->id();
-
-            $details = $request->input('details');
-            $productName = $details[0]['product']['name'];
-            $productId = $details[0]['product']['id'];
-            
-            $num_doc = $request->num_doc;
-
-            $receipt_owner = null;
-            if ( $num_doc != "" ) {
-                $receipt_owner = $num_doc;
-            }
-
-            
-
-            return response()->json([
-                'http_code' => 200,
-                'message' => 'Correo enviado.',
-                // 'user_id' => $userId,
-                'productName' => $productName,
-                'num_doc' => $num_doc,
-                'request' => $request->all(),
-            ], 200);
-
-            // $plan_user = PlanUser::create
-            
             $data = PlanUser::find($id);
         
             $data->state = 1;
@@ -141,6 +114,7 @@ class BillingController extends Controller
             $data->client;
 
             if($data->documentType->type_doc == '02') {
+                // $response = $this->generarFEBoleta($request, $data, $request->num_doc, $request->receipt_name);
                 $response = $this->generarFEBoleta($request, $data);
             }
             else if($data->documentType->type_doc == '03')  {
@@ -285,14 +259,25 @@ class BillingController extends Controller
         ];
     }
 
-    public function generarFEBoleta($request, $data) {
+    // public function generarFEBoleta($request, $data, $num_doc, $receipt_name) {
+        public function generarFEBoleta($request, $data) {
         $correlative = $this->generateCorrelative($data->document_type_id);
         
         $util = FactUtil::getInstance();
 
         // Cliente
         $client = new Client();
+        /* if ( $num_doc != "" ) {
+            $num_receipt_owner = $num_doc;
+            $name_receipt_owner = $receipt_name;
+        }else {
+            $num_receipt_owner = $data->client->dni;
+            $name_receipt_owner = $data->client->name .' '. $data->client->last_name;
+        } */
+
         $client->setTipoDoc('1')
+        // ->setNumDoc($num_receipt_owner)
+        // ->setRznSocial($name_receipt_owner)
         ->setNumDoc($data->client->dni)
         ->setRznSocial($data->client->name .' '. $data->client->last_name)
         ->setAddress((new Address())
