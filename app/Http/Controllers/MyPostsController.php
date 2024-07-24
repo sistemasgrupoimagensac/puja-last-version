@@ -119,13 +119,39 @@ class MyPostsController extends Controller
                 'error' => true
             ], 422);
         }
-        $user_type = Auth::user()->tipo_usuario_id;
-        $es_acreedor = $user_type == 4 ? true : false;
-        // $latitude = -12.09706477059002;
-        // $longitude = -77.02302118294135;
-        // return view('openpay', compact('latitude', 'longitude'));
-        return view('crear-aviso', compact('es_acreedor'/* ,'latitude', 'longitude' */));
+    
+        $user = Auth::user();
+        $es_acreedor = $user->tipo_usuario_id == 4 ? true : false;
+        $show_modal = !$user->phone || !$user->document_number;
+    
+        return view('crear-aviso', compact('es_acreedor', 'show_modal'));
     }
+    
+
+    public function updateUserData(Request $request) {
+    
+        $request->validate([
+            'phone' => 'required|numeric',
+            'document_type' => 'required|string|max:20',
+            'document_number' => 'required|string|max:20',
+            'direccion' => 'nullable|string',
+        ]);
+
+        // guardar en el modelo de USUARIO los nuevos campos
+    
+        // $user = Auth::user();
+        // $user->phone = $request->phone;
+        // $user->document_type = $request->document_type;
+        // $user->document_number = $request->document_number;
+        // $user->direccion = $request->direccion;
+        // $user->save();
+    
+        return response()->json([
+            'message' => 'Datos actualizados correctamente.',
+            'success' => true
+        ]);
+    }
+    
     
     public function store (Request $request){
         if (!Auth::check()) {

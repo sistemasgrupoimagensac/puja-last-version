@@ -36,6 +36,7 @@ export default defineConfig({
         'resources/js/scripts/inmueble.js',
         'resources/js/scripts/inmuebles.js',
         'resources/js/scripts/register.js',
+        'resources/js/scripts/updatePlaceholdersRegister.js',
         'resources/js/scripts/perfil.js',
         // js - scripts - components
         "resources/js/scripts/components/back_button.js",

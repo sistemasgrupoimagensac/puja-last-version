@@ -67,6 +67,7 @@ documentSelected.addEventListener("change", function () {
             break
         default:
             placeholderText = "Documento"
+            placeholderName = "Nombre"
     }
 
     documentNumber.textContent = placeholderText
