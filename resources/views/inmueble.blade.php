@@ -319,78 +319,91 @@
       </div>
 
       {{-- Aside Formulario Contacto --}}
+          
       <div class="col-lg-4 ps-lg-3">
 
-          <button class="btn btn-warning border-secondary-subtle w-100" id="redirect-button">Publicar</button>
-          <form id="redirect-form" action="{{ route('pagar.planes_propietario') }}" method="POST" style="display: none;">
-              @csrf
-              <input type="hidden" name="aviso_id" value="{{ $aviso->id }}">
-          </form>
+          @if ( $ad_belongs )
 
-          <div class="sticky-lg-top py-3">
-
-            <div class="rounded bg-white border shadow">
-              <form class="d-flex flex-column gap-3 p-3">
+            <button class="btn btn-warning border-secondary-subtle w-100" id="redirect-button">Publicar</button>
+            <form id="redirect-form" action="{{ route('pagar.planes_propietario') }}" method="POST" style="display: none;">
                 @csrf
-                <div class="d-flex justify-content-between align-items-center">
+                <input type="hidden" name="aviso_id" value="{{ $aviso->id }}">
+            </form>
 
-                  <h5 class="form-title m-0">Contactar</h5>
-                  {{-- <i class="fa-regular fa-square-caret-down fa-lg me-1"></i> --}}
-                  <i class="fa-solid fa-arrow-down fa-lg me-1"></i>
-                </div>
+            {{-- Aqui Deben de mostrarse los planes que tiene contratado el cliente y la opcion para contratar otro plan --}}
+            {{-- XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX --}}
+            {{-- XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX --}}
+            {{-- XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX --}}
 
-                  <div class="form-floating">
-                    <input type="text" class="form-control" id="contact-name" name="contact-name" placeholder="Nombre Completo" required>
-                    <label class="text-secondary" for="contact-name">Nombre Completo</label>
+          @else
+            
+            <div class="sticky-lg-top py-3">
+
+              <div class="rounded bg-white border shadow">
+                <form class="d-flex flex-column gap-3 p-3">
+                  @csrf
+                  <div class="d-flex justify-content-between align-items-center">
+
+                    <h5 class="form-title m-0">Contactar</h5>
+                    {{-- <i class="fa-regular fa-square-caret-down fa-lg me-1"></i> --}}
+                    <i class="fa-solid fa-arrow-down fa-lg me-1"></i>
                   </div>
 
-                  <div class="form-floating">
-                    <input type="email" class="form-control" id="contact-email" name="contact-email" placeholder="Correo electrónico" required>
-                    <label class="text-secondary" for="contact-email">Correo electrónico</label>
-                  </div>  
-
-                  <div class="form-floating">
-                    <input type="phone" class="form-control" id="contact-phone" name="contact-phone" placeholder="Teléfono" required>
-                    <label class="text-secondary" for="contact-phone">Teléfono</label>
-                  </div>  
-
-                  @if ( $aviso->inmueble->is_puja() )
-                  <div class="input-group has-validation">
-                    <div class="form-floating is-invalid">
-                      <input type="text" class="form-control is-invalid" id="monto_puja" placeholder="Monto a ofrecer">
-                      <label for="monto_puja">Monto a ofrecer</label>
+                    <div class="form-floating">
+                      <input type="text" class="form-control" id="contact-name" name="contact-name" placeholder="Nombre Completo" required>
+                      <label class="text-secondary" for="contact-name">Nombre Completo</label>
                     </div>
-                    <div class="invalid-feedback">
-                      Envíale tu monto oferta a quien publicó el inmueble.
+
+                    <div class="form-floating">
+                      <input type="email" class="form-control" id="contact-email" name="contact-email" placeholder="Correo electrónico" required>
+                      <label class="text-secondary" for="contact-email">Correo electrónico</label>
+                    </div>  
+
+                    <div class="form-floating">
+                      <input type="phone" class="form-control" id="contact-phone" name="contact-phone" placeholder="Teléfono" required>
+                      <label class="text-secondary" for="contact-phone">Teléfono</label>
+                    </div>  
+
+                    @if ( $aviso->inmueble->is_puja() )
+                    <div class="input-group has-validation">
+                      <div class="form-floating is-invalid">
+                        <input type="text" class="form-control is-invalid" id="monto_puja" placeholder="Monto a ofrecer">
+                        <label for="monto_puja">Monto a ofrecer</label>
+                      </div>
+                      <div class="invalid-feedback">
+                        Envíale tu monto oferta a quien publicó el inmueble.
+                      </div>
                     </div>
-                  </div>
-                      
-                  @endif
+                        
+                    @endif
 
-                      
-                  {{-- Mensaje --}}
-                  <div class="form-floating">
-                    <textarea class="form-control" placeholder="Contactame" id="contact-message" style="height: 100px">¡Hola! Deseo que me contacten por este inmueble</textarea>
-                    <label for="contact-message" class="text-secondary">Mensaje</label>
-                  </div>
+                        
+                    {{-- Mensaje --}}
+                    <div class="form-floating">
+                      <textarea class="form-control" placeholder="Contactame" id="contact-message" style="height: 100px">¡Hola! Deseo que me contacten por este inmueble</textarea>
+                      <label for="contact-message" class="text-secondary">Mensaje</label>
+                    </div>
 
-                  <x-whatsapp-modal-inmueble-contact></x-whatsapp-modal-inmueble-contact>
-  
-                  {{-- contacto por correo --}}
-                  <button class="btn btn-light border-secondary-subtle" type="button" id="btn-enviar-form-single">
-                    <i class="fa-regular fa-paper-plane"></i> Enviar
-                  </button>
+                    <x-whatsapp-modal-inmueble-contact></x-whatsapp-modal-inmueble-contact>
+    
+                    {{-- contacto por correo --}}
+                    <button class="btn btn-light border-secondary-subtle" type="button" id="btn-enviar-form-single">
+                      <i class="fa-regular fa-paper-plane"></i> Enviar
+                    </button>
 
-                  <x-puja-modal-contact :monto="number_format($aviso->inmueble->precioSoles())"></x-puja-modal-contact>
-  
-                  <div class="form-group d-flex gap-3 align-items-top mb-2">
-                    <input type="checkbox" name="acepto_terminos_condiciones" id="terminos" class="form-check-input"/>
-                    <label for="terminos">Acepto los <a href="" class="custom-link-register text-decoration-none">Términos y Condiciones de Uso</a> y las <a href="" class="custom-link-register text-decoration-none">Políticas de Privacidad</a></label>
-                  </div>
-  
-              </form>
+                    <x-puja-modal-contact :monto="number_format($aviso->inmueble->precioSoles())"></x-puja-modal-contact>
+    
+                    <div class="form-group d-flex gap-3 align-items-top mb-2">
+                      <input type="checkbox" name="acepto_terminos_condiciones" id="terminos" class="form-check-input"/>
+                      <label for="terminos">Acepto los <a href="" class="custom-link-register text-decoration-none">Términos y Condiciones de Uso</a> y las <a href="" class="custom-link-register text-decoration-none">Políticas de Privacidad</a></label>
+                    </div>
+    
+                </form>
+              </div>
             </div>
-          </div>
+
+          @endif
+
       </div>
 
     </div>
