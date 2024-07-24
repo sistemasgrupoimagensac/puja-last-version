@@ -694,7 +694,10 @@
 								}
 							],
 							document_type_id: 2,
-							note: ""
+							note: "",
+							num_doc: '',
+							tipo_doc: '',
+							nombre_doc: '',
 						};
 
 						fetch(`/openpay/1`, {
@@ -779,12 +782,12 @@
 						resultados: null,
 						error: null,
 						consultarDocumento() {
-								this.resultados = null;
-								this.error = null;
+								this.resultados = null
+								this.error = null
 
-								const apiURL = this.tipo === 'DNI' ? 'https://apiperu.dev/api/dni' : 'https://apiperu.dev/api/ruc';
-								const token = 'db3ed63994d8aef68d6a7db28083109d033ee0e32211ecd7932a86dd15093a31';
-								const bodyTipoDoc = this.tipo === 'DNI' ? 'dni' : 'ruc';
+								const apiURL = this.tipo === 'DNI' ? 'https://apiperu.dev/api/dni' : 'https://apiperu.dev/api/ruc'
+								const token = 'db3ed63994d8aef68d6a7db28083109d033ee0e32211ecd7932a86dd15093a31'
+								const bodyTipoDoc = this.tipo === 'DNI' ? 'dni' : 'ruc'
 
 								fetch(apiURL, {
 										method: 'POST',
@@ -798,24 +801,24 @@
 								.then(response => response.json())
 								.then(data => {
 										if (data.success) {
-												console.log('Response:', data);
-												this.resultados = data.data;
-												this.enviarDatosAlBackend();
+												console.log('Response:', data)
+												this.resultados = data.data
+												this.enviarDatosAlBackend()
 										} else {
-												this.error = 'Error al realizar la consulta.';
+												this.error = 'Error al realizar la consulta.'
 										}
 								})
 								.catch(error => {
-										console.error('Error:', error.message);
-										this.error = 'Error al realizar la consulta.';
-								});
+										console.error('Error:', error.message)
+										this.error = 'Error al realizar la consulta.'
+								})
 						},
 
 						enviarDatosAlBackend() {
 								const dataToSend = {
 										documento: this.documento,
 										tipo: this.tipo,
-								};
+								}
 
 								fetch('/enviar-datos-dni-ruc', {
 										method: 'POST',
@@ -828,20 +831,20 @@
 								})
 								.then(response => response.json())
 								.then(data => {
-										console.log('Response from backend:', data);
+										console.log('Response from backend:', data)
 								})
 								.catch(error => {
-										console.error('Error sending data to backend:', error.message);
-								});
+										console.error('Error sending data to backend:', error.message)
+								})
 						},
 
 						getNombre() {
 								if (this.tipo === 'DNI' && this.resultados) {
-										return this.resultados.nombre_completo;
+										return this.resultados.nombre_completo
 								} else if (this.tipo === 'RUC' && this.resultados) {
-										return this.resultados.nombre_o_razon_social;
+										return this.resultados.nombre_o_razon_social
 								}
-								return '';
+								return ''
 						}
 				}
 		}

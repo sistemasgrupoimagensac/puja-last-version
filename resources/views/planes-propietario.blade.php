@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-	Planes de Pago
+	Planes de Pago Propietario
 @endsection
 
 @push('styles')
@@ -33,7 +33,7 @@
 
 		<form>
 			@csrf
-			<div class="d-flex flex-column align-items-center py-3 gap-5">
+			<div class="d-flex flex-column align-items-center py-3 gap-5" x-data="consultaDocumento()">
 				<!-- número de avisos del plan -->
 				<fieldset>
 					<legend class="text-secondary h6 mb-3">1. Selecciona el número de avisos.</legend>
@@ -208,6 +208,22 @@
 										
 									</div>
 								</div>
+
+								<div class="d-flex justify-content-between align-items-center px-5">
+									<div>
+										<button type="button" class="btn btn-outline-secondary rounded-3 w-100" data-bs-target="#modalOtroDNI" data-bs-toggle="modal">
+											¿Desea pagar con una distinta Razón Social?</button>
+									</div>
+									<div>
+										<template x-if="resultados">
+											<div>
+													<p class="m-0"><span class="fw-bold">Nombre:</span> <span x-text="getNombre()"></span></p>
+											</div>
+									</template>
+
+									</div>
+								</div>
+
 								<div class="d-flex justify-content-center w-100">
 									<button type="button" class="btn button-orange fs-3 rounded-3 m-2 mx-lg-5 w-100" id="pay-button">Pagar S/ 
 										<span x-text="prices[tipoPlan]"></span>
@@ -218,6 +234,53 @@
 								</small>
 							</form>
 						</div>
+					</div>
+				</div>
+
+				{{-- SEGUNDO MODAL - ELECCION DE DNI --}}
+				<div class="modal fade" id="modalOtroDNI" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+					<div class="modal-dialog modal-dialog-centered">
+							<div class="modal-content">
+									<div class="modal-header">
+											<h5 class="m-0">Seleccione el remitente del comprobante</h5>
+									</div>
+									<div class="modal-body">
+											<div class="input-group mb-3">
+													<form @submit.prevent="consultarDocumento" class="w-100">
+															@csrf
+															<div class="d-flex gap-2 justify-content-between w-100">
+																	<div class="btn-group" role="group">
+																			<input type="radio" class="btn-check" name="btnradio" id="DNIcheck" autocomplete="off" value="DNI" x-model="tipo" checked>
+																			<label class="btn btn-outline-secondary" for="DNIcheck">DNI</label>
+			
+																			<input type="radio" class="btn-check" name="btnradio" id="RUCcheck" autocomplete="off" value="RUC" x-model="tipo">
+																			<label class="btn btn-outline-secondary" for="RUCcheck">RUC</label>
+																	</div>
+			
+																	<input type="text" class="form-control shadow-none" name="documento" placeholder="documento" x-model="documento" required>
+			
+																	<input type="submit" class="btn btn-secondary" value="Consultar">
+															</div>
+													</form>
+											</div>
+			
+											<!-- Div para mostrar los resultados -->
+											<template x-if="resultados">
+													<div class="mt-3">
+															<p>Nombre: <span x-text="getNombre()"></span></p>
+													</div>
+											</template>
+			
+											<!-- Div para mostrar los errores -->
+											<div class="mt-3 alert alert-danger" x-show="error" x-text="error"></div>
+									</div>
+									<div class="modal-footer">
+											<button type="button" class="btn button-orange" data-bs-target="#modalPago" data-bs-toggle="modal">
+												<i class="fa-solid fa-arrow-left"></i>
+												Regresar
+											</button>
+									</div>
+							</div>
 					</div>
 				</div>
 
@@ -244,67 +307,138 @@
 	</div>
 
 	<script>
+		// function pricingData() {
+		// 	return {
+		// 		// campos formulario:
+		// 		aviso_id: {{$aviso_id}},
+		// 		categoriaPlan: 'unaviso',
+		// 		tipoPlan: 'topPlus',
+    //     id: '',
+
+		// 		// plan unaviso
+		// 		numAvisos: 1,
+		// 		periodoPlan: 30,
+		// 		pricePlan: null,
+
+		// 		prices: {
+		// 			topPlus: 239,
+		// 			top: 129,
+		// 			estandar: 79,
+		// 		},
+
+		// 		priceTable: {
+		// 			'1': { '30': [239, 129, 79], '60': [406, 219, 134], '90': [537, 290, 177] },
+    //       '3': { '30': [540, 290, 177], '60': [915, 495, 302], '90': [1210, 650, 399] },
+		// 			'5': { '30': [715, 505, 276], '60': [1220, 850, 470], '90': [1610, 1225, 622] },
+		// 		},
+
+    //     ids: {
+    //       '1': { '30': [1, 10], '60': [2, 11], '90': [3, 12] },
+    //       '3': { '30': [4, 13], '60': [5, 14], '90': [6, 15] },
+    //       '5': { '30': [7, 16], '60': [8, 17], '90': [9, 18] },
+    //     },
+
+		// 		updatePrices() {
+		// 			const selectedPrices = this.priceTable[this.numAvisos][this.periodoPlan]
+		// 			this.prices.topPlus = selectedPrices[0]
+		// 			this.prices.top = selectedPrices[1]
+		// 			this.prices.estandar = selectedPrices[2]
+		// 		},
+
+    //     updateIds() {
+    //       const selectedId = this.ids[this.numAvisos][this.periodoPlan]
+    //       if(this.tipoPlan === 'topPlus') {
+    //         this.id = selectedId[0]
+    //       } else if (this.tipoPlan === 'top') {
+    //         this.id = selectedId[1]
+    //       } else if (this.tipoPlan === 'estandar') {
+    //         this.id = selectedId[2]
+    //       }
+    //     },
+
+		// 		init() {
+		// 			this.$watch('numAvisos', () => {
+		// 				this.updatePrices() 
+		// 				this.updateIds()
+		// 			})
+		// 			this.$watch('periodoPlan', () => {
+		// 				this.updatePrices()
+		// 				this.updateIds()
+		// 			})
+
+		// 		},
+		// 	}
+		// }
+
 		function pricingData() {
-			return {
-				// campos formulario:
-				aviso_id: {{$aviso_id}},
-				categoriaPlan: 'unaviso',
-				tipoPlan: 'topPlus',
-        id: '',
+				return {
+						// campos formulario:
+						aviso_id: {{$aviso_id}},
+						categoriaPlan: 'unaviso',
+						tipoPlan: 'topPlus',
+						id: '',
 
-				// plan unaviso
-				numAvisos: 1,
-				periodoPlan: 30,
-				pricePlan: null,
+						// plan unaviso
+						numAvisos: 1,
+						periodoPlan: 30,
 
-				prices: {
-					topPlus: 239,
-					top: 129,
-					estandar: 79,
-				},
+						prices: {
+								topPlus: 239,
+								top: 129,
+								estandar: 79,
+						},
 
-				priceTable: {
-					'1': { '30': [239, 129, 79], '60': [406, 219, 134], '90': [537, 290, 177] },
-          '3': { '30': [540, 290, 177], '60': [915, 495, 302], '90': [1210, 650, 399] },
-					'5': { '30': [715, 505, 276], '60': [1220, 850, 470], '90': [1610, 1225, 622] },
-				},
+						priceTable: {
+								'1': { '30': [239, 129, 79], '60': [406, 219, 134], '90': [537, 290, 177] },
+								'3': { '30': [540, 290, 177], '60': [915, 495, 302], '90': [1210, 650, 399] },
+								'5': { '30': [715, 505, 276], '60': [1220, 850, 470], '90': [1610, 1225, 622] },
+						},
 
-        ids: {
-          '1': { '30': [1, 10], '60': [2, 11], '90': [3, 12] },
-          '3': { '30': [4, 13], '60': [5, 14], '90': [6, 15] },
-          '5': { '30': [7, 16], '60': [8, 17], '90': [9, 18] },
-        },
+						ids: {
+								'1': { '30': [1, 10], '60': [2, 11], '90': [3, 12] },
+								'3': { '30': [4, 13], '60': [5, 14], '90': [6, 15] },
+								'5': { '30': [7, 16], '60': [8, 17], '90': [9, 18] },
+						},
 
-				updatePrices() {
-					const selectedPrices = this.priceTable[this.numAvisos][this.periodoPlan]
-					this.prices.topPlus = selectedPrices[0]
-					this.prices.top = selectedPrices[1]
-					this.prices.estandar = selectedPrices[2]
-				},
+						updatePrices() {
+								const selectedPrices = this.priceTable[this.numAvisos][this.periodoPlan];
+								this.prices.topPlus = selectedPrices[0];
+								this.prices.top = selectedPrices[1];
+								this.prices.estandar = selectedPrices[2];
+						},
 
-        updateIds() {
-          const selectedId = this.ids[this.numAvisos][this.periodoPlan]
-          if(this.tipoPlan === 'topPlus') {
-            this.id = selectedId[0]
-          } else if (this.tipoPlan === 'top') {
-            this.id = selectedId[1]
-          } else if (this.tipoPlan === 'estandar') {
-            this.id = selectedId[2]
-          }
-          console.log(this.id);
-        },
+						updateIds() {
+								const selectedId = this.ids[this.numAvisos][this.periodoPlan];
+								if (this.tipoPlan === 'topPlus') {
+										this.id = selectedId[0];
+								} else if (this.tipoPlan === 'top') {
+										this.id = selectedId[1];
+								} else if (this.tipoPlan === 'estandar') {
+										this.id = selectedId[2];
+								}
 
-				init() {
-          console.log(this.numAvisos, this.periodoPlan);
-					this.$watch('numAvisos', () => {
-						this.updatePrices() 
-					})
-					this.$watch('periodoPlan', () => {
-						this.updatePrices()
-					})
+								// Pasar el id actualizado a creditCardData
+								const creditCardScope = Alpine.store('creditCardData');
+								creditCardScope.id = this.id;
+						},
 
-				},
-			}
+						init() {
+								this.$watch('numAvisos', () => {
+										this.updatePrices()
+										this.updateIds()
+										console.log(this.id)
+								})
+								this.$watch('periodoPlan', () => {
+										this.updatePrices()
+										this.updateIds()
+										console.log(this.id)
+								})
+								this.$watch('tipoPlan', () => {
+									this.updateIds()
+									console.log(this.id)
+								})
+						},
+				}
 		}
 
 		function creditCardData() {
@@ -320,6 +454,9 @@
         
         idOpenpay: '',
 				sk: '',
+
+				// id del plan:
+				id: '6',
 
 				formatCardNumber() {
 					let input = this.numeroTarjeta.replace(/\D/g, '')
@@ -403,8 +540,8 @@
 
 				showResultModal(data) {
 					console.log(data)
-					var paymentModal = bootstrap.Modal('#modalPago');
-					console.log(paymentModal);
+					var paymentModal = bootstrap.Modal('#modalPago')
+					console.log(paymentModal)
 				},
 
 				processPayment(formPost) {
@@ -420,21 +557,53 @@
 					.then( data => {
 						const error = data.error_code						
 						if (error) {
-							this.clearForm();
+							this.clearForm()
 							this.isProcessing = false
 							document.getElementById('pay-button').disabled = false
 							alert(`La tarjeta fue rechazada`)
 						} else {
 							this.factElectronica(formPost.amount)
-							this.clearForm();
+							this.clearForm()
 							this.isProcessing = false
 							document.getElementById('pay-button').disabled = false
 							alert(`Pago realizado con éxito.`)
+							this.contratarPlan();
 						}
 					}).catch(error => {
-						console.log(error);
+						console.log(error)
 					})
 				},
+
+				contratarPlan() {
+						const dataToSend = {
+								plan_id: this.id,
+						};
+
+						console.log(dataToSend);
+
+						fetch('/contratar-plan', {
+								method: 'POST',
+								headers: {
+										'Accept': 'application/json',
+										'Content-Type': 'application/json',
+										'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+								},
+								body: JSON.stringify(dataToSend)
+						})
+						.then(response => response.json())
+						.then(data => {
+								if (data.status === "OK") {
+										console.log('Suscripción exitosa:', data);
+								} else {
+										console.error('Error en la suscripción:', data.message);
+								}
+						})
+						.catch(error => {
+								console.error('Error sending data to backend:', error.message);
+						});
+				},
+
+
 
 				factElectronica(price){
 					try {
@@ -452,8 +621,11 @@
 								}
 							],
 							document_type_id: 2,
-							note: ""
-						};
+							note: "",
+							num_doc: '',
+							tipo_doc: '',
+							nombre_doc: '',
+						}
 
 						fetch(`/openpay/1`, {
 							method: 'POST',
@@ -469,11 +641,11 @@
 							console.log(data)
 						})
 						.catch(error => {
-							console.error('Hubo un error:', error);
-						});
+							console.error('Hubo un error:', error)
+						})
 
 					} catch (error) {
-						console.error('Hubo un error:', error);
+						console.error('Hubo un error:', error)
 					}
 
 				},
@@ -526,9 +698,88 @@
 			}
 		}
 
+		// document.addEventListener('alpine:init', () => {
+		// 	Alpine.data('creditCardData', creditCardData)
+		// })
+
 		document.addEventListener('alpine:init', () => {
-			Alpine.data('creditCardData', creditCardData)
-		})
+				Alpine.store('creditCardData', creditCardData());
+				Alpine.data('pricingData', pricingData);
+		});
+
+		function consultaDocumento() {
+				return {
+						documento: '',
+						tipo: 'DNI',
+						resultados: null,
+						error: null,
+						consultarDocumento() {
+								this.resultados = null
+								this.error = null
+
+								const apiURL = this.tipo === 'DNI' ? 'https://apiperu.dev/api/dni' : 'https://apiperu.dev/api/ruc'
+								const token = 'db3ed63994d8aef68d6a7db28083109d033ee0e32211ecd7932a86dd15093a31'
+								const bodyTipoDoc = this.tipo === 'DNI' ? 'dni' : 'ruc'
+
+								fetch(apiURL, {
+										method: 'POST',
+										headers: {
+												'Accept': 'application/json',
+												'Content-Type': 'application/json',
+												'Authorization': `Bearer ${token}`
+										},
+										body: JSON.stringify({ [bodyTipoDoc]: this.documento })
+								})
+								.then(response => response.json())
+								.then(data => {
+										if (data.success) {
+												console.log('Response:', data)
+												this.resultados = data.data
+												this.enviarDatosAlBackend()
+										} else {
+												this.error = 'Error al realizar la consulta.'
+										}
+								})
+								.catch(error => {
+										console.error('Error:', error.message)
+										this.error = 'Error al realizar la consulta.'
+								})
+						},
+
+						enviarDatosAlBackend() {
+								const dataToSend = {
+										documento: this.documento,
+										tipo: this.tipo,
+								}
+
+								fetch('/enviar-datos-dni-ruc', {
+										method: 'POST',
+										headers: {
+												'Accept': 'application/json',
+												'Content-Type': 'application/json',
+												'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+										},
+										body: JSON.stringify(dataToSend)
+								})
+								.then(response => response.json())
+								.then(data => {
+										console.log('Response from backend:', data)
+								})
+								.catch(error => {
+										console.error('Error sending data to backend:', error.message)
+								})
+						},
+
+						getNombre() {
+								if (this.tipo === 'DNI' && this.resultados) {
+										return this.resultados.nombre_completo
+								} else if (this.tipo === 'RUC' && this.resultados) {
+										return this.resultados.nombre_o_razon_social
+								}
+								return ''
+						}
+				}
+		}
 	</script>
 
 @endsection
@@ -538,6 +789,7 @@
 @endsection
   
 @push('scripts-head')  
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<script src="https://js.openpay.pe/openpay.v1.min.js"></script>
 	<script src="https://js.openpay.pe/openpay-data.v1.min.js"></script>
 @endpush
