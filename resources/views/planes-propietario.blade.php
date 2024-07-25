@@ -544,6 +544,7 @@
 
 
 				factElectronica(price, planUserId){
+					console.log(this.tipoPlan, idPlan, price);
 					try {
 						const data = {
 							details: [
