@@ -308,13 +308,15 @@
 
 	<script>
 
+		let idPlan = ''
+		let tipoDeAviso = ''
+
 		function pricingData() {
 				return {
 						// campos formulario:
 						aviso_id: {{$aviso_id}},
 						categoriaPlan: 'unaviso',
 						tipoPlan: 'topPlus',
-						id: '',
 
 						// plan unaviso
 						numAvisos: 1,
@@ -333,9 +335,9 @@
 						},
 
 						ids: {
-								'1': { '30': [1, 10], '60': [2, 11], '90': [3, 12] },
-								'3': { '30': [4, 13], '60': [5, 14], '90': [6, 15] },
-								'5': { '30': [7, 16], '60': [8, 17], '90': [9, 18] },
+								'1': { '30': [1, 2, 3], '60': [4, 5, 6], '90': [7, 8, 9] },
+								'3': { '30': [10, 11, 12], '60': [13, 14, 15], '90': [16, 17, 18] },
+								'5': { '30': [19, 20, 21], '60': [22, 23, 24], '90': [25, 26, 27] },
 						},
 
 						updatePrices() {
@@ -347,33 +349,30 @@
 
 						updateIds() {
 								const selectedId = this.ids[this.numAvisos][this.periodoPlan];
-								if (this.tipoPlan === 'topPlus') {
-										this.id = selectedId[0];
+								if (this.tipoPlan === 'estandar') {
+										idPlan = selectedId[0]
+										tipoDeAviso = 1
 								} else if (this.tipoPlan === 'top') {
-										this.id = selectedId[1];
-								} else if (this.tipoPlan === 'estandar') {
-										this.id = selectedId[2];
+										idPlan = selectedId[1]
+										tipoDeAviso = 2
+								} else if (this.tipoPlan === 'topPlus') {
+										idPlan = selectedId[2]
+										tipoDeAviso = 3
 								}
 
-								// Pasar el id actualizado a creditCardData
-								const creditCardScope = Alpine.store('creditCardData');
-								creditCardScope.id = this.id;
 						},
 
 						init() {
 								this.$watch('numAvisos', () => {
 										this.updatePrices()
 										this.updateIds()
-										console.log(this.id)
 								})
 								this.$watch('periodoPlan', () => {
 										this.updatePrices()
 										this.updateIds()
-										console.log(this.id)
 								})
 								this.$watch('tipoPlan', () => {
 									this.updateIds()
-									console.log(this.id)
 								})
 						},
 				}
@@ -392,9 +391,6 @@
         
         idOpenpay: '',
 				sk: '',
-
-				// id del plan:
-				id: '6',
 
 				formatCardNumber() {
 					let input = this.numeroTarjeta.replace(/\D/g, '')
@@ -500,22 +496,25 @@
 							document.getElementById('pay-button').disabled = false
 							alert(`La tarjeta fue rechazada`)
 						} else {
-							this.factElectronica(formPost.amount)
 							this.clearForm()
+							this.contratarPlan(formPost.amount);
 							this.isProcessing = false
 							document.getElementById('pay-button').disabled = false
 							alert(`Pago realizado con éxito.`)
-							this.contratarPlan();
 						}
 					}).catch(error => {
 						console.log(error)
 					})
 				},
 
-				contratarPlan() {
+				contratarPlan(price) {
 						const dataToSend = {
-								plan_id: this.id,
-						};
+								plan_id: idPlan,
+                tipo_aviso: tipoDeAviso,
+                aviso_id: {{ $aviso_id }},
+						}
+
+						console.log(dataToSend);
 
 						fetch('/publicar-aviso', {
 								method: 'POST',
@@ -528,8 +527,12 @@
 						})
 						.then(response => response.json())
 						.then(data => {
-								if (data.status === "OK") {
-										console.log('Suscripción exitosa:', data);
+								if (data.status === "Success") {
+										const planUserId = data.planuser_id
+										this.factElectronica(price, planUserId)
+										// ir a una ruta especifica
+										console.log('irnos');
+										window.location.href = '/panel/avisos'
 								} else {
 										console.error('Error en la suscripción:', data.message);
 								}
@@ -540,7 +543,7 @@
 				},
 
 
-				factElectronica(price){
+				factElectronica(price, planUserId){
 					try {
 						const data = {
 							details: [
@@ -562,7 +565,7 @@
 							nombre_doc: '',
 						}
 
-						fetch(`/openpay/1`, {
+						fetch(`/generarComprobanteElec/${planUserId}`, {
 							method: 'POST',
 							headers: {
 								'Content-Type': 'application/json',
