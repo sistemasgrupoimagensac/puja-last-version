@@ -308,8 +308,8 @@
 
 	<script>
 
-		let idPlan = 1
-		let tipoDeAviso = 1
+		let idPlan = 3
+		let tipoDeAviso = 3
 
 		function pricingData() {
 				return {
@@ -352,12 +352,15 @@
 								if (this.tipoPlan === 'estandar') {
 										idPlan = selectedId[0]
 										tipoDeAviso = 1
+										console.log(idPlan);
 								} else if (this.tipoPlan === 'top') {
 										idPlan = selectedId[1]
 										tipoDeAviso = 2
+										console.log(idPlan);
 								} else if (this.tipoPlan === 'topPlus') {
 										idPlan = selectedId[2]
 										tipoDeAviso = 3
+										console.log(idPlan);
 								}
 
 						},
@@ -721,6 +724,7 @@
 						getNombre() {
 								if (this.tipo === 'DNI' && this.resultados) {
 										documentTypeId = 2
+										console.log(documentTypeId);
 										return this.resultados.nombre_completo
 								} else if (this.tipo === 'RUC' && this.resultados) {
 										documentTypeId = 3

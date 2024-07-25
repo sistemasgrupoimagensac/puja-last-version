@@ -344,8 +344,9 @@
                       </div>
 
                       <div id="plans-container" class=" d-flex flex-column gap-3">
-                        <!-- Los cards se agregarán aquí dinámicamente -->
+                        <!-- Las cards se agregarán aquí dinámicamente -->
                       </div>
+
                     </div>
                   </div>
                 </div>
@@ -358,14 +359,14 @@
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                   <div class="modal-body">
-                    <div class="alert alert-danger" role="alert">
+                    <div class="alert alert-danger m-0" role="alert">
                       ¿Seguro quieres publicar tu inmuble con este Plan?
                     </div>
                   </div>
                   <div class="modal-footer">
                     <div class="d-flex justify-content-between gap-3 w-100">
                       <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">NO</button>
-                      <button type="button" class="btn button-orange w-100">SI</button>
+                      <button type="button" class="btn button-orange w-100" id="siUsarEstePlan">SI</button>
 
                     </div>
                   </div>

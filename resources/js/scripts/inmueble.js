@@ -32,24 +32,24 @@ function fetchActivePlans() {
   .then(response => response.json())
   .then(data => {
       if (data.status === "OK") {
-          renderPlans(data.active_plan_users);
-          console.log(data);
+          renderPlans(data.active_plan_users)
+          console.log(data)
       } else {
-          console.error('Error fetching active plans:', data.message);
+          console.error('Error fetching active plans:', data.message)
       }
   })
   .catch(error => {
-      console.error('Error fetching active plans:', error.message);
-  });
+      console.error('Error fetching active plans:', error.message)
+  })
 }
 
 function renderPlans(plans) {
-  const plansContainer = document.getElementById('plans-container');
-  plansContainer.innerHTML = ''; // Clear any existing content
+  const plansContainer = document.getElementById('plans-container')
+  plansContainer.innerHTML = '' // Clear any existing content
 
   plans.forEach(plan => {
-      const planCard = document.createElement('div');
-      planCard.classList.add('card');
+      const planCard = document.createElement('div')
+      planCard.classList.add('card')
       planCard.innerHTML = `
           <div class="card text-bg-light">
             <div class="card-header fw-bold h5"> ${plan.name} </div>
@@ -65,29 +65,32 @@ function renderPlans(plans) {
               Publicar con este Plan
             </button>
           </div>
-      `;
-      plansContainer.appendChild(planCard);
-  });
+      `
+      plansContainer.appendChild(planCard)
+  })
 }
 
 function formatDate(dateString) {
-  // Crear un objeto Date a partir del string de fecha
-  const date = new Date(dateString);
-
-  // Crear un array de nombres de meses en español
+  const date = new Date(dateString)
   const monthNames = [
       "enero", "febrero", "marzo", "abril", "mayo", "junio",
       "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
-  ];
+  ]
 
-  // Obtener el día, el mes y el año del objeto Date
-  const day = date.getDate();
-  const month = monthNames[date.getMonth()];
-  const year = date.getFullYear();
+  const day = date.getDate()
+  const month = monthNames[date.getMonth()]
+  const year = date.getFullYear()
 
-  // Devolver la fecha en el formato deseado
-  return `${day} ${month} ${year}`;
+  return `${day} ${month} ${year}`
 }
 
-// Call the function to fetch and render the plans
-fetchActivePlans();
+// utilizar plan comprado previamente
+const si = document.querySelector('#siUsarEstePlan')
+
+si.addEventListener('click', () => {
+
+  console.log('si usar este plan');
+
+})
+
+fetchActivePlans()
