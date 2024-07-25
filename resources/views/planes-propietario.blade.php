@@ -308,8 +308,8 @@
 
 	<script>
 
-		let idPlan = ''
-		let tipoDeAviso = ''
+		let idPlan = 1
+		let tipoDeAviso = 1
 
 		function pricingData() {
 				return {
@@ -514,8 +514,6 @@
                 aviso_id: {{ $aviso_id }},
 						}
 
-						console.log(dataToSend);
-
 						fetch('/publicar-aviso', {
 								method: 'POST',
 								headers: {
@@ -530,9 +528,7 @@
 								if (data.status === "Success") {
 										const planUserId = data.planuser_id
 										this.factElectronica(price, planUserId)
-										// ir a una ruta especifica
-										console.log('irnos');
-										window.location.href = '/panel/avisos'
+										// window.location.href = '/panel/avisos'
 								} else {
 										console.error('Error en la suscripción:', data.message);
 								}
@@ -542,9 +538,7 @@
 						});
 				},
 
-
 				factElectronica(price, planUserId){
-					console.log(this.tipoPlan, idPlan, price);
 					try {
 						const data = {
 							details: [
@@ -554,16 +548,16 @@
 									product: 
 										{
 											id: idPlan,
-											name: "Plan " + this.tipoPlan, // pendiente
+											name: "Plan " + this.tipoPlan,
 											type: 1
 										}
 								}
 							],
-							document_type_id: 2, // 3 ruc, 2 boleta
-							note: "",
-							num_doc: '',
-							tipo_doc: '',
-							nombre_doc: '',
+							document_type_id: documentTypeId, // 3 ruc, 2 boleta
+							note: '',
+							num_doc: numeroDocumento,
+							tipo_doc: tipoDocumento,
+							nombre_doc: nombreDocumento,
 						}
 
 						fetch(`/generarComprobanteElec/${planUserId}`, {
@@ -642,12 +636,18 @@
 				Alpine.data('pricingData', pricingData);
 		});
 
+		let documentTypeId = 2
+		let numeroDocumento
+		let tipoDocumento
+		let nombreDocumento
+
 		function consultaDocumento() {
 				return {
 						documento: '',
 						tipo: 'DNI',
 						resultados: null,
 						error: null,
+						
 						consultarDocumento() {
 								this.resultados = null
 								this.error = null
@@ -666,11 +666,22 @@
 										body: JSON.stringify({ [bodyTipoDoc]: this.documento })
 								})
 								.then(response => response.json())
-								.then(data => {
-										if (data.success) {
-												console.log('Response:', data)
-												this.resultados = data.data
-												this.enviarDatosAlBackend()
+								.then(data_response => {
+										if (data_response.success) {
+
+											if(data_response.data.ruc) {
+												numeroDocumento = data_response.data.ruc
+												tipoDocumento = "RUC"
+												nombreDocumento =data_response.data.nombre_o_razon_social
+											} else {
+												numeroDocumento = data_response.data.numero
+												tipoDocumento = "DNI"
+												nombreDocumento =data_response.data.nombre_completo
+											}
+
+											console.log('Response:', data_response)
+											this.resultados = data_response.data
+
 										} else {
 												this.error = 'Error al realizar la consulta.'
 										}
@@ -707,8 +718,10 @@
 
 						getNombre() {
 								if (this.tipo === 'DNI' && this.resultados) {
+										documentTypeId = 2
 										return this.resultados.nombre_completo
 								} else if (this.tipo === 'RUC' && this.resultados) {
+										documentTypeId = 3
 										return this.resultados.nombre_o_razon_social
 								}
 								return ''
