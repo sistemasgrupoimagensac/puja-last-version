@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Aviso;
+use App\Models\HistorialAvisos;
 use App\Models\Plan;
 use App\Models\PlanUser;
 use App\Models\Subscription;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class PlanController extends Controller
 {
@@ -42,37 +45,100 @@ class PlanController extends Controller
 
     }
 
-    public function contratar_plan(Request $request){
+    // Publicar el aviso con un plan nuevo o activo
+    public function post_ad(Request $request){
         try {
-            $user_id = 1;
-            // $user_id = auth()->id();
+            $validator = Validator::make($request->all(), [
+                'plan_id' => 'required|integer',
+                'tipo_aviso' => 'required|integer|max:1',
+                'aviso_id' => 'required|integer',
+                'plan_user_id' => 'nullable|integer',
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'http_code' => 400,
+                    'status' => "Error",
+                    'message' => 'Errores de validación',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+            if ( !Auth::check() ) return redirect()->route('sign_in')->with('error', 'Inicia sesión, por favor.');
+            $user_id = Auth::id();
+            // $user_id = 1;
             $plan_id = $request->plan_id;
             $tipo_aviso = $request->tipo_aviso;
             $aviso_id = $request->aviso_id;
+            $plan_user_id = $request->plan_user_id;
 
-            $selected_plan = Plan::find($plan_id);
-            $typical_ad = $selected_plan->typical_ads;
-            $top_ad = $selected_plan->top_ads;
-            $premium_ad = $selected_plan->premium_ads;
+            if ( !$plan_user_id ) {
+                $selected_plan = Plan::find($plan_id);
+                $typical_ad = (int)$selected_plan->typical_ads;
+                $top_ad = (int)$selected_plan->top_ads;
+                $premium_ad = (int)$selected_plan->premium_ads;
+                $start_date = now();
+                $end_date = Carbon::now()->addDays($selected_plan->duration_in_days);
+            } else {
+                $selected_plan_user = PlanUser::find($plan_user_id);
+                $plan_id = (int)$selected_plan_user->plan_id;
+                $typical_ad = (int)$selected_plan_user->typical_ads_remaining;
+                $top_ad = (int)$selected_plan_user->top_ads_remaining;
+                $premium_ad = (int)$selected_plan_user->premium_ads_remaining;
+                $start_date = $selected_plan_user->start_date;
+                $end_date = $selected_plan_user->end_date;
 
-
+                if ( (int)$selected_plan_user->estado !== 1 ) {
+                    return response()->json([
+                        'http_code' => 400,
+                        'status' => "Error",
+                        'error' => true,
+                        'message' => "El plan que deseas publicar está en estado inactivo.",
+                    ], 400);
+                }
+                $end_date_for_compare = Carbon::parse($selected_plan_user->end_date);
+                if ( $end_date_for_compare->lessThanOrEqualTo(now()) ) {
+                    return response()->json([
+                        'http_code' => 400,
+                        'status' => "Error",
+                        'error' => true,
+                        'message' => "El plan que deseas usar está caducado.",
+                    ], 400);
+                }
+            }
+            
+            $alert_ad = false;
             if ( $tipo_aviso == 1 ) {
-                $typical_ad = $selected_plan->typical_ads - 1;
+                if ( $typical_ad === 0 ) $alert_ad = true;
+                $typical_ad--;
             } else if ( $tipo_aviso == 2 ) {
-                $top_ad = $selected_plan->top_ads - 1;
+                if ( $top_ad === 0 ) $alert_ad = true;
+                $top_ad--;
             } else if ( $tipo_aviso == 3 ) {
-                $premium_ad = $selected_plan->premium_ads - 1;
+                if ( $premium_ad === 0 ) $alert_ad = true;
+                $premium_ad--;
             }
 
-            $plan_user = PlanUser::create([
+            if ( $alert_ad ) {
+                return response()->json([
+                    'http_code' => 400,
+                    'status' => "Error",
+                    'error' => true,
+                    'message' => "Tipo de aviso no válido para publicar.",
+                ], 400);
+            }
+
+            $estado = 1;
+            if ( (int)$typical_ad === 0 && (int)$top_ad === 0 && (int)$premium_ad === 0 ) $estado = 2;
+            
+            $plan_user = PlanUser::updateOrCreate([
                 'user_id' => $user_id,
                 'plan_id' => $plan_id,
-                'estado' => 1,
+                'start_date' => $start_date,
+                'end_date' => $end_date,
+                ],[
+                'estado' => $estado,
                 'typical_ads_remaining' => $typical_ad,
                 'top_ads_remaining' => $top_ad,
                 'premium_ads_remaining' => $premium_ad,
-                'start_date' => now(),
-                'end_date' => Carbon::now()->addDays($selected_plan->duration_in_days),
             ]);
 
             $aviso = Aviso::find($aviso_id);
@@ -81,23 +147,26 @@ class PlanController extends Controller
             $aviso->plan_user_id = $plan_user->id;
             $aviso->save();
 
-            if ( !$plan_user ){
+            $hist_aviso = HistorialAvisos::updateOrCreate([
+                "aviso_id" => $aviso->id,
+                ],[
+                "estado_aviso_id" => 3,
+            ]);
+
+            if (!$hist_aviso) {
                 return response()->json([
-                    'http_code' => 400,
-                    'status' => "KO",
-                    'error' => true,
-                    'message' => "Suscripción fallida.",
-                ], 400);
+                    'message' => 'Falló porque no se actualizó el historial avisos',
+                    'error' => true
+                ], 422);
+            } else {
+                return response()->json([
+                    'http_code' => 200,
+                    'status' => 'Success',
+                    'message' => 'Pago correcto.',
+                    'planuser_id' => $plan_user->id,
+                    'aviso' => $aviso,
+                ], 200);
             }
-            return response()->json([
-                'http_code' => 200,
-                'status' => "OK",
-                'error' => false,
-                'planuser_id' => $plan_user->id,
-                'aviso' => $aviso,
-                // 'selected_plan' => $selected_plan,
-                // 'selected_plan_top' => $selected_plan->top_ads,
-            ], 201);
         } catch (\Throwable $th) {
             return response()->json([
                 'http_code' => 500,
@@ -107,10 +176,12 @@ class PlanController extends Controller
         }
     }
 
-    public function usar_plan(Request $request){
+    // Usar un plan contratado activo para publicar un aviso
+    public function use_plan(Request $request){
         try {
+            // if ( !Auth::check() ) return redirect()->route('sign_in')->with('error', 'Inicia sesión, por favor.');
+            // $user_id = Auth::id();
             $user_id = 1;
-            // $user_id = auth()->id();
             $plan_id = $request->plan_id;
             $tipo_aviso = $request->tipo_aviso;
             $aviso_id = $request->aviso_id;
@@ -213,20 +284,19 @@ class PlanController extends Controller
 
     }
 
+    // Listar todos los planes activos por usuario
     public function list_plans_user(Request $request)
     {
-        $user_id = auth()->id();
-        // $user_plans = PlanUser::where('user_id', $user_id)->where('estado', 1)->get();
+        if ( !Auth::check() ) return redirect()->route('sign_in')->with('error', 'Inicia sesión, por favor.');
+        $user_id = Auth::id();
+        // $user_id = 1;
         $user = User::find($user_id);
-        $active_plans = $user->plans()->get();
-
-
+        $active_plan_users = $user->active_plans()->get();
 
         return response()->json([
             "http_code" => 200,
             "status" => "OK",
-            "active_plans" => $active_plans,
-        ]);
-
+            "active_plan_users" => $active_plan_users,
+        ], 200);
     }
 }
