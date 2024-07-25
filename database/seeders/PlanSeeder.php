@@ -14,7 +14,7 @@ class PlanSeeder extends Seeder
     public function run(): void
     {
         $plans = [
-            ['package_id' => '1', 'total_ads' => '1', 'typical_ads' => '1', 'top_ads' => '0', 'premium_ads' => '0', 'duration_in_days' => '30', 'price' => '117.00', 'name' => 'Estandar', 'created_at' => now(), 'updated_at' => now()],
+            ['package_id' => '1', 'total_ads' => '1', 'typical_ads' => '1', 'top_ads' => '0', 'premium_ads' => '0', 'duration_in_days' => '30', 'price' => '79.00', 'name' => 'Estandar', 'created_at' => now(), 'updated_at' => now()],
             ['package_id' => '1', 'total_ads' => '1',  'typical_ads' => '0', 'top_ads' => '1', 'premium_ads' => '0', 'duration_in_days' => '30', 'price' => '129.00', 'name' => 'Plan Top', 'created_at' => now(), 'updated_at' => now()],
             ['package_id' => '1', 'total_ads' => '1',  'typical_ads' => '0', 'top_ads' => '0', 'premium_ads' => '1', 'duration_in_days' => '30', 'price' => '239.00', 'name' => 'Plan Top Plus', 'created_at' => now(), 'updated_at' => now()],
             ['package_id' => '1', 'total_ads' => '1',  'typical_ads' => '1', 'top_ads' => '0', 'premium_ads' => '0', 'duration_in_days' => '60', 'price' => '134.00', 'name' => 'Estandar', 'created_at' => now(), 'updated_at' => now()],

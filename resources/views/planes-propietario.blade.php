@@ -562,7 +562,7 @@
 							note: '',
 							num_doc: numeroDocumento,
 							tipo_doc: tipoDocumento,
-							nombre_doc: nombreDocumento,
+							receipt_name: nombreDocumento,
 						}
 
 						fetch(`/generarComprobanteElec/${planUserId}`, {
