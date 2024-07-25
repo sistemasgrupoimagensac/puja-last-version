@@ -527,12 +527,13 @@
 						})
 						.then(response => response.json())
 						.then(data => {
+							console.log('data_response__publicar-aviso', data);
 								if (data.status === "Success") {
 										const planUserId = data.planuser_id
 										this.factElectronica(price, planUserId)
 										// ir a una ruta especifica
 										console.log('irnos');
-										window.location.href = '/panel/avisos'
+										// window.location.href = '/panel/avisos'
 								} else {
 										console.error('Error en la suscripción:', data.message);
 								}
@@ -577,7 +578,7 @@
 						})
 						.then(response => response.json())
 						.then(data => {
-							console.log(data)
+							console.log('data_response__facturacion-electronica', data);
 						})
 						.catch(error => {
 							console.error('Hubo un error:', error)
