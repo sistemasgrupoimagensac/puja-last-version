@@ -107,7 +107,7 @@ class BillingController extends Controller
         try {
             $data = PlanUser::find($id);
         
-            $data->state = 1;
+            // $data->state = 1;
             $data->document_type_id = $request->document_type_id;
             $data->save();
 

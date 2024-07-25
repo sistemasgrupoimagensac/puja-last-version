@@ -525,6 +525,8 @@
 						})
 						.then(response => response.json())
 						.then(data => {
+							console.log('data_response__publicar-aviso--request', dataToSend);
+							console.log('data_response__publicar-aviso--response', data);
 								if (data.status === "Success") {
 										const planUserId = data.planuser_id
 										this.factElectronica(price, planUserId)
@@ -571,7 +573,7 @@
 						})
 						.then(response => response.json())
 						.then(data => {
-							console.log(data)
+							console.log('data_response__facturacion-electronica', data);
 						})
 						.catch(error => {
 							console.error('Hubo un error:', error)
