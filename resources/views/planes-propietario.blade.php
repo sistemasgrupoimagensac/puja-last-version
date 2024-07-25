@@ -528,7 +528,7 @@
 								if (data.status === "Success") {
 										const planUserId = data.planuser_id
 										this.factElectronica(price, planUserId)
-										// window.location.href = '/panel/avisos'
+										window.location.href = '/panel/avisos'
 								} else {
 										console.error('Error en la suscripción:', data.message);
 								}

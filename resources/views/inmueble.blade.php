@@ -20,16 +20,16 @@
       {{-- Caracteristicas del inmueble --}}
       <div class="col-lg-8 pe-lg-3">
         <div class="py-3">
-          
+
           {{-- Imagenes --}}
           <div class="images-wrapper position-relative" data-bs-toggle="modal" data-bs-target="#ImagesProperty">
             
             <div class="ribbon premium">Premium</div>
     
             @foreach($aviso->inmueble->imagenes as $n => $image)
-            <div class="@if($n == 0) first-image @elseif($n == 1) second-image @elseif($n == 2) third-image @else  @endif card-image-container shadow">
-              <img src="{{ $image->imagen }}" class="card-image-custom rounded" alt="{{ $aviso->inmueble->title() }}">
-            </div>
+              <div class="@if($n == 0) first-image @elseif($n == 1) second-image @elseif($n == 2) third-image @else  @endif card-image-container shadow">
+                <img src="{{ $image->imagen }}" class="card-image-custom rounded" alt="{{ $aviso->inmueble->title() }}">
+              </div>
             @endforeach
 
           </div>
@@ -455,13 +455,6 @@
       });
   </script>
 
-  {{-- <script>
-    function showRemate() {
-      return {
-        inmueble_remate: true,
-      }
-    }
-  </script> --}}
 
 @endsection
 
