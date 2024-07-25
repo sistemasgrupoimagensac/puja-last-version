@@ -108,6 +108,8 @@ class BillingController extends Controller
             $data = PlanUser::find($id);
         
             // $data->state = 1;
+            $data->num_receipt_owner = $request->num_doc;
+            $data->name_receipt_owner = $request->receipt_name;
             $data->document_type_id = $request->document_type_id;
             $data->save();
 

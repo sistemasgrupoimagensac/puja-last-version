@@ -308,8 +308,8 @@
 
 	<script>
 
-		let idPlan = 1
-		let tipoDeAviso = 1
+		let idPlan = 3
+		let tipoDeAviso = 3
 
 		function pricingData() {
 				return {
@@ -559,7 +559,7 @@
 							note: '',
 							num_doc: numeroDocumento,
 							tipo_doc: tipoDocumento,
-							nombre_doc: nombreDocumento,
+							receipt_name: nombreDocumento,
 						}
 
 						fetch(`/generarComprobanteElec/${planUserId}`, {
