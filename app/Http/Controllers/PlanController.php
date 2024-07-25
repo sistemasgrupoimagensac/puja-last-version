@@ -45,12 +45,12 @@ class PlanController extends Controller
 
     }
 
-    // Publicar el aviso con un plan nuevo o activo
+    // Contratar un Plan y/o publicar un aviso
     public function post_ad(Request $request){
         try {
             $validator = Validator::make($request->all(), [
                 'plan_id' => 'required|integer',
-                'tipo_aviso' => 'required|integer|max:1',
+                'tipo_aviso' => 'required|integer',
                 'aviso_id' => 'required|integer',
                 'plan_user_id' => 'nullable|integer',
             ]);
@@ -105,25 +105,27 @@ class PlanController extends Controller
                 }
             }
             
-            $alert_ad = false;
-            if ( $tipo_aviso == 1 ) {
-                if ( $typical_ad === 0 ) $alert_ad = true;
-                $typical_ad--;
-            } else if ( $tipo_aviso == 2 ) {
-                if ( $top_ad === 0 ) $alert_ad = true;
-                $top_ad--;
-            } else if ( $tipo_aviso == 3 ) {
-                if ( $premium_ad === 0 ) $alert_ad = true;
-                $premium_ad--;
-            }
+            if ( $aviso_id !== 0 ) {
+                $alert_ad = false;
+                if ( $tipo_aviso == 1 ) {
+                    if ( $typical_ad === 0 ) $alert_ad = true;
+                    $typical_ad--;
+                } else if ( $tipo_aviso == 2 ) {
+                    if ( $top_ad === 0 ) $alert_ad = true;
+                    $top_ad--;
+                } else if ( $tipo_aviso == 3 ) {
+                    if ( $premium_ad === 0 ) $alert_ad = true;
+                    $premium_ad--;
+                }
 
-            if ( $alert_ad ) {
-                return response()->json([
-                    'http_code' => 400,
-                    'status' => "Error",
-                    'error' => true,
-                    'message' => "Tipo de aviso no válido para publicar.",
-                ], 400);
+                if ( $alert_ad ) {
+                    return response()->json([
+                        'http_code' => 400,
+                        'status' => "Error",
+                        'error' => true,
+                        'message' => "Tipo de aviso no válido para publicar.",
+                    ], 400);
+                }
             }
 
             $estado = 1;
@@ -141,36 +143,40 @@ class PlanController extends Controller
                 'premium_ads_remaining' => $premium_ad,
             ]);
 
-            $aviso = Aviso::find($aviso_id);
-            $aviso->ad_type = $tipo_aviso;
-            $aviso->fecha_publicacion = now();
-            $aviso->plan_user_id = $plan_user->id;
-            $aviso->save();
+            $aviso = "No se publicó ningun aviso.";
+            if ( $aviso_id !== 0 ) {
+                $aviso = Aviso::find($aviso_id);
+                $aviso->ad_type = $tipo_aviso;
+                $aviso->fecha_publicacion = now();
+                $aviso->plan_user_id = $plan_user->id;
+                $aviso->save();
 
-            $hist_aviso = HistorialAvisos::updateOrCreate([
-                "aviso_id" => $aviso->id,
-                ],[
-                "estado_aviso_id" => 3,
-            ]);
+                $hist_aviso = HistorialAvisos::updateOrCreate([
+                    "aviso_id" => $aviso->id,
+                    ],[
+                    "estado_aviso_id" => 3,
+                ]);
 
-            if (!$hist_aviso) {
-                return response()->json([
-                    'message' => 'Falló porque no se actualizó el historial avisos',
-                    'error' => true
-                ], 422);
-            } else {
-                return response()->json([
-                    'http_code' => 200,
-                    'status' => 'Success',
-                    'message' => 'Pago correcto.',
-                    'planuser_id' => $plan_user->id,
-                    'aviso' => $aviso,
-                ], 200);
+                if (!$hist_aviso) {
+                    return response()->json([
+                        'message' => 'Falló porque no se actualizó el historial avisos',
+                        'error' => true
+                    ], 422);
+                } 
             }
+
+            return response()->json([
+                'http_code' => 200,
+                'status' => 'Success',
+                'message' => 'Pago correcto.',
+                'planuser_id' => $plan_user->id,
+                'aviso' => $aviso,
+            ], 200);
+
         } catch (\Throwable $th) {
             return response()->json([
                 'http_code' => 500,
-                'message' => 'Error al generar la factura',
+                'message' => 'Error al realizar el contrato de un plan y/o publicar un aviso.',
                 'error' => $th->getMessage() // Mensaje de error detallado
             ], 500); // Código de estado HTTP 500 (Internal Server Error)
         }
