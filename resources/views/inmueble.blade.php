@@ -409,8 +409,8 @@
                   </div>
                   <div class="modal-footer">
                     <div class="d-flex justify-content-between gap-3 w-100">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">NO</button>
-                      <button type="button" class="btn button-orange">SI</button>
+                      <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">NO</button>
+                      <button type="button" class="btn button-orange w-100">SI</button>
 
                     </div>
                   </div>

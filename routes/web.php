@@ -100,7 +100,7 @@ Route::get('/my-post/extras/{extra_id}', [MyPostsController::class, 'getExtras']
 
 // Ruta para planes de pago
 Route::get('/planes-inmobiliaria', [App\Http\Controllers\PlanController::class, 'index']);
-Route::post('/pagar-plan', [App\Http\Controllers\PlanController::class, 'pay_plan']);
+// Route::post('/pagar-plan', [App\Http\Controllers\PlanController::class, 'pay_plan']);
 Route::post('/planes-user', [App\Http\Controllers\PlanController::class, 'list_plans_user']);
 /* Route::get('/planes-inmobiliaria', function() {
     try {

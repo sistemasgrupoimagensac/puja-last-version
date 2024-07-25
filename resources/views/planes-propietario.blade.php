@@ -285,7 +285,7 @@
 				</div>
 
 				<!-- MODAL RESULTADO -->
-				<div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
+				{{-- <div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -300,75 +300,13 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> --}}
 
 			</div>    
 		</form>
 	</div>
 
 	<script>
-		// function pricingData() {
-		// 	return {
-		// 		// campos formulario:
-		// 		aviso_id: {{$aviso_id}},
-		// 		categoriaPlan: 'unaviso',
-		// 		tipoPlan: 'topPlus',
-    //     id: '',
-
-		// 		// plan unaviso
-		// 		numAvisos: 1,
-		// 		periodoPlan: 30,
-		// 		pricePlan: null,
-
-		// 		prices: {
-		// 			topPlus: 239,
-		// 			top: 129,
-		// 			estandar: 79,
-		// 		},
-
-		// 		priceTable: {
-		// 			'1': { '30': [239, 129, 79], '60': [406, 219, 134], '90': [537, 290, 177] },
-    //       '3': { '30': [540, 290, 177], '60': [915, 495, 302], '90': [1210, 650, 399] },
-		// 			'5': { '30': [715, 505, 276], '60': [1220, 850, 470], '90': [1610, 1225, 622] },
-		// 		},
-
-    //     ids: {
-    //       '1': { '30': [1, 10], '60': [2, 11], '90': [3, 12] },
-    //       '3': { '30': [4, 13], '60': [5, 14], '90': [6, 15] },
-    //       '5': { '30': [7, 16], '60': [8, 17], '90': [9, 18] },
-    //     },
-
-		// 		updatePrices() {
-		// 			const selectedPrices = this.priceTable[this.numAvisos][this.periodoPlan]
-		// 			this.prices.topPlus = selectedPrices[0]
-		// 			this.prices.top = selectedPrices[1]
-		// 			this.prices.estandar = selectedPrices[2]
-		// 		},
-
-    //     updateIds() {
-    //       const selectedId = this.ids[this.numAvisos][this.periodoPlan]
-    //       if(this.tipoPlan === 'topPlus') {
-    //         this.id = selectedId[0]
-    //       } else if (this.tipoPlan === 'top') {
-    //         this.id = selectedId[1]
-    //       } else if (this.tipoPlan === 'estandar') {
-    //         this.id = selectedId[2]
-    //       }
-    //     },
-
-		// 		init() {
-		// 			this.$watch('numAvisos', () => {
-		// 				this.updatePrices() 
-		// 				this.updateIds()
-		// 			})
-		// 			this.$watch('periodoPlan', () => {
-		// 				this.updatePrices()
-		// 				this.updateIds()
-		// 			})
-
-		// 		},
-		// 	}
-		// }
 
 		function pricingData() {
 				return {
@@ -579,7 +517,7 @@
 								plan_id: this.id,
 						};
 
-						fetch('/contratar-plan', {
+						fetch('/publicar-aviso', {
 								method: 'POST',
 								headers: {
 										'Accept': 'application/json',
@@ -600,7 +538,6 @@
 								console.error('Error sending data to backend:', error.message);
 						});
 				},
-
 
 
 				factElectronica(price){
@@ -695,10 +632,6 @@
 
 			}
 		}
-
-		// document.addEventListener('alpine:init', () => {
-		// 	Alpine.data('creditCardData', creditCardData)
-		// })
 
 		document.addEventListener('alpine:init', () => {
 				Alpine.store('creditCardData', creditCardData());
