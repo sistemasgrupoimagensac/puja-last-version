@@ -114,11 +114,12 @@ class BillingController extends Controller
             $data->client;
 
             if($data->documentType->type_doc == '02') {
-                // $response = $this->generarFEBoleta($request, $data, $request->num_doc, $request->receipt_name);
-                $response = $this->generarFEBoleta($request, $data);
+                $response = $this->generarFEBoleta($request, $data, $request->num_doc, $request->receipt_name);
+                // $response = $this->generarFEBoleta($request, $data);
             }
             else if($data->documentType->type_doc == '03')  {
-                $response = $this->generarFEFactura($request, $data);
+                $response = $this->generarFEFactura($request, $data, $request->num_doc, $request->receipt_name);
+                // $response = $this->generarFEFactura($request, $data);
             }
             else {
                 $response = $this->generarNotaVenta($request, $data);
@@ -130,10 +131,11 @@ class BillingController extends Controller
             $pdfPath_fix = public_path(substr($response['data']['file_name'].'-a4.pdf', 1));
             $email = $response['data']['client']['email'];
             Log::info('Iniciando el envío de correo...');
-            // Mail::to($email)
-            Mail::to(['pierreherreraoropeza@gmail.com'])
+            Mail::to($email)
+            // Mail::to(['pierreherreraoropeza@gmail.com'])
                 // ->cc(['sistemasgrupoimagensac@gmail.com', 'grupoimagen.908883889@gmail.com', 'oechegaray@360creative.pe'])
-                // ->bcc(['pierreherreraoropeza@gmail.com', 'oechegaray@bustamanteromero.com.pe', 'walfaro@360creative.pe'])
+                ->cc(['oechegaray@360creative.pe'])
+                ->bcc(['pierreherreraoropeza@gmail.com', 'oechegaray@bustamanteromero.com.pe', 'walfaro@360creative.pe'])
             ->send(new SubscriptionMail($pdfPath_fix));
             Log::info('Correo enviado.');
 
@@ -259,27 +261,26 @@ class BillingController extends Controller
         ];
     }
 
-    // public function generarFEBoleta($request, $data, $num_doc, $receipt_name) {
-        public function generarFEBoleta($request, $data) {
+    public function generarFEBoleta($request, $data, $num_doc, $receipt_name) {
         $correlative = $this->generateCorrelative($data->document_type_id);
         
         $util = FactUtil::getInstance();
 
         // Cliente
         $client = new Client();
-        /* if ( $num_doc != "" ) {
+        if ( $num_doc != "" ) {
             $num_receipt_owner = $num_doc;
             $name_receipt_owner = $receipt_name;
-        }else {
+        } else {
             $num_receipt_owner = $data->client->dni;
             $name_receipt_owner = $data->client->name .' '. $data->client->last_name;
-        } */
+        }
 
         $client->setTipoDoc('1')
-        // ->setNumDoc($num_receipt_owner)
-        // ->setRznSocial($name_receipt_owner)
-        ->setNumDoc($data->client->dni)
-        ->setRznSocial($data->client->name .' '. $data->client->last_name)
+        ->setNumDoc($num_receipt_owner)
+        ->setRznSocial($name_receipt_owner)
+        // ->setNumDoc($data->client->dni)
+        // ->setRznSocial($data->client->name .' '. $data->client->last_name)
         ->setAddress((new Address())
             ->setDireccion($data->client->address));
 
@@ -450,16 +451,26 @@ class BillingController extends Controller
         }
     }
     
-    public function generarFEFactura($request, $data) {
+    public function generarFEFactura($request, $data, $num_doc, $receipt_name) {
         $correlative = $this->generateCorrelative($data->document_type_id);
         
         $util = FactUtil::getInstance();
 
         // Cliente
         $client = new Client();
+        if ( $num_doc != "" ) {
+            $num_receipt_owner = $num_doc;
+            $name_receipt_owner = $receipt_name;
+        } else {
+            $num_receipt_owner = $data->client->dni;
+            $name_receipt_owner = $data->client->name;
+        }
+
         $client->setTipoDoc('6')
-        ->setNumDoc($data->client->dni)
-        ->setRznSocial($data->client->business_name)
+        // ->setNumDoc($data->client->dni)
+        // ->setRznSocial($data->client->business_name)
+        ->setNumDoc($num_receipt_owner)
+        ->setRznSocial($name_receipt_owner)
         ->setAddress((new Address())
             ->setDireccion($data->client->address));
 
