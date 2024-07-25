@@ -61,7 +61,7 @@ function renderPlans(plans) {
                 <li>Avisos Típicos: <span class="fw-bold"> ${plan.plan_user.typical_ads_remaining} </span></li>
               </ul>
             </div>
-            <button class="btn btn-dark fs-5 rounded-top-0" data-bs-toggle="modal" data-bs-target="#publicarAviso">
+            <button class="btn btn-dark fs-5 rounded-top-0" data-bs-toggle="modal" data-bs-target="#publicarAviso" id="${plan.plan_user.id}">
               Publicar con este Plan
             </button>
           </div>
