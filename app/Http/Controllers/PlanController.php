@@ -292,9 +292,9 @@ class PlanController extends Controller
     // Listar todos los planes activos por usuario
     public function list_plans_user(Request $request)
     {
-        // if ( !Auth::check() ) return redirect()->route('sign_in')->with('error', 'Inicia sesión, por favor.');
-        // $user_id = Auth::id();
-        $user_id = 1;
+        if ( !Auth::check() ) return redirect()->route('sign_in')->with('error', 'Inicia sesión, por favor.');
+        $user_id = Auth::id();
+        // $user_id = 1;
         $user = User::find($user_id);
         $active_plan_users = $user->active_plans()->get();
 

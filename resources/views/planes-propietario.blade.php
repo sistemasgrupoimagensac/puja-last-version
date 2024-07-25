@@ -552,13 +552,13 @@
 									quantity: 1,
 									product: 
 										{
-											id: this.id,
-											name: "Plan " + this.tipoPlan,
+											id: idPlan,
+											name: "Plan " + this.tipoPlan, // pendiente
 											type: 1
 										}
 								}
 							],
-							document_type_id: 2,
+							document_type_id: 2, // 3 ruc, 2 boleta
 							note: "",
 							num_doc: '',
 							tipo_doc: '',

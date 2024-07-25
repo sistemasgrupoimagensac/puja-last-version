@@ -1,3 +1,4 @@
+// logica para ver mas o menos texto de la descripcion
 const fullText = document.querySelector('#fullText')
 const shortText = document.querySelector('#shortText')
 
@@ -17,3 +18,76 @@ verMenosBtn?.addEventListener('click', () => {
   verMenosBtn.style.display = 'none'
   verMasBtn.style.display = 'block'
 })
+
+// pintar planes contratados
+function fetchActivePlans() {
+  fetch('/planes-user', {
+      method: 'POST',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      }
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.status === "OK") {
+          renderPlans(data.active_plan_users);
+          console.log(data);
+      } else {
+          console.error('Error fetching active plans:', data.message);
+      }
+  })
+  .catch(error => {
+      console.error('Error fetching active plans:', error.message);
+  });
+}
+
+function renderPlans(plans) {
+  const plansContainer = document.getElementById('plans-container');
+  plansContainer.innerHTML = ''; // Clear any existing content
+
+  plans.forEach(plan => {
+      const planCard = document.createElement('div');
+      planCard.classList.add('card');
+      planCard.innerHTML = `
+          <div class="card text-bg-light">
+            <div class="card-header fw-bold h5"> ${plan.name} </div>
+            <div class="card-body">
+              <ul class=" list-unstyled m-0">
+                <li>Vence: <span class="fw-bold"> ${formatDate(plan.plan_user.end_date)} </span></li>
+                <li>Avisos Top Plus: <span class="fw-bold"> ${plan.plan_user.premium_ads_remaining} </span></li>
+                <li>Avisos Top: <span class="fw-bold"> ${plan.plan_user.top_ads_remaining} </span></li>
+                <li>Avisos Típicos: <span class="fw-bold"> ${plan.plan_user.typical_ads_remaining} </span></li>
+              </ul>
+            </div>
+            <button class="btn btn-dark fs-5 rounded-top-0" data-bs-toggle="modal" data-bs-target="#publicarAviso">
+              Publicar con este Plan
+            </button>
+          </div>
+      `;
+      plansContainer.appendChild(planCard);
+  });
+}
+
+function formatDate(dateString) {
+  // Crear un objeto Date a partir del string de fecha
+  const date = new Date(dateString);
+
+  // Crear un array de nombres de meses en español
+  const monthNames = [
+      "enero", "febrero", "marzo", "abril", "mayo", "junio",
+      "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
+  ];
+
+  // Obtener el día, el mes y el año del objeto Date
+  const day = date.getDate();
+  const month = monthNames[date.getMonth()];
+  const year = date.getFullYear();
+
+  // Devolver la fecha en el formato deseado
+  return `${day} ${month} ${year}`;
+}
+
+// Call the function to fetch and render the plans
+fetchActivePlans();

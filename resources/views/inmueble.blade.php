@@ -327,7 +327,6 @@
                   <hr>
                   {{-- lista de planes o paquetes comprados --}}
                   <div>
-
                     {{-- Card Comprar Plan --}}
                     <div class="card text-bg-light mb-3">
                       <div class="card-body text-center">
@@ -343,65 +342,19 @@
                       </form>
                     </div>
 
-                    {{-- card plan adquirido --}}
-                    <div class="card text-bg-light mb-3">
-                      <div class="card-header fw-bold h5">Plan Top Plus</div>
-                      <div class="card-body">
-                        <ul class=" list-unstyled m-0">
-                          <li>Vence: <span class="fw-bold"> 24 agosto 2024</span></li>
-                          <li>Avisos Top Plus: <span class="fw-bold"> 4</span></li>
-                        </ul>
-                      </div>
-                      <button class="btn btn-dark fs-5 rounded-top-0" data-bs-toggle="modal" data-bs-target="#publicarAviso">
-                        Publicar con este Plan
-                      </button>
-                    </div>
-
-                    {{-- card plan adquirido --}}
-                    <div class="card text-bg-light mb-3">
-                      <div class="card-header fw-bold h5">Plan Top</div>
-                      <div class="card-body">
-                        <ul class=" list-unstyled m-0">
-                          <li>Vence: <span class="fw-bold"> 10 septiembre 2024</span></li>
-                          <li>Avisos Top: <span class="fw-bold"> 2</span></li>
-                        </ul>
-                      </div>
-                      <button class="btn btn-dark fs-5 rounded-top-0" data-bs-toggle="modal" data-bs-target="#publicarAviso">
-                        Publicar con este Plan
-                      </button>
-                    </div>
-
-                    {{-- card plan adquirido --}}
-                    <div class="card text-bg-light mb-3">
-                      <div class="card-header fw-bold h5">Plan Estándar</div>
-                      <div class="card-body">
-                        <ul class=" list-unstyled m-0">
-                          <li>Vence: <span class="fw-bold"> 30 agosto 2024</span></li>
-                          <li>Avisos Estándar: <span class="fw-bold"> 3</span></li>
-                        </ul>
-                      </div>
-                      <button class="btn btn-dark fs-5 rounded-top-0" data-bs-toggle="modal" data-bs-target="#publicarAviso">
-                        Publicar con este Plan
-                      </button>
+                    <div id="plans-container" class=" d-flex flex-column gap-3">
+                      <!-- Los cards se agregarán aquí dinámicamente -->
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Button trigger modal -->
-            {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#publicarAviso">
-              Launch demo modal
-            </button> --}}
 
             <!-- Modal -->
             <div class="modal fade" id="publicarAviso" tabindex="-1" aria-labelledby="publicarAvisoLabel" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
-                  {{-- <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="publicarAvisoLabel">Modal title</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div> --}}
                   <div class="modal-body">
                     <div class="alert alert-danger" role="alert">
                       ¿Seguro quieres publicar tu inmuble con este Plan?
@@ -516,4 +469,8 @@
 
 @push('scripts')
     @vite(['resources/js/scripts/inmueble.js'])
+@endpush
+
+@push('scripts-head')
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 @endpush

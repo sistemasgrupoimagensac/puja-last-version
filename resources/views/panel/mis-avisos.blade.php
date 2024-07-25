@@ -24,7 +24,7 @@
                         'link' => route('inmueble.single', ['inmueble' => $aviso->link()]),
                         'title' => $aviso->inmueble->tituloReal() ?? 'Aviso sin título',
                         'image' => $aviso->inmueble->imagenPrincipal(),
-                        'type' => $aviso->inmueble->type(),
+                        'type' => $aviso->inmueble->type(), 
                         'category' => $aviso->inmueble->category(),
                         'currency' => $aviso->inmueble->currencySoles() ?? $aviso->inmueble->currencyDolares(),
                         'price' => $aviso->inmueble->precioSoles() ?? $aviso->inmueble->precioDolares(),
