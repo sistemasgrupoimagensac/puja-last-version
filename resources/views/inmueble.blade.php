@@ -34,8 +34,6 @@
 
           </div>
           
-
-
           {{-- modal --}}
 
           <div class="modal fade" id="ImagesProperty" tabindex="-1">
@@ -90,8 +88,6 @@
                   <span>{{ $aviso->inmueble->provincia() }}</span> {{-- departament --}}
                 </h5>
 
-                
-    
               </div>
     
                 {{-- Precio del inmueble Alquiler y Venta --}}
@@ -324,16 +320,103 @@
 
           @if ( $ad_belongs )
 
-            <button class="btn btn-warning border-secondary-subtle w-100" id="redirect-button">Publicar</button>
-            <form id="redirect-form" action="{{ route('pagar.planes_propietario') }}" method="POST" style="display: none;">
-                @csrf
-                <input type="hidden" name="aviso_id" value="{{ $aviso->id }}">
-            </form>
+            <div class="sticky-lg-top py-3">
+              <div class="rounded bg-white border shadow">
+                <div class="p-3">
+                  <h4 class="fw-bold m-0">Planes adquiridos:</h4>
+                  <hr>
+                  {{-- lista de planes o paquetes comprados --}}
+                  <div>
 
-            {{-- Aqui Deben de mostrarse los planes que tiene contratado el cliente y la opcion para contratar otro plan --}}
-            {{-- XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX --}}
-            {{-- XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX --}}
-            {{-- XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX --}}
+                    {{-- Card Comprar Plan --}}
+                    <div class="card text-bg-light mb-3">
+                      <div class="card-body text-center">
+                        <p class="m-0">Adquiere un plan con los mejores precios del mercado.</p>
+                      </div>
+                      <button class="btn btn-danger fs-5 rounded-top-0" id="redirect-button">
+                        <i class="fa-solid fa-plus "></i>
+                         Plan
+                      </button>
+                      <form id="redirect-form" action="{{ route('pagar.planes_propietario') }}" method="POST" style="display: none;">
+                        @csrf
+                        <input type="hidden" name="aviso_id" value="{{ $aviso->id }}">
+                      </form>
+                    </div>
+
+                    {{-- card plan adquirido --}}
+                    <div class="card text-bg-light mb-3">
+                      <div class="card-header fw-bold h5">Plan Top Plus</div>
+                      <div class="card-body">
+                        <ul class=" list-unstyled m-0">
+                          <li>Vence: <span class="fw-bold"> 24 agosto 2024</span></li>
+                          <li>Avisos Top Plus: <span class="fw-bold"> 4</span></li>
+                        </ul>
+                      </div>
+                      <button class="btn btn-dark fs-5 rounded-top-0" data-bs-toggle="modal" data-bs-target="#publicarAviso">
+                        Publicar con este Plan
+                      </button>
+                    </div>
+
+                    {{-- card plan adquirido --}}
+                    <div class="card text-bg-light mb-3">
+                      <div class="card-header fw-bold h5">Plan Top</div>
+                      <div class="card-body">
+                        <ul class=" list-unstyled m-0">
+                          <li>Vence: <span class="fw-bold"> 10 septiembre 2024</span></li>
+                          <li>Avisos Top: <span class="fw-bold"> 2</span></li>
+                        </ul>
+                      </div>
+                      <button class="btn btn-dark fs-5 rounded-top-0" data-bs-toggle="modal" data-bs-target="#publicarAviso">
+                        Publicar con este Plan
+                      </button>
+                    </div>
+
+                    {{-- card plan adquirido --}}
+                    <div class="card text-bg-light mb-3">
+                      <div class="card-header fw-bold h5">Plan Estándar</div>
+                      <div class="card-body">
+                        <ul class=" list-unstyled m-0">
+                          <li>Vence: <span class="fw-bold"> 30 agosto 2024</span></li>
+                          <li>Avisos Estándar: <span class="fw-bold"> 3</span></li>
+                        </ul>
+                      </div>
+                      <button class="btn btn-dark fs-5 rounded-top-0" data-bs-toggle="modal" data-bs-target="#publicarAviso">
+                        Publicar con este Plan
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Button trigger modal -->
+            {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#publicarAviso">
+              Launch demo modal
+            </button> --}}
+
+            <!-- Modal -->
+            <div class="modal fade" id="publicarAviso" tabindex="-1" aria-labelledby="publicarAvisoLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  {{-- <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="publicarAvisoLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div> --}}
+                  <div class="modal-body">
+                    <div class="alert alert-danger" role="alert">
+                      ¿Seguro quieres publicar tu inmuble con este Plan?
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <div class="d-flex justify-content-between gap-3 w-100">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">NO</button>
+                      <button type="button" class="btn button-orange">SI</button>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
           @else
             

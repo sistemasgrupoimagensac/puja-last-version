@@ -23,6 +23,9 @@ class InmuebleController extends Controller
             $ad_user_id = $aviso->inmueble->user_id;
             $ad_belongs = false;
             if ( (int)$user_login_id === (int)$ad_user_id ) $ad_belongs = true;
+
+            $ad_belongs = true;
+            
             return view('inmueble', compact('aviso', 'ad_belongs'));
         } catch (\Exception $e) {
             abort($e->getCode());
