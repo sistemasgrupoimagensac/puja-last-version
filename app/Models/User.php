@@ -85,7 +85,12 @@ class User extends Authenticatable
 
     public function getAddressAttribute()
     {
-        return "Calle Random 123 -- Accesor";
+        /* $direccion = "Calle sin Direccion TEST";
+        if ( $this->attributes['direccion'] ) {
+            $direccion = $this->attributes['direccion'];
+        }
+        return $direccion; */
+        return $this->attributes['direccion'] ?? "";
     }
 
     public function getBusinessNameAttribute()
