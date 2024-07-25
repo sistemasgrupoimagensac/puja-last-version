@@ -22,8 +22,13 @@ class InmuebleController extends Controller
             if ( Auth::check() ) $user_login_id = Auth::id();
             $ad_user_id = $aviso->inmueble->user_id;
             $ad_belongs = false;
-            if ( (int)$user_login_id === (int)$ad_user_id ) $ad_belongs = true;            
-            return view('inmueble', compact('aviso', 'ad_belongs'));
+            $publicado = $aviso->historial[0]->estado == "Publicado" ? true : false;
+
+            if ( (int)$user_login_id === (int)$ad_user_id ) {
+                $ad_belongs = true;
+            }
+            
+            return view('inmueble', compact('aviso', 'ad_belongs', 'publicado'));
         } catch (\Exception $e) {
             abort($e->getCode());
         }
