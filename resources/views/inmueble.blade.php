@@ -320,35 +320,37 @@
 
           @if ( $ad_belongs )
 
-            <div class="sticky-lg-top py-3">
-              <div class="rounded bg-white border shadow">
-                <div class="p-3">
-                  <h4 class="fw-bold m-0">Planes adquiridos:</h4>
-                  <hr>
-                  {{-- lista de planes o paquetes comprados --}}
-                  <div>
-                    {{-- Card Comprar Plan --}}
-                    <div class="card text-bg-light mb-3">
-                      <div class="card-body text-center">
-                        <p class="m-0">Adquiere un plan con los mejores precios del mercado.</p>
+            @if ( !$publicado )
+              <div class="sticky-lg-top py-3">
+                <div class="rounded bg-white border shadow">
+                  <div class="p-3">
+                    <h4 class="fw-bold m-0">Planes adquiridos:</h4>
+                    <hr>
+                    {{-- lista de planes o paquetes comprados --}}
+                    <div>
+                      {{-- Card Comprar Plan --}}
+                      <div class="card text-bg-light mb-3">
+                        <div class="card-body text-center">
+                          <p class="m-0">Adquiere un plan con los mejores precios del mercado.</p>
+                        </div>
+                        <button class="btn btn-danger fs-5 rounded-top-0" id="redirect-button">
+                          <i class="fa-solid fa-plus "></i>
+                          Plan
+                        </button>
+                        <form id="redirect-form" action="{{ route('pagar.planes_propietario') }}" method="POST" style="display: none;">
+                          @csrf
+                          <input type="hidden" name="aviso_id" value="{{ $aviso->id }}">
+                        </form>
                       </div>
-                      <button class="btn btn-danger fs-5 rounded-top-0" id="redirect-button">
-                        <i class="fa-solid fa-plus "></i>
-                         Plan
-                      </button>
-                      <form id="redirect-form" action="{{ route('pagar.planes_propietario') }}" method="POST" style="display: none;">
-                        @csrf
-                        <input type="hidden" name="aviso_id" value="{{ $aviso->id }}">
-                      </form>
-                    </div>
 
-                    <div id="plans-container" class=" d-flex flex-column gap-3">
-                      <!-- Los cards se agregarán aquí dinámicamente -->
+                      <div id="plans-container" class=" d-flex flex-column gap-3">
+                        <!-- Los cards se agregarán aquí dinámicamente -->
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            @endif
 
 
             <!-- Modal -->

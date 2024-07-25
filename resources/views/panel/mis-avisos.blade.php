@@ -29,6 +29,7 @@
                         'currency' => $aviso->inmueble->currencySoles() ?? $aviso->inmueble->currencyDolares(),
                         'price' => $aviso->inmueble->precioSoles() ?? $aviso->inmueble->precioDolares(),
                         'address' => $aviso->inmueble->address(),
+                        'estado_aviso' => $aviso->historial[0]->estado,
                     ])
                     @endforeach
                 </section>
