@@ -380,7 +380,7 @@
 
           @else
             
-            <div class="sticky-lg-top py-3" x-data=formData()>
+            <div class="sticky-lg-top py-3">
 
               <div class="rounded bg-white border shadow">
                 <form class="d-flex flex-column gap-3 p-3" method="POST" id="send_contact">
@@ -455,16 +455,20 @@
   </div>
 
   <script>
+      const adBelongs = @json($ad_belongs);
 
-      document.getElementById('btn-enviar-form-single').addEventListener('click', function(event) {
-        event.preventDefault();
-        submitForm('{{ route('email.enviar-datos_contacto') }}');
-      });
+      if(!adBelongs) {
+
+        document.getElementById('btn-enviar-form-single').addEventListener('click', function(event) {
+          event.preventDefault();
+          submitForm('{{ route('email.enviar-datos_contacto') }}');
+        });
+      }
 
       function submitForm(actionUrl) {
         let form = document.getElementById('send_contact');
         let formData = new FormData(form);
-        console.log(formData)
+        // console.log(formData)
 
         fetch(actionUrl, {
             method: 'POST',
@@ -488,11 +492,14 @@
             alert('Error al enviar el formulario');
         });
       }
-      document.getElementById('redirect-button').addEventListener('click', function() {
+
+      document.getElementById('redirect-button')?.addEventListener('click', function() {
           document.getElementById('redirect-form').submit();
-      })
+      });
 
       const avisoId = @json($aviso->id);
+      const avisoType = @json($aviso->ad_type);
+
   </script>
 
 
