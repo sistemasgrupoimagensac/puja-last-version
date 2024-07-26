@@ -18,8 +18,10 @@ verMenosBtn?.addEventListener('click', () => {
   verMenosBtn.style.display = 'none'
   verMasBtn.style.display = 'block'
 })
+// ====================================================
+let selectedPlanData = null; // Variable global para almacenar los datos del plan seleccionado
 
-// pintar planes contratados
+// cargar planes contratados
 function fetchActivePlans() {
   fetch('/planes-user', {
       method: 'POST',
@@ -43,6 +45,7 @@ function fetchActivePlans() {
   })
 }
 
+// pintar planes contratados
 function renderPlans(plans) {
   const plansContainer = document.getElementById('plans-container')
   plansContainer.innerHTML = '' // Clear any existing content
@@ -61,12 +64,47 @@ function renderPlans(plans) {
                 <li>Avisos Típicos: <span class="fw-bold"> ${plan.plan_user.typical_ads_remaining} </span></li>
               </ul>
             </div>
-            <button class="btn btn-dark fs-5 rounded-top-0" data-bs-toggle="modal" data-bs-target="#publicarAviso">
+            <button 
+              class="btn btn-dark fs-5 rounded-top-0 publicar-plan-btn" 
+              data-bs-toggle="modal" 
+              data-bs-target="#publicarAviso" 
+              data-plan-user-id="${plan.plan_user.id}" 
+              data-plan-id="${plan.id}"
+              data-plan-tipo="${plan.name}"
+            >
               Publicar con este Plan
             </button>
           </div>
       `
       plansContainer.appendChild(planCard)
+  })
+
+  // Add event listeners to each "Publicar con este Plan" button
+  document.querySelectorAll('.publicar-plan-btn').forEach(button => {
+      button.addEventListener('click', (event) => {
+          const planUserId = event.target.getAttribute('data-plan-user-id')
+          const planId = event.target.getAttribute('data-plan-id')
+          const planTipo = event.target.getAttribute('data-plan-tipo')
+          let tipoDeAviso = 1
+
+          if(planTipo === 'Plan Top Plus') {
+            tipoDeAviso = 3
+          } else if (planTipo === 'Plan Top') {
+            tipoDeAviso = 2
+          } else if (planTipo === 'Estandar') {
+            tipoDeAviso = 1
+          }
+
+          // Store the selected plan data
+          selectedPlanData = {
+              plan_id: planId,
+              tipo_aviso: tipoDeAviso,
+              aviso_id: avisoId,
+              plan_user_id: planUserId
+          }
+
+          console.log(selectedPlanData);
+      })
   })
 }
 
@@ -84,13 +122,31 @@ function formatDate(dateString) {
   return `${day} ${month} ${year}`
 }
 
-// utilizar plan comprado previamente
-const si = document.querySelector('#siUsarEstePlan')
+// Enviar POST cuando se acepta usar este plan para publicar el inmueble
+document.getElementById('siUsarEstePlan').addEventListener('click', () => {
+  if (selectedPlanData) {
+      fetch('/publicar-aviso', {
+          method: 'POST',
+          headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+              'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+          },
+          body: JSON.stringify(selectedPlanData)
+      })
+      .then(response => response.json())
+      .then(data => {
+          if (data.status === "Success") {
+              console.log('Petición realizada con éxito:', data)
+          } else {
+              console.error('Error al realizar la petición:', data.message)
+          }
+      })
+      .catch(error => {
+          console.error('Error al realizar la petición:', error.message)
+      })
+  }
+})
 
-/* si.addEventListener('click', () => {
-
-  console.log('si usar este plan');
-
-}) */
-
+// inicializar la carga de planes
 fetchActivePlans()

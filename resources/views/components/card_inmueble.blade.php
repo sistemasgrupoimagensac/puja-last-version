@@ -6,10 +6,11 @@
         <img src="{{ asset($image) }}" class="card-inmueble-image rounded" alt="imagen inmueble">
       </a>
 
-      {{-- @if ($tipoAviso === 'topPlus') --}}
+      @if ($aviso->ad_type === 3)
         <div class="ribbon premium">Premium</div>
-          
-      {{-- @endif --}}
+      @elseif ($aviso->ad_type === 2)
+        <div class="ribbon top">Top</div>
+      @endif
     </div>
 
     <div class="col-lg-8">

@@ -16,7 +16,7 @@
   <div class="custom-container my-2" {{-- x-data="showRemate()" --}}>
 
     <div class="d-flex flex-column flex-lg-row">
-
+      
       {{-- Caracteristicas del inmueble --}}
       <div class="col-lg-8 pe-lg-3">
         <div class="py-3">
@@ -24,8 +24,12 @@
           {{-- Imagenes --}}
           <div class="images-wrapper position-relative" data-bs-toggle="modal" data-bs-target="#ImagesProperty">
             
-            <div class="ribbon premium">Premium</div>
-    
+            @if ($aviso->ad_type === 3)
+              <div class="ribbon premium">Premium</div>
+            @elseif ($aviso->ad_type === 2)
+              <div class="ribbon top">Top</div>
+            @endif
+
             @foreach($aviso->inmueble->imagenes as $n => $image)
               <div class="@if($n == 0) first-image @elseif($n == 1) second-image @elseif($n == 2) third-image @else  @endif card-image-container shadow">
                 <img src="{{ $image->imagen }}" class="card-image-custom rounded" alt="{{ $aviso->inmueble->title() }}">
@@ -451,10 +455,6 @@
   </div>
 
   <script>
-      /* document.getElementById('redirect-button').addEventListener('click', function() {
-          // Enviar el formulario oculto
-          document.getElementById('redirect-form').submit();
-      }); */
 
       document.getElementById('btn-enviar-form-single').addEventListener('click', function(event) {
         event.preventDefault();
@@ -488,6 +488,11 @@
             alert('Error al enviar el formulario');
         });
       }
+      document.getElementById('redirect-button').addEventListener('click', function() {
+          document.getElementById('redirect-form').submit();
+      })
+
+      const avisoId = @json($aviso->id);
   </script>
 
 
