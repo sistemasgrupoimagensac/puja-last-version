@@ -35,7 +35,6 @@ function fetchActivePlans() {
   .then(data => {
       if (data.status === "OK") {
           renderPlans(data.active_plan_users)
-          console.log(data)
       } else {
           console.error('Error fetching active plans:', data.message)
       }
@@ -79,7 +78,7 @@ function renderPlans(plans) {
       plansContainer.appendChild(planCard)
   })
 
-  // Add event listeners to each "Publicar con este Plan" button
+  // addeventlister dinamico por cada plan
   document.querySelectorAll('.publicar-plan-btn').forEach(button => {
       button.addEventListener('click', (event) => {
           const planUserId = event.target.getAttribute('data-plan-user-id')
@@ -103,7 +102,6 @@ function renderPlans(plans) {
               plan_user_id: planUserId
           }
 
-          console.log(selectedPlanData);
       })
   })
 }
@@ -123,7 +121,7 @@ function formatDate(dateString) {
 }
 
 // Enviar POST cuando se acepta usar este plan para publicar el inmueble
-document.getElementById('siUsarEstePlan').addEventListener('click', () => {
+document.getElementById('siUsarEstePlan')?.addEventListener('click', () => {
   if (selectedPlanData) {
       fetch('/publicar-aviso', {
           method: 'POST',
@@ -137,7 +135,8 @@ document.getElementById('siUsarEstePlan').addEventListener('click', () => {
       .then(response => response.json())
       .then(data => {
           if (data.status === "Success") {
-              console.log('Petición realizada con éxito:', data)
+            alert('Aviso publicado con exito')
+            window.location.href = '/panel/avisos'
           } else {
               console.error('Error al realizar la petición:', data.message)
           }
@@ -148,5 +147,8 @@ document.getElementById('siUsarEstePlan').addEventListener('click', () => {
   }
 })
 
-// inicializar la carga de planes
-fetchActivePlans()
+document.addEventListener('DOMContentLoaded', () => {
+  if(!avisoType) {
+    fetchActivePlans()
+  }
+})

@@ -431,7 +431,7 @@
                     <x-whatsapp-modal-inmueble-contact></x-whatsapp-modal-inmueble-contact>
     
                     {{-- contacto por correo --}}
-                    <button class="btn btn-light border-secondary-subtle" type="button" id="btn-enviar-form-single">
+                    <button class="btn btn-light border-secondary-subtle" type="submit" id="btn-enviar-form-single">
                       <i class="fa-regular fa-paper-plane"></i> Enviar
                     </button>
 
@@ -455,16 +455,20 @@
   </div>
 
   <script>
+      const adBelongs = @json($ad_belongs);
 
-      document.getElementById('btn-enviar-form-single').addEventListener('click', function(event) {
-        event.preventDefault();
-        submitForm('{{ route('email.enviar-datos_contacto') }}');
-      });
+      if(!adBelongs) {
+
+        document.getElementById('btn-enviar-form-single').addEventListener('click', function(event) {
+          event.preventDefault();
+          submitForm('{{ route('email.enviar-datos_contacto') }}');
+        });
+      }
 
       function submitForm(actionUrl) {
         let form = document.getElementById('send_contact');
         let formData = new FormData(form);
-        console.log(formData)
+        // console.log(formData)
 
         fetch(actionUrl, {
             method: 'POST',
@@ -488,11 +492,14 @@
             alert('Error al enviar el formulario');
         });
       }
-      document.getElementById('redirect-button').addEventListener('click', function() {
+
+      document.getElementById('redirect-button')?.addEventListener('click', function() {
           document.getElementById('redirect-form').submit();
-      })
+      });
 
       const avisoId = @json($aviso->id);
+      const avisoType = @json($aviso->ad_type);
+
   </script>
 
 
