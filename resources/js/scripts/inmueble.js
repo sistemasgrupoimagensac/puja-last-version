@@ -87,10 +87,10 @@ function formatDate(dateString) {
 // utilizar plan comprado previamente
 const si = document.querySelector('#siUsarEstePlan')
 
-si.addEventListener('click', () => {
+/* si.addEventListener('click', () => {
 
   console.log('si usar este plan');
 
-})
+}) */
 
 fetchActivePlans()

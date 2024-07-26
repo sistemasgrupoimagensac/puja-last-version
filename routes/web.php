@@ -161,3 +161,7 @@ Route::get('/politica-privacidad', function() {
 Route::post('/consultar-documento', [DocumentoController::class, 'consultar'])->name('consultar.documento');
 
 Route::post('/enviar-datos-dni-ruc', [BillingController::class, 'recibirDatos']);
+
+
+
+Route::post('/enviar-datos-contacto', [MyPostsController::class, 'enviar_datos_contacto'])->name('email.enviar-datos_contacto');

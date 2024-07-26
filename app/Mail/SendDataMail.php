@@ -6,23 +6,21 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
-use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class SubscriptionMail extends Mailable
+class SendDataMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $pdfPath;
-
+    public $ad_contact;
     /**
      * Create a new message instance.
      */
-    public function __construct($pdfPath)
+    public function __construct($ad_contact)
     {
-        $this->pdfPath = $pdfPath;
+        $this->ad_contact = $ad_contact;
     }
 
     /**
@@ -31,8 +29,12 @@ class SubscriptionMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
+            // from: new Address( '' ),
             // from: new Address( env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME') ),
-            subject: 'Plan Contratado - Puja Inmobiliaria',
+            replyTo: [
+                new Address( env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME') ),
+            ],
+            subject: 'Nuevo contacto interesado',
         );
     }
 
@@ -42,7 +44,11 @@ class SubscriptionMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mails.factura-electronica',
+            view: 'mails.send-data',
+            // with: [
+            //     'orderName' => $this->order->name,
+            //     'orderPrice' => $this->order->price,
+            // ],
         );
     }
 
@@ -53,10 +59,6 @@ class SubscriptionMail extends Mailable
      */
     public function attachments(): array
     {
-        return [
-            Attachment::fromPath($this->pdfPath)
-                // ->as('name.pdf')
-                // ->withMime('application/pdf')
-        ];
+        return [];
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Mail\SendDataMail;
+use App\Models\AdContact;
 use App\Models\Aviso;
 use App\Models\Caracteristica;
 use App\Models\CaracteristicaInmueble;
@@ -25,6 +27,8 @@ use Database\Seeders\ExtraInmuebleCaracteristicasInmueblesSeeder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -610,6 +614,56 @@ class MyPostsController extends Controller
     {
         $extras = Caracteristica::where('categoria_caracteristica_id', $extra_id)->where('estado', 1)->get();
         return response()->json($extras);
+    }
+
+    public function enviar_datos_contacto (Request $request) {
+        /* $validator = Validator::make($request->all(), [
+            'contact_name' => 'required|string',
+            'contact_email' => 'required|string',
+            'contact_phone' => 'required|string',
+            'contact_monto_puja' => 'nullable|string',
+            'contact_message' => 'required|string',
+            // 'accept_terms' => 'nullable|boolean',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'http_code' => 400,
+                'status' => "Error",
+                'message' => 'Errores de validación.',
+                'errors' => $validator->errors()
+            ], 422);
+        } */
+
+        $user_id = null;
+        if ( Auth::check() ) $user_id = Auth::id();
+
+        $ad_contact = AdContact::updateOrCreate([
+            'aviso_id' => $request->aviso_id,
+            'email' => $request->contact_email,
+            'user_id' => $user_id,
+            ],[
+            'full_name' => $request->contact_name,
+            'status' => 1,
+            'phone' => $request->contact_phone,
+            'bid_amount' => $request->contact_monto_puja,
+            'message' => $request->contact_message,
+            // 'accept_terms' => $request->accept_terms,
+        ]);
+
+        Log::info('Iniciando el envío de correo para contactos ...');
+        Mail::to($request->contact_email)
+            ->cc(['oechegaray@360creative.pe'])
+            ->bcc(['pierreherreraoropeza@gmail.com', 'oechegaray@bustamanteromero.com.pe', 'walfaro@360creative.pe'])
+        ->send(new SendDataMail($ad_contact));
+        Log::info('Correo enviado para contactos .');
+
+        return response()->json([
+            'http_code' => 200,
+            'status' => 'Success',
+            'message' => 'Registro para contactar, correcto.',
+            'ad_contact_id' => $ad_contact->id,
+        ], 200);
+
     }
 
 
