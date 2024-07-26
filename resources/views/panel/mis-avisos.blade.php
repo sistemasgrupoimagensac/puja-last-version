@@ -18,7 +18,11 @@
 
                 <section class="my-3">
 
+                    {{-- AVISOS POR PUBLICAR --}}
                     <h2 class="h3 fw-bold">Por Publicar:</h2>
+                    @php
+                        $total_avisos_porpublicar = 0
+                    @endphp
                     @foreach ($avisos as $aviso)
                         @if ($aviso->historial[0]->estado === 'Borrador')
                             @include('components.aviso_simple', [
@@ -34,10 +38,20 @@
                                 'address' => $aviso->inmueble->address(),
                                 'estado_aviso' => $aviso->historial[0]->estado,
                             ])
+                            @php
+                                $total_avisos_porpublicar += 1
+                            @endphp
                         @endif
                     @endforeach
+                    @if ($total_avisos_porpublicar === 0)
+                        <p>No tienes avisos por publicar</p>
+                    @endif
 
+                    {{-- AVISOS PUBLICADOS --}}
                     <h2 class="h3 fw-bold">Publicado:</h2>
+                    @php
+                        $total_avisos_publicados = 0
+                    @endphp
                     @foreach ($avisos as $aviso)
                         @if ($aviso->historial[0]->estado === 'Publicado')
                             @include('components.aviso_simple', [
@@ -53,8 +67,14 @@
                                 'address' => $aviso->inmueble->address(),
                                 'estado_aviso' => $aviso->historial[0]->estado,
                             ])
+                            @php
+                                $total_avisos_publicados += 1
+                            @endphp
                         @endif
                     @endforeach
+                    @if ($total_avisos_publicados === 0)
+                        <p>No tienes avisos publicados</p>
+                    @endif
 
                 </section>
             </section>
