@@ -1,5 +1,5 @@
 {{-- contacto por whatsapp --}}
-<button class="btn btn-light border-secondary-subtle" type="button" id="whatsapp_contact_button">
+<button class="btn btn-light border-secondary-subtle" type="submit" id="whatsapp_contact_button">
     <i class="fab fa-whatsapp"></i> WhatsApp
 </button>
 
@@ -29,6 +29,7 @@
 
   </dialog>
   {{-- Modal Contacto Whatsapp --}}
+  
 
 @push('styles')
     @vite(['resources/sass/components/whatsapp_modal_inmueble_contact.scss'])

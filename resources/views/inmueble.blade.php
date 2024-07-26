@@ -380,10 +380,10 @@
 
           @else
             
-            <div class="sticky-lg-top py-3">
+            <div class="sticky-lg-top py-3" x-data=formData()>
 
               <div class="rounded bg-white border shadow">
-                <form class="d-flex flex-column gap-3 p-3">
+                <form class="d-flex flex-column gap-3 p-3" id="formContact" @submit.prevent="submitForm">
                   @csrf
                   <div class="d-flex justify-content-between align-items-center">
 
@@ -393,24 +393,24 @@
                   </div>
 
                     <div class="form-floating">
-                      <input type="text" class="form-control" id="contact-name" name="contact-name" placeholder="Nombre Completo" required>
+                      <input type="text" class="form-control" id="contact-name" name="contactName" placeholder="Nombre Completo" required>
                       <label class="text-secondary" for="contact-name">Nombre Completo</label>
                     </div>
 
                     <div class="form-floating">
-                      <input type="email" class="form-control" id="contact-email" name="contact-email" placeholder="Correo electrónico" required>
+                      <input type="email" class="form-control" id="contact-email" name="contactEmail" placeholder="Correo electrónico" required>
                       <label class="text-secondary" for="contact-email">Correo electrónico</label>
                     </div>  
 
                     <div class="form-floating">
-                      <input type="phone" class="form-control" id="contact-phone" name="contact-phone" placeholder="Teléfono" required>
+                      <input type="phone" class="form-control" id="contact-phone" name="contactPhone" placeholder="Teléfono" required>
                       <label class="text-secondary" for="contact-phone">Teléfono</label>
                     </div>  
 
                     @if ( $aviso->inmueble->is_puja() )
                     <div class="input-group has-validation">
                       <div class="form-floating is-invalid">
-                        <input type="text" class="form-control is-invalid" id="monto_puja" placeholder="Monto a ofrecer">
+                        <input type="text" class="form-control is-invalid" id="monto_puja" placeholder="Monto a ofrecer" name="contactMonto">
                         <label for="monto_puja">Monto a ofrecer</label>
                       </div>
                       <div class="invalid-feedback">
@@ -423,22 +423,22 @@
                         
                     {{-- Mensaje --}}
                     <div class="form-floating">
-                      <textarea class="form-control" placeholder="Contactame" id="contact-message" style="height: 100px">¡Hola! Deseo que me contacten por este inmueble</textarea>
+                      <textarea class="form-control" placeholder="Contactame" id="contactMessage" style="height: 100px">¡Hola! Deseo que me contacten por este inmueble</textarea>
                       <label for="contact-message" class="text-secondary">Mensaje</label>
                     </div>
 
                     <x-whatsapp-modal-inmueble-contact></x-whatsapp-modal-inmueble-contact>
     
                     {{-- contacto por correo --}}
-                    <button class="btn btn-light border-secondary-subtle" type="button" id="btn-enviar-form-single">
+                    <button class="btn btn-light border-secondary-subtle" type="submit" id="btn-enviar-form-single">
                       <i class="fa-regular fa-paper-plane"></i> Enviar
                     </button>
 
                     <x-puja-modal-contact :monto="number_format($aviso->inmueble->precioSoles())"></x-puja-modal-contact>
     
                     <div class="form-group d-flex gap-3 align-items-top mb-2">
-                      <input type="checkbox" name="acepto_terminos_condiciones" id="terminos" class="form-check-input"/>
-                      <label for="terminos">Acepto los <a href="" class="custom-link-register text-decoration-none">Términos y Condiciones de Uso</a> y las <a href="" class="custom-link-register text-decoration-none">Políticas de Privacidad</a></label>
+                      <input type="checkbox" name="aceptaTerminos" id="terminos" class="form-check-input" required>
+                      <label for="terminos">Acepto los <a href="/terminos-uso" target="blank" class="custom-link-register text-decoration-none">Términos y Condiciones de Uso</a> y las <a href="/politica-privacidad" target="blank" class="custom-link-register text-decoration-none">Políticas de Privacidad</a></label>
                     </div>
     
                 </form>
@@ -454,11 +454,43 @@
   </div>
 
   <script>
-      document.getElementById('redirect-button').addEventListener('click', function() {
-          document.getElementById('redirect-form').submit()
+      document.getElementById('redirect-button')?.addEventListener('click', function() {
+          document.getElementById('redirect-form').submit();
       })
 
-      const avisoId = @json($aviso->id)
+      const avisoId = @json($aviso->id);
+      const avisoType = @json($aviso->ad_type);
+
+      function formData() {
+        return {
+
+          submitForm() {
+
+
+            const wsapDialog = document.querySelector("#puja-dialog")
+
+            document.body.classList.add("modal-open")
+            wsapDialog.showModal()
+            
+            wsapDialog.addEventListener("close", function () {
+              document.body.classList.remove("modal-open")
+            })
+
+            wsapDialog.addEventListener("click", function (event) {
+              if (event.target === wsapDialog) {
+                closeModal()
+              }
+            })
+
+            function closeModal() {
+              document.body.classList.remove("modal-open")
+              wsapDialog.close()
+            }
+          }
+
+        }
+      }
+      
   </script>
 
 
