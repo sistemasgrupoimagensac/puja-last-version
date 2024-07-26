@@ -36,4 +36,9 @@ class Aviso extends Model
     {
         return Str::slug($this->inmueble->title() . ' ' . $this->id);
     }
+
+    public function contacts()
+    {
+        return $this->hasMany(AdContact::class);
+    }
 }
