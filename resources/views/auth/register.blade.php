@@ -35,35 +35,41 @@
           </a>
         </div>
 
-			<form action="/store" method="POST">
+			<form action="/store" method="POST" x-data="{ userType: '' }">
 			@csrf
 			<div class="d-flex flex-column gap-4">
 
 				<fieldset class="d-flex flex-column gap-2">
 					<legend class="h6 m-0 p-0 icon-orange">Datos de Sesión</legend>
 
-					<input type="hidden" value="{{ $profile_type }}" name="user_type">
+					<div class="form-floating">
+						<select class="form-select" id="user_type" name="user_type" x-model="userType" required>
+								<option value="" selected>Elegir tipo de perfil</option>
+								<option value="2">Propietario</option>
+								<option value="3">Corredor</option>
+								<option value="4">Acreedor</option>
+								<option value="5">Proyecto</option>
+						</select>
+						<label for="document_type">Perfil</label>
+				</div>
+
+					{{-- <input type="hidden" value="{{ $profile_type }}" name="user_type"> --}}
 					<input type="hidden" value="CC-WW-12" name="unique_code">
 
 					<div class="form-floating">
-						<input type="email" class="form-control" id="email" name="email" placeholder="Correo electrónico" required>
+						<input type="email" class="form-control" id="email" name="email" placeholder="Correo electrónico" x-bind:disabled="userType === ''" required>
 						<label class="text-secondary" for="email">Correo electrónico</label>
 					</div>
 						
 					<div class="form-floating">
-						<input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" aria-describedby="password_limits" required>
+						<input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" minlength="6" maxlength="20" x-bind:disabled="userType === ''" required>
 						<label class="text-secondary" for="password">Contraseña</label>
 						<p class="form-text m-0 p-0" id="password_limits">Mínimo 6 y máximo 20 caracteres</p>
 					</div>
 
-					<div class="form-floating">
-						<input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Repetir Contraseña">
-						<label class="text-secondary" for="password_confirmation">Repetir Contraseña</label>
-					</div>
-
 				</fieldset>
 
-				<fieldset class="d-flex flex-column gap-2">
+				<fieldset class="d-flex flex-column gap-2" x-bind:disabled="userType === ''">
 					<legend class="h6 m-0 p-0 icon-orange">Datos de Contacto</legend>
 
 					<div class="form-floating">
@@ -72,28 +78,36 @@
 					</div>
 						
 					<div class="form-floating">
-						<input type="text" class="form-control" id="surename" name="lastname" placeholder="Apellido">
+						<input type="text" class="form-control" id="surename" name="lastname" placeholder="Apellido" required>
 						<label class="text-secondary" for="lastname">Apellido</label>
 					</div>
 
 					<div class="form-floating">
-						<input type="phone" class="form-control" id="phone" name="phone" placeholder="Telefono">
+						<input type="phone" class="form-control" id="phone" name="phone" placeholder="Telefono" required>
 						<label class="text-secondary" for="phone">Teléfono</label>
 					</div>
 
 					<div class="form-floating">
-						<select class="form-select" id="document_type" name="document_type">
-							<option value="DNI" selected>DNI</option>
-							<option value="RUC">RUC</option>
-							<option value="OTRO_DOC">Otro Documento</option>
-						</select>
-						<label for="document_type">Documento</label>
+						<input type="text" class="form-control" id="direccion" name="address" placeholder="Dirección" required>
+						<label class="text-secondary" for="direccion">Dirección</label>
 					</div>
 
-					<div class="form-floating">
-						<input type="text" class="form-control" id="document_number" name="document_number" placeholder="DNI" required>
-						<label class="text-secondary" for="document_number" id="label_document_number">DNI</label>
+					<div class="d-flex justify-content-between gap-2 w-100">
+						<div class="form-floating col">
+							<select class="form-select" id="document_type" name="document_type" required>
+								<option value="1" selected>DNI</option>
+								<option value="3">RUC</option>
+								<option value="2">Otro Documento</option>
+							</select>
+							<label for="document_type">Documento</label>
+						</div>
+	
+						<div class="form-floating col">
+							<input type="text" class="form-control" id="document_number" name="document_number" placeholder="DNI" required>
+							<label class="text-secondary" for="document_number" id="label_document_number">DNI</label>
+						</div>
 					</div>
+
 
 				</fieldset>
 	
@@ -101,11 +115,6 @@
 				<div class="form-group d-flex gap-3 align-items-center">
 					<input type="checkbox" name="accept_terms" id="terminos" class="form-check-input m-0" required/>
 					<label for="terminos">Acepto los <a href="" class="custom-link-register text-decoration-none">Términos y Condiciones de Uso</a> y las <a href="" class="custom-link-register text-decoration-none">Políticas de Privacidad</a></label>
-				</div>
-		
-				<div class="form-group d-flex gap-3 align-items-center">
-					<input type="checkbox" name="accept_confid" id="confidencialidad" class="form-check-input m-0" required/>
-					<label for="confidencialidad">Autorizo el uso de mi información para <a href="" class="custom-link-register text-decoration-none">fines adicionales</a></label>
 				</div>
 				</small>
 	

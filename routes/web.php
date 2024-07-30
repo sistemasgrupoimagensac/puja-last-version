@@ -25,6 +25,7 @@ Route::get('/google-auth/redirect', function () {
  
 Route::get('/google-auth/callback', function () {
     $user_google = Socialite::driver('google')->user();
+    $profile_type = session('profile_type', 2); 
     $existingUser = User::where('google_id', $user_google->id)->first();
     
     $user = User::updateOrCreate([
@@ -33,6 +34,7 @@ Route::get('/google-auth/callback', function () {
             'nombres' => $user_google->name,
             'email' => $user_google->email,
             'imagen' => $user_google->avatar,
+            'tipo_usuario_id' => $profile_type,
     ]);
 
     Auth::login($user);
