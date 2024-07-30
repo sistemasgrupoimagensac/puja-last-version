@@ -21,10 +21,10 @@ class LoginController extends Controller
         }
         switch ($profile_type) {
             case '2':
-                $imagen_path = "/images/signin2.webp";
+                $imagen_path = "/images/bg5.webp";
                 break;
             case '4':
-                $imagen_path = "/images/signin.webp";
+                $imagen_path = "/images/signin5.webp";
                 break;
             default:
                 return view('publicatuinmueble');
@@ -93,14 +93,14 @@ class LoginController extends Controller
             'name' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:6|max:20',
             'document_type' => 'required|integer|max:1',
             // 'phone' => 'integer|digits:9',
             'document_number' => 'required|string|max:30|unique:users,numero_documento',
             'imagen' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|nullable',
             // 'estado' => 'required|boolean',
             'accept_terms' => 'accepted',
-            'accept_confid' => 'accepted',
+
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -136,7 +136,7 @@ class LoginController extends Controller
             // 'imagen' => $request->input('imagen'),
             'estado' => 1,
             'acepta_termino_condiciones' => $acceptTerms,
-            'acepta_confidencialidad' => $acceptConfid,
+            'direccion' => $request->input('address'),
         ]);
         if ($request->hasFile('imagen')) {
             $imageName = time().'.'.$request->imagen->extension();  

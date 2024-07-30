@@ -6,11 +6,9 @@ const surenameInput = document.getElementById("surename")
 const registerSubmit = document.querySelector("#submit-register-button")
 
 const termsConditionCheck = document.querySelector("#terminos")
-const informationCheck = document.querySelector("#confidencialidad")
 
 // deshabilitar boton registrar =======================================================
 let termsState = false
-let informationState = false
 
 termsConditionCheck.addEventListener("change", () => {
     if (termsConditionCheck.checked) {
@@ -21,18 +19,8 @@ termsConditionCheck.addEventListener("change", () => {
     disableSubmit()
 })
 
-informationCheck.addEventListener("change", () => {
-    if (informationCheck.checked) {
-        informationState = true
-    } else {
-        informationState = false
-    }
-
-    disableSubmit()
-})
-
 function disableSubmit() {
-    if (termsState === false || informationState === false) {
+    if (termsState === false) {
         registerSubmit.disabled = true
     } else {
         registerSubmit.disabled = false
@@ -40,7 +28,6 @@ function disableSubmit() {
 }
 
 disableSubmit()
-
 
 // actualizar el placeholder de los campos =============================================
 documentSelected.addEventListener("change", function () {
@@ -50,17 +37,17 @@ documentSelected.addEventListener("change", function () {
     let placeholderName = ""
 
     switch (selectedCategory) {
-        case "DNI":
+        case "1":
             placeholderText = "DNI"
             placeholderName = "Nombre"
             surenameInput.disabled = false
             break
-        case "RUC":
+        case "3":
             placeholderText = "RUC"
             placeholderName = "Nombre o Razón Social"
             surenameInput.disabled = true
             break
-        case "OTRO_DOC":
+        case "2":
             placeholderText = "Otro Documento"
             placeholderName = "Nombre"
             surenameInput.disabled = false
