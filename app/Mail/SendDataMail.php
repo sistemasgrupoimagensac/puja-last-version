@@ -29,11 +29,10 @@ class SendDataMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            // from: new Address( '' ),
             // from: new Address( env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME') ),
-            replyTo: [
-                new Address( env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME') ),
-            ],
+            /* replyTo: [
+                new Address( $this->ad_contact->contact_email, $this->ad_contact->contact_name ),
+            ], */
             subject: 'Nuevo contacto interesado',
         );
     }

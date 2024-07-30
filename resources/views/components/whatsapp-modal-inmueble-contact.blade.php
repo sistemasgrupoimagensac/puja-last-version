@@ -1,7 +1,4 @@
-{{-- contacto por whatsapp --}}
-<button class="btn btn-light border-secondary-subtle" type="submit" id="whatsapp_contact_button">
-    <i class="fab fa-whatsapp"></i> WhatsApp
-</button>
+
 
   {{-- Modal Contacto Whatsapp --}}
   <dialog class="whatsapp-dialog position-relative" id="whatsapp-dialog">

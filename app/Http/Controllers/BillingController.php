@@ -107,10 +107,21 @@ class BillingController extends Controller
         try {
             $data = PlanUser::find($id);
         
+            $tipo_doc_electronico = $request->document_type_id;
+            if ( $request->num_doc == null ) {
+                $user_id = $data->user_id;
+                $user = User::findOrFail($user_id);
+                if ( $user->tipo_documento_id == 1 ) { // 1 = DNI, 2 = RUC
+                    $tipo_doc_electronico = 2;
+                } else if ( $user->tipo_documento_id == 2 ) {
+                    $tipo_doc_electronico = 3;
+                }
+            }
+
             // $data->state = 1;
             $data->num_receipt_owner = $request->num_doc;
             $data->name_receipt_owner = $request->receipt_name;
-            $data->document_type_id = $request->document_type_id;
+            $data->document_type_id = $tipo_doc_electronico;
             $data->save();
 
             $data->client;

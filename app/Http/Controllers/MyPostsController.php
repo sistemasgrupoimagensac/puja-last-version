@@ -634,6 +634,9 @@ class MyPostsController extends Controller
             ], 422);
         } */
 
+        $aviso = Aviso::findOrFail($request->aviso_id);
+        $email_owner = $aviso->inmueble->user->email;
+
         $user_id = null;
         if ( Auth::check() ) $user_id = Auth::id();
 
@@ -651,7 +654,7 @@ class MyPostsController extends Controller
         ]);
 
         Log::info('Iniciando el envío de correo para contactos ...');
-        Mail::to($request->contact_email)
+        Mail::to($email_owner)
             ->cc(['oechegaray@360creative.pe'])
             ->bcc(['pierreherreraoropeza@gmail.com', 'oechegaray@bustamanteromero.com.pe', 'walfaro@360creative.pe'])
         ->send(new SendDataMail($ad_contact));

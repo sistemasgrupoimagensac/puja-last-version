@@ -655,16 +655,13 @@
 								this.resultados = null
 								this.error = null
 
-								const apiURL = this.tipo === 'DNI' ? 'https://apiperu.dev/api/dni' : 'https://apiperu.dev/api/ruc'
-								const token = 'db3ed63994d8aef68d6a7db28083109d033ee0e32211ecd7932a86dd15093a31'
 								const bodyTipoDoc = this.tipo === 'DNI' ? 'dni' : 'ruc'
-
-								fetch(apiURL, {
+								fetch("/consulta-dni-ruc", {
 										method: 'POST',
 										headers: {
 												'Accept': 'application/json',
 												'Content-Type': 'application/json',
-												'Authorization': `Bearer ${token}`
+												'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 										},
 										body: JSON.stringify({ [bodyTipoDoc]: this.documento })
 								})
