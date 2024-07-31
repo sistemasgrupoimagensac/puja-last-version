@@ -63,8 +63,6 @@ Route::middleware(['auth'])->group(function() {
     });
 });
 
-// hasta aqui
-
 Route::get('/publica-tu-inmueble', function() {
     return view('publicatuinmueble');
 });
@@ -101,25 +99,8 @@ Route::get('/my-post/extras/{extra_id}', [MyPostsController::class, 'getExtras']
 
 
 // Ruta para planes de pago
-Route::get('/planes-inmobiliaria', [App\Http\Controllers\PlanController::class, 'index']);
-// Route::post('/pagar-plan', [App\Http\Controllers\PlanController::class, 'pay_plan']);
-Route::post('/planes-user', [App\Http\Controllers\PlanController::class, 'list_plans_user']);
-/* Route::get('/planes-inmobiliaria', function() {
-    try {
-
-        return view('planes');
-
-    } catch (\Throwable $th) {
-        // Capturar cualquier excepción o error que ocurra y retornar una respuesta de error
-
-        return response()->json([
-            'http_code' => 500,
-            'message' => 'Error al generar la factura',
-            'error' => $th->getMessage() // Mensaje de error detallado
-        ], 500); // Código de estado HTTP 500 (Internal Server Error)
-    }
-}); */
-// Route::post('/pagar-planes-propietario', [PlanController::class, 'planes_propietario']);
+Route::get('/planes-inmobiliaria', [PlanController::class, 'index']);
+Route::post('/planes-user', [PlanController::class, 'list_plans_user']);
 Route::post('/pagar-planes-propietario', [PlanController::class, 'planes_propietario'])->name('pagar.planes_propietario');
 
 Route::post('/publicar-aviso', [PlanController::class, 'post_ad']);
@@ -139,7 +120,7 @@ Route::post('/generarComprobanteElec/{id}', [BillingController::class, 'generarF
 
 Route::get('/send_mail', [BillingController::class, 'sendMail']);
 
-// Ruta planes de prietario (dueño)
+// Ruta planes del propietario (dueño)
 Route::get('/planes-propietario', function() {
     return view('planes-propietario');
 });

@@ -140,8 +140,11 @@
 						<div role="group" class="d-flex flex-column align-items-center flex-md-row gap-4 mt-4 w-100">
 							<!-- plan basico -->
 							<div>
-								<input type="radio" class="btn-check" x-model="tipoPlan" id="basico" value="basico" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
+								@if ($sesion_iniciada)
+									<input type="radio" class="btn-check" x-model="tipoPlan" id="basico" value="basico" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
+								@endif
 								<x-card-plan
+									sesionIniciada="sesionIniciada"
 									title="Básico"
 									price="prices.basico"
 									time="periodoPlan"
@@ -375,7 +378,7 @@
 				</div>
 
 				<!-- MODAL RESULTADO -->
-				<div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
+				{{-- <div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -390,13 +393,15 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> --}}
 
 			</div>    
 		</form>
 	</div>
 
 	<script>
+		const sesionIniciada = @json($sesion_iniciada);
+
 		function pricingData() {
 			return {
 				// campos formulario:
