@@ -640,6 +640,7 @@ class MyPostsController extends Controller
         $user_id = null;
         if ( Auth::check() ) $user_id = Auth::id();
 
+        $aviso_url = $request->current_url;
         $ad_contact = AdContact::updateOrCreate([
             'aviso_id' => $request->aviso_id,
             'email' => $request->contact_email,
@@ -657,7 +658,7 @@ class MyPostsController extends Controller
         Mail::to($email_owner)
             ->cc(['oechegaray@360creative.pe'])
             ->bcc(['pierreherreraoropeza@gmail.com', 'oechegaray@bustamanteromero.com.pe', 'walfaro@360creative.pe'])
-        ->send(new SendDataMail($ad_contact));
+        ->send(new SendDataMail($ad_contact, $aviso_url));
         Log::info('Correo enviado para contactos .');
 
         return response()->json([

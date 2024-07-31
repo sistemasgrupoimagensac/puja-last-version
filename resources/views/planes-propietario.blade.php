@@ -392,9 +392,6 @@
 				isProcessing: false,
 				errorInputCreditcard: false,
         
-        idOpenpay: '',
-				sk: '',
-
 				formatCardNumber() {
 					let input = this.numeroTarjeta.replace(/\D/g, '')
 					this.numeroTarjeta = input.replace(/(.{4})/g, '$1 ').trim()
@@ -482,11 +479,12 @@
 				},
 
 				processPayment(formPost) {
-					fetch(`https://sandbox-api.openpay.pe/v1/${this.idOpenpay}/charges`, {
+					fetch("/pagar-openpay", {
 						method: 'POST',
 						headers: {
+							'Accept': 'application/json',
 							'Content-Type': 'application/json',
-							'Authorization': `Basic ${btoa(`${this.sk}:`)}`
+							'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 						},
 						body: JSON.stringify(formPost)
 					})
@@ -512,32 +510,32 @@
 
 				contratarPlan(price) {
 						const dataToSend = {
-								plan_id: idPlan,
-                tipo_aviso: tipoDeAviso,
-                aviso_id: {{ $aviso_id }},
+							plan_id: idPlan,
+							tipo_aviso: tipoDeAviso,
+							aviso_id: {{ $aviso_id }},
 						}
 
 						fetch('/publicar-aviso', {
-								method: 'POST',
-								headers: {
-										'Accept': 'application/json',
-										'Content-Type': 'application/json',
-										'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-								},
-								body: JSON.stringify(dataToSend)
+							method: 'POST',
+							headers: {
+								'Accept': 'application/json',
+								'Content-Type': 'application/json',
+								'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+							},
+							body: JSON.stringify(dataToSend)
 						})
 						.then(response => response.json())
 						.then(data => {
-								if (data.status === "Success") {
-										const planUserId = data.planuser_id
-										this.factElectronica(price, planUserId)
-										window.location.href = '/panel/avisos'
-								} else {
-										console.error('Error en la suscripción:', data.message);
-								}
+							if (data.status === "Success") {
+								const planUserId = data.planuser_id
+								this.factElectronica(price, planUserId)
+								window.location.href = '/panel/avisos'
+							} else {
+								console.error('Error en la suscripción:', data.message);
+							}
 						})
 						.catch(error => {
-								console.error('Error sending data to backend:', error.message);
+							console.error('Error sending data to backend:', error.message);
 						});
 				},
 
@@ -594,15 +592,28 @@
 				},
 
 				initOpenPay() {
-					const id = 'mplp0n81dz6brymhnuap'
-					const pk = 'pk_9452549041de4a8f996ded2c2164bbf4'
-					const sk = 'sk_5ed0fea4d3b4464f8325c2d4b2f0bbb8'
-					OpenPay.setId(id)
-					OpenPay.setApiKey(pk)
-					OpenPay.setSandboxMode(true)
-					this.deviceSessionId = OpenPay.deviceData.setup("payment-form")
-					this.sk = sk
-          this.idOpenpay = id
+					fetch('/get-data-openpay', {
+						method: 'POST',
+						headers: {
+							'Accept': 'application/json',
+							'Content-Type': 'application/json',
+							'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+						},
+					})
+					.then(response => response.json())
+					.then(data => {
+						if (data.status === "Success") {
+							OpenPay.setId(data.openpay_id)
+							OpenPay.setApiKey(data.openpay_pk)
+							OpenPay.setSandboxMode(data.openpay_sb_mode)
+							this.deviceSessionId = OpenPay.deviceData.setup("payment-form")
+						} else {
+							console.error('Error openPay:', data.message);
+						}
+					})
+					.catch(error => {
+						console.error('Error sending data to backend:', error.message);
+					});
 				},
 
 				registerPayButton() {

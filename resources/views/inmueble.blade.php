@@ -479,6 +479,7 @@
       function submitForm(actionUrl) {
         let form = document.getElementById('send_contact');
         let formData = new FormData(form);
+        formData.append('current_url', window.location.href);
         // console.log(formData)
 
         fetch(actionUrl, {
@@ -505,8 +506,20 @@
       }
 
       function sendWsp(phoneNumber) {
-          const message = document.getElementById('contact-message').value;
-          const url = `https://wa.me/+51${phoneNumber}?text=${encodeURIComponent(message)}`;
+          const init_name = document.getElementById('contact-name').value;
+          const init_email = document.getElementById('contact-email').value;
+          const init_phone = document.getElementById('contact-phone').value;
+          const init_message = document.getElementById('contact-message').value;
+
+          const name = init_name ? `Nombre: ${init_name}\n` : ''
+          const email = init_email ? `Correo: ${init_email}\n` : ''
+          const phone = init_phone ? `Teléfono llamada: ${init_phone}\n` : ''
+          const message = init_message ? `Mensaje: ${init_message}\n` : ''
+          const currentUrl = `\n${window.location.href}`
+          
+          const fullMessage = `${name + email + phone + message + currentUrl}`;
+          var encodedMessage = encodeURIComponent(fullMessage);
+          const url = `https://wa.me/+51${phoneNumber}?text=${encodedMessage}`;
           window.open(url, '_blank');
       }
 

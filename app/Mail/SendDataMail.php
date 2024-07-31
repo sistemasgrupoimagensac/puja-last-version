@@ -15,12 +15,14 @@ class SendDataMail extends Mailable
     use Queueable, SerializesModels;
 
     public $ad_contact;
+    public $aviso_url;
     /**
      * Create a new message instance.
      */
-    public function __construct($ad_contact)
+    public function __construct($ad_contact, $aviso_url)
     {
         $this->ad_contact = $ad_contact;
+        $this->aviso_url = $aviso_url;
     }
 
     /**
