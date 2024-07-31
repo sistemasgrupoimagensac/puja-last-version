@@ -307,7 +307,7 @@ class PlanController extends Controller
     }
 
     // Data OPEN PAY
-    public function get_data_openpay (Request $request) {
+    public function get_data_openpay () {
         $openpay_id = env('OPENPAY_ID');
         $openpay_pk = env('OPENPAY_PK');
         $openpay_sb_mode = env('OPENPAY_SANDBOX_MODE');
