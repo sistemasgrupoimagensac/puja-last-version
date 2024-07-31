@@ -14,8 +14,9 @@ class CardPlan extends Component
     public $plan;
     public $className;
     public $avisos;
+    public $sesionIniciada;
 
-    public function __construct($title, $price, $time, $plan, $className, $avisos)
+    public function __construct($title, $price, $time, $plan, $className, $avisos, $sesionIniciada)
     {
         $this->title = $title;
         $this->price = $price;
@@ -23,6 +24,7 @@ class CardPlan extends Component
         $this->plan = $plan;
         $this->className = $className;
         $this->avisos = $avisos;
+        $this->sesionIniciada = $sesionIniciada;
     }
 
     public function render(): View|Closure|string

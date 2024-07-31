@@ -21,13 +21,24 @@ class PlanController extends Controller
     {
         try {
 
-            // $subs = Subscription::find(1);
-            $subs = Subscription::find(1)->options;
-            // $subs = Subscription::find(1)->options();
-            // $subs = Subscription::with('levels.options')->find(1);
-            // dd($subs);
+            $user = Auth::user();
+            $sesion_iniciada = true;
 
-            return view('planes');
+            if(isset($user)) {
+
+                if($user->tipo_usuario_id === '3') {
+                    $sesion_iniciada = true;
+                    return view('planes', compact('sesion_iniciada'));
+
+                } else {
+                    return view('planes');
+                }
+            
+            } else {
+                return view('planes', compact('sesion_iniciada'));
+            }
+
+            // return view('planes');
         } catch (\Throwable $th) {
 
             return response()->json([
@@ -41,9 +52,7 @@ class PlanController extends Controller
     
     public function planes_propietario(Request $request){
         $aviso_id = $request->input('aviso_id');
-
         return view ('planes-propietario',compact('aviso_id'));
-
     }
 
     // Contratar un Plan y/o publicar un aviso

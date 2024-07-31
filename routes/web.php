@@ -6,13 +6,14 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
-use App\Http\Controllers\AvisoController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\ImagesController;
-use App\Http\Controllers\OpenSSLTestController;
 use App\Http\Controllers\PlanController;
 use App\Http\Middleware\SessionData;
 use App\Http\Controllers\DocumentoController;
+use App\Http\Controllers\Web\Panel\PerfilController;
+use App\Http\Controllers\Web\Panel\PasswordController;
+use App\Http\Controllers\Web\Panel\MisAvisosController;
 
 
 Route::get('/', App\Http\Controllers\Web\Puja\MainController::class);
@@ -27,20 +28,23 @@ Route::get('/google-auth/callback', function () {
     $user_google = Socialite::driver('google')->user();
     $profile_type = session('profile_type', 2); 
     $existingUser = User::where('google_id', $user_google->id)->first();
-    
-    $user = User::updateOrCreate([
+
+    if ($existingUser) {
+        // Loguear al usuario existente
+        Auth::login($existingUser);
+        return redirect('/')->with('user', $existingUser->toJson());
+    } else {
+        // Crear un nuevo usuario
+        $user = User::create([
             'google_id' => $user_google->id,
-        ],[
             'nombres' => $user_google->name,
             'email' => $user_google->email,
             'imagen' => $user_google->avatar,
             'tipo_usuario_id' => $profile_type,
-    ]);
+        ]);
 
-    Auth::login($user);
-    if ($existingUser) {
-        return redirect('/');
-    } else {
+        // Loguear al nuevo usuario
+        Auth::login($user);
         return redirect('/')->with('user', $user->toJson());
     }
 });
@@ -57,13 +61,11 @@ Route::prefix('/inmueble')->name('inmueble.')->group(function() {
 Route::middleware(['auth'])->group(function() {
     Route::prefix('/panel')->name('panel.')->group(function() {
         Route::get('/', fn() => redirect()->route('panel.mis-avisos'));
-        Route::get('/avisos', App\Http\Controllers\Web\Panel\MisAvisosController::class)->name('mis-avisos');
-        Route::get('/perfil', App\Http\Controllers\Web\Panel\PerfilController::class)->name('perfil');
-        Route::get('/password', App\Http\Controllers\Web\Panel\PasswordController::class)->name('password');
+        Route::get('/avisos', MisAvisosController::class)->name('mis-avisos');
+        Route::get('/perfil', PerfilController::class)->name('perfil');
+        Route::get('/password', PasswordController::class)->name('password');
     });
 });
-
-// hasta aqui
 
 Route::get('/publica-tu-inmueble', function() {
     return view('publicatuinmueble');
@@ -101,25 +103,8 @@ Route::get('/my-post/extras/{extra_id}', [MyPostsController::class, 'getExtras']
 
 
 // Ruta para planes de pago
-Route::get('/planes-inmobiliaria', [App\Http\Controllers\PlanController::class, 'index']);
-// Route::post('/pagar-plan', [App\Http\Controllers\PlanController::class, 'pay_plan']);
-Route::post('/planes-user', [App\Http\Controllers\PlanController::class, 'list_plans_user']);
-/* Route::get('/planes-inmobiliaria', function() {
-    try {
-
-        return view('planes');
-
-    } catch (\Throwable $th) {
-        // Capturar cualquier excepción o error que ocurra y retornar una respuesta de error
-
-        return response()->json([
-            'http_code' => 500,
-            'message' => 'Error al generar la factura',
-            'error' => $th->getMessage() // Mensaje de error detallado
-        ], 500); // Código de estado HTTP 500 (Internal Server Error)
-    }
-}); */
-// Route::post('/pagar-planes-propietario', [PlanController::class, 'planes_propietario']);
+Route::get('/planes-inmobiliaria', [PlanController::class, 'index']);
+Route::post('/planes-user', [PlanController::class, 'list_plans_user']);
 Route::post('/pagar-planes-propietario', [PlanController::class, 'planes_propietario'])->name('pagar.planes_propietario');
 
 Route::post('/publicar-aviso', [PlanController::class, 'post_ad']);
@@ -139,7 +124,7 @@ Route::post('/generarComprobanteElec/{id}', [BillingController::class, 'generarF
 
 Route::get('/send_mail', [BillingController::class, 'sendMail']);
 
-// Ruta planes de prietario (dueño)
+// Ruta planes del propietario (dueño)
 Route::get('/planes-propietario', function() {
     return view('planes-propietario');
 });

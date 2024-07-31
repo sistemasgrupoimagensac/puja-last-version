@@ -140,8 +140,11 @@
 						<div role="group" class="d-flex flex-column align-items-center flex-md-row gap-4 mt-4 w-100">
 							<!-- plan basico -->
 							<div>
-								<input type="radio" class="btn-check" x-model="tipoPlan" id="basico" value="basico" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
+								@if ($sesion_iniciada)
+									<input type="radio" class="btn-check" x-model="tipoPlan" id="basico" value="basico" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
+								@endif
 								<x-card-plan
+									:$sesion_iniciada
 									title="Básico"
 									price="prices.basico"
 									time="periodoPlan"
@@ -155,6 +158,7 @@
 							<div>
 								<input type="radio" class="btn-check" x-model="tipoPlan" id="estandar" value="estandar" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
 								<x-card-plan
+									:$sesion_iniciada
 									title="Estándar"
 									price="prices.estandar"
 									time="periodoPlan"
@@ -168,6 +172,7 @@
 							<div>
 								<input type="radio" class="btn-check" x-model="tipoPlan" id="superior" value="superior" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
 								<x-card-plan
+									:$sesion_iniciada
 									title="Superior"
 									price="prices.superior"
 									time="periodoPlan"
@@ -186,6 +191,7 @@
 							<div>
 								<input type="radio" class="btn-check" x-model="tipoPlan" id="top" value="top" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
 								<x-card-plan
+									:$sesion_iniciada
 									title="Top"
 									price="prices.top"
 									time="periodoPlanTop"
@@ -199,6 +205,7 @@
 							<div>
 								<input type="radio" class="btn-check" x-model="tipoPlan" id="topPlus" value="topPlus" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
 								<x-card-plan
+									:$sesion_iniciada
 									title="Top Plus"
 									price="prices.topPlus"
 									time="periodoPlanTop"
@@ -375,7 +382,7 @@
 				</div>
 
 				<!-- MODAL RESULTADO -->
-				<div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
+				{{-- <div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -390,13 +397,14 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> --}}
 
 			</div>    
 		</form>
 	</div>
 
 	<script>
+
 		function pricingData() {
 			return {
 				// campos formulario:
@@ -530,6 +538,7 @@
             this.updateIdTop()
 					})
 					this.$watch('periodoPlanTop', () => {
+						this.updatePricesTop() 
             this.updateIdTop()
 					})
 

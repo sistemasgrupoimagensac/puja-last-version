@@ -23,6 +23,9 @@ class LoginController extends Controller
             case '2':
                 $imagen_path = "/images/bg5.webp";
                 break;
+            case '3':
+                $imagen_path = "/images/signin.webp";
+                break;
             case '4':
                 $imagen_path = "/images/signin5.webp";
                 break;
@@ -30,7 +33,7 @@ class LoginController extends Controller
                 return view('publicatuinmueble');
                 break;
         }
-        session(['profile_type' => $request->query('profile_type')]);
+        session(['profile_type' => $profile_type]);
         return view('auth.signin', compact('profile_type', 'imagen_path'));
     }
 

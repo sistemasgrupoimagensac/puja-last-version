@@ -86,7 +86,7 @@
               </div>
               <div class="modal-body">
                 <div class="alert alert-info m-0" role="alert">
-                  <p class="m-0">Vas a registrarte como
+                  <p class="m-0">Vas a ingresar como
                     @if ($profile_type === '2')
                       <span class="fw-bold">Propietario</span>
                       @elseif ($profile_type === '3')
@@ -95,6 +95,9 @@
                       <span class="fw-bold">Acreedor</span>
                     @endif
                   ¿Es correcto?</p>
+                </div>
+                <div class="mt-1">
+                  <small class="p-3"> <span class="fw-bold">Nota:</span> si ya tienes una cuenta se te redirigirá a tu perfil</small>
                 </div>
               </div>
               <div class="modal-footer">
@@ -109,14 +112,7 @@
 
         <div class="d-flex flex-column align-items-center mt-5 bg-secondary bg-opacity-10 rounded-3 py-2 w-100">
           <p class="">si no tienes una cuenta registrate aquí</p>
-          {{-- @isset($profile_type)
-            <a href="{{ route("login.register", ['profile_type' => $profile_type]) }}" class=" text-decoration-none fw-bold">REGISTRATE</a>
-          @else
-            <a href="{{ route("login.register", ['profile_type' => 2]) }}" class=" text-decoration-none fw-bold">REGISTRATE</a>
-            @endisset --}}
-            
           <a href="{{ route("login.register") }}" class=" text-decoration-none fw-bold">REGISTRATE</a>
-              
         </div>
         
       </div>
