@@ -950,8 +950,7 @@
             }
         }
 
-        window.showModal = @json($show_modal)
-
+        window.showModal = @json($show_modal);
 
         // Inicializar el mapa de Google
         function initMap() {

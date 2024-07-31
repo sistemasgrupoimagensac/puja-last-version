@@ -53,7 +53,7 @@ documentSelected.addEventListener("change", function () {
 // Mostrar modal para completar registro de usuario logueado con Google
 document.addEventListener('DOMContentLoaded', function() {
   if (showModal) {
-      var myModal = new bootstrap.Modal(document.getElementById('staticBackdropRegister'), {
+      const myModal = new bootstrap.Modal(document.getElementById('staticBackdropRegister'), {
           keyboard: false
       });
       myModal.show();

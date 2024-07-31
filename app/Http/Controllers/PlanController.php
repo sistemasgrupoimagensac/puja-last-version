@@ -20,31 +20,26 @@ class PlanController extends Controller
     public function index()
     {
         try {
-
             $user = Auth::user();
             $sesion_iniciada = false;
-
-            // dd($sesion_iniciada);
-
+            
             if(isset($user)) {
 
-                
+                $show_modal = !$user->celular && !$user->numero_documento;
+
                 if($user->tipo_usuario_id === 3) {
-                    
-                    // dd($user->tipo_usuario_id);
-                    // // dd($user->tipo_usuario_id );
                     $sesion_iniciada = true;
-                    return view('planes', compact('sesion_iniciada'));
+                    return view('planes', compact('sesion_iniciada', 'show_modal'));
 
                 } else {
                     return redirect('/');
                 }
             
             } else {
-                return view('planes', compact('sesion_iniciada'));
+                $show_modal = false;
+                return view('planes', compact('sesion_iniciada', 'show_modal'));
             }
 
-            // return view('planes');
         } catch (\Throwable $th) {
 
             return response()->json([
@@ -55,7 +50,6 @@ class PlanController extends Controller
         }
     }
 
-    
     public function planes_propietario(Request $request){
         $aviso_id = $request->input('aviso_id');
         return view ('planes-propietario',compact('aviso_id'));
