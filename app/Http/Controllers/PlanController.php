@@ -22,16 +22,22 @@ class PlanController extends Controller
         try {
 
             $user = Auth::user();
-            $sesion_iniciada = true;
+            $sesion_iniciada = false;
+
+            // dd($sesion_iniciada);
 
             if(isset($user)) {
 
-                if($user->tipo_usuario_id === '3') {
+                
+                if($user->tipo_usuario_id === 3) {
+                    
+                    // dd($user->tipo_usuario_id);
+                    // // dd($user->tipo_usuario_id );
                     $sesion_iniciada = true;
                     return view('planes', compact('sesion_iniciada'));
 
                 } else {
-                    return view('planes');
+                    return redirect('/');
                 }
             
             } else {

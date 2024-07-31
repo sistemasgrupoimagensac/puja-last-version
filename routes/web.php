@@ -1,8 +1,8 @@
 <?php
 
+use App\Models\User;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MyPostsController;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
@@ -14,9 +14,10 @@ use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\Web\Panel\PerfilController;
 use App\Http\Controllers\Web\Panel\PasswordController;
 use App\Http\Controllers\Web\Panel\MisAvisosController;
+use App\Http\Controllers\Web\Puja\MainController;
 
 
-Route::get('/', App\Http\Controllers\Web\Puja\MainController::class);
+Route::get('/', MainController::class);
 
 Route::get('/google-auth/redirect', function () {
     return Socialite::driver('google')

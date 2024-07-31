@@ -156,7 +156,9 @@
 				
 							<!-- plan estandar -->
 							<div>
-								<input type="radio" class="btn-check" x-model="tipoPlan" id="estandar" value="estandar" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
+								@if ($sesion_iniciada)
+									<input type="radio" class="btn-check" x-model="tipoPlan" id="estandar" value="estandar" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
+								@endif
 								<x-card-plan
 									:$sesion_iniciada
 									title="Estándar"
@@ -170,7 +172,9 @@
 				
 							<!-- plan superior -->
 							<div>
-								<input type="radio" class="btn-check" x-model="tipoPlan" id="superior" value="superior" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
+								@if ($sesion_iniciada)
+									<input type="radio" class="btn-check" x-model="tipoPlan" id="superior" value="superior" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
+								@endif
 								<x-card-plan
 									:$sesion_iniciada
 									title="Superior"
@@ -189,7 +193,9 @@
 						<div role="group" class="d-flex flex-column align-items-center flex-md-row gap-4 mt-4 w-100">
 							{{-- plan top --}}
 							<div>
-								<input type="radio" class="btn-check" x-model="tipoPlan" id="top" value="top" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
+								@if ($sesion_iniciada)
+									<input type="radio" class="btn-check" x-model="tipoPlan" id="top" value="top" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
+								@endif
 								<x-card-plan
 									:$sesion_iniciada
 									title="Top"
@@ -203,7 +209,9 @@
 				
 							<!-- plan top plus -->
 							<div>
-								<input type="radio" class="btn-check" x-model="tipoPlan" id="topPlus" value="topPlus" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
+								@if ($sesion_iniciada)
+									<input type="radio" class="btn-check" x-model="tipoPlan" id="topPlus" value="topPlus" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
+								@endif
 								<x-card-plan
 									:$sesion_iniciada
 									title="Top Plus"

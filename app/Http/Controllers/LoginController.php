@@ -161,6 +161,8 @@ class LoginController extends Controller
             'document_type' => 'required|string|max:1',
             'document_number' => 'required|string|max:30|unique:users,numero_documento',
             'phone' => 'string|min:6|max:15',
+            'direccion' => 'string|max:150',
+            'accept_terms' => 'accepted',
         ]);
         
 
@@ -172,7 +174,7 @@ class LoginController extends Controller
                 'errors' => $validator->errors()
             ], 422);
         }
-        $acceptTerms = $request->has('accept_terms') ? true : false;
+        // $acceptTerms = $request->has('accept_terms') ? true : false;
     
         if (!Auth::check()) {
             return redirect()->route('sign_in')->with('error', 'Inicia sesión, por favor.');
@@ -186,7 +188,8 @@ class LoginController extends Controller
             'tipo_documento_id' => $request->input('document_type'),
             'numero_documento' => $request->input('document_number'),
             'celular' => $request->input('phone'),
-            'acepta_termino_condiciones' => $acceptTerms,
+            'direccion' => $request->input('direccion'),
+            'acepta_termino_condiciones' => $request->input('accept_terms'),
         ]);
 
         return response()->json([

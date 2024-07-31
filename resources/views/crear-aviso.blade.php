@@ -30,8 +30,8 @@
                                     <div class="form-floating">
                                         <select class="form-select" id="document_type" name="document_type" required>
                                             <option value="1" selected>DNI</option>
-                                            <option value="2">RUC</option>
-                                            <option value="3">Otro Documento</option>
+                                            <option value="3">RUC</option>
+                                            <option value="2">Otro Documento</option>
                                         </select>
                                         <label for="document_type">Documento</label>
                                     </div>
