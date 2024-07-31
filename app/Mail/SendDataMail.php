@@ -15,12 +15,14 @@ class SendDataMail extends Mailable
     use Queueable, SerializesModels;
 
     public $ad_contact;
+    public $aviso_url;
     /**
      * Create a new message instance.
      */
-    public function __construct($ad_contact)
+    public function __construct($ad_contact, $aviso_url)
     {
         $this->ad_contact = $ad_contact;
+        $this->aviso_url = $aviso_url;
     }
 
     /**
@@ -29,11 +31,10 @@ class SendDataMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            // from: new Address( '' ),
             // from: new Address( env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME') ),
-            replyTo: [
-                new Address( env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME') ),
-            ],
+            /* replyTo: [
+                new Address( $this->ad_contact->contact_email, $this->ad_contact->contact_name ),
+            ], */
             subject: 'Nuevo contacto interesado',
         );
     }

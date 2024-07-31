@@ -12,6 +12,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
 class PlanController extends Controller
@@ -312,5 +313,52 @@ class PlanController extends Controller
             "status" => "OK",
             "active_plan_users" => $active_plan_users,
         ], 200);
+    }
+
+    // Data OPEN PAY
+    public function get_data_openpay (Request $request) {
+        $openpay_id = env('OPENPAY_ID');
+        $openpay_pk = env('OPENPAY_PK');
+        $openpay_sb_mode = env('OPENPAY_SANDBOX_MODE');
+        
+        if ( strlen($openpay_id) > 1 && strlen($openpay_pk) > 1 && strlen($openpay_sb_mode) >= 1 ) {
+            return response()->json([
+                "http_code" => 200,
+                "status" => "Success",
+                "message" => "Data de openPay entregada correctamente.",
+                "openpay_id" => $openpay_id,
+                "openpay_pk" => $openpay_pk,
+                "openpay_sb_mode" => $openpay_sb_mode,
+            ], 200);
+        } else {
+            return response()->json([
+                "http_code" => 400,
+                "status" => "Error",
+                "message" => "Error al consultar la data de openPay.",
+            ], 400);
+        }
+    }
+
+    // Pagos por OPEN PAY
+    public function pay_openpay (Request $request) {
+        $base_url = env('OPENPAY_URL');
+        $openpay_id = env('OPENPAY_ID');
+        $openpay_sk = env('OPENPAY_SK');
+
+        $urlAPI = $base_url . $openpay_id . '/charges';
+        $encoded_sk = base64_encode("$openpay_sk:");
+
+        $data = json_encode($request->all());
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Basic ' . $encoded_sk,
+        ])->withBody($data, 'application/json')->post($urlAPI);
+
+        if ($response->successful()) {
+            return response()->json($response->json());
+        } else {
+            return response()->json(['error' => 'Error al realizar la consulta.'], $response->status());
+        }
     }
 }

@@ -428,10 +428,14 @@
                       <label for="contact-message" class="text-secondary">Mensaje</label>
                     </div>
 
+                    {{-- contacto por whatsapp --}}
+                    <button class="btn btn-light border-secondary-subtle" type="button" id="whatsapp_contact_button">
+                      <i class="fab fa-whatsapp"></i> WhatsApp
+                    </button>
                     <x-whatsapp-modal-inmueble-contact></x-whatsapp-modal-inmueble-contact>
     
                     {{-- contacto por correo --}}
-                    <button class="btn btn-light border-secondary-subtle" type="submit" id="btn-enviar-form-single">
+                    <button class="btn btn-light border-secondary-subtle"{{--  type="submit" --}} id="btn-enviar-form-single">
                       <i class="fa-regular fa-paper-plane"></i> Enviar
                     </button>
 
@@ -456,6 +460,7 @@
 
   <script>
       const adBelongs = @json($ad_belongs);
+      const owner_phone = @json( $aviso->inmueble->user->phone );
 
       if(!adBelongs) {
 
@@ -463,11 +468,18 @@
           event.preventDefault();
           submitForm('{{ route('email.enviar-datos_contacto') }}');
         });
+
+        document.getElementById('whatsapp_contact_button').addEventListener('click', function(event) {
+          event.preventDefault();
+          console.log( "cel", owner_phone )
+          sendWsp( owner_phone );
+        });
       }
 
       function submitForm(actionUrl) {
         let form = document.getElementById('send_contact');
         let formData = new FormData(form);
+        formData.append('current_url', window.location.href);
         // console.log(formData)
 
         fetch(actionUrl, {
@@ -491,6 +503,24 @@
             console.error('Error:', error);
             alert('Error al enviar el formulario');
         });
+      }
+
+      function sendWsp(phoneNumber) {
+          const init_name = document.getElementById('contact-name').value;
+          const init_email = document.getElementById('contact-email').value;
+          const init_phone = document.getElementById('contact-phone').value;
+          const init_message = document.getElementById('contact-message').value;
+
+          const name = init_name ? `Nombre: ${init_name}\n` : ''
+          const email = init_email ? `Correo: ${init_email}\n` : ''
+          const phone = init_phone ? `Teléfono llamada: ${init_phone}\n` : ''
+          const message = init_message ? `Mensaje: ${init_message}\n` : ''
+          const currentUrl = `\n${window.location.href}`
+          
+          const fullMessage = `${name + email + phone + message + currentUrl}`;
+          var encodedMessage = encodeURIComponent(fullMessage);
+          const url = `https://wa.me/+51${phoneNumber}?text=${encodedMessage}`;
+          window.open(url, '_blank');
       }
 
       document.getElementById('redirect-button')?.addEventListener('click', function() {

@@ -145,7 +145,10 @@ Route::get('/politica-privacidad', function() {
 });
 
 
-Route::post('/consultar-documento', [DocumentoController::class, 'consultar'])->name('consultar.documento');
+Route::post('/get-data-openpay', [PlanController::class, 'get_data_openpay']);
+Route::post('/pagar-openpay', [PlanController::class, 'pay_openpay']);
+// Route::post('/consultar-documento', [DocumentoController::class, 'consultar'])->name('consultar.documento');
+Route::post('/consulta-dni-ruc', [DocumentoController::class, 'consultar_dni_ruc']);
 
 Route::post('/enviar-datos-dni-ruc', [BillingController::class, 'recibirDatos']);
 
