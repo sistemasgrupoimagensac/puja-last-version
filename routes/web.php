@@ -6,13 +6,14 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
-use App\Http\Controllers\AvisoController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\ImagesController;
-use App\Http\Controllers\OpenSSLTestController;
 use App\Http\Controllers\PlanController;
 use App\Http\Middleware\SessionData;
 use App\Http\Controllers\DocumentoController;
+use App\Http\Controllers\Web\Panel\PerfilController;
+use App\Http\Controllers\Web\Panel\PasswordController;
+use App\Http\Controllers\Web\Panel\MisAvisosController;
 
 
 Route::get('/', App\Http\Controllers\Web\Puja\MainController::class);
@@ -27,20 +28,23 @@ Route::get('/google-auth/callback', function () {
     $user_google = Socialite::driver('google')->user();
     $profile_type = session('profile_type', 2); 
     $existingUser = User::where('google_id', $user_google->id)->first();
-    
-    $user = User::updateOrCreate([
+
+    if ($existingUser) {
+        // Loguear al usuario existente
+        Auth::login($existingUser);
+        return redirect('/')->with('user', $existingUser->toJson());
+    } else {
+        // Crear un nuevo usuario
+        $user = User::create([
             'google_id' => $user_google->id,
-        ],[
             'nombres' => $user_google->name,
             'email' => $user_google->email,
             'imagen' => $user_google->avatar,
             'tipo_usuario_id' => $profile_type,
-    ]);
+        ]);
 
-    Auth::login($user);
-    if ($existingUser) {
-        return redirect('/');
-    } else {
+        // Loguear al nuevo usuario
+        Auth::login($user);
         return redirect('/')->with('user', $user->toJson());
     }
 });
@@ -57,9 +61,9 @@ Route::prefix('/inmueble')->name('inmueble.')->group(function() {
 Route::middleware(['auth'])->group(function() {
     Route::prefix('/panel')->name('panel.')->group(function() {
         Route::get('/', fn() => redirect()->route('panel.mis-avisos'));
-        Route::get('/avisos', App\Http\Controllers\Web\Panel\MisAvisosController::class)->name('mis-avisos');
-        Route::get('/perfil', App\Http\Controllers\Web\Panel\PerfilController::class)->name('perfil');
-        Route::get('/password', App\Http\Controllers\Web\Panel\PasswordController::class)->name('password');
+        Route::get('/avisos', MisAvisosController::class)->name('mis-avisos');
+        Route::get('/perfil', PerfilController::class)->name('perfil');
+        Route::get('/password', PasswordController::class)->name('password');
     });
 });
 
