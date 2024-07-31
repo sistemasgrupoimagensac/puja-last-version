@@ -21,7 +21,7 @@ class PlanController extends Controller
         try {
 
             $user = Auth::user();
-            $sesion_iniciada = false;
+            $sesion_iniciada = true;
 
             if(isset($user)) {
 

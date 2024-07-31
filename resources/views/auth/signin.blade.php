@@ -86,7 +86,7 @@
               </div>
               <div class="modal-body">
                 <div class="alert alert-info m-0" role="alert">
-                  <p class="m-0">Vas a registrarte como
+                  <p class="m-0">Vas a ingresar como
                     @if ($profile_type === '2')
                       <span class="fw-bold">Propietario</span>
                       @elseif ($profile_type === '3')
@@ -95,6 +95,9 @@
                       <span class="fw-bold">Acreedor</span>
                     @endif
                   ¿Es correcto?</p>
+                </div>
+                <div class="mt-1">
+                  <small class="p-3"> <span class="fw-bold">Nota:</span> si ya tienes una cuenta se te redirigirá a tu perfil</small>
                 </div>
               </div>
               <div class="modal-footer">

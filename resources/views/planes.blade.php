@@ -144,7 +144,7 @@
 									<input type="radio" class="btn-check" x-model="tipoPlan" id="basico" value="basico" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
 								@endif
 								<x-card-plan
-									sesionIniciada="sesionIniciada"
+									:$sesion_iniciada
 									title="Básico"
 									price="prices.basico"
 									time="periodoPlan"
@@ -158,6 +158,7 @@
 							<div>
 								<input type="radio" class="btn-check" x-model="tipoPlan" id="estandar" value="estandar" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
 								<x-card-plan
+									:$sesion_iniciada
 									title="Estándar"
 									price="prices.estandar"
 									time="periodoPlan"
@@ -171,6 +172,7 @@
 							<div>
 								<input type="radio" class="btn-check" x-model="tipoPlan" id="superior" value="superior" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
 								<x-card-plan
+									:$sesion_iniciada
 									title="Superior"
 									price="prices.superior"
 									time="periodoPlan"
@@ -189,6 +191,7 @@
 							<div>
 								<input type="radio" class="btn-check" x-model="tipoPlan" id="top" value="top" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
 								<x-card-plan
+									:$sesion_iniciada
 									title="Top"
 									price="prices.top"
 									time="periodoPlanTop"
@@ -202,6 +205,7 @@
 							<div>
 								<input type="radio" class="btn-check" x-model="tipoPlan" id="topPlus" value="topPlus" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
 								<x-card-plan
+									:$sesion_iniciada
 									title="Top Plus"
 									price="prices.topPlus"
 									time="periodoPlanTop"
@@ -400,7 +404,6 @@
 	</div>
 
 	<script>
-		const sesionIniciada = @json($sesion_iniciada);
 
 		function pricingData() {
 			return {
@@ -535,6 +538,7 @@
             this.updateIdTop()
 					})
 					this.$watch('periodoPlanTop', () => {
+						this.updatePricesTop() 
             this.updateIdTop()
 					})
 
