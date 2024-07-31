@@ -112,10 +112,10 @@
                                 <label class="btn btn-outline-secondary button-filter" for="vender">Vender</label>
 
                                 <input type="radio" class="btn-check" x-model="tipo_operacion" id="alquilar" autocomplete="off" value="2" required>
-                                <label class="btn btn-outline-secondary button-filter" for="alquilar">Alquilar</label>
+                                <label class="btn btn-outline-secondary button-filter" for="alquilar" :class="{'rounded-end': !perfil_acreedor}">Alquilar</label>
 
-                                <input type="radio" class="btn-check" x-model="tipo_operacion" id="rematar" autocomplete="off" value="3" required>
-                                <label class="btn btn-outline-secondary button-filter" for="rematar">Rematar</label>
+                                <input type="radio" class="btn-check" :class="{'d-none': !perfil_acreedor}" x-model="tipo_operacion" id="rematar" autocomplete="off" value="3" required>
+                                <label class="btn btn-outline-secondary button-filter" :class="{'d-none': !perfil_acreedor}" for="rematar">Rematar</label>
                             </div>
                         </div>
 

@@ -29,11 +29,19 @@
                             <div class="ribbon top">Top</div>
                         @endif
 
+                        <div class="first-image card-image-container shadow">
+                            <img src="{{ $aviso->inmueble->imagenPrincipal() }}" class="card-image-custom rounded" alt="{{ $aviso->inmueble->title() }}">
+                        </div>
                         @foreach($aviso->inmueble->imagenes as $n => $image)
-                            <div class="@if($n == 0) first-image @elseif($n == 1) second-image @elseif($n == 2) third-image @else  @endif card-image-container shadow">
+                            <div class="@if($n == 0) second-image @elseif($n == 1) third-image @else  @endif card-image-container shadow">
                                 <img src="{{ $image->imagen }}" class="card-image-custom rounded" alt="{{ $aviso->inmueble->title() }}">
                             </div>
                         @endforeach
+                        {{-- @foreach($aviso->inmueble->imagenes as $n => $image)
+                            <div class="@if($n == 0) first-image @elseif($n == 1) second-image @elseif($n == 2) third-image @else  @endif card-image-container shadow">
+                                <img src="{{ $image->imagen }}" class="card-image-custom rounded" alt="{{ $aviso->inmueble->title() }}">
+                            </div>
+                        @endforeach --}}
 
                     </div>
                     
