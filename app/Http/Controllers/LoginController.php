@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\TipoUsuario;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,10 +42,11 @@ class LoginController extends Controller
     {
         if ($request->session()->has('profile_type')) {
             $profile_type = $request->session()->get('profile_type');
+            $user_types = TipoUsuario::where('id', '>', 1)->get();
         } else {
             return view('publicatuinmueble');
         }
-        return view('auth.register', compact('profile_type'));
+        return view('auth.register', compact('profile_type', 'user_types'));
     }
 
     public function login(Request $request)
@@ -98,8 +100,9 @@ class LoginController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|max:20',
             'document_type' => 'required|integer|max:1',
-            // 'phone' => 'integer|digits:9',
-            'document_number' => 'required|string|max:30|unique:users,numero_documento',
+            'phone' => 'integer|digits:9',
+            'address' => 'required|string',
+            'document_number' => 'required|string|max:30',
             'imagen' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|nullable',
             // 'estado' => 'required|boolean',
             'accept_terms' => 'accepted',

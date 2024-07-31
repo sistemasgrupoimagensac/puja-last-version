@@ -22,6 +22,7 @@ use App\Models\PrincipalInmueble;
 use App\Models\Provincia;
 use App\Models\SubTipoInmueble;
 use App\Models\UbicacionInmueble;
+use App\Models\User;
 use App\Models\VideoInmueble;
 use Database\Seeders\ExtraInmuebleCaracteristicasInmueblesSeeder;
 use Illuminate\Http\Request;
@@ -615,13 +616,13 @@ class MyPostsController extends Controller
     }
 
     public function enviar_datos_contacto (Request $request) {
-        /* $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'contact_name' => 'required|string',
             'contact_email' => 'required|string',
             'contact_phone' => 'required|string',
             'contact_monto_puja' => 'nullable|string',
             'contact_message' => 'required|string',
-            // 'accept_terms' => 'nullable|boolean',
+            'accept_terms' => 'nullable|string',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -630,15 +631,23 @@ class MyPostsController extends Controller
                 'message' => 'Errores de validación.',
                 'errors' => $validator->errors()
             ], 422);
-        } */
+        }
 
-        $aviso = Aviso::findOrFail($request->aviso_id);
-        $email_owner = $aviso->inmueble->user->email;
-
-        $user_id = null;
-        if ( Auth::check() ) $user_id = Auth::id();
+        if ( !$request->accept_terms ) {
+            return response()->json([
+                'http_code' => 400,
+                'status' => "Error",
+                'message' => 'Debe aceptar los TyC.',
+            ], 400);
+        } else {
+            $accept_terms = true;
+        }
 
         $aviso_url = $request->current_url;
+        $aviso = Aviso::findOrFail($request->aviso_id);
+        $email_owner = $aviso->inmueble->user->email;
+        $user_id = Auth::check() ? Auth::id() : null;
+
         $ad_contact = AdContact::updateOrCreate([
             'aviso_id' => $request->aviso_id,
             'email' => $request->contact_email,
@@ -649,13 +658,13 @@ class MyPostsController extends Controller
             'phone' => $request->contact_phone,
             'bid_amount' => $request->contact_monto_puja,
             'message' => $request->contact_message,
-            // 'accept_terms' => $request->accept_terms,
+            'accept_terms' => $accept_terms,
         ]);
 
         Log::info('Iniciando el envío de correo para contactos ...');
         Mail::to($email_owner)
-            ->cc(['oechegaray@360creative.pe'])
-            ->bcc(['pierreherreraoropeza@gmail.com', 'oechegaray@bustamanteromero.com.pe', 'walfaro@360creative.pe'])
+            ->cc(['pierreherreraoropeza@gmail.com'])
+            // ->bcc(['pierreherreraoropeza@gmail.com', 'oechegaray@bustamanteromero.com.pe', 'walfaro@360creative.pe'])
         ->send(new SendDataMail($ad_contact, $aviso_url));
         Log::info('Correo enviado para contactos .');
 
