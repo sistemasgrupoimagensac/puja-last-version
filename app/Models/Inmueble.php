@@ -51,6 +51,11 @@ class Inmueble extends Model
         return optional(optional(optional($this->principal)->operacion)->tipoInmueble)->tipo;
     }
 
+    public function typeInmueble()
+    {
+        return optional(optional(optional($this->principal)->operacion)->tipoInmueble)->tipo;
+    }
+
     public function imagenPrincipal()
     {
         return optional($this->multimedia)->imagen_principal;
@@ -117,6 +122,16 @@ class Inmueble extends Model
         }
 
         return sprintf('%s en %s en %s', $tipo_inmueble, $tipo_operacion, $distrito);
+    }
+
+    public function antiguedad()
+    {
+        return optional(optional($this->principal)->caracteristicas)->antiguedad;
+    }
+
+    public function aniosAntiguedad()
+    {
+        return optional(optional($this->principal)->caracteristicas)->anios_antiguedad;
     }
 
     public function area()
@@ -211,5 +226,94 @@ class Inmueble extends Model
         return optional(optional($this->principal)->caracteristicas)->remate_telef_contacto;
     }
 
+    public function getDescripcionAttribute()
+    {
+        $subtipo_inmueble = $this->principal->operacion->subTipoInmueble->subtipo;
+        $tipo_operacion = $this->principal->operacion->tipoOperacion->tipo;
+        $direccion_completa = 
+            $this->address() . ' ' . 
+            $this->principal->ubicacion->distrito->nombre . ', ' . 
+            $this->principal->ubicacion->provincia->nombre . ', ' . 
+            $this->principal->ubicacion->departamento->nombre . '. ';
+        $puja = $this->is_puja() == 1 ? "*Este aviso acepta ofertas en cuanto al precio que le afrezcas.\n" : "";
+
+        $habitaciones = '';
+        if ( $this->dormitorios() == 1 ) $habitaciones = 'una habitación, ';
+        if ( $this->dormitorios() > 1 ) $habitaciones = $this->dormitorios() . ' habitaciones, ';
+        $banios = '';
+        if ( $this->banios() == 1 ) 'un baño, ';
+        if ( $this->banios() > 1 ) $banios = $this->banios() . ' baños, ';
+        $mediobanios = '';
+        if ( $this->medioBanios() == 1 ) 'un medio baño, ';
+        if ( $this->medioBanios() > 1 ) $mediobanios = $this->medioBanios() . ' medios baños, ';
+        $estacionamientos = '';
+        if ( $this->estacionamientos() == 1 ) 'un estacionamiento, ';
+        if ( $this->estacionamientos() > 1 ) $estacionamientos = $this->estacionamientos() . ' estacionamientos, ';
+
+        $espacios = "";
+        if ( $this->dormitorios() >= 1 || $this->banios() >= 1 || $this->medioBanios() >= 1 || $this->estacionamientos() >= 1 ) {
+            $espacios .= "En cuanto a espacios en el inmueble, este cuenta con: {$habitaciones}{$banios}{$mediobanios}{$estacionamientos}";
+            $espacios = substr_replace($espacios, ".", -2);
+        }
+
+        $area_total_num = number_format($this->area(), 0, '', ',');
+        $area_construida_num = number_format($this->area(), 0, '', ',');
+        $area_total = "cuenta con {$area_total_num} m² como área total,";
+        $area_construida = "y {$area_construida_num} m² como área construida,";
+        $tipo_inmueble = $this->typeInmueble();
+        $antiguedad = '';
+        if ( $this->antiguedad() == "estreno" ) {
+            $antiguedad = 'en estreno';
+        } else if ( $this->antiguedad() == "construccion" ) {
+            $antiguedad = 'en construcción';
+        } else if ( $this->antiguedad() == "antiguedad" ) {
+            $antiguedad = 'con ' . $this->aniosAntiguedad() . ' años de antiguedad';
+        }
+        $monto = '';
+        $monto_soles = number_format($this->precioSoles(), 2, '.', ',');
+        $monto_dolares = number_format($this->precioDolares(), 2, '.', ',');
+        if ( $this->precioSoles() && $this->precioDolares() ) {
+            $monto = "y el monto que solicita es de S/ {$monto_soles} ó $ {$monto_dolares}";
+        } else if ( $this->precioSoles() && !$this->precioDolares() ) {
+            $monto = "y el monto que solicita es de S/ {$monto_soles}";
+        } else if ( !$this->precioSoles() && $this->precioDolares() ) {
+            $monto = "y el monto que solicita es de $ {$monto_dolares}";
+        }
+        $caracteristicas = "{$tipo_inmueble} {$antiguedad} {$area_total} {$area_construida} {$monto}" ;
+
+        // REMATE
+        $remate = "";
+        if ( $this->remate_precio_base() ) {
+            $remate .= "Este inmueble en remate tiene un precio base de S/ {$this->remate_precio_base()}";
+        }
+        if ( $this->remate_valor_tasacion() ) {
+            $remate .= ", tiene un valor de tasación de S/ {$this->remate_valor_tasacion()}";
+        }
+        if ( $this->remate_partida_registral() ) {
+            $remate .= ", con la siguiente partida registral {$this->remate_partida_registral()}";
+        }
+        if ( $this->remate_direccion() ) {
+            $remate .= ", la dirección del remate del inmueble es en {$this->remate_direccion()}";
+        }
+        if ( $this->remate_fecha() ) {
+            $remate .= ", con fecha {$this->remate_fecha()}";
+        }
+        if ( $this->remate_hora() ) {
+            $remate .= " y hora {$this->remate_hora()}";
+        }
+        if ( $this->remate_nombre_contacto() ) {
+            $remate .= ", el nombre del contacto es {$this->remate_nombre_contacto()}";
+        }
+        if ( $this->remate_telef_contacto() ) {
+            $remate .= " y su teléfono es {$this->remate_telef_contacto()}";
+        }
+        $caracteristicas_extras = "";
+        $totalCaracteristicas = count($this->extra->caracteristicas);
+        foreach ( $this->extra->caracteristicas as $key => $value) {
+            $caracteristicas_extras .= $value->caracteristica;
+            ( $key < $totalCaracteristicas - 1 ) ? $caracteristicas_extras .= ", " : $caracteristicas_extras .= ".";
+        }
+        return "{$puja}{$subtipo_inmueble} en {$tipo_operacion} ubicada en {$direccion_completa}{$espacios} {$caracteristicas}. {$remate}El inmueble cuenta con una lista de caracteristicas y comodidades que se presentan acontinuacion: {$caracteristicas_extras}";
+    }
 
 }
