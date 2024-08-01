@@ -32,16 +32,16 @@
                         <div class="first-image card-image-container shadow">
                             <img src="{{ $aviso->inmueble->imagenPrincipal() }}" class="card-image-custom rounded" alt="{{ $aviso->inmueble->title() }}">
                         </div>
-                        @foreach($aviso->inmueble->imagenes as $n => $image)
+                        {{-- @foreach($aviso->inmueble->imagenes as $n => $image)
                             <div class="@if($n == 0) second-image @elseif($n == 1) third-image @else  @endif card-image-container shadow">
                                 <img src="{{ $image->imagen }}" class="card-image-custom rounded" alt="{{ $aviso->inmueble->title() }}">
                             </div>
-                        @endforeach
-                        {{-- @foreach($aviso->inmueble->imagenes as $n => $image)
+                        @endforeach --}}
+                        @foreach($aviso->inmueble->imagenes as $n => $image)
                             <div class="@if($n == 0) first-image @elseif($n == 1) second-image @elseif($n == 2) third-image @else  @endif card-image-container shadow">
                                 <img src="{{ $image->imagen }}" class="card-image-custom rounded" alt="{{ $aviso->inmueble->title() }}">
                             </div>
-                        @endforeach --}}
+                        @endforeach
 
                     </div>
                     
@@ -356,7 +356,7 @@
                     @endif
 
 
-                    <!-- Modal -->
+                    <!-- Modal confirmacion de publicacion -->
                     <div class="modal fade" id="publicarAviso" tabindex="-1" aria-labelledby="publicarAvisoLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
@@ -368,12 +368,41 @@
                                 <div class="modal-footer">
                                     <div class="d-flex justify-content-between gap-3 w-100">
                                         <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">NO</button>
-                                        <button type="button" class="btn button-orange w-100" id="siUsarEstePlan">SI</button>
+                                        <button type="button" class="btn button-orange w-100" data-bs-toggle="modal" data-bs-target="#modalEleccionTipoAviso">SI</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Modal eleccion de tipo aviso -->
+                    <div class="modal fade" id="modalEleccionTipoAviso" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalEleccionTipoAvisoLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="modalEleccionTipoAvisoLabel">Modal title</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <button type="button" class="btn btn-primary w-100 mb-2" id="btnPremiumAds">Premium Ads: <span id="premiumAdsRemaining"></span></button>
+                                    <button type="button" class="btn btn-primary w-100 mb-2" id="btnTopAds">Top Ads: <span id="topAdsRemaining"></span></button>
+                                    <button type="button" class="btn btn-primary w-100 mb-2" id="btnTypicalAds">Typical Ads: <span id="typicalAdsRemaining"></span></button>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="d-flex justify-content-between gap-3 w-100">
+                                        <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">NO</button>
+                                        <button type="button" class="btn button-orange w-100" id="siUsarEstePlan">Elegir este tipo de aviso</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                    
 
                 @else
                     
