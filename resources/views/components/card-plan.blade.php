@@ -1,6 +1,6 @@
 <label class="card btn btn-lg {{ $className }} p-0 card-plan-label rounded-4" for="{{ $plan }}" >
 
-  @if ($sesionIniciada)
+  @if (!$sesionIniciada)
     <a class="text-decoration-none text-reset" href="{{ route("sign_in", ['profile_type' => 3]) }}">
   @endif
 
@@ -35,7 +35,7 @@
       </div>
     </div>
 
-  @if ($sesionIniciada)
+  @if (!$sesionIniciada)
     </a>   
   @endif
 

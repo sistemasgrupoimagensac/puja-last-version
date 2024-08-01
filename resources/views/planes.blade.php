@@ -15,6 +15,61 @@
 @section('content')
 
 	<div class="container my-5" x-data="pricingData()">
+
+		{{-- Si esta logueado con Google y faltan datos, se los debe pedir por medio de este Modal --}}
+		<div>
+			<div class="modal fade" id="staticBackdropRegister" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered modal-lg">
+							<div class="modal-content p-2">
+									<div class="modal-body">
+											<form id="formRegistro" class="d-flex flex-column gap-3" @submit.prevent="submitForm">
+											@csrf
+													<fieldset class="d-flex flex-column gap-2">
+															<legend class="h4 m-0 p-0 icon-orange">Completa tu registro</legend>
+					
+															<div class="form-floating">
+																	<input type="phone" class="form-control" id="phone" name="phone" placeholder="Telefono" required>
+																	<label class="text-secondary" for="phone">Teléfono</label>
+															</div>
+					
+															<div class="form-floating">
+																	<select class="form-select" id="document_type" name="document_type" required>
+																			<option value="1" selected>DNI</option>
+																			<option value="3">RUC</option>
+																			<option value="2">Otro Documento</option>
+																	</select>
+																	<label for="document_type">Documento</label>
+															</div>
+					
+															<div class="form-floating">
+																	<input type="text" class="form-control" id="document_number" name="document_number" placeholder="DNI" required>
+																	<label class="text-secondary" for="document_number" id="label_document_number">DNI</label>
+															</div>
+	
+															<div class="form-floating">
+																	<input type="text" class="form-control" id="direccion" name="direccion" placeholder="Dirección">
+																	<label class="text-secondary" for="direccion" id="label_direccion">Dirección</label>
+															</div>
+					
+															
+															<small>
+																	<div class="form-group d-flex gap-3 align-items-center">
+																			<input type="checkbox" name="accept_terms" id="terminos" class="form-check-input m-0" required/>
+																			<label for="terminos">Acepto los <a href="/terminos-uso" target="blank" class="custom-link-register text-decoration-none">Términos y Condiciones de Uso</a> y las <a href="/politica-privacidad" target="blank" class="custom-link-register text-decoration-none">Políticas de Privacidad</a></label>
+																	</div>
+																	
+															</small>
+													</fieldset>
+											
+													<input class="btn button-orange w-100 fw-bold p-2" type="submit" id="submit-register-button" value="COMPLETAR REGISTRO">
+											</form>
+	
+									</div>
+							</div>
+					</div>
+			</div>
+		</div>
+
 		<h1 class="text-center fw-bold h2">¿cuantos inmuebles quieres publicar?</h1>
 
 		{{-- SWITCH PAQUETES MIXTOS O TOP --}}
@@ -156,7 +211,9 @@
 				
 							<!-- plan estandar -->
 							<div>
-								<input type="radio" class="btn-check" x-model="tipoPlan" id="estandar" value="estandar" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
+								@if ($sesion_iniciada)
+									<input type="radio" class="btn-check" x-model="tipoPlan" id="estandar" value="estandar" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
+								@endif
 								<x-card-plan
 									:$sesion_iniciada
 									title="Estándar"
@@ -170,7 +227,9 @@
 				
 							<!-- plan superior -->
 							<div>
-								<input type="radio" class="btn-check" x-model="tipoPlan" id="superior" value="superior" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
+								@if ($sesion_iniciada)
+									<input type="radio" class="btn-check" x-model="tipoPlan" id="superior" value="superior" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
+								@endif
 								<x-card-plan
 									:$sesion_iniciada
 									title="Superior"
@@ -189,7 +248,9 @@
 						<div role="group" class="d-flex flex-column align-items-center flex-md-row gap-4 mt-4 w-100">
 							{{-- plan top --}}
 							<div>
-								<input type="radio" class="btn-check" x-model="tipoPlan" id="top" value="top" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
+								@if ($sesion_iniciada)
+									<input type="radio" class="btn-check" x-model="tipoPlan" id="top" value="top" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
+								@endif
 								<x-card-plan
 									:$sesion_iniciada
 									title="Top"
@@ -203,7 +264,9 @@
 				
 							<!-- plan top plus -->
 							<div>
-								<input type="radio" class="btn-check" x-model="tipoPlan" id="topPlus" value="topPlus" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
+								@if ($sesion_iniciada)
+									<input type="radio" class="btn-check" x-model="tipoPlan" id="topPlus" value="topPlus" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
+								@endif
 								<x-card-plan
 									:$sesion_iniciada
 									title="Top Plus"
@@ -381,29 +444,15 @@
 					</div>
 				</div>
 
-				<!-- MODAL RESULTADO -->
-				{{-- <div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="resultModalLabel">Resultado del Pago</h5>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-							<div class="modal-body" id="resultModalBody">
-								<!-- Aquí se mostrará la información del pago -->
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-							</div>
-						</div>
-					</div>
-				</div> --}}
-
 			</div>    
 		</form>
 	</div>
 
 	<script>
+
+		window.showModal = @json($show_modal);
+
+		let idPlan = 29;
 
 		function pricingData() {
 			return {
@@ -502,22 +551,20 @@
         updateIdMixtos() {
           const selectedId = this.idsMixto[this.numAvisos][this.periodoPlan]
           if(this.tipoPlan === 'basico') {
-            this.id = selectedId[0]
+						idPlan = selectedId[0]
           } else if (this.tipoPlan === 'estandar') {
-            this.id = selectedId[1]
+						idPlan = selectedId[1]
           } else if (this.tipoPlan === 'superior') {
-            this.id = selectedId[2]
+						idPlan = selectedId[2]
           }
-          console.log(this.id);
         },
         updateIdTop() {
           const selectedId = this.idsTop[this.numAvisosTop][this.periodoPlanTop]
           if(this.tipoPlan === 'top') {
-            this.id = selectedId[0]
+						idPlan = selectedId[0]
           } else if (this.tipoPlan === 'topPlus') {
-            this.id = selectedId[1]
+						idPlan = selectedId[1]
           }
-          console.log(this.id);
         },
 
 				init() {
@@ -555,6 +602,42 @@
 						this.updatePrices()
 					})
 				},
+
+				submitForm() {
+						let form = document.querySelector('#formRegistro');
+						let formData = {
+								phone: form.phone.value,
+								document_type: form.document_type.value,
+								document_number: form.document_number.value,
+								direccion: form.direccion.value,
+								accept_terms: form.terminos.checked
+						};
+
+						console.log('Form Data:', formData);
+
+						fetch('/store-completeUserGoogle', {
+								method: 'POST',
+								headers: {
+										'Content-Type': 'application/json',
+										'X-CSRF-TOKEN': '{{ csrf_token() }}',
+										'Accept': 'application/json',
+								},
+								body: JSON.stringify(formData)
+						})
+						.then(response => {
+								if (!response.ok) {
+										throw new Error('Network response was not ok');
+								}
+								return response.json();
+						})
+						.then(data => {
+								alert(data.message);
+								location.reload()
+						})
+						.catch(error => {
+								console.error('Error:', error);
+						});
+				},
 			}
 		}
 
@@ -568,9 +651,8 @@
 				deviceSessionId: '',
 				isProcessing: false,
 				errorInputCreditcard: false,
-        
-        idOpenpay: '',
-				sk: '',
+
+				idOpenpay: '',
 
 				formatCardNumber() {
 					let input = this.numeroTarjeta.replace(/\D/g, '')
@@ -652,12 +734,6 @@
 					document.getElementById('pay-button').disabled = false
 				},
 
-				showResultModal(data) {
-					console.log(data)
-					var paymentModal = bootstrap.Modal('#modalPago');
-					console.log(paymentModal);
-				},
-
 				processPayment(formPost) {
 					fetch(`https://sandbox-api.openpay.pe/v1/${this.idOpenpay}/charges`, {
 						method: 'POST',
@@ -671,13 +747,13 @@
 					.then( data => {
 						const error = data.error_code						
 						if (error) {
-							this.clearForm();
+							this.clearForm()
 							this.isProcessing = false
 							document.getElementById('pay-button').disabled = false
 							alert(`La tarjeta fue rechazada`)
 						} else {
-							this.factElectronica(formPost.amount)
-							this.clearForm();
+							this.clearForm()
+							this.contratarPlan(formPost.amount);
 							this.isProcessing = false
 							document.getElementById('pay-button').disabled = false
 							alert(`Pago realizado con éxito.`)
@@ -687,7 +763,37 @@
 					})
 				},
 
-				factElectronica(price){
+				contratarPlan(price) {
+						const dataToSend = {
+							plan_id: idPlan,
+						}
+
+						fetch('/contratar_plan', {
+							method: 'POST',
+							headers: {
+								'Accept': 'application/json',
+								'Content-Type': 'application/json',
+								'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+							},
+							body: JSON.stringify(dataToSend)
+						})
+						.then(response => response.json())
+						// .then(data => console.log(data))
+						.then(data => {
+							if (data.status === "Success") {
+								const planUserId = data.planuser_id
+								this.factElectronica(price, planUserId)
+								window.location.href = '/panel/avisos'
+							} else {
+								console.error('Error en la suscripción:', data.message);
+							}
+						})
+						.catch(error => {
+							console.error('Error sending data to backend:', error.message);
+						});
+				},
+
+				factElectronica(price, planUserId){
 					try {
 						const data = {
 							details: [
@@ -696,20 +802,20 @@
 									quantity: 1,
 									product: 
 										{
-											id: this.id,
-											name: "Plan" + this.tipoPlan,
+											id: idPlan,
+											name: "Plan " + this.tipoPlan,
 											type: 1
 										}
 								}
 							],
-							document_type_id: 2,
-							note: "",
-							num_doc: '',
-							tipo_doc: '',
-							nombre_doc: '',
-						};
+							document_type_id: documentTypeId, // 3 ruc, 2 boleta
+							note: '',
+							num_doc: numeroDocumento,
+							tipo_doc: tipoDocumento,
+							receipt_name: nombreDocumento,
+						}
 
-						fetch(`/openpay/1`, {
+						fetch(`/generarComprobanteElec/${planUserId}`, {
 							method: 'POST',
 							headers: {
 								'Content-Type': 'application/json',
@@ -720,14 +826,14 @@
 						})
 						.then(response => response.json())
 						.then(data => {
-							console.log(data)
+							console.log('data_response__facturacion-electronica', data);
 						})
 						.catch(error => {
-							console.error('Hubo un error:', error);
-						});
+							console.error('Hubo un error:', error)
+						})
 
 					} catch (error) {
-						console.error('Hubo un error:', error);
+						console.error('Hubo un error:', error)
 					}
 
 				},
@@ -780,9 +886,19 @@
 			}
 		}
 
+		// document.addEventListener('alpine:init', () => {
+		// 	Alpine.data('creditCardData', creditCardData)
+		// })
+
 		document.addEventListener('alpine:init', () => {
-			Alpine.data('creditCardData', creditCardData)
-		})
+				Alpine.store('creditCardData', creditCardData());
+				Alpine.data('pricingData', pricingData);
+		});
+
+		let documentTypeId = 2
+		let numeroDocumento
+		let tipoDocumento
+		let nombreDocumento
 
 		function consultaDocumento() {
 				return {
@@ -849,8 +965,11 @@
 
 						getNombre() {
 								if (this.tipo === 'DNI' && this.resultados) {
+										documentTypeId = 2
+										console.log(documentTypeId);
 										return this.resultados.nombre_completo
 								} else if (this.tipo === 'RUC' && this.resultados) {
+										documentTypeId = 3
 										return this.resultados.nombre_o_razon_social
 								}
 								return ''
@@ -865,6 +984,10 @@
 @section('footer')
 	<x-footer></x-footer>
 @endsection
+
+@push('scripts')
+  @vite([ 'resources/js/scripts/planes.js' ])
+@endpush
   
 @push('scripts-head')  
 	<meta name="csrf-token" content="{{ csrf_token() }}">

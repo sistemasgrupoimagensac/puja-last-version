@@ -1,8 +1,8 @@
 <?php
 
+use App\Models\User;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MyPostsController;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
@@ -14,9 +14,10 @@ use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\Web\Panel\PerfilController;
 use App\Http\Controllers\Web\Panel\PasswordController;
 use App\Http\Controllers\Web\Panel\MisAvisosController;
+use App\Http\Controllers\Web\Puja\MainController;
 
 
-Route::get('/', App\Http\Controllers\Web\Puja\MainController::class);
+Route::get('/', MainController::class);
 
 Route::get('/google-auth/redirect', function () {
     return Socialite::driver('google')
@@ -107,7 +108,7 @@ Route::get('/planes-inmobiliaria', [PlanController::class, 'index']);
 Route::post('/planes-user', [PlanController::class, 'list_plans_user']);
 Route::post('/pagar-planes-propietario', [PlanController::class, 'planes_propietario'])->name('pagar.planes_propietario');
 
-Route::post('/publicar-aviso', [PlanController::class, 'post_ad']);
+Route::post('/contratar_plan', [PlanController::class, 'post_ad']);
 Route::post('/usar-plan', [PlanController::class, 'use_plan']);
 
 // Ruta landing de proyectos inmobiliarios

@@ -119,10 +119,7 @@ class MyPostsController extends Controller
 
     public function create (){
         if (!Auth::check()) {
-            return response()->json([
-                'message' => 'Usuario no logueado o perdio la sesión.',
-                'error' => true
-            ], 422);
+            return redirect('/');
         }
         $user = Auth::user();
     
@@ -135,10 +132,11 @@ class MyPostsController extends Controller
     
     public function store (Request $request){
         if (!Auth::check()) {
-            return response()->json([
-                'message' => 'Usuario no logueado o perdio la sesión.',
-                'error' => true
-            ], 422);
+            return redirect('/');
+            // return response()->json([
+            //     'message' => 'Usuario no logueado o perdio la sesión.',
+            //     'error' => true
+            // ], 422);
         }
         $user_id = Auth::id();
 

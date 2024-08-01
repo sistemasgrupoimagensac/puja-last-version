@@ -5,7 +5,7 @@
 @endsection
 
 @section('header')
-  @include('components.header')
+    @include('components.header', ['tienePlanes' => $tienePlanes])
 @endsection
 
 @section('content')

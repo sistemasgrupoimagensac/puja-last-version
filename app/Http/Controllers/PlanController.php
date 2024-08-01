@@ -20,25 +20,26 @@ class PlanController extends Controller
     public function index()
     {
         try {
-
             $user = Auth::user();
-            $sesion_iniciada = true;
-
+            $sesion_iniciada = false;
+            
             if(isset($user)) {
 
-                if($user->tipo_usuario_id === '3') {
+                $show_modal = !$user->celular && !$user->numero_documento;
+
+                if($user->tipo_usuario_id === 3) {
                     $sesion_iniciada = true;
-                    return view('planes', compact('sesion_iniciada'));
+                    return view('planes', compact('sesion_iniciada', 'show_modal'));
 
                 } else {
-                    return view('planes');
+                    return redirect('/');
                 }
             
             } else {
-                return view('planes', compact('sesion_iniciada'));
+                $show_modal = false;
+                return view('planes', compact('sesion_iniciada', 'show_modal'));
             }
 
-            // return view('planes');
         } catch (\Throwable $th) {
 
             return response()->json([
@@ -49,7 +50,6 @@ class PlanController extends Controller
         }
     }
 
-    
     public function planes_propietario(Request $request){
         $aviso_id = $request->input('aviso_id');
         return view ('planes-propietario',compact('aviso_id'));
@@ -57,11 +57,12 @@ class PlanController extends Controller
 
     // Contratar un Plan y/o publicar un aviso
     public function post_ad(Request $request){
+
         try {
             $validator = Validator::make($request->all(), [
                 'plan_id' => 'required|integer',
-                'tipo_aviso' => 'required|integer',
-                'aviso_id' => 'required|integer',
+                'tipo_aviso' => 'nullable|integer',
+                'aviso_id' => 'nullable|integer',
                 'plan_user_id' => 'nullable|integer',
             ]);
             if ($validator->fails()) {
@@ -74,7 +75,6 @@ class PlanController extends Controller
             }
             if ( !Auth::check() ) return redirect()->route('sign_in')->with('error', 'Inicia sesión, por favor.');
             $user_id = Auth::id();
-            // $user_id = 1;
             $plan_id = $request->plan_id;
             $tipo_aviso = $request->tipo_aviso;
             $aviso_id = $request->aviso_id;
@@ -115,7 +115,7 @@ class PlanController extends Controller
                 }
             }
             
-            if ( $aviso_id !== 0 ) {
+            if ( isset($aviso_id) ) {
                 $alert_ad = false;
                 if ( $tipo_aviso == 1 ) {
                     if ( $typical_ad === 0 ) $alert_ad = true;
@@ -140,7 +140,6 @@ class PlanController extends Controller
 
             $estado = 1;
             if ( (int)$typical_ad === 0 && (int)$top_ad === 0 && (int)$premium_ad === 0 ) $estado = 2;
-            
             $plan_user = PlanUser::updateOrCreate([
                 'user_id' => $user_id,
                 'plan_id' => $plan_id,
@@ -154,7 +153,7 @@ class PlanController extends Controller
             ]);
 
             $aviso = "No se publicó ningun aviso.";
-            if ( $aviso_id !== 0 ) {
+            if ( isset($aviso_id) ) {
                 $aviso = Aviso::find($aviso_id);
                 $aviso->ad_type = $tipo_aviso;
                 $aviso->fecha_publicacion = now();

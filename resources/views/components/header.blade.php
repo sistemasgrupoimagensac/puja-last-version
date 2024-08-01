@@ -174,7 +174,21 @@
         
                     </ul>
                     @auth
-                        <a href="{{ route("posts.create") }}" class="button-clear aside-menu btn mx-4">Publica Aquí</a>
+
+                        @php
+                            $tipoUsuario = Auth::user()->tipo_usuario_id;
+                        @endphp
+
+                        @if (isset($tienePlanes)) 
+
+                            @if (!$tienePlanes && $tipoUsuario === 3)
+                                <a href="/planes-inmobiliaria" class="button-clear aside-menu btn mx-4">Publica Aquí</a>
+                            @else 
+                                <a href="{{ route("posts.create") }}" class="button-clear aside-menu btn mx-4">Publica Aquí</a>
+                            @endif
+
+                        @endif
+
 
                         @php
                             $nombreCompleto = Auth::user()->nombres;
