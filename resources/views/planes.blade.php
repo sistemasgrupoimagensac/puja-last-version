@@ -452,13 +452,11 @@
 
 		window.showModal = @json($show_modal);
 
-		let idPlan = 3;
-		let tipoDeAviso = 3;
+		let idPlan = 29;
 
 		function pricingData() {
 			return {
 				// campos formulario:
-				aviso_id: {{$aviso_id}},
 				categoriaPlan: 'mixto',
 				tipoPlan: 'estandar',
         id: '',
@@ -554,34 +552,19 @@
           const selectedId = this.idsMixto[this.numAvisos][this.periodoPlan]
           if(this.tipoPlan === 'basico') {
 						idPlan = selectedId[0]
-						tipoDeAviso = 1
-            // this.id = selectedId[0]
-						console.log(idPlan)
           } else if (this.tipoPlan === 'estandar') {
 						idPlan = selectedId[1]
-						tipoDeAviso = 2
-            // this.id = selectedId[1]
-						console.log(idPlan)
           } else if (this.tipoPlan === 'superior') {
 						idPlan = selectedId[2]
-						tipoDeAviso = 3
-            // this.id = selectedId[2]
-						console.log(idPlan)
           }
-          // console.log(this.id);
         },
         updateIdTop() {
           const selectedId = this.idsTop[this.numAvisosTop][this.periodoPlanTop]
           if(this.tipoPlan === 'top') {
 						idPlan = selectedId[0]
-						tipoDeAviso = 1
-            // this.id = selectedId[0]
           } else if (this.tipoPlan === 'topPlus') {
 						idPlan = selectedId[1]
-						tipoDeAviso = 2
-            // this.id = selectedId[1]
           }
-          console.log(this.id);
         },
 
 				init() {
@@ -751,12 +734,6 @@
 					document.getElementById('pay-button').disabled = false
 				},
 
-				showResultModal(data) {
-					console.log(data)
-					var paymentModal = bootstrap.Modal('#modalPago');
-					console.log(paymentModal);
-				},
-
 				processPayment(formPost) {
 					fetch(`https://sandbox-api.openpay.pe/v1/${this.idOpenpay}/charges`, {
 						method: 'POST',
@@ -789,11 +766,9 @@
 				contratarPlan(price) {
 						const dataToSend = {
 							plan_id: idPlan,
-							tipo_aviso: tipoDeAviso,
-							aviso_id: {{ $aviso_id }},
 						}
 
-						fetch('/publicar-aviso', {
+						fetch('/contratar_plan', {
 							method: 'POST',
 							headers: {
 								'Accept': 'application/json',
@@ -803,6 +778,7 @@
 							body: JSON.stringify(dataToSend)
 						})
 						.then(response => response.json())
+						// .then(data => console.log(data))
 						.then(data => {
 							if (data.status === "Success") {
 								const planUserId = data.planuser_id

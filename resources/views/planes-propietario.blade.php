@@ -497,7 +497,7 @@
 							aviso_id: {{ $aviso_id }},
 						}
 
-						fetch('/publicar-aviso', {
+						fetch('/contratar_plan', {
 							method: 'POST',
 							headers: {
 								'Accept': 'application/json',
