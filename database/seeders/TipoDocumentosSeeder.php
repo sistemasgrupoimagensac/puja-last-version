@@ -19,7 +19,7 @@ class TipoDocumentosSeeder extends Seeder
                 'state' => 1,
                 'type_doc' => '01',
                 'name' => 'NOTA DE VENTA',
-                'series' => 'N001',
+                'series' => 'N002',
                 'correlative' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -39,7 +39,7 @@ class TipoDocumentosSeeder extends Seeder
                 'state' => 1,
                 'type_doc' => '03',
                 'name' => 'FACTURA',
-                'series' => 'F001',
+                'series' => 'F002',
                 'correlative' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
