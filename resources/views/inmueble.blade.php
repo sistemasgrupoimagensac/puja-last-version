@@ -260,6 +260,15 @@
 
                     </div>
 
+                    {{-- Card - descripción Osquitar IA --}}
+                    <div class="description-container mt-5">
+                        <h3 class="fw-bold">Descripción</h3>
+
+                        <p class="text-secondary">
+                            {{$aviso->inmueble->descripcion}}
+                        </p>
+                    </div>
+
                     {{-- Card - descripción --}}
                     <div class="description-container mt-5">
                         <h3 class="fw-bold">Sobre este inmueble</h3>
