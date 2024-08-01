@@ -444,24 +444,6 @@
 					</div>
 				</div>
 
-				<!-- MODAL RESULTADO -->
-				{{-- <div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="resultModalLabel">Resultado del Pago</h5>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-							<div class="modal-body" id="resultModalBody">
-								<!-- Aquí se mostrará la información del pago -->
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-							</div>
-						</div>
-					</div>
-				</div> --}}
-
 			</div>    
 		</form>
 	</div>
@@ -470,9 +452,13 @@
 
 		window.showModal = @json($show_modal);
 
+		let idPlan = 3;
+		let tipoDeAviso = 3;
+
 		function pricingData() {
 			return {
 				// campos formulario:
+				aviso_id: {{$aviso_id}},
 				categoriaPlan: 'mixto',
 				tipoPlan: 'estandar',
         id: '',
@@ -567,20 +553,33 @@
         updateIdMixtos() {
           const selectedId = this.idsMixto[this.numAvisos][this.periodoPlan]
           if(this.tipoPlan === 'basico') {
-            this.id = selectedId[0]
+						idPlan = selectedId[0]
+						tipoDeAviso = 1
+            // this.id = selectedId[0]
+						console.log(idPlan)
           } else if (this.tipoPlan === 'estandar') {
-            this.id = selectedId[1]
+						idPlan = selectedId[1]
+						tipoDeAviso = 2
+            // this.id = selectedId[1]
+						console.log(idPlan)
           } else if (this.tipoPlan === 'superior') {
-            this.id = selectedId[2]
+						idPlan = selectedId[2]
+						tipoDeAviso = 3
+            // this.id = selectedId[2]
+						console.log(idPlan)
           }
-          console.log(this.id);
+          // console.log(this.id);
         },
         updateIdTop() {
           const selectedId = this.idsTop[this.numAvisosTop][this.periodoPlanTop]
           if(this.tipoPlan === 'top') {
-            this.id = selectedId[0]
+						idPlan = selectedId[0]
+						tipoDeAviso = 1
+            // this.id = selectedId[0]
           } else if (this.tipoPlan === 'topPlus') {
-            this.id = selectedId[1]
+						idPlan = selectedId[1]
+						tipoDeAviso = 2
+            // this.id = selectedId[1]
           }
           console.log(this.id);
         },
@@ -669,9 +668,8 @@
 				deviceSessionId: '',
 				isProcessing: false,
 				errorInputCreditcard: false,
-        
-        idOpenpay: '',
-				sk: '',
+
+				idOpenpay: '',
 
 				formatCardNumber() {
 					let input = this.numeroTarjeta.replace(/\D/g, '')
@@ -772,13 +770,13 @@
 					.then( data => {
 						const error = data.error_code						
 						if (error) {
-							this.clearForm();
+							this.clearForm()
 							this.isProcessing = false
 							document.getElementById('pay-button').disabled = false
 							alert(`La tarjeta fue rechazada`)
 						} else {
-							this.factElectronica(formPost.amount)
-							this.clearForm();
+							this.clearForm()
+							this.contratarPlan(formPost.amount);
 							this.isProcessing = false
 							document.getElementById('pay-button').disabled = false
 							alert(`Pago realizado con éxito.`)
@@ -788,7 +786,38 @@
 					})
 				},
 
-				factElectronica(price){
+				contratarPlan(price) {
+						const dataToSend = {
+							plan_id: idPlan,
+							tipo_aviso: tipoDeAviso,
+							aviso_id: {{ $aviso_id }},
+						}
+
+						fetch('/publicar-aviso', {
+							method: 'POST',
+							headers: {
+								'Accept': 'application/json',
+								'Content-Type': 'application/json',
+								'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+							},
+							body: JSON.stringify(dataToSend)
+						})
+						.then(response => response.json())
+						.then(data => {
+							if (data.status === "Success") {
+								const planUserId = data.planuser_id
+								this.factElectronica(price, planUserId)
+								window.location.href = '/panel/avisos'
+							} else {
+								console.error('Error en la suscripción:', data.message);
+							}
+						})
+						.catch(error => {
+							console.error('Error sending data to backend:', error.message);
+						});
+				},
+
+				factElectronica(price, planUserId){
 					try {
 						const data = {
 							details: [
@@ -797,20 +826,20 @@
 									quantity: 1,
 									product: 
 										{
-											id: this.id,
-											name: "Plan" + this.tipoPlan,
+											id: idPlan,
+											name: "Plan " + this.tipoPlan,
 											type: 1
 										}
 								}
 							],
-							document_type_id: 2,
-							note: "",
-							num_doc: '',
-							tipo_doc: '',
-							nombre_doc: '',
-						};
+							document_type_id: documentTypeId, // 3 ruc, 2 boleta
+							note: '',
+							num_doc: numeroDocumento,
+							tipo_doc: tipoDocumento,
+							receipt_name: nombreDocumento,
+						}
 
-						fetch(`/openpay/1`, {
+						fetch(`/generarComprobanteElec/${planUserId}`, {
 							method: 'POST',
 							headers: {
 								'Content-Type': 'application/json',
@@ -821,14 +850,14 @@
 						})
 						.then(response => response.json())
 						.then(data => {
-							console.log(data)
+							console.log('data_response__facturacion-electronica', data);
 						})
 						.catch(error => {
-							console.error('Hubo un error:', error);
-						});
+							console.error('Hubo un error:', error)
+						})
 
 					} catch (error) {
-						console.error('Hubo un error:', error);
+						console.error('Hubo un error:', error)
 					}
 
 				},
@@ -881,9 +910,19 @@
 			}
 		}
 
+		// document.addEventListener('alpine:init', () => {
+		// 	Alpine.data('creditCardData', creditCardData)
+		// })
+
 		document.addEventListener('alpine:init', () => {
-			Alpine.data('creditCardData', creditCardData)
-		})
+				Alpine.store('creditCardData', creditCardData());
+				Alpine.data('pricingData', pricingData);
+		});
+
+		let documentTypeId = 2
+		let numeroDocumento
+		let tipoDocumento
+		let nombreDocumento
 
 		function consultaDocumento() {
 				return {
@@ -950,8 +989,11 @@
 
 						getNombre() {
 								if (this.tipo === 'DNI' && this.resultados) {
+										documentTypeId = 2
+										console.log(documentTypeId);
 										return this.resultados.nombre_completo
 								} else if (this.tipo === 'RUC' && this.resultados) {
+										documentTypeId = 3
 										return this.resultados.nombre_o_razon_social
 								}
 								return ''
