@@ -136,6 +136,15 @@
     "src": "resources/js/scripts/perfil.js",
     "isEntry": true
   },
+  "resources/js/scripts/planes.js": {
+    "file": "assets/planes-DagtOP3a.js",
+    "name": "planes",
+    "src": "resources/js/scripts/planes.js",
+    "isEntry": true,
+    "imports": [
+      "_bootstrap.esm-DOzSzUNx.js"
+    ]
+  },
   "resources/js/scripts/register.js": {
     "file": "assets/register-C0m4_jj9.js",
     "name": "register",
