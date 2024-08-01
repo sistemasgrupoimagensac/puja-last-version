@@ -38,6 +38,7 @@ export default defineConfig({
         'resources/js/scripts/register.js',
         'resources/js/scripts/updatePlaceholdersRegister.js',
         'resources/js/scripts/perfil.js',
+        'resources/js/scripts/planes.js',
         // js - scripts - components
         "resources/js/scripts/components/back_button.js",
         "resources/js/scripts/components/card_simple.js",
