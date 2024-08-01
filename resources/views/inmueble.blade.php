@@ -406,10 +406,29 @@
 
                                 @if ( $aviso->inmueble->is_puja() )
                                     <div class="input-group has-validation">
-                                        <div class="form-floating is-invalid">
+                                        {{-- <div class="form-floating is-invalid">
                                             <input type="text" class="form-control is-invalid" id="monto_puja" name="contact_monto_puja" placeholder="Monto a ofrecer">
                                             <label for="monto_puja">Monto a ofrecer</label>
+                                        </div> --}}
+                                        <div class="input-group mb-3">
+                                            <input type="radio" class="btn-check" name="currency" id="sol" autocomplete="off" checked>
+                                            <label class="btn btn-outline-primary rounded-start" for="sol">S/</label>
+                                
+                                            <input type="radio" class="btn-check" name="currency" id="dollar" autocomplete="off">
+                                            <label class="btn btn-outline-primary" for="dollar">$</label>
+
+                                            <input type="text" class="form-control" name="contact_monto_puja" placeholder="" aria-label="Example text with two button addons">
                                         </div>
+                                        {{-- <div class="currency-select">
+                                            <input type="text" id="amount" class="form-control" placeholder="Ingrese el monto">
+                                            <div class="btn-group" role="group">
+                                                <input type="radio" class="btn-check" name="currency" id="sol" autocomplete="off" checked>
+                                                <label class="btn btn-outline-primary" for="sol">S/</label>
+                                    
+                                                <input type="radio" class="btn-check" name="currency" id="dollar" autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="dollar">$</label>
+                                            </div>
+                                        </div> --}}
                                         <div class="invalid-feedback">
                                             Envíale tu monto oferta a quien publicó el inmueble.
                                         </div>
