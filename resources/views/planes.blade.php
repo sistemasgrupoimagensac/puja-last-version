@@ -353,9 +353,18 @@
 												</div>
 												{{-- CVC de la tarjeta --}}
 												<div class="mb-3 col-4">
+													<label for="cvcTarjeta" class="form-label m-0 custom">CVC/CVV</label>
+													<div class="input-group">
+														<input :type="showCVC ? 'text' : 'password'" class="form-control shadow-none" id="cvcTarjeta" x-model="cvcTarjeta" size="1" minlength="3" maxlength="4" data_openpay_card/>
+														<span class="input-group-text">
+															<i class="fa fa-eye" x-on:click="toggleCVC" style="cursor: pointer"></i>
+														</span>
+													</div>
+												</div>
+												{{-- <div class="mb-3 col-4">
 													<label for="cvcTarjeta" class="form-label m-0 custom">CVC</label>
 													<input type="password" class="form-control shadow-none" id="cvcTarjeta" x-model="cvcTarjeta" size="1" minlength="3" maxlength="4" data_openpay_card/>
-												</div>
+												</div> --}}
 											</div>
 
 											{{-- error de completar campos tarjeta de credito --}}
@@ -648,6 +657,11 @@
 				nombreTarjeta: '',
 				fechaTarjeta: '',
 				cvcTarjeta: '',
+				showCVC: false,
+				toggleCVC() {
+					this.showCVC = !this.showCVC;
+					console.log('toggleCVC called:', this.showCVC); 
+				},
 				deviceSessionId: '',
 				isProcessing: false,
 				errorInputCreditcard: false,
