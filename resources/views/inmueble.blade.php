@@ -399,13 +399,20 @@
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="modalEleccionTipoAvisoLabel">Modal title</h1>
+                                    <h1 class="modal-title fs-5 icon-orange" id="modalEleccionTipoAvisoLabel">Elige el tipo de aviso</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <button type="button" class="btn btn-primary w-100 mb-2" id="btnPremiumAds">Premium Ads: <span id="premiumAdsRemaining"></span></button>
-                                    <button type="button" class="btn btn-primary w-100 mb-2" id="btnTopAds">Top Ads: <span id="topAdsRemaining"></span></button>
-                                    <button type="button" class="btn btn-primary w-100 mb-2" id="btnTypicalAds">Typical Ads: <span id="typicalAdsRemaining"></span></button>
+                                    <div class="d-flex flex-column gap-3">
+                                        <input type="radio" class="btn-check" name="btnradio" id="btnPremiumAds" autocomplete="off" checked>
+                                        <label class="btn btn-outline-secondary" for="btnPremiumAds">Premium Ads: <span id="premiumAdsRemaining"></span></label>
+                                      
+                                        <input type="radio" class="btn-check" name="btnradio" id="btnTopAds" autocomplete="off">
+                                        <label class="btn btn-outline-secondary" for="btnTopAds">Top Ads: <span id="topAdsRemaining"></span></label>
+                                      
+                                        <input type="radio" class="btn-check" name="btnradio" id="btnTypicalAds" autocomplete="off">
+                                        <label class="btn btn-outline-secondary" for="btnTypicalAds">Typical Ads: <span id="typicalAdsRemaining"></span></label>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <div class="d-flex justify-content-between gap-3 w-100">
