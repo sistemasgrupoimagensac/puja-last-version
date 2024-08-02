@@ -529,7 +529,7 @@
     <script>
         function avisoForm() {
             return {
-                step: {{ session('step', 1) }},
+                step: {{ session('step', 3) }},
                 aviso_id: {{ session('aviso_id', 'null') }},
 
                 perfil_acreedor: @json($es_acreedor),
