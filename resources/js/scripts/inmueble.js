@@ -108,18 +108,18 @@ function renderPlans(plans) {
 }
 
 // Añadir eventos a los botones del modal para seleccionar el tipo de aviso
-document.getElementById('btnPremiumAds').addEventListener('click', () => {
-  selectedPlanData.tipo_aviso = 3; // Plan Top Plus
-  console.log(selectedPlanData);
-});
-document.getElementById('btnTopAds').addEventListener('click', () => {
-  selectedPlanData.tipo_aviso = 2; // Plan Top
-  console.log(selectedPlanData);
-});
-document.getElementById('btnTypicalAds').addEventListener('click', () => {
-  selectedPlanData.tipo_aviso = 1; // Plan Típico
-  console.log(selectedPlanData);
-});
+document.getElementById('btnPremiumAds')?.addEventListener('click', () => {
+  selectedPlanData.tipo_aviso = 3 // Plan Top Plus
+  console.log(selectedPlanData)
+})
+document.getElementById('btnTopAds')?.addEventListener('click', () => {
+  selectedPlanData.tipo_aviso = 2 // Plan Top
+  console.log(selectedPlanData)
+})
+document.getElementById('btnTypicalAds')?.addEventListener('click', () => {
+  selectedPlanData.tipo_aviso = 1 // Plan Típico
+  console.log(selectedPlanData)
+})
 
 function formatDate(dateString) {
   const date = new Date(dateString)
