@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Mail\newAdMail;
 use App\Models\Aviso;
 use App\Models\HistorialAvisos;
 use App\Models\Plan;
@@ -13,6 +14,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class PlanController extends Controller
@@ -165,6 +168,13 @@ class PlanController extends Controller
                     ],[
                     "estado_aviso_id" => 3,
                 ]);
+
+                //Enviar correo que se subió un inmueble
+                Log::info('Iniciando el envío de correo para informar de aviso nuevo...');
+                Mail::to(Auth::user()->email)
+                    ->cc(['pierreherreraoropeza@gmail.com'])
+                ->send(new newAdMail($aviso->id));
+                Log::info('Correo enviado aviso nuevo.');
 
                 if (!$hist_aviso) {
                     return response()->json([

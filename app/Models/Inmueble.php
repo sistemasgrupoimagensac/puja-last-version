@@ -36,9 +36,9 @@ class Inmueble extends Model
         return $this->hasOne(ExtraInmueble::class, 'inmueble_id');
     }
 
-    public function avisos(): HasMany
+    public function aviso(): HasOne
     {
-        return $this->hasMany(Aviso::class, 'inmueble_id');
+        return $this->hasOne(Aviso::class, 'inmueble_id');
     }
 
     public function type()

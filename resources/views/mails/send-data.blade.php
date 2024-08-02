@@ -14,7 +14,7 @@
         <li>Correo: {{ $ad_contact->email }} </li>
         <li>Telefono: {{ $ad_contact->phone }} </li>
         @if ( $ad_contact->bid_amount )
-            Monto a ofrecer: {{ $ad_contact->bid_amount }}
+            <li>Monto a ofrecer: {{ $ad_contact->type_currency_id == 1 ? 'S/ ' : '$ ' }}{{ number_format($ad_contact->bid_amount, 2, '.', ',') }} </li>
         @endif
         <li>Mensaje: {{ $ad_contact->message }} </li>
         <li>Ruta del aviso: {{ $aviso_url }} </li>

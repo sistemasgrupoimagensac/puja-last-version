@@ -2,27 +2,26 @@
 
 namespace App\Mail;
 
+use App\Models\Aviso;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class SendDataMail extends Mailable
+class newAdMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $ad_contact;
-    public $aviso_url;
+    public $aviso;
     /**
      * Create a new message instance.
      */
-    public function __construct($ad_contact, $aviso_url)
+    public function __construct($aviso_id)
     {
-        $this->ad_contact = $ad_contact;
-        $this->aviso_url = $aviso_url;
+        $aviso = Aviso::findOrFail($aviso_id);
+        $this->aviso = $aviso;
     }
 
     /**
@@ -31,11 +30,7 @@ class SendDataMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            // from: new Address( env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME') ),
-            replyTo: [
-                new Address( $this->ad_contact->email, $this->ad_contact->full_name ),
-            ],
-            subject: 'Nuevo contacto interesado en su inmueble.',
+            subject: 'Nuevo Aviso Subido en el portal de Puja Inmobiliaria.',
         );
     }
 
@@ -45,11 +40,7 @@ class SendDataMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mails.send-data',
-            // with: [
-            //     'orderName' => $this->order->name,
-            //     'orderPrice' => $this->order->price,
-            // ],
+            view: 'mails.new-ad',
         );
     }
 
