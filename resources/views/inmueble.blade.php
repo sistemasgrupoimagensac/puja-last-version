@@ -13,7 +13,7 @@
 @endsection
 
 @section('content')
-    <div class="custom-container my-2" {{-- x-data="showRemate()" --}}>
+    <div class="custom-container my-2">
         <div class="d-flex flex-column flex-lg-row">
         
             {{-- Caracteristicas del inmueble --}}
@@ -347,14 +347,22 @@
                                             <div class="card-body text-center">
                                                 <p class="m-0">Adquiere un plan con los mejores precios del mercado.</p>
                                             </div>
-                                            <button class="btn btn-danger fs-5 rounded-top-0" id="redirect-button">
-                                                <i class="fa-solid fa-plus "></i>
-                                                Plan
-                                            </button>
-                                            <form id="redirect-form" action="{{ route('pagar.planes_propietario') }}" method="POST" style="display: none;">
-                                                @csrf
-                                                <input type="hidden" name="aviso_id" value="{{ $aviso->id }}">
-                                            </form>
+
+                                            @if ($tipo_usuario === 2)
+                                                <button class="btn btn-danger fs-5 rounded-top-0" id="redirect-button">
+                                                    <i class="fa-solid fa-plus "></i>
+                                                    Plan
+                                                </button>
+                                                <form id="redirect-form" action="{{ route('pagar.planes_propietario') }}" method="POST" style="display: none;">
+                                                    @csrf
+                                                    <input type="hidden" name="aviso_id" value="{{ $aviso->id }}">
+                                                </form>
+                                            @elseif ($tipo_usuario === 3)
+                                                <a class="btn btn-danger fs-5 rounded-top-0" href="/planes-inmobiliaria">
+                                                    <i class="fa-solid fa-plus "></i>
+                                                    Plan
+                                                </a>
+                                            @endif
                                         </div>
 
                                         <div id="plans-container" class=" d-flex flex-column gap-3">

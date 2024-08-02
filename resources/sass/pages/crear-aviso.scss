@@ -1,9 +1,19 @@
 @import '../variables';
 
+.crear-aviso-buttons-extras {
+  width: 100%;
+}
+
 .crear-aviso-menu-paso {
   font-size: 1.6rem;
 }
 
+// media queries ================================
+@media (min-width: $md) {
+  .crear-aviso-buttons-extras {
+    width: 50%;
+  }
+}
 
 @media (min-width: $lg) {
   .crear-aviso-menu-paso {

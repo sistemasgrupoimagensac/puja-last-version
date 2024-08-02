@@ -28,7 +28,7 @@
 															<legend class="h4 m-0 p-0 icon-orange">Completa tu registro</legend>
 					
 															<div class="form-floating">
-																	<input type="phone" class="form-control" id="phone" name="phone" placeholder="Telefono" required>
+																	<input type="phone" class="form-control" id="phone" minlength="9" maxlength="9" name="phone" placeholder="Telefono" required>
 																	<label class="text-secondary" for="phone">Teléfono</label>
 															</div>
 					
@@ -42,7 +42,7 @@
 															</div>
 					
 															<div class="form-floating">
-																	<input type="text" class="form-control" id="document_number" name="document_number" placeholder="DNI" required>
+																	<input type="text" class="form-control" id="document_number" minlength="8" maxlength="20" name="document_number" placeholder="DNI" required>
 																	<label class="text-secondary" for="document_number" id="label_document_number">DNI</label>
 															</div>
 	
