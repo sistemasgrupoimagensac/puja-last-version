@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Mail\newAdMail;
 use App\Mail\SendDataMail;
 use App\Models\AdContact;
 use App\Models\Aviso;
@@ -660,6 +661,7 @@ class MyPostsController extends Controller
             'phone' => $request->telefono_contacto,
             'bid_amount' => $request->contact_monto_puja,
             'type_currency_id' => $request->contact_divisa_monto,
+            'message' => $request->contact_message,
             'accept_terms' => $accept_terms,
         ]);
 
