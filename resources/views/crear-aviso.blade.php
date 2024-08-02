@@ -460,7 +460,9 @@
                         </div>
                     </form>
                 </div>
+            </div>
 
+            <div class="col-12 col-lg-12 px-lg-5">
                 <!-- Paso 5: Comodidades -->
                 <div x-show="step === 5" x-init="initializeQuintoStep(2)">
                     <form @submit.prevent="nextStep(5)" class="d-flex flex-column gap-4 my-5">
@@ -469,14 +471,16 @@
                             <h2>Comodidades</h2>
                             <input type="hidden" name="adicionales" :value="step === 5 ? 1 : 0">
 
-                            <div>
+                            <div class="row">
                                 <template x-for="extra in extras" :key="extra.id">
-                                    <div class="form-check my-2">
-                                        <input class="form-check-input" type="checkbox" name="options[]" :id="'add_' + extra.id" :value="extra.id">
-                                        <label class="form-check-label" :for="'add_' + extra.id">
-                                            <i :class="'fa-solid ' + extra.icono + ' icon-orange mx-2'"></i>
-                                            <span x-text="extra.caracteristica"></span>
-                                        </label>
+                                    <div class="col-12 col-md-6 col-lg-4">
+                                        <div class="form-check my-2">
+                                            <input class="form-check-input" type="checkbox" name="options[]" :id="'add_' + extra.id" :value="extra.id">
+                                            <label class="form-check-label" :for="'add_' + extra.id">
+                                                <i :class="'fa-solid ' + extra.icono + ' icon-orange mx-2'"></i>
+                                                <span x-text="extra.caracteristica"></span>
+                                            </label>
+                                        </div>
                                     </div>
                                 </template>
                             </div>
@@ -495,14 +499,16 @@
                         <div class="mt-4">
                             <h2>Adicionales</h2>
                             <input type="hidden" name="comodidades" :value="step === 6 ? 1 : 0">
-                            <div>
+                            <div class="row">
                                 <template x-for="extra in extras2" :key="extra.id">
-                                    <div class="form-check my-2">
-                                        <input class="form-check-input" type="checkbox" name="options[]" :value="extra.id" :id="'add_' + extra.id">
-                                        <label class="form-check-label text-secondary filter-additional-input" :for="'add_' + extra.id">
-                                            <i :class="'fa-solid ' + extra.icono + ' icon-orange mx-2'"></i>
-                                            <span x-text="extra.caracteristica"></span>
-                                        </label>
+                                    <div class="col-12 col-md-6 col-lg-4">
+                                        <div class="form-check my-2">
+                                            <input class="form-check-input" type="checkbox" name="options[]" :value="extra.id" :id="'add_' + extra.id">
+                                            <label class="form-check-label text-secondary filter-additional-input" :for="'add_' + extra.id">
+                                                <i :class="'fa-solid ' + extra.icono + ' icon-orange mx-2'"></i>
+                                                <span x-text="extra.caracteristica"></span>
+                                            </label>
+                                        </div>
                                     </div>
                                 </template>
                             </div>
@@ -523,7 +529,7 @@
     <script>
         function avisoForm() {
             return {
-                step: {{ session('step', 1) }},
+                step: {{ session('step', 5) }},
                 aviso_id: {{ session('aviso_id', 'null') }},
 
                 perfil_acreedor: @json($es_acreedor),
