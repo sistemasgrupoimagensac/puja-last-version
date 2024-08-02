@@ -485,7 +485,7 @@
                                 </template>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-between gap-2 w-100">
+                        <div class="d-flex justify-content-between gap-2 crear-aviso-buttons-extras">
                             <button type="button" @click="prevStep()" class="btn btn-secondary w-100">Atrás</button>
                             <button type="submit" class="btn button-orange w-100">Continuar</button>
                         </div>
@@ -514,7 +514,7 @@
                             </div>
                         </div>
 
-                        <div class="d-flex justify-content-between gap-2 w-100">
+                        <div class="d-flex justify-content-between gap-2 crear-aviso-buttons-extras">
                             <button type="button" @click="prevStep()" class="btn btn-secondary w-100">Atrás</button>
                             <button type="submit" class="btn btn-success w-100">Guardar y Publicar</button>
                         </div>
