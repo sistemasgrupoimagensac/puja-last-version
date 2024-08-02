@@ -13,7 +13,7 @@ class Aviso extends Model
     use HasFactory;
 
     protected $table = "avisos";
-    protected $fillable = ['inmueble_id', 'fecha_publicacion', 'estado',];
+    protected $fillable = ['inmueble_id', 'ad_type', 'fecha_publicacion', 'estado', 'plan_user_id',];
 
     protected function casts(): array
     {

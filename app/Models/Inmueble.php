@@ -257,7 +257,7 @@ class Inmueble extends Model
         }
 
         $area_total_num = number_format($this->area(), 0, '', ',');
-        $area_construida_num = number_format($this->area(), 0, '', ',');
+        $area_construida_num = number_format($this->areaConstruida(), 0, '', ',');
         $area_total = "cuenta con {$area_total_num} m² como área total,";
         $area_construida = "y {$area_construida_num} m² como área construida,";
         $tipo_inmueble = $this->typeInmueble();

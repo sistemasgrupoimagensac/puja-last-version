@@ -92,6 +92,7 @@ Route::get('/my-posts/create', [MyPostsController::class, 'create'])->name('post
 Route::post('/my-post/store', [MyPostsController::class, 'store'])->name('posts.store');
 // Route::get('/my-posts/{id}', [MyPostsController::class, 'show'])->name('posts.show');
 Route::get('/my-posts/{aviso}/edit', [MyPostsController::class, 'edit'])->name('posts.edit');
+Route::post('/my-posts/sold', [MyPostsController::class, 'my_post_sold']);
 // Route::put('/my-posts/{id}', [MyPostsController::class, 'update'])->name('posts.update');
 // Route::delete('/my-posts/{id}', [MyPostsController::class, 'destroy'])->name('posts.destroy');
 
