@@ -677,6 +677,31 @@ class MyPostsController extends Controller
 
     }
 
+    public function my_post_sold (Request $request) {
+        if (!Auth::check()) return redirect('/');
+        $user_id = Auth::id();
+
+        $validator = Validator::make($request->all(), [
+            'aviso_id' => 'required|integer',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'htpp_code' => 400,
+                'status' => 'Error',
+                'message' => 'Error de validación.',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+        $aviso = Aviso::findOrFail($request->aviso_id);
+        $aviso->estado = 4;
+        $aviso->save();
+
+        return response()->json([
+            'htpp_code' => 200,
+            'status' => 'Success',
+            'message' => 'Actualización correcta.',
+        ], 200);
+    }
 
 
 
