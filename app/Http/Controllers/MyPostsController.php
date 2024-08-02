@@ -616,14 +616,16 @@ class MyPostsController extends Controller
     }
 
     public function enviar_datos_contacto (Request $request) {
+
         $validator = Validator::make($request->all(), [
-            'contact_name' => 'required|string',
-            'contact_email' => 'required|string',
-            'contact_phone' => 'required|string',
+            'nombre_contacto' => 'required|string|max:50',
+            'email_contacto' => 'required|email',
+            'telefono_contacto' => 'required|string|min:9|max:9|regex:/^9[0-9+\-()\s]*$/',
             'contact_monto_puja' => 'nullable|string',
             'contact_message' => 'required|string',
-            'accept_terms' => 'nullable|string',
+            'accept_terms' => 'required|accepted',
         ]);
+
         if ($validator->fails()) {
             return response()->json([
                 'http_code' => 400,
@@ -650,21 +652,20 @@ class MyPostsController extends Controller
 
         $ad_contact = AdContact::updateOrCreate([
             'aviso_id' => $request->aviso_id,
-            'email' => $request->contact_email,
+            'email' => $request->email_contacto,
             'user_id' => $user_id,
             ],[
-            'full_name' => $request->contact_name,
+            'full_name' => $request->nombre_contacto,
             'status' => 1,
-            'phone' => $request->contact_phone,
+            'phone' => $request->telefono_contacto,
             'bid_amount' => $request->contact_monto_puja,
-            'message' => $request->contact_message,
+            'type_currency_id' => $request->contact_divisa_monto,
             'accept_terms' => $accept_terms,
         ]);
 
         Log::info('Iniciando el envío de correo para contactos ...');
         Mail::to($email_owner)
             ->cc(['pierreherreraoropeza@gmail.com'])
-            // ->bcc(['pierreherreraoropeza@gmail.com', 'oechegaray@bustamanteromero.com.pe', 'walfaro@360creative.pe'])
         ->send(new SendDataMail($ad_contact, $aviso_url));
         Log::info('Correo enviado para contactos .');
 

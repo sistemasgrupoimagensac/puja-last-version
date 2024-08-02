@@ -26,3 +26,6 @@ document.querySelectorAll('.custom-accordion-button').forEach((button) => {
         button.classList.add('collapsed')
     }
 })
+
+// const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+// const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))

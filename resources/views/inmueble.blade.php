@@ -409,12 +409,6 @@
                         </div>
                     </div>
 
-
-
-
-
-                    
-
                 @else
                     
                     <div class="sticky-lg-top py-3">
@@ -425,52 +419,50 @@
                                 <div class="d-flex justify-content-between align-items-center">
 
                                     <h5 class="form-title m-0">Contactar</h5>
-                                    {{-- <i class="fa-regular fa-square-caret-down fa-lg me-1"></i> --}}
                                     <i class="fa-solid fa-arrow-down fa-lg me-1"></i>
                                 </div>
 
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="contact-name" name="contact_name" placeholder="Nombre Completo" required>
-                                    <label class="text-secondary" for="contact-name">Nombre Completo</label>
+                                    <input type="text" class="form-control" id="nombre_contacto" name="nombre_contacto" placeholder="Nombre Completo" required>
+                                    <label class="text-secondary" for="nombre_contacto">Nombre Completo</label>
+                                    <div id="validationServerNombre_contactoFeedback" class="invalid-feedback"></div>
                                 </div>
 
                                 <div class="form-floating">
-                                    <input type="email" class="form-control" id="contact-email" name="contact_email" placeholder="Correo electrónico" required>
-                                    <label class="text-secondary" for="contact-email">Correo electrónico</label>
+                                    <input type="email" class="form-control" id="email_contacto" name="email_contacto" placeholder="Correo electrónico" required>
+                                    <label class="text-secondary" for="email_contacto">Correo electrónico</label>
+                                    <div id="validationServerEmail_contactoFeedback" class="invalid-feedback"></div>
                                 </div>  
 
                                 <div class="form-floating">
-                                    <input type="phone" class="form-control" id="contact-phone" name="contact_phone" placeholder="Teléfono" required>
-                                    <label class="text-secondary" for="contact-phone">Teléfono</label>
+                                    <input type="phone" class="form-control" id="telefono_contacto" maxlength="9" minlength="9" name="telefono_contacto" placeholder="Teléfono" required>
+                                    <label class="text-secondary" for="telefono_contacto">Teléfono</label>
+                                    <div id="validationServerTelefono_contactoFeedback" class="invalid-feedback"></div>
                                 </div>  
 
                                 @if ( $aviso->inmueble->is_puja() )
-                                    <div class="input-group has-validation">
-                                        {{-- <div class="form-floating is-invalid">
-                                            <input type="text" class="form-control is-invalid" id="monto_puja" name="contact_monto_puja" placeholder="Monto a ofrecer">
-                                            <label for="monto_puja">Monto a ofrecer</label>
-                                        </div> --}}
-                                        <div class="input-group mb-3">
-                                            <input type="radio" class="btn-check" name="currency" id="sol" autocomplete="off" checked>
-                                            <label class="btn btn-outline-primary rounded-start" for="sol">S/</label>
-                                
-                                            <input type="radio" class="btn-check" name="currency" id="dollar" autocomplete="off">
-                                            <label class="btn btn-outline-primary" for="dollar">$</label>
+                                    <div class="input-group">
+                                        <div class="input-group">
+                                            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                                <input type="radio" class="btn-check" name="contact_divisa_monto" value="1" id="soles" autocomplete="off" checked>
+                                                <label class="btn btn-outline-secondary" for="soles" style="width: 40px">S/</label>
+                                              
+                                                <input type="radio" class="btn-check" name="contact_divisa_monto" value="2" id="dolares" autocomplete="off">
+                                                <label class="btn btn-outline-secondary rounded-end-0" for="dolares" style="width: 40px">$</label>
+                                            </div>
 
                                             <input type="text" class="form-control" name="contact_monto_puja" placeholder="" aria-label="Example text with two button addons">
-                                        </div>
-                                        {{-- <div class="currency-select">
-                                            <input type="text" id="amount" class="form-control" placeholder="Ingrese el monto">
-                                            <div class="btn-group" role="group">
-                                                <input type="radio" class="btn-check" name="currency" id="sol" autocomplete="off" checked>
-                                                <label class="btn btn-outline-primary" for="sol">S/</label>
-                                    
-                                                <input type="radio" class="btn-check" name="currency" id="dollar" autocomplete="off">
-                                                <label class="btn btn-outline-primary" for="dollar">$</label>
-                                            </div>
-                                        </div> --}}
-                                        <div class="invalid-feedback">
-                                            Envíale tu monto oferta a quien publicó el inmueble.
+
+                                            <span type="button" class="input-group-text"> 
+                                                <div 
+                                                    class="d-flex align-items-center"
+                                                    data-bs-toggle="tooltip" 
+                                                    data-bs-placement="top"
+                                                    data-bs-custom-class="custom-tooltip"
+                                                    data-bs-title="Oferta sobre el precio del inmueble publicado. Puede ser mayor o menor del monto que publicó el propietario.">
+                                                    <i class="fa-solid fa-circle-info fa-lg"></i>
+                                                </div>
+                                            </span>
                                         </div>
                                     </div>
                                 @endif
@@ -489,15 +481,18 @@
                                 <x-whatsapp-modal-inmueble-contact></x-whatsapp-modal-inmueble-contact>
                 
                                 {{-- contacto por correo --}}
-                                <button class="btn btn-light border-secondary-subtle"{{--  type="submit" --}} id="btn-enviar-form-single">
+                                <button class="btn btn-light border-secondary-subtle" id="btn-enviar-form-single">
                                     <i class="fa-regular fa-paper-plane"></i> Enviar
                                 </button>
 
                                 <x-puja-modal-contact :monto="number_format($aviso->inmueble->precioSoles())"></x-puja-modal-contact>
                 
-                                <div class="form-group d-flex gap-3 align-items-top mb-2">
-                                    <input type="checkbox" name="accept_terms" id="terminos" class="form-check-input"/>
+                                <div class="form-group d-flex align-items-top gap-2 mb-4 position-relative">
+                                  
+                                    <input type="checkbox" name="accept_terms" id="terminos" class="form-check-input" required/>
                                     <label for="terminos">Acepto los <a href="" class="custom-link-register text-decoration-none">Términos y Condiciones de Uso</a> y las <a href="" class="custom-link-register text-decoration-none">Políticas de Privacidad</a></label>
+                                    <div id="validationServerAccept_termsFeedback" class="invalid-feedback position-absolute top-100 px-4"></div>
+                                
                                 </div>
                             </form>
                         </div>
@@ -515,9 +510,9 @@
         const owner_phone = @json( $aviso->inmueble->user->phone );
 
         if(!adBelongs) {
-
             document.getElementById('btn-enviar-form-single').addEventListener('click', function(event) {
                 event.preventDefault();
+                clearErrors();
                 submitForm('{{ route('email.enviar-datos_contacto') }}');
             });
 
@@ -532,7 +527,9 @@
             let form = document.getElementById('send_contact');
             let formData = new FormData(form);
             formData.append('current_url', window.location.href);
-            // console.log(formData)
+
+            console.log(formData);
+            
 
             fetch(actionUrl, {
                 method: 'POST',
@@ -544,24 +541,57 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status == "Success") {
-                    // Aquí puedes manejar la respuesta exitosa, como mostrar un mensaje de éxito.
                     alert('Formulario enviado correctamente');
+                    form.reset();
                 } else {
-                    // Aquí puedes manejar la respuesta en caso de error.
-                    alert('Error al enviar el formulario');
+                    handleErrors(data.errors);
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Error al enviar el formulario');
+                // alert('Error de comunicación con el servidor');
             });
         }
 
+
+        function handleErrors(errors) {
+            for (const field in errors) {
+                
+                const inputElement = document.querySelector(`[name="${field}"]`);
+                const feedbackElement = document.getElementById(`validationServer${capitalizeFirstLetter(field)}Feedback`);
+
+                if (inputElement && feedbackElement) {
+                    inputElement.classList.add('is-invalid');
+                    if(inputElement.getAttribute('id') === 'terminos') {
+                        feedbackElement.textContent = 'Acepte los términos';
+                    } else {
+                        feedbackElement.textContent = errors[field][0];
+                    }
+                }
+            }
+        }
+
+        function clearErrors() {
+            const inputElements = document.querySelectorAll('.is-invalid');
+            inputElements.forEach(element => {
+                element.classList.remove('is-invalid');
+            });
+
+            const feedbackElement = document.querySelectorAll('.invalid-feedback');
+            feedbackElement.forEach(element => {
+                element.textContent = '';
+            });
+        }
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
         function sendWsp(phoneNumber) {
-            const init_name = document.getElementById('contact-name').value;
-            const init_email = document.getElementById('contact-email').value;
+            const init_name = document.getElementById('nombre_contacto').value;
+            const init_email = document.getElementById('email_contacto').value;
             const init_monto = document.getElementById('monto_puja')?.value;
-            const init_phone = document.getElementById('contact-phone').value;
+            const init_phone = document.getElementById('telefono_contacto').value;
             const init_message = document.getElementById('contact-message').value;
 
             const name = init_name ? `Nombre: ${init_name}\n` : ''
