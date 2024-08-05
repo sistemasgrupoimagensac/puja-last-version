@@ -445,7 +445,7 @@
 						"method": "card",
 						"amount": price,
 						"currency": 'PEN',
-						"description": `Paquete: ${categoriaPlan}, Plan: ${tipoPlan}, Días: ${periodoPlan}, Avisos: ${numAvisos}`,
+						"description": `Plan contratado: ${tipoPlan}, vigencia: ${periodoPlan} días y Cantidad de publicaciones: ${numAvisos == 1 ? numAvisos+' aviso' : numAvisos+' avisos' }.`,
 						"device_session_id": this.deviceSessionId,
 						"customer": {
 							"name": name,
@@ -490,7 +490,7 @@
 							alert(`La tarjeta fue rechazada`)
 						} else {
 							this.clearForm()
-							this.contratarPlan(formPost.amount);
+							this.contratarPlan(formPost.amount, formPost.description);
 							this.isProcessing = false
 							document.getElementById('pay-button').disabled = false
 							alert(`Pago realizado con éxito.`)
@@ -500,7 +500,7 @@
 					})
 				},
 
-				contratarPlan(price) {
+				contratarPlan(price, description_plan) {
 						const dataToSend = {
 							plan_id: idPlan,
 							tipo_aviso: tipoDeAviso,
@@ -520,7 +520,7 @@
 						.then(data => {
 							if (data.status === "Success") {
 								const planUserId = data.planuser_id
-								this.factElectronica(price, planUserId)
+								this.factElectronica(price, planUserId, description_plan)
 								window.location.href = '/panel/avisos'
 							} else {
 								console.error('Error en la suscripción:', data.message);
@@ -531,7 +531,7 @@
 						});
 				},
 
-				factElectronica(price, planUserId){
+				factElectronica(price, planUserId, description_plan){
 					try {
 						const data = {
 							details: [
@@ -541,11 +541,12 @@
 									product: 
 										{
 											id: idPlan,
-											name: "Plan " + this.tipoPlan,
+											name: `${description_plan}`,
 											type: 1
 										}
 								}
 							],
+							plan_name: this.tipoPlan,
 							document_type_id: documentTypeId, // 3 ruc, 2 boleta
 							note: '',
 							num_doc: numeroDocumento,

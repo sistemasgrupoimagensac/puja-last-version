@@ -17,8 +17,8 @@ class TiposUsuariosSeeder extends Seeder
             ['tipo' => 'CreadoPorGoogle', 'created_at' => now(), 'updated_at' => now()],
             ['tipo' => 'Propietario', 'created_at' => now(), 'updated_at' => now()],
             ['tipo' => 'Corredor', 'created_at' => now(), 'updated_at' => now()],
-            ['tipo' => 'Acreedor', 'created_at' => now(), 'updated_at' => now()],
-            ['tipo' => 'Proyecto', 'created_at' => now(), 'updated_at' => now()],
+            ['tipo' => 'Acreedor Hipotecario', 'created_at' => now(), 'updated_at' => now()],
+            ['tipo' => 'Proyecto / Desarrollador Inmobiliario', 'created_at' => now(), 'updated_at' => now()],
 
             // ['tipo' => 'CreadoPorGoogle', 'created_at' => now(), 'updated_at' => now()],
             // ['tipo' => 'Propietario', 'created_at' => now(), 'updated_at' => now()],

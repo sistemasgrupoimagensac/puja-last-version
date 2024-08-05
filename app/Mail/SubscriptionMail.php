@@ -16,13 +16,15 @@ class SubscriptionMail extends Mailable
     use Queueable, SerializesModels;
 
     public $pdfPath;
+    public $plan_name;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($pdfPath)
+    public function __construct($pdfPath, $plan_name)
     {
         $this->pdfPath = $pdfPath;
+        $this->plan_name = $plan_name;
     }
 
     /**
@@ -30,9 +32,10 @@ class SubscriptionMail extends Mailable
      */
     public function envelope(): Envelope
     {
+        $nombre_plan = $this->plan_name;
         return new Envelope(
             // from: new Address( env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME') ),
-            subject: 'Plan Contratado - Puja Inmobiliaria',
+            subject: "Felicitaciones adquiriste un nuevo \"{$nombre_plan}\" - Puja Inmobiliaria",
         );
     }
 

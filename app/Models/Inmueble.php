@@ -273,11 +273,11 @@ class Inmueble extends Model
         $monto_soles = number_format($this->precioSoles(), 2, '.', ',');
         $monto_dolares = number_format($this->precioDolares(), 2, '.', ',');
         if ( $this->precioSoles() && $this->precioDolares() ) {
-            $monto = "y el monto que solicita es de S/ {$monto_soles} ó $ {$monto_dolares}";
+            $monto = "y el precio de venta es de S/ {$monto_soles} ó $ {$monto_dolares}";
         } else if ( $this->precioSoles() && !$this->precioDolares() ) {
-            $monto = "y el monto que solicita es de S/ {$monto_soles}";
+            $monto = "y el precio de venta es de S/ {$monto_soles}";
         } else if ( !$this->precioSoles() && $this->precioDolares() ) {
-            $monto = "y el monto que solicita es de $ {$monto_dolares}";
+            $monto = "y el precio de venta es de $ {$monto_dolares}";
         }
         $caracteristicas = "{$tipo_inmueble} {$antiguedad} {$area_total} {$area_construida} {$monto}" ;
 
