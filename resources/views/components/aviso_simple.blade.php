@@ -34,10 +34,16 @@
                         <span class="id-aviso ms-1">{{ $codigo_unico }}</span>
                     </p>
           
-                    <div class="d-flex gap-2">                             
-                        <button class="btn btn-light border-secondary-subtle bg-white" title="Editar aviso" onclick="window.location.href='{{ route('posts.edit', ['aviso' => $id]) }}'">
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </button>
+                    <div class="d-flex gap-2">
+                        @if ( $edit_enabled )
+                            <button
+                                class="btn btn-light border-secondary-subtle bg-white"
+                                title="Editar aviso"
+                                onclick="window.location.href='{{ route('posts.edit', ['aviso' => $id]) }}'"
+                            >
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                        @endif
                         <a href="{{ $link }}" target="_blank" class="btn btn-light border-secondary-subtle bg-white" title="Ir al aviso">
                             <i class="fa-solid fa-arrow-up-right-from-square"></i>
                         </a>

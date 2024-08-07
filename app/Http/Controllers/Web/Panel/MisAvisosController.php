@@ -16,9 +16,11 @@ class MisAvisosController extends Controller
 
     public function __invoke(Request $request)
     {
-        $avisos = Aviso::where('estado', 1)->whereHas('inmueble', function($q) {
-                            $q->where('estado', 1)->where('user_id', Auth::user()->id);
-                        })->get();
+        $avisos = Aviso::where('estado', 1)
+                    ->whereHas('inmueble', function($q) {
+                        $q->where('estado', 1)->where('user_id', Auth::user()->id);
+                    })
+        ->get();
 
         if (Auth::check()) {
             $user_id = Auth::id();

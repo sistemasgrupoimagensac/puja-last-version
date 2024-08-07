@@ -37,6 +37,7 @@
                                 'price' => $aviso->inmueble->precioSoles() ?? $aviso->inmueble->precioDolares(),
                                 'address' => $aviso->inmueble->address(),
                                 'estado_aviso' => $aviso->historial[0]->estado,
+                                'edit_enabled' => true,
                             ])
                             @php
                                 $total_avisos_porpublicar += 1
@@ -53,6 +54,11 @@
                         $total_avisos_publicados = 0
                     @endphp
                     @foreach ($avisos as $aviso)
+                        @php
+                            $endDate = \Carbon\Carbon::parse($aviso->fecha_publicacion);
+                            $newEndDate = $endDate->addHours(72);
+                            $currentDate = \Carbon\Carbon::now();
+                        @endphp
                         @if ($aviso->historial[0]->estado === 'Publicado')
                             @include('components.aviso_simple', [
                                 'id' => $aviso->id,
@@ -60,12 +66,13 @@
                                 'link' => route('inmueble.single', ['inmueble' => $aviso->link()]),
                                 'title' => $aviso->inmueble->tituloReal() ?? 'Aviso sin título',
                                 'image' => $aviso->inmueble->imagenPrincipal(),
-                                'type' => $aviso->inmueble->type(), 
+                                'type' => $aviso->inmueble->type(),
                                 'category' => $aviso->inmueble->category(),
                                 'currency' => $aviso->inmueble->currencySoles() ?? $aviso->inmueble->currencyDolares(),
                                 'price' => $aviso->inmueble->precioSoles() ?? $aviso->inmueble->precioDolares(),
                                 'address' => $aviso->inmueble->address(),
                                 'estado_aviso' => $aviso->historial[0]->estado,
+                                'edit_enabled' => $currentDate < $newEndDate ? true : false,
                             ])
                             @php
                                 $total_avisos_publicados += 1

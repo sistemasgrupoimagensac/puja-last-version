@@ -41,4 +41,9 @@ class Aviso extends Model
     {
         return $this->hasMany(AdContact::class);
     }
+
+    public function planUser()
+    {
+        return $this->belongsTo(PlanUser::class, 'plan_user_id');
+    }
 }
