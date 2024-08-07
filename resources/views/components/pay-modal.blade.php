@@ -4,7 +4,6 @@
     }
 @endphp
 
-
 {{-- MODAL PAGO --}}
 <div class="modal fade" id="modalPago" tabindex="-1" aria-labelledby="modalPagoLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
@@ -50,7 +49,7 @@
                                 </div>
                                 
                                 <div class="mb-3 col-4">
-                                    <label for="cvcTarjeta" class="form-label m-0 custom">CVC/CVV</label>
+                                    <label for="cvcTarjeta" class="form-label m-0 custom">CVV</label>
                                     <div class="input-group">
                                         <input :type="showCVC ? 'text' : 'password'" class="form-control shadow-none" id="cvcTarjeta" x-model="cvcTarjeta" size="1" minlength="3" maxlength="4" data_openpay_card/>
                                         <span class="input-group-text">
@@ -295,7 +294,7 @@ function creditCardData() {
                     if (data.status === "Success") {
                         const planUserId = data.planuser_id
                         this.factElectronica(price, planUserId)
-                        window.location.href = '/panel/avisos'
+                        window.location.href = '/my-posts/create'
                     } else {
                         console.error('Error en la suscripción:', data.message);
                     }
@@ -411,7 +410,6 @@ function creditCardData() {
     }
 }
 
-
 let documentTypeId = 2
 let numeroDocumento
 let tipoDocumento
@@ -464,30 +462,6 @@ function consultaDocumento() {
                 this.error = 'Error al realizar la consulta.'
             })
         },
-
-        // enviarDatosAlBackend() {
-        //     const dataToSend = {
-        //         documento: this.documento,
-        //         tipo: this.tipo,
-        //     }
-
-        //     fetch('/enviar-datos-dni-ruc', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Accept': 'application/json',
-        //             'Content-Type': 'application/json',
-        //             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        //         },
-        //         body: JSON.stringify(dataToSend)
-        //     })
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         console.log('Response from backend:', data)
-        //     })
-        //     .catch(error => {
-        //         console.error('Error sending data to backend:', error.message)
-        //     })
-        // },
 
         getNombre() {
             if (this.tipo === 'DNI' && this.resultados) {

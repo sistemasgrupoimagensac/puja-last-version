@@ -67,7 +67,7 @@
         
         <!-- Menú de los pasos -->
         <div class="py-2 py-lg-4 bg-body-tertiary border-bottom">
-            <div class="d-flex justify-content-around fw-semibold text-light-emphasis">
+            <div class="d-flex justify-content-around align-items-center fw-semibold text-light-emphasis">
                 <div :class="{ 'text-primary': step === 1 }" class="crear-aviso-menu-paso">
                     <span>1</span>
                     <span class="d-none d-lg-inline">. Operación y tipo de inmueble</span>
@@ -92,6 +92,8 @@
                     <span>6</span>
                     <span class="d-none d-lg-inline">. Adicionales</span>
                 </div>
+
+                <a type="button" href="/" class="btn btn-danger px-4 fs-6">Salir</a>
             </div>
         </div>
 

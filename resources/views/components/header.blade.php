@@ -177,6 +177,7 @@
 
                         @php
                             $tipoUsuario = Auth::user()->tipo_usuario_id;
+                            
                         @endphp
 
                         @if (isset($tienePlanes)) 
