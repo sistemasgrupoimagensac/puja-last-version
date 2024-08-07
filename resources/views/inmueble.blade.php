@@ -9,10 +9,16 @@
 @endpush
 
 @section('header')
-    @include('components.header')
+    @include('components.header', ['tienePlanes' => $tienePlanes])
 @endsection
 
 @section('content')
+    @php
+        $acepta_puja = false;
+        if ($aviso->inmueble->is_puja() === 1) {
+            $acepta_puja = true;
+        }
+    @endphp
     <div class="custom-container my-2">
         <div class="d-flex flex-column flex-lg-row">
         
@@ -21,7 +27,7 @@
                 <div class="py-3">
 
                     {{-- Imagenes --}}
-                    <div class="images-wrapper position-relative" data-bs-toggle="modal" data-bs-target="#ImagesProperty">
+                    <div class="images-wrapper position-relative" data-bs-toggle="modal" data-bs-target="#modalImagesCarousel">
                         
                         @if ($aviso->ad_type === 3)
                             <div class="ribbon premium">Premium</div>
@@ -32,28 +38,27 @@
                         <div class="first-image card-image-container shadow">
                             <img src="{{ $aviso->inmueble->imagenPrincipal() }}" class="card-image-custom rounded" alt="{{ $aviso->inmueble->title() }}">
                         </div>
-                        {{-- @foreach($aviso->inmueble->imagenes as $n => $image)
-                            <div class="@if($n == 0) second-image @elseif($n == 1) third-image @else  @endif card-image-container shadow">
-                                <img src="{{ $image->imagen }}" class="card-image-custom rounded" alt="{{ $aviso->inmueble->title() }}">
-                            </div>
-                        @endforeach --}}
                         @foreach($aviso->inmueble->imagenes as $n => $image)
-                            <div class="@if($n == 0) first-image @elseif($n == 1) second-image @elseif($n == 2) third-image @else  @endif card-image-container shadow">
+                            <div class="@if($n == 0) second-image @elseif($n == 1) third-image @else d-none  @endif card-image-container shadow">
                                 <img src="{{ $image->imagen }}" class="card-image-custom rounded" alt="{{ $aviso->inmueble->title() }}">
                             </div>
                         @endforeach
 
+
                     </div>
                     
                     {{-- modal --}}
-                    <div class="modal fade" id="ImagesProperty" tabindex="-1">
-                        <div class="modal-dialog modal-dialog-centered inmueble-modal-dialog">
+                    <div class="modal fade" id="modalImagesCarousel" tabindex="-1">
+                        <div class="modal-dialog modal-xl modal-dialog-centered inmueble-modal-dialog">
                             <div class="modal-content ">
                                 <div class="modal-body p-0 bg-secondary">
 
                                     {{-- imagenes carrusel --}}
                                     <div id="carouselImagesInmueble" class="carousel slide carousel-fade">
                                         <div class="carousel-inner">
+                                            <div class="carousel-item"> 
+                                                <img src="{{ $aviso->inmueble->imagenPrincipal() }}" class="d-block w-100" alt="{{ $aviso->inmueble->title() }}">
+                                            </div>
                                             @foreach($aviso->inmueble->imagenes as $image)
                                             <div class="carousel-item @if($loop->first) active @endif">
                                                 <img src="{{ $image->imagen }}" class="d-block w-100" alt="{{ $aviso->inmueble->title() }}">
@@ -263,28 +268,44 @@
                     </div>
 
                     {{-- Card - descripción Osquitar IA --}}
-                    <div class="description-container mt-5">
-                        <h3 class="fw-bold">Descripción</h3>
+                    {{-- <div class="description-container mt-5">
+                        <h4 class="fw-bold">Descripción</h4>
+
+                        @if ($acepta_puja)
+                            <span class="badge text-bg-primary text-white fw-lighter my-3">Este aviso acepta ofertas en cuanto al precio que le afrezcas</span> 
+                        @endif
 
                         <p class="text-secondary">
-                            {{$aviso->inmueble->descripcion}}
+                            {{  $aviso->inmueble->descripcion }}
                         </p>
-                    </div>
+
+                    </div> --}}
 
                     {{-- Card - descripción --}}
                     <div class="description-container mt-5">
                         <h3 class="fw-bold">Sobre este inmueble</h3>
 
                         <p class="fw-bold">Antigüedad: 
-                            <span>15</span>
-                            años
+                            @if ( null !== $aviso->inmueble->aniosAntiguedad() )
+                                <span class=" fw-normal">{{ $aviso->inmueble->aniosAntiguedad() }} años</span>
+                            @else
+                                <span class=" fw-normal">De Estreno</span>
+                            @endif
                         </p>
-                        <p class="short-text" id="shortText">{!! nl2br($aviso->inmueble->shortDescription()) !!}</p>
-                        <p class="full-text" id="fullText">{!! nl2br($aviso->inmueble->description()) !!}</p>
-                        @if(strlen($aviso->inmueble->shortDescription()) > $aviso->inmueble->charLimit())
-                            <button class="ver-mas-btn btn btn-secondary" id="verMasBtn">Ver más</button>
-                            <button class="ver-menos-btn btn btn-secondary" id="verMenosBtn">Ver menos</button>
-                        @endif
+
+                        <div class="description-container mt-4">
+                            <h4 class="fw-bold">Descripción</h4>
+    
+                            @if ($acepta_puja)
+                                <span class="badge text-bg-primary text-white fw-lighter my-3">Este aviso acepta ofertas en cuanto al precio que le afrezcas</span> 
+                            @endif
+    
+                            <p class="text-secondary">
+                                {{  $aviso->inmueble->descripcion }}
+                            </p>
+    
+                        </div>
+
                     </div>
 
                     {{-- Adicionales --}}
