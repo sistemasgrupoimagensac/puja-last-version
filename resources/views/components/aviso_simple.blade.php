@@ -24,7 +24,6 @@
                                 <span class="price-aviso">{{ $currency }}{{ number_format($price) }}</span>
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <hr class="m-0">
