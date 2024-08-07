@@ -22,6 +22,11 @@ class PlanUser extends Model
         return $this->belongsTo(Plan::class, 'plan_id');
     }
 
+    public function avisos()
+    {
+        return $this->hasMany(Aviso::class, 'plan_user_id');
+    }
+
     /* public function option()
     {
         return $this->belongsTo(SubscriptionOption::class);
