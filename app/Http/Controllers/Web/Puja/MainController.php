@@ -31,14 +31,9 @@ class MainController extends Controller
             $user_id = Auth::id();
             $user = User::find($user_id);
             $active_plan_users = $user->active_plans()->get();
-
             $tienePlanes = $active_plan_users->isNotEmpty();
         }
 
         return view('home', compact('avisos', 'tipos_inmuebles', 'tienePlanes'));
-
-
-
-        // return view('home', compact('avisos', 'tipos_inmuebles'));
     }
 }

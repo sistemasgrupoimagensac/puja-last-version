@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Web\Panel;
 
 use App\Http\Controllers\Controller;
-use App\Models\Aviso;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use App\Models\Aviso;
+use App\Models\User;
 
 class MisAvisosController extends Controller
 {
@@ -19,6 +20,13 @@ class MisAvisosController extends Controller
                             $q->where('estado', 1)->where('user_id', Auth::user()->id);
                         })->get();
 
-        return view('panel.mis-avisos', compact('avisos'));
+        if (Auth::check()) {
+            $user_id = Auth::id();
+            $user = User::find($user_id);
+            $active_plan_users = $user->active_plans()->get();
+            $tienePlanes = $active_plan_users->isNotEmpty();
+        }
+
+        return view('panel.mis-avisos', compact('avisos', 'tienePlanes'));
     }
 }

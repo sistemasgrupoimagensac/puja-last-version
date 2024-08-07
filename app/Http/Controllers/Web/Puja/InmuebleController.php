@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Web\Puja;
 
-use App\Http\Controllers\Controller;
 use App\Repositories\AvisoRepository;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 use App\Services\Aviso\ObtenerAviso;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+
 
 class InmuebleController extends Controller
 {
@@ -29,8 +31,18 @@ class InmuebleController extends Controller
             $publicado = $aviso->historial[0]->estado == "Publicado" ? true : false;
             $ad_belongs = false;
             if ( (int)$user_login_id === (int)$ad_user_id ) $ad_belongs = true;
+
+            $tienePlanes = null;
+
+            if (Auth::check()) {
+                $user_id = Auth::id();
+                $user = User::find($user_id);
+                $active_plan_users = $user->active_plans()->get();
+                $tienePlanes = $active_plan_users->isNotEmpty();
+            }
             
-            return view('inmueble', compact('aviso', 'ad_belongs', 'publicado', 'tipo_usuario'));
+            return view('inmueble', compact('aviso', 'ad_belongs', 'publicado', 'tipo_usuario', 'tienePlanes'));
+
         } catch (\Throwable $th) {
             return response()->json([
                 'http_code' => 500,

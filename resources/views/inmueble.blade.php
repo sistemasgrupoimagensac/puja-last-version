@@ -453,7 +453,7 @@
 
                                 <div class="form-floating">
                                     <input type="email" class="form-control" id="email_contacto" name="email_contacto" placeholder="Correo electrónico" required>
-                                    <label class="text-secondary" for="email_contacto">Correo electrónico</label>
+                                    <label class="text-secondary" for="email_contacto">Correo Electrónico</label>
                                     <div id="validationServerEmail_contactoFeedback" class="invalid-feedback"></div>
                                 </div>  
 
@@ -474,7 +474,7 @@
                                                 <label class="btn btn-outline-secondary rounded-end-0" for="dolares" style="width: 40px">$</label>
                                             </div>
 
-                                            <input type="text" class="form-control" name="contact_monto_puja" placeholder="" aria-label="Example text with two button addons">
+                                            <input type="text" class="form-control" name="contact_monto_puja" placeholder="Oferta un Precio" aria-label="Example text with two button addons">
 
                                             <span type="button" class="input-group-text"> 
                                                 <div 

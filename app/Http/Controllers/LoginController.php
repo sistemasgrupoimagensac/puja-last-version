@@ -25,7 +25,7 @@ class LoginController extends Controller
                 $imagen_path = "/images/bg5.webp";
                 break;
             case '3':
-                $imagen_path = "/images/signin.webp";
+                $imagen_path = "/images/sigin_corredor.webp";
                 break;
             case '4':
                 $imagen_path = "/images/signin5.webp";
