@@ -265,10 +265,18 @@
                     {{-- Card - descripción Osquitar IA --}}
                     <div class="description-container mt-5">
                         <h3 class="fw-bold">Descripción</h3>
-
-                        <p class="text-secondary">
-                            {{$aviso->inmueble->descripcion}}
-                        </p>
+                        <form id="editDescriptionForm" action="{{ route('posts.edit_description') }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div class="form-group">
+                                <input type="hidden" name="aviso_id" value="{{ $aviso->id }}">
+                                <textarea class="form-control" id="editDescriptionTextarea" name="description" rows="20" disabled>{!! $aviso->inmueble->principal->caracteristicas->descripcion !!}</textarea>
+                            </div>
+                            @if ( $ad_belongs && !in_array($aviso->historial[0]->estado, ["Publicado", "Aceptado"]) )
+                                <button type="button" id="editDesciptionButton" class="btn btn-primary">Editar</button>
+                                <button type="submit" id="saveDesciptionButton" class="btn btn-success" disabled>Guardar</button>
+                            @endif
+                        </form>
                     </div>
 
                     {{-- Card - descripción --}}
@@ -521,6 +529,49 @@
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const editDesciptionButton = document.getElementById('editDesciptionButton');
+            const saveDesciptionButton = document.getElementById('saveDesciptionButton');
+            const editDescriptionTextarea = document.getElementById('editDescriptionTextarea');
+            const form = document.getElementById('editDescriptionForm');
+
+            editDesciptionButton.addEventListener('click', function () {
+                editDescriptionTextarea.disabled = false;
+                saveDesciptionButton.disabled = false;
+                editDesciptionButton.disabled = true;
+            });
+
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                
+                const formData = new FormData(form);
+                formData.append('_method', 'PUT'); // Asegurarse de que el método sea PUT
+                // formData.append('description', editDescriptionTextarea.value);
+                fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.http_code === 200) {
+                        editDescriptionTextarea.disabled = true;
+                        saveDesciptionButton.disabled = true;
+                        editDesciptionButton.disabled = false;
+                        alert('Descripción guardada exitosamente.');
+                    } else {
+                        alert('Hubo un error al guardar la descripción.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Hubo un error al guardar la descripción.');
+                });
+            });
+        });
+
         const adBelongs = @json($ad_belongs);
         const owner_phone = @json( $aviso->inmueble->user->phone );
 

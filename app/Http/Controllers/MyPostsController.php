@@ -533,6 +533,8 @@ class MyPostsController extends Controller
                     'error' => true
                 ], 422);
             } else {
+                $aviso->inmueble->principal->caracteristicas->descripcion = $aviso->inmueble->descripcion;
+                $aviso->inmueble->principal->caracteristicas->save();
                 return response()->json([
                     'message' => 'Registro exitoso, finalizado correcto.',
                     'status' => 'Success',
@@ -578,6 +580,32 @@ class MyPostsController extends Controller
             dd("Aviso no encontrado, $aviso no existe");
         }
         return view('actualizar-aviso');
+    }
+
+    public function edit_description (Request $request){
+        $validator = Validator::make($request->all(), [
+            'aviso_id' => 'required|integer',
+            'description' => 'required|string',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'http_code' => 400,
+                'status' => "Error",
+                'message' => 'Errores de validación',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+        if ( !Auth::check() ) return redirect()->route('sign_in')->with('error', 'Inicia sesión, por favor.');
+
+        $aviso = Aviso::findOrFail($request->aviso_id);
+        $aviso->inmueble->principal->caracteristicas->descripcion = trim($request->description);
+        $aviso->inmueble->principal->caracteristicas->save();
+
+        return response()->json([
+            "http_code" => 200,
+            "status" => "Success",
+            "message" => "Se actualizó correctamente la descripción",
+        ], 200);
     }
 
     public function get_subtipos() {
