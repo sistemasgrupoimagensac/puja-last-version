@@ -226,6 +226,12 @@ class Inmueble extends Model
         return optional(optional($this->principal)->caracteristicas)->remate_telef_contacto;
     }
 
+    public function getPujaDescripcionAttribute()
+    {
+        $puja = $this->is_puja() == 1 ? "*Este aviso acepta ofertas en cuanto al precio que le afrezcas.\n" : "";
+        
+    }
+
     public function getDescripcionAttribute()
     {
         $subtipo_inmueble = $this->principal->operacion->subTipoInmueble->subtipo;
@@ -313,7 +319,7 @@ class Inmueble extends Model
             $caracteristicas_extras .= $value->caracteristica;
             ( $key < $totalCaracteristicas - 1 ) ? $caracteristicas_extras .= ", " : $caracteristicas_extras .= ".";
         }
-        return "{$subtipo_inmueble} en {$tipo_operacion} ubicada en {$direccion_completa}{$espacios} {$caracteristicas}. {$remate}El inmueble cuenta con una lista de caracteristicas y comodidades que se presentan acontinuacion: {$caracteristicas_extras}";
+        return "{$subtipo_inmueble} en {$tipo_operacion} ubicada en {$direccion_completa}{$espacios} {$caracteristicas}. {$remate}El inmueble cuenta con una lista de características y comodidades que se presentan a continuación: {$caracteristicas_extras}";
     }
 
 }
