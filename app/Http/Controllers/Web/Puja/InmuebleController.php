@@ -21,16 +21,18 @@ class InmuebleController extends Controller
         try {
             $aviso = (new ObtenerAviso($this->repository))->__invoke($inmueble);
             $user_login_id = 0;
-            if ( Auth::check() ) $user_login_id = Auth::id();
+            $tipo_usuario = 0;
+            if ( Auth::check() ) {
+                $user_login_id = Auth::id();
+                $user = Auth::user();
+                $tipo_usuario = $user->tipo_usuario_id;
+            }
             $ad_user_id = $aviso->inmueble->user_id;
-
-            $user = Auth::user();
-            $tipo_usuario = $user->tipo_usuario_id;
-            
-            
             $publicado = $aviso->historial[0]->estado == "Publicado" ? true : false;
             $ad_belongs = false;
             if ( (int)$user_login_id === (int)$ad_user_id ) $ad_belongs = true;
+
+            $tienePlanes = null;
 
             if (Auth::check()) {
                 $user_id = Auth::id();
@@ -40,8 +42,13 @@ class InmuebleController extends Controller
             }
             
             return view('inmueble', compact('aviso', 'ad_belongs', 'publicado', 'tipo_usuario', 'tienePlanes'));
-        } catch (\Exception $e) {
-            abort($e->getCode());
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                'http_code' => 500,
+                'message' => 'Error al mostrar el aviso.',
+                'error' => $th->getMessage() // Mensaje de error detallado
+            ], 500); // Código de estado HTTP 500 (Internal Server Error)
         }
     }
 }

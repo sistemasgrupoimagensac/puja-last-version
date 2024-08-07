@@ -183,9 +183,9 @@
                         @if (isset($tienePlanes)) 
 
                             @if (!$tienePlanes && $tipoUsuario === 3)
-                                <a href="/planes-inmobiliaria" class="button-clear aside-menu btn mx-4">Publica Aquí</a>
+                                <a href="/planes-inmobiliaria" class="btn-outline-secondary aside-menu btn mx-4">Publica Aquí</a>
                             @else 
-                                <a href="{{ route("posts.create") }}" class="button-clear aside-menu btn mx-4">Publica Aquí</a>
+                                <a href="{{ route("posts.create") }}" class="btn-outline-secondary aside-menu btn mx-4">Publica Aquí</a>
                             @endif
 
                         @endif
@@ -246,7 +246,7 @@
                             </div>
                         </nav>
                     @else
-                        <a class="button-clear btn mx-1" href="/publica-tu-inmueble">Publica Aquí</a>
+                        <a class="btn-outline-secondary btn mx-1" href="/publica-tu-inmueble">Publica Aquí</a>
                         <a class="button-orange btn mx-1" href="{{ route("sign_in", ['profile_type' => 2]) }}">Iniciar Sesión</a>
                     @endauth
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
