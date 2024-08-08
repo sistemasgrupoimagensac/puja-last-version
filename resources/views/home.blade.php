@@ -24,7 +24,7 @@
                         <div class="input-group-lg mr-4">
                             <select class="form-select" aria-label="Tipo de Propiedad" name="categoria">
                                 @foreach($tipos_inmuebles as $tipo)
-                                    <option value="{{ $tipo->id }}" @if($loop->first) selected @endif>{{ $tipo->tipo }}</option>
+                                <option value="{{ $tipo->id }}" @if($loop->first) selected @endif>{{ $tipo->tipo }}</option>
                                 @endforeach
                             </select>
                         </div>

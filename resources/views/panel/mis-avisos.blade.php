@@ -45,7 +45,7 @@
                         @endif
                     @endforeach
                     @if ($total_avisos_porpublicar === 0)
-                        <p>No tienes avisos por publicar <i class="fa-regular fa-face-frown"></i></p>
+                        <p>No tienes avisos por publicar <i class="fa-regular fa-face-frown fa-lg"></i></p>
                     @endif
 
                     {{-- AVISOS PUBLICADOS --}}
@@ -80,7 +80,7 @@
                         @endif
                     @endforeach
                     @if ($total_avisos_publicados === 0)
-                        <p>No tienes avisos publicados <i class="fa-regular fa-face-sad-cry"></i></p>
+                        <p>No tienes avisos publicados <i class="fa-regular fa-face-sad-cry fa-lg"></i></p>
                     @endif
 
                 </section>

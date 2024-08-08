@@ -319,7 +319,7 @@ class Inmueble extends Model
             $caracteristicas_extras .= $value->caracteristica;
             ( $key < $totalCaracteristicas - 1 ) ? $caracteristicas_extras .= ", " : $caracteristicas_extras .= ".";
         }
-        return "{$puja}{$subtipo_inmueble} en {$tipo_operacion} ubicada en {$direccion_completa}{$espacios} {$caracteristicas}. {$remate}El inmueble cuenta con una lista de características y comodidades que se presentan a continuación: {$caracteristicas_extras}";
+        return "{$subtipo_inmueble} en {$tipo_operacion} ubicada en {$direccion_completa}{$espacios} {$caracteristicas}. {$remate}El inmueble cuenta con una lista de características y comodidades que se presentan a continuación: {$caracteristicas_extras}";
     }
 
 }
