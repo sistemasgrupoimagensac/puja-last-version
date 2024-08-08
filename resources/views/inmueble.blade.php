@@ -301,12 +301,10 @@
                                     </div>
                                 @endif
                             </form>
-    
                         </div>
-
                     </div>
 
-                    {{-- Adicionales --}}
+                    {{-- Más Características --}}
                     <div class="mt-5">
                         <h3 class="fw-bold">Más Características</h3>
 
@@ -344,7 +342,6 @@
                         </ul>
 
                     </div>
-
                 </div>  
             </div>
 
@@ -381,6 +378,15 @@
                                                     <i class="fa-solid fa-plus "></i>
                                                     Plan
                                                 </a>
+                                            @elseif ($tipo_usuario === 4)
+                                                <button class="btn btn-danger fs-5 rounded-top-0" id="redirect-button-acreedor">
+                                                    <i class="fa-solid fa-plus "></i>
+                                                    Plan
+                                                </button>
+                                                <form id="redirect-form-acreedor" action="{{ route('pagar.planes_acreedor') }}" method="POST" style="display: none;">
+                                                    @csrf
+                                                    <input type="hidden" name="aviso_id" value="{{ $aviso->id }}">
+                                                </form>
                                             @endif
                                         </div>
 
@@ -424,13 +430,13 @@
                                 <div class="modal-body">
                                     <div class="d-flex flex-column gap-3">
                                         <input type="radio" class="btn-check" name="btnradio" id="btnPremiumAds" autocomplete="off" checked>
-                                        <label class="btn btn-outline-secondary" for="btnPremiumAds">Premium Ads: <span id="premiumAdsRemaining"></span></label>
+                                        <label class="btn btn-outline-secondary" for="btnPremiumAds">Aviso Premium: <span id="premiumAdsRemaining"></span></label>
                                       
                                         <input type="radio" class="btn-check" name="btnradio" id="btnTopAds" autocomplete="off">
-                                        <label class="btn btn-outline-secondary" for="btnTopAds">Top Ads: <span id="topAdsRemaining"></span></label>
+                                        <label class="btn btn-outline-secondary" for="btnTopAds">Aviso Top: <span id="topAdsRemaining"></span></label>
                                       
                                         <input type="radio" class="btn-check" name="btnradio" id="btnTypicalAds" autocomplete="off">
-                                        <label class="btn btn-outline-secondary" for="btnTypicalAds">Typical Ads: <span id="typicalAdsRemaining"></span></label>
+                                        <label class="btn btn-outline-secondary" for="btnTypicalAds">Aviso Típico: <span id="typicalAdsRemaining"></span></label>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -687,6 +693,10 @@
 
         document.getElementById('redirect-button')?.addEventListener('click', function() {
             document.getElementById('redirect-form').submit();
+        });
+
+        document.getElementById('redirect-button-acreedor')?.addEventListener('click', function() {
+            document.getElementById('redirect-form-acreedor').submit();
         });
 
         const avisoId = @json($aviso->id);

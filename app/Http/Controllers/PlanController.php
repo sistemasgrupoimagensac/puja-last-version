@@ -58,6 +58,12 @@ class PlanController extends Controller
         return view ('planes-propietario',compact('aviso_id'));
     }
 
+    public function planes_acreedor(Request $request) 
+    {
+        $aviso_id = $request->input('aviso_id');
+        return view ('planes-acreedor',compact('aviso_id'));
+    }
+
     // Contratar un Plan y/o publicar un aviso
     public function post_ad(Request $request){
 

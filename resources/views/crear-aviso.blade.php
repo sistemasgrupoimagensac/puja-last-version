@@ -478,7 +478,7 @@
                                     <div class="col-12 col-md-6 col-lg-4">
                                         <div class="form-check my-2">
                                             <input class="form-check-input" type="checkbox" name="options[]" :id="'add_' + extra.id" :value="extra.id">
-                                            <label class="form-check-label" :for="'add_' + extra.id">
+                                            <label class="form-check-label text-secondary filter-additional-input" :for="'add_' + extra.id">
                                                 <i :class="'fa-solid ' + extra.icono + ' icon-orange mx-2'"></i>
                                                 <span x-text="extra.caracteristica"></span>
                                             </label>
