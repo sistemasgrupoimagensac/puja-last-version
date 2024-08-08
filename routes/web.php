@@ -109,6 +109,7 @@ Route::get('/my-post/extras/{extra_id}', [MyPostsController::class, 'getExtras']
 Route::get('/planes-inmobiliaria', [PlanController::class, 'index']);
 Route::post('/planes-user', [PlanController::class, 'list_plans_user']);
 Route::post('/pagar-planes-propietario', [PlanController::class, 'planes_propietario'])->name('pagar.planes_propietario');
+Route::post('/pagar-planes-acreedor', [PlanController::class, 'planes_acreedor'])->name('pagar.planes_acreedor');
 
 Route::post('/contratar_plan', [PlanController::class, 'post_ad']);
 Route::post('/usar-plan', [PlanController::class, 'use_plan']);
