@@ -121,6 +121,7 @@ Route::get('/proyectos', function() {
 
 Route::get('/images/{archivo}', [ImagesController::class, 'get_images']);
 Route::get('/videos/{archivo}', [ImagesController::class, 'get_videos']);
+Route::get('/pdf/{archivo}', [ImagesController::class, 'get_pdf']);
 
 
 // Route::get('/openpay', [MyPostsController::class, 'openpay'])->middleware('sessiondata');

@@ -63,4 +63,12 @@ class ImagesController extends Controller
         // return response()->file($files, $headers);
         return Storage::disk('wasabi')->response('videos/' . $archivo);
     }
+    
+    public function get_pdf($archivo){
+        $existe_archivo = Storage::disk('wasabi')->exists('pdf/'. $archivo);
+        if (!$existe_archivo) {
+            abort(404, 'El archivo no existe');
+        }
+        return Storage::disk('wasabi')->response('pdf/' . $archivo);
+    }
 }
