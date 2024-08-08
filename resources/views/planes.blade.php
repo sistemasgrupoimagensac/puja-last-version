@@ -283,7 +283,11 @@
 
 				{{-- Modal de Pago --}}
 				<x-pay-modal
-				avisoId="null"
+					avisoId="null"
+					userName="{{ $user->nombres }}"
+					userSurname="{{ $user->apellidos }}"
+					userEmail="{{ $user->email }}"
+					userPhone="{{ $user->celular }}"
 				>
 					<x-card-plan-checkout
 					showPlan="basico"
