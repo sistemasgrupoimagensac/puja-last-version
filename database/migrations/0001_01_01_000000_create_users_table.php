@@ -28,6 +28,7 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->foreignId('tipo_usuario_id')->default(1)->constrained(table: 'tipos_usuario');
+            $table->boolean('not_pay')->default(0);
             $table->string('codigo_unico', 200)->unique()->nullable();
             $table->string('nombres', 200);
             $table->string('apellidos', 200)->nullable();
