@@ -84,7 +84,7 @@
                     <div class="custom-container mt-4 p-3 rounded bg-body-secondary d-flex flex-row justify-content-between align-items-end flex-md-column align-items-md-stretch shadow">
 
                         <div class="d-flex flex-column flex-md-row justify-content-between">
-                            <div>
+                            <div style="max-width: 700px">
                                 
                                 {{-- title --}}
                                 <h1 class="p-0 h3 fw-bold">
@@ -125,12 +125,12 @@
                                     <small class="text-prim">Precio base remate</small>
                                     <h2 class="m-0 fw-bolder text-primary">
                                         <span>{{ $aviso->inmueble->currencyDolares() }}</span>
-                                        <span> {{ $aviso->inmueble->remate_precio_base() }} </span>
+                                        <span> {{ number_format($aviso->inmueble->remate_precio_base()) }} </span>
                                     </h2>
                                     <small class="mt-3">Valor de la tasación</small>
                                     <h3 class="m-0 fw-bolder text-secondary">
                                         <small>{{ $aviso->inmueble->currencyDolares() }}</small>
-                                        <span> {{ $aviso->inmueble->remate_valor_tasacion() }} </span>
+                                        <span> {{ number_format($aviso->inmueble->remate_valor_tasacion()) }} </span>
                                     </h3>
                                 </div>
                             @endif
@@ -553,7 +553,7 @@
             const editDescriptionTextarea = document.getElementById('editDescriptionTextarea');
             const form = document.getElementById('editDescriptionForm');
 
-            editDesciptionButton.addEventListener('click', function () {
+            editDesciptionButton?.addEventListener('click', function () {
                 editDescriptionTextarea.disabled = false;
                 saveDesciptionButton.disabled = false;
                 editDesciptionButton.disabled = true;

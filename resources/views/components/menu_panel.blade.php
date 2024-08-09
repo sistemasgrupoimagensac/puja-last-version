@@ -2,7 +2,7 @@
     @vite(['resources/sass/components/menu_panel.scss'])
 @endpush
 
-<aside class="lateral-submenu">
+<aside class="lateral-submenu d-none d-lg-block">
     <div class="border rounded px-2 pt-2">
         <ul id="menu-container" class="p-0 m-0 list-unstyled">
             <li class="mb-2">
@@ -11,18 +11,12 @@
                     <span>Mis avisos</span>
                 </a>
             </li>
-            {{-- <li class="mb-2">
-                <a href="" class="d-flex align-items-center px-3 text-decoration-none">
-                    <i class="fa-solid fa-users fa-xl my-2 me-3 text-secondary"></i>
-                    <span>Interesados</span>
+            <li class="mb-2">
+                <a href="{{ route('panel.planes-contratados') }}" class="@if(Route::currentRouteName() == 'panel.planes-contratados') active @endif d-flex align-items-center px-3 text-decoration-none">
+                    <i class="fa-solid fa-clipboard-list fa-xl my-2 me-3"></i>
+                    <span>Planes contratados</span>
                 </a>
             </li>
-            <li class="mb-2">
-                <a href="" class="d-flex align-items-center px-3 text-decoration-none">
-                    <i class="fa-solid fa-chart-line fa-xl my-2 me-3 text-secondary"></i>
-                    <span>Mi actividad</span>
-                </a>
-            </li> --}}
             <hr class="m-2">
             <li class="mb-2">
                 <a href="{{ route('panel.perfil') }}" class="@if(Route::currentRouteName() == 'panel.perfil') active @endif d-flex align-items-center px-3 text-decoration-none">

@@ -21,7 +21,8 @@ class MisAvisosController extends Controller
                         $q->where('estado', 1)->where('user_id', Auth::user()->id);
                     })
         ->get();
-
+        $tienePlanes = false;
+        
         if (Auth::check()) {
             $user_id = Auth::id();
             $user = User::find($user_id);

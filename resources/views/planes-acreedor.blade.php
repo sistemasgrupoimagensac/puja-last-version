@@ -110,7 +110,7 @@
 	<script>
 
 		let idPlan = 111;
-		let tipoDeAviso = 1;
+		let tipoDeAviso = 3;
 
 		function pricingData() {
 				return {

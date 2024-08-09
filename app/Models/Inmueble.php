@@ -117,6 +117,10 @@ class Inmueble extends Model
         $tipo_operacion = $this->type();
         $distrito = $this->distrito();
 
+        if($tipo_operacion === "Rematar") {
+            $tipo_operacion = "Remate";
+        }
+
         if (is_null($tipo_inmueble) || is_null($tipo_operacion) || is_null($distrito)) {
             return 'Inmueble en Venta/Alquiler';
         }
@@ -191,7 +195,6 @@ class Inmueble extends Model
     {
         return 300;
     }
-
 
     public function remate_precio_base()
     {

@@ -223,23 +223,30 @@
                                     <img src="{{ $user_image }}" alt="some user image">
                                 </div>
                             </div>
-                            <div class="menu">
-                                <ul>
-                                    <li>
-                                        <a href="{{ route('panel.perfil') }}"><i class="fa-solid fa-user"></i>
-                                            &nbsp;Perfil
+                            <div class="menu rounded-3">
+                                <ul class="p-0 m-0 rounded-3">
+                                    <li class="rounded-3 rounded-bottom-0">
+                                        <a href="{{ route('panel.perfil') }}">
+                                            <div>
+                                                <i class="fa-solid fa-user"></i>
+                                                &nbsp; Perfil
+                                            </div>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="{{ route('panel.mis-avisos') }}">
-                                            <i class="fa-solid fa-store"></i></i>
-                                            &nbsp;Avisos
+                                            <div>
+                                                <i class="fa-solid fa-store"></i></i>
+                                                &nbsp; Avisos
+                                            </div>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li class="rounded-3 rounded-top-0">
                                         <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                            <i class="fa-regular fa-circle-xmark"></i>
-                                            &nbsp;Cerrar sesión
+                                            <div>
+                                                <i class="fa-regular fa-circle-xmark"></i>
+                                                &nbsp; Cerrar sesión
+                                            </div>
                                         </a>
                                     </li>
                                 </ul>

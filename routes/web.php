@@ -14,6 +14,7 @@ use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\Web\Panel\PerfilController;
 use App\Http\Controllers\Web\Panel\PasswordController;
 use App\Http\Controllers\Web\Panel\MisAvisosController;
+use App\Http\Controllers\Web\Panel\PlanesContratadosController;
 use App\Http\Controllers\Web\Puja\MainController;
 
 
@@ -63,6 +64,7 @@ Route::middleware(['auth'])->group(function() {
     Route::prefix('/panel')->name('panel.')->group(function() {
         Route::get('/', fn() => redirect()->route('panel.mis-avisos'));
         Route::get('/avisos', MisAvisosController::class)->name('mis-avisos');
+        Route::get('/planes-contratados', PlanesContratadosController::class)->name('planes-contratados');
         Route::get('/perfil', PerfilController::class)->name('perfil');
         Route::get('/password', PasswordController::class)->name('password');
     });
