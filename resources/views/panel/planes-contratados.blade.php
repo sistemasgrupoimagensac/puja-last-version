@@ -21,7 +21,6 @@
             @include('components.menu_panel')
             <section id="" class="col px-5 pt-2">
                 <h1>Planes contratados</h1>
-                {{-- {{ $active_plan_users }} --}}
                 
                 @if($tienePlanes)
 

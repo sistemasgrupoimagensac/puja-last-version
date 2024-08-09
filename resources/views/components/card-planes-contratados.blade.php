@@ -10,19 +10,14 @@
     <hr>
 
     <h5 class="card-title fw-bold text-primary">Avisos Contratados <span class="text-black fw-lighter"> (totales: {{ $totalAdsHired }})</span></h5>
-    {{-- <p class="m-0"><span class="fw-bold">Totales: </span>{{ $totalAdsHired }}</p> --}}
     <p class="m-0"><span class="fw-bold">Avisos Premium: </span>{{ $topPlusAdsHired }}</p>
     <p class="m-0"><span class="fw-bold">Avisos Top: </span>{{ $topAdsHired }}</p>
     <p class="m-0"><span class="fw-bold">Avisos Típicos: </span>{{ $typicalAdsHired }}</p>
-
-    {{-- <hr> --}}
-
 
   </div>
   <div class="card-footer text-bg-dark">
 
     <h5 class="card-title fw-bold text-primary">Avisos Restantes</span></h5>
-    {{-- <p class="m-0"><span class="fw-bold">Totales: </span>{{ $totalAdsHired }}</p> --}}
     <p class="m-0"><span class="fw-bold">Avisos Premium: </span>{{ $topPlusAdsRemaining }}</p>
     <p class="m-0"><span class="fw-bold">Avisos Top: </span>{{ $topAdsRemaining }}</p>
     <p class="m-0"><span class="fw-bold">Avisos Típicos: </span>{{ $typicalAdsRemaining }}</p>
