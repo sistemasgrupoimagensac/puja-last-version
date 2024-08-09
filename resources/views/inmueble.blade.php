@@ -351,52 +351,68 @@
                 @if ( $ad_belongs )
 
                     @if ( !$publicado )
-                        <div class="sticky-lg-top py-3">
-                            <div class="rounded bg-white border shadow">
-                                <div class="p-3">
-                                    <h4 class="fw-bold m-0">Planes adquiridos:</h4>
-                                    <hr>
-                                    {{-- lista de planes o paquetes comprados --}}
-                                    <div>
-                                        {{-- Card Comprar Plan --}}
-                                        <div class="card text-bg-light mb-3">
-                                            <div class="card-body text-center">
-                                                <p class="m-0">Adquiere un plan con los mejores precios del mercado.</p>
+
+                        @if ( $user_not_pay ) {{-- El cliente tiene activo la opcion para no PAGAR --}}
+                            <div class="d-flex justify-content-center w-100">
+                                <button type="button" class="btn button-orange fs-3 rounded-3 m-2 mx-lg-5 w-100" id="acreedor-especial-post-ad">
+                                    Publicar
+                                </button>
+                                <form id="acreedor-especial-post" action="/contratar_plan" method="POST" style="display: none;">
+                                    @csrf
+                                    <input type="hidden" name="aviso_id" value="{{ $aviso->id }}">
+                                    <input type="hidden" name="plan_id" value="{{ $plan_id }}">
+                                    <input type="hidden" name="tipo_aviso" value="{{ $tipo_aviso }}">
+                                    <input type="hidden" name="acreedor_post_free" value="1">
+                                </form>
+                            </div>
+                        @else
+                            <div class="sticky-lg-top py-3">
+                                <div class="rounded bg-white border shadow">
+                                    <div class="p-3">
+                                        <h4 class="fw-bold m-0">Planes adquiridos:</h4>
+                                        <hr>
+                                        {{-- lista de planes o paquetes comprados --}}
+                                        <div>
+                                            {{-- Card Comprar Plan --}}
+                                            <div class="card text-bg-light mb-3">
+                                                <div class="card-body text-center">
+                                                    <p class="m-0">Adquiere un plan con los mejores precios del mercado.</p>
+                                                </div>
+
+                                                @if ($tipo_usuario === 2)
+                                                    <button class="btn btn-danger fs-5 rounded-top-0" id="redirect-button">
+                                                        <i class="fa-solid fa-plus "></i>
+                                                        Plan
+                                                    </button>
+                                                    <form id="redirect-form" action="{{ route('pagar.planes_propietario') }}" method="POST" style="display: none;">
+                                                        @csrf
+                                                        <input type="hidden" name="aviso_id" value="{{ $aviso->id }}">
+                                                    </form>
+                                                @elseif ($tipo_usuario === 3)
+                                                    <a class="btn btn-danger fs-5 rounded-top-0" href="/planes-inmobiliaria">
+                                                        <i class="fa-solid fa-plus "></i>
+                                                        Plan
+                                                    </a>
+                                                @elseif ($tipo_usuario === 4)
+                                                    <button class="btn btn-danger fs-5 rounded-top-0" id="redirect-button-acreedor">
+                                                        <i class="fa-solid fa-plus "></i>
+                                                        Plan
+                                                    </button>
+                                                    <form id="redirect-form-acreedor" action="{{ route('pagar.planes_acreedor') }}" method="POST" style="display: none;">
+                                                        @csrf
+                                                        <input type="hidden" name="aviso_id" value="{{ $aviso->id }}">
+                                                    </form>
+                                                @endif
                                             </div>
 
-                                            @if ($tipo_usuario === 2)
-                                                <button class="btn btn-danger fs-5 rounded-top-0" id="redirect-button">
-                                                    <i class="fa-solid fa-plus "></i>
-                                                    Plan
-                                                </button>
-                                                <form id="redirect-form" action="{{ route('pagar.planes_propietario') }}" method="POST" style="display: none;">
-                                                    @csrf
-                                                    <input type="hidden" name="aviso_id" value="{{ $aviso->id }}">
-                                                </form>
-                                            @elseif ($tipo_usuario === 3)
-                                                <a class="btn btn-danger fs-5 rounded-top-0" href="/planes-inmobiliaria">
-                                                    <i class="fa-solid fa-plus "></i>
-                                                    Plan
-                                                </a>
-                                            @elseif ($tipo_usuario === 4)
-                                                <button class="btn btn-danger fs-5 rounded-top-0" id="redirect-button-acreedor">
-                                                    <i class="fa-solid fa-plus "></i>
-                                                    Plan
-                                                </button>
-                                                <form id="redirect-form-acreedor" action="{{ route('pagar.planes_acreedor') }}" method="POST" style="display: none;">
-                                                    @csrf
-                                                    <input type="hidden" name="aviso_id" value="{{ $aviso->id }}">
-                                                </form>
-                                            @endif
-                                        </div>
-
-                                        <div id="plans-container" class=" d-flex flex-column gap-3">
-                                            <!-- Las cards se agregarán aquí dinámicamente -->
+                                            <div id="plans-container" class=" d-flex flex-column gap-3">
+                                                <!-- Las cards se agregarán aquí dinámicamente -->
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
                     @endif
 
 
@@ -697,6 +713,10 @@
 
         document.getElementById('redirect-button-acreedor')?.addEventListener('click', function() {
             document.getElementById('redirect-form-acreedor').submit();
+        });
+
+        document.getElementById('acreedor-especial-post-ad')?.addEventListener('click', function() {
+            document.getElementById('acreedor-especial-post').submit();
         });
 
         const avisoId = @json($aviso->id);

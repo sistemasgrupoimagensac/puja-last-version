@@ -77,6 +77,7 @@ class PlanController extends Controller
                 'tipo_aviso' => 'nullable|integer',
                 'aviso_id' => 'nullable|integer',
                 'plan_user_id' => 'nullable|integer',
+                'acreedor_post_free' => 'nullable|boolean',
             ]);
             if ($validator->fails()) {
                 return response()->json([
@@ -193,6 +194,8 @@ class PlanController extends Controller
                     ], 422);
                 } 
             }
+
+            if ( $request->input("acreedor_post_free") == 1 ) return redirect('/my-posts/create');
 
             return response()->json([
                 'http_code' => 200,
