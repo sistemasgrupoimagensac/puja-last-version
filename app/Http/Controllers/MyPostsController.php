@@ -124,10 +124,13 @@ class MyPostsController extends Controller
         }
         $user = Auth::user();
     
+        $es_propietario = $user->tipo_usuario_id == 2 ? true : false;
+        $es_corredor = $user->tipo_usuario_id == 3 ? true : false;
         $es_acreedor = $user->tipo_usuario_id == 4 ? true : false;
+        $es_proyecto = $user->tipo_usuario_id == 5 ? true : false;
         $show_modal = !$user->celular && !$user->numero_documento;
     
-        return view('crear-aviso', compact('es_acreedor', 'show_modal'));
+        return view('crear-aviso', compact('es_acreedor', 'es_propietario', 'es_corredor', 'es_proyecto', 'show_modal'));
     }
     
     
