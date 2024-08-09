@@ -282,44 +282,46 @@
 				</fieldset>
 
 				{{-- Modal de Pago --}}
-				<x-pay-modal
-					avisoId="null"
-					userName="{{ $user->nombres }}"
-					userSurname="{{ $user->apellidos }}"
-					userEmail="{{ $user->email }}"
-					userPhone="{{ $user->celular }}"
-				>
-					<x-card-plan-checkout
-					showPlan="basico"
-					title="Básico"
-					bgColor="text-bg-dark"
-					/>
+				@isset($user)
+					<x-pay-modal
+						avisoId="null"
+						userName="{{ $user->nombres }}"
+						userSurname="{{ $user->apellidos }}"
+						userEmail="{{ $user->email }}"
+						userPhone="{{ $user->celular }}"
+					>
+						<x-card-plan-checkout
+						showPlan="basico"
+						title="Básico"
+						bgColor="text-bg-dark"
+						/>
 
-					<x-card-plan-checkout
-					showPlan="estandar"
-					title="Estándar"
-					bgColor="text-bg-warning"
-					/>
-	
-					<x-card-plan-checkout
-					showPlan="superior"
-					title="Superior"
-					bgColor="text-bg-success"
-					/>
-	
-					<x-card-plan-checkout
-					showPlan="top"
-					title="Top"
-					bgColor="text-bg-light"
-					/>
-	
-					<x-card-plan-checkout
-					showPlan="topPlus"
-					title="Top Plus"
-					bgColor="text-bg-danger"
-					/>
-				</x-pay-modal>
-
+						<x-card-plan-checkout
+						showPlan="estandar"
+						title="Estándar"
+						bgColor="text-bg-warning"
+						/>
+		
+						<x-card-plan-checkout
+						showPlan="superior"
+						title="Superior"
+						bgColor="text-bg-success"
+						/>
+		
+						<x-card-plan-checkout
+						showPlan="top"
+						title="Top"
+						bgColor="text-bg-light"
+						/>
+		
+						<x-card-plan-checkout
+						showPlan="topPlus"
+						title="Top Plus"
+						bgColor="text-bg-danger"
+						/>
+					</x-pay-modal>
+				@endisset
+				
 			</div>    
 		</form>
 	</div>

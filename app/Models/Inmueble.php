@@ -63,7 +63,7 @@ class Inmueble extends Model
 
     public function imagenes()
     {
-        return optional($this->multimedia)->imagenes()->limit(3);
+        return optional($this->multimedia)->imagenes();
     }
 
     public function currencySoles()
@@ -244,7 +244,6 @@ class Inmueble extends Model
             $this->principal->ubicacion->distrito->nombre . ', ' . 
             $this->principal->ubicacion->provincia->nombre . ', ' . 
             $this->principal->ubicacion->departamento->nombre . '. ';
-        $puja = $this->is_puja() == 1 ? "*Este aviso acepta ofertas en cuanto al precio que le afrezcas.\n" : "";
 
         $habitaciones = '';
         if ( $this->dormitorios() == 1 ) $habitaciones = 'una habitación, ';
@@ -268,7 +267,7 @@ class Inmueble extends Model
         $area_total_num = number_format($this->area(), 0, '', ',');
         $area_construida_num = number_format($this->areaConstruida(), 0, '', ',');
         $area_total = "cuenta con {$area_total_num} m² como área total,";
-        $area_construida = "y {$area_construida_num} m² como área construida,";
+        $area_construida = "y {$area_construida_num} m² como área construida";
         $tipo_inmueble = $this->typeInmueble();
         $antiguedad = '';
         if ( $this->antiguedad() == "estreno" ) {
@@ -282,21 +281,23 @@ class Inmueble extends Model
         $monto_soles = number_format($this->precioSoles(), 2, '.', ',');
         $monto_dolares = number_format($this->precioDolares(), 2, '.', ',');
         if ( $this->precioSoles() && $this->precioDolares() ) {
-            $monto = "y el precio de venta es de S/ {$monto_soles} ó $ {$monto_dolares}";
+            $monto = " y el precio de venta es de S/ {$monto_soles} ó $ {$monto_dolares}";
         } else if ( $this->precioSoles() && !$this->precioDolares() ) {
-            $monto = "y el precio de venta es de S/ {$monto_soles}";
+            $monto = " y el precio de venta es de S/ {$monto_soles}";
         } else if ( !$this->precioSoles() && $this->precioDolares() ) {
-            $monto = "y el precio de venta es de $ {$monto_dolares}";
+            $monto = " y el precio de venta es de $ {$monto_dolares}";
         }
-        $caracteristicas = "{$tipo_inmueble} {$antiguedad} {$area_total} {$area_construida} {$monto}" ;
+        $caracteristicas = "{$tipo_inmueble} {$antiguedad} {$area_total} {$area_construida}{$monto}" ;
 
         // REMATE
         $remate = "";
+        $remate_precio_base = number_format($this->remate_precio_base(), 2, '.', ',');
+        $remate_valor_tasacion = number_format($this->remate_valor_tasacion(), 2, '.', ',');
         if ( $this->remate_precio_base() ) {
-            $remate .= "Este inmueble en remate tiene un precio base de S/ {$this->remate_precio_base()}";
+            $remate .= "Este inmueble en remate tiene un precio base de $ {$remate_precio_base}";
         }
         if ( $this->remate_valor_tasacion() ) {
-            $remate .= ", tiene un valor de tasación de S/ {$this->remate_valor_tasacion()}";
+            $remate .= ", tiene un valor de tasación de $ {$remate_valor_tasacion}";
         }
         if ( $this->remate_partida_registral() ) {
             $remate .= ", con la siguiente partida registral {$this->remate_partida_registral()}";
@@ -314,7 +315,7 @@ class Inmueble extends Model
             $remate .= ", el nombre del contacto es {$this->remate_nombre_contacto()}";
         }
         if ( $this->remate_telef_contacto() ) {
-            $remate .= " y su teléfono es {$this->remate_telef_contacto()}";
+            $remate .= " y su teléfono es {$this->remate_telef_contacto()}. ";
         }
         $caracteristicas_extras = "";
         $totalCaracteristicas = count($this->extra->caracteristicas);
