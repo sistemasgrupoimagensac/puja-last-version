@@ -225,7 +225,7 @@ function creditCardData() {
                 "method": "card",
                 "amount": price,
                 "currency": 'PEN',
-                "description": `Paquete: ${categoriaPlan}, Plan: ${tipoPlan}, Días: ${periodoPlan}, Avisos: ${numAvisos}`,
+                "description": `Plan contrado: "${tipoPlan}", vigencia: ${periodoPlan} días y cuenta con un total de ${numAvisos} avisos.`,
                 "device_session_id": this.deviceSessionId,
                 "customer": {
                     "name": cliente.nombres,
@@ -264,7 +264,7 @@ function creditCardData() {
                     alert(`La tarjeta fue rechazada`)
                 } else {
                     this.clearForm()
-                    this.contratarPlan(formPost.amount);
+                    this.contratarPlan(formPost.amount, formPost.description);
                     this.isProcessing = false
                     document.getElementById('pay-button').disabled = false
                     alert(`Pago realizado con éxito.`)
@@ -274,7 +274,7 @@ function creditCardData() {
             })
         },
 
-        contratarPlan(price) {
+        contratarPlan(price, description) {
                 const dataToSend = {
                     plan_id: idPlan,
                     tipo_aviso: tipoDeAviso,
@@ -295,7 +295,7 @@ function creditCardData() {
                 .then(data => {
                     if (data.status === "Success") {
                         const planUserId = data.planuser_id
-                        this.factElectronica(price, planUserId)
+                        this.factElectronica(price, planUserId, description)
                         window.location.href = '/my-posts/create'
                     } else {
                         console.error('Error en la suscripción:', data.message);
@@ -306,7 +306,7 @@ function creditCardData() {
                 });
         },
 
-        factElectronica(price, planUserId){
+        factElectronica(price, planUserId, description){
             try {
                 const data = {
                     details: [
@@ -316,7 +316,7 @@ function creditCardData() {
                             product: 
                                 {
                                     id: idPlan,
-                                    name: "Plan " + this.tipoPlan,
+                                    name: description,
                                     type: 1
                                 }
                         }
@@ -326,6 +326,7 @@ function creditCardData() {
                     num_doc: numeroDocumento,
                     tipo_doc: tipoDocumento,
                     receipt_name: nombreDocumento,
+                    plan_name: `Plan ${this.tipoPlan}`,
                 }
 
                 fetch(`/generarComprobanteElec/${planUserId}`, {
