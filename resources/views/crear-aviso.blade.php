@@ -107,17 +107,72 @@
                         <h2>Operación y tipo de inmueble</h2>
                         <input type="hidden" name="operacion" :value="step === 1 ? 1 : 0">
 
+                        @php
+                        $show_vender = false;
+                        $show_alquilar = false;
+                        $show_rematar = false;
+
+                        $rematar_last = false;
+                        $alquilar_last = false;
+                        $vender_last = false;
+
+                        if ($es_corredor) {
+                            $show_vender = true;
+                            $show_alquilar = true;
+                            $alquilar_last = true;
+                        } elseif ($es_acreedor) {
+                            $show_rematar = true;
+                            $rematar_last = true;
+                        } elseif ($es_propietario) {
+                            $show_vender = true;
+                            $show_alquilar = true;
+                            $show_rematar = true;
+                            $rematar_last = true;
+                        }
+                        // dd($show_vender, $show_alquilar, $show_rematar);
+                        @endphp
+
                         <div class="d-flex flex-column">
                             <label class="text-secondary">Tipo de operación</label>
                             <div class="btn-group" role="group">
-                                <input type="radio" class="btn-check" x-model="tipo_operacion" id="vender" autocomplete="off" value="1" required>
-                                <label class="btn btn-outline-secondary button-filter" for="vender">Vender</label>
+                                {{-- <input type="radio" class="btn-check" x-model="tipo_operacion" id="vender" autocomplete="off" value="1" required>
+                                <label class="btn btn-outline-secondary button-filter" for="vender">Vender</label> --}}
 
-                                <input type="radio" class="btn-check" x-model="tipo_operacion" id="alquilar" autocomplete="off" value="2" required>
-                                <label class="btn btn-outline-secondary button-filter" for="alquilar" :class="{'rounded-end': !perfil_acreedor}">Alquilar</label>
+                                {{-- <input type="radio" class="btn-check" x-model="tipo_operacion" id="alquilar" autocomplete="off" value="2" required>
+                                <label class="btn btn-outline-secondary button-filter" for="alquilar" :class="{'rounded-end': perfil_corredor}">Alquilar</label> --}}
 
-                                <input type="radio" class="btn-check" :class="{'d-none': !perfil_acreedor}" x-model="tipo_operacion" id="rematar" autocomplete="off" value="3" required>
-                                <label class="btn btn-outline-secondary button-filter" :class="{'d-none': !perfil_acreedor}" for="rematar">Rematar</label>
+                                {{-- vender --}}
+                                <input type="radio" x-model="tipo_operacion" id="vender" autocomplete="off" value="1" required 
+                                class="btn-check
+                                    @if (!$show_vender) d-none @endif
+                                ">
+                                <label for="vender" 
+                                class="btn btn-outline-secondary button-filter
+                                    @if (!$show_vender) d-none @endif
+                                    @if ($vender_last) rounded-end @endif
+                                ">Vender</label>
+
+                                {{-- alquilar --}}
+                                <input type="radio" x-model="tipo_operacion" id="alquilar" autocomplete="off" value="2" required 
+                                class="btn-check
+                                    @if (!$show_alquilar) d-none @endif
+                                ">
+                                <label for="alquilar" 
+                                class="btn btn-outline-secondary button-filter
+                                    @if (!$show_alquilar) d-none @endif
+                                    @if ($alquilar_last) rounded-end @endif
+                                ">Alquilar</label>
+
+                                {{-- rematar --}}
+                                <input type="radio" x-model="tipo_operacion" id="rematar" autocomplete="off" value="3" required 
+                                class="btn-check
+                                    @if (!$show_rematar) d-none @endif
+                                ">
+                                <label for="rematar" 
+                                class="btn btn-outline-secondary button-filter
+                                    @if (!$show_rematar) d-none @endif
+                                    @if ($rematar_last) rounded-end @endif
+                                ">Rematar</label>
                             </div>
                         </div>
 
@@ -522,19 +577,20 @@
                         </div>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
 
-    {{-- SCRIPTS ALPINE JS --}}
     <script>
         function avisoForm() {
             return {
                 step: {{ session('step', 1) }},
                 aviso_id: {{ session('aviso_id', 'null') }},
 
+                perfil_propietario: @json($es_propietario),
+                perfil_corredor: @json($es_corredor),
                 perfil_acreedor: @json($es_acreedor),
+                perfil_proyecto: @json($es_proyecto),
 
                 is_puja: false,
                 
