@@ -142,6 +142,7 @@
         </div>
     </div>
 </div>
+@props(['avisoId', 'userName', 'userSurname', 'userEmail', 'userPhone'])
 
 <script>
 
@@ -202,15 +203,16 @@ function creditCardData() {
         handleTokenSuccess(response) {
             const source_id = response.data.id
 
-            const client = {
-                Cliente: 'Raul',
-                Telefono1: '999625263',
-                Correo: 'raul_correo@gmail.com'
-            }
-
-            let clientNames = client.Cliente.split(' ')
-            let name = clientNames[0]
-            let last_name = clientNames.slice(1).join(" ")
+            const userName = '{{ $userName }}';
+            const userSurname = '{{ $userSurname }}';
+            const userEmail = '{{ $userEmail }}';
+            const userPhone = '{{ $userPhone }}';
+            const cliente = {
+                nombres: userName,
+                apellidos: userSurname,
+                email: userEmail,
+                celular: userPhone
+            };
 
             const categoriaPlan = this.categoriaPlan
             const tipoPlan = this.tipoPlan
@@ -226,10 +228,10 @@ function creditCardData() {
                 "description": `Paquete: ${categoriaPlan}, Plan: ${tipoPlan}, Días: ${periodoPlan}, Avisos: ${numAvisos}`,
                 "device_session_id": this.deviceSessionId,
                 "customer": {
-                    "name": name,
-                    "last_name": last_name,
-                    "phone_number": client.Telefono1,
-                    "email": client.Correo
+                    "name": cliente.nombres,
+                    "last_name": cliente.apellidos,
+                    "phone_number": cliente.celular,
+                    "email": cliente.email
                 }
             }
 

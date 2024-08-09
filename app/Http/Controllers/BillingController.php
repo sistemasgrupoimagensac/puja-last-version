@@ -141,7 +141,8 @@ class BillingController extends Controller
             // Mail::to('pierreherreraoropeza@gmail.com')->send(new SubscriptionMail);substr($cadena, 1)
 
             // $pdfPath = public_path($response['data']['file_name']);
-            $pdfPath_fix = public_path(substr($response['data']['file_name'].'-a4.pdf', 1));
+            // $pdfPath_fix = public_path(substr($response['data']['file_name'].'-a4.pdf', 1)); // ALMACENAMIENTO LOCAL
+            $pdfPath_fix = url($response['data']['file_name'].'-a4.pdf'); // ALMACENAMIENTO EXTERNO
             $email = $response['data']['client']['email'];
             Log::info('Iniciando el envío de correo...');
             Mail::to($email)
@@ -256,7 +257,8 @@ class BillingController extends Controller
 
         $datos_empresa = \Session::get('datos_empresa');
         $data->physical_proof_number = $correlative->correlative;
-        $data->file_name = $datos_empresa->path.'pdf/'.$invoice->getName();
+        // $data->file_name = $datos_empresa->path.'pdf/'.$invoice->getName(); // USANDO ALMACENAMIENTO LOCAL
+        $data->file_name = 'pdf/'.$invoice->getName(); // USANDO ALMACENAMIENTO EXTERNO
         $data->state_et = 'PROCESADO';
         $data->state_billed = 1;
         $data->save();
@@ -420,7 +422,8 @@ class BillingController extends Controller
         if ($code === 0) {
             $datos_empresa = \Session::get('datos_empresa');
             $data->physical_proof_number = $correlative->correlative;
-            $data->file_name = $datos_empresa->path.'pdf/'.$invoice->getName();
+            // $data->file_name = $datos_empresa->path.'pdf/'.$invoice->getName(); // USANDO ALMACENAMIENTO LOCAL
+            $data->file_name = 'pdf/'.$invoice->getName(); // USANDO ALMACENAMIENTO EXTERNO
             $data->state_et = 'PROCESADO';
             $data->state_billed = 1;
             $data->save();
@@ -435,7 +438,8 @@ class BillingController extends Controller
             //echo 'ESTADO: ACEPTADA CON OBSERVACIONES:'.PHP_EOL;
             $datos_empresa = \Session::get('datos_empresa');
             $data->physical_proof_number = $correlative->correlative;
-            $data->file_name = $datos_empresa->path.'pdf/'.$invoice->getName();
+            // $data->file_name = $datos_empresa->path.'pdf/'.$invoice->getName(); // USANDO ALMACENAMIENTO LOCAL
+            $data->file_name = 'pdf/'.$invoice->getName(); // USANDO ALMACENAMIENTO EXTERNO
             $data->state_et = 'PROCESADO CON OBSERVACIONES';
             $data->state_billed = 1;
             $data->save();
@@ -449,7 +453,8 @@ class BillingController extends Controller
         else if ($code >= 2000 && $code <= 3999) {
             $datos_empresa = \Session::get('datos_empresa');
             $data->physical_proof_number = $correlative->correlative;
-            $data->file_name = $datos_empresa->path.'pdf/'.$invoice->getName();
+            // $data->file_name = $datos_empresa->path.'pdf/'.$invoice->getName(); // USANDO ALMACENAMIENTO LOCAL
+            $data->file_name = 'pdf/'.$invoice->getName(); // USANDO ALMACENAMIENTO EXTERNO
             $data->state_et = 'RECHAZADO';
             $data->state_billed = 1;
             $data->save();
@@ -612,7 +617,8 @@ class BillingController extends Controller
         if ($code === 0) {
             $datos_empresa = \Session::get('datos_empresa');
             $data->physical_proof_number = $correlative->correlative;
-            $data->file_name = $datos_empresa->path.'pdf/'.$invoice->getName();
+            // $data->file_name = $datos_empresa->path.'pdf/'.$invoice->getName(); // USANDO ALMACENAMIENTO LOCAL
+            $data->file_name = 'pdf/'.$invoice->getName(); // USANDO ALMACENAMIENTO EXTERNO
             $data->state_et = 'PROCESADO';
             $data->state_billed = 1;
             $data->save();
@@ -627,7 +633,8 @@ class BillingController extends Controller
             //echo 'ESTADO: ACEPTADA CON OBSERVACIONES:'.PHP_EOL;
             $datos_empresa = \Session::get('datos_empresa');
             $data->physical_proof_number = $correlative->correlative;
-            $data->file_name = $datos_empresa->path.'pdf/'.$invoice->getName();
+            // $data->file_name = $datos_empresa->path.'pdf/'.$invoice->getName(); // USANDO ALMACENAMIENTO LOCAL
+            $data->file_name = 'pdf/'.$invoice->getName(); // USANDO ALMACENAMIENTO EXTERNO
             $data->state_et = 'PROCESADO CON OBSERVACIONES';
             $data->state_billed = 1;
             $data->save();
@@ -641,7 +648,8 @@ class BillingController extends Controller
         else if ($code >= 2000 && $code <= 3999) {
             $datos_empresa = \Session::get('datos_empresa');
             $data->physical_proof_number = $correlative->correlative;
-            $data->file_name = $datos_empresa->path.'pdf/'.$invoice->getName();
+            // $data->file_name = $datos_empresa->path.'pdf/'.$invoice->getName(); // USANDO ALMACENAMIENTO LOCAL
+            $data->file_name = 'pdf/'.$invoice->getName(); // USANDO ALMACENAMIENTO EXTERNO
             $data->state_et = 'RECHAZADO';
             $data->state_billed = 1;
             $data->save();

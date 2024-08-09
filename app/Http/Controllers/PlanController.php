@@ -32,7 +32,7 @@ class PlanController extends Controller
 
                 if($user->tipo_usuario_id === 3) {
                     $sesion_iniciada = true;
-                    return view('planes', compact('sesion_iniciada', 'show_modal'));
+                    return view('planes', compact('sesion_iniciada', 'show_modal', 'user'));
 
                 } else {
                     return redirect('/');
@@ -54,14 +54,18 @@ class PlanController extends Controller
     }
 
     public function planes_propietario(Request $request){
+        if ( !Auth::check() ) return redirect()->route('sign_in')->with('error', 'Inicia sesión, por favor.');
+        $user = Auth::user();
         $aviso_id = $request->input('aviso_id');
-        return view ('planes-propietario',compact('aviso_id'));
+        return view ('planes-propietario',compact('aviso_id', 'user'));
     }
 
     public function planes_acreedor(Request $request) 
     {
+        if ( !Auth::check() ) return redirect()->route('sign_in')->with('error', 'Inicia sesión, por favor.');
+        $user = Auth::user();
         $aviso_id = $request->input('aviso_id');
-        return view ('planes-acreedor',compact('aviso_id'));
+        return view ('planes-acreedor',compact('aviso_id', 'user'));
     }
 
     // Contratar un Plan y/o publicar un aviso

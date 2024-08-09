@@ -14,6 +14,7 @@ use Greenter\XMLSecLibs\Certificate\X509ContentType;
 use Greenter\Ws\Services\SunatEndpoints;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class FactUtil
 {
@@ -114,9 +115,13 @@ class FactUtil
         if (getenv('GREENTER_NO_FILES')) {
             return;
         }
-        $basePath = $this->datos_empresa->path.'pdf/';
+        // ALMACENAMIENTO LOCAL
+        /* $basePath = $this->datos_empresa->path.'pdf/';
         $path = public_path().$basePath;
-        file_put_contents($path.$filename, $content);
+        file_put_contents($path.$filename, $content); */
+
+        // ALMACENAMIENTO DISCO EXTERNO
+        Storage::disk('wasabi')->put('pdf/'.$filename, $content);
     }
 
     public function getCompany()

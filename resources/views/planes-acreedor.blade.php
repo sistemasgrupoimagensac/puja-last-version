@@ -78,6 +78,10 @@
 				{{-- Modal de Pago --}}
 				<x-pay-modal
 					avisoId="{{ $aviso_id }}"
+					userName="{{ $user->nombres }}"
+					userSurname="{{ $user->apellidos }}"
+					userEmail="{{ $user->email }}"
+					userPhone="{{ $user->celular }}"
 				>
 					<x-card-plan-propietario-checkout
 					showPlan="topPlus"
