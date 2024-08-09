@@ -445,7 +445,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="d-flex flex-column gap-3">
-                                        <input type="radio" class="btn-check" name="btnradio" id="btnPremiumAds" autocomplete="off" checked>
+                                        <input type="radio" class="btn-check" name="btnradio" id="btnPremiumAds" autocomplete="off">
                                         <label class="btn btn-outline-secondary" for="btnPremiumAds">Aviso Premium: <span id="premiumAdsRemaining"></span></label>
                                       
                                         <input type="radio" class="btn-check" name="btnradio" id="btnTopAds" autocomplete="off">

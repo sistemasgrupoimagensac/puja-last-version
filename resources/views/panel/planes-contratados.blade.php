@@ -59,17 +59,8 @@
                             typicalAdsRemaining="{{ $plan['plan_user']['typical_ads_remaining'] }}"
                             topAdsRemaining="{{ $plan['plan_user']['top_ads_remaining'] }}"
                             topPlusAdsRemaining="{{ $plan['plan_user']['premium_ads_remaining'] }}"
-
                         />
     
-                            
-                                {{-- <strong>Nombre del Plan:</strong> {{ $plan['name'] }}<br>
-                                <strong>Precio:</strong> ${{ number_format($plan['price'], 2) }}<br>
-                                <strong>Duración:</strong> {{ $plan['duration_in_days'] }} días<br>
-                                <strong>Top Ads Restantes:</strong> {{ $plan['plan_user']['top_ads_remaining'] }}<br>
-                                <strong>Fecha de Inicio:</strong> {{ \Carbon\Carbon::parse($plan['plan_user']['start_date'])->format('d/m/Y H:i:s') }}<br>
-                                <strong>Fecha de Finalización:</strong> {{ \Carbon\Carbon::parse($plan['plan_user']['end_date'])->format('d/m/Y H:i:s') }}<br> --}}
-                            
                         @endforeach
                 </div>
                 

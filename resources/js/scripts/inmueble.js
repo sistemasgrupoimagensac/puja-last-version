@@ -101,7 +101,8 @@ function renderPlans(plans) {
         selectedPlanData = {
             plan_id: planId,
             aviso_id: avisoId,
-            plan_user_id: planUserId
+            plan_user_id: planUserId,
+            tipo_aviso: null
         }
     })
   })
@@ -137,7 +138,8 @@ function formatDate(dateString) {
 
 // Enviar POST cuando se acepta usar este plan para publicar el inmueble
 document.getElementById('siUsarEstePlan')?.addEventListener('click', () => {
-  if (selectedPlanData) {
+  if (selectedPlanData.tipo_aviso) {
+    
       fetch('/contratar_plan', {
           method: 'POST',
           headers: {
