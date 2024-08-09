@@ -219,7 +219,6 @@
 										idPlan = selectedId[2]
 										tipoDeAviso = 3
 								}
-
 						},
 
 						init() {
