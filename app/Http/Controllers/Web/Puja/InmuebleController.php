@@ -22,10 +22,15 @@ class InmuebleController extends Controller
             $aviso = (new ObtenerAviso($this->repository))->__invoke($inmueble);
             $user_login_id = 0;
             $tipo_usuario = 0;
+            $user_not_pay = false;
+            $plan_id = 114;
+            if ( $plan_id === 114 ) $tipo_aviso = 3;
             if ( Auth::check() ) {
                 $user_login_id = Auth::id();
                 $user = Auth::user();
                 $tipo_usuario = $user->tipo_usuario_id;
+                if ( $tipo_usuario === 4 && $user->not_pay === 1 ) $user_not_pay = true;
+
             }
             $ad_user_id = $aviso->inmueble->user_id;
             $publicado = $aviso->historial[0]->estado == "Publicado" ? true : false;
@@ -41,7 +46,7 @@ class InmuebleController extends Controller
                 $tienePlanes = $active_plan_users->isNotEmpty();
             }
             
-            return view('inmueble', compact('aviso', 'ad_belongs', 'publicado', 'tipo_usuario', 'tienePlanes'));
+            return view('inmueble', compact('aviso', 'ad_belongs', 'publicado', 'tipo_usuario', 'tienePlanes', 'user_not_pay', 'plan_id', 'tipo_aviso'));
 
         } catch (\Throwable $th) {
             return response()->json([

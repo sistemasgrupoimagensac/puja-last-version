@@ -146,6 +146,10 @@ class PlanSeeder extends Seeder
             ['package_id' => '5', 'total_ads' => '1', 'typical_ads' => '0', 'top_ads' => '1', 'premium_ads' => '0', 'duration_in_days' => '15', 'price' => '99.00', 'name' => 'Plan Top', 'created_at' => now(), 'updated_at' => now()],
             ['package_id' => '5', 'total_ads' => '1', 'typical_ads' => '0', 'top_ads' => '0', 'premium_ads' => '1', 'duration_in_days' => '15', 'price' => '149.00', 'name' => 'Plan Top Plus', 'created_at' => now(), 'updated_at' => now()],
 
+            ['package_id' => '5', 'total_ads' => '1', 'typical_ads' => '1', 'top_ads' => '0', 'premium_ads' => '0', 'duration_in_days' => '15', 'price' => '0.00', 'name' => 'Plan Free Estandar', 'created_at' => now(), 'updated_at' => now()],
+            ['package_id' => '5', 'total_ads' => '1', 'typical_ads' => '0', 'top_ads' => '1', 'premium_ads' => '0', 'duration_in_days' => '15', 'price' => '0.00', 'name' => 'Plan Free Top', 'created_at' => now(), 'updated_at' => now()],
+            ['package_id' => '5', 'total_ads' => '1', 'typical_ads' => '0', 'top_ads' => '0', 'premium_ads' => '1', 'duration_in_days' => '15', 'price' => '0.00', 'name' => 'Plan Free Top Plus', 'created_at' => now(), 'updated_at' => now()],
+
         ];
 
         DB::table('plans')->insert($plans);
