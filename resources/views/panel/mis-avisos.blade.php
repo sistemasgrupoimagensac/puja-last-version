@@ -11,11 +11,12 @@
 @section('content')
     <main id="main-misavisos" class="custom-container mt-3">
         <div class="container-fluid p-0 d-flex">
+            {{-- menú del panel --}}
             @include('components.menu_panel')
             <section id="" class="col px-5 pt-2">
                 <h1>Mis avisos</h1>
                 <hr>
-
+                {{-- Lista de avisos publicados y por publicar --}}
                 <section class="my-3">
 
                     {{-- AVISOS POR PUBLICAR --}}
