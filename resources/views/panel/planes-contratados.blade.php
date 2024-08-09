@@ -24,7 +24,23 @@
                 
                 @if($tienePlanes)
 
-                <div class="d-flex flex-wrap gap-3">
+                <div class="d-flex flex-wrap gap-3 mt-5">
+
+                    <div class="card text-bg-light mb-3" style="width: 20rem;">
+                        <div class="card-body d-flex text-center align-items-center">
+                            <p class="fs-4 m-0">Adquiere un plan con los mejores precios del mercado.</p>
+                        </div>
+                        
+                        @if ($tipo_usuario === 3)
+                            <a class="btn btn-danger fs-5 rounded-top-0 h-25" href="/planes-inmobiliaria">
+                                <div class="d-flex justify-content-center align-items-center gap-2 h-100">
+                                    <i class="fa-solid fa-plus fa-lg"></i>
+                                    <span class="fs-2">Plan</span>
+
+                                </div>
+                            </a>
+                        @endif
+                    </div>
 
                     @foreach($active_plan_users as $plan)
                     

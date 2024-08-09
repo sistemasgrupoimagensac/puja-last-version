@@ -24,10 +24,11 @@ class PlanesContratadosController extends Controller
         if (Auth::check()) {
             $user_id = Auth::id();
             $user = User::find($user_id);
+            $tipo_usuario = $user->tipo_usuario_id;
             $active_plan_users = $user->active_plans()->get();
             $tienePlanes = $active_plan_users->isNotEmpty();
         }
 
-        return view('panel.planes-contratados', compact('active_plan_users', 'tienePlanes'));
+        return view('panel.planes-contratados', compact('active_plan_users', 'tienePlanes', 'tipo_usuario'));
     }
 }

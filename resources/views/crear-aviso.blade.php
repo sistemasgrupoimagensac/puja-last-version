@@ -126,20 +126,13 @@
                         } elseif ($es_propietario) {
                             $show_vender = true;
                             $show_alquilar = true;
-                            $show_rematar = true;
-                            $rematar_last = true;
+                            $alquilar_last = true;
                         }
-                        // dd($show_vender, $show_alquilar, $show_rematar);
                         @endphp
 
                         <div class="d-flex flex-column">
                             <label class="text-secondary">Tipo de operación</label>
                             <div class="btn-group" role="group">
-                                {{-- <input type="radio" class="btn-check" x-model="tipo_operacion" id="vender" autocomplete="off" value="1" required>
-                                <label class="btn btn-outline-secondary button-filter" for="vender">Vender</label> --}}
-
-                                {{-- <input type="radio" class="btn-check" x-model="tipo_operacion" id="alquilar" autocomplete="off" value="2" required>
-                                <label class="btn btn-outline-secondary button-filter" for="alquilar" :class="{'rounded-end': perfil_corredor}">Alquilar</label> --}}
 
                                 {{-- vender --}}
                                 <input type="radio" x-model="tipo_operacion" id="vender" autocomplete="off" value="1" required 
@@ -164,14 +157,14 @@
                                 ">Alquilar</label>
 
                                 {{-- rematar --}}
-                                <input type="radio" x-model="tipo_operacion" id="rematar" autocomplete="off" value="3" required 
+                                <input type="radio" x-model="tipo_operacion" id="rematar" autocomplete="off" value="3" required
                                 class="btn-check
                                     @if (!$show_rematar) d-none @endif
                                 ">
                                 <label for="rematar" 
                                 class="btn btn-outline-secondary button-filter
                                     @if (!$show_rematar) d-none @endif
-                                    @if ($rematar_last) rounded-end @endif
+                                    @if ($rematar_last) rounded @endif
                                 ">Rematar</label>
                             </div>
                         </div>
@@ -587,10 +580,11 @@
                 step: {{ session('step', 1) }},
                 aviso_id: {{ session('aviso_id', 'null') }},
 
-                perfil_propietario: @json($es_propietario),
-                perfil_corredor: @json($es_corredor),
+                // perfil_propietario: @json($es_propietario),
+                // perfil_corredor: @json($es_corredor),
                 perfil_acreedor: @json($es_acreedor),
-                perfil_proyecto: @json($es_proyecto),
+                // perfil_proyecto: @json($es_proyecto),
+
 
                 is_puja: false,
                 
@@ -677,14 +671,6 @@
                     this.longitude = location.lng();
                     console.log("Coordinates set to:", this.latitude, this.longitude); // Verificar coordenadas aquí
                 },
-                /* validateLocation() {
-                    console.log('Validating location:', this.latitude, this.longitude); // Verificar coordenadas antes de validar
-                    if (this.latitude === null || this.longitude === null) {
-                        alert('Por favor, marque su ubicación en el mapa.');
-                        return false;
-                    }
-                    return true;
-                }, */
 
                 formatAmount(modelName, final = false) {
                     // Remover todos los caracteres no numéricos
@@ -703,10 +689,6 @@
                     this[modelName] = formattedValue;
                 },
 
-                /* initializeThridStep() {
-                    console.log(this.perfil_acreedor)
-                    this.mostrar_campo = this.perfil_acreedor;
-                }, */
                 init() {
                     this.$watch('tipo_operacion', value => {
                         if (value == 3) {
@@ -727,11 +709,6 @@
                 },
 
                 nextStep(step) {
-                    /* if (step === 2) {
-                        if (!this.validateLocation()) {
-                            return;
-                        }
-                    } */
                     const stepMap = {
                         1: '/my-post/store',
                         2: `/my-post/store`,
@@ -741,10 +718,8 @@
                     }
 
                     if (step === 5) /* Extras 1 */ {
-                        // this.fetchExtras(1);
                         this.step++
                     } else if (step === 6) /* Extras 2 */ {
-                        // this.fetchExtras(2);
                         let send_extras = []
                         document.querySelectorAll('input[name="options[]"]:checked').forEach((checkbox) => {
                             send_extras.push(checkbox.value)
