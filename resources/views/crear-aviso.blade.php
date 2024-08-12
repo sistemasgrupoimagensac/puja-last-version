@@ -66,7 +66,7 @@
         </div>
         
         <!-- Menú de los pasos -->
-        <div class="py-2 py-lg-4 bg-body-tertiary border-bottom">
+        <div class="py-3 py-lg-4 bg-body-tertiary border-bottom">
             <div class="d-flex justify-content-around align-items-center fw-semibold text-light-emphasis">
                 <div :class="{ 'text-primary': step === 1 }" class="crear-aviso-menu-paso">
                     <span>1</span>
@@ -102,9 +102,9 @@
 
                 <!-- Paso 1: Operación y tipo de inmueble -->
                 <div x-show="step === 1">
-                    <form @submit.prevent="nextStep(1)" class="d-flex flex-column gap-4 my-5">
+                    <form @submit.prevent="nextStep(1)" class="d-flex flex-column gap-4 my-3 my-lg-5">
                         @csrf
-                        <h2>Operación y tipo de inmueble</h2>
+                        <h2 class="m-0" class="m-0" class="m-0" class="m-0" class="m-0" class="m-0">Operación y tipo de inmueble</h2>
                         <input type="hidden" name="operacion" :value="step === 1 ? 1 : 0">
 
                         @php
@@ -185,9 +185,9 @@
 
                 <!-- Paso 2: Ubicación -->
                 <div x-show="step === 2" x-init="initializeSecondStep()">
-                    <form @submit.prevent="nextStep(2)" class="d-flex flex-column gap-4 my-5">
+                    <form @submit.prevent="nextStep(2)" class="d-flex flex-column gap-4 my-3 my-lg-5">
                         @csrf
-                        <h2>Ubicación</h2>
+                        <h2 class="m-0" class="m-0" class="m-0" class="m-0" class="m-0">Ubicación</h2>
                         <input type="hidden" name="ubicacion" :value="step === 2 ? 1 : 0">
 
                         <div class="form-floating">
@@ -225,13 +225,11 @@
                             <label for="distrito">Distrito</label>
                         </div>
 
-                        {{-- <div x-init="initMap"> --}}
-                            <div id="map" style="width: 600px; height: 600px"></div>
-                            <input type="hidden" x-model="latitude" name="latitude">
-                            <input type="hidden" x-model="longitude" name="longitude">
-                        {{-- </div> --}}
-
-
+                        {{-- inyecta el mapa de google maps --}}
+                        <div id="map" style="max-width: 600px; width: 100%; height: 600px"></div>
+                        <input type="hidden" x-model="latitude" name="latitude">
+                        <input type="hidden" x-model="longitude" name="longitude">
+                  
                         <div class="d-flex justify-content-between gap-2 w-100">
                             <button type="button" @click="prevStep()" class="btn btn-secondary w-100">Atrás</button>
                             <button type="submit" class="btn button-orange w-100">Continuar</button>
@@ -241,9 +239,9 @@
 
                 <!-- Paso 3: Características -->
                 <div x-show="step === 3" {{-- x-init="initializeThridStep()" --}}>
-                    <form @submit.prevent="nextStep(3)" class="d-flex flex-column gap-4 my-5">
+                    <form @submit.prevent="nextStep(3)" class="d-flex flex-column gap-4 my-3 my-lg-5">
                         @csrf
-                        <h2>Características</h2>
+                        <h2 class="m-0" class="m-0" class="m-0" class="m-0">Características</h2>
                         <input type="hidden" name="caracteristicas" :value="step === 3 ? 1 : 0">
 
                         <fieldset>
@@ -438,9 +436,9 @@
 
                 <!-- Paso 4: Multimedia (fotos, videos, planos) -->
                 <div x-show="step === 4">
-                    <form @submit.prevent="nextStep(4)" enctype="multipart/form-data" class="d-flex flex-column gap-4 my-5">
+                    <form @submit.prevent="nextStep(4)" enctype="multipart/form-data" class="d-flex flex-column gap-4 my-3 my-lg-5">
                         @csrf
-                        <h2>Multimedia</h2>
+                        <h2 class="m-0" class="m-0" class="m-0">Multimedia</h2>
                         <input type="hidden" name="multimedia" :value="step === 4 ? 1 : 0">
 
                         <!-- Input para la imagen principal -->
@@ -515,10 +513,10 @@
             <div class="col-12 col-lg-12 px-lg-5">
                 <!-- Paso 5: Comodidades -->
                 <div x-show="step === 5" x-init="initializeQuintoStep(2)">
-                    <form @submit.prevent="nextStep(5)" class="d-flex flex-column gap-4 my-5">
+                    <form @submit.prevent="nextStep(5)" class="d-flex flex-column gap-4 my-3 my-lg-5">
                         @csrf
-                        <div class="mt-4">
-                            <h2>Comodidades</h2>
+                        <div>
+                            <h2 class="m-0" class="m-0">Comodidades</h2>
                             <input type="hidden" name="adicionales" :value="step === 5 ? 1 : 0">
 
                             <div class="row">
@@ -544,10 +542,10 @@
 
                 <!-- Paso 6: Adicionales -->
                 <div x-show="step === 6" x-init="initializeSextoStep(1)">
-                    <form @submit.prevent="nextStep(6)" class="d-flex flex-column gap-4 my-5">
+                    <form @submit.prevent="nextStep(6)" class="d-flex flex-column gap-4 my-3 my-lg-5">
                         @csrf
-                        <div class="mt-4">
-                            <h2>Adicionales</h2>
+                        <div>
+                            <h2 class="m-0">Adicionales</h2>
                             <input type="hidden" name="comodidades" :value="step === 6 ? 1 : 0">
                             <div class="row">
                                 <template x-for="extra in extras2" :key="extra.id">

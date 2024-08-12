@@ -1,7 +1,9 @@
+@import '../variables';
+
 textarea {
   overflow-y: auto;
   resize: none;
-  height: 200px;
+  height: 400px;
 }
 
 .card-image-container {
@@ -51,4 +53,13 @@ textarea {
 
 .ver-menos-btn {
   display: none;
+}
+
+// MEDIA QUERIES ==========================
+@media (min-width: $lg) {
+
+  textarea {
+    height: 200px;
+  }
+
 }

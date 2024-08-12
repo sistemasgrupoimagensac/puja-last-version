@@ -61,7 +61,7 @@
 
         </form>
 
-
+        {{-- recuperar contraseña link --}}
         <div class="w-100 text-center">
           <a href="/recuperar-password" class="signin-recuperar-password">¿Has olvidado tu contraseña?</a>
         </div>
@@ -84,24 +84,24 @@
               <div class="modal-header">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <div class="modal-body">
-                <div class="alert alert-info m-0" role="alert">
+              <div class="modal-body p-2 p-md-3">
+                <div class="alert alert-info m-0 p-2 p-md-3" role="alert">
                   <p class="m-0">Vas a ingresar como
                     @if ($profile_type === '2')
                       <span class="fw-bold">Propietario</span>
-                      @elseif ($profile_type === '3')
+                    @elseif ($profile_type === '3')
                       <span class="fw-bold">Corredor</span>
-                      @elseif ($profile_type === '4')
+                    @elseif ($profile_type === '4')
                       <span class="fw-bold">Acreedor</span>
                     @endif
                   ¿Es correcto?</p>
                 </div>
-                <div class="mt-1">
-                  <small class="p-3"> <span class="fw-bold">Nota:</span> si ya tienes una cuenta se te redirigirá a tu perfil</small>
+                <div class="mt-3 mt-md-1">
+                  <small class="p-2 p-md-3"> <span class="fw-bold">Nota:</span> si ya tienes una cuenta se te redirigirá a tu perfil</small>
                 </div>
               </div>
-              <div class="modal-footer">
-                <div class="w-100 d-flex justify-content-between gap-3">
+              <div class="modal-footer p-2 p-md-3">
+                <div class="w-100 d-flex justify-content-between m-0 gap-3">
                   <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">NO</button>
                   <a href="/google-auth/redirect?profile_type={{ $profile_type }}" type="button" class="btn button-orange w-100">SI</a>
                 </div>

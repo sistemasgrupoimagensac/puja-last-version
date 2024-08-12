@@ -21,13 +21,10 @@
 @import './global.scss';
 
 // Importar header y footer
-// @import './components/footer.scss'; // estilos del header
-@import './components/header.scss'; // estilos del footer
+@import './components/header.scss';
 
 // Importar componentes
-@import './components/main_home.scss'; // estilos del <main> del home
+@import './components/main_home.scss';
 @import './components/buttons.scss';
 @import './components/cards.scss';
 @import './components/filters.scss';
-// @import './components/whatsapp_modal_contact.scss';
-// @import './components/whatsapp_modal_inmueble_contact.scss';

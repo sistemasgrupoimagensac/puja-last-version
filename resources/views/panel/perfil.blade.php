@@ -16,8 +16,8 @@
 <main id="main-misavisos" class="custom-container mt-3">
     <div class="container-fluid p-0 d-flex">
         @include('components.menu_panel')
-        <section id="" class="col px-5 pt-2">
-            <h2>Mi cuenta</h2>
+        <section class="col px-lg-5 pt-2">
+            <h1>Mi cuenta</h1>
 
             <section class="my-3">
                 <div class="row m-0 p-0">

@@ -13,7 +13,7 @@
         <div class="container-fluid p-0 d-flex">
             {{-- menú del panel --}}
             @include('components.menu_panel')
-            <section id="" class="col px-5 pt-2">
+            <section class="col px-lg-5 pt-lg-2">
                 <h1>Mis avisos</h1>
                 <hr>
                 {{-- Lista de avisos publicados y por publicar --}}

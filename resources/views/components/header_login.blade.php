@@ -42,6 +42,7 @@
   {{-- Linea divisora --}}
   <hr class="m-0">
 
-  <a class="button-orange btn m-4" href="#iniciar_sesion">Iniciar Sesión</a>
-
+  <div class="mx-3 mt-4">
+    <a class="button-orange btn w-100" href="{{ route("sign_in", ['profile_type' => 2]) }}">Iniciar Sesión</a>
+  </div>
 </div>

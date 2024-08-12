@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Web\Panel;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Aviso;
-use App\Models\User;
 
 class MisAvisosController extends Controller
 {

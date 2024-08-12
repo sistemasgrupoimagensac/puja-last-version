@@ -19,15 +19,15 @@
     <main id="main-misavisos" class="custom-container mt-3">
         <div class="container-fluid p-0 d-flex">
             @include('components.menu_panel')
-            <section id="" class="col px-5 pt-2">
+            <section class="col px-lg-5 pt-2">
                 <h1>Planes contratados</h1>
                 
                 @if($tienePlanes)
 
-                <div class="d-flex flex-wrap gap-3 mt-5">
+                <div class="d-flex flex-wrap justify-content-center justify-content-md-start gap-3 my-5">
 
                     @if ($tipo_usuario === 3)
-                        <div class="card text-bg-light mb-3" style="width: 20rem;">
+                        <div class="card text-bg-light" style="width: 20rem;">
                             <div class="card-body d-flex text-center align-items-center">
                                 <p class="fs-4 m-0">Adquiere un plan con los mejores precios del mercado.</p>
                             </div>
@@ -61,15 +61,12 @@
                             topPlusAdsRemaining="{{ $plan['plan_user']['premium_ads_remaining'] }}"
                         />
     
-                        @endforeach
+                    @endforeach
                 </div>
                 
-                    
                 @else
                     <p>No tienes planes activos en este momento.</p>
                 @endif
-
-
 
             </section>
         </div>

@@ -36,7 +36,7 @@
 }
 
 .card-inmueble-content {
-  height: 220px;
+  height: 100%;
 }
 
 .card-inmueble-image {
@@ -129,10 +129,6 @@
 @media (min-width: $lg) {
   .card-inmueble {
     height: 300px;
-  }
-
-  .card-inmueble-content {
-    height: 100%;
   }
 
   .card-inmueble-image {

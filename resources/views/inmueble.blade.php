@@ -56,13 +56,13 @@
                                     {{-- imagenes carrusel --}}
                                     <div id="carouselImagesInmueble" class="carousel slide carousel-fade">
                                         <div class="carousel-inner">
-                                            <div class="carousel-item"> 
+                                            <div class="carousel-item active"> 
                                                 <img src="{{ $aviso->inmueble->imagenPrincipal() }}" class="d-block w-100" alt="{{ $aviso->inmueble->title() }}">
                                             </div>
                                             @foreach($aviso->inmueble->imagenes as $image)
-                                            <div class="carousel-item @if($loop->first) active @endif">
-                                                <img src="{{ $image->imagen }}" class="d-block w-100" alt="{{ $aviso->inmueble->title() }}">
-                                            </div>
+                                                <div class="carousel-item @if($loop->first) @endif">
+                                                    <img src="{{ $image->imagen }}" class="d-block w-100" alt="{{ $aviso->inmueble->title() }}">
+                                                </div>
                                             @endforeach
                                         </div>
                                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselImagesInmueble" data-bs-slide="prev">
@@ -104,19 +104,26 @@
                             </div>
                 
                             {{-- Precio del inmueble Alquiler y Venta --}}
-                            <div class="d-flex flex-column align-items-start align-items-md-end mt-4 mt-md-0">
-                                @if($aviso->inmueble->precioSoles())
-                                    <h2 class="m-0 fw-bolder">
-                                        <span>{{ $aviso->inmueble->currencySoles() }}</span>
-                                        <span>{{ number_format($aviso->inmueble->precioSoles(), 0, '', ',') }}</span>
-                                    </h2>
-                                @endif
-                                @if($aviso->inmueble->precioDolares())
-                                    <h3 class="m-0 fw-bolder text-secondary">
-                                        <small>{{ $aviso->inmueble->currencyDolares() }}</small>
-                                        <small>{{ number_format($aviso->inmueble->precioDolares(), 0, '', ',') }}</small>
-                                    </h3>
-                                @endif
+                            <div class="d-flex justify-content-between">
+
+                                <div class="d-flex flex-column align-items-start align-items-md-end mt-4 mt-md-0">
+                                    @if($aviso->inmueble->precioSoles())
+                                        <h2 class="m-0 fw-bolder">
+                                            <span>{{ $aviso->inmueble->currencySoles() }}</span>
+                                            <span>{{ number_format($aviso->inmueble->precioSoles(), 0, '', ',') }}</span>
+                                        </h2>
+                                    @endif
+                                    @if($aviso->inmueble->precioDolares())
+                                        <h3 class="m-0 fw-bolder text-secondary">
+                                            <small>{{ $aviso->inmueble->currencyDolares() }}</small>
+                                            <small>{{ number_format($aviso->inmueble->precioDolares(), 0, '', ',') }}</small>
+                                        </h3>
+                                    @endif
+    
+                                </div>
+                                <h4 class="p-0 m-0 mt-4 d-block d-md-none">
+                                    ID: {{ $aviso->id }}
+                                </h4>
                             </div>
 
                             {{-- Precio del inmueble Remate --}}
@@ -137,10 +144,10 @@
 
                         </div>
 
-
-                        <h4 class="p-0 m-0 mt-4">
+                        <h4 class="p-0 m-0 mt-4 d-none d-md-block">
                             ID: {{ $aviso->id }}
                         </h4>
+
 
                     </div>
 
