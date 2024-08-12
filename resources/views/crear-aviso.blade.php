@@ -191,8 +191,8 @@
                         <input type="hidden" name="ubicacion" :value="step === 2 ? 1 : 0">
 
                         <div class="form-floating">
-                            <input type="text" id="direccion" x-model="direccion" class="form-control" placeholder="Dirección" required>
-                            <label for="direccion">Dirección</label>
+                            <input type="text" id="place_input" x-model="direccion" class="form-control" placeholder="Dirección" required>
+                            <label for="place_input">Dirección</label>
                         </div>
 
                         <div class="form-floating">
@@ -575,102 +575,118 @@
     </div>
 
     <script>
+        const defaultLocation = {lat: -12.09706477059002, lng: -77.02302118294135}; // Coordenadas iniciales de ejemplo
+        const mapDiv = document.getElementById("map")
+        const input = document.getElementById("place_input")
+        let map
+        let marker
+        let autocomplete
+        let lat_inmueble
+        let lng_inmueble
+        function initMap() {
+            map = new google.maps.Map(mapDiv, {
+                center: defaultLocation,
+                zoom: 18,
+            })
+            marker = new google.maps.Marker({
+                position: defaultLocation,
+                map: map,
+                draggable: true, // Permite arrastrar el marcador
+            })
+            initAutocomplete()
+        }
+
+        function initAutocomplete() {
+            autocomplete = new google.maps.places.Autocomplete(input)
+            autocomplete.addListener("place_changed", () => {
+                const place = autocomplete.getPlace()
+                map.setCenter(place.geometry.location)
+                marker.setPosition(place.geometry.location)
+                lat_inmueble = place.geometry.location.lat()
+                lng_inmueble = place.geometry.location.lng()
+                // console.log(place.address_components)
+                // console.log("latitude", place.geometry.location.lat())
+                // console.log("longitude", place.geometry.location.lng())
+            })
+            // Evento cuando el usuario termina de arrastrar el marcador
+            marker.addListener('dragend', () => {
+                const newPosition = marker.getPosition();
+                lat_inmueble = newPosition.lat()
+                lng_inmueble = newPosition.lng()
+                // console.log("Nuevo posicionamiento del marcador: ", newPosition);
+                // console.log("LAT: ", newPosition.lat());
+                // console.log("LNG: ", newPosition.lng());
+            });
+        }
+
         function avisoForm() {
             return {
-                step: {{ session('step', 1) }},
-                aviso_id: {{ session('aviso_id', 'null') }},
+                //
+                    step: {{ session('step', 1) }},
+                    aviso_id: {{ session('aviso_id', 'null') }},
 
-                // perfil_propietario: @json($es_propietario),
-                // perfil_corredor: @json($es_corredor),
-                perfil_acreedor: @json($es_acreedor),
-                // perfil_proyecto: @json($es_proyecto),
+                    // perfil_propietario: @json($es_propietario),
+                    // perfil_corredor: @json($es_corredor),
+                    perfil_acreedor: @json($es_acreedor),
+                    // perfil_proyecto: @json($es_proyecto),
 
 
-                is_puja: false,
-                
-                tipo_operacion: '',
-                subtipos: [],
-                selectedSubtipo: '',
-                titulo: '',
-                description: '',
+                    is_puja: false,
+                    
+                    tipo_operacion: '',
+                    subtipos: [],
+                    selectedSubtipo: '',
+                    titulo: '',
+                    description: '',
 
-                direccion: '',
-                departamentos: [],
-                provincias: [],
-                distritos: [],
-                selectedDepartamento: '',
-                selectedProvincia: '',
-                selectedDistrito: '',
+                    direccion: '',
+                    departamentos: [],
+                    provincias: [],
+                    distritos: [],
+                    selectedDepartamento: '',
+                    selectedProvincia: '',
+                    selectedDistrito: '',
 
-                extras: [],
-                extras2: [],
-                adicionales: [],
-                comodidades: [],
+                    extras: [],
+                    extras2: [],
+                    adicionales: [],
+                    comodidades: [],
 
-                fotos: [],
-                imagen_principal: null,
-                videos: null,
-                planos: [],
-                dormitorios: '',
-                banios: '',
-                medio_banios: '',
-                estacionamiento: '',
-                area_construida: '',
-                area_total: '',
-                antiguedad: '',
-                anios_antiguedad: '',
-                precio_soles: '',
-                precio_dolares: '',
-                acceso_playa: false,
-                aire_acondicionado: false,
-                acceso_parque: false,
-                ascensores: false,
-                codigo_unico: '',
+                    fotos: [],
+                    imagen_principal: null,
+                    videos: null,
+                    planos: [],
+                    dormitorios: '',
+                    banios: '',
+                    medio_banios: '',
+                    estacionamiento: '',
+                    area_construida: '',
+                    area_total: '',
+                    antiguedad: '',
+                    anios_antiguedad: '',
+                    precio_soles: '',
+                    precio_dolares: '',
+                    acceso_playa: false,
+                    aire_acondicionado: false,
+                    acceso_parque: false,
+                    ascensores: false,
+                    codigo_unico: '',
 
-                // detalles de remate
-                base_remate: '',
-                valor_tasacion: '',
-                direccion_remate: '',
-                partida_registral: '',
-                fecha_remate: '',
-                hora_remate: '',
-                contacto_remate: '',
-                telefono_contacto_remate: '',
+                    // detalles de remate
+                    base_remate: '',
+                    valor_tasacion: '',
+                    direccion_remate: '',
+                    partida_registral: '',
+                    fecha_remate: '',
+                    hora_remate: '',
+                    contacto_remate: '',
+                    telefono_contacto_remate: '',
 
-                map: null,
-                marker: null,
-                latitude: null,
-                longitude: null,
-
-                initMap() {
-                    var defaultLocation = {lat: -12.09706477059002, lng: -77.02302118294135}; // Coordenadas iniciales de ejemplo
-                    this.map = new google.maps.Map(document.getElementById('map'), {
-                        zoom: 18,
-                        center: defaultLocation
-                    });
-
-                    this.map.addListener('click', (event) => {
-                        this.placeMarker(event.latLng);
-                    });
-
-                    // Colocar un marcador inicial si hay coordenadas preexistentes
-                    if (this.latitude && this.longitude) {
-                        this.placeMarker({ lat: this.latitude, lng: this.longitude });
-                    }
-                },
-                placeMarker(location) {
-                    if (this.marker) {
-                        this.marker.setPosition(location);
-                    } else {
-                        this.marker = new google.maps.Marker({
-                            position: location,
-                            map: this.map
-                        });
-                    }
-                    this.latitude = location.lat();
-                    this.longitude = location.lng();
-                    console.log("Coordinates set to:", this.latitude, this.longitude); // Verificar coordenadas aquí
-                },
+                    map: null,
+                    marker: null,
+                    latitude: null,
+                    longitude: null,
+                //
 
                 formatAmount(modelName, final = false) {
                     // Remover todos los caracteres no numéricos
@@ -767,8 +783,8 @@
                             formData.append('provincia_id', this.selectedProvincia)
                             formData.append('distrito_id', this.selectedDistrito)
                             formData.append('ubicacion', 1)
-                            formData.append('latitud', this.latitude);
-                            formData.append('longitud', this.longitude);
+                            formData.append('latitud', lat_inmueble);
+                            formData.append('longitud', lng_inmueble);
                             formData.append('codigo_unico', this.codigo_unico)
                         } else if (step === 3) /* Caracteristicas */ {
                             formData.append('is_puja', this.is_puja ? 1 : 0)
@@ -990,23 +1006,9 @@
         }
 
         window.showModal = @json($show_modal);
-
-        // Inicializar el mapa de Google
-        function initMap() {
-            const elements = document.querySelectorAll('[x-data]');
-
-            elements.forEach(element => {
-                const xDataFunction = new Function('return ' + element.getAttribute('x-data'))();
-                if (typeof xDataFunction.initMap === 'function') {
-                    xDataFunction.initMap();
-                }
-            });
-            // console.log("INIT MAP LAST:", this.longitude)
-        }
     </script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuCCuPnZoJYgILw9e3PNom-ZG5TnsGNeg&callback=initMap"
-    async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuCCuPnZoJYgILw9e3PNom-ZG5TnsGNeg&libraries=places&callback=initMap" async defer></script>
 
 @endsection
 
