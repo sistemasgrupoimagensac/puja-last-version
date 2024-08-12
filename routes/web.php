@@ -3,14 +3,13 @@
 use App\Models\User;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MyPostsController;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Laravel\Socialite\Facades\Socialite;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\PlanController;
 use App\Http\Middleware\SessionData;
 use App\Http\Controllers\DocumentoController;
+use App\Http\Controllers\SuppliersController;
 use App\Http\Controllers\Web\Panel\PerfilController;
 use App\Http\Controllers\Web\Panel\PasswordController;
 use App\Http\Controllers\Web\Panel\MisAvisosController;
@@ -20,36 +19,9 @@ use App\Http\Controllers\Web\Puja\MainController;
 
 Route::get('/', MainController::class);
 
-Route::get('/google-auth/redirect', function () {
-    return Socialite::driver('google')
-        ->with(['prompt' => 'select_account'])
-        ->redirect();
-});
- 
-Route::get('/google-auth/callback', function () {
-    $user_google = Socialite::driver('google')->user();
-    $profile_type = session('profile_type', 2); 
-    $existingUser = User::where('google_id', $user_google->id)->first();
-
-    if ($existingUser) {
-        // Loguear al usuario existente
-        Auth::login($existingUser);
-        return redirect('/')->with('user', $existingUser->toJson());
-    } else {
-        // Crear un nuevo usuario
-        $user = User::create([
-            'google_id' => $user_google->id,
-            'nombres' => $user_google->name,
-            'email' => $user_google->email,
-            'imagen' => $user_google->avatar,
-            'tipo_usuario_id' => $profile_type,
-        ]);
-
-        // Loguear al nuevo usuario
-        Auth::login($user);
-        return redirect('/')->with('user', $user->toJson());
-    }
-});
+// Autenticacion Google
+Route::get('/google-auth/redirect', [SuppliersController::class, 'selectAccountGoogle']);
+Route::get('/google-auth/callback', [SuppliersController::class, 'createLoginGoogle']);
 
 Route::prefix('/inmuebles')->controller(App\Http\Controllers\Web\Puja\InmueblesController::class)->group(function() {
     Route::get('/{operacion}', 'busquedaInmuebles')->name('busqueda_inmuebles');
