@@ -43,7 +43,7 @@
                     </div>
                     
                     <div class="input-group input-group-lg">
-                        <input type="text" class="form-control" placeholder="Dirección" aria-label="direccion" aria-describedby="direccion" name="direccion">
+                        <input type="text" class="form-control" placeholder="Ciudad, provincia o distrito" aria-label="direccion" aria-describedby="direccion" name="direccion">
                         <input class="button-orange btn" type="submit" value="Buscar">
                     </div>
                 </div>
