@@ -228,6 +228,10 @@ class Inmueble extends Model
     {
         return optional(optional($this->principal)->caracteristicas)->remate_telef_contacto;
     }
+    public function remate_correo_contacto()
+    {
+        return optional(optional($this->principal)->caracteristicas)->remate_correo_contacto;
+    }
 
     public function getPujaDescripcionAttribute()
     {

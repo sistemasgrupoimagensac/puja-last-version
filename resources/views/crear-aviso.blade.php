@@ -190,7 +190,7 @@
                         <h2 class="m-0" class="m-0" class="m-0" class="m-0">Características</h2>
                         <input type="hidden" name="caracteristicas" :value="step === 3 ? 1 : 0">
 
-                        <fieldset>
+                        <fieldset x-show="perfil_acreedor && tipo_operacion !== 3">
                             <legend>Características Principales</legend>
 
                             <div class="d-flex justify-content-between gap-4">
@@ -297,7 +297,7 @@
                                 <div class="form-group w-100" x-show="!perfil_acreedor || (perfil_acreedor && tipo_operacion != 3)">
                                     <label class="text-secondary" for="precio_soles">Precio soles</label>
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text">S/.</span>
+                                        <span class="input-group-text">S/</span>
                                         <input type="text" id="precio_soles" x-model="precio_soles" class="form-control" @input="formatAmount('precio_soles')" @blur="formatAmount('precio_soles', true)">
                                     </div>
                                 </div>
@@ -332,43 +332,53 @@
                         <fieldset x-show="perfil_acreedor && tipo_operacion == 3">
                             <legend>Detalles del Remate</legend>
 
-                            <div class="d-flex justify-content-between gap-4">
-                                <div class="form-group w-100">
+                            <div class=" d-flex flex-column gap-3">
+                                <div>
                                     <label class="text-secondary" for="direccion_remate">Dirección del Remate</label>
-                                    <input type="text" id="direccion_remate" x-model="direccion_remate" class="form-control">
+                                    <div class="input-group">
+                                        <input type="text" id="direccion_remate" x-model="direccion_remate" class="form-control">
+                                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Arbitraje</button>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                          <li class="dropdown-item" type="button"  @click=" direccion_remate='Av. Arequipa 330, oficina 907, Cercado de Lima (CACLI)' ">CACLI</li>
+                                          <li class="dropdown-item" type="button" @click=" direccion_remate='Av. Diez Canseco 442, oficina 202, Miraflores (CAFI)' ">CAFI</li>
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div class="d-flex justify-content-between gap-4 mt-3">
+    
                                 <div class="form-group w-100">
                                     <label class="text-secondary" for="partida_registral">Partida Registral</label>
                                     <input type="text" id="partida_registral" x-model="partida_registral" class="form-control">
                                 </div>
-                            </div>
-
-                            <div class="d-flex justify-content-between gap-4 mt-3">
-                                <div class="form-group w-100">
-                                    <label class="text-secondary" for="fecha_remate">Fecha del Remate</label>
-                                    <input type="date" id="fecha_remate" x-model="fecha_remate" class="form-control">
+    
+                                <div class="d-flex justify-content-between gap-4">
+                                    <div class="form-group w-100">
+                                        <label class="text-secondary" for="fecha_remate">Fecha del Remate</label>
+                                        <input type="date" id="fecha_remate" x-model="fecha_remate" class="form-control">
+                                    </div>
+                                    <div class="form-group w-100">
+                                        <label class="text-secondary" for="hora_remate">Hora del Remate</label>
+                                        <input type="time" id="hora_remate" x-model="hora_remate" min="07:00" max="22:00" class="form-control">
+                                    </div>
                                 </div>
-                                <div class="form-group w-100">
-                                    <label class="text-secondary" for="hora_remate">Hora del Remate</label>
-                                    <input type="time" id="hora_remate" x-model="hora_remate" min="07:00" max="22:00" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="d-flex justify-content-between gap-4 mt-3">
+                                
                                 <div class="form-group w-100">
                                     <label class="text-secondary" for="contacto_remate">Nombre del Contacto</label>
                                     <input type="text" id="contacto_remate" x-model="contacto_remate" class="form-control">
                                 </div>
-                            </div>
-
-                            <div class="d-flex justify-content-between gap-4 mt-3">
+    
                                 <div class="form-group w-100">
                                     <label class="text-secondary" for="telefono_contacto_remate">Teléfono del Contacto</label>
                                     <input type="phone" id="telefono_contacto_remate" x-model="telefono_contacto_remate" class="form-control">
                                 </div>
+
+                                <div class="form-group w-100">
+                                    <label class="text-secondary" for="correo_contacto_remate">Correo del Contacto</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">@</span>
+                                        <input type="email" class="form-control" id="correo_contacto_remate" x-model="correo_contacto_remate">
+                                    </div>
+                                </div>
+
                             </div>
 
                         </fieldset>
@@ -616,7 +626,7 @@
                 map.setCenter(place.geometry.location)
                 marker.setPosition(place.geometry.location)
                 lat_inmueble = place.geometry.location.lat()
-                lng_inmueble = place.geometry.location.lng()
+                lng_inmueble = place.geometry.location.lng()      
             })
             // Evento cuando el usuario termina de arrastrar el marcador
             marker.addListener('dragend', () => {
@@ -683,6 +693,7 @@
                     hora_remate: '',
                     contacto_remate: '',
                     telefono_contacto_remate: '',
+                    correo_contacto_remate: '',
 
                     map: null,
                     marker: null,
@@ -707,6 +718,11 @@
                 },
 
                 init() {
+
+                    if ({{ $show_rematar ? 'true' : 'false' }} && !{{ $show_vender ? 'true' : 'false' }} && !{{ $show_alquilar ? 'true' : 'false' }}) {
+                        this.tipo_operacion = 3; 
+                    }
+
                     this.$watch('tipo_operacion', value => {
                         if (value == 3) {
                             this.is_puja = false;
@@ -808,6 +824,7 @@
                             formData.append('remate_hora', this.hora_remate)
                             formData.append('remate_nombre_contacto', this.contacto_remate)
                             formData.append('remate_telef_contacto', this.telefono_contacto_remate)
+                            formData.append('remate_correo_contacto', this.correo_contacto_remate)
 
                             formData.append('titulo', this.titulo)
                             formData.append('description', this.description)

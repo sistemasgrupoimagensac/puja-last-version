@@ -134,7 +134,8 @@ class MyPostsController extends Controller
     }
     
     
-    public function store (Request $request){
+    public function store (Request $request)
+    {
         if (!Auth::check()) {
             return redirect('/');
             // return response()->json([
@@ -312,6 +313,7 @@ class MyPostsController extends Controller
                 'remate_hora' => 'nullable|string',
                 'remate_nombre_contacto' => 'nullable|string',
                 'remate_telef_contacto' => 'nullable|string',
+                'remate_correo_contacto' => 'nullable|string',
 
                 // 'titulo' => 'string|max:100',
                 // 'description' => 'string|max:250',
@@ -351,6 +353,7 @@ class MyPostsController extends Controller
                 "remate_hora" => $request->remate_hora,
                 "remate_nombre_contacto" => $request->remate_nombre_contacto,
                 "remate_telef_contacto" => $request->remate_telef_contacto,
+                "remate_correo_contacto" => $request->remate_correo_contacto,
 
                 // "titulo" => $request->titulo,
                 // "descripcion" => $request->description,
