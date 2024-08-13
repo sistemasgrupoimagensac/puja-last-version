@@ -66,7 +66,7 @@
         </div>
         
         <!-- Menú de los pasos -->
-        <div class="py-2 py-lg-4 bg-body-tertiary border-bottom">
+        <div class="py-3 py-lg-4 bg-body-tertiary border-bottom">
             <div class="d-flex justify-content-around align-items-center fw-semibold text-light-emphasis">
                 <div :class="{ 'text-primary': step === 1 }" class="crear-aviso-menu-paso">
                     <span>1</span>
@@ -102,9 +102,9 @@
 
                 <!-- Paso 1: Operación y tipo de inmueble -->
                 <div x-show="step === 1">
-                    <form @submit.prevent="nextStep(1)" class="d-flex flex-column gap-4 my-5">
+                    <form @submit.prevent="nextStep(1)" class="d-flex flex-column gap-4 my-3 my-lg-5">
                         @csrf
-                        <h2>Operación y tipo de inmueble</h2>
+                        <h2 class="m-0" class="m-0" class="m-0" class="m-0" class="m-0" class="m-0">Operación y tipo de inmueble</h2>
                         <input type="hidden" name="operacion" :value="step === 1 ? 1 : 0">
 
                         @php
@@ -183,67 +183,11 @@
                     </form>
                 </div>
 
-                <!-- Paso 2: Ubicación -->
-                <div x-show="step === 2" x-init="initializeSecondStep()">
-                    <form @submit.prevent="nextStep(2)" class="d-flex flex-column gap-4 my-5">
-                        @csrf
-                        <h2>Ubicación</h2>
-                        <input type="hidden" name="ubicacion" :value="step === 2 ? 1 : 0">
-
-                        <div class="form-floating">
-                            <input type="text" id="place_input" x-model="direccion" class="form-control" placeholder="Dirección" required>
-                            <label for="place_input">Dirección</label>
-                        </div>
-
-                        <div class="form-floating">
-                            <select x-model="selectedDepartamento" @change="fetchProvincias()" class="form-select" id="departamento" required>
-                                <option value="">Seleccione un Departamento</option>
-                                <template x-for="departamento in departamentos" :key="departamento.id">
-                                    <option :value="departamento.id" x-text="departamento.nombre"></option>
-                                </template>
-                            </select>
-                        <label for="departamento">Departamento</label>
-                        </div>
-
-                        <div class="form-floating">
-                            <select x-model="selectedProvincia" @change="fetchDistritos()" :disabled="!selectedDepartamento" class="form-select" id="provincia" required>
-                                <option value="">Seleccione una Provincia</option>
-                                <template x-for="provincia in provincias" :key="provincia.id">
-                                    <option :value="provincia.id" x-text="provincia.nombre"></option>
-                                </template>
-                            </select>
-                            <label for="provincia">Provincia</label>
-                        </div>
-
-                        <div class="form-floating">
-                            <select x-model="selectedDistrito" :disabled="!selectedProvincia" class="form-select" id="distrito" required>
-                                <option value="">Seleccione un Distrito</option>
-                                <template x-for="distrito in distritos" :key="distrito.id">
-                                    <option :value="distrito.id" x-text="distrito.nombre"></option>
-                                </template>
-                            </select>
-                            <label for="distrito">Distrito</label>
-                        </div>
-
-                        {{-- <div x-init="initMap"> --}}
-                            <div id="map" style="width: 600px; height: 600px"></div>
-                            <input type="hidden" x-model="latitude" name="latitude">
-                            <input type="hidden" x-model="longitude" name="longitude">
-                        {{-- </div> --}}
-
-
-                        <div class="d-flex justify-content-between gap-2 w-100">
-                            <button type="button" @click="prevStep()" class="btn btn-secondary w-100">Atrás</button>
-                            <button type="submit" class="btn button-orange w-100">Continuar</button>
-                        </div>
-                    </form>
-                </div>
-
                 <!-- Paso 3: Características -->
                 <div x-show="step === 3" {{-- x-init="initializeThridStep()" --}}>
-                    <form @submit.prevent="nextStep(3)" class="d-flex flex-column gap-4 my-5">
+                    <form @submit.prevent="nextStep(3)" class="d-flex flex-column gap-4 my-3 my-lg-5">
                         @csrf
-                        <h2>Características</h2>
+                        <h2 class="m-0" class="m-0" class="m-0" class="m-0">Características</h2>
                         <input type="hidden" name="caracteristicas" :value="step === 3 ? 1 : 0">
 
                         <fieldset>
@@ -438,9 +382,9 @@
 
                 <!-- Paso 4: Multimedia (fotos, videos, planos) -->
                 <div x-show="step === 4">
-                    <form @submit.prevent="nextStep(4)" enctype="multipart/form-data" class="d-flex flex-column gap-4 my-5">
+                    <form @submit.prevent="nextStep(4)" enctype="multipart/form-data" class="d-flex flex-column gap-4 my-3 my-lg-5">
                         @csrf
-                        <h2>Multimedia</h2>
+                        <h2 class="m-0" class="m-0" class="m-0">Multimedia</h2>
                         <input type="hidden" name="multimedia" :value="step === 4 ? 1 : 0">
 
                         <!-- Input para la imagen principal -->
@@ -512,13 +456,80 @@
                 </div>
             </div>
 
-            <div class="col-12 col-lg-12 px-lg-5">
+            <div class="col-12 px-lg-5">
+
+                <!-- Paso 2: Ubicación -->
+                <div x-show="step === 2" x-init="initializeSecondStep()" >
+
+                    <h2 class="m-0 mt-5">Ubicación</h2>
+                    <div class="d-flex flex-column flex-lg-row gap-4">
+                        <div class="w-100">
+                            <form @submit.prevent="nextStep(2)" class="d-flex flex-column gap-4 my-4">
+                                @csrf
+                                <input type="hidden" name="ubicacion" :value="step === 2 ? 1 : 0">
+        
+                                <div class="form-floating">
+                                    <input type="text" id="place_input" x-model="direccion" class="form-control" placeholder="Dirección" required>
+                                    <label for="place_input">Dirección</label>
+                                </div>
+        
+                                <div class="form-floating">
+                                    <select x-model="selectedDepartamento" @change="fetchProvincias()" class="form-select" id="departamento" required>
+                                        <option value="">Seleccione un Departamento</option>
+                                        <template x-for="departamento in departamentos" :key="departamento.id">
+                                            <option :value="departamento.id" x-text="departamento.nombre"></option>
+                                        </template>
+                                    </select>
+                                <label for="departamento">Departamento</label>
+                                </div>
+        
+                                <div class="form-floating">
+                                    <select x-model="selectedProvincia" @change="fetchDistritos()" :disabled="!selectedDepartamento" class="form-select" id="provincia" required>
+                                        <option value="">Seleccione una Provincia</option>
+                                        <template x-for="provincia in provincias" :key="provincia.id">
+                                            <option :value="provincia.id" x-text="provincia.nombre"></option>
+                                        </template>
+                                    </select>
+                                    <label for="provincia">Provincia</label>
+                                </div>
+        
+                                <div class="form-floating">
+                                    <select x-model="selectedDistrito" :disabled="!selectedProvincia" class="form-select" id="distrito" required>
+                                        <option id="valueDistrito" value="">Seleccione un Distrito</option>
+                                        <template x-for="distrito in distritos" :key="distrito.id">
+                                            <option :value="distrito.id" x-text="distrito.nombre"></option>
+                                        </template>
+                                    </select>
+                                    <label for="distrito">Distrito</label>
+                                </div>
+        
+                                {{-- inyecta el mapa de google maps --}}
+                                {{-- <div id="map" style="max-width: 600px; width: 100%; height: 600px"></div>
+                                <input type="hidden" x-model="latitude" name="latitude">
+                                <input type="hidden" x-model="longitude" name="longitude"> --}}
+                            
+                                <div class="d-flex justify-content-between gap-2 w-100">
+                                    <button type="button" @click="prevStep()" class="btn btn-secondary w-100">Atrás</button>
+                                    <button type="submit" class="btn button-orange w-100">Continuar</button>
+                                </div>
+                            </form>
+                        </div>
+    
+                        <div class="w-100 my-4">
+                            {{-- inyecta el mapa de google maps --}}
+                            <div id="map" style="max-width: 600px; width: 100%; height: 600px"></div>
+                            <input type="hidden" x-model="latitude" name="latitude">
+                            <input type="hidden" x-model="longitude" name="longitude">
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Paso 5: Comodidades -->
                 <div x-show="step === 5" x-init="initializeQuintoStep(2)">
-                    <form @submit.prevent="nextStep(5)" class="d-flex flex-column gap-4 my-5">
+                    <form @submit.prevent="nextStep(5)" class="d-flex flex-column gap-4 my-3 my-lg-5">
                         @csrf
-                        <div class="mt-4">
-                            <h2>Comodidades</h2>
+                        <div>
+                            <h2 class="m-0" class="m-0">Comodidades</h2>
                             <input type="hidden" name="adicionales" :value="step === 5 ? 1 : 0">
 
                             <div class="row">
@@ -544,10 +555,10 @@
 
                 <!-- Paso 6: Adicionales -->
                 <div x-show="step === 6" x-init="initializeSextoStep(1)">
-                    <form @submit.prevent="nextStep(6)" class="d-flex flex-column gap-4 my-5">
+                    <form @submit.prevent="nextStep(6)" class="d-flex flex-column gap-4 my-3 my-lg-5">
                         @csrf
-                        <div class="mt-4">
-                            <h2>Adicionales</h2>
+                        <div>
+                            <h2 class="m-0">Adicionales</h2>
                             <input type="hidden" name="comodidades" :value="step === 6 ? 1 : 0">
                             <div class="row">
                                 <template x-for="extra in extras2" :key="extra.id">
@@ -597,6 +608,8 @@
         }
 
         function initAutocomplete() {
+
+            const distrito = document.getElementById('valueDistrito')
             autocomplete = new google.maps.places.Autocomplete(input)
             autocomplete.addListener("place_changed", () => {
                 const place = autocomplete.getPlace()
@@ -604,32 +617,21 @@
                 marker.setPosition(place.geometry.location)
                 lat_inmueble = place.geometry.location.lat()
                 lng_inmueble = place.geometry.location.lng()
-                // console.log(place.address_components)
-                // console.log("latitude", place.geometry.location.lat())
-                // console.log("longitude", place.geometry.location.lng())
             })
             // Evento cuando el usuario termina de arrastrar el marcador
             marker.addListener('dragend', () => {
                 const newPosition = marker.getPosition();
                 lat_inmueble = newPosition.lat()
                 lng_inmueble = newPosition.lng()
-                // console.log("Nuevo posicionamiento del marcador: ", newPosition);
-                // console.log("LAT: ", newPosition.lat());
-                // console.log("LNG: ", newPosition.lng());
             });
         }
 
         function avisoForm() {
             return {
-                //
                     step: {{ session('step', 1) }},
                     aviso_id: {{ session('aviso_id', 'null') }},
 
-                    // perfil_propietario: @json($es_propietario),
-                    // perfil_corredor: @json($es_corredor),
                     perfil_acreedor: @json($es_acreedor),
-                    // perfil_proyecto: @json($es_proyecto),
-
 
                     is_puja: false,
                     
@@ -686,7 +688,6 @@
                     marker: null,
                     latitude: null,
                     longitude: null,
-                //
 
                 formatAmount(modelName, final = false) {
                     // Remover todos los caracteres no numéricos
@@ -1015,3 +1016,4 @@
 @push('scripts')
   @vite([ 'resources/js/scripts/updatePlaceholdersRegister.js' ])
 @endpush
+

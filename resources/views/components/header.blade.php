@@ -15,181 +15,176 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     
-                    {{-- Compra --}}
-                    <li class="header-nav-item nav-item dropdown">
-                        <a class="header-nav-link nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Compra
-                        </a>
-                        <div class="header-dropdown-menu dropdown-menu p-5">
-                            <div class="d-flex justify-content-between">
-                                <div class="d-flex flex-column">
-                                    <h5 class="text-dark h6 fw-bold">Provincia</h5>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Lima')]) }}">Lima</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Piura')]) }}">Piura</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Callao')]) }}">Callao</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Ica')]) }}">Ica</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en La Libertad')]) }}">La Libertad</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Arequipa')]) }}">Arequipa</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Cusco')]) }}">Cusco</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Tumbes')]) }}">Tumbes</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Junín')]) }}">Junín</a>
-                                </div>
+                        {{-- Compra --}}
+                        <li class="header-nav-item nav-item dropdown">
+                            <a class="header-nav-link nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Compra
+                            </a>
+                            <div class="header-dropdown-menu dropdown-menu p-5">
+                                <div class="d-flex justify-content-between">
+                                    <div class="d-flex flex-column">
+                                        <h5 class="text-dark h6 fw-bold">Provincia</h5>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Lima')]) }}">Lima</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Piura')]) }}">Piura</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Callao')]) }}">Callao</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Ica')]) }}">Ica</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en La Libertad')]) }}">La Libertad</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Arequipa')]) }}">Arequipa</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Cusco')]) }}">Cusco</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Tumbes')]) }}">Tumbes</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Junín')]) }}">Junín</a>
+                                    </div>
 
-                                <div class="d-flex flex-column">
-                                    <h5 class="text-dark h6 fw-bold">Tipo de Propiedad</h5>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Departamentos en Venta')]) }}">Departamento</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Casas en Venta')]) }}">Casa</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Terrenos en Venta')]) }}">Terreno / Lote</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Oficinas en Venta')]) }}">Oficina</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Locales en Venta')]) }}">Local Comercial</a>
-                                </div>
+                                    <div class="d-flex flex-column">
+                                        <h5 class="text-dark h6 fw-bold">Tipo de Propiedad</h5>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Departamentos en Venta')]) }}">Departamento</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Casas en Venta')]) }}">Casa</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Terrenos en Venta')]) }}">Terreno / Lote</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Oficinas en Venta')]) }}">Oficina</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Locales en Venta')]) }}">Local Comercial</a>
+                                    </div>
 
-                                <div class="d-flex flex-column">
-                                    <h5 class="text-dark h6 fw-bold">Dormitorios</h5>
-                                    <a class="text-decoration-none text-dark mb-1" href="#">3 dormitorios</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="#">2 dormitorios</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="#">1 dormitorio</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="#">4 dormitorios</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="#">5 o más dormitorios</a>
-                                </div>
+                                    <div class="d-flex flex-column">
+                                        <h5 class="text-dark h6 fw-bold">Dormitorios</h5>
+                                        <a class="text-decoration-none text-dark mb-1" href="#">3 dormitorios</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="#">2 dormitorios</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="#">1 dormitorio</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="#">4 dormitorios</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="#">5 o más dormitorios</a>
+                                    </div>
 
-                                <div class="d-flex flex-column">
-                                    <h5 class="text-dark h6 fw-bold">Servicios</h5>
-                                    <a class="text-decoration-none text-dark mb-1" href="#">Guía para comprar un inmueble</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="#">Publica un inmueble para venta</a>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-
-                    {{-- Alquiler --}}
-                    <li class="header-nav-item nav-item dropdown">
-                        <a class="header-nav-link nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Alquiler
-                        </a>
-                        <div class="header-dropdown-menu dropdown-menu p-5">
-
-                            <div class="d-flex justify-content-between">
-
-                                <div class="d-flex flex-column">
-                                    <h5 class="text-dark h6 fw-bold">Provincia</h5>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Lima')]) }}">Lima</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Piura')]) }}">Piura</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Callao')]) }}">Callao</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Ica')]) }}">Ica</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en La Libertad')]) }}">La Libertad</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Arequipa')]) }}">Arequipa</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Cusco')]) }}">Cusco</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Tumbes')]) }}">Tumbes</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Junín')]) }}">Junín</a>
-                                </div>
-
-                                <div class="d-flex flex-column">
-                                    <h5 class="text-dark h6 fw-bold">Tipo de Propiedad</h5>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Departamentos en Alquiler')]) }}">Departamento</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Casas en Alquiler')]) }}">Casa</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Terrenos en Alquiler')]) }}">Terreno / Lote</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Oficinas en Alquiler')]) }}">Oficina</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Locales en Alquiler')]) }}">Local Comercial</a>
-                                </div>
-
-                                <div class="d-flex flex-column">
-                                    <h5 class="text-dark h6 fw-bold">Dormitorios</h5>
-                                    <a class="text-decoration-none text-dark mb-1" href="#">3 dormitorios</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="#">2 dormitorios</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="#">1 dormitorio</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="#">4 dormitorios</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="#">5 o más dormitorios</a>
-                                </div>
-
-                                <div class="d-flex flex-column">
-                                    <h5 class="text-dark h6 fw-bold">Servicios</h5>
-                                    <a class="text-decoration-none text-dark mb-1" href="#">Guía para alquilar un inmueble</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="#">Publica un inmueble para alquilar</a>
+                                    <div class="d-flex flex-column">
+                                        <h5 class="text-dark h6 fw-bold">Servicios</h5>
+                                        <a class="text-decoration-none text-dark mb-1" href="#">Guía para comprar un inmueble</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="#">Publica un inmueble para venta</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </li>
-                    
-                    {{-- Servicios --}}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Servicios
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Servicios</a></li>
-                        </ul>
-                    </li>
-                    
-                    {{-- Remates --}}
-                    <li class="header-nav-item nav-item dropdown">
-                        <a class="header-nav-link nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Remates
-                        </a>
-                        <div class="header-dropdown-menu dropdown-menu p-5">
-                            <div class="d-flex justify-content-between">
-                                <div class="d-flex flex-column">
-                                    <h5 class="text-dark h6 fw-bold">Provincia</h5>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Lima')]) }}">Lima</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Piura')]) }}">Piura</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Callao')]) }}">Callao</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Ica')]) }}">Ica</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en La Libertad')]) }}">La Libertad</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Arequipa')]) }}">Arequipa</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Cusco')]) }}">Cusco</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Tumbes')]) }}">Tumbes</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Junín')]) }}">Junín</a>
-                                </div>
+                        </li>
 
-                                <div class="d-flex flex-column">
-                                    <h5 class="text-dark h6 fw-bold">Tipo de Propiedad</h5>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Departamentos en Remate')]) }}">Departamento</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Casas en Remate')]) }}">Casa</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Terrenos en Remate')]) }}">Terreno / Lote</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Oficinas en Remate')]) }}">Oficina</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Locales en Remate')]) }}">Local Comercial</a>
-                                </div>
+                        {{-- Alquiler --}}
+                        <li class="header-nav-item nav-item dropdown">
+                            <a class="header-nav-link nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Alquiler
+                            </a>
+                            <div class="header-dropdown-menu dropdown-menu p-5">
 
-                                <div class="d-flex flex-column">
-                                    <h5 class="text-dark h6 fw-bold">Dormitorios</h5>
-                                    <a class="text-decoration-none text-dark mb-1" href="#">3 dormitorios</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="#">2 dormitorios</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="#">1 dormitorio</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="#">4 dormitorios</a>
-                                    <a class="text-decoration-none text-dark mb-1" href="#">5 o más dormitorios</a>
+                                <div class="d-flex justify-content-between">
+
+                                    <div class="d-flex flex-column">
+                                        <h5 class="text-dark h6 fw-bold">Provincia</h5>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Lima')]) }}">Lima</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Piura')]) }}">Piura</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Callao')]) }}">Callao</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Ica')]) }}">Ica</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en La Libertad')]) }}">La Libertad</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Arequipa')]) }}">Arequipa</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Cusco')]) }}">Cusco</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Tumbes')]) }}">Tumbes</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler en Junín')]) }}">Junín</a>
+                                    </div>
+
+                                    <div class="d-flex flex-column">
+                                        <h5 class="text-dark h6 fw-bold">Tipo de Propiedad</h5>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Departamentos en Alquiler')]) }}">Departamento</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Casas en Alquiler')]) }}">Casa</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Terrenos en Alquiler')]) }}">Terreno / Lote</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Oficinas en Alquiler')]) }}">Oficina</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Locales en Alquiler')]) }}">Local Comercial</a>
+                                    </div>
+
+                                    <div class="d-flex flex-column">
+                                        <h5 class="text-dark h6 fw-bold">Dormitorios</h5>
+                                        <a class="text-decoration-none text-dark mb-1" href="#">3 dormitorios</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="#">2 dormitorios</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="#">1 dormitorio</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="#">4 dormitorios</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="#">5 o más dormitorios</a>
+                                    </div>
+
+                                    <div class="d-flex flex-column">
+                                        <h5 class="text-dark h6 fw-bold">Servicios</h5>
+                                        <a class="text-decoration-none text-dark mb-1" href="#">Guía para alquilar un inmueble</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="#">Publica un inmueble para alquilar</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </li>
+                        </li>
+                        
+                        {{-- Servicios --}}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Servicios
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Servicios</a></li>
+                            </ul>
+                        </li>
+                        
+                        {{-- Remates --}}
+                        <li class="header-nav-item nav-item dropdown">
+                            <a class="header-nav-link nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Remates
+                            </a>
+                            <div class="header-dropdown-menu dropdown-menu p-5">
+                                <div class="d-flex justify-content-between">
+                                    <div class="d-flex flex-column">
+                                        <h5 class="text-dark h6 fw-bold">Provincia</h5>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Lima')]) }}">Lima</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Piura')]) }}">Piura</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Callao')]) }}">Callao</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Ica')]) }}">Ica</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en La Libertad')]) }}">La Libertad</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Arequipa')]) }}">Arequipa</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Cusco')]) }}">Cusco</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Tumbes')]) }}">Tumbes</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate en Junín')]) }}">Junín</a>
+                                    </div>
 
-                    {{-- Proyectos --}}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-black-50" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Proyectos
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">En Construcción</a></li>
-                        </ul>
-                    </li>
+                                    <div class="d-flex flex-column">
+                                        <h5 class="text-dark h6 fw-bold">Tipo de Propiedad</h5>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Departamentos en Remate')]) }}">Departamento</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Casas en Remate')]) }}">Casa</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Terrenos en Remate')]) }}">Terreno / Lote</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Oficinas en Remate')]) }}">Oficina</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Locales en Remate')]) }}">Local Comercial</a>
+                                    </div>
+
+                                    <div class="d-flex flex-column">
+                                        <h5 class="text-dark h6 fw-bold">Dormitorios</h5>
+                                        <a class="text-decoration-none text-dark mb-1" href="#">3 dormitorios</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="#">2 dormitorios</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="#">1 dormitorio</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="#">4 dormitorios</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="#">5 o más dormitorios</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        {{-- Proyectos --}}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-black-50" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Proyectos
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">En Construcción</a></li>
+                            </ul>
+                        </li>
         
                     </ul>
                     @auth
-
                         @php
-                            $tipoUsuario = Auth::user()->tipo_usuario_id;
-                            
+                            $tipoUsuarioID = Auth::user()->tipo_usuario_id;
                         @endphp
 
                         @if (isset($tienePlanes)) 
-
-                            @if (!$tienePlanes && $tipoUsuario === 3)
+                            @if (!$tienePlanes && $tipoUsuarioID === 3)
                                 <a href="/planes-inmobiliaria" class="btn-outline-secondary aside-menu btn mx-4">Publica Aquí</a>
                             @else 
                                 <a href="{{ route("posts.create") }}" class="btn-outline-secondary aside-menu btn mx-4">Publica Aquí</a>
                             @endif
-
                         @endif
-
 
                         @php
                             $nombreCompleto = Auth::user()->nombres;
@@ -280,11 +275,41 @@
     {{-- Linea divisora --}}
     <hr class="m-0">
 
-  <a class="button-orange btn m-4" href="{{ route("sign_in", ['profile_type' => 2]) }}">Iniciar Sesión</a>
-  <a class="button-clear aside-menu btn mx-4" href="/publica-tu-inmueble">Publica Aquí</a>
+    <div class="d-flex flex-column gap-3 mx-3 mt-4">
+        @auth
 
+            <div class="d-flex gap-4 px-2">
+                <div class="">
+                    <img src="{{ $user_image }}" alt="some user image" class="rounded-circle" style="width: 48px">
+                </div>
+                <div class="">
+                    <h6 style="margin-bottom: 0.1rem;"><b>{{ $nombreCortado }}</b></h6>
+                    <p class="m-0">{{ $tipoUsuario }}</p>
+                </div>
+            </div>
 
-    <div class="offcanvas-body">
+            <ul class="list-group list-group-flush">
+                <a class="list-group-item p-2" href="{{ route('panel.perfil') }}">Mi Cuenta</a>
+                <a class="list-group-item p-2" href="{{ route('panel.password') }}">Password</a>
+                <a class="list-group-item p-2" href="{{ route('panel.mis-avisos') }}">Mis Avisos</a>
+                <a class="list-group-item p-2" href="{{ route('panel.planes-contratados') }}">Mis Planes</a>
+                <div></div>
+            </ul>
+
+            @if (isset($tienePlanes)) 
+                @if (!$tienePlanes && $tipoUsuarioID === 3)
+                    <a href="/planes-inmobiliaria" class="button-clear aside-menu btn">Publica Aquí</a>
+                @else 
+                    <a href="{{ route("posts.create") }}" class="button-clear aside-menu btn">Publica Aquí</a>
+                 @endif
+            @endif
+        @else 
+            <a class="button-orange btn" href="{{ route("sign_in", ['profile_type' => 2]) }}">Iniciar Sesión</a>
+            <a class="button-clear aside-menu btn" href="/publica-tu-inmueble">Publica Aquí</a>
+        @endauth
+    </div>
+
+    <div class="offcanvas-body d-flex flex-column justify-content-between">
 
         {{-- Contenido Navbar en tamaño responsivo --}}
         <div class="accordion" id="accordionGeneral">
@@ -550,5 +575,12 @@
             </div>
 
         </div>
+
+        {{-- cerrar sesión --}}
+        @auth
+            <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" type="button" class="btn btn-danger w-100 text-center">
+                Cerrar sesión
+            </a>
+        @endauth
     </div>
 </div>

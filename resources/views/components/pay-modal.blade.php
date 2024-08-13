@@ -14,7 +14,7 @@
 
                 <div class="modal-body p-0">
                     <button type="button" class="btn-close p-2 m-2 position-absolute bg-white top-0 end-0 z-1" data-bs-dismiss="modal" aria-label="Close"></button>
-                    <div class="d-flex flex-column flex-lg-row h-100">
+                    <div class="d-flex flex-column flex-lg-row">
 
                         {{-- detalles del plan contratado --}}
                         <div class="z-0 col p-lg-5">
@@ -43,12 +43,12 @@
         
                             <div class="d-flex justify-content-between">
                                 {{-- Fecha de vencimiento --}}
-                                <div class="mb-3 col-7">
+                                <div class="col-7">
                                     <label for="fechaTarjeta" class="form-label m-0 custom">Fecha de Vencimiento</label>
                                     <input type="text" class="form-control shadow-none" id="fechaTarjeta" x-model="fechaTarjeta" placeholder="MM/AA" maxlength="5" @input="formatExpiryDate" data_openpay_card />
                                 </div>
                                 
-                                <div class="mb-3 col-4">
+                                <div class="col-4">
                                     <label for="cvcTarjeta" class="form-label m-0 custom">CVV</label>
                                     <div class="input-group">
                                         <input :type="showCVC ? 'text' : 'password'" class="form-control shadow-none" id="cvcTarjeta" x-model="cvcTarjeta" size="1" minlength="3" maxlength="4" data_openpay_card/>
@@ -68,27 +68,25 @@
                     </div>
                 </div>
 
-                <div class="d-flex justify-content-between align-items-center px-5">
-                    <div>
-                        <button type="button" class="btn btn-outline-secondary rounded-3 w-100" data-bs-target="#modalOtroDNI" data-bs-toggle="modal">
-                            ¿Desea pagar con una distinta Razón Social?</button>
-                    </div>
+                <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center gap-2 p-2 px-md-5 w-100">
+                    <button type="button" class="btn btn-outline-secondary rounded-3" data-bs-target="#modalOtroDNI" data-bs-toggle="modal">
+                        ¿Desea pagar con una distinta Razón Social?
+                    </button>
                     <div>
                         <template x-if="resultados">
                             <div>
                                     <p class="m-0"><span class="fw-bold">Nombre:</span> <span x-text="getNombre()"></span></p>
                             </div>
-                    </template>
-
+                        </template>
                     </div>
                 </div>
 
                 <div class="d-flex justify-content-center w-100">
-                    <button type="button" class="btn button-orange fs-3 rounded-3 m-2 mx-lg-5 w-100" id="pay-button">Pagar S/ 
-                        <span x-text="prices[tipoPlan]"></span>
+                    <button type="button" class="btn button-orange fs-3 rounded-3 m-2 m-lg-2 mx-lg-5 w-100" id="pay-button">Pagar S/ 
+                        <x-miles-coma amount="prices[tipoPlan]"></x-miles-coma>
                     </button>
                 </div>
-                <small class="text-body-tertiary p-3 px-lg-5">Al hacer clic en Pagar, está aceptando nuestros 
+                <small class="text-body-tertiary py-1 px-3 py-lg-3 px-lg-5">Al hacer clic en Pagar, está aceptando nuestros 
                     <a href="/terminos-contratacion" target="blank">Términos y Condiciones de Contratación</a>
                 </small>
             </form>

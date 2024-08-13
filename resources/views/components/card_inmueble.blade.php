@@ -1,4 +1,4 @@
-<div class="card my-5 card-inmueble shadow border-0 bg-white">
+<div class="card my-4 card-inmueble shadow border-0 bg-white">
   <div class="row g-0 h-100">
 
     <div class="col-lg-4 h-100">

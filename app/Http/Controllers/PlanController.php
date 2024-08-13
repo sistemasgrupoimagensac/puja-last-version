@@ -25,6 +25,15 @@ class PlanController extends Controller
         try {
             $user = Auth::user();
             $sesion_iniciada = false;
+
+            $tienePlanes = false;
+        
+            if (Auth::check()) {
+                $user_id = Auth::id();
+                $user = User::find($user_id);
+                $active_plan_users = $user->active_plans()->get();
+                $tienePlanes = $active_plan_users->isNotEmpty();
+            }
             
             if(isset($user)) {
 
@@ -32,7 +41,7 @@ class PlanController extends Controller
 
                 if($user->tipo_usuario_id === 3) {
                     $sesion_iniciada = true;
-                    return view('planes', compact('sesion_iniciada', 'show_modal', 'user'));
+                    return view('planes', compact('sesion_iniciada', 'show_modal', 'user', 'tienePlanes'));
 
                 } else {
                     return redirect('/');
@@ -40,7 +49,7 @@ class PlanController extends Controller
             
             } else {
                 $show_modal = false;
-                return view('planes', compact('sesion_iniciada', 'show_modal'));
+                return view('planes', compact('sesion_iniciada', 'show_modal', 'tienePlanes'));
             }
 
         } catch (\Throwable $th) {

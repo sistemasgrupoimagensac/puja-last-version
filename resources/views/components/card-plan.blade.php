@@ -7,7 +7,7 @@
     <div>
       <div class="card-body p-0">
         <h2 class="card-title fw-bolder mt-3">{{ $title }}</h2>
-        <h5 class="card-subtitle mb-2">S/ <span x-text="{{ $price }}"></span> por <span x-text="{{ $time }}"></span> días</h5>
+        <h5 class="card-subtitle mb-2">S/ <x-miles-coma amount="{{ $price }}"></x-miles-coma> por <span x-text="{{ $time }}"></span> días</h5>
         <hr>
         <div class="d-flex justify-content-center">
   

@@ -1,4 +1,4 @@
-<div class="card text-bg-light mb-3" style="width: 20rem;">
+<div class="card text-bg-light" style="width: 20rem;">
   <div class="card-header fs-3 fw-bolder">{{ $planTitle }}</div>
   <div class="card-body">
 

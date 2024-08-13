@@ -10,6 +10,8 @@ use App\Services\Aviso\FiltrarAvisos;
 use App\Services\Url\ParsearUrl;
 use App\Services\TipoInmueble\ObtenerTiposInmuebles;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class InmueblesController extends Controller
 {
@@ -26,7 +28,17 @@ class InmueblesController extends Controller
         $url_parse = (new ParsearUrl($this->tipo_inmueble_repository, $this->tipo_operacion_repository))->forFilter($operacion);
         $tipos_inmuebles = (new ObtenerTiposInmuebles($this->tipo_inmueble_repository))->__invoke();
         $avisos = (new FiltrarAvisos($this->repository))->__invoke($url_parse, $request);
-        return view('inmuebles', compact('avisos', 'url_parse', 'tipos_inmuebles'));
+
+        $tienePlanes = false;
+        
+        if (Auth::check()) {
+            $user_id = Auth::id();
+            $user = User::find($user_id);
+            $active_plan_users = $user->active_plans()->get();
+            $tienePlanes = $active_plan_users->isNotEmpty();
+        }
+
+        return view('inmuebles', compact('avisos', 'url_parse', 'tipos_inmuebles', 'tienePlanes'));
     }
 
     public function filterSearch(Request $request)
