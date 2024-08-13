@@ -23,8 +23,8 @@ class InmuebleController extends Controller
             $user_login_id = 0;
             $tipo_usuario = 0;
             $user_not_pay = false;
-            $plan_id = 114;
-            if ( $plan_id === 114 ) $tipo_aviso = 3;
+            $plan_id = 117;
+            if ( $plan_id === 117 ) $tipo_aviso = 3;
             if ( Auth::check() ) {
                 $user_login_id = Auth::id();
                 $user = Auth::user();
