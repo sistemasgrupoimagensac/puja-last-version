@@ -25,11 +25,11 @@
                         $total_avisos_porpublicar = 0
                     @endphp
                     @foreach ($avisos as $aviso)
-                        @if ($aviso->historial[0]->estado === 'Borrador')
+                        @if ( $aviso->historial->first()->pivot->estado_aviso_id === 1 || $aviso->historial->first()->pivot->estado_aviso_id === 2 )
                             @include('components.aviso_simple', [
                                 'id' => $aviso->id,
                                 'codigo_unico' => $aviso->inmueble->codigo_unico,
-                                'link' => route('inmueble.single', ['inmueble' => $aviso->link()]),
+                                'link' => $aviso->historial->first()->pivot->estado_aviso_id === 1 ? route('posts.edit', $aviso->id) :  route('inmueble.single', ['inmueble' => $aviso->link()]),
                                 'title' => $aviso->inmueble->tituloReal() ?? 'Aviso sin título',
                                 'image' => $aviso->inmueble->imagenPrincipal(),
                                 'type' => $aviso->inmueble->type(), 
@@ -60,7 +60,7 @@
                             $newEndDate = $endDate->addHours(72);
                             $currentDate = \Carbon\Carbon::now();
                         @endphp
-                        @if ($aviso->historial[0]->estado === 'Publicado')
+                        @if ( $aviso->historial->first()->pivot->estado_aviso_id === 3 )
                             @include('components.aviso_simple', [
                                 'id' => $aviso->id,
                                 'codigo_unico' => $aviso->inmueble->codigo_unico,
