@@ -26,7 +26,7 @@
 
 				{{-- duración del plan --}}
 				<fieldset>
-					<legend class="h6 text-secondary mb-3">1. Elige el tiempo de duración.</legend>
+					<legend class="h6 text-secondary mb-3">1. Elige el tiempo de duración del aviso</legend>
 				
 						<div role="group" class="planes-numero-avisos d-flex flex-column flex-md-row justify-content-center align-items-center w-100 gap-3 gap-lg-4 px-1 p-lg-0 mt-4">
 							<div>
@@ -43,7 +43,7 @@
 
 				<!-- categoria de plan -->
 				<fieldset>
-					<legend class="text-secondary text-left h6 mb-3">2. Elige el plan para tu remate.</legend>
+					<legend class="text-secondary text-left h6 mb-3">2. Elige el tipo de aviso para tu remate</legend>
 					<div>
 						<div role="group" class="d-flex flex-column align-items-center flex-md-row gap-4 mt-4 w-100">
 							<!-- plan top plus -->
@@ -138,38 +138,48 @@
 						numAvisos:1,
 
 						prices: {
-								topPlus: 149,
-								top: 99,
-								estandar: 49,
+								topPlus: 420,
+								top: 350,
+								estandar: 250,
 						},
 
 						priceTable: {
-								'1': { '15': [420, 350, 250], '7': [240, 200, 150] },
+							'7': [150, 200, 240], '15': [250, 350, 420] ,
 						},
 
 						ids: {
-								'1': { '15': [1, 2, 3], '7': [4, 5, 6] },
+							'7': [109, 110, 111], '15': [112, 113, 114],
+						},
+
+						updatePrices() {
+								const selectedPrices = this.priceTable[this.periodoPlan];
+								this.prices.estandar = selectedPrices[0];
+								this.prices.top = selectedPrices[1];
+								this.prices.topPlus = selectedPrices[2];
 						},
 
 						updateIds() {
-								if (this.tipoPlan === 'topPlus') {
-										idPlan = 111
-										tipoDeAviso = 3
-								} else if (this.tipoPlan === 'top') {
-										idPlan = 110
-										tipoDeAviso = 2
-								} else if (this.tipoPlan === 'estandar') {
-										idPlan = 109
+								const selectedId = this.ids[this.periodoPlan];
+								if (this.tipoPlan === 'estandar') {
+										idPlan = selectedId[0]
 										tipoDeAviso = 1
+								} else if (this.tipoPlan === 'top') {
+										idPlan = selectedId[1]
+										tipoDeAviso = 2
+								} else if (this.tipoPlan === 'topPlus') {
+										idPlan = selectedId[2]
+										tipoDeAviso = 3
 								}
 						},
 
 						init() {
 								this.$watch('tipoPlan', () => {
 									this.updateIds()
+								})
 
-									console.log(idPlan, tipoDeAviso, this.aviso_id);
-									
+								this.$watch('periodoPlan', () => {
+										this.updatePrices()
+										this.updateIds()
 								})
 						},
 				}

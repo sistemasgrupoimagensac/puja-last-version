@@ -598,7 +598,7 @@
     <script>
         const defaultLocation = {lat: -12.09706477059002, lng: -77.02302118294135}; // Coordenadas iniciales de ejemplo
         const mapDiv = document.getElementById("map")
-        const input = document.getElementById("place_input")
+        let input = document.getElementById("place_input")
         let map
         let marker
         let autocomplete
@@ -626,7 +626,11 @@
                 map.setCenter(place.geometry.location)
                 marker.setPosition(place.geometry.location)
                 lat_inmueble = place.geometry.location.lat()
-                lng_inmueble = place.geometry.location.lng()      
+                lng_inmueble = place.geometry.location.lng()
+                // console.log(place.address_components)
+
+                const { direccion, numeroDireccion } = extractLocationComponents(place.address_components);
+                // console.log(`Direccion: ${direccion}, ${numeroDireccion}`);
             })
             // Evento cuando el usuario termina de arrastrar el marcador
             marker.addListener('dragend', () => {
@@ -634,6 +638,25 @@
                 lat_inmueble = newPosition.lat()
                 lng_inmueble = newPosition.lng()
             });
+        }
+
+        function extractLocationComponents(addressComponents) {
+            let direccion = '';
+            let numeroDireccion = '';
+
+            addressComponents.forEach(component => {
+                if (component.types.includes('street_number')) {
+                    numeroDireccion = component.long_name;
+                }
+                if (component.types.includes('route')) {
+                    direccion = component.long_name;
+                }
+            });
+
+            return {
+                direccion,
+                numeroDireccion
+            };
         }
 
         function avisoForm() {
@@ -795,14 +818,14 @@
                             formData.append('principal', 1)
                             formData.append('codigo_unico', this.codigo_unico)
                         } else if (step === 2) /* Ubicacion */ {
-                            formData.append('direccion', this.direccion)
+                            formData.append('direccion', input.value)
                             formData.append('departamento_id', this.selectedDepartamento)
                             formData.append('provincia_id', this.selectedProvincia)
                             formData.append('distrito_id', this.selectedDistrito)
                             formData.append('ubicacion', 1)
-                            formData.append('latitud', lat_inmueble);
-                            formData.append('longitud', lng_inmueble);
-                            formData.append('codigo_unico', this.codigo_unico)
+                            formData.append('latitud', lat_inmueble)
+                            formData.append('longitud', lng_inmueble)
+                            formData.append('codigo_unico', this.codigo_unico) 
                         } else if (step === 3) /* Caracteristicas */ {
                             formData.append('is_puja', this.is_puja ? 1 : 0)
                             formData.append('habitaciones', this.dormitorios)
