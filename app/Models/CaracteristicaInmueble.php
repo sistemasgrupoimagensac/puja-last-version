@@ -33,6 +33,7 @@ class CaracteristicaInmueble extends Model
         'remate_hora',
         'remate_nombre_contacto',
         'remate_telef_contacto',
+        'remate_correo_contacto',
 
         'titulo',
         'descripcion',
