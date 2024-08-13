@@ -344,7 +344,9 @@
                     </div>
 
                     {{-- Geolocalización --}}
-                    <div id="map" style="width: 600px; height: 600px"></div>
+                    @if ($aviso->inmueble->principal->ubicacion->latitud)
+                        <div id="map" style="width: 600px; height: 600px"></div>
+                    @endif
                 </div>  
             </div>
 
@@ -565,6 +567,24 @@
     </div>
 
     <script>
+
+        const lat = parseFloat(@json($aviso->inmueble->principal->ubicacion->latitud));
+        const lng = parseFloat(@json($aviso->inmueble->principal->ubicacion->longitud));
+        const defaultLocation = { lat, lng };
+        const mapDiv = document.getElementById("map")
+        let map
+        let marker
+        function initMap() {
+            map = new google.maps.Map(mapDiv, {
+                center: defaultLocation,
+                zoom: 18,
+            })
+            marker = new google.maps.Marker({
+                position: defaultLocation,
+                map: map,
+            })
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
 
             const editDesciptionButton = document.getElementById('editDesciptionButton');
@@ -726,6 +746,8 @@
         const avisoType = @json($aviso->ad_type);
 
     </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuCCuPnZoJYgILw9e3PNom-ZG5TnsGNeg&callback=initMap" async defer></script>
 
 @endsection
 
