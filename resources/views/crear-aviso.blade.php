@@ -297,7 +297,7 @@
                                 <div class="form-group w-100" x-show="!perfil_acreedor || (perfil_acreedor && tipo_operacion != 3)">
                                     <label class="text-secondary" for="precio_soles">Precio soles</label>
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text">S/.</span>
+                                        <span class="input-group-text">S/</span>
                                         <input type="text" id="precio_soles" x-model="precio_soles" class="form-control" @input="formatAmount('precio_soles')" @blur="formatAmount('precio_soles', true)">
                                     </div>
                                 </div>
