@@ -5,8 +5,6 @@
         <h4 class="card-subtitle mb-2">
           S/ <span x-text="{{ $price }}"></span> por 15 días
         </h4>
-
-   
         <hr>
         <div class="card-description-plan d-flex justify-content-start px-4">
           <ul class="list-unstyled text-start h6 mb-4">
