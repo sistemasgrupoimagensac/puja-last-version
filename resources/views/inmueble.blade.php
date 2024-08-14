@@ -18,6 +18,15 @@
         if ($aviso->inmueble->is_puja() === 1) {
             $acepta_puja = true;
         }
+
+        $inmueble_en_remate = false;
+        $id_categoria_caracteristicas = 1;
+        if ($aviso->inmueble->remate_precio_base() || $aviso->inmueble->remate_valor_tasacion()) {
+            $inmueble_en_remate = true;
+            $id_categoria_caracteristicas = 3;
+        }
+
+
     @endphp
     <div class="custom-container my-2">
         <div class="d-flex flex-column flex-lg-row">
@@ -127,7 +136,7 @@
                             </div>
 
                             {{-- Precio del inmueble Remate --}}
-                            @if($aviso->inmueble->remate_precio_base())
+                            @if($inmueble_en_remate)
                                 <div class="d-flex flex-column align-items-start align-items-md-end mt-4 mt-md-0">
                                     <small class="text-prim">Precio base remate</small>
                                     <h2 class="m-0 fw-bolder text-primary">
@@ -152,8 +161,7 @@
                     </div>
 
                     {{-- Card - Remate (OPCIONAL) --}}
-                        
-                    @if($aviso->inmueble->remate_precio_base())
+                    @if($inmueble_en_remate)
                         <div class="description-container mt-4 bg-primary-subtle text-bg-light p-3 rounded shadow">
                             <h3 class="fw-bold">Detalles del Remate</h3>
 
@@ -182,6 +190,13 @@
                                 <p>
                                     <span class="fw-bolder">Teléfono:</span>
                                     {{ $aviso->inmueble->remate_telef_contacto() }}
+                                </p>
+                            @endif
+
+                            @if($aviso->inmueble->remate_correo_contacto())
+                                <p>
+                                    <span class="fw-bolder">Correo:</span>
+                                    {{ $aviso->inmueble->remate_correo_contacto() }}
                                 </p>
                             @endif
 
@@ -319,7 +334,7 @@
                             {{-- @dd($aviso->inmueble->extra->caracteristicas); --}}
                             @foreach($aviso->inmueble->extra->caracteristicas as $caracteristica)
                                 {{-- <li>{{ $caracteristica->caracteristica }}: {{ $caracteristica->id }}</li> --}}
-                                @if ( $caracteristica->categoria_caracteristica_id == 1 )
+                                @if ( $caracteristica->categoria_caracteristica_id === $id_categoria_caracteristicas )
                                     <li class="mt-3" style="min-width: 250px;">
                                         <h6 class="text-secondary">
                                         <i class="fa-solid {{ $caracteristica->icono }} icon-orange me-2"></i>
@@ -332,28 +347,32 @@
                     </div>
 
                     {{-- Comodidades --}}
-                    <div class="mt-5">
-                        <h3 class="fw-bold">Comodidades</h3>
+                    @if(!$inmueble_en_remate)
+                        <div class="mt-5">
+                            <h3 class="fw-bold">Comodidades</h3>
 
-                        <ul class="list-unstyled d-flex flex-wrap justify-content-between">
-                            @foreach($aviso->inmueble->extra->caracteristicas as $caracteristica)
-                                @if ( $caracteristica->categoria_caracteristica_id == 2 )
-                                    <li class="mt-3" style="min-width: 250px;">
-                                        <h6 class="text-secondary">
-                                            <i class="fa-solid {{ $caracteristica->icono }} icon-orange me-2"></i>
-                                            {{ $caracteristica->caracteristica }}
-                                        </h6>
-                                    </li>
-                                @endif
-                            @endforeach
-                        </ul>
-
-                    </div>
+                            <ul class="list-unstyled d-flex flex-wrap justify-content-between">
+                                @foreach($aviso->inmueble->extra->caracteristicas as $caracteristica)
+                                    @if ( $caracteristica->categoria_caracteristica_id == 2 )
+                                        <li class="mt-3" style="min-width: 250px;">
+                                            <h6 class="text-secondary">
+                                                <i class="fa-solid {{ $caracteristica->icono }} icon-orange me-2"></i>
+                                                {{ $caracteristica->caracteristica }}
+                                            </h6>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
                     {{-- Geolocalización --}}
-                    @if ($aviso->inmueble->principal->ubicacion->latitud)
-                        <div id="map" style="width: 600px; height: 600px"></div>
-                    @endif
+                    <div class="mt-5">
+                        <h3 class="fw-bold">Localización</h3>
+                        @if ($aviso->inmueble->principal->ubicacion->latitud)
+                            <div class="mt-3" id="map" style="width: 600px; height: 600px"></div>
+                        @endif
+                    </div>
                 </div>  
             </div>
 

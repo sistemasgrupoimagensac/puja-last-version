@@ -73,6 +73,15 @@ class CaracteristicasSeeder extends Seeder
             ['categoria_caracteristica_id' => 2, 'caracteristica' => 'triplex',                        'icono' => 'fa-hotel',                'created_at' => now(), 'updated_at' => now()],
             ['categoria_caracteristica_id' => 2, 'caracteristica' => 'video vigilancia',               'icono' => 'fa-video',                'created_at' => now(), 'updated_at' => now()],
             ['categoria_caracteristica_id' => 2, 'caracteristica' => 'walk in closet',                 'icono' => 'fa-door-closed',          'created_at' => now(), 'updated_at' => now()],
+
+            ['categoria_caracteristica_id' => 3, 'caracteristica' => 'cochera techada',                'icono' => 'fa-check',                'created_at' => now(), 'updated_at' => now()],
+            ['categoria_caracteristica_id' => 3, 'caracteristica' => 'cochera sin techar',             'icono' => 'fa-check',                'created_at' => now(), 'updated_at' => now()],
+            ['categoria_caracteristica_id' => 3, 'caracteristica' => 'casa 1 piso',                    'icono' => 'fa-check',                'created_at' => now(), 'updated_at' => now()],
+            ['categoria_caracteristica_id' => 3, 'caracteristica' => 'casa 2 pisos',                   'icono' => 'fa-check',                'created_at' => now(), 'updated_at' => now()],
+            ['categoria_caracteristica_id' => 3, 'caracteristica' => 'casa 3 pisos',                   'icono' => 'fa-check',                'created_at' => now(), 'updated_at' => now()],
+            ['categoria_caracteristica_id' => 3, 'caracteristica' => 'más de 3 pisos',                 'icono' => 'fa-check',                'created_at' => now(), 'updated_at' => now()],
+            ['categoria_caracteristica_id' => 3, 'caracteristica' => 'con terraza',                    'icono' => 'fa-check',                'created_at' => now(), 'updated_at' => now()],
+            ['categoria_caracteristica_id' => 3, 'caracteristica' => 'con sótano',                     'icono' => 'fa-check',                'created_at' => now(), 'updated_at' => now()],
         ];
 
         DB::table('caracteristicas_extra')->insert($caracteristicas);
