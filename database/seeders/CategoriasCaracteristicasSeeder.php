@@ -16,7 +16,7 @@ class CategoriasCaracteristicasSeeder extends Seeder
         $categorias = [
             ['categoria' => 'Características generales', 'created_at' => now(), 'updated_at' => now()],
             ['categoria' => 'Exteriores', 'created_at' => now(), 'updated_at' => now()],
-            ['categoria' => 'Servicios', 'created_at' => now(), 'updated_at' => now()],
+            ['categoria' => 'Remates', 'created_at' => now(), 'updated_at' => now()],
             ['categoria' => 'Áreas comunes', 'created_at' => now(), 'updated_at' => now()],
         ];
 

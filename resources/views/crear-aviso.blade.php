@@ -190,7 +190,7 @@
                         <h2 class="m-0" class="m-0" class="m-0" class="m-0">Características</h2>
                         <input type="hidden" name="caracteristicas" :value="step === 3 ? 1 : 0">
 
-                        <fieldset x-show="perfil_acreedor && tipo_operacion !== 3">
+                        <fieldset x-show="!perfil_acreedor">
                             <legend>Características Principales</legend>
 
                             <div class="d-flex justify-content-between gap-4">
@@ -275,7 +275,7 @@
 
                                 <div class="form-group" x-show="antiguedad === 'antiguedad'">
                                     <div class="input-group">
-                                        <input type="number" x-model="anios_antiguedad" min="0" max="99" class="form-control border" :required="antiguedad === 'antiguedad'">
+                                        <input type="number" x-model="anios_antiguedad" min="0" max="99" class="form-control border-black" :required="antiguedad === 'antiguedad'">
                                     </div>
                                 </div>
 
@@ -294,50 +294,99 @@
 
                             <div class="d-flex justify-content-between gap-4">
                                 {{-- Precios para alquiler o venta --}}
-                                <div class="form-group w-100" x-show="!perfil_acreedor || (perfil_acreedor && tipo_operacion != 3)">
+                                <div class="form-group w-100" x-show="!perfil_acreedor">
                                     <label class="text-secondary" for="precio_soles">Precio soles</label>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">S/</span>
-                                        <input type="text" id="precio_soles" x-model="precio_soles" class="form-control" @input="formatAmount('precio_soles')" @blur="formatAmount('precio_soles', true)">
+                                        <input 
+                                            type="text"
+                                            id="precio_soles"
+                                            x-model="precio_soles" 
+                                            class="form-control"
+                                            @input="formatAmount('precio_soles')"
+                                            @blur="formatAmount('precio_soles', true)"
+                                            :required="!precio_soles && !precio_dolares && notVisible"
+                                        >
                                     </div>
                                 </div>
 
-                                <div class="form-group w-100" x-show="!perfil_acreedor || (perfil_acreedor && tipo_operacion != 3)">
+                                <div class="form-group w-100" x-show="!perfil_acreedor">
                                     <label class="text-secondary" for="precio_dolares">Precio dólares</label>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">US$</span>
-                                        <input type="text" id="precio_dolares" x-model="precio_dolares" class="form-control" @input="formatAmount('precio_dolares')" @blur="formatAmount('precio_dolares', true)">
+                                        <input 
+                                            type="text" 
+                                            id="precio_dolares" 
+                                            x-model="precio_dolares" 
+                                            class="form-control" 
+                                            @input="formatAmount('precio_dolares')" 
+                                            @blur="formatAmount('precio_dolares', true)" 
+                                            :required="!precio_soles && !precio_dolares && notVisible"
+                                        >
                                     </div>
                                 </div>
 
                                 {{-- Precios para remate --}}
-                                <div class="form-group w-100" x-show="perfil_acreedor && tipo_operacion == 3">
+                                <div class="form-group w-100" x-show="perfil_acreedor">
                                     <label class="text-secondary" for="base_remate">Base de Remate</label>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">US$</span>
-                                        <input type="text" id="base_remate" x-model="base_remate" class="form-control" @input="formatAmount('base_remate')" @blur="formatAmount('base_remate', true)">
+                                        <input 
+                                            type="text" 
+                                            id="base_remate" 
+                                            x-model="base_remate" 
+                                            class="form-control" 
+                                            @input="formatAmount('base_remate')" 
+                                            @blur="formatAmount('base_remate', true)" 
+                                            :required="isVisible">
                                     </div>
                                 </div>
 
-                                <div class="form-group w-100" x-show="perfil_acreedor && tipo_operacion == 3">
+                                <div class="form-group w-100" x-show="perfil_acreedor">
                                     <label class="text-secondary" for="valor_tasacion">Valor de Tasación</label>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">US$</span>
-                                        <input type="text" id="valor_tasacion" x-model="valor_tasacion" class="form-control" @input="formatAmount('valor_tasacion')" @blur="formatAmount('valor_tasacion', true)">
+                                        <input 
+                                            type="text" 
+                                            id="valor_tasacion" 
+                                            x-model="valor_tasacion" 
+                                            class="form-control" 
+                                            @input="formatAmount('valor_tasacion')" 
+                                            @blur="formatAmount('valor_tasacion', true)" 
+                                            :required="isVisible"
+                                        >
                                     </div>
                                 </div>
                             </div>
                         </fieldset>
 
-                        <fieldset x-show="perfil_acreedor && tipo_operacion == 3">
+                        {{-- Detalles del remate --}}
+                        <fieldset x-show="perfil_acreedor">
+                         
                             <legend>Detalles del Remate</legend>
+                            
 
                             <div class=" d-flex flex-column gap-3">
                                 <div>
-                                    <label class="text-secondary" for="direccion_remate">Dirección del Remate</label>
+                                    <label class="text-secondary" for="direccion_remate">Dirección del Remate
+                                        <span
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        data-bs-custom-class="custom-tooltip" 
+                                        data-bs-title="Puede autocompletar la dirección del centro de arbitraje"
+                                        >
+                                            <i class="fa-solid fa-circle-info ms-2"></i>
+                                        </span>
+
+                                    </label>
                                     <div class="input-group">
                                         <input type="text" id="direccion_remate" x-model="direccion_remate" class="form-control">
-                                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Arbitraje</button>
+                                        <button 
+                                            class="btn btn-outline-secondary dropdown-toggle" 
+                                            type="button" 
+                                            data-bs-toggle="dropdown" 
+                                            aria-expanded="false"
+                                        >Arbitraje</button>
                                         <ul class="dropdown-menu dropdown-menu-end">
                                           <li class="dropdown-item" type="button"  @click=" direccion_remate='Av. Arequipa 330, oficina 907, Cercado de Lima (CACLI)' ">CACLI</li>
                                           <li class="dropdown-item" type="button" @click=" direccion_remate='Av. Diez Canseco 442, oficina 202, Miraflores (CAFI)' ">CAFI</li>
@@ -542,7 +591,7 @@
                             <h2 class="m-0" class="m-0">Comodidades</h2>
                             <input type="hidden" name="adicionales" :value="step === 5 ? 1 : 0">
 
-                            <div class="row">
+                            <div class="row" x-show="!perfil_acreedor">
                                 <template x-for="extra in extras" :key="extra.id">
                                     <div class="col-12 col-md-6 col-lg-4">
                                         <div class="form-check my-2">
@@ -555,6 +604,11 @@
                                     </div>
                                 </template>
                             </div>
+
+                            <div class="mt-4" x-show="perfil_acreedor">
+                                <p>La propiedad en remate no tiene comodidades. Por favor continue.</p>
+                            </div>
+                            
                         </div>
                         <div class="d-flex justify-content-between gap-2 crear-aviso-buttons-extras">
                             <button type="button" @click="prevStep()" class="btn btn-secondary w-100">Atrás</button>
@@ -571,6 +625,7 @@
                             <h2 class="m-0">Adicionales</h2>
                             <input type="hidden" name="comodidades" :value="step === 6 ? 1 : 0">
                             <div class="row">
+
                                 <template x-for="extra in extras2" :key="extra.id">
                                     <div class="col-12 col-md-6 col-lg-4">
                                         <div class="form-check my-2">
@@ -582,6 +637,7 @@
                                         </div>
                                     </div>
                                 </template>
+
                             </div>
                         </div>
 
@@ -661,12 +717,16 @@
 
         function avisoForm() {
             return {
-                    step: {{ session('step', 1) }},
+                    step: {{ session('step', 3) }},
                     aviso_id: {{ session('aviso_id', 'null') }},
 
                     perfil_acreedor: @json($es_acreedor),
 
                     is_puja: false,
+
+                    // el campo es visible cuando es requerido
+                    isVisible: false,
+                    notVisible: true,
                     
                     tipo_operacion: '',
                     subtipos: [],
@@ -684,6 +744,7 @@
 
                     extras: [],
                     extras2: [],
+                    extras3: [],
                     adicionales: [],
                     comodidades: [],
 
@@ -726,9 +787,8 @@
                 formatAmount(modelName, final = false) {
                     // Remover todos los caracteres no numéricos
                     let numericValue = this[modelName].replace(/\D/g, '');
-                    console.log(typeof(this[modelName]))
 
-                    if (numericValue === '') {
+                    if (numericValue === '' || parseInt(numericValue) === 0) {
                         this[modelName] = '';
                         return;
                     }
@@ -744,13 +804,19 @@
 
                     if ({{ $show_rematar ? 'true' : 'false' }} && !{{ $show_vender ? 'true' : 'false' }} && !{{ $show_alquilar ? 'true' : 'false' }}) {
                         this.tipo_operacion = 3; 
-                    }
+                    };
 
                     this.$watch('tipo_operacion', value => {
                         if (value == 3) {
                             this.is_puja = false;
                         }
                     });
+
+                    if(this.perfil_acreedor) {
+                        this.isVisible = true;
+                        this.notVisible = false;
+                    }
+
                 },
                 initializeSecondStep() {
                     this.fetchDepartamentos();
@@ -761,12 +827,16 @@
                     this.fetchExtras(extra_id);
                 },
                 initializeSextoStep(extra_id) {
-                    this.fetchExtras(extra_id);
+                    if (this.perfil_acreedor) {
+                        this.fetchExtras(3);
+                    } else {
+                        this.fetchExtras(extra_id);
+                    }
                 },
 
                 nextStep(step) {
                     const stepMap = {
-                        1: '/my-post/store',
+                        1: `/my-post/store`,
                         2: `/my-post/store`,
                         3: `/my-post/store`,
                         4: `/my-post/store`,
@@ -997,9 +1067,12 @@
                     fetch(`/my-post/extras/${extra_id}`)
                     .then(response => response.json())
                     .then(data => {
-                        if( extra_id== 2 ){
+                        
+                        if( extra_id === 2 ) {
                             this.extras = data;
-                        } else if( extra_id== 1 ){
+                        } else if( extra_id === 1 ) {
+                            this.extras2 = data;
+                        } else if( extra_id === 3) {
                             this.extras2 = data;
                         }
                     })
