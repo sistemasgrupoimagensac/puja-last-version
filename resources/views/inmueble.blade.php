@@ -167,7 +167,7 @@
                             @if($aviso->inmueble->remate_fecha())
                                 <p>
                                     <span class="fw-bolder">Fecha y hora:</span>
-                                    {{ $aviso->inmueble->remate_fecha() }} {{ $aviso->inmueble->remate_hora() ? $aviso->inmueble->remate_hora() : "" }}
+                                    {{ $aviso->inmueble->remate_fecha() }} a las {{ $aviso->inmueble->remate_hora() ? $aviso->inmueble->remate_hora() : "" }} horas
                                 </p>
                             @endif
 

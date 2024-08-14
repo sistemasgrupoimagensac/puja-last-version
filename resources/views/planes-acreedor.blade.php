@@ -24,9 +24,26 @@
 			@csrf
 			<div class="d-flex flex-column align-items-center py-3 gap-5" x-data="consultaDocumento()">
 
+				{{-- duración del plan --}}
+				<fieldset>
+					<legend class="h6 text-secondary mb-3">1. Elige el tiempo de duración del aviso</legend>
+				
+						<div role="group" class="planes-numero-avisos d-flex flex-column flex-md-row justify-content-center align-items-center w-100 gap-3 gap-lg-4 px-1 p-lg-0 mt-4">
+							<div>
+								<input type="radio" class="btn-check" id="7" value="7" autocomplete="off" x-model="periodoPlan">
+								<label class="btn btn-lg btn-outline-secondary fs-4 px-0 py-1" for="7">7 días</label>
+							</div>
+							<div>
+								<input type="radio" class="btn-check" id="15" value="15" autocomplete="off" x-model="periodoPlan">
+								<label class="btn btn-lg btn-outline-secondary fs-4 px-0 py-1" for="15">15 días</label>
+							</div>
+						</div>
+				
+				</fieldset>
+
 				<!-- categoria de plan -->
 				<fieldset>
-					<legend class="text-secondary text-left h6 mb-3"></legend>
+					<legend class="text-secondary text-left h6 mb-3">2. Elige el tipo de aviso para tu remate</legend>
 					<div>
 						<div role="group" class="d-flex flex-column align-items-center flex-md-row gap-4 mt-4 w-100">
 							<!-- plan top plus -->
@@ -121,30 +138,48 @@
 						numAvisos:1,
 
 						prices: {
-								topPlus: 149,
-								top: 99,
-								estandar: 49,
+								topPlus: 420,
+								top: 350,
+								estandar: 250,
+						},
+
+						priceTable: {
+							'7': [150, 200, 240], '15': [250, 350, 420] ,
+						},
+
+						ids: {
+							'7': [109, 110, 111], '15': [112, 113, 114],
+						},
+
+						updatePrices() {
+								const selectedPrices = this.priceTable[this.periodoPlan];
+								this.prices.estandar = selectedPrices[0];
+								this.prices.top = selectedPrices[1];
+								this.prices.topPlus = selectedPrices[2];
 						},
 
 						updateIds() {
-								if (this.tipoPlan === 'topPlus') {
-										idPlan = 111
-										tipoDeAviso = 3
-								} else if (this.tipoPlan === 'top') {
-										idPlan = 110
-										tipoDeAviso = 2
-								} else if (this.tipoPlan === 'estandar') {
-										idPlan = 109
+								const selectedId = this.ids[this.periodoPlan];
+								if (this.tipoPlan === 'estandar') {
+										idPlan = selectedId[0]
 										tipoDeAviso = 1
+								} else if (this.tipoPlan === 'top') {
+										idPlan = selectedId[1]
+										tipoDeAviso = 2
+								} else if (this.tipoPlan === 'topPlus') {
+										idPlan = selectedId[2]
+										tipoDeAviso = 3
 								}
 						},
 
 						init() {
 								this.$watch('tipoPlan', () => {
 									this.updateIds()
+								})
 
-									console.log(idPlan, tipoDeAviso, this.aviso_id);
-									
+								this.$watch('periodoPlan', () => {
+										this.updatePrices()
+										this.updateIds()
 								})
 						},
 				}
