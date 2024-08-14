@@ -15,6 +15,7 @@ class AvisosSeeder extends Seeder
     {
         $aviso_1 = [
             'inmueble_id'       => 1,
+            'ad_type'           => 3,
             'fecha_publicacion' => now(),
             'created_at'        => now(),
             'updated_at'        => now(),
@@ -22,6 +23,7 @@ class AvisosSeeder extends Seeder
 
         $aviso_2 = [
             'inmueble_id'       => 2,
+            'ad_type'           => 2,
             'fecha_publicacion' => now(),
             'created_at'        => now(),
             'updated_at'        => now(),
@@ -29,6 +31,7 @@ class AvisosSeeder extends Seeder
 
         $aviso_3 = [
             'inmueble_id'       => 3,
+            'ad_type'           => 2,
             'fecha_publicacion' => now(),
             'created_at'        => now(),
             'updated_at'        => now(),
@@ -36,6 +39,7 @@ class AvisosSeeder extends Seeder
 
         $aviso_4 = [
             'inmueble_id'       => 4,
+            'ad_type'           => 1,
             'fecha_publicacion' => now(),
             'created_at'        => now(),
             'updated_at'        => now(),
@@ -43,6 +47,7 @@ class AvisosSeeder extends Seeder
 
         $aviso_5 = [
             'inmueble_id'       => 5,
+            'ad_type'           => 3,
             'fecha_publicacion' => now(),
             'created_at'        => now(),
             'updated_at'        => now(),
@@ -50,6 +55,7 @@ class AvisosSeeder extends Seeder
 
         $aviso_6 = [
             'inmueble_id'       => 6,
+            'ad_type'           => 2,
             'fecha_publicacion' => now(),
             'created_at'        => now(),
             'updated_at'        => now(),
