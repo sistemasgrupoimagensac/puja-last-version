@@ -53,6 +53,8 @@ class AvisoRepository
                                     ->orWhereHas('distrito', fn($q) => $q->where('nombre', 'like', '%'.$slug['direccion'].'%'));
                             }
                         })
+                        ->orderBy('ad_type', 'desc')
+                        ->orderBy('fecha_publicacion', 'desc')
                         ->get();
     }
 }
