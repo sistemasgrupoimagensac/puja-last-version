@@ -1,6 +1,6 @@
 {
-  "_bootstrap.esm-DOzSzUNx.js": {
-    "file": "assets/bootstrap.esm-DOzSzUNx.js",
+  "_bootstrap.esm-Dc7QL7cb.js": {
+    "file": "assets/bootstrap.esm-Dc7QL7cb.js",
     "name": "bootstrap.esm"
   },
   "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.ttf": {
@@ -49,12 +49,12 @@
     "src": "resources/images/slide1.webp"
   },
   "resources/js/app.js": {
-    "file": "assets/app-CwKow91v.js",
+    "file": "assets/app-BwpCFori.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "imports": [
-      "_bootstrap.esm-DOzSzUNx.js"
+      "_bootstrap.esm-Dc7QL7cb.js"
     ],
     "css": [
       "assets/app-DMqKAXLC.css"
@@ -112,6 +112,12 @@
     "src": "resources/js/scripts/components/whatsapp_modal_inmueble_contact.js",
     "isEntry": true
   },
+  "resources/js/scripts/contact.js": {
+    "file": "assets/contact-BoXg5C55.js",
+    "name": "contact",
+    "src": "resources/js/scripts/contact.js",
+    "isEntry": true
+  },
   "resources/js/scripts/home.js": {
     "file": "assets/home-BrnziL0-.js",
     "name": "home",
@@ -137,12 +143,12 @@
     "isEntry": true
   },
   "resources/js/scripts/planes.js": {
-    "file": "assets/planes-DagtOP3a.js",
+    "file": "assets/planes-Cr5daLni.js",
     "name": "planes",
     "src": "resources/js/scripts/planes.js",
     "isEntry": true,
     "imports": [
-      "_bootstrap.esm-DOzSzUNx.js"
+      "_bootstrap.esm-Dc7QL7cb.js"
     ]
   },
   "resources/js/scripts/register.js": {
@@ -151,13 +157,22 @@
     "src": "resources/js/scripts/register.js",
     "isEntry": true
   },
+  "resources/js/scripts/toastyContact.js": {
+    "file": "assets/toastyContact-CeY_R0iJ.js",
+    "name": "toastyContact",
+    "src": "resources/js/scripts/toastyContact.js",
+    "isEntry": true,
+    "imports": [
+      "_bootstrap.esm-Dc7QL7cb.js"
+    ]
+  },
   "resources/js/scripts/updatePlaceholdersRegister.js": {
-    "file": "assets/updatePlaceholdersRegister-1YY6a1Do.js",
+    "file": "assets/updatePlaceholdersRegister-n8gGHYUY.js",
     "name": "updatePlaceholdersRegister",
     "src": "resources/js/scripts/updatePlaceholdersRegister.js",
     "isEntry": true,
     "imports": [
-      "_bootstrap.esm-DOzSzUNx.js"
+      "_bootstrap.esm-Dc7QL7cb.js"
     ]
   },
   "resources/sass/app.scss": {
@@ -195,6 +210,11 @@
     "src": "resources/sass/components/whatsapp_modal_inmueble_contact.scss",
     "isEntry": true
   },
+  "resources/sass/pages/contact.scss": {
+    "file": "assets/contact-CXU5BEFS.css",
+    "src": "resources/sass/pages/contact.scss",
+    "isEntry": true
+  },
   "resources/sass/pages/crear-aviso.scss": {
     "file": "assets/crear-aviso-Dm72DRC5.css",
     "src": "resources/sass/pages/crear-aviso.scss",
@@ -203,12 +223,6 @@
   "resources/sass/pages/inmueble.scss": {
     "file": "assets/inmueble-ESEENcuA.css",
     "src": "resources/sass/pages/inmueble.scss",
-    "isEntry": true
-  },
-  "resources/sass/pages/landing-projects.scss": {
-    "file": "assets/landing-projects-l0sNRNKZ.js",
-    "name": "landing-projects",
-    "src": "resources/sass/pages/landing-projects.scss",
     "isEntry": true
   },
   "resources/sass/pages/perfil.scss": {
