@@ -11,59 +11,7 @@
 @section('content')
     <div x-data="avisoForm()">
 
-        {{-- Si esta logueado con Google y faltan datos, se los debe pedir por medio de este Modal --}}
-        <div>
-            <div class="modal fade" id="staticBackdropRegister" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-lg">
-                    <div class="modal-content p-2">
-                        <div class="modal-body">
-                            <form id="formRegistro" class="d-flex flex-column gap-3" @submit.prevent="submitForm">
-                            @csrf
-                                <fieldset class="d-flex flex-column gap-2">
-                                    <legend class="h4 m-0 p-0 icon-orange">Completa tu registro</legend>
-                
-                                    <div class="form-floating">
-                                        <input type="phone" class="form-control" id="phone" name="phone" placeholder="Telefono" required>
-                                        <label class="text-secondary" for="phone">Teléfono</label>
-                                    </div>
-                
-                                    <div class="form-floating">
-                                        <select class="form-select" id="document_type" name="document_type" required>
-                                            <option value="1" selected>DNI</option>
-                                            <option value="3">RUC</option>
-                                            <option value="2">Otro Documento</option>
-                                        </select>
-                                        <label for="document_type">Documento</label>
-                                    </div>
-                
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="document_number" name="document_number" placeholder="DNI" required>
-                                        <label class="text-secondary" for="document_number" id="label_document_number">DNI</label>
-                                    </div>
-    
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Dirección">
-                                        <label class="text-secondary" for="direccion" id="label_direccion">Dirección</label>
-                                    </div>
-                
-                                    
-                                    <small>
-                                        <div class="form-group d-flex gap-3 align-items-center">
-                                            <input type="checkbox" name="accept_terms" id="terminos" class="form-check-input m-0" required/>
-                                            <label for="terminos">Acepto los <a href="/terminos-uso" target="blank" class="custom-link-register text-decoration-none">Términos y Condiciones de Uso</a> y las <a href="/politica-privacidad" target="blank" class="custom-link-register text-decoration-none">Políticas de Privacidad</a></label>
-                                        </div>
-                                        
-                                    </small>
-                                </fieldset>
-                            
-                                <input class="btn button-orange w-100 fw-bold p-2" type="submit" id="submit-register-button" value="COMPLETAR REGISTRO">
-                            </form>
-    
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <x-completa-registro-google></x-completa-registro-google>
         
         <!-- Menú de los pasos -->
         <div class="py-3 py-lg-4 bg-body-tertiary border-bottom">
@@ -1080,42 +1028,6 @@
                         console.error('Error fetching distritos:', error);
                     });
                 },
-
-                submitForm() {
-                    let form = document.querySelector('#formRegistro');
-                    let formData = {
-                        phone: form.phone.value,
-                        document_type: form.document_type.value,
-                        document_number: form.document_number.value,
-                        direccion: form.direccion.value,
-                        accept_terms: form.terminos.checked
-                    };
-
-                    console.log('Form Data:', formData);
-
-                    fetch('/store-completeUserGoogle', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                            'Accept': 'application/json',
-                        },
-                        body: JSON.stringify(formData)
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        alert(data.message);
-                        location.reload()
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
-                }
             }
         }
 

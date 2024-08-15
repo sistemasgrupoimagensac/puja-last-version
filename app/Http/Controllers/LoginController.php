@@ -161,13 +161,12 @@ class LoginController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'document_type' => 'required|string|max:1',
-            'document_number' => 'required|string|max:30|unique:users,numero_documento',
-            'phone' => 'string|min:6|max:15',
-            'direccion' => 'string|max:150',
+            'tipo_documento' => 'required|in:1,2,3',
+            'numero_de_documento' => 'required|string|max:30|unique:users,numero_documento',
+            'telefono' => 'required|string|min:9|max:9|regex:/^9[0-9+\-()\s]*$/',
+            'direccion' => 'required|string|max:150',
             'accept_terms' => 'accepted',
         ]);
-        
 
         if ($validator->fails()) {
             return response()->json([
@@ -177,28 +176,26 @@ class LoginController extends Controller
                 'errors' => $validator->errors()
             ], 422);
         }
-        // $acceptTerms = $request->has('accept_terms') ? true : false;
     
         if (!Auth::check()) {
             return redirect()->route('sign_in')->with('error', 'Inicia sesión, por favor.');
         }
 
-
         $user_id = auth()->id();
-
         $user = User::findOrFail($user_id);
+        
         $user->update([
-            'tipo_documento_id' => $request->input('document_type'),
-            'numero_documento' => $request->input('document_number'),
-            'celular' => $request->input('phone'),
+            'tipo_documento_id' => $request->input('tipo_documento'),
+            'numero_documento' => $request->input('numero_de_documento'),
+            'celular' => $request->input('telefono'),
             'direccion' => $request->input('direccion'),
             'acepta_termino_condiciones' => $request->input('accept_terms'),
         ]);
 
         return response()->json([
             'http_code' => 200,
-            'status' => "OK",
-            'message' => 'Actualización correcta.',
+            'status' => "Success",
+            'message' => 'Actualización correcta',
             'error' => false
         ], 200);
 

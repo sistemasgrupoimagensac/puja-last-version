@@ -30,9 +30,9 @@
           @if($bathrooms)<small class="text-body-secondary mr-2">{{ $bathrooms }} Bañ.</small>@endif
       </p>
 
-      <button class="general-button p-0 heart-button" data-like="{{ $like ? 'true' : 'false' }}">
+      {{-- <button class="general-button p-0 heart-button" data-like="{{ $like ? 'true' : 'false' }}">
         <i class="fa-{{ $like ? 'solid' : 'regular' }} fa-heart icon-orange"></i>
-    </button>
+    </button> --}}
   </div>
 </div>
 
