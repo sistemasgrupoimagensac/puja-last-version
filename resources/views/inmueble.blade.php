@@ -527,6 +527,7 @@
                                     <div id="validationServerTelefono_contactoFeedback" class="invalid-feedback"></div>
                                 </div>  
 
+                                {{-- si admite oferta --}}
                                 @if ( $aviso->inmueble->is_puja() )
                                     <div class="input-group">
                                         <div class="input-group">
@@ -553,7 +554,6 @@
                                         </div>
                                     </div>
                                 @endif
-
                                     
                                 {{-- Mensaje --}}
                                 <div class="form-floating">

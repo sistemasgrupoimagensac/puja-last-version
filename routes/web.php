@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MyPostsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BillingController;
+use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\PlanController;
 use App\Http\Middleware\SessionData;
@@ -134,3 +135,7 @@ Route::post('/enviar-datos-dni-ruc', [BillingController::class, 'recibirDatos'])
 
 
 Route::post('/enviar-datos-contacto', [MyPostsController::class, 'enviar_datos_contacto'])->name('email.enviar-datos_contacto');
+
+// Ruta de contacto
+Route::get('/contacto', [ContactoController::class, 'index'])->name('contacto');
+Route::post('/contacto', [ContactoController::class, 'store'])->name('post.contacto');
