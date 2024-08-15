@@ -11,7 +11,7 @@ class Caracteristica extends Model
     use HasFactory;
 
     protected $table = "caracteristicas_extra";
-    protected $fillable = ['categoria_caracteristica_id', 'caracteristica', 'estado'];
+    protected $fillable = ['categoria_caracteristica_id', 'caracteristica', 'icono', 'estado'];
 
     public function categoria(): BelongsTo
     {

@@ -1,3 +1,14 @@
+document.querySelectorAll('.amount').forEach( amount => {
+    amount.addEventListener('input', function() {
+        let valor = this.value.replace(/^0|[^\d]/g, '');
+        valor = valor.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        this.value = valor;
+
+        const valorEntero = valor.replace(/,/g, '');
+        this.dataset.integerValue = valorEntero;
+    });
+});
+
 // logica para que el precio minimo siempre sea menor que el precio maximo ==========================================
 const preciominimo = document.querySelector('#preciominimo')
 const preciomaximo = document.querySelector('#preciomaximo')
@@ -18,22 +29,24 @@ areamaxima.addEventListener('change', () => compareMaxMin(areamaxima, areaminima
 
 // funciones de comparacion de minimo con maximo
 function compareMinMax (minimo, maximo) {
-    const minValue = parseInt(minimo.value)
-    const maxValue = parseInt(maximo.value)
+    const minValue = parseInt(minimo.dataset.integerValue)
+    const maxValue = parseInt(maximo.dataset.integerValue)
     if(minValue > maxValue) {
         maximo.value = null
+        maximo.dataset.integerValue = null
     }
 }
 
 function compareMaxMin (maximo, minimo) {
-    const minValue = parseInt(minimo.value)
-    const maxValue = parseInt(maximo.value)
+    const minValue = parseInt(minimo.dataset.integerValue)
+    const maxValue = parseInt(maximo.dataset.integerValue)
     if(minValue > maxValue) {
         minimo.value = null
+        minimo.dataset.integerValue = null
     }
 }
 
-// formulario de filtros generales
+// formulario de filtros generales - MODAL
 const formFilterInmueble = document.getElementById('formFilterInmueble')
 
 // logica para cambiar nombre del titulo del filtro TRANSACCION ===================================================================
@@ -83,6 +96,22 @@ dropdownItemsTipo.forEach(function(item) {
         formFilterInmueble.submit()
     })
 })
+
+
+
+document.getElementById('filtersbuscarprecios').addEventListener('click', function() {
+    // Obtener el valor seleccionado del select
+    // const precioMinimo = document.getElementById('preciominimo').value;
+
+    const currentUrl = window.location;
+    const baseUrl = currentUrl.origin + currentUrl.pathname;
+
+    // Construir la URL con el parámetro de consulta
+    const url = `${baseUrl}?preciominimo=${preciominimo.dataset.integerValue}&preciomaximo=${preciomaximo.dataset.integerValue}`;
+
+    // Redirigir a la URL construida
+    window.location.href = url;
+});
 
 
 
