@@ -53,6 +53,11 @@ class AvisoRepository
                                     ->orWhereHas('distrito', fn($q) => $q->where('nombre', 'like', '%'.$slug['direccion'].'%'));
                             }
                         })
+                        ->whereHas('inmueble.principal.caracteristicas', function($q) use($request) {
+                            if ($request->preciominimo != null && $request->preciomaximo != null) {
+                                $q->whereBetween('precio_soles', [$request->preciominimo, $request->preciomaximo]);
+                            }
+                        })
                         ->orderBy('ad_type', 'desc')
                         ->orderBy('fecha_publicacion', 'desc')
                         ->get();

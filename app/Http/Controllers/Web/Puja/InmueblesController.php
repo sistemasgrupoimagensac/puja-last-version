@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web\Puja;
 
 use App\Http\Controllers\Controller;
+use App\Models\Caracteristica;
 use App\Repositories\AvisoRepository;
 use App\Repositories\TipoInmuebleRepository;
 use App\Repositories\TipoOperacionRepository;
@@ -29,7 +30,12 @@ class InmueblesController extends Controller
         $tipos_inmuebles = (new ObtenerTiposInmuebles($this->tipo_inmueble_repository))->__invoke();
         $avisos = (new FiltrarAvisos($this->repository))->__invoke($url_parse, $request);
 
+        $caracteristicas = Caracteristica::where('categoria_caracteristica_id', 1)->get();
+        $comodidades = Caracteristica::where('categoria_caracteristica_id', 2)->get();
+
         $tienePlanes = false;
+
+        // dd($request->all());
         
         if (Auth::check()) {
             $user_id = Auth::id();
@@ -38,7 +44,7 @@ class InmueblesController extends Controller
             $tienePlanes = $active_plan_users->isNotEmpty();
         }
 
-        return view('inmuebles', compact('avisos', 'url_parse', 'tipos_inmuebles', 'tienePlanes'));
+        return view('inmuebles', compact('avisos', 'url_parse', 'tipos_inmuebles', 'tienePlanes', 'caracteristicas', 'comodidades'));
     }
 
     public function filterSearch(Request $request)

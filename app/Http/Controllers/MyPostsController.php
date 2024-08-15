@@ -493,9 +493,7 @@ class MyPostsController extends Controller
                 "estado" => 1,
             ]);
 
-            ExtraInmueblesCaracteristicas::where('extra_inmueble_id', $extra_inmueble->id)->update([
-                'estado' => 0,
-            ]);
+            ExtraInmueblesCaracteristicas::where('extra_inmueble_id', $extra_inmueble->id)->delete();
             $selectedOptions = $request->input('options', []);
 
             if ( $request->options ) {
