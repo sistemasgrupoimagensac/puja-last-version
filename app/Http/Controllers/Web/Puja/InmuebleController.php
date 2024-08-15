@@ -35,7 +35,12 @@ class InmuebleController extends Controller
             $ad_user_id = $aviso->inmueble->user_id;
             $publicado = $aviso->historial[0]->estado == "Publicado" ? true : false;
             $ad_belongs = false;
-            if ( (int)$user_login_id === (int)$ad_user_id ) $ad_belongs = true;
+            if ( (int)$user_login_id === (int)$ad_user_id ) {
+                $ad_belongs = true;
+            } else {
+                $aviso->views++;
+                $aviso->save();
+            }
 
             $tienePlanes = null;
 

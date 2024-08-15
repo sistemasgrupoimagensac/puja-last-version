@@ -29,6 +29,8 @@
                 'price' => $aviso->inmueble->precioSoles(),
                 'currency_dolar' => $aviso->inmueble->currencyDolares(),
                 'price_dolar' => $aviso->inmueble->precioDolares(),
+                'remate_precio_base' => $aviso->inmueble->remate_precio_base(),
+                'remate_valor_tasacion' => $aviso->inmueble->remate_valor_tasacion(),
                 'address' => $aviso->inmueble->address(),
                 'district' => $aviso->inmueble->distrito(),
                 'department' => $aviso->inmueble->provincia(),
@@ -39,6 +41,7 @@
                 'like' => false,
                 'fecha_publicacion' => Carbon\Carbon::parse($aviso->fecha_publicacion)->format('Y-m-d H:i'),
                 'type_ad' => $aviso->ad_type ,
+                'views' => $aviso->views ,
             ])
         @endforeach
     </section>

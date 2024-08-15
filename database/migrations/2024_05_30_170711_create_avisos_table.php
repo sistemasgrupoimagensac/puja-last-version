@@ -23,6 +23,7 @@ return new class extends Migration
             $table->foreignId('inmueble_id')->constrained(table: 'inmuebles');
             $table->dateTime('fecha_publicacion')->nullable();
             $table->boolean('estado')->default(1);
+            $table->integer('views')->default(0);
             $table->timestamps();
         });
 

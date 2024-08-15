@@ -1,9 +1,9 @@
 <div class="card my-4 card-inmueble shadow border-0 bg-white filterAvisos-card"
     data-relevancia="{{ $type_ad }}"
     data-precio_soles="{{ $price }}"
-    data-precio_dolares="{{ $price_dolar }}"
+    data-precio_dolares="{{ $price_dolar??$remate_precio_base }}"
     data-reciente="{{ $fecha_publicacion }}"
-    data-vistos="1"
+    data-vistos="{{ $views }}"
 >
     <div class="row g-0 h-100">
 
@@ -38,17 +38,28 @@
                             <div class="d-flex flex-column flex-lg-row-reverse justify-content-between align-items-lg-center">
                                 {{-- Precion del inmueble --}}
                                 <h2 class="fw-bolder">
-                                    @if($price)
-                                        <span>{{ $currency }}</span>
-                                        <span>{{ number_format($price) }}</span>
-                                    @endif
-                                    @if($price && $price_dolar)
-                                        <span> - </span>
-                                    @endif
-                                    @if($price_dolar)
+                                    @if ( !$remate_precio_base )
+                                        @if($price)
+                                            <span>{{ $currency }}</span>
+                                            <span>{{ number_format($price) }}</span>
+                                        @endif
+                                        @if($price && $price_dolar)
+                                            <span> - </span>
+                                        @endif
+                                        @if($price_dolar)
+                                            <span>{{ $currency_dolar }}</span>
+                                            <span>{{ number_format($price_dolar) }}</span>
+                                        @endif
+                                    @else
+                                        <span style="font-size: 1rem">Precio base</span>
                                         <span>{{ $currency_dolar }}</span>
-                                        <span>{{ number_format($price_dolar) }}</span>
+                                        <span>{{ number_format($remate_precio_base) }}</span>
+                                        <span> - </span>
+                                        <span style="font-size: 1rem">Valor tasación</span>
+                                        <span>{{ $currency_dolar }}</span>
+                                        <span>{{ number_format($remate_valor_tasacion) }}</span>
                                     @endif
+
                                 </h2>
 
                                 {{-- Caracteristicas del inmueble --}}
