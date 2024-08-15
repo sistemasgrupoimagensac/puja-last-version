@@ -57,7 +57,7 @@
       </div>
     </a>
 
-		<a href="proyectos" class="card shadow-lg publica-card text-decoration-none text-reset border-0">
+		<div type="button" id="toastBtnContact" class="card shadow-lg publica-card text-decoration-none text-reset border-0">
 			<div class="card-body">
 
         <h2 class="card-title text-center fw-bold">Proyecto</h2>
@@ -69,10 +69,23 @@
 			<div class="card-footer p-0 m-0 bg-primary">
 				<p> </p>
 			</div>
-		</a>
+		</div>
+
+
+    <div class="toast-container position-fixed top-0 end-0 p-3">
+      <div id="contactToast" class="toast text-bg-success" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-body fs-6">
+          Pónte en contacto con nosotros para publicar tu <strong>Proyecto Inmobiliario</strong>
+        </div>
+      </div>
+    </div>
 		
 	</div>
 </div>
+
+<script>
+  const contactoUrl = "{{ route('contacto') }}";
+</script>
 
 @endsection
 
@@ -81,5 +94,5 @@
 @endsection
 
 @push('scripts')
-	
+  @vite([ 'resources/js/scripts/toastyContact.js' ])
 @endpush
