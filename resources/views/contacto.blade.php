@@ -5,7 +5,7 @@
 @endsection
 
 @push('styles')
-  @vite([ 'resources/sass/pages/contact.scss' ])
+  @vite([ 'resources/sass/pages/contacto.scss' ])
 @endpush
 
 @section('header')
@@ -87,5 +87,5 @@
 @endsection
 
 @push('scripts')
-  @vite([ 'resources/js/scripts/contact.js' ])
+  @vite([ 'resources/js/scripts/contacto.js' ])
 @endpush
