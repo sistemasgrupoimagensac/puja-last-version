@@ -41,33 +41,6 @@ class BillingController extends Controller
         //
     }
 
-    public function sendMail($path)
-    {
-        
-        try {
-            
-            $pdfPath = public_path('billing/pdf/20605395181-03-B001-82-a4.pdf');
-            Log::info('Iniciando el envío de correo...');
-            Mail::to('pierreherreraoropeza@gmail.com')->send(new SubscriptionMail($pdfPath));
-            Log::info('Correo enviado.');
-
-            return response()->json([
-                'http_code' => 200,
-                'message' => 'Correo enviado.',
-                'param' => $path,
-            ], 200);
-
-        } catch (\Throwable $th) {
-            Log::error('Error al enviar el correo: ' . $th->getMessage());
-
-            return response()->json([
-                'http_code' => 500,
-                'message' => 'Error al generar la vista de planes',
-                'error' => $th->getMessage()
-            ], 500);
-        }
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -138,18 +111,14 @@ class BillingController extends Controller
                 $response = $this->generarNotaVenta($request, $data);
             }
 
-            // Mail::to('pierreherreraoropeza@gmail.com')->send(new SubscriptionMail);substr($cadena, 1)
-
             // $pdfPath = public_path($response['data']['file_name']);
             // $pdfPath_fix = public_path(substr($response['data']['file_name'].'-a4.pdf', 1)); // ALMACENAMIENTO LOCAL
             $pdfPath_fix = url($response['data']['file_name'].'-a4.pdf'); // ALMACENAMIENTO EXTERNO
             $email = $response['data']['client']['email'];
             Log::info('Iniciando el envío de correo...');
             Mail::to($email)
-            // Mail::to(['pierreherreraoropeza@gmail.com'])
-                // ->cc(['sistemasgrupoimagensac@gmail.com', 'grupoimagen.908883889@gmail.com', 'oechegaray@360creative.pe'])
-                ->cc(['oechegaray@360creative.pe'])
-                ->bcc(['pierreherreraoropeza@gmail.com', 'oechegaray@bustamanteromero.com.pe', 'walfaro@360creative.pe'])
+                ->cc(['soporte@pujainmobiliaria.com.pe'])
+                ->bcc(['grupoimagen.908883889@gmail.com'])
             ->send(new SubscriptionMail($pdfPath_fix, $request->plan_name));
             Log::info('Correo enviado.');
 

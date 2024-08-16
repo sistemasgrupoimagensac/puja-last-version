@@ -192,7 +192,8 @@ class PlanController extends Controller
                 //Enviar correo que se subió un inmueble
                 Log::info('Iniciando el envío de correo para informar de aviso nuevo...');
                 Mail::to(Auth::user()->email)
-                    ->cc(['pierreherreraoropeza@gmail.com'])
+                    ->cc(['soporte@pujainmobiliaria.com.pe'])
+                    ->bcc(['grupoimagen.908883889@gmail.com'])
                 ->send(new newAdMail($aviso->id));
                 Log::info('Correo enviado aviso nuevo.');
 

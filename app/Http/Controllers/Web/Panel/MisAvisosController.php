@@ -20,6 +20,7 @@ class MisAvisosController extends Controller
                     ->whereHas('inmueble', function($q) {
                         $q->where('estado', 1)->where('user_id', Auth::user()->id);
                     })
+                    ->orderBy('id', 'desc')
         ->get();
         $tienePlanes = false;
         
