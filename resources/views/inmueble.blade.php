@@ -370,7 +370,7 @@
                     <div class="mt-5">
                         <h3 class="fw-bold">Localización</h3>
                         @if ($aviso->inmueble->principal->ubicacion->latitud)
-                            <div class="mt-3" id="map" style="width: 600px; height: 600px"></div>
+                            <div class="mt-3" id="map" style="max-width: 600px; height: 600px"></div>
                         @endif
                     </div>
                 </div>  

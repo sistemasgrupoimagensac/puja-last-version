@@ -221,7 +221,7 @@
                                     </label>
                                 </div>
 
-                                <div class="form-group" x-show="antiguedad === 'antiguedad'">
+                                <div class="form-group" x-show="antiguedad === '2'">
                                     <div class="input-group">
                                         <input type="number" x-model="anios_antiguedad" min="0" max="99" class="form-control border-black" :required="antiguedad === 'antiguedad'">
                                     </div>
