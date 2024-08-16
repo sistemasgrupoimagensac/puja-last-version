@@ -138,96 +138,50 @@ formFilterInmueble.addEventListener('submit', function(event) {
     const baseUrl = `${currentUrl.origin}/inmuebles/${tipoInmueble}-en-${tipoOperacion}`;
 
 
-    const precioMinimoModal = parseInt(document.getElementById("preciominimo_modal").dataset.integerValue)
-    const precioMaximoModal = parseInt(document.getElementById("preciomaximo_modal").dataset.integerValue)
-    console.log(precioMinimoModal);
+    // WHERE Precios en Soles - Rango 
+    const precioMinimoModal = parseInt(document.getElementById("preciominimo_modal")?.dataset.integerValue)
+    const precioMaximoModal = parseInt(document.getElementById("preciomaximo_modal")?.dataset.integerValue)
+    const wherePrices = precioMinimoModal >= 0 && precioMaximoModal >= 0
+        ? `&preciominimo=${precioMinimoModal}&preciomaximo=${precioMaximoModal}`
+        : ""
 
-    let wherePrices = ""
-    if ( precioMinimoModal >= 0 && precioMaximoModal >= 0 ) {
-        wherePrices = `preciominimo=${precioMinimoModal}&preciomaximo=${precioMaximoModal}`
-    } else {
-        alert("Debe registrar tanto un minimo como maximo.")
-    }
-
-    let whereDormitorios = ""
+    // WHERE dormitorios
     const cantDormitorios = parseInt(document.querySelector('input[name="dormitorios"]:checked')?.value);
-    if ( cantDormitorios > 0 ) {
-        whereDormitorios = `dormitorios=${cantDormitorios}`
-    } else {
-        alert("Debe registrar cantidad de dormitorios.")
-    }
+    const whereDormitorios =  cantDormitorios > 0 ? `&dormitorios=${cantDormitorios}` : ""
 
-    let whereBanios = ""
+    // WHERE Baños
     const cantBanios = parseInt(document.querySelector('input[name="banos"]:checked')?.value);
-    if ( cantBanios > 0 ) {
-        whereBanios = `banios=${cantBanios}`
-    } else {
-        alert("Debe registrar cantidad de baños.")
-    }
+    const whereBanios = cantBanios > 0 ? `&banios=${cantBanios}` : ""
 
-    const areaMinima = parseInt(document.getElementById("areaminima").dataset.integerValue)
-    const areaMaxima = parseInt(document.getElementById("areamaxima").dataset.integerValue)
+    // WHERE Area Total - Rango
+    const areaMinima = parseInt(document.getElementById("areaminima")?.dataset.integerValue)
+    const areaMaxima = parseInt(document.getElementById("areamaxima")?.dataset.integerValue)
+    const whereArea = areaMinima >= 0 && areaMaxima >= 0 ? `&areaMinima=${areaMinima}&areaMaxima=${areaMaxima}` : ""
 
-    let whereArea = ""
-    if ( areaMinima >= 0 && areaMaxima >= 0 ) {
-        whereArea = `areaMinima=${areaMinima}&areaMaxima=${areaMaxima}`
-    } else {
-        alert("Debe registrar tanto un minimo como maximo en el Area Total.")
-    }
-
-    let whereAntiguedad = ""
+    // WHERE Antiguedad
     const antiguedad = parseInt(document.getElementById('antiguedad')?.value);
-    if ( typeof antiguedad === 'number' && !isNaN(antiguedad) ) {
-        whereAntiguedad = `antiguedad=${antiguedad}`
-    } else {
-        alert("Debe registrar la antiguedad.")
-    }
+    const whereAntiguedad = typeof antiguedad === 'number' && !isNaN(antiguedad) ? whereAntiguedad = `&antiguedad=${antiguedad}` : ""
 
     // WHERE Estacionamientos
-    let whereEstacionamientos = ""
     const cantEstacionamientos = parseInt(document.querySelector('input[name="estacionamientos"]:checked')?.value);
-    if ( cantEstacionamientos > 0 ) {
-        whereEstacionamientos = `estacionamientos=${cantEstacionamientos}`
-    } else {
-        alert("Debe registrar la cantidad de estacionamientos.")
-    }
+    const whereEstacionamientos = cantEstacionamientos > 0 ? whereEstacionamientos = `&estacionamientos=${cantEstacionamientos}` : ""
 
     // WHERE caracteristicas - comodidades extras
-    let whereCaracteristicas = ""
     const valoresSeleccionados = []
     const checkboxes = document.querySelectorAll('input[name="options[]"]:checked')
-
     checkboxes.forEach( checkbox => valoresSeleccionados.push(checkbox.value) )
-    const cadenaValores = valoresSeleccionados.join(',')
-    whereCaracteristicas = `&caracteristicas=${cadenaValores}`
+    let cadenaValores = valoresSeleccionados.join(',')
+    let whereCaracteristicas =  cadenaValores.length > 0 ? `&caracteristicas=${cadenaValores}` : ""
     
-
-
-
-    
-
-    let urlTotal = `${baseUrl}?${wherePrices}&${whereDormitorios}&${whereBanios}&${whereArea}&${whereAntiguedad}&${whereEstacionamientos}${whereCaracteristicas}`
-
-    console.log(baseUrl);
-    console.log(urlTotal);
-
-    window.location.href = urlTotal;
-    
-
+    let urlTotal = `${baseUrl}?buscar=1${wherePrices}${whereDormitorios}${whereBanios}${whereArea}${whereAntiguedad}${whereEstacionamientos}${whereCaracteristicas}`
+    window.location.href = urlTotal
 });
 
 
 document.getElementById('filtersbuscarprecios').addEventListener('click', function() {
-    // Obtener el valor seleccionado del select
-    // const precioMinimo = document.getElementById('preciominimo').value;
-
     const currentUrl = window.location;
     const baseUrl = currentUrl.origin + currentUrl.pathname;
-
-    // Construir la URL con el parámetro de consulta
     const url = `${baseUrl}?preciominimo=${preciominimo.dataset.integerValue}&preciomaximo=${preciomaximo.dataset.integerValue}`;
-
-    // Redirigir a la URL construida
     window.location.href = url;
 });
 
