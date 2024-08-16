@@ -95,6 +95,7 @@ Route::get('/proyectos', function() {
 });
 
 Route::get('/images/{archivo}', [ImagesController::class, 'get_images']);
+Route::get('/planos/{archivo}', [ImagesController::class, 'get_planos']);
 Route::get('/videos/{archivo}', [ImagesController::class, 'get_videos']);
 Route::get('/pdf/{archivo}', [ImagesController::class, 'get_pdf']);
 

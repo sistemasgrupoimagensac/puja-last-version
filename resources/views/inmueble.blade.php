@@ -73,6 +73,11 @@
                                                     <img src="{{ $image->imagen }}" class="d-block w-100" alt="{{ $aviso->inmueble->title() }}">
                                                 </div>
                                             @endforeach
+                                            @foreach($aviso->inmueble->planos as $plano)
+                                                <div class="carousel-item @if($loop->first) @endif">
+                                                    <img src="{{ $plano->plano }}" class="d-block w-100" alt="planos">
+                                                </div>
+                                            @endforeach
                                         </div>
                                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselImagesInmueble" data-bs-slide="prev">
                                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>

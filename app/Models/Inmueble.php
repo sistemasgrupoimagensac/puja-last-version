@@ -66,6 +66,16 @@ class Inmueble extends Model
         return optional($this->multimedia)->imagenes();
     }
 
+    public function planos()
+    {
+        return optional($this->multimedia)->planos();
+    }
+
+    public function videos()
+    {
+        return optional($this->multimedia)->videos();
+    }
+
     public function currencySoles()
     {
         return optional(optional($this->principal)->caracteristicas)->currencySoles();
