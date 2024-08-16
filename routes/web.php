@@ -27,6 +27,7 @@ Route::get('/google-auth/callback', [SuppliersController::class, 'createLoginGoo
 Route::prefix('/inmuebles')->controller(App\Http\Controllers\Web\Puja\InmueblesController::class)->group(function() {
     Route::get('/{operacion}', 'busquedaInmuebles')->name('busqueda_inmuebles');
     Route::get('/filter/search', 'filterSearch')->name('filter_search');
+    Route::get('/filter/search2', 'filterSearch2')->name('filter_search2');
 });
 
 Route::prefix('/inmueble')->name('inmueble.')->group(function() {

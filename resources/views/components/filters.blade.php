@@ -155,11 +155,11 @@
                                                 <small class="text-secondary">Terreno</small>
                                             </label>
                                 
-                                            <input type="radio" class="btn-check" name="categoria" id="local_industrial" autocomplete="off" value="5">
+                                            {{-- <input type="radio" class="btn-check" name="categoria" id="local_industrial" autocomplete="off" value="5">
                                             <label class="btn button-clear aside-menu col m-2 p-1 d-flex flex-column justify-content-center" for="local_industrial">
                                                 <i class="fa-solid fa-industry text-secondary fa-xl my-4"></i>
                                                 <small class="text-secondary">Local Industrial</small>
-                                            </label>
+                                            </label> --}}
                             
                                         </div>
                                     </div>

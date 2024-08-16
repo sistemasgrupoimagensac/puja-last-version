@@ -274,11 +274,11 @@ class Inmueble extends Model
         $area_construida = "y {$area_construida_num} m² como área construida";
         $tipo_inmueble = $this->typeInmueble();
         $antiguedad = '';
-        if ( $this->antiguedad() == "estreno" ) {
+        if ( $this->antiguedad() == "1" ) {
             $antiguedad = 'en estreno';
-        } else if ( $this->antiguedad() == "construccion" ) {
+        } else if ( $this->antiguedad() == "0" ) {
             $antiguedad = 'en construcción';
-        } else if ( $this->antiguedad() == "antiguedad" ) {
+        } else if ( $this->antiguedad() == "2" ) {
             $antiguedad = 'con ' . $this->aniosAntiguedad() . ' años de antiguedad';
         }
         $monto = '';

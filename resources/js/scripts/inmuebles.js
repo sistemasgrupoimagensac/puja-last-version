@@ -68,6 +68,8 @@ dropdownItemsVenta.forEach(function(item) {
                 }
             }
         })
+        console.log("change transaccion");
+        
         
         formFilterInmueble.submit()
     })
@@ -92,24 +94,94 @@ dropdownItemsTipo.forEach(function(item) {
                 }
             }
         })
+        console.log("change tipo inmueble");
         
         formFilterInmueble.submit()
     })
 })
 
 
+formFilterInmueble.addEventListener('submit', function(event) {
+    event.preventDefault(); // Evita que el formulario se envíe automáticamente
 
-document.getElementById('filtersbuscarprecios').addEventListener('click', function() {
-    // Obtener el valor seleccionado del select
-    // const precioMinimo = document.getElementById('preciominimo').value;
+    let tipoOperacion = null
+    let tipoInmueble = null
+
+    const transaccionSeleccionada = parseInt(document.querySelector('input[name="transaccion"]:checked')?.value);
+    const inmuebleSeleccionada = parseInt(document.querySelector('input[name="categoria"]:checked')?.value);
+
+    if ( transaccionSeleccionada === 1 ) {
+        tipoOperacion = 'venta'
+    } else if ( transaccionSeleccionada === 2 ) {
+        tipoOperacion = 'alquiler'
+    } else if ( transaccionSeleccionada === 3 ) {
+        tipoOperacion = 'remate'
+    }
+    
+    if ( inmuebleSeleccionada === 1 ) {
+        tipoInmueble = 'casas'
+    } else if ( inmuebleSeleccionada === 2 ) {
+        tipoInmueble = 'departamentos'
+    } else if ( inmuebleSeleccionada === 3 ) {
+        tipoInmueble = 'oficinas'
+    } else if ( inmuebleSeleccionada === 4 ) {
+        tipoInmueble = 'terrenos'
+    } else if ( inmuebleSeleccionada === 5 ) {
+        tipoInmueble = 'locales'
+    } /* else if ( inmuebleSeleccionada === 6 ) {
+        tipoInmueble = 'oficina'
+    } */
+    
+    if ( !tipoOperacion || !tipoInmueble ) alert("Debe seleccionar el tipo de operacion y el tipo de inmueble")
 
     const currentUrl = window.location;
+    const baseUrl = `${currentUrl.origin}/inmuebles/${tipoInmueble}-en-${tipoOperacion}`;
+
+
+    // WHERE Precios en Soles - Rango 
+    const precioMinimoModal = parseInt(document.getElementById("preciominimo_modal")?.dataset.integerValue)
+    const precioMaximoModal = parseInt(document.getElementById("preciomaximo_modal")?.dataset.integerValue)
+    const wherePrices = precioMinimoModal >= 0 && precioMaximoModal >= 0
+        ? `&preciominimo=${precioMinimoModal}&preciomaximo=${precioMaximoModal}`
+        : ""
+
+    // WHERE dormitorios
+    const cantDormitorios = parseInt(document.querySelector('input[name="dormitorios"]:checked')?.value);
+    const whereDormitorios =  cantDormitorios > 0 ? `&dormitorios=${cantDormitorios}` : ""
+
+    // WHERE Baños
+    const cantBanios = parseInt(document.querySelector('input[name="banos"]:checked')?.value);
+    const whereBanios = cantBanios > 0 ? `&banios=${cantBanios}` : ""
+
+    // WHERE Area Total - Rango
+    const areaMinima = parseInt(document.getElementById("areaminima")?.dataset.integerValue)
+    const areaMaxima = parseInt(document.getElementById("areamaxima")?.dataset.integerValue)
+    const whereArea = areaMinima >= 0 && areaMaxima >= 0 ? `&areaMinima=${areaMinima}&areaMaxima=${areaMaxima}` : ""
+
+    // WHERE Antiguedad
+    const antiguedad = parseInt(document.getElementById('antiguedad')?.value);
+    const whereAntiguedad = typeof antiguedad === 'number' && !isNaN(antiguedad) ? whereAntiguedad = `&antiguedad=${antiguedad}` : ""
+
+    // WHERE Estacionamientos
+    const cantEstacionamientos = parseInt(document.querySelector('input[name="estacionamientos"]:checked')?.value);
+    const whereEstacionamientos = cantEstacionamientos > 0 ? whereEstacionamientos = `&estacionamientos=${cantEstacionamientos}` : ""
+
+    // WHERE caracteristicas - comodidades extras
+    const valoresSeleccionados = []
+    const checkboxes = document.querySelectorAll('input[name="options[]"]:checked')
+    checkboxes.forEach( checkbox => valoresSeleccionados.push(checkbox.value) )
+    let cadenaValores = valoresSeleccionados.join(',')
+    let whereCaracteristicas =  cadenaValores.length > 0 ? `&caracteristicas=${cadenaValores}` : ""
+    
+    let urlTotal = `${baseUrl}?buscar=1${wherePrices}${whereDormitorios}${whereBanios}${whereArea}${whereAntiguedad}${whereEstacionamientos}${whereCaracteristicas}`
+    window.location.href = urlTotal
+});
+
+
+document.getElementById('filtersbuscarprecios').addEventListener('click', function() {
+    const currentUrl = window.location;
     const baseUrl = currentUrl.origin + currentUrl.pathname;
-
-    // Construir la URL con el parámetro de consulta
     const url = `${baseUrl}?preciominimo=${preciominimo.dataset.integerValue}&preciomaximo=${preciomaximo.dataset.integerValue}`;
-
-    // Redirigir a la URL construida
     window.location.href = url;
 });
 

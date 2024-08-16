@@ -57,6 +57,31 @@ class AvisoRepository
                             if ($request->preciominimo != null && $request->preciomaximo != null) {
                                 $q->whereBetween('precio_soles', [$request->preciominimo, $request->preciomaximo]);
                             }
+                            if ($request->dormitorios != null) {
+                                $q->where('habitaciones', '>=', $request->dormitorios);
+                            }
+                            if ($request->banios != null) {
+                                $q->where('banios', '>=', $request->banios);
+                            }
+                            if ($request->areaMinima != null && $request->areaMaxima != null) {
+                                $q->whereBetween('area_total', [$request->areaMinima, $request->areaMaxima]);
+                            }
+                            if ($request->antiguedad != null) {
+                                if ($request->antiguedad > 1) {
+                                    $q->where('anios_antiguedad', '<=', $request->antiguedad);
+                                } else {
+                                    $q->where('antiguedad', '=', $request->antiguedad);
+                                }
+                            }
+                            if ($request->estacionamientos != null) {
+                                $q->where('estacionamientos', '>=', $request->estacionamientos);
+                            }
+                        })
+                        ->whereHas('inmueble.extra.caracteristicas', function($q) use($request) {
+                            if ($request->caracteristicas != null) {
+                                $idsCaracteristica = explode(',', $request->caracteristicas);
+                                $q->whereIn('caracteristicas_extra.id', $idsCaracteristica);
+                            }
                         })
                         ->orderBy('ad_type', 'desc')
                         ->orderBy('fecha_publicacion', 'desc')

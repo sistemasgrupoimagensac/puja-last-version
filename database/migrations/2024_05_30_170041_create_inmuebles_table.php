@@ -58,7 +58,7 @@ return new class extends Migration
             $table->integer('estacionamientos')->nullable();
             $table->float('area_construida')->nullable();
             $table->float('area_total')->nullable();
-            $table->string('antiguedad', 150)->nullable();
+            $table->integer('antiguedad')->nullable()->comment("0: en construcción, 1: estreno, 2: antiguo");
             $table->integer('anios_antiguedad')->nullable();
             $table->float('precio_soles')->nullable();
             $table->float('precio_dolares')->nullable();
