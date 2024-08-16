@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // events
   pageContactMessage.addEventListener('input', textareaAutoincrement)
 
-  // functions
+  // auto increment textarea
   function textareaAutoincrement() {
     pageContactMessage.style.height = "auto";
     pageContactMessage.style.height = this.scrollHeight + "px";
@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     submitForm(contactoUrl);
   });
 
+  // Submit formulario
   function submitForm(actionUrl) {
     let form = document.getElementById('page-contact-formData');
     let formData = new FormData(form);
@@ -40,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .catch(error => {
         console.error('Error:', error);
-        // alert('Error de comunicación con el servidor');
     });
   }
 

@@ -112,10 +112,10 @@
     "src": "resources/js/scripts/components/whatsapp_modal_inmueble_contact.js",
     "isEntry": true
   },
-  "resources/js/scripts/contact.js": {
-    "file": "assets/contact-BoXg5C55.js",
-    "name": "contact",
-    "src": "resources/js/scripts/contact.js",
+  "resources/js/scripts/contacto.js": {
+    "file": "assets/contacto-BoXg5C55.js",
+    "name": "contacto",
+    "src": "resources/js/scripts/contacto.js",
     "isEntry": true
   },
   "resources/js/scripts/home.js": {
@@ -167,7 +167,7 @@
     ]
   },
   "resources/js/scripts/updatePlaceholdersRegister.js": {
-    "file": "assets/updatePlaceholdersRegister-n8gGHYUY.js",
+    "file": "assets/updatePlaceholdersRegister-P0mtUCrJ.js",
     "name": "updatePlaceholdersRegister",
     "src": "resources/js/scripts/updatePlaceholdersRegister.js",
     "isEntry": true,
@@ -210,9 +210,9 @@
     "src": "resources/sass/components/whatsapp_modal_inmueble_contact.scss",
     "isEntry": true
   },
-  "resources/sass/pages/contact.scss": {
-    "file": "assets/contact-CXU5BEFS.css",
-    "src": "resources/sass/pages/contact.scss",
+  "resources/sass/pages/contacto.scss": {
+    "file": "assets/contacto-CXU5BEFS.css",
+    "src": "resources/sass/pages/contacto.scss",
     "isEntry": true
   },
   "resources/sass/pages/crear-aviso.scss": {

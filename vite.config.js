@@ -17,7 +17,7 @@ export default defineConfig({
         'resources/sass/pages/perfil.scss',
         'resources/sass/pages/planes.scss',
         'resources/sass/pages/terminos.scss',
-        'resources/sass/pages/contact.scss',
+        'resources/sass/pages/contacto.scss',
         // sass - components
         "resources/sass/components/whatsapp_modal_contact.scss",
         "resources/sass/components/whatsapp_modal_inmueble_contact.scss",
@@ -40,7 +40,7 @@ export default defineConfig({
         'resources/js/scripts/perfil.js',
         'resources/js/scripts/planes.js',
         'resources/js/scripts/toastyContact.js',
-        'resources/js/scripts/contact.js',
+        'resources/js/scripts/contacto.js',
         // js - scripts - components
         "resources/js/scripts/components/back_button.js",
         "resources/js/scripts/components/card_simple.js",

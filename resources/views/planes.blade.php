@@ -17,7 +17,7 @@
 	<div class="container my-5" x-data="pricingData()">
 
 		{{-- Si esta logueado con Google y faltan datos, se los debe pedir por medio de este Modal --}}
-		<div>
+		{{-- <div>
 			<div class="modal fade" id="staticBackdropRegister" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered modal-lg">
 							<div class="modal-content p-2">
@@ -68,7 +68,8 @@
 							</div>
 					</div>
 			</div>
-		</div>
+		</div> --}}
+		<x-completa-registro-google></x-completa-registro-google>
 
 		<h1 class="text-center fw-bold h2">¿cuantos inmuebles quieres publicar?</h1>
 
@@ -482,41 +483,41 @@
 					})
 				},
 
-				submitForm() {
-						let form = document.querySelector('#formRegistro');
-						let formData = {
-								phone: form.phone.value,
-								document_type: form.document_type.value,
-								document_number: form.document_number.value,
-								direccion: form.direccion.value,
-								accept_terms: form.terminos.checked
-						};
+				// submitForm() {
+				// 		let form = document.querySelector('#formRegistro');
+				// 		let formData = {
+				// 				phone: form.phone.value,
+				// 				document_type: form.document_type.value,
+				// 				document_number: form.document_number.value,
+				// 				direccion: form.direccion.value,
+				// 				accept_terms: form.terminos.checked
+				// 		};
 
-						console.log('Form Data:', formData);
+				// 		console.log('Form Data:', formData);
 
-						fetch('/store-completeUserGoogle', {
-								method: 'POST',
-								headers: {
-										'Content-Type': 'application/json',
-										'X-CSRF-TOKEN': '{{ csrf_token() }}',
-										'Accept': 'application/json',
-								},
-								body: JSON.stringify(formData)
-						})
-						.then(response => {
-								if (!response.ok) {
-										throw new Error('Network response was not ok');
-								}
-								return response.json();
-						})
-						.then(data => {
-								alert(data.message);
-								location.reload()
-						})
-						.catch(error => {
-								console.error('Error:', error);
-						});
-				},
+				// 		fetch('/store-completeUserGoogle', {
+				// 				method: 'POST',
+				// 				headers: {
+				// 						'Content-Type': 'application/json',
+				// 						'X-CSRF-TOKEN': '{{ csrf_token() }}',
+				// 						'Accept': 'application/json',
+				// 				},
+				// 				body: JSON.stringify(formData)
+				// 		})
+				// 		.then(response => {
+				// 				if (!response.ok) {
+				// 						throw new Error('Network response was not ok');
+				// 				}
+				// 				return response.json();
+				// 		})
+				// 		.then(data => {
+				// 				alert(data.message);
+				// 				location.reload()
+				// 		})
+				// 		.catch(error => {
+				// 				console.error('Error:', error);
+				// 		});
+				// },
 			}
 		}
 
