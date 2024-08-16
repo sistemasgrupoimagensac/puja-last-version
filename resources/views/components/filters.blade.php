@@ -284,8 +284,8 @@
                             </div>
                         
                             <div class="modal-footer justify-content-between">
-                                <input class="button-clear aside-menu btn mx-1" {{-- type="submit" --}} value="Restablecer Filtros">
-                                <input class="button-orange btn mx-1" type="submit" value="Aplicar Filtros">
+                                <input type="button" class="btn button-clear aside-menu mx-1 px-3" value="Restablecer Filtros">
+                                <input type="button" class="btn button-orange mx-1 px-3" type="submit" value="Aplicar Filtros">
                             </div>
                         </form>
                 
