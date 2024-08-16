@@ -195,7 +195,7 @@ class LoginController extends Controller
         return response()->json([
             'http_code' => 200,
             'status' => "Success",
-            'message' => 'Actualización correcta',
+            'message' => 'Actualización del perfil correcta',
             'error' => false
         ], 200);
 
