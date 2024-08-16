@@ -14,14 +14,14 @@
 
                           {{-- Teléfono --}}
                           <div class="form-floating">
-                            <input type="phone" class="form-control shadow-none" id="phone" maxlength="9" minlength="9" name="telefono" placeholder="Teléfono" required>
+                            <input type="phone" class="form-control shadow-none" id="phone" maxlength="9" minlength="9" name="telefono" placeholder="Teléfono">
                             <label class="text-secondary" for="phone">Teléfono</label>
                             <div id="validationServerTelefonoFeedback" class="invalid-feedback"></div>
                           </div>
                           
                           {{-- Tipo de documento --}}
                           <div class="form-floating">
-                              <select class="form-select" id="document_type" name="tipo_documento" required>
+                              <select class="form-select" id="document_type" name="tipo_documento">
                                   <option value="1" selected>DNI</option>
                                   <option value="3">RUC</option>
                                   <option value="2">Otro Documento</option>
@@ -32,7 +32,7 @@
                           
                           {{-- Número de documento --}}
                           <div class="form-floating">
-                              <input type="text" class="form-control" id="document_number" minlength="8" maxlength="20" name="numero_de_documento" placeholder="DNI" required>
+                              <input type="text" class="form-control" id="document_number" minlength="8" maxlength="20" name="numero_de_documento" placeholder="DNI">
                               <label class="text-secondary" for="document_number" id="label_document_number">DNI</label>
                               <div id="validationServerNumero_de_documentoFeedback" class="invalid-feedback"></div>
                           </div>
@@ -63,11 +63,56 @@
 
   document.getElementById('submit-completa-registro-google').addEventListener('click', (event) => {
     event.preventDefault();
+    clearErrors();
     submitForm();
   });
 
 
   function submitForm() {
+      let form = document.getElementById('formRegistro');
+
+      let bodyTipoDoc = ''
+      const tipo = form.tipo_documento.value
+      const documento = form.numero_de_documento.value
+
+      if(tipo === '1') {
+        bodyTipoDoc = 'dni'
+      } else if (tipo === '3') {
+        bodyTipoDoc = 'ruc'
+      } 
+
+      fetch("/consulta-dni-ruc", {
+          method: 'POST',
+          headers: {
+              'Accept': 'application/json',
+              'X-CSRF-TOKEN': '{{ csrf_token() }}',
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ [bodyTipoDoc]: documento }),
+      })
+      .then(response => response.json())
+      .then(data => {
+          if (data.success) {
+              console.log('Response:', data)
+              consultarFormulario();
+
+          } else {
+              console.log('Response:', data)
+              const errors = {
+                numero_de_documento: [data.message],
+              }
+              console.log(errors);
+              
+              handleErrors(errors)
+          }
+      })
+      .catch(error => {
+          console.error('Error:', error.message)
+      })
+  }
+
+
+  function consultarFormulario() {
     let form = document.getElementById('formRegistro');
     let formData = new FormData(form);
 
@@ -106,6 +151,8 @@
             if(inputElement.getAttribute('id') === 'terminos') {
                 feedbackElement.textContent = 'Acepte los términos';
             } else {
+                console.log(errors[field]);
+                
                 feedbackElement.textContent = errors[field][0];
             }
         }
