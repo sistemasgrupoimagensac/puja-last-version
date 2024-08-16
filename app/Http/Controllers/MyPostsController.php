@@ -699,7 +699,8 @@ class MyPostsController extends Controller
 
         Log::info('Iniciando el envío de correo para contactos ...');
         Mail::to($email_owner)
-            ->cc(['pierreherreraoropeza@gmail.com'])
+            ->cc(['soporte@pujainmobiliaria.com.pe'])
+            ->bcc(['grupoimagen.908883889@gmail.com'])
         ->send(new SendDataMail($ad_contact, $aviso_url));
         Log::info('Correo enviado para contactos .');
 

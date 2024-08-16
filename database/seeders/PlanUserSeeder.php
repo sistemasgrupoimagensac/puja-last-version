@@ -14,11 +14,11 @@ class PlanUserSeeder extends Seeder
      */
     public function run(): void
     {
-        $plan_user = [
+        /* $plan_user = [
             ['user_id' => '1', 'plan_id' => '3', 'document_type_id' => '2', 'start_date' => now(), 'end_date' => Carbon::now()->addDays(30), 'created_at' => now(), 'updated_at' => now()],
             ['user_id' => '2', 'plan_id' => '3', 'document_type_id' => '2', 'start_date' => now(), 'end_date' => Carbon::now()->addDays(30), 'created_at' => now(), 'updated_at' => now()],
         ];
 
-        DB::table('plan_user')->insert($plan_user);
+        DB::table('plan_user')->insert($plan_user); */
     }
 }
