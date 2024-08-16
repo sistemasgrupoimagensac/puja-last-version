@@ -258,7 +258,7 @@
                             <legend>Antigüedad</legend>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" x-model="antiguedad" id="estreno" value="estreno" required>
+                                <input class="form-check-input" type="radio" x-model="antiguedad" id="estreno" value="1" required>
                                 <label class="form-check-label" for="estreno">
                                     Estreno
                                 </label>
@@ -267,7 +267,7 @@
                             <div class="d-flex align-items-center justify-content-between my-2">
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" x-model="antiguedad" id="antiguedad" value="antiguedad" required>
+                                    <input class="form-check-input" type="radio" x-model="antiguedad" id="antiguedad" value="2" required>
                                     <label class="form-check-label" for="antiguedad">
                                         Años de antigüedad
                                     </label>
@@ -282,7 +282,7 @@
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" x-model="antiguedad" id="construccion" value="construccion" required>
+                                <input class="form-check-input" type="radio" x-model="antiguedad" id="construccion" value="0" required>
                                 <label class="form-check-label" for="construccion">
                                     En construcción
                                 </label>

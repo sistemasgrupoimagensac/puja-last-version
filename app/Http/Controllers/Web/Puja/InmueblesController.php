@@ -53,4 +53,11 @@ class InmueblesController extends Controller
 
         return redirect()->route('busqueda_inmuebles', ['operacion' => $url_string]);
     }
+
+    public function filterSearch2(Request $request)
+    {
+        $url_string = (new ParsearUrl($this->tipo_inmueble_repository, $this->tipo_operacion_repository))->makeUrl(tipo_inmueble: $request->categoria, tipo_operacion: $request->transaccion, direccion: $request->direccion);
+
+        return redirect()->route('busqueda_inmuebles', ['operacion' => $url_string, 'request' => $request]);
+    }
 }
