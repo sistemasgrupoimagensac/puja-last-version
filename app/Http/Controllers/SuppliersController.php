@@ -33,6 +33,7 @@ class SuppliersController extends Controller
                 'email' => $user_google->email,
                 'imagen' => $user_google->avatar,
                 'tipo_usuario_id' => $profile_type,
+                'email_verified_at' => now(),
             ]);
 
             // Loguear al nuevo usuario

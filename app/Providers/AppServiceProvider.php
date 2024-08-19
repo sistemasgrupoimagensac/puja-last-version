@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,6 +22,18 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+
+        // RUTAS PARA CAMBIAR EL TEXTO DEL CORREO
+        // VENDOR ==> laravel framework src Illuminate notificactions resources views email.blade.php
+        // VENDOR ==> laravel framework src Illuminate Mail resources views message.blade.php
+        VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
+            return (new MailMessage)
+                ->greeting('¡Hola!')
+                ->subject('Verificación de correo electrónico')
+                ->line('Por favor haga clic en el botón a continuación para verificar su dirección de correo electrónico.')
+                ->action('Verificar correo electrónico', $url)
+                ->salutation('Saludos cordiales');
+        });
     }
 }
 

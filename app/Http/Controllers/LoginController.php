@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Auth\Events\Registered;
 
 class LoginController extends Controller
 {
@@ -151,7 +152,8 @@ class LoginController extends Controller
             $user->save();
         }
         Auth::login($user);
-        return redirect()->intended('/');
+        event(new Registered($user));
+        return redirect('/');
         // return response()->json(['message' => 'Usuario creado exitosamente', 'user' => $user], 201);
 
     }
