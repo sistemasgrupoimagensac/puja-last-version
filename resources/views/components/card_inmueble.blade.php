@@ -68,17 +68,22 @@
                                     <span class="text-secondary me-1">m²</span>
                                     <i class="fa-solid fa-ruler-combined icon-orange"></i>
 
+                                    
+                                    @if ( $bedrooms )
                                     <span class="text-secondary mx-2">-</span>
 
                                     <span class="text-secondary me-1"> {{ $bedrooms }} </span>
                                     <span class="text-secondary me-1">dorm.</span>
                                     <i class="fa-solid fa-bed icon-orange"></i>
-
+                                    @endif
+                                    
+                                    @if ( $bathrooms )
                                     <span class="text-secondary mx-2">-</span>
 
                                     <span class="text-secondary me-1"> {{ $bathrooms }} </span>
                                     <span class="text-secondary me-1"> bañ. </span>
                                     <i class="fa-solid fa-shower icon-orange"></i>
+                                    @endif
                                 </p>
 
                             </div>

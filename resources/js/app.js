@@ -22,3 +22,13 @@ document.querySelectorAll('.custom-accordion-button').forEach((button) => {
         button.classList.add('collapsed')
     }
 })
+
+// REPLACE para formatod de telefono
+document.querySelectorAll('.phone').forEach( phone => {
+    phone.addEventListener('input', function() {
+        this.value = this.value.replace(/[^\d]/g, '');
+        if (this.value.length > 9) {
+            this.value = this.value.slice(0, 9);
+        }
+    });
+});

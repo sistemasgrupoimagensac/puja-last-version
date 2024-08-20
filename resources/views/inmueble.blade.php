@@ -601,19 +601,35 @@
 
         const lat = parseFloat(@json($aviso->inmueble->principal->ubicacion->latitud));
         const lng = parseFloat(@json($aviso->inmueble->principal->ubicacion->longitud));
+        const es_exacta = parseFloat(@json($aviso->inmueble->principal->ubicacion->es_exacta));
         const defaultLocation = { lat, lng };
         const mapDiv = document.getElementById("map")
         let map
         let marker
+        let circle
         function initMap() {
             map = new google.maps.Map(mapDiv, {
                 center: defaultLocation,
-                zoom: 18,
+                zoom: 16,
             })
-            marker = new google.maps.Marker({
-                position: defaultLocation,
-                map: map,
-            })
+
+            if ( es_exacta === 1 ){
+                marker = new google.maps.Marker({
+                    position: defaultLocation,
+                    map: map,
+                })
+            } else {
+                circle = new google.maps.Circle({
+                    strokeColor: "#FFFF00",
+                    strokeOpacity: 0.8,
+                    strokeWeight: 2,
+                    fillColor: "#FFFF00",
+                    fillOpacity: 0.35,
+                    map: map,
+                    center: defaultLocation,
+                    radius: 400,
+                });
+            }
         }
 
         document.addEventListener('DOMContentLoaded', function () {

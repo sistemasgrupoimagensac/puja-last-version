@@ -158,24 +158,36 @@
 
                             <div class="d-flex justify-content-between gap-4">
                                 <div class="form-group w-100">
-                                    <label class="text-secondary" for="dormitorios">Dormitorios</label>
+                                    <label class="text-secondary" for="dormitorios">
+                                        Dormitorios
+                                        <span style="font-size: .75rem">(opcional)</span>
+                                    </label>
                                     <input type="number" id="dormitorios" x-model="dormitorios" min="0" max="99" class="form-control">
                                 </div>
 
                                 <div class="form-group w-100">
-                                    <label class="text-secondary" for="banios">Baños</label>
+                                    <label class="text-secondary" for="banios">
+                                        Baños
+                                        <span style="font-size: .75rem">(opcional)</span>
+                                    </label>
                                     <input type="number" id="banios" x-model="banios" min="0" max="99" class="form-control">
                                 </div>
                             </div>
 
                             <div class="d-flex justify-content-between gap-4 mt-3">
                                 <div class="form-group w-100">
-                                    <label class="text-secondary" for="medio_banios">Medio Baño</label>
+                                    <label class="text-secondary" for="medio_banios">
+                                        Medio Baño
+                                        <span style="font-size: .75rem">(opcional)</span>
+                                    </label>
                                     <input type="number" id="medio_banios" x-model="medio_banios" min="0" max="99" class="form-control">
                                 </div>
 
                                 <div class="form-group w-100">
-                                    <label class="text-secondary" for="estacionamiento">Estacionamientos</label>
+                                    <label class="text-secondary" for="estacionamiento">
+                                        Estacionamientos
+                                        <span style="font-size: .75rem">(opcional)</span>
+                                    </label>
                                     <input type="number" id="estacionamiento" x-model="estacionamiento" min="0" max="99" class="form-control">
                                 </div>
                             </div>
@@ -238,7 +250,10 @@
                         </fieldset>
 
                         <fieldset>
-                            <legend>Precio</legend>
+                            <legend>
+                                Precio
+                                <span style="font-size: .75rem">(Debe registrar mínimo un precio.)</span>
+                            </legend>
 
                             <div class="d-flex justify-content-between gap-4">
                                 {{-- Precios para alquiler o venta --}}
@@ -316,12 +331,14 @@
 
                             <div class=" d-flex flex-column gap-3">
                                 <div>
-                                    <label class="text-secondary" for="direccion_remate">Dirección del Remate
+                                    <label class="text-secondary" for="direccion_remate">
+                                        Dirección del Remate
+                                        <span style="font-size: .75rem">(opcional)</span>
                                         <span
-                                        data-bs-toggle="tooltip"
-                                        data-bs-placement="top"
-                                        data-bs-custom-class="custom-tooltip" 
-                                        data-bs-title="Puede autocompletar la dirección del centro de arbitraje"
+                                            data-bs-toggle="tooltip"
+                                            data-bs-placement="top"
+                                            data-bs-custom-class="custom-tooltip" 
+                                            data-bs-title="Puede autocompletar la dirección del centro de arbitraje"
                                         >
                                             <i class="fa-solid fa-circle-info ms-2"></i>
                                         </span>
@@ -338,38 +355,57 @@
                                         <ul class="dropdown-menu dropdown-menu-end">
                                           <li class="dropdown-item" type="button"  @click=" direccion_remate='Av. Arequipa 330, oficina 907, Cercado de Lima (CACLI)' ">CACLI</li>
                                           <li class="dropdown-item" type="button" @click=" direccion_remate='Av. Diez Canseco 442, oficina 202, Miraflores (CAFI)' ">CAFI</li>
+                                          <li class="dropdown-item" type="button" @click=" direccion_remate='Remate Virtual' ">REMAJU</li>
                                         </ul>
                                     </div>
                                 </div>
     
                                 <div class="form-group w-100">
-                                    <label class="text-secondary" for="partida_registral">Partida Registral</label>
+                                    <label class="text-secondary" for="partida_registral">
+                                        Partida Registral
+                                        <span style="font-size: .75rem">(opcional)</span>
+                                    </label>
                                     <input type="text" id="partida_registral" x-model="partida_registral" class="form-control">
                                 </div>
     
                                 <div class="d-flex justify-content-between gap-4">
                                     <div class="form-group w-100">
-                                        <label class="text-secondary" for="fecha_remate">Fecha del Remate</label>
+                                        <label class="text-secondary" for="fecha_remate">
+                                            Fecha del Remate
+                                            <span style="font-size: .75rem">(opcional)</span>
+                                        </label>
                                         <input type="date" id="fecha_remate" x-model="fecha_remate" class="form-control">
                                     </div>
                                     <div class="form-group w-100">
-                                        <label class="text-secondary" for="hora_remate">Hora del Remate</label>
+                                        <label class="text-secondary" for="hora_remate">
+                                            Hora del Remate
+                                            <span style="font-size: .75rem">(opcional)</span>
+                                        </label>
                                         <input type="time" id="hora_remate" x-model="hora_remate" min="07:00" max="22:00" class="form-control">
                                     </div>
                                 </div>
                                 
                                 <div class="form-group w-100">
-                                    <label class="text-secondary" for="contacto_remate">Nombre del Contacto</label>
+                                    <label class="text-secondary" for="contacto_remate">
+                                        Nombre del Contacto
+                                        <span style="font-size: .75rem">(opcional)</span>    
+                                    </label>
                                     <input type="text" id="contacto_remate" x-model="contacto_remate" class="form-control">
                                 </div>
     
                                 <div class="form-group w-100">
-                                    <label class="text-secondary" for="telefono_contacto_remate">Teléfono del Contacto</label>
-                                    <input type="phone" id="telefono_contacto_remate" x-model="telefono_contacto_remate" class="form-control">
+                                    <label class="text-secondary" for="telefono_contacto_remate">
+                                        Teléfono del Contacto
+                                        <span style="font-size: .75rem">(opcional)</span>
+                                    </label>
+                                    <input type="phone" id="telefono_contacto_remate" x-model="telefono_contacto_remate" class="form-control phone">
                                 </div>
 
                                 <div class="form-group w-100">
-                                    <label class="text-secondary" for="correo_contacto_remate">Correo del Contacto</label>
+                                    <label class="text-secondary" for="correo_contacto_remate">
+                                        Correo del Contacto
+                                        <span style="font-size: .75rem">(opcional)</span>
+                                    </label>
                                     <div class="input-group">
                                         <span class="input-group-text">@</span>
                                         <input type="email" class="form-control" id="correo_contacto_remate" x-model="correo_contacto_remate">
@@ -396,7 +432,7 @@
 
                         <!-- Input para la imagen principal -->
                         <div class="form-group">
-                            <label for="imagen_principal" class="form-label">Imagen Principal</label>
+                            <label for="imagen_principal" class="form-label text-secondary">Imagen Principal</label>
                             <input type="file" id="imagen_principal" class="form-control" @change="handleFiles($event, 'imagen_principal')">
                             <!-- Mostrar miniatura de la imagen principal seleccionada -->
                             <div class="mt-3" x-show="imagen_principal">
@@ -411,7 +447,10 @@
 
                         <!-- Input para seleccionar imágenes -->
                         <div class="form-group">
-                            <label for="images" class="form-label">Seleccionar imágenes</label>
+                            <label for="images" class="form-label text-secondary">
+                                Imágenes
+                                <span style="font-size: .75rem">(opcional)</span>
+                            </label>
                             <input type="file" id="images" class="form-control" multiple @change="handleFiles($event, 'fotos')">
                             <!-- Mostrar miniaturas de las imágenes seleccionadas -->
                             <div class="mt-3" x-show="fotos.length > 0">
@@ -431,13 +470,19 @@
 
                         <!-- Input para videos -->
                         <div class="form-group">
-                            <label class="text-secondary">Videos</label>
+                            <label class="text-secondary">
+                                Videos
+                                <span style="font-size: .75rem">(opcional)</span>
+                            </label>
                             <input type="file" {{-- x-model="videos" --}} class="form-control" placeholder="URL de videos" @change="handleFiles($event, 'videos')">
                         </div>
                         
                         <!-- Input para seleccionar planos -->
                         <div class="form-group">
-                            <label for="planos" class="form-label">Seleccionar imágenes</label>
+                            <label for="planos" class="form-label text-secondary">
+                                Planos
+                                <span style="font-size: .75rem">(opcional)</span>
+                            </label>
                             <input type="file" id="planos" class="form-control" multiple @change="handleFiles($event, 'planos')">
                             <!-- Mostrar miniaturas de los planos seleccionadas -->
                             <div class="mt-3" x-show="planos.length > 0">
@@ -523,6 +568,23 @@
                         </div>
     
                         <div class="w-100 my-4">
+                            <div class="form-group mb-2">
+                                <label for="location-type">¿Cómo deseas mostrar la ubicación?</label>
+                                <div class="d-flex">
+                                    <div class="form-check mr-3" style="margin-right: 2rem">
+                                        <input class="form-check-input" type="radio" x-model="es_exacta" name="es_exacta" id="exact" value="1" checked>
+                                        <label class="form-check-label" for="exact">
+                                            Dirección exacta
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" x-model="es_exacta" name="es_exacta" id="approximate" value="0">
+                                        <label class="form-check-label" for="approximate">
+                                            Dirección aproximada
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                             {{-- inyecta el mapa de google maps --}}
                             <div id="map" style="max-width: 600px; width: 100%; height: 600px"></div>
                             <input type="hidden" x-model="latitude" name="latitude">
@@ -601,46 +663,103 @@
 
     <script>
         const defaultLocation = {lat: -12.09706477059002, lng: -77.02302118294135}; // Coordenadas iniciales de ejemplo
-        const mapDiv = document.getElementById("map")
-        let input = document.getElementById("place_input")
-        let map
-        let marker
-        let autocomplete
-        let lat_inmueble
-        let lng_inmueble
+        const mapDiv = document.getElementById("map");
+        let input = document.getElementById("place_input");
+        let map;
+        let marker;
+        let circle;
+        let autocomplete;
+        let lat_inmueble;
+        let lng_inmueble;
+        let geocoder;
+
         function initMap() {
             map = new google.maps.Map(mapDiv, {
                 center: defaultLocation,
-                zoom: 18,
-            })
+                zoom: 14,
+            });
+
+            geocoder = new google.maps.Geocoder();
+
             marker = new google.maps.Marker({
-                position: defaultLocation,
+                // position: defaultLocation,
                 map: map,
                 draggable: true, // Permite arrastrar el marcador
-            })
-            initAutocomplete()
+            });
+
+            circle = new google.maps.Circle({
+                strokeColor: "#FFFF00",
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: "#FFFF00",
+                fillOpacity: 0.35,
+                map: null,
+                center: defaultLocation,
+                radius: 1000,
+            });
+
+            initAutocomplete();
+
+            map.addListener('click', (event) => {
+                const clickedLocation = event.latLng;
+                
+                lat_inmueble = clickedLocation.lat();
+                lng_inmueble = clickedLocation.lng();
+
+                updateMapElements(clickedLocation);
+            });
+
+            marker.addListener('dragend', () => {
+                const newPosition = marker.getPosition();
+                lat_inmueble = newPosition.lat();
+                lng_inmueble = newPosition.lng();
+
+                geocoder.geocode({'location': newPosition}, (results, status) => {
+                    if (status === 'OK' && results[0]) {
+                        input.value = results[0].formatted_address;
+                    } else {
+                        input.value = 'Dirección no encontrada';
+                    }
+                });
+            });
+
+            document.getElementById('exact').addEventListener('change', () => updateMapElements(marker.getPosition()));
+            document.getElementById('approximate').addEventListener('change', () => updateMapElements(marker.getPosition()));
         }
 
         function initAutocomplete() {
+            autocomplete = new google.maps.places.Autocomplete(input);
 
-            const distrito = document.getElementById('valueDistrito')
-            autocomplete = new google.maps.places.Autocomplete(input)
             autocomplete.addListener("place_changed", () => {
-                const place = autocomplete.getPlace()
-                map.setCenter(place.geometry.location)
-                marker.setPosition(place.geometry.location)
-                lat_inmueble = place.geometry.location.lat()
-                lng_inmueble = place.geometry.location.lng()
-                // console.log(place.address_components)
+                const place = autocomplete.getPlace();
+                map.setCenter(place.geometry.location);
 
-                const { direccion, numeroDireccion } = extractLocationComponents(place.address_components);
-                // console.log(`Direccion: ${direccion}, ${numeroDireccion}`);
-            })
-            // Evento cuando el usuario termina de arrastrar el marcador
-            marker.addListener('dragend', () => {
-                const newPosition = marker.getPosition();
-                lat_inmueble = newPosition.lat()
-                lng_inmueble = newPosition.lng()
+                lat_inmueble = place.geometry.location.lat();
+                lng_inmueble = place.geometry.location.lng();
+
+                updateMapElements(place.geometry.location);
+            });
+        }
+
+        function updateMapElements(location) {
+            const isExact = document.getElementById('exact').checked;
+
+            if (isExact) {
+                marker.setPosition(location);
+                marker.setMap(map);
+                circle.setMap(null); // Ocultar el círculo si está visible
+            } else {
+                circle.setCenter(location);
+                circle.setMap(map);
+                marker.setMap(null); // Ocultar el marcador si está visible
+            }
+
+            geocoder.geocode({'location': location}, (results, status) => {
+                if (status === 'OK' && results[0]) {
+                    input.value = results[0].formatted_address;
+                } else {
+                    input.value = 'Dirección no encontrada';
+                }
             });
         }
 
@@ -729,6 +848,7 @@
 
                     map: null,
                     marker: null,
+                    es_exacta: 1,
                     latitude: null,
                     longitude: null,
 
@@ -841,6 +961,7 @@
                             formData.append('provincia_id', this.selectedProvincia)
                             formData.append('distrito_id', this.selectedDistrito)
                             formData.append('ubicacion', 1)
+                            formData.append('es_exacta', this.es_exacta)
                             formData.append('latitud', lat_inmueble)
                             formData.append('longitud', lng_inmueble)
                             formData.append('codigo_unico', this.codigo_unico) 

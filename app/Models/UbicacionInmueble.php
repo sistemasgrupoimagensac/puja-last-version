@@ -11,7 +11,7 @@ class UbicacionInmueble extends Model
     use HasFactory;
 
     protected $table = "ubicaciones_inmuebles";
-    protected $fillable = ['principal_inmueble_id', 'direccion', 'departamento_id', 'provincia_id', 'distrito_id', 'latitud', 'longitud', 'estado'];
+    protected $fillable = ['principal_inmueble_id', 'direccion', 'departamento_id', 'provincia_id', 'distrito_id', 'es_exacta', 'latitud', 'longitud', 'estado'];
 
     public function principalInmueble(): BelongsTo
     {

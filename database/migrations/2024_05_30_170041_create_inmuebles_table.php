@@ -43,6 +43,7 @@ return new class extends Migration
             $table->foreignId('departamento_id')->nullable()->constrained(table: 'departamentos');
             $table->foreignId('provincia_id')->nullable()->constrained(table: 'provincias');
             $table->foreignId('distrito_id')->nullable()->constrained(table: 'distritos');
+            $table->boolean('es_exacta')->default(false)->comment("1:Exacta, 0:Aproximada");
             $table->string('latitud', 150)->nullable();
             $table->string('longitud', 150)->nullable();
             $table->boolean('estado')->default(1);

@@ -252,15 +252,10 @@ class MyPostsController extends Controller
         if ($request->ubicacion) {
             $validator = Validator::make($request->all(), [
                 'direccion' => 'required|string|max:250',
-
                 'departamento_id' => 'required|integer|digits_between:1,3',
                 'provincia_id' => 'required|integer|digits_between:1,5',
                 'distrito_id' => 'required|integer|digits_between:1,7',
-                
-                /* 'departamento_id' => 'required|string|digits_between:1,3',
-                'provincia_id' => 'required|integer|digits_between:1,5',
-                'distrito_id' => 'required|integer|digits_between:1,7', */
-
+                'es_exacta' => 'required|boolean',
                 'latitud' => 'string|max:500',
                 'longitud' => 'string|max:500',
             ]);
@@ -278,6 +273,7 @@ class MyPostsController extends Controller
                 "departamento_id" => $request->departamento_id,
                 "provincia_id" => $request->provincia_id,
                 "distrito_id" => $request->distrito_id,
+                "es_exacta" => $request->es_exacta,
                 "latitud" => $request->latitud,
                 "longitud" => $request->longitud,
                 "estado" => 1,
