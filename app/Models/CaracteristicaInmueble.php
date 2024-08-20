@@ -28,6 +28,7 @@ class CaracteristicaInmueble extends Model
         'remate_precio_base',
         'remate_valor_tasacion',
         'remate_partida_registral',
+        'remate_direccion_id',
         'remate_direccion',
         'remate_fecha',
         'remate_hora',

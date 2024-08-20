@@ -67,6 +67,7 @@ return new class extends Migration
             $table->float('remate_precio_base')->nullable();
             $table->float('remate_valor_tasacion')->nullable();
             $table->string('remate_partida_registral', 250)->nullable();
+            $table->integer('remate_direccion_id')->nullable()->comment("1: otros, 2: CACLI, 3: CAFI, 4: REMAJU");
             $table->string('remate_direccion', 250)->nullable();
             $table->string('remate_fecha', 15)->nullable();
             $table->string('remate_hora', 10)->nullable();

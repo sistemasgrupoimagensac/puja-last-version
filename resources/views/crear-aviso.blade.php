@@ -353,9 +353,10 @@
                                             aria-expanded="false"
                                         >Arbitraje</button>
                                         <ul class="dropdown-menu dropdown-menu-end">
-                                          <li class="dropdown-item" type="button"  @click=" direccion_remate='Av. Arequipa 330, oficina 907, Cercado de Lima (CACLI)' ">CACLI</li>
-                                          <li class="dropdown-item" type="button" @click=" direccion_remate='Av. Diez Canseco 442, oficina 202, Miraflores (CAFI)' ">CAFI</li>
-                                          <li class="dropdown-item" type="button" @click=" direccion_remate='Remate Virtual' ">REMAJU</li>
+                                            <li class="dropdown-item" type="button"  @click=" selectDireccionRemate(2) ">CACLI</li>
+                                            <li class="dropdown-item" type="button" @click=" selectDireccionRemate(3) ">CAFI</li>
+                                            <li class="dropdown-item" type="button" @click=" selectDireccionRemate(4) ">REMAJU</li>
+                                            <li class="dropdown-item" type="button" @click=" selectDireccionRemate(1) ">Otros</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -839,6 +840,7 @@
                     base_remate: '',
                     valor_tasacion: '',
                     direccion_remate: '',
+                    remate_direccion_id: '',
                     partida_registral: '',
                     fecha_remate: '',
                     hora_remate: '',
@@ -851,6 +853,25 @@
                     es_exacta: 1,
                     latitude: null,
                     longitude: null,
+
+                selectDireccionRemate(val) {
+                    const $direccion_remate = document.getElementById("direccion_remate")
+                    $direccion_remate.disabled = true;
+                    if ( val === 1 ) {
+                        this.remate_direccion_id = val
+                        this.direccion_remate = ""
+                        $direccion_remate.disabled = false;
+                    } else if ( val === 2 ) {
+                        this.remate_direccion_id = val
+                        this.direccion_remate = "Av. Arequipa 330, oficina 907, Cercado de Lima (CACLI)"
+                    } else if ( val === 3 ) {
+                        this.remate_direccion_id = val
+                        this.direccion_remate = "Av. Diez Canseco 442, oficina 202, Miraflores (CAFI)"
+                    } else if ( val === 4 ) {
+                        this.remate_direccion_id = val
+                        this.direccion_remate = "Remate Virtual"
+                    }
+                },
 
                 formatAmount(modelName, final = false) {
                     // Remover todos los caracteres no numéricos
@@ -981,6 +1002,7 @@
                             formData.append('remate_precio_base', this.base_remate)
                             formData.append('remate_valor_tasacion', this.valor_tasacion)
                             formData.append('remate_partida_registral', this.partida_registral)
+                            formData.append('remate_direccion_id', this.remate_direccion_id)
                             formData.append('remate_direccion', this.direccion_remate)
                             formData.append('remate_fecha', this.fecha_remate)
                             formData.append('remate_hora', this.hora_remate)
