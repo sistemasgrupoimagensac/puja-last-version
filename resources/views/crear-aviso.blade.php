@@ -869,7 +869,7 @@
                         this.direccion_remate = "Av. Diez Canseco 442, oficina 202, Miraflores (CAFI)"
                     } else if ( val === 4 ) {
                         this.remate_direccion_id = val
-                        this.direccion_remate = "Remate Virtual"
+                        this.direccion_remate = "Remate Virtual (REMAJU)"
                     }
                 },
 

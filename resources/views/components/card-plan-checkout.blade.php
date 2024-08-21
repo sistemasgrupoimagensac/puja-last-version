@@ -5,7 +5,7 @@
 
       <div class="d-flex flex-column align-items-center">
         <div class="card-text fw-bold display-3 d-flex gap-2">
-          <span>S/</span><x-miles-coma amount="prices[tipoPlan]" className=""/>
+          <span>S/</span><x-miles-coma amount="prices[tipoPlan]"/>
         </div>
       </div>
         
