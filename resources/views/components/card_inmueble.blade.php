@@ -58,13 +58,20 @@
                                             <span>{{ number_format($price_dolar) }}</span>
                                         @endif
                                     @else
-                                        <span style="font-size: 1rem">Precio base</span>
-                                        <span>{{ $currency_dolar }}</span>
-                                        <span>{{ number_format($remate_precio_base) }}</span>
-                                        <span> - </span>
-                                        <span style="font-size: 1rem">Valor tasación</span>
-                                        <span>{{ $currency_dolar }}</span>
-                                        <span>{{ number_format($remate_valor_tasacion) }}</span>
+                                        <div class="d-flex flex-column align-items-end flex-lg-row gap-lg-3">
+                                            <div>
+                                                <span class="fs-6">Valor tasación</span>
+                                                <span class="fs-4">{{ $currency_dolar }}</span>
+                                                <span class="fs-4">{{ number_format($remate_valor_tasacion) }}</span>
+                                            </div>
+    
+                                            {{-- <span> - </span> --}}
+                                            <div class="text-primary">
+                                                <span class="fs-5">Precio base</span>
+                                                <span class="fs-2">{{ $currency_dolar }}</span>
+                                                <span class="fs-2">{{ number_format($remate_precio_base) }}</span>
+                                            </div>
+                                        </div>
                                     @endif
 
                                 </h2>
