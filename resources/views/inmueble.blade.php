@@ -40,7 +40,7 @@
 
                         @if ($inmueble_en_remate)
                             <div class="position-absolute top-0 end-0 mt-4 me-2">
-                                <h3 class="h2"><span class="badge text-bg-danger">REMATE JUDICIAL</span></h3>
+                                <h3 class="h2"><span class="badge text-bg-danger">REMATE PÚBLICO</span></h3>
                             </div>
                         @endif
                         
@@ -174,7 +174,7 @@
                     {{-- Card - Remate (OPCIONAL) --}}
                     @if($inmueble_en_remate)
                         <div class="description-container mt-4 bg-primary-subtle text-bg-light p-3 rounded border border-3 border-primary">
-                            <h3 class="fw-bold">Detalles del Remate Judicial</h3>
+                            <h3 class="fw-bold">Detalles del Remate Público</h3>
 
                             @if($aviso->inmueble->remate_direccion())
                                 <p>
