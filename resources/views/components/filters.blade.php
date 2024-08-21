@@ -11,26 +11,59 @@
                     @if(!$url_parse['operacion'])
                         Todos
                     @else
-                        {{ ($url_parse['operacion'])->tipo }}
+                        @if ( ($url_parse['operacion'])->tipo == "Remate" )
+                            Remate Público
+                        @else
+                            {{ ($url_parse['operacion'])->tipo }}
+                        @endif
                     @endif
                 </span>
             </button>
             <ul class="dropdown-menu">
-                <li class="dropdown-item filters-dropdown-li @if(optional($url_parse['operacion'])->id != null) trasaction @endif" data-value="todos">
+                <li class="dropdown-item filters-dropdown-li filter-operation @if(optional($url_parse['operacion'])->id != null) trasaction @endif" data-value="todos">
                     Todos
                 </li>
-                <li class="dropdown-item filters-dropdown-li @if(optional($url_parse['operacion'])->id != 1) trasaction @endif" data-value="1">
+                <li class="dropdown-item filters-dropdown-li filter-operation @if(optional($url_parse['operacion'])->id != 1) trasaction @endif" data-value="1">
                     Venta
                 </li>
-                <li class="dropdown-item filters-dropdown-li @if(optional($url_parse['operacion'])->id != 2) trasaction @endif" data-value="2">
+                <li class="dropdown-item filters-dropdown-li filter-operation @if(optional($url_parse['operacion'])->id != 2) trasaction @endif" data-value="2">
                     Alquiler
                 </li>
-                <li class="dropdown-item filters-dropdown-li @if(optional($url_parse['operacion'])->id != 3) trasaction @endif" data-value="3">
-                    Remate
+                <li class="dropdown-item filters-dropdown-li filter-operation @if(optional($url_parse['operacion'])->id != 3) trasaction @endif" data-value="3">
+                    Remate Público
                 </li>
             </ul>
         </div>
     
+        {{-- Direccion de Remate --}}
+        <div id="remateButton" class="d-none">
+            <div class="btn-group d-xl-inline-flex">
+                <button type="button" class="btn border dropdown-toggle py-2" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="true">
+                    <i class="fa-solid fa-house-laptop icon-orange me-2"></i>
+                    <span id="direccionRemateFiltertittle">
+                        Todos
+                    </span>
+                </button>
+                <ul class="dropdown-menu ">
+                    <li class="dropdown-item filters-dropdown-li direccion-remate filterOthers" data-submit="direccionRemate"  data-valor="0">
+                        Todos
+                    </li>
+                    <li class="dropdown-item filters-dropdown-li direccion-remate filterOthers" data-submit="direccionRemate" data-valor="2">
+                        CACLI
+                    </li>
+                    <li class="dropdown-item filters-dropdown-li direccion-remate filterOthers" data-submit="direccionRemate" data-valor="3">
+                        CAFI
+                    </li>
+                    <li class="dropdown-item filters-dropdown-li direccion-remate filterOthers" data-submit="direccionRemate" data-valor="4">
+                        REMAJU
+                    </li>
+                    <li class="dropdown-item filters-dropdown-li direccion-remate filterOthers" data-submit="direccionRemate" data-valor="1">
+                        Otros
+                    </li>
+                </ul>
+            </div>
+        </div>
+
         {{-- Tipo inmueble --}}
         <div class="btn-group d-none d-xl-inline-flex">
             <button type="button" class="btn border dropdown-toggle py-2 " data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="true">
@@ -56,26 +89,28 @@
         </div>
     
         {{-- Precio Inmueble --}}
-        <div class="btn-group d-none d-xl-inline-flex filters-price-desktop ">
-            <button type="button" class="btn border dropdown-toggle py-2 " data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="true" aria-label="Orden">
-                <i class="fa-solid fa-money-bill-1 icon-orange me-2"></i>
-                <span id="ventafiltertittle">Precio</span>
-            </button>
-            <ul class="dropdown-menu p-2 ">
-        
-                <div class="d-flex justify-content-between align-items-center mb-1">
-                    <h6 class="m-0">Precio</h6>
-                    <div>
-                        <small class="text-primary fw-bold button-filter-price" id="filtersbuscarprecios">Aplicar</small>
+        <div id="priceRange">
+            <div class="btn-group  filters-price-desktop ">
+                <button type="button" class="btn border dropdown-toggle py-2 " data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="true" aria-label="Orden">
+                    <i class="fa-solid fa-money-bill-1 icon-orange me-2"></i>
+                    <span id="ventafiltertittle">Precio</span>
+                </button>
+                <ul class="dropdown-menu p-2 ">
+            
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <h6 class="m-0">Precio</h6>
+                        <div>
+                            <small class="text-primary fw-bold button-filter-price filterOthers" data-submit="filtersbuscarprecios">Aplicar</small>
+                        </div>
                     </div>
-                </div>
-            
-                <div class="d-flex gap-3">
-                    <input type="text" class="form-control amount" name="preciominimo" id="preciominimo" placeholder="Precio mínimo">
-                    <input type="text" class="form-control amount" name="preciomaximo" id="preciomaximo" placeholder="Precio máximo">
-                </div>
-            
-            </ul>
+                
+                    <div class="d-flex gap-3">
+                        <input type="text" class="form-control amount" name="preciominimo" id="preciominimo" placeholder="Precio mínimo">
+                        <input type="text" class="form-control amount" name="preciomaximo" id="preciomaximo" placeholder="Precio máximo">
+                    </div>
+                
+                </ul>
+            </div>
         </div>
     
         {{-- Filtros Generales MODAL --}}
@@ -285,7 +320,7 @@
                         
                             <div class="modal-footer justify-content-between">
                                 <input type="button" class="btn button-clear aside-menu mx-1 px-3" value="Restablecer Filtros">
-                                <input type="button" class="btn button-orange mx-1 px-3" type="submit" value="Aplicar Filtros">
+                                <input type="submit" class="btn button-orange mx-1 px-3" value="Aplicar Filtros">
                             </div>
                         </form>
                 
