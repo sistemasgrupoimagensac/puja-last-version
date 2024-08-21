@@ -7,10 +7,17 @@
 >
     <div class="row g-0 h-100">
 
-        <div class="col-lg-4 h-100">
+        <div class="col-lg-4 h-100 position-relative">
             <a href="{{ $link }}" target="_blank" class="text-decoration-none text-reset">
                 <img src="{{ asset($image) }}" class="card-inmueble-image rounded" alt="imagen inmueble">
             </a>
+
+            @if ($type === 'Remate')
+                <div class="position-absolute top-0 end-0 mt-4 me-2">
+                    <h3><span class="badge text-bg-danger">REMATE JUDICIAL</span></h3>
+                </div>
+            @endif
+
 
             @if ($aviso->ad_type === 3)
                 <div class="ribbon premium">Premium</div>

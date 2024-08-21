@@ -36,7 +36,13 @@
                 <div class="py-3">
 
                     {{-- Imagenes --}}
-                    <div class="images-wrapper position-relative" data-bs-toggle="modal" data-bs-target="#modalImagesCarousel">
+                    <div class="images-wrapper position-relative mb-4" data-bs-toggle="modal" data-bs-target="#modalImagesCarousel">
+
+                        @if ($inmueble_en_remate)
+                            <div class="position-absolute top-0 end-0 mt-4 me-2">
+                                <h3 class="h2"><span class="badge text-bg-danger">REMATE JUDICIAL</span></h3>
+                            </div>
+                        @endif
                         
                         @if ($aviso->ad_type === 3)
                             <div class="ribbon premium">Premium</div>
@@ -93,11 +99,30 @@
                             </div>
                         </div>
                     </div>
+                    
+                    {{-- Precio del inmueble Remate --}}
+                    @if($inmueble_en_remate)
+                        <div class="card m-0 my-4 text-bg-dark shadow p-3">
+                            <p class="h3">
+                                <strong class="fw-bold text-primary">¡Gran oportunidad!</strong> Adquiere esta propiedad por <strong class="text-primary fw-bolder fs-2">USD {{ number_format($aviso->inmueble->remate_precio_base()) }}</strong> de precio base, 
+                                muy por debajo de su valor tasado en <strong>USD {{ number_format($aviso->inmueble->remate_valor_tasacion()) }}</strong>
+                            </p>
+                        </div>
+                    @endif
 
                     {{-- Card - Datos del inmueble --}}
-                    <div class="custom-container mt-4 p-3 rounded bg-body-secondary d-flex flex-row justify-content-between align-items-end flex-md-column align-items-md-stretch shadow">
+                    @if ($inmueble_en_remate)
+                        <div class="custom-container mt-2 p-3 rounded bg-body-secondary d-flex flex-column justify-content-between align-items-md-stretch shadow">
+                    @else
+                        <div class="custom-container mt-2 p-3 rounded bg-body-secondary d-flex flex-row justify-content-between align-items-end flex-md-column align-items-md-stretch shadow">
+                    @endif
 
-                        <div class="d-flex flex-column flex-md-row justify-content-between">
+                        @if ($inmueble_en_remate)
+                            <div class="d-flex flex-column">
+                        @else
+                            <div class="d-flex flex-column flex-md-row justify-content-between gap-2 gap-lg-5">
+                        @endif
+
                             <div style="max-width: 700px">
                                 
                                 {{-- title --}}
@@ -118,57 +143,38 @@
                             </div>
                 
                             {{-- Precio del inmueble Alquiler y Venta --}}
-                            <div class="d-flex justify-content-between">
+                            @if (!$inmueble_en_remate)
+                                <div class="d-flex justify-content-between">
 
-                                <div class="d-flex flex-column align-items-start align-items-md-end mt-4 mt-md-0">
-                                    @if($aviso->inmueble->precioSoles())
-                                        <h2 class="m-0 fw-bolder">
-                                            <span>{{ $aviso->inmueble->currencySoles() }}</span>
-                                            <span>{{ number_format($aviso->inmueble->precioSoles(), 0, '', ',') }}</span>
-                                        </h2>
-                                    @endif
-                                    @if($aviso->inmueble->precioDolares())
-                                        <h3 class="m-0 fw-bolder text-secondary">
-                                            <small>{{ $aviso->inmueble->currencyDolares() }}</small>
-                                            <small>{{ number_format($aviso->inmueble->precioDolares(), 0, '', ',') }}</small>
-                                        </h3>
-                                    @endif
-    
-                                </div>
-                                <h4 class="p-0 m-0 mt-4 d-block d-md-none">
-                                    ID: {{ $aviso->id }}
-                                </h4>
-                            </div>
-
-                            {{-- Precio del inmueble Remate --}}
-                            @if($inmueble_en_remate)
-                                <div class="d-flex flex-column align-items-start align-items-md-end mt-4 mt-md-0">
-                                    <small class="text-prim">Precio base remate</small>
-                                    <h2 class="m-0 fw-bolder text-primary">
-                                        <span>{{ $aviso->inmueble->currencyDolares() }}</span>
-                                        <span> {{ number_format($aviso->inmueble->remate_precio_base()) }} </span>
-                                    </h2>
-                                    <small class="mt-3">Valor de la tasación</small>
-                                    <h3 class="m-0 fw-bolder text-secondary">
-                                        <small>{{ $aviso->inmueble->currencyDolares() }}</small>
-                                        <span> {{ number_format($aviso->inmueble->remate_valor_tasacion()) }} </span>
-                                    </h3>
+                                    <div class="d-flex flex-column align-items-start align-items-md-end mt-4 mt-md-0">
+                                        @if($aviso->inmueble->precioSoles())
+                                            <h2 class="m-0 fw-bolder">
+                                                <span>{{ $aviso->inmueble->currencySoles() }}</span>
+                                                <span>{{ number_format($aviso->inmueble->precioSoles(), 0, '', ',') }}</span>
+                                            </h2>
+                                        @endif
+                                        @if($aviso->inmueble->precioDolares())
+                                            <h3 class="m-0 fw-bolder text-secondary">
+                                                <small>{{ $aviso->inmueble->currencyDolares() }}</small>
+                                                <small>{{ number_format($aviso->inmueble->precioDolares(), 0, '', ',') }}</small>
+                                            </h3>
+                                        @endif
+        
+                                    </div>
                                 </div>
                             @endif
 
-                        </div>
+                            </div>
 
-                        <h4 class="p-0 m-0 mt-4 d-none d-md-block">
+                        <h4 class="p-0 m-0 mt-4" style="min-width: 70px">
                             ID: {{ $aviso->id }}
                         </h4>
-
-
                     </div>
 
                     {{-- Card - Remate (OPCIONAL) --}}
                     @if($inmueble_en_remate)
-                        <div class="description-container mt-4 bg-primary-subtle text-bg-light p-3 rounded shadow">
-                            <h3 class="fw-bold">Detalles del Remate</h3>
+                        <div class="description-container mt-4 bg-primary-subtle text-bg-light p-3 rounded border border-3 border-primary">
+                            <h3 class="fw-bold">Detalles del Remate Judicial</h3>
 
                             @if($aviso->inmueble->remate_direccion())
                                 <p>

@@ -3,7 +3,7 @@
     <div class="card-body p-0">
       <h3 class="card-title fw-bolder mt-3">Plan {{ $title }}</h3>
       <h4 class="card-subtitle mb-2">
-        S/ <span x-text="{{ $price }}"></span> por 
+        S/ <x-miles-coma amount="{{ $price }}"></x-miles-coma> por 
         <span x-text="{{ $time }}"></span> días
       </h4>
    
