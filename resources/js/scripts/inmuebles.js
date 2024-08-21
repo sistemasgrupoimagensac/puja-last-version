@@ -1,12 +1,62 @@
-document.querySelectorAll('.amount').forEach( amount => {
-    amount.addEventListener('input', function() {
-        let valor = this.value.replace(/^0|[^\d]/g, '');
-        valor = valor.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        this.value = valor;
 
-        const valorEntero = valor.replace(/,/g, '');
-        this.dataset.integerValue = valorEntero;
+const urlParams = new URLSearchParams(window.location.search);
+const priceMin = urlParams.get('preciominimo');
+const priceMax = urlParams.get('preciomaximo');
+const directionAuction = urlParams.get('direccionRemate');
+
+// Mostrar los valores en la consola
+if (priceMin) {
+    const $precioMinimo = document.getElementById("preciominimo")
+    $precioMinimo.value = priceMin
+    formatAmount($precioMinimo);
+}
+if (priceMax) {
+    const $precioMaximo = document.getElementById("preciomaximo")
+    $precioMaximo.value = priceMax
+    formatAmount($precioMaximo);
+}
+if ( directionAuction ) {
+    const $direccionRemateFiltertittle = document.getElementById('direccionRemateFiltertittle')
+    if ( directionAuction == 1 ) $direccionRemateFiltertittle.textContent = "Otros"
+    if ( directionAuction == 2 ) $direccionRemateFiltertittle.textContent = "CACLI"
+    if ( directionAuction == 3 ) $direccionRemateFiltertittle.textContent = "CAFI"
+    if ( directionAuction == 4 ) $direccionRemateFiltertittle.textContent = "REMAJU"
+}
+
+function formatAmount(inputElement) {
+    let valor = inputElement.value.replace(/^0|[^\d]/g, '');
+    valor = valor.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    inputElement.value = valor;
+
+    const valorEntero = valor.replace(/,/g, '');
+    inputElement.dataset.integerValue = valorEntero;
+}
+
+// Agregar event listener para formatear los inputs con la clase .amount
+document.querySelectorAll('.amount').forEach(amount => {
+    amount.addEventListener('input', function() {
+        formatAmount(this);
     });
+});
+
+// Ocultar y mostrar el boton de lugar de remate
+document.addEventListener('DOMContentLoaded', function () {
+    const $priceRange = document.getElementById('priceRange')
+    const $remateButton = document.getElementById('remateButton')
+    const $dropdownItems = document.querySelectorAll('.filters-dropdown-li.filter-operation')
+    const $trasactionFilterTitle = document.getElementById('trasactionfiltertittle')
+    $dropdownItems.forEach(item => {
+        item.addEventListener('click', function () {
+            const selectedValue = this.dataset.value
+            selectedValue === "3"
+            ? $remateButton.classList.remove('d-none')
+            : $remateButton.classList.add('d-none')
+        });
+    });
+    if ( $trasactionFilterTitle.textContent.trim() === 'Remate Público' ) {
+        $remateButton.classList.remove('d-none');
+        $priceRange.classList.add('d-none');
+    }
 });
 
 // logica para que el precio minimo siempre sea menor que el precio maximo ==========================================
@@ -177,13 +227,28 @@ formFilterInmueble.addEventListener('submit', function(event) {
     window.location.href = urlTotal
 });
 
+const remateFilterTitle = document.getElementById('direccionRemateFiltertittle');
+document.querySelectorAll('.filterOthers').forEach( function(item) {
+    item.addEventListener('click', function() {
+        const currentUrl = window.location;
+        const baseUrl = currentUrl.origin + currentUrl.pathname;
+        let url = ""
 
-document.getElementById('filtersbuscarprecios').addEventListener('click', function() {
-    const currentUrl = window.location;
-    const baseUrl = currentUrl.origin + currentUrl.pathname;
-    const url = `${baseUrl}?preciominimo=${preciominimo.dataset.integerValue}&preciomaximo=${preciomaximo.dataset.integerValue}`;
-    window.location.href = url;
-});
+        // Actualiza el texto del span con el contenido del <li> clicado
+        remateFilterTitle.textContent = this.textContent.trim();
+
+        if ( this.dataset.submit === "filtersbuscarprecios" ) {
+            url = `${baseUrl}?preciominimo=${preciominimo.dataset.integerValue}&preciomaximo=${preciomaximo.dataset.integerValue}`;
+            console.log("sadsa")
+        } else if ( this.dataset.submit === "direccionRemate" ) {
+            var ol = this.dataset.valor
+            console.log(this.dataset.valor)
+            url = `${baseUrl}?direccionRemate=${ol}`;
+        }
+
+        window.location.href = url;
+    });
+})
 
 
 

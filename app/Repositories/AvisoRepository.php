@@ -76,6 +76,11 @@ class AvisoRepository
                             if ($request->estacionamientos != null) {
                                 $q->where('estacionamientos', '>=', $request->estacionamientos);
                             }
+                            if ($request->direccionRemate != null) {
+                                if ( $request->direccionRemate == 1 || $request->direccionRemate == 2 || $request->direccionRemate == 3 || $request->direccionRemate == 4 ) {
+                                    $q->where('remate_direccion_id', $request->direccionRemate);
+                                }
+                            }
                         })
                         ->whereHas('inmueble.extra.caracteristicas', function($q) use($request) {
                             if ($request->caracteristicas != null) {

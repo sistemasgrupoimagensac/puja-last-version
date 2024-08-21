@@ -840,7 +840,7 @@
                     base_remate: '',
                     valor_tasacion: '',
                     direccion_remate: '',
-                    remate_direccion_id: '',
+                    remate_direccion_id: 1,
                     partida_registral: '',
                     fecha_remate: '',
                     hora_remate: '',
