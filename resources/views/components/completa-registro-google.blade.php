@@ -4,7 +4,7 @@
       <div class="modal-dialog modal-dialog-centered modal-lg">
           <div class="modal-content p-2">
               <div class="modal-body">
-                  <form id="formRegistro" class="d-flex flex-column gap-3">
+                  <form id="formCompletaRegistro" class="d-flex flex-column gap-3">
                   @csrf
                       <fieldset class="d-flex flex-column gap-2">
                           <legend class="h4 m-0 p-0 icon-orange">Completa tu registro</legend>
@@ -69,7 +69,7 @@
 
 
   function submitForm() {
-      let form = document.getElementById('formRegistro');
+      let form = document.getElementById('formCompletaRegistro');
 
       let bodyTipoDoc = ''
       const tipo = form.tipo_documento.value
@@ -111,9 +111,8 @@
       })
   }
 
-
   function consultarFormulario() {
-    let form = document.getElementById('formRegistro');
+    let form = document.getElementById('formCompletaRegistro');
     let formData = new FormData(form);
 
     fetch('/store-completeUserGoogle', {

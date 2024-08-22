@@ -104,19 +104,19 @@ class LoginController extends Controller
 
         $validator = Validator::make($request->all(), [
             // 'user_type' => 'required|integer|between:0,9',
-            'user_type' => 'required|string',
+            'tipo_de_usuario' => 'required|string',
             // 'unique_code' => 'required|string|max:255|unique:users,codigo_unico',
-            'name' => 'required|string|max:255',
-            'lastname' => 'required|string|max:255',
+            'nombre' => 'required|string|max:255',
+            'apellido' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|max:20',
-            'document_type' => 'required|integer|max:1',
-            'phone' => 'integer|digits:9',
-            'address' => 'required|string',
-            'document_number' => 'required|string|max:30',
+            'contraseña' => 'required|string|min:6|max:20',
+            'tipo_documento' => 'required|integer|max:1',
+            'telefono' => 'integer|digits:9',
+            'direccion' => 'required|string',
+            'numero_de_documento' => 'required|string|max:30',
             'imagen' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|nullable',
             // 'estado' => 'required|boolean',
-            'accept_terms' => 'accepted',
+            'terminos' => 'accepted',
 
         ]);
         if ($validator->fails()) {
@@ -143,17 +143,17 @@ class LoginController extends Controller
         $user = User::create([
             'tipo_usuario_id' => $user_type,
             'codigo_unico' => null,
-            'nombres' => $request->input('name'),
-            'apellidos' => $request->input('lastname'),
+            'nombres' => $request->input('nombre'),
+            'apellidos' => $request->input('apellido'),
             'email' => $request->input('email'),
-            'password' => bcrypt($request->input('password')),
-            'tipo_documento_id' => $request->input('document_type'),
+            'password' => bcrypt($request->input('contraseña')),
+            'tipo_documento_id' => $request->input('tipo_documento'),
             'celular' => $request->input('phone'),
-            'numero_documento' => $request->input('document_number'),
+            'numero_documento' => $request->input('numero_de_documento'),
             // 'imagen' => $request->input('imagen'),
             'estado' => 1,
             'acepta_termino_condiciones' => $acceptTerms,
-            'direccion' => $request->input('address'),
+            'direccion' => $request->input('direccion'),
         ]);
         if ($request->hasFile('imagen')) {
             $imageName = time().'.'.$request->imagen->extension();  
