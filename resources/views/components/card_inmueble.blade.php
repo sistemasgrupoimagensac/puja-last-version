@@ -14,7 +14,7 @@
 
             @if ($type === 'Remate')
                 <div class="position-absolute top-0 end-0 mt-4 me-2">
-                    <h3><span class="badge text-bg-danger">REMATE JUDICIAL</span></h3>
+                    <h3><span class="badge text-bg-danger">REMATE PÚBLICO</span></h3>
                 </div>
             @endif
 
@@ -58,13 +58,20 @@
                                             <span>{{ number_format($price_dolar) }}</span>
                                         @endif
                                     @else
-                                        <span style="font-size: 1rem">Precio base</span>
-                                        <span>{{ $currency_dolar }}</span>
-                                        <span>{{ number_format($remate_precio_base) }}</span>
-                                        <span> - </span>
-                                        <span style="font-size: 1rem">Valor tasación</span>
-                                        <span>{{ $currency_dolar }}</span>
-                                        <span>{{ number_format($remate_valor_tasacion) }}</span>
+                                        <div class="d-flex flex-column align-items-end flex-lg-row gap-lg-3">
+                                            <div>
+                                                <span class="fs-6">Valor tasación</span>
+                                                <span class="fs-4">{{ $currency_dolar }}</span>
+                                                <span class="fs-4">{{ number_format($remate_valor_tasacion) }}</span>
+                                            </div>
+    
+                                            {{-- <span> - </span> --}}
+                                            <div class="text-primary">
+                                                <span class="fs-5">Precio base</span>
+                                                <span class="fs-2">{{ $currency_dolar }}</span>
+                                                <span class="fs-2">{{ number_format($remate_precio_base) }}</span>
+                                            </div>
+                                        </div>
                                     @endif
 
                                 </h2>
@@ -123,11 +130,11 @@
 
                     <div class="d-flex gap-2">
 
-                        <x-whatsapp-modal-contact :idCaracteristica="$idCaracteristica" :isPuja="$isPuja"></x-whatsapp-modal-contact>
+                        {{-- <x-whatsapp-modal-contact :idCaracteristica="$idCaracteristica" :isPuja="$isPuja"></x-whatsapp-modal-contact> --}}
 
-                        <button class="btn btn-light border-secondary-subtle bg-white">
+                        {{-- <button class="btn btn-light border-secondary-subtle bg-white">
                             <i class="fas fa-envelope"></i> Email
-                        </button>
+                        </button> --}}
                     </div>
                 </div>
             </div>
