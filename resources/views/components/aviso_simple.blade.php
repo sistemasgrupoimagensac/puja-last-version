@@ -58,9 +58,9 @@
                                     <small>Fecha inicio: <span class="text-secondary">{{ \Carbon\Carbon::parse($aviso->planUser->start_date)->format('d/m/Y') }}</span></small>
                                     <small>Fecha finalización: <span class="text-secondary">{{ \Carbon\Carbon::parse($aviso->planUser->end_date)->format('d/m/Y') }}</span></small>
     
-                                    @if ($aviso->ad_type === '3')
+                                    @if ( $aviso->ad_type === 3 )
                                         <small>Aviso tipo: <span class="text-secondary">Premium</span></small>
-                                    @elseif ($aviso->ad_type === '2')
+                                    @elseif ( $aviso->ad_type === 2 )
                                         <small>Aviso tipo: <span class="text-secondary">Top</span></small>
                                     @else
                                         <small>Aviso tipo: <span class="text-secondary">Típico</span></small>
