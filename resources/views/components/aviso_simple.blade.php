@@ -51,19 +51,19 @@
 
                         {{-- datos inmueble publicado --}}
                         @if (isset($aviso->planUser->end_date))
-                            <div class="text-bg-dark rounded-3 p-4 m-lg-4">
+                            <div class="text-bg-secondary rounded-3 p-4 m-lg-4">
 
                                 <div class="d-flex flex-column">
 
-                                    <small>Fecha inicio: <span class="text-secondary">{{ \Carbon\Carbon::parse($aviso->planUser->start_date)->format('d/m/Y') }}</span></small>
-                                    <small>Fecha finalización: <span class="text-secondary">{{ \Carbon\Carbon::parse($aviso->planUser->end_date)->format('d/m/Y') }}</span></small>
-    
+                                    <span>Fecha publicación: <span class=" fw-semibold">{{ \Carbon\Carbon::parse($aviso->fecha_publicacion)->format('d . m . Y') }}</span></span>
+                                    <span>Fecha finalización: <span class=" fw-semibold">{{ \Carbon\Carbon::parse($aviso->planUser->end_date)->format('d . m . Y') }}</span></span>
+                                    
                                     @if ( $aviso->ad_type === 3 )
-                                        <small>Aviso tipo: <span class="text-secondary">Premium</span></small>
+                                        <span>Aviso tipo: <span class=" fw-semibold">Premium</span></span>
                                     @elseif ( $aviso->ad_type === 2 )
-                                        <small>Aviso tipo: <span class="text-secondary">Top</span></small>
+                                        <span>Aviso tipo: <span class=" fw-semibold">Top</span></span>
                                     @else
-                                        <small>Aviso tipo: <span class="text-secondary">Típico</span></small>
+                                        <span>Aviso tipo: <span class=" fw-semibold">Típico</span></span>
                                     @endif
     
                                 </div>
