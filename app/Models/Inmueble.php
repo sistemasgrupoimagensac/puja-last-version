@@ -121,15 +121,20 @@ class Inmueble extends Model
         return optional(optional(optional($this->principal)->ubicacion)->provincia)->nombre;
     }
 
+    public function departamento()
+    {
+        return optional(optional(optional($this->principal)->ubicacion)->departamento)->nombre;
+    }
+
     public function title()
     {
         $tipo_inmueble = $this->category();
         $tipo_operacion = $this->type();
         $distrito = $this->distrito();
 
-        if($tipo_operacion === "Rematar") {
-            $tipo_operacion = "Remate";
-        }
+        // if($tipo_operacion === "Rematar") {
+        //     $tipo_operacion = "Remate";
+        // }
 
         if (is_null($tipo_inmueble) || is_null($tipo_operacion) || is_null($distrito)) {
             return 'Inmueble en Venta/Alquiler';
