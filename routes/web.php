@@ -33,11 +33,13 @@ Route::middleware('auth')->group(function () {
 Route::get('/google-auth/redirect', [SuppliersController::class, 'selectAccountGoogle']);
 Route::get('/google-auth/callback', [SuppliersController::class, 'createLoginGoogle']);
 
+// Filtros
 Route::prefix('/inmuebles')->controller(App\Http\Controllers\Web\Puja\InmueblesController::class)->group(function() {
     Route::get('/{operacion}', 'busquedaInmuebles')->name('busqueda_inmuebles');
     Route::get('/filter/search', 'filterSearch')->name('filter_search');
 });
 
+// Mostrar Inmueble
 Route::prefix('/inmueble')->name('inmueble.')->group(function() {
     Route::get('/{inmueble}', App\Http\Controllers\Web\Puja\InmuebleController::class)->name('single');
 });
@@ -52,41 +54,30 @@ Route::middleware(['auth', 'verified'])->group(function() {
     });
 });
 
-Route::get('/publica-tu-inmueble', function() {
-    return view('publicatuinmueble');
-});
-
+Route::get('/publica-tu-inmueble', [LoginController::class, 'select_profile'])->name('login.publica_tu_inmueble');
 Route::get('/login', [LoginController::class, 'sign_in'])->name('sign_in');
-Route::post('/store', [LoginController::class, 'store']);
-
-// ruta de actualizacion de usuario logueado con google
-Route::post('/store-completeUserGoogle', [LoginController::class, 'complete_user_google']);
-
-Route::post('login', [LoginController::class, 'login'])->name('login');
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/register', [LoginController::class, 'register'])->name('login.register');
+Route::post('login', [LoginController::class, 'login'])->name('login');
+Route::post('/store', [LoginController::class, 'store']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/recuperar-password', [LoginController::class, 'recovery_password'])->name('login.recovery_password');
 
-Route::get('/recuperar-password', function() {
-    return view('auth.recoverpassword');
+Route::post('/store-completeUserGoogle', [LoginController::class, 'complete_user_google'])->middleware('auth');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/my-posts/create', [MyPostsController::class, 'create'])->name('posts.create')
+        ->middleware('verified');
+    Route::post('/my-post/store', [MyPostsController::class, 'store'])->name('posts.store');
+    Route::put('/my-posts/description/edit', [MyPostsController::class, 'edit_description'])->name('posts.edit_description');
+    Route::post('/my-posts/sold', [MyPostsController::class, 'my_post_sold']);
+    Route::get('/my-posts/{aviso}/edit', [MyPostsController::class, 'edit'])->name('posts.edit'); // PENDIENTE
 });
-
-Route::get('/my-posts', [MyPostsController::class, 'index'])->name('posts.index');
-Route::get('/my-posts/create', [MyPostsController::class, 'create'])->name('posts.create');
-
-Route::post('/my-post/store', [MyPostsController::class, 'store'])->name('posts.store');
-// Route::get('/my-posts/{id}', [MyPostsController::class, 'show'])->name('posts.show');
-Route::get('/my-posts/{aviso}/edit', [MyPostsController::class, 'edit'])->name('posts.edit');
-Route::put('/my-posts/description/edit', [MyPostsController::class, 'edit_description'])->name('posts.edit_description');
-Route::post('/my-posts/sold', [MyPostsController::class, 'my_post_sold']);
-// Route::put('/my-posts/{id}', [MyPostsController::class, 'update'])->name('posts.update');
-// Route::delete('/my-posts/{id}', [MyPostsController::class, 'destroy'])->name('posts.destroy');
 
 Route::get('/my-post/operaciones/subtipos', [MyPostsController::class, 'get_subtipos']);
 Route::get('/my-post/ubicacion/departamentos', [MyPostsController::class, 'getDepartamentos']);
 Route::get('/my-post/ubicacion/provincias/{departamentoId}', [MyPostsController::class, 'getProvincias']);
 Route::get('/my-post/ubicacion/distritos/{provinciaId}', [MyPostsController::class, 'getDistritos']);
 Route::get('/my-post/extras/{extra_id}', [MyPostsController::class, 'getExtras']);
-
 
 
 // Ruta para planes de pago
@@ -137,7 +128,6 @@ Route::get('/politica-privacidad', function() {
 
 Route::post('/get-data-openpay', [PlanController::class, 'get_data_openpay']);
 Route::post('/pagar-openpay', [PlanController::class, 'pay_openpay']);
-// Route::post('/consultar-documento', [DocumentoController::class, 'consultar'])->name('consultar.documento');
 Route::post('/consulta-dni-ruc', [DocumentoController::class, 'consultar_dni_ruc']);
 
 Route::post('/enviar-datos-dni-ruc', [BillingController::class, 'recibirDatos']);

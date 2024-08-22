@@ -14,6 +14,16 @@ use Illuminate\Auth\Events\Registered;
 class LoginController extends Controller
 {
 
+    public function select_profile()
+    {
+        return view('publicatuinmueble');
+    }
+
+    public function recovery_password()
+    {
+        return view('auth.recoverpassword');
+    }
+
     public function sign_in(Request $request)
     {
         if ($request->has('profile_type')) {
@@ -178,12 +188,8 @@ class LoginController extends Controller
                 'errors' => $validator->errors()
             ], 422);
         }
-    
-        if (!Auth::check()) {
-            return redirect()->route('sign_in')->with('error', 'Inicia sesión, por favor.');
-        }
 
-        $user_id = auth()->id();
+        $user_id = Auth::id();
         $user = User::findOrFail($user_id);
         
         $user->update([
