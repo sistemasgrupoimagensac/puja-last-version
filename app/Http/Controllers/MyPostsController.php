@@ -367,12 +367,17 @@ class MyPostsController extends Controller
         }
         
         if ($request->multimedia) {
-            $existingImgMain = MultimediaInmueble::where('inmueble_id', $inmueble->id)->first();
-            if ( !$existingImgMain || ( $existingImgMain && $request->hasFile('imagen_principal') ) ) {
+            // $existingImgMain = MultimediaInmueble::where('inmueble_id', $inmueble->id)->first();
+            $routeImages = "images/{$inmueble->id}";
+            $routePlans = "planos/{$inmueble->id}";
+            $routeVideos = "videos/{$inmueble->id}";
+            Storage::disk('wasabi')->deleteDirectory($routeImages);
+            Storage::disk('wasabi')->deleteDirectory($routePlans);
+            Storage::disk('wasabi')->deleteDirectory($routeVideos);
+
+            if ( $request->hasFile('imagen_principal') ) {
                 $validator = Validator::make($request->all(), [
                     'imagen_principal' => 'required|image|mimes:jpeg,jpg,png|max:4096',
-                    // 'imagen.*' => 'required|image|mimes:jpeg,jpg,png|max:4096',
-                    // 'video' => 'required|image|mimes:jpeg,jpg,png|max:4096',
                 ]);
                 if ($validator->fails()) {
                     return response()->json([
@@ -382,12 +387,9 @@ class MyPostsController extends Controller
                 }
                 
                 $image = $request->file('imagen_principal');
-                $path = Storage::disk('wasabi')->put('images', $image);
+                $path = Storage::disk('wasabi')->put($routeImages, $image);
                 $imageURL = basename($path);
-                // $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-                // $image->move(public_path('images'), $imageName);
-                $imagenUrl1 = url('images/' . $imageURL);
-
+                $imagenUrl1 = url($routeImages . '/' . $imageURL);
                 $multim_inmueble = MultimediaInmueble::updateOrCreate([
                     "inmueble_id" => $inmueble->id,
                     ],[
@@ -405,23 +407,16 @@ class MyPostsController extends Controller
             $multi_inmueble_id = MultimediaInmueble::where('inmueble_id', $inmueble->id)->value('id');
 
             if ( $request->hasFile('imagen') ) {
+                ImagenInmueble::where('multimedia_inmueble_id', $multi_inmueble_id)->delete();
                 foreach ($request->file('imagen') as $imagen) {
-
-                    // $image = $request->file('imagen_principal');
-                    $path = Storage::disk('wasabi')->put('images', $imagen);
+                    $path = Storage::disk('wasabi')->put($routeImages, $imagen);
                     $imagenURL = basename($path);
-                    $imagenUrl_1 = url('images/' . $imagenURL);
-
-                    /* $imagenName = time() . '_' . uniqid() . '.' . $imagen->getClientOriginalExtension();
-                    $imagen->move(public_path('images'), $imagenName);
-                    $imagenUrl = url('images/' . $imagenName); */
-        
+                    $imagenUrl_1 = url($routeImages . '/' . $imagenURL);        
                     $img_inmueble = ImagenInmueble::create([
                         'multimedia_inmueble_id' => $multi_inmueble_id,
                         'imagen' => $imagenUrl_1,
                         "estado" => 1,
                     ]);
-
                     if (!$img_inmueble) {
                         return response()->json([
                             'message' => 'No se pudo guardar el registro de la imagen principal inmueble',
@@ -432,23 +427,16 @@ class MyPostsController extends Controller
             }
 
             if ( $request->hasFile('video') ) {
-                /* $video = $request->file('video'); 
-                $videoName = time() . '_' . uniqid() . '.' . $video->getClientOriginalExtension();
-                $video->move(public_path('videos'), $videoName);
-                $videoUrl = url('videos/' . $videoName); */
-
                 $video = $request->file('video');
-                $video_path = Storage::disk('wasabi')->put('videos', $video);
+                $video_path = Storage::disk('wasabi')->put($routeVideos, $video);
                 $videoURL = basename($video_path);
-                $videoUrl_2 = url('videos/' . $videoURL);
-
+                $videoUrl_2 = url($routeVideos . '/' . $videoURL);
                 $video_inmueble = VideoInmueble::updateOrCreate([
                     'multimedia_inmueble_id' => $multi_inmueble_id,
                     ],[
                     'video' => $videoUrl_2,
                     "estado" => 1,
                 ]);
-
                 if (!$video_inmueble) {
                     return response()->json([
                         'message' => 'No se pudo guardar el registro del video inmueble',
@@ -458,21 +446,16 @@ class MyPostsController extends Controller
             }
 
             if ( $request->hasFile('planos') ) {
+                PlanoInmueble::where('multimedia_inmueble_id', $multi_inmueble_id)->delete();
                 foreach ($request->file('planos') as $plano) {
-                    /* $planoName = time() . '_' . uniqid() . '.' . $plano->getClientOriginalExtension();
-                    $plano->move(public_path('planos'), $planoName);
-                    $planoUrl = url('videos/' . $planoName); */
-
-                    $plano_path = Storage::disk('wasabi')->put('planos', $plano);
+                    $plano_path = Storage::disk('wasabi')->put($routePlans, $plano);
                     $basename_plano_path = basename($plano_path);
-                    $planoUrl = url('planos/' . $basename_plano_path);
-        
+                    $planoUrl = url($routePlans . '/' . $basename_plano_path);
                     $plano_inmueble = PlanoInmueble::create([
                         'multimedia_inmueble_id' => $multi_inmueble_id,
                         'plano' => $planoUrl,
                         "estado" => 1,
                     ]);
-
                     if (!$plano_inmueble) {
                         return response()->json([
                             'message' => 'No se pudo guardar el registro de los planos inmueble',
