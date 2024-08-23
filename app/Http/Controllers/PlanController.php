@@ -388,10 +388,6 @@ class PlanController extends Controller
             'Authorization' => 'Basic ' . $encoded_sk,
         ])->withBody($data, 'application/json')->post($urlAPI);
 
-        if ($response->successful()) {
-            return response()->json($response->json());
-        } else {
-            return response()->json(['error' => 'Error al realizar la consulta.'], $response->status());
-        }
+        return response()->json($response->json());
     }
 }

@@ -40,6 +40,8 @@ export default defineConfig({
         'resources/js/scripts/perfil.js',
         'resources/js/scripts/planes.js',
         'resources/js/scripts/toastyContact.js',
+        'resources/js/scripts/toastyPaySuccess.js',
+        'resources/js/scripts/toastyPayError.js',
         'resources/js/scripts/contacto.js',
         // js - scripts - components
         "resources/js/scripts/components/back_button.js",

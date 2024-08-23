@@ -60,9 +60,9 @@
                             </div>
 
                             {{-- error de completar campos tarjeta de credito --}}
-                            <div class="card text-bg-danger" x-show="errorInputCreditcard">
+                            {{-- <div class="card text-bg-danger" x-show="errorInputCreditcard">
                                 <p id="error-message" class="card-text text-center">Complete todos los campos de la tarjeta.</p>
-                            </div>
+                            </div> --}}
                         </div>
                         
                     </div>
@@ -94,56 +94,69 @@
     </div>
 </div>
 
+{{-- Toasty pago exitoso --}}
+<div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
+    <div id="toastPaySuccess" class="toast text-bg-success" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-body text-center fs-5 py-lg-4" id="success-message"></div>
+    </div>
+</div>
+
+{{-- Toasty pago denegado --}}
+<div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
+    <div id="toastPayError" class="toast text-bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-body text-center fs-5 py-lg-4" id="error-message"></div>
+    </div>
+</div>
+
 {{-- SEGUNDO MODAL - ELECCION DE DNI --}}
 <div class="modal fade" id="modalOtroDNI" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="m-0">Seleccione el remitente del comprobante</h5>
-                </div>
-                <div class="modal-body">
-                        <div class="input-group mb-3">
-                                <form @submit.prevent="consultarDocumento" class="w-100">
-                                        @csrf
-                                        <div class="d-flex gap-2 justify-content-between w-100">
-                                                <div class="btn-group" role="group">
-                                                    <input type="radio" class="btn-check" name="btnradio" id="DNIcheck" autocomplete="off" value="DNI" x-model="tipo" checked>
-                                                    <label class="btn btn-outline-secondary" for="DNIcheck">DNI</label>
+            <div class="modal-header">
+                <h5 class="m-0">Seleccione el remitente del comprobante</h5>
+            </div>
+            <div class="modal-body">
+                    <div class="input-group mb-3">
+                            <form @submit.prevent="consultarDocumento" class="w-100">
+                                    @csrf
+                                    <div class="d-flex gap-2 justify-content-between w-100">
+                                            <div class="btn-group" role="group">
+                                                <input type="radio" class="btn-check" name="btnradio" id="DNIcheck" autocomplete="off" value="DNI" x-model="tipo" checked>
+                                                <label class="btn btn-outline-secondary" for="DNIcheck">DNI</label>
 
-                                                    <input type="radio" class="btn-check" name="btnradio" id="RUCcheck" autocomplete="off" value="RUC" x-model="tipo">
-                                                    <label class="btn btn-outline-secondary" for="RUCcheck">RUC</label>
-                                                </div>
+                                                <input type="radio" class="btn-check" name="btnradio" id="RUCcheck" autocomplete="off" value="RUC" x-model="tipo">
+                                                <label class="btn btn-outline-secondary" for="RUCcheck">RUC</label>
+                                            </div>
 
-                                                <input type="text" class="form-control shadow-none" name="documento" placeholder="documento" x-model="documento" required>
+                                            <input type="text" class="form-control shadow-none" name="documento" placeholder="documento" x-model="documento" required>
 
-                                                <input type="submit" class="btn btn-secondary" value="Consultar">
-                                        </div>
-                                </form>
+                                            <input type="submit" class="btn btn-secondary" value="Consultar">
+                                    </div>
+                            </form>
+                    </div>
+
+                    <!-- Div para mostrar los resultados -->
+                    <template x-if="resultados">
+                        <div class="mt-3">
+                            <p>Nombre: <span x-text="getNombre()"></span></p>
                         </div>
+                    </template>
 
-                        <!-- Div para mostrar los resultados -->
-                        <template x-if="resultados">
-                            <div class="mt-3">
-                                <p>Nombre: <span x-text="getNombre()"></span></p>
-                            </div>
-                        </template>
-
-                        <!-- Div para mostrar los errores -->
-                        <div class="mt-3 alert alert-danger" x-show="error" x-text="error"></div>
-                </div>
-                <div class="modal-footer">
-                        <button type="button" class="btn button-orange" data-bs-target="#modalPago" data-bs-toggle="modal">
-                            <i class="fa-solid fa-arrow-left"></i>
-                            Regresar
-                        </button>
-                </div>
+                    <!-- Div para mostrar los errores -->
+                    <div class="mt-3 alert alert-danger" x-show="error" x-text="error"></div>
+            </div>
+            <div class="modal-footer">
+                    <button type="button" class="btn button-orange" data-bs-target="#modalPago" data-bs-toggle="modal">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        Regresar
+                    </button>
+            </div>
         </div>
     </div>
 </div>
 @props(['avisoId', 'userName', 'userSurname', 'userEmail', 'userPhone'])
 
 <script>
-
 
 function creditCardData() {
     return {
@@ -237,9 +250,11 @@ function creditCardData() {
         },
 
         handleTokenError(error) {
-            document.getElementById('error-message').innerText = error.data.description
-            this.isProcessing = false
-            document.getElementById('pay-button').disabled = false
+            document.getElementById('error-message').innerText = 'Verifique los datos de la tarjeta y vuelva a intentarlo';
+            triggerToastPayError()
+            setTimeout(() => {
+                window.location.reload();
+            }, 5000);
         },
 
         processPayment(formPost) {
@@ -254,19 +269,30 @@ function creditCardData() {
             })
             .then(response => response.json())
             .then( data => {
-                const error = data.error_code						
-                if (error) {
+
+                if (data.error_code) {
                     this.clearForm()
                     this.isProcessing = false
                     document.getElementById('pay-button').disabled = false
-                    alert(`La tarjeta fue rechazada`)
+                    document.getElementById('error-message').innerText = 'La tarjeta ha sido rechazada';
+                    triggerToastPayError()
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 5000);
+
                 } else {
                     this.clearForm()
-                    this.contratarPlan(formPost.amount, formPost.description);
                     this.isProcessing = false
                     document.getElementById('pay-button').disabled = false
-                    alert(`Pago realizado con éxito.`)
+                    // alert(`Pago realizado con éxito.`)
+                    document.getElementById('success-message').innerText = 'Pago realizado con éxito';
+                    triggerToastPaySuccess()
+                    setTimeout(() => {
+                        this.contratarPlan(formPost.amount, formPost.description);
+                        // window.location.reload();
+                    }, 5000);
                 }
+
             }).catch(error => {
                 console.log(error)
             })
@@ -478,3 +504,7 @@ function consultaDocumento() {
     }
 }
 </script>
+
+@push('scripts')
+    @vite([ 'resources/js/scripts/toastyPaySuccess.js', 'resources/js/scripts/toastyPayError.js' ])
+@endpush
