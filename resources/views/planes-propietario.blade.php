@@ -92,8 +92,8 @@
 							<div>
 								<input type="radio" class="btn-check" x-model="tipoPlan" id="topPlus" value="topPlus" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
 								<x-card-plan-propietario
-									title="Top Plus"
-                  tipoAviso="Top Plus"
+									title="Premium"
+                  					tipoAviso="Top Plus"
 									price="prices.topPlus"
 									time="periodoPlan"
 									plan="topPlus"
@@ -144,7 +144,7 @@
 				>
 					<x-card-plan-propietario-checkout
 					showPlan="topPlus"
-					title="Plan Top Plus"
+					title="Plan Premium"
 					bgColor="text-bg-dark"
 					/>
 

@@ -233,7 +233,7 @@
 								@endif
 								<x-card-plan
 									:$sesion_iniciada
-									title="Superior"
+									title="Premium"
 									price="prices.superior"
 									time="periodoPlan"
 									plan="superior"
@@ -305,7 +305,7 @@
 		
 						<x-card-plan-checkout
 						showPlan="superior"
-						title="Superior"
+						title="Premium"
 						bgColor="text-bg-success"
 						/>
 		
