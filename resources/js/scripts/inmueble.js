@@ -136,8 +136,12 @@ function formatDate(dateString) {
   return `${day} ${month} ${year}`
 }
 
+const $loaderOverlay = document.getElementById('loader-overlay');
+
 // Enviar POST cuando se acepta usar este plan para publicar el inmueble
-document.getElementById('siUsarEstePlan')?.addEventListener('click', () => {
+document.getElementById('siUsarEstePlan')?.addEventListener('click', function () {
+  this.disabled = true;
+  
   if (selectedPlanData.tipo_aviso) {
     
       fetch('/contratar_plan', {
@@ -155,6 +159,7 @@ document.getElementById('siUsarEstePlan')?.addEventListener('click', () => {
             alert('Aviso publicado con exito')
             window.location.href = '/panel/avisos'
           } else {
+              this.disabled = false;
               console.error('Error al realizar la petición:', data.message)
               alert(data.message)
           }

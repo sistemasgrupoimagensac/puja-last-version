@@ -9,6 +9,11 @@
 @endpush
 
 @section('content')
+    
+    <div id="loader-overlay">
+        <img src="{{ asset('images/loader.svg') }}" alt="Cargando...">
+    </div>
+
     <div x-data="avisoForm()">
 
         <x-completa-registro-google></x-completa-registro-google>
@@ -663,6 +668,7 @@
     </div>
 
     <script>
+        const $loaderOverlay = document.getElementById('loader-overlay');
         const defaultLocation = {lat: -12.09706477059002, lng: -77.02302118294135}; // Coordenadas iniciales de ejemplo
         const mapDiv = document.getElementById("map");
         let input = document.getElementById("place_input");
@@ -924,6 +930,8 @@
                 },
 
                 nextStep(step) {
+                    $loaderOverlay.style.display = 'flex';
+                    document.body.style.pointerEvents = 'none';
                     const stepMap = {
                         1: `/my-post/store`,
                         2: `/my-post/store`,
@@ -934,6 +942,8 @@
 
                     if (step === 5) /* Extras 1 */ {
                         this.step++
+                        $loaderOverlay.style.display = 'none';
+                        document.body.style.pointerEvents = 'auto';
                     } else if (step === 6) /* Extras 2 */ {
                         let send_extras = []
                         document.querySelectorAll('input[name="options[]"]:checked').forEach((checkbox) => {
@@ -1048,6 +1058,10 @@
                         .catch(error => {
                             console.error('Error:', error)
                         })
+                        .finally(() => {
+                            $loaderOverlay.style.display = 'none';
+                            document.body.style.pointerEvents = 'auto';
+                        });
                     }
                 },  
 

@@ -13,6 +13,11 @@
 @endsection
 
 @section('content')
+
+    <div id="loader-overlay">
+        <img src="{{ asset('images/loader.svg') }}" alt="Cargando...">
+    </div>
+    
     @php
         $acepta_puja = false;
         if ($aviso->inmueble->is_puja() === 1) {
@@ -784,14 +789,17 @@
         }
 
         document.getElementById('redirect-button')?.addEventListener('click', function() {
+            this.disabled=true;
             document.getElementById('redirect-form').submit();
         });
 
         document.getElementById('redirect-button-acreedor')?.addEventListener('click', function() {
+            this.disabled=true;
             document.getElementById('redirect-form-acreedor').submit();
         });
 
         document.getElementById('acreedor-especial-post-ad')?.addEventListener('click', function() {
+            this.disabled=true;
             document.getElementById('acreedor-especial-post').submit();
         });
 

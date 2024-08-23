@@ -36,7 +36,7 @@
     "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2"
   },
   "resources/css/app.css": {
-    "file": "assets/app-bUkIJeaE.css",
+    "file": "assets/app-ytxSy7Dn.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -125,7 +125,7 @@
     "isEntry": true
   },
   "resources/js/scripts/inmueble.js": {
-    "file": "assets/inmueble-BVRaLNjy.js",
+    "file": "assets/inmueble-CXgiAykN.js",
     "name": "inmueble",
     "src": "resources/js/scripts/inmueble.js",
     "isEntry": true

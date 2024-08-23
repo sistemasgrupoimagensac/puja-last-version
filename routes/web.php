@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\User;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MyPostsController;
 use Illuminate\Support\Facades\Route;

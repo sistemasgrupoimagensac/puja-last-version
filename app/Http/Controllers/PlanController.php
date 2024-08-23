@@ -339,6 +339,7 @@ class PlanController extends Controller
         // $user_id = 1;
         $user = User::find($user_id);
         $active_plan_users = $user->active_plans()->get();
+        // dd($active_plan_users);
 
         return response()->json([
             "http_code" => 200,
