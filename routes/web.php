@@ -97,6 +97,10 @@ Route::get('/images/{id_inmueble}/{archivo}', [ImagesController::class, 'get_ima
 Route::get('/planos/{id_inmueble}/{archivo}', [ImagesController::class, 'get_planos']);
 Route::get('/videos/{id_inmueble}/{archivo}', [ImagesController::class, 'get_videos']);
 Route::get('/pdf/{archivo}', [ImagesController::class, 'get_pdf']);
+// Rutas para el entorno DEV
+Route::get('dev/images/{id_inmueble}/{archivo}', [ImagesController::class, 'dev_get_images']);
+Route::get('dev/planos/{id_inmueble}/{archivo}', [ImagesController::class, 'dev_get_planos']);
+Route::get('dev/videos/{id_inmueble}/{archivo}', [ImagesController::class, 'dev_get_videos']);
 
 
 // Route::get('/openpay', [MyPostsController::class, 'openpay'])->middleware('sessiondata');
