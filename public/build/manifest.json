@@ -166,6 +166,24 @@
       "_bootstrap.esm-Dc7QL7cb.js"
     ]
   },
+  "resources/js/scripts/toastyPayError.js": {
+    "file": "assets/toastyPayError-DdCmCIfq.js",
+    "name": "toastyPayError",
+    "src": "resources/js/scripts/toastyPayError.js",
+    "isEntry": true,
+    "imports": [
+      "_bootstrap.esm-Dc7QL7cb.js"
+    ]
+  },
+  "resources/js/scripts/toastyPaySuccess.js": {
+    "file": "assets/toastyPaySuccess-Be9vwoFW.js",
+    "name": "toastyPaySuccess",
+    "src": "resources/js/scripts/toastyPaySuccess.js",
+    "isEntry": true,
+    "imports": [
+      "_bootstrap.esm-Dc7QL7cb.js"
+    ]
+  },
   "resources/js/scripts/updatePlaceholdersRegister.js": {
     "file": "assets/updatePlaceholdersRegister-P0mtUCrJ.js",
     "name": "updatePlaceholdersRegister",
