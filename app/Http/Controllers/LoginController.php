@@ -60,29 +60,6 @@ class LoginController extends Controller
         return view('auth.register', compact('profile_type', 'user_types'));
     }
 
-    // public function login(Request $request)
-    // {
-    //     $validator = Validator::make($request->all(), [
-    //         'user_type' => 'required|string',
-    //         'correo' => 'required|email',
-    //         'contraseña' => 'required',
-    //     ]);
-    //     if ($validator->fails()) {
-    //         return response()->json([
-    //             'message' => 'Errores de validación',
-    //             'errors' => $validator->errors()
-    //         ], 422);
-    //     }
-
-    //     $user = User::where('email', $request['correo'])->first();
-
-    //     if ($user && Hash::check($request['contraseña'], $user->password)) {
-    //         Auth::login($user);
-    //         return redirect()->intended('/');
-    //     } else {
-    //         return redirect()->back()->with('error', 'Credenciales incorrectas');
-    //     }
-    // }
     public function login(Request $request)
     {
         // Validación inicial de los campos del formulario
@@ -139,45 +116,28 @@ class LoginController extends Controller
         // Redireccionar al usuario a la página de inicio
         return response()->json([
             'message' => 'Inicio de sesión exitoso.',
-            'redirect' => route('home')
+            'redirect' => route('panel.mis-avisos')
         ]);
-    }
-    
+    }    
 
     public function store(Request $request)
     {
-        /* $request->validate([
-            'tipo_usuario_id' => 'required|integer|between:0,9',
-            'nombres' => 'required|string|max:255',
-            'apellidos' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6',
-            'tipo_documento_id' => 'required|integer|max:1',
-            'celular' => 'integer|digits:9',
-            'numero_documento' => 'string|max:30',
-            'imagen' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|nullable',
-            'estado' => 'required|boolean',
-            'acepta_termino_condiciones' => 'required|boolean',
-            'acepta_confidencialidad' => 'required|boolean',
-        ]); */
-
+        // Validación de los campos del formulario de registro
         $validator = Validator::make($request->all(), [
-            // 'user_type' => 'required|integer|between:0,9',
             'tipo_de_usuario' => 'required|string',
-            // 'unique_code' => 'required|string|max:255|unique:users,codigo_unico',
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:users,email',
             'contraseña' => 'required|string|min:6|max:20',
-            'tipo_documento' => 'required|integer|max:1',
-            'telefono' => 'integer|digits:9',
-            'direccion' => 'required|string',
-            'numero_de_documento' => 'required|string|max:30',
-            'imagen' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|nullable',
-            // 'estado' => 'required|boolean',
+            'tipo_documento' => 'required|integer|in:1,2,3',
+            'telefono' => 'required|integer|digits:9',
+            'direccion' => 'required|string|max:255',
+            'numero_de_documento' => 'required|string|max:30|unique:users,numero_documento',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'terminos' => 'accepted',
-
         ]);
+
+        // Manejo de errores de validación
         if ($validator->fails()) {
             return response()->json([
                 'message' => 'Errores de validación',
@@ -185,20 +145,28 @@ class LoginController extends Controller
             ], 422);
         }
 
-        $user_type = $request->user_type;
-        if ( !is_numeric($user_type) ) {
-            if($user_type === "owner") {
-                $user_type = 2;
-            } else if ($user_type === "broker" ) {
-                $user_type = 5;
-            } else if ($user_type === "project" ) {
-                $user_type = 4;
+        // Asignación del tipo de usuario (conversión de cadenas a enteros)
+        $user_type = $request->input('tipo_de_usuario');
+        if (!is_numeric($user_type)) {
+            switch ($user_type) {
+                case "owner":
+                    $user_type = 2;
+                    break;
+                case "broker":
+                    $user_type = 5;
+                    break;
+                case "project":
+                    $user_type = 4;
+                    break;
+                default:
+                    return response()->json([
+                        'message' => 'Tipo de usuario no válido',
+                        'errors' => ['tipo_de_usuario' => ['El tipo de usuario no es válido']]
+                    ], 422);
             }
         }
 
-        $acceptTerms = $request->has('accept_terms') ? true : false;
-        $acceptConfid = $request->has('accept_confid') ? true : false;
-
+        // Creación del nuevo usuario
         $user = User::create([
             'tipo_usuario_id' => $user_type,
             'codigo_unico' => null,
@@ -207,25 +175,28 @@ class LoginController extends Controller
             'email' => $request->input('email'),
             'password' => bcrypt($request->input('contraseña')),
             'tipo_documento_id' => $request->input('tipo_documento'),
-            'celular' => $request->input('phone'),
+            'celular' => $request->input('telefono'),
             'numero_documento' => $request->input('numero_de_documento'),
-            // 'imagen' => $request->input('imagen'),
             'estado' => 1,
-            'acepta_termino_condiciones' => $acceptTerms,
+            'acepta_termino_condiciones' => $request->boolean('terminos'),
             'direccion' => $request->input('direccion'),
         ]);
+
+        // Manejo de la imagen del usuario
         if ($request->hasFile('imagen')) {
-            $imageName = time().'.'.$request->imagen->extension();  
+            $imageName = time() . '.' . $request->imagen->extension();
             $request->imagen->move(public_path('images'), $imageName);
-            $user->imagen = $imageName;
-            $user->save();
+            $user->update(['imagen' => $imageName]);
         }
+
+        // Autenticación y evento de registro
         Auth::login($user);
         event(new Registered($user));
-        return redirect('/');
-        // return response()->json(['message' => 'Usuario creado exitosamente', 'user' => $user], 201);
 
+        // Redirección a la página de inicio
+        return redirect('/');
     }
+
 
     // actualizar registro de usuario logueado con Google
     public function complete_user_google(Request $request)

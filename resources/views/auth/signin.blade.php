@@ -125,7 +125,7 @@
 </section>
 
 
-<script>
+{{-- <script>
 
   document.getElementById('submit-signin-button').addEventListener('click', (event) => {
     
@@ -133,49 +133,6 @@
     clearErrors();
     consultarFormulario();
   });
-
-
-  // function submitForm() {
-  //     let form = document.getElementById('formRegistro');
-  //     let bodyTipoDoc = ''
-  //     const tipo = form.tipo_documento.value
-  //     const documento = form.numero_de_documento.value
-
-  //     if(tipo === '1') {
-  //       bodyTipoDoc = 'dni'
-  //     } else if (tipo === '3') {
-  //       bodyTipoDoc = 'ruc'
-  //     } 
-
-  //     fetch("/consulta-dni-ruc", {
-  //         method: 'POST',
-  //         headers: {
-  //             'Accept': 'application/json',
-  //             'X-CSRF-TOKEN': '{{ csrf_token() }}',
-  //             'Content-Type': 'application/json',
-  //         },
-  //         body: JSON.stringify({ [bodyTipoDoc]: documento }),
-  //     })
-  //     .then(response => response.json())
-  //     .then(data => {
-  //         if (data.success) {
-  //             console.log('Response:', data)
-  //             consultarFormulario();
-
-  //         } else {
-  //             console.log('Response:', data)
-  //             const errors = {
-  //               numero_de_documento: [data.message],
-  //             }
-  //             console.log(errors);
-              
-  //             handleErrors(errors)
-  //         }
-  //     })
-  //     .catch(error => {
-  //         console.error('Error:', error.message)
-  //     })
-  // }
 
   function consultarFormulario() {
     let form = document.getElementById('formSignin');
@@ -192,13 +149,8 @@
     .then(data => {
 
       console.log(data);
-      
-        // if (data.status == "Success") {
-        //     alert(data.message)
-        //     location.reload()
-        // } else {
-            handleErrors(data.errors);
-        // }
+      handleErrors(data.errors);
+  
     })
     .catch(error => {
         console.error('Error:', error);
@@ -244,6 +196,79 @@
   }
 
   
+</script> --}}
+
+<script>
+  document.getElementById('submit-signin-button').addEventListener('click', (event) => {
+    event.preventDefault();
+    clearErrors();
+    consultarFormulario();
+  });
+
+  function consultarFormulario() {
+      let form = document.getElementById('formSignin');
+      let formData = new FormData(form);
+
+      fetch("{{ route('login') }}", {
+          method: 'POST',
+          headers: {
+              'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+          },
+          body: formData
+      })
+      .then(response => {
+          if (!response.ok) {
+              // Si la respuesta no es exitosa, es probable que haya errores de validación
+              return response.json().then(data => {
+                  handleErrors(data.errors);
+                  throw new Error(data.message || 'Error al iniciar sesión');
+              });
+          }
+          return response.json();
+      })
+      .then(data => {
+          if (data.redirect) {
+              // Si hay una redirección, navegar a la URL proporcionada
+              window.location.href = data.redirect;
+          } else {
+              console.log(data.message || 'Inicio de sesión exitoso');
+          }
+      })
+      .catch(error => {
+          console.error('Error:', error.message);
+      });
+  }
+
+  function handleErrors(errors) {
+      if (!errors) return; // Manejar caso donde errors sea undefined o null
+
+      for (const field in errors) {
+          const inputElement = document.querySelector(`[name="${field}"]`);
+          const feedbackElement = document.getElementById(`validationServer${capitalizeFirstLetter(field)}Feedback`);
+
+          if (inputElement && feedbackElement) {
+              inputElement.classList.add('is-invalid');
+              feedbackElement.textContent = errors[field][0];
+          }
+      }
+  }
+
+  function clearErrors() {
+      const inputElements = document.querySelectorAll('.is-invalid');
+      inputElements.forEach(element => {
+          element.classList.remove('is-invalid');
+      });
+
+      const feedbackElements = document.querySelectorAll('.invalid-feedback');
+      feedbackElements.forEach(element => {
+          element.textContent = '';
+      });
+  }
+
+  function capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
 </script>
 
 @endsection

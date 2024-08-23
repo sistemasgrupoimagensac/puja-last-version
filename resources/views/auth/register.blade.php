@@ -31,12 +31,7 @@
 						</a>
 					</div>
 
-					<form 
-						{{-- action="/store" 
-						method="POST"  --}}
-						id="formRegistro"
-						x-data="{ userType: '' }"
-					>
+					<form id="formRegistro" x-data="{ userType: '' }">
 						@csrf
 						<div class="d-flex flex-column gap-4">
 
@@ -103,7 +98,8 @@
 										<select class="form-select" id="document_type" name="tipo_documento" required>
 											<option value="1" selected>DNI</option>
 											<option value="3">RUC</option>
-											<option value="2">Otro Documento</option>
+											<option value="2">CE</option>
+											<option value="4">Otro Documento</option>
 										</select>
 										<label for="document_type">Documento</label>
 									</div>
@@ -133,7 +129,7 @@
 		</div>
 	</section>
 
-	<script>
+	{{-- <script>
 
 		document.getElementById('submit-register-button').addEventListener('click', (event) => {
 			
@@ -153,7 +149,7 @@
 					bodyTipoDoc = 'dni'
 				} else if (tipo === '3') {
 					bodyTipoDoc = 'ruc'
-				} 
+				}
 	
 				fetch("/consulta-dni-ruc", {
 						method: 'POST',
@@ -249,6 +245,141 @@
 		}
 	
 		
+	</script> --}}
+
+	<script>
+		document.getElementById('submit-register-button').addEventListener('click', (event) => {
+			event.preventDefault();
+			clearErrors();
+			submitForm();
+		});
+
+		function submitForm() {
+				let form = document.getElementById('formRegistro');
+				let bodyTipoDoc = '';
+				const tipo = form.tipo_documento.value;
+				const documento = form.numero_de_documento.value;
+
+				// Identificar el tipo de documento (dni, ruc, ce, etc.)
+				switch (tipo) {
+						case '1': // DNI
+								bodyTipoDoc = 'dni';
+								break;
+						case '3': // RUC
+								bodyTipoDoc = 'ruc';
+								break;
+						case '2': // CE
+						case '4': // Otro Documento
+								// No se realiza la consulta a la API, se procede al registro directamente
+								consultarFormulario();
+								return; // Salir de la función para evitar la llamada a la API
+						default:
+								console.error('Tipo de documento no válido.');
+								return;
+				}
+
+				// Realizar la consulta a la API solo para DNI o RUC
+				fetch("/consulta-dni-ruc", {
+						method: 'POST',
+						headers: {
+								'Accept': 'application/json',
+								'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+								'Content-Type': 'application/json',
+						},
+						body: JSON.stringify({ [bodyTipoDoc]: documento }),
+				})
+				.then(response => response.json())
+				.then(data => {
+						if (data.success) {
+								console.log('Response:', data);
+								// Si la consulta es exitosa, procede a registrar al usuario
+								consultarFormulario();
+						} else {
+								const errors = {
+										numero_de_documento: [data.message],
+								};
+								handleErrors(errors);
+						}
+				})
+				.catch(error => {
+						console.error('Error:', error.message);
+				});
+		}
+
+		function consultarFormulario() {
+				let form = document.getElementById('formRegistro');
+				let formData = new FormData(form);
+
+				fetch('/store', {
+						method: 'POST',
+						headers: {
+								'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+						},
+						body: formData
+				})
+				.then(response => {
+						// Si la respuesta es una redirección (registro exitoso)
+						if (response.redirected) {
+								window.location.href = response.url;
+								return;
+						} 
+						// Si la respuesta tiene errores de validación (HTTP 422)
+						else if (!response.ok) {
+								return response.json().then(data => {
+										if (data.errors) {
+												handleErrors(data.errors);
+										} else {
+												console.error('Unexpected response:', data);
+										}
+								});
+						}
+
+						// Si la respuesta es JSON y está OK, manejarlo
+						return response.json();
+				})
+				.then(data => {
+						if (data) {
+								console.log('Form submitted successfully:', data);
+								// Aquí podrías manejar la respuesta exitosa si se espera un JSON
+						}
+				})
+				.catch(error => {
+						console.error('Error:', error.message);
+				});
+		}
+
+		function handleErrors(errors) {
+				for (const field in errors) {
+						const inputElement = document.querySelector(`[name="${field}"]`);
+						const feedbackElement = document.getElementById(`validationServer${capitalizeFirstLetter(field)}Feedback`);
+
+						if (inputElement && feedbackElement) {
+								inputElement.classList.add('is-invalid');
+								feedbackElement.textContent = (inputElement.getAttribute('id') === 'terminos') ? 
+										'Acepte los términos' : 
+										errors[field][0];
+						} else {
+								console.warn(`Elementos para ${field} no encontrados.`);
+						}
+				}
+		}
+
+		function clearErrors() {
+				const inputElements = document.querySelectorAll('.is-invalid');
+				inputElements.forEach(element => {
+						element.classList.remove('is-invalid');
+				});
+
+				const feedbackElements = document.querySelectorAll('.invalid-feedback');
+				feedbackElements.forEach(element => {
+						element.textContent = '';
+				});
+		}
+
+		function capitalizeFirstLetter(string) {
+				return string.charAt(0).toUpperCase() + string.slice(1);
+		}
+
 	</script>
 
 @endsection
