@@ -27,6 +27,7 @@ use App\Models\User;
 use App\Models\VideoInmueble;
 use Database\Seeders\ExtraInmuebleCaracteristicasInmueblesSeeder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -287,10 +288,18 @@ class MyPostsController extends Controller
         }
         
         if ($request->multimedia) {
+            // Storage::disk('wasabi')->deleteDirectory("images");
+            // Storage::disk('wasabi')->deleteDirectory("planos");
+            // Storage::disk('wasabi')->deleteDirectory("videos");
             // $existingImgMain = MultimediaInmueble::where('inmueble_id', $inmueble->id)->first();
             $routeImages = "images/{$inmueble->id}";
             $routePlans = "planos/{$inmueble->id}";
             $routeVideos = "videos/{$inmueble->id}";
+            if ( !App::environment('production') ) {
+                $routeImages = "dev/{$routeImages}";
+                $routePlans = "dev/{$routePlans}";
+                $routeVideos = "dev/{$routeVideos}";
+            }
             Storage::disk('wasabi')->deleteDirectory($routeImages);
             Storage::disk('wasabi')->deleteDirectory($routePlans);
             Storage::disk('wasabi')->deleteDirectory($routeVideos);
