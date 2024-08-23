@@ -60,30 +60,89 @@ class LoginController extends Controller
         return view('auth.register', compact('profile_type', 'user_types'));
     }
 
+    // public function login(Request $request)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'user_type' => 'required|string',
+    //         'correo' => 'required|email',
+    //         'contraseña' => 'required',
+    //     ]);
+    //     if ($validator->fails()) {
+    //         return response()->json([
+    //             'message' => 'Errores de validación',
+    //             'errors' => $validator->errors()
+    //         ], 422);
+    //     }
+
+    //     $user = User::where('email', $request['correo'])->first();
+
+    //     if ($user && Hash::check($request['contraseña'], $user->password)) {
+    //         Auth::login($user);
+    //         return redirect()->intended('/');
+    //     } else {
+    //         return redirect()->back()->with('error', 'Credenciales incorrectas');
+    //     }
+    // }
     public function login(Request $request)
     {
+        // Validación inicial de los campos del formulario
         $validator = Validator::make($request->all(), [
-            // 'user_type' => 'required|integer|between:0,6',
             'user_type' => 'required|string',
-            'signin_email' => 'required|email',
-            'signin_password' => 'required',
+            'correo' => 'required|email',
+            'contraseña' => 'required',
         ]);
+    
+        // Si la validación falla, devuelve los errores
         if ($validator->fails()) {
             return response()->json([
                 'message' => 'Errores de validación',
                 'errors' => $validator->errors()
             ], 422);
         }
-
-        $user = User::where('email', $request['signin_email'])->first();
-
-        if ($user && Hash::check($request['signin_password'], $user->password)) {
-            Auth::login($user);
-            return redirect()->intended('/');
-        } else {
-            return redirect()->back()->with('error', 'Credenciales incorrectas');
+    
+        // Buscar al usuario por correo electrónico
+        $user = User::where('email', $request->input('correo'))->first();
+    
+        // Validar si el usuario existe en la base de datos
+        if (!$user) {
+            return response()->json([
+                'message' => 'El correo electrónico no está registrado.',
+                'errors' => [
+                    'correo' => ['El correo electrónico no está registrado.']
+                ]
+            ], 422);
         }
+    
+        // Verificar si el usuario tiene una contraseña en la base de datos
+        if (is_null($user->password) || empty($user->password)) {
+            return response()->json([
+                'message' => 'Este usuario fue creado con un inicio de sesión externo (como Google). Por favor, utilice el método de inicio de sesión correspondiente.',
+                'errors' => [
+                    'correo' => ['El usuario debe iniciar sesión con su cuenta de Google.']
+                ]
+            ], 422);
+        }
+    
+        // Verificar si la contraseña es correcta
+        if (!Hash::check($request->input('contraseña'), $user->password)) {
+            return response()->json([
+                'message' => 'La contraseña es incorrecta.',
+                'errors' => [
+                    'contraseña' => ['La contraseña es incorrecta.']
+                ]
+            ], 422);
+        }
+    
+        // Si las credenciales son correctas, iniciar sesión
+        Auth::login($user);
+    
+        // Redireccionar al usuario a la página de inicio
+        return response()->json([
+            'message' => 'Inicio de sesión exitoso.',
+            'redirect' => route('home')
+        ]);
     }
+    
 
     public function store(Request $request)
     {

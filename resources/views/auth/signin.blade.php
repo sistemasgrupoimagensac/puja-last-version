@@ -40,23 +40,25 @@
         </div>
 
         {{-- sigin form --}}
-        <form method="POST" action="{{ route('login') }}" class="my-4">
+        <form id="formSignin" class="my-4">
           @csrf
 
           <div class="d-flex flex-column gap-3 input-group-lg">
 			      <input type="hidden" name="user_type" value="{{ $profile_type }}">
 
             <div class="form-floating">
-              <input type="email" class="form-control" id="signin_email" name="signin_email" placeholder="Telefono">
+              <input type="email" class="form-control" id="signin_email" name="correo" placeholder="Correo electrónico">
               <label class="text-secondary" for="signin_email">Correo electrónico</label>
+							<div id="validationServerCorreoFeedback" class="invalid-feedback"></div>
             </div>
 
             <div class="form-floating">
-              <input type="password" class="form-control" id="signin_password" name="signin_password" placeholder="Telefono">
+              <input type="password" class="form-control" id="signin_password" name="contraseña" placeholder="Contraseña">
               <label class="text-secondary" for="signin_password">Contraseña</label>
+							<div id="validationServerContraseñaFeedback" class="invalid-feedback"></div>
             </div>
 
-            <input class="btn button-orange w-100" type="submit" value="Ingresar">
+            <input class="btn button-orange w-100" type="submit" id="submit-signin-button" value="Ingresar">
           </div>
 
         </form>
@@ -121,5 +123,127 @@
   </div>
 
 </section>
+
+
+<script>
+
+  document.getElementById('submit-signin-button').addEventListener('click', (event) => {
+    
+    event.preventDefault();
+    clearErrors();
+    consultarFormulario();
+  });
+
+
+  // function submitForm() {
+  //     let form = document.getElementById('formRegistro');
+  //     let bodyTipoDoc = ''
+  //     const tipo = form.tipo_documento.value
+  //     const documento = form.numero_de_documento.value
+
+  //     if(tipo === '1') {
+  //       bodyTipoDoc = 'dni'
+  //     } else if (tipo === '3') {
+  //       bodyTipoDoc = 'ruc'
+  //     } 
+
+  //     fetch("/consulta-dni-ruc", {
+  //         method: 'POST',
+  //         headers: {
+  //             'Accept': 'application/json',
+  //             'X-CSRF-TOKEN': '{{ csrf_token() }}',
+  //             'Content-Type': 'application/json',
+  //         },
+  //         body: JSON.stringify({ [bodyTipoDoc]: documento }),
+  //     })
+  //     .then(response => response.json())
+  //     .then(data => {
+  //         if (data.success) {
+  //             console.log('Response:', data)
+  //             consultarFormulario();
+
+  //         } else {
+  //             console.log('Response:', data)
+  //             const errors = {
+  //               numero_de_documento: [data.message],
+  //             }
+  //             console.log(errors);
+              
+  //             handleErrors(errors)
+  //         }
+  //     })
+  //     .catch(error => {
+  //         console.error('Error:', error.message)
+  //     })
+  // }
+
+  function consultarFormulario() {
+    let form = document.getElementById('formSignin');
+    let formData = new FormData(form);
+
+    fetch("{{ route('login') }}", {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+
+      console.log(data);
+      
+        // if (data.status == "Success") {
+        //     alert(data.message)
+        //     location.reload()
+        // } else {
+            handleErrors(data.errors);
+        // }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+  }
+
+  function handleErrors(errors) {
+    for (const field in errors) {
+        
+        const inputElement = document.querySelector(`[name="${field}"]`);
+        const feedbackElement = document.getElementById(`validationServer${capitalizeFirstLetter(field)}Feedback`);
+
+        console.log(inputElement);
+        
+
+        if (inputElement && feedbackElement) {
+            inputElement.classList.add('is-invalid');
+            if(inputElement.getAttribute('id') === 'terminos') {
+                feedbackElement.textContent = 'Acepte los términos';
+            } else {
+                console.log(errors[field]);
+                
+                feedbackElement.textContent = errors[field][0];
+            }
+        }
+    }
+  }
+
+  function clearErrors() {
+    const inputElements = document.querySelectorAll('.is-invalid');
+    inputElements.forEach(element => {
+      element.classList.remove('is-invalid');
+    });
+
+    const feedbackElement = document.querySelectorAll('.invalid-feedback');
+    feedbackElement.forEach(element => {
+      element.textContent = '';
+    });
+  }
+
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  
+</script>
 
 @endsection
