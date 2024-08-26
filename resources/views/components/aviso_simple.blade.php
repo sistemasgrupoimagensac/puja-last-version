@@ -3,7 +3,13 @@
 
         <div class="col-md-3">
             <a href="{{ $link }}" target="_blank" class="text-decoration-none text-reset">
-                <img src="{{ $image }}" class="card-inmueble-image rounded" alt="imagen inmueble">
+                
+                @if (isset($image))
+                    <img src="{{ $image }}" class="card-inmueble-image rounded" alt="Imagen Inmueble">
+                @else 
+                    <img src="{{ asset('images/no-image.webp') }}" class="card-inmueble-image rounded border border-secondary border-secondary-subtle" alt="House Image Placeholder">
+                @endif
+
             </a>
         </div>
 

@@ -797,7 +797,7 @@
 
         function avisoForm() {
             return {
-                    step: {{ session('step', 4) }},
+                    step: {{ session('step', 1) }},
                     aviso_id: {{ session('aviso_id', 'null') }},
 
                     perfil_acreedor: @json($es_acreedor),
@@ -936,7 +936,9 @@
                 },
 
                 nextStep(step) {
+                    // spinner
                     $loaderOverlay.style.display = 'flex';
+                    
                     document.body.style.pointerEvents = 'none';
                     const stepMap = {
                         1: `/my-post/store`,
@@ -1071,7 +1073,6 @@
                 },  
 
                 hideLoader() {
-                    
                     setTimeout(() => {
                         $loaderOverlay.style.display = 'none';
                         document.body.style.pointerEvents = 'auto';
