@@ -10,9 +10,15 @@
 
 @section('content')
     
-    <div id="loader-overlay">
+    {{-- <div id="loader-overlay">
         <img src="{{ asset('images/loader.svg') }}" alt="Cargando...">
+    </div> --}}
+
+
+    <div id="loader-overlay">
+        <div class="flipping"></div>
     </div>
+    
 
     <div x-data="avisoForm()">
 
@@ -791,7 +797,7 @@
 
         function avisoForm() {
             return {
-                    step: {{ session('step', 1) }},
+                    step: {{ session('step', 4) }},
                     aviso_id: {{ session('aviso_id', 'null') }},
 
                     perfil_acreedor: @json($es_acreedor),
@@ -1059,11 +1065,19 @@
                             console.error('Error:', error)
                         })
                         .finally(() => {
-                            $loaderOverlay.style.display = 'none';
-                            document.body.style.pointerEvents = 'auto';
+                            this.hideLoader();
                         });
                     }
                 },  
+
+                hideLoader() {
+                    
+                    setTimeout(() => {
+                        $loaderOverlay.style.display = 'none';
+                        document.body.style.pointerEvents = 'auto';
+                    }, 300);
+                },
+
 
                 prevStep() {
                     this.step--

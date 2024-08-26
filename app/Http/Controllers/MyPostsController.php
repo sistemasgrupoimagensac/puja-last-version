@@ -467,6 +467,9 @@ class MyPostsController extends Controller
     }
 
     public function edit (Aviso $aviso){
+        
+        // $mult_inmueble = MultimediaInmueble::where("inmueble_id", $aviso->inmueble_id)->first();
+        dd($aviso->inmueble_id);
         $inmueble = Inmueble::where("id", $aviso->inmueble_id)->first();
         $principal_inmueble_id = PrincipalInmueble::where("inmueble_id", $aviso->inmueble_id)->pluck('id')->first();
         $caract_inmueble_id = CaracteristicaInmueble::where("principal_inmueble_id", $principal_inmueble_id)->first();
