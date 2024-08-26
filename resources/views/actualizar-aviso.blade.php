@@ -580,6 +580,7 @@
 
                 extras: [],
                 extras2: [],
+                extras3: [],
                 adicionales: [],
                 comodidades: [],
 
@@ -597,12 +598,29 @@
                 anios_antiguedad: caract_inmueble_id ? caract_inmueble_id.anios_antiguedad : '',
                 precio_soles: caract_inmueble_id ? caract_inmueble_id.precio_soles : '',
                 precio_dolares: caract_inmueble_id ? caract_inmueble_id.precio_dolares : '',
-
                 acceso_playa: false,
                 aire_acondicionado: false,
                 acceso_parque: false,
                 ascensores: false,
                 codigo_unico: inmueble ? inmueble.codigo_unico : '',
+
+                // detalles de remate
+                base_remate: '',
+                valor_tasacion: '',
+                direccion_remate: '',
+                remate_direccion_id: 1,
+                partida_registral: '',
+                fecha_remate: '',
+                hora_remate: '',
+                contacto_remate: '',
+                telefono_contacto_remate: '',
+                correo_contacto_remate: '',
+
+                map: null,
+                marker: null,
+                es_exacta: 1,
+                latitude: null,
+                longitude: null,
 
                 initialize() {
                     console.log("videos", videos_inmueble);

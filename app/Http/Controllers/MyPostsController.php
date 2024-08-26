@@ -523,12 +523,19 @@ class MyPostsController extends Controller
             $extra_carac_inmueble = null;
         }
 
+        // if ($aviso) {
+        //     return view("actualizar-aviso", compact('inmueble','op_inmueble', 'ubi_inmueble', 'caract_inmueble_id', 'mult_inmueble', 'imgs_inmueble', 'videos_inmueble', 'planos_inmueble', 'extra_inmueble', 'extra_carac_inmueble', 'es_acreedor', 'es_propietario', 'es_corredor', 'es_proyecto'));
+        // } else {
+        //     dd("Aviso no encontrado, $aviso no existe");
+        // }
+        // return view('actualizar-aviso');
+
         if ($aviso) {
-            return view("actualizar-aviso", compact('inmueble','op_inmueble', 'ubi_inmueble', 'caract_inmueble_id', 'mult_inmueble', 'imgs_inmueble', 'videos_inmueble', 'planos_inmueble', 'extra_inmueble', 'extra_carac_inmueble', 'es_acreedor', 'es_propietario', 'es_corredor', 'es_proyecto'));
+            return view("editar-aviso", compact('inmueble','op_inmueble', 'ubi_inmueble', 'caract_inmueble_id', 'mult_inmueble', 'imgs_inmueble', 'videos_inmueble', 'planos_inmueble', 'extra_inmueble', 'extra_carac_inmueble', 'es_acreedor', 'es_propietario', 'es_corredor', 'es_proyecto'));
         } else {
             dd("Aviso no encontrado, $aviso no existe");
         }
-        return view('actualizar-aviso');
+        return view('editar-aviso');
     }
 
     public function edit_description (Request $request){
