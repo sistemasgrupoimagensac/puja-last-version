@@ -10,6 +10,10 @@
 
 @section('content')
 
+	<div id="loader-overlay">
+		<img src="{{ asset('images/loader.svg') }}" alt="Cargando...">
+	</div>
+
 	<section>
 		{{--  body --}}
 		<div class="row m-0 p-0">
@@ -248,136 +252,150 @@
 	</script> --}}
 
 	<script>
+  		const $loaderOverlay = document.getElementById('loader-overlay');
+
 		document.getElementById('submit-register-button').addEventListener('click', (event) => {
 			event.preventDefault();
+  			$loaderOverlay.style.display = 'flex';
+			document.body.style.pointerEvents = 'none';
 			clearErrors();
 			submitForm();
 		});
 
 		function submitForm() {
-				let form = document.getElementById('formRegistro');
-				let bodyTipoDoc = '';
-				const tipo = form.tipo_documento.value;
-				const documento = form.numero_de_documento.value;
+			let form = document.getElementById('formRegistro');
+			let bodyTipoDoc = '';
+			const tipo = form.tipo_documento.value;
+			const documento = form.numero_de_documento.value;
 
-				// Identificar el tipo de documento (dni, ruc, ce, etc.)
-				switch (tipo) {
-						case '1': // DNI
-								bodyTipoDoc = 'dni';
-								break;
-						case '3': // RUC
-								bodyTipoDoc = 'ruc';
-								break;
-						case '2': // CE
-						case '4': // Otro Documento
-								// No se realiza la consulta a la API, se procede al registro directamente
-								consultarFormulario();
-								return; // Salir de la función para evitar la llamada a la API
-						default:
-								console.error('Tipo de documento no válido.');
-								return;
+			// Identificar el tipo de documento (dni, ruc, ce, etc.)
+			switch (tipo) {
+					case '1': // DNI
+						bodyTipoDoc = 'dni';
+						break;
+					case '3': // RUC
+						bodyTipoDoc = 'ruc';
+						break;
+					case '2': // CE
+					case '4': // Otro Documento
+						// No se realiza la consulta a la API, se procede al registro directamente
+						consultarFormulario();
+						return; // Salir de la función para evitar la llamada a la API
+					default:
+						console.error('Tipo de documento no válido.');
+						return;
+			}
+
+			// Realizar la consulta a la API solo para DNI o RUC
+			fetch("/consulta-dni-ruc", {
+				method: 'POST',
+				headers: {
+					'Accept': 'application/json',
+					'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ [bodyTipoDoc]: documento }),
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (data.success) {
+					console.log('Response:', data);
+					// Si la consulta es exitosa, procede a registrar al usuario
+					consultarFormulario();
+				} else {
+					const errors = {
+							numero_de_documento: [data.message],
+					};
+					handleErrors(errors);
 				}
-
-				// Realizar la consulta a la API solo para DNI o RUC
-				fetch("/consulta-dni-ruc", {
-						method: 'POST',
-						headers: {
-								'Accept': 'application/json',
-								'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-								'Content-Type': 'application/json',
-						},
-						body: JSON.stringify({ [bodyTipoDoc]: documento }),
-				})
-				.then(response => response.json())
-				.then(data => {
-						if (data.success) {
-								console.log('Response:', data);
-								// Si la consulta es exitosa, procede a registrar al usuario
-								consultarFormulario();
-						} else {
-								const errors = {
-										numero_de_documento: [data.message],
-								};
-								handleErrors(errors);
-						}
-				})
-				.catch(error => {
-						console.error('Error:', error.message);
-				});
+			})
+			.catch(error => {
+				console.error('Error:', error.message);
+			})
+			.finally(() => {
+				$loaderOverlay.style.display = 'none';
+				document.body.style.pointerEvents = 'auto';
+			});
 		}
 
 		function consultarFormulario() {
-				let form = document.getElementById('formRegistro');
-				let formData = new FormData(form);
+			let form = document.getElementById('formRegistro');
+			let formData = new FormData(form);
+			document.getElementById('submit-register-button').disabled = true;
 
-				fetch('/store', {
-						method: 'POST',
-						headers: {
-								'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-						},
-						body: formData
-				})
-				.then(response => {
-						// Si la respuesta es una redirección (registro exitoso)
-						if (response.redirected) {
-								window.location.href = response.url;
-								return;
-						} 
-						// Si la respuesta tiene errores de validación (HTTP 422)
-						else if (!response.ok) {
-								return response.json().then(data => {
-										if (data.errors) {
-												handleErrors(data.errors);
-										} else {
-												console.error('Unexpected response:', data);
-										}
-								});
+			fetch('/store', {
+				method: 'POST',
+				headers: {
+					'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+				},
+				body: formData
+			})
+			.then(response => {
+				// Si la respuesta es una redirección (registro exitoso)
+				if (response.redirected) {
+					window.location.href = response.url;
+					return;
+				} 
+				// Si la respuesta tiene errores de validación (HTTP 422)
+				else if (!response.ok) {
+					document.getElementById('submit-register-button').disabled = false;
+					return response.json().then(data => {
+						if (data.errors) {
+								handleErrors(data.errors);
+						} else {
+								console.error('Unexpected response:', data);
 						}
+					});
+				}
 
-						// Si la respuesta es JSON y está OK, manejarlo
-						return response.json();
-				})
-				.then(data => {
-						if (data) {
-								console.log('Form submitted successfully:', data);
-								// Aquí podrías manejar la respuesta exitosa si se espera un JSON
-						}
-				})
-				.catch(error => {
-						console.error('Error:', error.message);
-				});
+				// Si la respuesta es JSON y está OK, manejarlo
+				return response.json();
+			})
+			/* .then(data => {
+					if (data) {
+							console.log('Form submitted successfully:', data);
+							// Aquí podrías manejar la respuesta exitosa si se espera un JSON
+					}
+			}) */
+			.catch(error => {
+				console.error('Error:', error.message);
+			})
+			.finally(() => {
+				$loaderOverlay.style.display = 'none';
+				document.body.style.pointerEvents = 'auto';
+			});
 		}
 
 		function handleErrors(errors) {
-				for (const field in errors) {
-						const inputElement = document.querySelector(`[name="${field}"]`);
-						const feedbackElement = document.getElementById(`validationServer${capitalizeFirstLetter(field)}Feedback`);
+			for (const field in errors) {
+				const inputElement = document.querySelector(`[name="${field}"]`);
+				const feedbackElement = document.getElementById(`validationServer${capitalizeFirstLetter(field)}Feedback`);
 
-						if (inputElement && feedbackElement) {
-								inputElement.classList.add('is-invalid');
-								feedbackElement.textContent = (inputElement.getAttribute('id') === 'terminos') ? 
-										'Acepte los términos' : 
-										errors[field][0];
-						} else {
-								console.warn(`Elementos para ${field} no encontrados.`);
-						}
+				if (inputElement && feedbackElement) {
+					inputElement.classList.add('is-invalid');
+					feedbackElement.textContent = (inputElement.getAttribute('id') === 'terminos')
+						? 'Acepte los términos'
+						: errors[field][0];
+				} else {
+					console.warn(`Elementos para ${field} no encontrados.`);
 				}
+			}
 		}
 
 		function clearErrors() {
-				const inputElements = document.querySelectorAll('.is-invalid');
-				inputElements.forEach(element => {
-						element.classList.remove('is-invalid');
-				});
+			const inputElements = document.querySelectorAll('.is-invalid');
+			inputElements.forEach(element => {
+				element.classList.remove('is-invalid');
+			});
 
-				const feedbackElements = document.querySelectorAll('.invalid-feedback');
-				feedbackElements.forEach(element => {
-						element.textContent = '';
-				});
+			const feedbackElements = document.querySelectorAll('.invalid-feedback');
+			feedbackElements.forEach(element => {
+				element.textContent = '';
+			});
 		}
 
 		function capitalizeFirstLetter(string) {
-				return string.charAt(0).toUpperCase() + string.slice(1);
+			return string.charAt(0).toUpperCase() + string.slice(1);
 		}
 
 	</script>
