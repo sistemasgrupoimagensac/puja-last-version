@@ -116,7 +116,7 @@ class LoginController extends Controller
         // Redireccionar al usuario a la página de inicio
         return response()->json([
             'message' => 'Inicio de sesión exitoso.',
-            'redirect' => route('panel.mis-avisos')
+            'redirect' => redirect()->intended(route('panel.mis-avisos'))->getTargetUrl(),
         ]);
     }    
 
