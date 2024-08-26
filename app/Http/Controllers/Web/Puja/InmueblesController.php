@@ -32,19 +32,14 @@ class InmueblesController extends Controller
 
         $caracteristicas = Caracteristica::where('categoria_caracteristica_id', 1)->get();
         $comodidades = Caracteristica::where('categoria_caracteristica_id', 2)->get();
-
-        $tienePlanes = false;
-
-        // dd($request->all());
         
+        $tienePlanes = false;
         if (Auth::check()) {
             $user_id = Auth::id();
             $user = User::find($user_id);
             $active_plan_users = $user->active_plans()->get();
             $tienePlanes = $active_plan_users->isNotEmpty();
         }
-        // dd($url_parse);
-
         return view('inmuebles', compact('avisos', 'url_parse', 'tipos_inmuebles', 'tienePlanes', 'caracteristicas', 'comodidades'));
     }
 
