@@ -222,29 +222,12 @@ class LoginController extends Controller
 
     public function update_password(Request $request)
     {
-        // dd($request->all());
         $request->validate([
             'token' => 'required',
             'email' => 'required|email',
             'password' => 'required|min:6|confirmed',
         ]);
 
-
-        // Validación inicial de los campos del formulario
-        $validator = Validator::make($request->all(), [
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|min:6|confirmed',
-        ]);
-    
-        // Si la validación falla, devuelve los errores
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => 'Errores de validación',
-                'errors' => $validator->errors()
-            ], 422);
-        }
-     
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function (User $user, string $password) {
