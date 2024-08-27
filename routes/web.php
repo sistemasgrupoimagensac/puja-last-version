@@ -61,6 +61,12 @@ Route::middleware(['guest'])->group(function() {
     Route::post('/reset-password', [LoginController::class, 'update_password'])->name('auth.password.reset.update');
 });
 
+Route::middleware('auth')->group(function () {
+    Route::put('editar-perfil/{id}', [LoginController::class, 'editProfile'])->name('auth.edit-profile');
+    Route::put('cambiar-contrasena/{id}', [LoginController::class, 'editPassword'])->name('auth.edit-password');
+});
+
+
 Route::get('/publica-tu-inmueble', [LoginController::class, 'select_profile'])->name('login.publica_tu_inmueble');
 Route::get('/login', [LoginController::class, 'sign_in'])->name('sign_in');
 Route::get('/register', [LoginController::class, 'register'])->name('login.register');

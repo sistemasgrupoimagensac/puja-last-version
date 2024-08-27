@@ -13,6 +13,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Response;
 
 class LoginController extends Controller
 {
@@ -130,7 +131,7 @@ class LoginController extends Controller
             'tipo_documento' => 'required|integer|in:1,2,3',
             'telefono' => 'required|integer|digits:9',
             'direccion' => 'required|string|max:255',
-            'numero_de_documento' => 'required|string|max:30|unique:users,numero_documento',
+            'numero_de_documento' => 'required|string|max:30',
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'terminos' => 'accepted',
         ]);
@@ -292,5 +293,55 @@ class LoginController extends Controller
     {
         Auth::logout();
         return redirect('/');
+    }
+
+
+
+    // Editar Perfil
+    public function editProfile(Request $request, $id)
+    {
+        $request->validate([
+            'name_perfil' => 'required|string|max:255',
+            'surename_perfil' => 'nullable|string|max:255',
+            'document_perfil' => 'required|integer|exists:tipos_documento,id',
+            'doc_number_perfil' => 'required|string|max:30',
+            'phone_perfil' => 'required|integer|digits:9',
+        ]);
+
+        if ( $id != Auth::id() ) {
+            abort(Response::HTTP_FORBIDDEN, 'No puedes actualizar otro usuario');
+        }
+        $user = User::findOrFail($id);
+        $user->update([
+            'nombres' => $request->name_perfil,
+            'apellidos' => $request->surename_perfil,
+            'tipo_documento_id' => $request->document_perfil,
+            'numero_documento' => $request->doc_number_perfil,
+            'celular' => $request->phone_perfil,
+        ]);
+
+        return to_route('panel.perfil');
+    }
+
+    public function editPassword(Request $request, $id)
+    {
+        $request->validate([
+            'current_password' => 'required|string',
+            'password' => 'required|string|min:6|max:20|confirmed',
+        ]);
+    
+        if ( $id != Auth::id() ) {
+            abort(Response::HTTP_FORBIDDEN, 'No puedes actualizar otro usuario.');
+        }
+    
+        $user = User::findOrFail($id);
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => 'La contraseña actual no es correcta.']);
+        }
+    
+        $user->password = Hash::make($request->password);
+        $user->save();
+    
+        return to_route('login')->with('status', 'Contraseña actualizada correctamente.');
     }
 }
