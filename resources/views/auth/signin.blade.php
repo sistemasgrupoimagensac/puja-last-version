@@ -65,7 +65,7 @@
 
         {{-- recuperar contraseña link --}}
         <div class="w-100 text-center">
-          <a href="/recuperar-password" class="signin-recuperar-password">¿Has olvidado tu contraseña?</a>
+          <a href="{{route("auth.forgot-password.index")}}" class="signin-recuperar-password">¿Has olvidado tu contraseña?</a>
         </div>
 
         {{-- signin google --}}

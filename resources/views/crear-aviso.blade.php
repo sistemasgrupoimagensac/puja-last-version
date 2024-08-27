@@ -364,6 +364,11 @@
                                             <li class="dropdown-item" type="button" @click=" selectDireccionRemate(1) ">Otros</li>
                                         </ul>
                                     </div>
+                                    <label class="text-secondary mt-2" for="direccion_remate">
+                                        Nombre del centro de arbitraje
+                                        <span style="font-size: .75rem">(opcional)</span>
+                                    </label>
+                                    <input type="text" id="remate_nombre_centro" x-model="remate_nombre_centro" class="form-control">
                                 </div>
     
                                 <div class="form-group w-100">
@@ -702,7 +707,7 @@
                 fillOpacity: 0.35,
                 map: null,
                 center: defaultLocation,
-                radius: 1000,
+                radius: 500,
             });
 
             initAutocomplete();
@@ -723,6 +728,7 @@
 
                 geocoder.geocode({'location': newPosition}, (results, status) => {
                     if (status === 'OK' && results[0]) {
+                        console.log(results[0])
                         input.value = results[0].formatted_address;
                     } else {
                         input.value = 'Dirección no encontrada';
@@ -763,7 +769,15 @@
 
             geocoder.geocode({'location': location}, (results, status) => {
                 if (status === 'OK' && results[0]) {
-                    input.value = results[0].formatted_address;
+                    let cadena = results[0].formatted_address;
+                    
+                    let ultimaComa = cadena.lastIndexOf(",");
+                    if (ultimaComa !== -1) {
+                        let penultimaComa = cadena.lastIndexOf(",", ultimaComa - 1);
+                        let cortarHasta = (penultimaComa !== -1) ? penultimaComa : ultimaComa;
+                        cadena = cadena.substring(0, cortarHasta);
+                    }
+                    input.value = cadena;
                 } else {
                     input.value = 'Dirección no encontrada';
                 }
@@ -846,6 +860,7 @@
                     base_remate: '',
                     valor_tasacion: '',
                     direccion_remate: '',
+                    remate_nombre_centro: '',
                     remate_direccion_id: 1,
                     partida_registral: '',
                     fecha_remate: '',
@@ -862,20 +877,27 @@
 
                 selectDireccionRemate(val) {
                     const $direccion_remate = document.getElementById("direccion_remate")
+                    const $remate_nombre_centro = document.getElementById("remate_nombre_centro")
                     $direccion_remate.disabled = true;
+                    $remate_nombre_centro.disabled = true;
                     if ( val === 1 ) {
                         this.remate_direccion_id = val
                         this.direccion_remate = ""
                         $direccion_remate.disabled = false;
+                        this.remate_nombre_centro = ""
+                        $remate_nombre_centro.disabled = false;
                     } else if ( val === 2 ) {
                         this.remate_direccion_id = val
-                        this.direccion_remate = "Av. Arequipa 330, oficina 907, Cercado de Lima (CACLI)"
+                        this.direccion_remate = "Av. Arequipa 330, oficina 907, Cercado de Lima"                        
+                        this.remate_nombre_centro = "Centro de arbitraje comercial Lima"
                     } else if ( val === 3 ) {
                         this.remate_direccion_id = val
-                        this.direccion_remate = "Av. Diez Canseco 442, oficina 202, Miraflores (CAFI)"
+                        this.direccion_remate = "Av. Diez Canseco 442, oficina 202, Miraflores"                        
+                        this.remate_nombre_centro = "Centro de arbitraje financiero Inmobiliario"
                     } else if ( val === 4 ) {
                         this.remate_direccion_id = val
-                        this.direccion_remate = "Remate Virtual (REMAJU)"
+                        this.direccion_remate = "Remate Virtual"                        
+                        this.remate_nombre_centro = "Remate electrónico judicial"
                     }
                 },
 
@@ -1013,7 +1035,7 @@
                             formData.append('remate_valor_tasacion', this.valor_tasacion)
                             formData.append('remate_partida_registral', this.partida_registral)
                             formData.append('remate_direccion_id', this.remate_direccion_id)
-                            formData.append('remate_direccion', this.direccion_remate)
+                            formData.append('remate_direccion', `${this.direccion_remate} - ${this.remate_nombre_centro}`)
                             formData.append('remate_fecha', this.fecha_remate)
                             formData.append('remate_hora', this.hora_remate)
                             formData.append('remate_nombre_contacto', this.contacto_remate)

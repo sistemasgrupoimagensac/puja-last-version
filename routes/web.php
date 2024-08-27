@@ -53,6 +53,14 @@ Route::middleware(['auth', 'verified'])->group(function() {
     });
 });
 
+
+Route::middleware(['guest'])->group(function() {
+    Route::get('/recuperar-contrasena', [LoginController::class, 'forgot_password'])->name('auth.forgot-password.index');
+    Route::post('/recuperar-contrasena', [LoginController::class, 'send_password'])->name('auth.forgot-password.send');
+    Route::get('/reset-password/{token}', [LoginController::class, 'recovery_password'])->name('password.reset');
+    Route::post('/reset-password', [LoginController::class, 'update_password'])->name('auth.password.reset.update');
+});
+
 Route::get('/publica-tu-inmueble', [LoginController::class, 'select_profile'])->name('login.publica_tu_inmueble');
 Route::get('/login', [LoginController::class, 'sign_in'])->name('sign_in');
 Route::get('/register', [LoginController::class, 'register'])->name('login.register');
