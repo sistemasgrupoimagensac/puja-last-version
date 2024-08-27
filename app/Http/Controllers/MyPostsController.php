@@ -467,29 +467,64 @@ class MyPostsController extends Controller
     }
 
     public function edit (Aviso $aviso){
+
+        // $mult_inmueble = MultimediaInmueble::where("inmueble_id", $aviso->inmueble_id)->first();
+        // dd($aviso);
+
+        // ==========================================================================================================================
+        $user = Auth::user();
+    
+        $es_propietario = $user->tipo_usuario_id == 2 ? true : false;
+        $es_corredor = $user->tipo_usuario_id == 3 ? true : false;
+        $es_acreedor = $user->tipo_usuario_id == 4 ? true : false;
+        $es_proyecto = $user->tipo_usuario_id == 5 ? true : false;
+
         $inmueble = Inmueble::where("id", $aviso->inmueble_id)->first();
         $principal_inmueble_id = PrincipalInmueble::where("inmueble_id", $aviso->inmueble_id)->pluck('id')->first();
-        $caract_inmueble_id = CaracteristicaInmueble::where("principal_inmueble_id", $principal_inmueble_id)->first();
 
-        $op_inmueble = OperacionTipoInmueble::where("principal_inmueble_id", $principal_inmueble_id)->first();
-        $ubi_inmueble = UbicacionInmueble::where("principal_inmueble_id", $principal_inmueble_id)->first();
+        if ( isset($principal_inmueble_id) ) {
+            $caract_inmueble_id = CaracteristicaInmueble::where("principal_inmueble_id", $principal_inmueble_id)->first();
+            $op_inmueble = OperacionTipoInmueble::where("principal_inmueble_id", $principal_inmueble_id)->first();
+            $ubi_inmueble = UbicacionInmueble::where("principal_inmueble_id", $principal_inmueble_id)->first();
+        } else {
+            $caract_inmueble_id = null;
+            $op_inmueble = null;
+            $ubi_inmueble = null;
+        }
 
         $mult_inmueble = MultimediaInmueble::where("inmueble_id", $aviso->inmueble_id)->first();
-        $imgs_inmueble = ImagenInmueble::where("multimedia_inmueble_id", $mult_inmueble->id)->first();
-        $videos_inmueble = VideoInmueble::where("multimedia_inmueble_id", $mult_inmueble->id)->first();
-        if(!$videos_inmueble){
-            $videos_inmueble = "";
+
+        if (isset($mult_inmueble)) {
+
+            $imgs_inmueble = ImagenInmueble::where("multimedia_inmueble_id", $mult_inmueble->id)->first();
+            $videos_inmueble = VideoInmueble::where("multimedia_inmueble_id", $mult_inmueble->id)->first();
+            if(!$videos_inmueble){
+                $videos_inmueble = "";
+            }
+            $planos_inmueble = PlanoInmueble::where("multimedia_inmueble_id", $mult_inmueble->id)->first();
+
+        } else {
+
+            $imgs_inmueble = null;
+            $videos_inmueble = null;
+            if(!$videos_inmueble){
+                $videos_inmueble = "";
+            }
+            $planos_inmueble = null;
+
         }
-        $planos_inmueble = PlanoInmueble::where("multimedia_inmueble_id", $mult_inmueble->id)->first();
+        
 
         $extra_inmueble = ExtraInmueble::where("inmueble_id", $aviso->inmueble_id)->first();
-        $extra_carac_inmueble = ExtraInmueblesCaracteristicas::where("extra_inmueble_id", $extra_inmueble->id)->first();
 
-        // dd($imgs_inmueble);
+        if ( isset($extra_inmueble) ) {
+            $extra_carac_inmueble = ExtraInmueblesCaracteristicas::where("extra_inmueble_id", $extra_inmueble->id)->first();
+        } else {
+            $extra_carac_inmueble = null;
+        }
 
         if ($aviso) {
-            // dd($aviso);
-            return view("actualizar-aviso", compact('inmueble','op_inmueble', 'ubi_inmueble', 'caract_inmueble_id', 'mult_inmueble', 'imgs_inmueble', 'videos_inmueble', 'planos_inmueble', 'extra_inmueble', 'extra_carac_inmueble'));
+            return view("actualizar-aviso", compact('inmueble','op_inmueble', 'ubi_inmueble', 'caract_inmueble_id', 'mult_inmueble', 'imgs_inmueble', 'videos_inmueble', 'planos_inmueble', 'extra_inmueble', 'extra_carac_inmueble', 'es_acreedor', 'es_propietario', 'es_corredor', 'es_proyecto'));
         } else {
             dd("Aviso no encontrado, $aviso no existe");
         }

@@ -10,9 +10,15 @@
 
 @section('content')
     
-    <div id="loader-overlay">
+    {{-- <div id="loader-overlay">
         <img src="{{ asset('images/loader.svg') }}" alt="Cargando...">
+    </div> --}}
+
+
+    <div id="loader-overlay">
+        <div class="flipping"></div>
     </div>
+    
 
     <div x-data="avisoForm()">
 
@@ -952,7 +958,9 @@
                 },
 
                 nextStep(step) {
+                    // spinner
                     $loaderOverlay.style.display = 'flex';
+                    
                     document.body.style.pointerEvents = 'none';
                     const stepMap = {
                         1: `/my-post/store`,
@@ -1081,11 +1089,18 @@
                             console.error('Error:', error)
                         })
                         .finally(() => {
-                            $loaderOverlay.style.display = 'none';
-                            document.body.style.pointerEvents = 'auto';
+                            this.hideLoader();
                         });
                     }
                 },  
+
+                hideLoader() {
+                    setTimeout(() => {
+                        $loaderOverlay.style.display = 'none';
+                        document.body.style.pointerEvents = 'auto';
+                    }, 300);
+                },
+
 
                 prevStep() {
                     this.step--

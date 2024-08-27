@@ -9,7 +9,25 @@
 @endpush
 
 @section('content')
-    <div x-data="avisoForm( {{ $inmueble }}, {{ $op_inmueble }}, {{ $ubi_inmueble }}, {{ $caract_inmueble_id }}, {{ $mult_inmueble }}, {{ $imgs_inmueble }}, {{ $videos_inmueble }}, {{ $planos_inmueble }}, {{ $extra_carac_inmueble }} )" x-init="initialize()" {{-- x-cloak x-effect="checkStep()"  --}}class="">
+
+{{-- 'inmueble','op_inmueble', 'ubi_inmueble', 'caract_inmueble_id', 'mult_inmueble', 'imgs_inmueble', 'videos_inmueble', 'planos_inmueble', 'extra_inmueble', 'extra_carac_inmueble' --}}
+
+{{-- {{ $inmueble }} --}}
+{{ $op_inmueble }}
+{{ $ubi_inmueble }}
+{{-- {{ $caract_inmueble_id }} --}}
+
+        <div x-data="avisoForm( {{ json_encode($inmueble) }}, 
+                                {{ json_encode($op_inmueble) }}, 
+                                {{ json_encode($ubi_inmueble) }}, 
+                                {{ json_encode($caract_inmueble_id) }}, 
+                                {{ json_encode($mult_inmueble) }}, 
+                                {{ json_encode($imgs_inmueble) }}, 
+                                {{ json_encode($videos_inmueble) }}, 
+                                {{ json_encode($planos_inmueble) }}, 
+                                {{ json_encode($extra_carac_inmueble) }} )" 
+        x-init="initialize()">
+
 
         <!-- Menú de los pasos -->
         <div class="py-2 py-lg-4 bg-body-tertiary border-bottom">
@@ -45,7 +63,7 @@
             <div class="col-12 col-lg-6 px-lg-5">
 
                 <!-- Paso 1: Operación y tipo de inmueble -->
-                <div x-show="step === 1">
+                {{-- <div x-show="step === 1">
                     <form @submit.prevent="nextStep(1)" class="d-flex flex-column gap-4 my-5">
                         @csrf
                         <h2>Operación y tipo de inmueble</h2>
@@ -63,17 +81,95 @@
                                 <input type="radio" class="btn-check" x-model="tipo_operacion" id="rematar" autocomplete="off" value="3" required>
                                 <label class="btn btn-outline-secondary button-filter" for="rematar">Rematar</label>
                             </div>
-                        </div>
+                        </div> --}}
+                        <div x-show="step === 1">
+                            <form @submit.prevent="nextStep(1)" class="d-flex flex-column gap-4 my-3 my-lg-5">
+                                @csrf
+                                <h2 class="m-0" class="m-0" class="m-0" class="m-0" class="m-0" class="m-0">Operación y tipo de inmueble</h2>
+                                <input type="hidden" name="operacion" :value="step === 1 ? 1 : 0">
+        
+                                @php
+                                $show_vender = false;
+                                $show_alquilar = false;
+                                $show_rematar = false;
+        
+                                $rematar_last = false;
+                                $alquilar_last = false;
+                                $vender_last = false;
+        
+                                if ($es_corredor) {
+                                    $show_vender = true;
+                                    $show_alquilar = true;
+                                    $alquilar_last = true;
+                                } elseif ($es_acreedor) {
+                                    $show_rematar = true;
+                                    $rematar_last = true;
+                                } elseif ($es_propietario) {
+                                    $show_vender = true;
+                                    $show_alquilar = true;
+                                    $alquilar_last = true;
+                                }
+                                @endphp
+        
+                                <div class="d-flex flex-column">
+                                    <label class="text-secondary">Tipo de operación</label>
+                                    <div class="btn-group" role="group">
+        
+                                        {{-- vender --}}
+                                        <input type="radio" x-model="tipo_operacion" id="vender" autocomplete="off" value="1" required 
+                                        class="btn-check
+                                            @if (!$show_vender) d-none @endif
+                                        ">
+                                        <label for="vender" 
+                                        class="btn btn-outline-secondary button-filter
+                                            @if (!$show_vender) d-none @endif
+                                            @if ($vender_last) rounded-end @endif
+                                        ">Vender</label>
+        
+                                        {{-- alquilar --}}
+                                        <input type="radio" x-model="tipo_operacion" id="alquilar" autocomplete="off" value="2" required 
+                                        class="btn-check
+                                            @if (!$show_alquilar) d-none @endif
+                                        ">
+                                        <label for="alquilar" 
+                                        class="btn btn-outline-secondary button-filter
+                                            @if (!$show_alquilar) d-none @endif
+                                            @if ($alquilar_last) rounded-end @endif
+                                        ">Alquilar</label>
+        
+                                        {{-- rematar --}}
+                                        <input type="radio" x-model="tipo_operacion" id="rematar" autocomplete="off" value="3" required
+                                        class="btn-check
+                                            @if (!$show_rematar) d-none @endif
+                                        ">
+                                        <label for="rematar" 
+                                        class="btn btn-outline-secondary button-filter
+                                            @if (!$show_rematar) d-none @endif
+                                            @if ($rematar_last) rounded @endif
+                                        ">Rematar</label>
+                                    </div>
+                                </div>
 
-                        <div class="form-floating" x-init="fetchSubtipos()">
+                        {{-- <div class="form-floating" x-init="fetchSubtipos()">
                             <select x-model="selectedSubtipo" class="form-select" id="tipoinmueble" required>
                                 <option value="">Selecciona un subtipo</option>
                                 <template x-for="subtipo in subtipos" :key="subtipo.id">
                                     <option :value="subtipo.id" x-text="subtipo.subtipo"></option>
                                 </template>
                             </select>
-                        <label for="tipoinmueble">Tipo de inmueble</label>
+                            <label for="tipoinmueble">Tipo de inmueble</label>
+                        </div> --}}
+
+                        <div class="form-floating" x-init="fetchSubtipos()">
+                            <select x-model="selectedSubtipo" class="form-select" id="tipoinmueble" required>
+                                <option value="">Selecciona un subtipo</option>
+                                <template x-for="(subtipo, index) in subtipos" :key="`${subtipo.id}-${index}`">
+                                    <option :value="subtipo.id" x-text="subtipo.subtipo"></option>
+                                </template>
+                            </select>
+                            <label for="tipoinmueble">Tipo de inmueble</label>
                         </div>
+                        
 
                         <button type="submit" class="btn button-orange w-100">Continuar</button>
                     </form>
@@ -419,23 +515,68 @@
             return {
                 step: {{ session('step', 1) }},
                 aviso_id: {{ session('aviso_id', 'null') }},
+
+                perfil_acreedor: @json($es_acreedor),
                 
-                tipo_operacion: op_inmueble.tipo_operacion_id,
+                // tipo_operacion: op_inmueble.tipo_operacion_id,
+                // subtipos: [],
+                // selectedSubtipo: '',
+                // titulo: '',
+                // description: '',
+
+                // direccion: ubi_inmueble.direccion,
+                // departamentos: [],
+                // provincias: [],
+                // distritos: [],
+                // selectedDepartamento: "",
+                // selectedProvincia: "",
+                // selectedDistrito: "",
+
+                // main_img_init: mult_inmueble.imagen_principal,
+                // video_init: videos_inmueble.video,
+
+                // extras: [],
+                // extras2: [],
+                // adicionales: [],
+                // comodidades: [],
+
+                // fotos: [],
+                // imagen_principal: null,
+                // videos: null,
+                // planos: [],
+                // dormitorios: caract_inmueble_id.habitaciones,
+                // banios: caract_inmueble_id.banios,
+                // medio_banios: caract_inmueble_id.medio_banios,
+                // estacionamiento: caract_inmueble_id.estacionamientos,
+                // area_construida: caract_inmueble_id.area_construida,
+                // area_total: caract_inmueble_id.area_total,
+                // antiguedad: caract_inmueble_id.antiguedad,
+                // anios_antiguedad: caract_inmueble_id.anios_antiguedad,
+                // precio_soles: caract_inmueble_id.precio_soles,
+                // precio_dolares: caract_inmueble_id.precio_dolares,
+
+                // acceso_playa: false,
+                // aire_acondicionado: false,
+                // acceso_parque: false,
+                // ascensores: false,
+                // codigo_unico: inmueble.codigo_unico,
+
+                tipo_operacion: op_inmueble ? op_inmueble.tipo_operacion_id : '', // Maneja null
                 subtipos: [],
                 selectedSubtipo: '',
                 titulo: '',
                 description: '',
 
-                direccion: ubi_inmueble.direccion,
+                direccion: ubi_inmueble ? ubi_inmueble.direccion : '',
                 departamentos: [],
                 provincias: [],
                 distritos: [],
-                selectedDepartamento: "",
-                selectedProvincia: "",
-                selectedDistrito: "",
+                selectedDepartamento: ubi_inmueble ? ubi_inmueble.departamento_id : '',
+                selectedProvincia: ubi_inmueble ? ubi_inmueble.provincia_id : '',
+                selectedDistrito: ubi_inmueble ? ubi_inmueble.distrito_id : '',
 
-                main_img_init: mult_inmueble.imagen_principal,
-                video_init: videos_inmueble.video,
+                main_img_init: mult_inmueble ? mult_inmueble.imagen_principal : null,
+                video_init: videos_inmueble ? videos_inmueble.video : null,
 
                 extras: [],
                 extras2: [],
@@ -446,22 +587,22 @@
                 imagen_principal: null,
                 videos: null,
                 planos: [],
-                dormitorios: caract_inmueble_id.habitaciones,
-                banios: caract_inmueble_id.banios,
-                medio_banios: caract_inmueble_id.medio_banios,
-                estacionamiento: caract_inmueble_id.estacionamientos,
-                area_construida: caract_inmueble_id.area_construida,
-                area_total: caract_inmueble_id.area_total,
-                antiguedad: caract_inmueble_id.antiguedad,
-                anios_antiguedad: caract_inmueble_id.anios_antiguedad,
-                precio_soles: caract_inmueble_id.precio_soles,
-                precio_dolares: caract_inmueble_id.precio_dolares,
+                dormitorios: caract_inmueble_id ? caract_inmueble_id.habitaciones : '',
+                banios: caract_inmueble_id ? caract_inmueble_id.banios : '',
+                medio_banios: caract_inmueble_id ? caract_inmueble_id.medio_banios : '',
+                estacionamiento: caract_inmueble_id ? caract_inmueble_id.estacionamientos : '',
+                area_construida: caract_inmueble_id ? caract_inmueble_id.area_construida : '',
+                area_total: caract_inmueble_id ? caract_inmueble_id.area_total : '',
+                antiguedad: caract_inmueble_id ? caract_inmueble_id.antiguedad : '',
+                anios_antiguedad: caract_inmueble_id ? caract_inmueble_id.anios_antiguedad : '',
+                precio_soles: caract_inmueble_id ? caract_inmueble_id.precio_soles : '',
+                precio_dolares: caract_inmueble_id ? caract_inmueble_id.precio_dolares : '',
 
                 acceso_playa: false,
                 aire_acondicionado: false,
                 acceso_parque: false,
                 ascensores: false,
-                codigo_unico: inmueble.codigo_unico,
+                codigo_unico: inmueble ? inmueble.codigo_unico : '',
 
                 initialize() {
                     console.log("videos", videos_inmueble);
@@ -633,7 +774,7 @@
                     .then(data => {
                         if (!data.error) {
                             this.subtipos = data.subtipos;
-                            this.selectedSubtipo = op_inmueble.subtipo_inmueble_id;
+                            this.selectedSubtipo = op_inmueble ? op_inmueble.subtipo_inmueble_id : '';
                         } else {
                             console.error('Error fetching subtipos:', data.message);
                         }
