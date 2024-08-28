@@ -83,6 +83,10 @@ class MyPostsController extends Controller
 
         $nuevoCodigoUnico = $request->codigo_unico;
 
+        // return response()->json([
+        //     'mensaje' => $nuevoCodigoUnico,
+        // ], 200);
+
         if ( empty($nuevoCodigoUnico) ) {
             $ultimoInmueble = Inmueble::where('codigo_unico', 'like', 'INM-001-001%')
                 ->orderBy('id', 'desc')
@@ -98,6 +102,10 @@ class MyPostsController extends Controller
                 $nuevoCodigoUnico = 'INM-001-001-001'; // Puedes establecer un valor por defecto
             }
         }
+
+        // return response()->json([
+        //     'mensaje' => $nuevoCodigoUnico,
+        // ], 200);
 
         $inmueble = Inmueble::updateOrCreate([
             "codigo_unico" => "$nuevoCodigoUnico",
@@ -209,23 +217,28 @@ class MyPostsController extends Controller
         }
         
         if ($request->caracteristicas) {
+
+            // return response()->json([
+            //     'mensaje' => $request->all(),
+            // ], 200);
+
             $validator = Validator::make($request->all(), [
                 'is_puja' => 'nullable|boolean',
-                'habitaciones' => 'nullable|integer|digits_between:1,3',
-                'banios' => 'nullable|integer|digits_between:1,3',
-                'medio_banios' => 'nullable|integer|digits_between:1,3',
-                'estacionamientos' => 'nullable|integer|digits_between:1,3',
+                'habitaciones' => 'nullable|max:999',
+                'banios' => 'nullable|max:999',
+                'medio_banios' => 'nullable|max:999',
+                'estacionamientos' => 'nullable|max:999',
                 'area_construida' => 'numeric',
                 'area_total' => 'numeric',
                 'antiguedad' => 'string',
-                'anios_antiguedad' => 'nullable|integer',
+                'anios_antiguedad' => 'nullable|max:999',
                 'precio_soles' => 'nullable|string',
                 'precio_dolares' => 'nullable|string',
                 
                 'remate_precio_base' => 'nullable|string',
                 'remate_valor_tasacion' => 'nullable|string',
                 'remate_partida_registral' => 'nullable|string',
-                'remate_direccion_id' => 'nullable|integer',
+                'remate_direccion_id' => 'nullable|max:999',
                 'remate_direccion' => 'nullable|string',
                 'remate_fecha' => 'nullable|string',
                 'remate_hora' => 'nullable|string',
@@ -233,9 +246,8 @@ class MyPostsController extends Controller
                 'remate_telef_contacto' => 'nullable|string',
                 'remate_correo_contacto' => 'nullable|string',
 
-                // 'titulo' => 'string|max:100',
-                // 'description' => 'string|max:250',
             ]);
+
             if ($validator->fails()) {
                 return response()->json([
                     'message' => 'Errores de validación',
@@ -248,36 +260,75 @@ class MyPostsController extends Controller
             $request->remate_precio_base    ? $remate_precio_base = $this->convertStringToFloat($request->remate_precio_base)       : $remate_precio_base = null;
             $request->remate_valor_tasacion ? $remate_valor_tasacion = $this->convertStringToFloat($request->remate_valor_tasacion) : $remate_valor_tasacion = null;
 
-            $carac_inmueble = CaracteristicaInmueble::updateOrCreate([
-                "principal_inmueble_id" => $principal_inmueble->id,
-                ],[
-                "is_puja" => $request->is_puja,
-                "habitaciones" => $request->habitaciones,
-                "banios" => $request->banios,
-                "medio_banios" => $request->medio_banios,
-                "estacionamientos" => $request->estacionamientos,
-                "area_construida" => $request->area_construida,
-                "area_total" => $request->area_total,
-                "antiguedad" => $request->antiguedad,
-                "anios_antiguedad" => $request->anios_antiguedad,
-                "precio_soles" => $precio_soles,
-                "precio_dolares" => $precio_dolares,
+            // $carac_inmueble = CaracteristicaInmueble::updateOrCreate([
+            //     "principal_inmueble_id" => $principal_inmueble->id,
+            //     ],[
+            //     "is_puja" => $request->is_puja,
+            //     "habitaciones" => $request->habitaciones,
+            //     "banios" => $request->banios,
+            //     "medio_banios" => $request->medio_banios,
+            //     "estacionamientos" => $request->estacionamientos,
+            //     "area_construida" => $request->area_construida,
+            //     "area_total" => $request->area_total,
+            //     "antiguedad" => $request->antiguedad,
+            //     "anios_antiguedad" => $request->anios_antiguedad,
+            //     "precio_soles" => $precio_soles,
+            //     "precio_dolares" => $precio_dolares,
                 
-                "remate_precio_base" => $remate_precio_base,
-                "remate_valor_tasacion" => $remate_valor_tasacion,
-                "remate_partida_registral" => $request->remate_partida_registral,
-                "remate_direccion_id" => $request->remate_direccion_id,
-                "remate_direccion" => $request->remate_direccion,
-                "remate_fecha" => $request->remate_fecha,
-                "remate_hora" => $request->remate_hora,
-                "remate_nombre_contacto" => $request->remate_nombre_contacto,
-                "remate_telef_contacto" => $request->remate_telef_contacto,
-                "remate_correo_contacto" => $request->remate_correo_contacto,
+            //     "remate_precio_base" => $remate_precio_base,
+            //     "remate_valor_tasacion" => $remate_valor_tasacion,
+            //     "remate_partida_registral" => $request->remate_partida_registral,
+            //     "remate_direccion_id" => $request->remate_direccion_id,
+            //     "remate_direccion" => $request->remate_direccion,
+            //     "remate_fecha" => $request->remate_fecha,
+            //     "remate_hora" => $request->remate_hora,
+            //     "remate_nombre_contacto" => $request->remate_nombre_contacto,
+            //     "remate_telef_contacto" => $request->remate_telef_contacto,
+            //     "remate_correo_contacto" => $request->remate_correo_contacto,
 
-                // "titulo" => $request->titulo,
-                // "descripcion" => $request->description,
-                "estado" => 1,
-            ]);
+            //     // "titulo" => $request->titulo,
+            //     // "descripcion" => $request->description,
+            //     "estado" => 1,
+            // ]);
+
+            try {
+                $carac_inmueble = CaracteristicaInmueble::updateOrCreate([
+                    "principal_inmueble_id" => $principal_inmueble->id,
+                    ],[
+                    "is_puja" => $request->is_puja,
+                    'habitaciones' => $request->habitaciones !== null ? (int)$request->habitaciones : 0,
+                    'banios' => $request->banios !== null ? (int)$request->banios : 0,
+                    'medio_banios' => $request->medio_banios !== null ? (int)$request->medio_banios : 0,
+                    'estacionamientos' => $request->estacionamientos !== null ? (int)$request->estacionamientos : 0,
+                    "area_construida" => $request->area_construida,
+                    "area_total" => $request->area_total,
+                    "antiguedad" => $request->antiguedad,
+                    'anios_antiguedad' => $request->anios_antiguedad !== null ? (int)$request->anios_antiguedad : 0,
+                    "precio_soles" => $precio_soles,
+                    "precio_dolares" => $precio_dolares,
+                    "remate_precio_base" => $remate_precio_base,
+                    "remate_valor_tasacion" => $remate_valor_tasacion,
+                    "remate_partida_registral" => $request->remate_partida_registral,
+                    "remate_direccion_id" => $request->remate_direccion_id,
+                    "remate_direccion" => $request->remate_direccion,
+                    "remate_fecha" => $request->remate_fecha,
+                    "remate_hora" => $request->remate_hora,
+                    "remate_nombre_contacto" => $request->remate_nombre_contacto,
+                    "remate_telef_contacto" => $request->remate_telef_contacto,
+                    "remate_correo_contacto" => $request->remate_correo_contacto,
+                    "estado" => 1,
+                ]);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'message' => 'Error al guardar las características del inmueble',
+                    'error' => true,
+                    'details' => $e->getMessage(),
+                ], 500);
+            }
+
+            // return response()->json([
+            //     'mensaje' => $carac_inmueble,
+            // ], 200);
 
             if (!$carac_inmueble) {
                 return response()->json([
@@ -288,10 +339,6 @@ class MyPostsController extends Controller
         }
         
         if ($request->multimedia) {
-            // Storage::disk('wasabi')->deleteDirectory("images");
-            // Storage::disk('wasabi')->deleteDirectory("planos");
-            // Storage::disk('wasabi')->deleteDirectory("videos");
-            // $existingImgMain = MultimediaInmueble::where('inmueble_id', $inmueble->id)->first();
             $routeImages = "images/{$inmueble->id}";
             $routePlans = "planos/{$inmueble->id}";
             $routeVideos = "videos/{$inmueble->id}";
@@ -303,6 +350,12 @@ class MyPostsController extends Controller
             Storage::disk('wasabi')->deleteDirectory($routeImages);
             Storage::disk('wasabi')->deleteDirectory($routePlans);
             Storage::disk('wasabi')->deleteDirectory($routeVideos);
+
+            if (!$request->imagen_principal) {
+                return response()->json([
+                    'message_error' => 'Sube una imagen principal',
+                ], 402);
+            }
 
             if ( $request->hasFile('imagen_principal') ) {
                 $validator = Validator::make($request->all(), [
@@ -336,11 +389,22 @@ class MyPostsController extends Controller
             $multi_inmueble_id = MultimediaInmueble::where('inmueble_id', $inmueble->id)->value('id');
 
             if ( $request->hasFile('imagen') ) {
+
+                // Si no se sube la imagen principal antes se produce este error
+                if (!$multi_inmueble_id) {
+                    return response()->json([
+                        'message_error' => 'Sube una imagen principal',
+                    ], 402);
+                }
+
                 ImagenInmueble::where('multimedia_inmueble_id', $multi_inmueble_id)->delete();
+
                 foreach ($request->file('imagen') as $imagen) {
+
                     $path = Storage::disk('wasabi')->put($routeImages, $imagen);
                     $imagenURL = basename($path);
-                    $imagenUrl_1 = url($routeImages . '/' . $imagenURL);        
+                    $imagenUrl_1 = url($routeImages . '/' . $imagenURL);      
+                    
                     $img_inmueble = ImagenInmueble::create([
                         'multimedia_inmueble_id' => $multi_inmueble_id,
                         'imagen' => $imagenUrl_1,
@@ -453,14 +517,13 @@ class MyPostsController extends Controller
                     'message' => 'Registro exitoso, finalizado correcto.',
                     'status' => 'Success',
                     'redirect_url' => route('inmueble.single', ['inmueble' => $aviso->link()]),
-                    // 'redirect_url' => route('filter_search'),
                     'error' => false
                 ], 201);
             }
         }
 
         return response()->json([
-            'message' => 'Registro exitos',
+            'message' => 'Registro exitoso',
             'error' => false,
             'codigo_unico' => $inmueble->codigo_unico 
         ], 201);
@@ -496,7 +559,7 @@ class MyPostsController extends Controller
 
         if (isset($mult_inmueble)) {
 
-            $imgs_inmueble = ImagenInmueble::where("multimedia_inmueble_id", $mult_inmueble->id)->first();
+            $imgs_inmueble = ImagenInmueble::where("multimedia_inmueble_id", $mult_inmueble->id)->get();
             $videos_inmueble = VideoInmueble::where("multimedia_inmueble_id", $mult_inmueble->id)->first();
             if(!$videos_inmueble){
                 $videos_inmueble = "";
@@ -518,7 +581,7 @@ class MyPostsController extends Controller
         $extra_inmueble = ExtraInmueble::where("inmueble_id", $aviso->inmueble_id)->first();
 
         if ( isset($extra_inmueble) ) {
-            $extra_carac_inmueble = ExtraInmueblesCaracteristicas::where("extra_inmueble_id", $extra_inmueble->id)->first();
+            $extra_carac_inmueble = ExtraInmueblesCaracteristicas::where("extra_inmueble_id", $extra_inmueble->id)->get();
         } else {
             $extra_carac_inmueble = null;
         }

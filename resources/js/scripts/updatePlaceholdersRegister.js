@@ -3,8 +3,6 @@ import * as bootstrap from 'bootstrap';
 const documentSelected = document.getElementById("document_type")
 const documentNumber = document.getElementById("label_document_number")
 
-
-
 // actualizar el placeholder de los campos =============================================
 documentSelected.addEventListener("change", function () {
   let selectedCategory = documentSelected.value

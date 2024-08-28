@@ -133,124 +133,6 @@
 		</div>
 	</section>
 
-	{{-- <script>
-
-		document.getElementById('submit-register-button').addEventListener('click', (event) => {
-			
-			event.preventDefault();
-			clearErrors();
-			submitForm();
-		});
-	
-	
-		function submitForm() {
-				let form = document.getElementById('formRegistro');
-				let bodyTipoDoc = ''
-				const tipo = form.tipo_documento.value
-				const documento = form.numero_de_documento.value
-	
-				if(tipo === '1') {
-					bodyTipoDoc = 'dni'
-				} else if (tipo === '3') {
-					bodyTipoDoc = 'ruc'
-				}
-	
-				fetch("/consulta-dni-ruc", {
-						method: 'POST',
-						headers: {
-								'Accept': 'application/json',
-								'X-CSRF-TOKEN': '{{ csrf_token() }}',
-								'Content-Type': 'application/json',
-						},
-						body: JSON.stringify({ [bodyTipoDoc]: documento }),
-				})
-				.then(response => response.json())
-				.then(data => {
-						if (data.success) {
-								console.log('Response:', data)
-								consultarFormulario();
-	
-						} else {
-								console.log('Response:', data)
-								const errors = {
-									numero_de_documento: [data.message],
-								}
-								console.log(errors);
-								
-								handleErrors(errors)
-						}
-				})
-				.catch(error => {
-						console.error('Error:', error.message)
-				})
-		}
-	
-		function consultarFormulario() {
-			let form = document.getElementById('formRegistro');
-			let formData = new FormData(form);
-	
-			fetch('/store', {
-					method: 'POST',
-					headers: {
-							'X-CSRF-TOKEN': '{{ csrf_token() }}',
-					},
-					body: formData
-			})
-			.then(response => response.json())
-			.then(data => {
-					if (data.status == "Success") {
-							alert(data.message)
-							location.reload()
-					} else {
-							handleErrors(data.errors);
-					}
-			})
-			.catch(error => {
-					console.error('Error:', error);
-			});
-		}
-	
-		function handleErrors(errors) {
-			for (const field in errors) {
-					
-					const inputElement = document.querySelector(`[name="${field}"]`);
-					const feedbackElement = document.getElementById(`validationServer${capitalizeFirstLetter(field)}Feedback`);
-	
-					console.log(inputElement);
-					
-	
-					if (inputElement && feedbackElement) {
-							inputElement.classList.add('is-invalid');
-							if(inputElement.getAttribute('id') === 'terminos') {
-									feedbackElement.textContent = 'Acepte los términos';
-							} else {
-									console.log(errors[field]);
-									
-									feedbackElement.textContent = errors[field][0];
-							}
-					}
-			}
-		}
-	
-		function clearErrors() {
-			const inputElements = document.querySelectorAll('.is-invalid');
-			inputElements.forEach(element => {
-				element.classList.remove('is-invalid');
-			});
-	
-			const feedbackElement = document.querySelectorAll('.invalid-feedback');
-			feedbackElement.forEach(element => {
-				element.textContent = '';
-			});
-		}
-	
-		function capitalizeFirstLetter(string) {
-			return string.charAt(0).toUpperCase() + string.slice(1);
-		}
-	
-		
-	</script> --}}
-
 	<script>
   		const $loaderOverlay = document.getElementById('loader-overlay');
 
@@ -351,12 +233,7 @@
 				// Si la respuesta es JSON y está OK, manejarlo
 				return response.json();
 			})
-			/* .then(data => {
-					if (data) {
-							console.log('Form submitted successfully:', data);
-							// Aquí podrías manejar la respuesta exitosa si se espera un JSON
-					}
-			}) */
+
 			.catch(error => {
 				console.error('Error:', error.message);
 			})

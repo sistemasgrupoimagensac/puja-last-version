@@ -246,7 +246,7 @@
 
                                 <div class="form-group" x-show="antiguedad === '2'">
                                     <div class="input-group">
-                                        <input type="number" x-model="anios_antiguedad" min="0" max="99" class="form-control border-black" :required="antiguedad === 'antiguedad'">
+                                        <input type="number" x-model="anios_antiguedad" min="0" max="99" class="form-control border-black" :required="antiguedad === '2'">
                                     </div>
                                 </div>
 
@@ -517,6 +517,13 @@
                             <button type="submit" class="btn button-orange w-100">Continuar</button>
                         </div>
                     </form>
+                </div>
+
+                {{-- Toasty error subir imagen principal primero --}}
+                <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
+                    <div id="toastPrincipalImageError" class="toast text-bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-body text-center fs-5 py-lg-4" id="error-principal-image-message"></div>
+                    </div>
                 </div>
             </div>
 
@@ -1035,16 +1042,20 @@
                         } else if (step === 4) /* Multimedia */ {
                             if (this.imagen_principal) {
                                 formData.append('imagen_principal', this.imagen_principal)
-                            }
+                            } 
+
                             this.fotos.forEach((foto, index) => {
                                 formData.append(`imagen[]`, foto)
                             })
+
                             this.planos.forEach((plano, index) => {
                                 formData.append(`planos[]`, plano)
                             })
+
                             if (this.videos) {
                                 formData.append('video', this.videos)
                             }
+
                             formData.append('multimedia', 1)
                             formData.append('codigo_unico', this.codigo_unico)
                         }
@@ -1058,10 +1069,25 @@
                         .then(response => response.json())
                         .then(data => {
                             this.codigo_unico = data.codigo_unico
+
+                            console.log(this.codigo_unico);
+                            
+
                             if (step === 1) {
                                 this.aviso_id = data.id
                             }
-                            this.step++
+                            
+                            if (step === 4) {
+                                if (data.message_error) {
+                                    document.getElementById('error-principal-image-message').innerText = data.message_error;
+                                    triggerToastPrincipalImageError()
+                                } else {
+                                    this.step++
+                                }
+                            } else {
+                                this.step++
+                            }
+                            
                         })
                         .catch(error => {
                             console.error('Error:', error)
@@ -1211,6 +1237,5 @@
 @endsection
 
 @push('scripts')
-  @vite([ 'resources/js/scripts/updatePlaceholdersRegister.js' ])
+  @vite([ 'resources/js/scripts/updatePlaceholdersRegister.js', 'resources/js/scripts/toastyImagenPrincipalError.js' ])
 @endpush
-

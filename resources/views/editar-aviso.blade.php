@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Crear tu Aviso
+    Edita tu aviso
 @endsection
 
 @push('styles')
@@ -15,8 +15,11 @@
 {{-- {{ $inmueble }} --}}
 {{-- {{ $op_inmueble }}
 {{ $ubi_inmueble }} --}}
-{{ $caract_inmueble_id }}
-{{ $mult_inmueble }}
+{{-- {{ $caract_inmueble_id }} --}}
+{{-- {{ $mult_inmueble }} --}}
+{{-- {{ $imgs_inmueble }} --}}
+{{-- {{ $extra_inmueble }} --}}
+{{ $extra_carac_inmueble }}
 
 
     <div id="loader-overlay">
@@ -471,8 +474,6 @@
                             </div>
                         </div>
 
-
-
                         <!-- Input para seleccionar imágenes -->
                         <div class="form-group">
                             <label for="images" class="form-label text-secondary">
@@ -484,14 +485,23 @@
                             <div class="mt-3" x-show="fotos.length > 0">
                                 <h4>Miniaturas</h4>
                                 <div class="row">
-                                    <template x-for="(foto, index) in fotos" :key="index">
+                                    {{-- <template x-for="(foto, index) in fotos" :key="index">
                                         <div class="col-md-3 mb-3">
                                             <img :src="URL.createObjectURL(foto)" class="img-thumbnail" style="max-width: 100%;"
                                                 :alt="'Imagen ' + (index + 1)">
                                             <!-- Botón para eliminar imagen -->
                                             <button type="button" class="btn btn-danger btn-sm mt-2" @click="eliminarImagen('fotos', index)">Eliminar</button>
                                         </div>
+                                    </template> --}}
+
+                                    <template x-for="(foto, index) in fotos" :key="index">
+                                        <div class="col-md-3 mb-3">
+                                            <img :src="foto" class="img-thumbnail" style="max-width: 100%;" :alt="'Imagen ' + (index + 1)">
+                                            <!-- Botón para eliminar imagen -->
+                                            <button type="button" class="btn btn-danger btn-sm mt-2" @click="eliminarImagen('fotos', index)">Eliminar</button>
+                                        </div>
                                     </template>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -533,6 +543,13 @@
                             <button type="submit" class="btn button-orange w-100">Continuar</button>
                         </div>
                     </form>
+                </div>
+
+                {{-- Toasty error subir imagen principal primero --}}
+                <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
+                    <div id="toastPrincipalImageErrorEdit" class="toast text-bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-body text-center fs-5 py-lg-4" id="error-principal-image-message-edit"></div>
+                    </div>
                 </div>
             </div>
 
@@ -887,7 +904,7 @@
                 adicionales: [],
                 comodidades: [],
 
-                fotos: [],
+                fotos: imgs_inmueble ? imgs_inmueble.map(img => img.imagen) : [],
                 imagen_principal: null,
                 videos: null,
                 planos: [],
@@ -895,6 +912,7 @@
                 banios: caract_inmueble_id ? caract_inmueble_id.banios : '',
                 medio_banios: caract_inmueble_id ? caract_inmueble_id.medio_banios : '',
                 estacionamiento: caract_inmueble_id ? caract_inmueble_id.estacionamientos : '',
+
                 area_construida: caract_inmueble_id ? caract_inmueble_id.area_construida : '',
                 area_total: caract_inmueble_id ? caract_inmueble_id.area_total : '',
                 antiguedad: caract_inmueble_id ? caract_inmueble_id.antiguedad : '',
@@ -1057,6 +1075,8 @@
                             formData.append('subtipo_inmueble_id', this.selectedSubtipo)
                             formData.append('principal', 1)
                             formData.append('codigo_unico', this.codigo_unico)
+                            console.log(this.codigo_unico);
+                            
                         } else if (step === 2) /* Ubicacion */ {
                             formData.append('direccion', input.value)
                             formData.append('departamento_id', this.selectedDepartamento)
@@ -1098,16 +1118,20 @@
                         } else if (step === 4) /* Multimedia */ {
                             if (this.imagen_principal) {
                                 formData.append('imagen_principal', this.imagen_principal)
-                            }
+                            } 
+
                             this.fotos.forEach((foto, index) => {
                                 formData.append(`imagen[]`, foto)
                             })
+
                             this.planos.forEach((plano, index) => {
                                 formData.append(`planos[]`, plano)
                             })
+
                             if (this.videos) {
                                 formData.append('video', this.videos)
                             }
+
                             formData.append('multimedia', 1)
                             formData.append('codigo_unico', this.codigo_unico)
                         }
@@ -1120,11 +1144,26 @@
                         })
                         .then(response => response.json())
                         .then(data => {
-                            this.codigo_unico = data.codigo_unico
+                            
+                            if (data.codigo_unico) {
+                                this.codigo_unico = data.codigo_unico
+                            }
+                            console.log(this.codigo_unico);
+
                             if (step === 1) {
                                 this.aviso_id = data.id
                             }
-                            this.step++
+                            
+                            if (step === 4) {
+                                if (data.message_error) {
+                                    document.getElementById('error-principal-image-message-edit').innerText = data.message_error;
+                                    triggerToastPrincipalImageErrorEdit()
+                                } else {
+                                    this.step++
+                                }
+                            } else {
+                                this.step++
+                            }
                         })
                         .catch(error => {
                             console.error('Error:', error)
@@ -1281,6 +1320,6 @@
 @endsection
 
 @push('scripts')
-  @vite([ 'resources/js/scripts/updatePlaceholdersRegister.js' ])
+  @vite([ 'resources/js/scripts/toastyImagenPrincipalError.js'])
 @endpush
 

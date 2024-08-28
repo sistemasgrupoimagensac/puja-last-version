@@ -284,12 +284,10 @@ function creditCardData() {
                     this.clearForm()
                     this.isProcessing = false
                     document.getElementById('pay-button').disabled = false
-                    // alert(`Pago realizado con éxito.`)
                     document.getElementById('success-message').innerText = 'Pago realizado con éxito';
                     triggerToastPaySuccess()
                     setTimeout(() => {
                         this.contratarPlan(formPost.amount, formPost.description);
-                        // window.location.reload();
                     }, 5000);
                 }
 

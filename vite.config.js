@@ -42,6 +42,7 @@ export default defineConfig({
         'resources/js/scripts/toastyContact.js',
         'resources/js/scripts/toastyPaySuccess.js',
         'resources/js/scripts/toastyPayError.js',
+        'resources/js/scripts/toastyImagenPrincipalError.js',
         'resources/js/scripts/contacto.js',
         // js - scripts - components
         "resources/js/scripts/components/back_button.js",
