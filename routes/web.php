@@ -156,3 +156,7 @@ Route::post('/enviar-datos-contacto', [MyPostsController::class, 'enviar_datos_c
 // Ruta de contacto
 Route::get('/contacto', [ContactoController::class, 'index'])->name('contacto');
 Route::post('/contacto', [ContactoController::class, 'store'])->name('post.contacto');
+
+Route::fallback(function () {
+    return view('errors.404');
+});
