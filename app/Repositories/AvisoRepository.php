@@ -92,6 +92,6 @@ class AvisoRepository
         
         return $query->orderBy('ad_type', 'desc')
                     ->orderBy('fecha_publicacion', 'desc')
-                    ->get();
+                    ->paginate(10);
     }
 }
