@@ -2,16 +2,18 @@
 
 namespace App\Models;
 
+use App\Notifications\RecoveryPasswordNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Auth\Passwords\CanResetPassword;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, CanResetPassword;
 
     protected $fillable = [
         'tipo_usuario_id',
@@ -107,5 +109,14 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getPhoneAttribute()
     {
         return $this->attributes['celular'];
+    }
+
+
+
+    public function sendPasswordResetNotification($token): void
+    {
+        $url = route('password.reset', ['token' => $token, 'email' => $this->email]);
+    
+        $this->notify(new RecoveryPasswordNotification($url));
     }
 }

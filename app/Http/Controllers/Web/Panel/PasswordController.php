@@ -22,6 +22,6 @@ class PasswordController extends Controller
             $tienePlanes = $active_plan_users->isNotEmpty();
         }
 
-        return view('panel.password', compact('tienePlanes'));
+        return view('panel.password', compact('tienePlanes', 'user_id'));
     }
 }

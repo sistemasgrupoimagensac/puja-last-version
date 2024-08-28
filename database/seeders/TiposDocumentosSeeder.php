@@ -15,8 +15,8 @@ class TiposDocumentosSeeder extends Seeder
     {
         $tipos_documento = [
             ['documento' => 'DNI', 'created_at' => now(), 'updated_at' => now()],
-            ['documento' => 'CE', 'created_at' => now(), 'updated_at' => now()],
             ['documento' => 'RUC', 'created_at' => now(), 'updated_at' => now()],
+            ['documento' => 'CE', 'created_at' => now(), 'updated_at' => now()],
             ['documento' => 'Otro Documento', 'created_at' => now(), 'updated_at' => now()]
         ];
 

@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Response;
 
 class LoginController extends Controller
 {
@@ -17,11 +21,6 @@ class LoginController extends Controller
     public function select_profile()
     {
         return view('publicatuinmueble');
-    }
-
-    public function recovery_password()
-    {
-        return view('auth.recoverpassword');
     }
 
     public function sign_in(Request $request)
@@ -132,7 +131,7 @@ class LoginController extends Controller
             'tipo_documento' => 'required|integer|in:1,2,3',
             'telefono' => 'required|integer|digits:9',
             'direccion' => 'required|string|max:255',
-            'numero_de_documento' => 'required|string|max:30|unique:users,numero_documento',
+            'numero_de_documento' => 'required|string|max:30',
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'terminos' => 'accepted',
         ]);
@@ -197,6 +196,57 @@ class LoginController extends Controller
         return redirect('/');
     }
 
+    public function forgot_password(Request $request)
+    {
+        return view('auth.recoverpassword');
+    }
+
+    public function send_password(Request $request)
+    {
+        // dd($request->all());
+        $request->validate(['email' => 'required|email']);
+ 
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+    
+        return $status === Password::RESET_LINK_SENT
+                    ? back()->with(['status' => __($status)])
+                    : back()->withErrors(['email' => __($status)]);
+    }
+
+    public function recovery_password(Request $request, string $token)
+    {
+        // dd($request->all());
+        return view('auth.reset-password', ['token' => $token, 'email' => $request->get('email', '')]);
+    }
+
+    public function update_password(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function (User $user, string $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password)
+                ])->setRememberToken(Str::random(60));
+     
+                $user->save();
+     
+                event(new PasswordReset($user));
+            }
+        );
+     
+        return $status === Password::PASSWORD_RESET
+                    ? redirect()->route('login')->with('status', __($status))
+                    : back()->withErrors(['email' => [__($status)]]);
+    }
+
 
     // actualizar registro de usuario logueado con Google
     public function complete_user_google(Request $request)
@@ -243,5 +293,55 @@ class LoginController extends Controller
     {
         Auth::logout();
         return redirect('/');
+    }
+
+
+
+    // Editar Perfil
+    public function editProfile(Request $request, $id)
+    {
+        $request->validate([
+            'name_perfil' => 'required|string|max:255',
+            'surename_perfil' => 'nullable|string|max:255',
+            'document_perfil' => 'required|integer|exists:tipos_documento,id',
+            'doc_number_perfil' => 'required|string|max:30',
+            'phone_perfil' => 'required|integer|digits:9',
+        ]);
+
+        if ( $id != Auth::id() ) {
+            abort(Response::HTTP_FORBIDDEN, 'No puedes actualizar otro usuario');
+        }
+        $user = User::findOrFail($id);
+        $user->update([
+            'nombres' => $request->name_perfil,
+            'apellidos' => $request->surename_perfil,
+            'tipo_documento_id' => $request->document_perfil,
+            'numero_documento' => $request->doc_number_perfil,
+            'celular' => $request->phone_perfil,
+        ]);
+
+        return to_route('panel.perfil');
+    }
+
+    public function editPassword(Request $request, $id)
+    {
+        $request->validate([
+            'current_password' => 'required|string',
+            'password' => 'required|string|min:6|max:20|confirmed',
+        ]);
+    
+        if ( $id != Auth::id() ) {
+            abort(Response::HTTP_FORBIDDEN, 'No puedes actualizar otro usuario.');
+        }
+    
+        $user = User::findOrFail($id);
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => 'La contraseña actual no es correcta.']);
+        }
+    
+        $user->password = Hash::make($request->password);
+        $user->save();
+    
+        return to_route('login')->with('status', 'Contraseña actualizada correctamente.');
     }
 }
