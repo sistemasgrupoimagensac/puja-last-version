@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0.2618 0.2099 46.3887 69.3271" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <defs>
+    <clipPath id="clip0_88_1598">
+      <rect width="187" height="70" fill="white"/>
+    </clipPath>
+  </defs>
+  <g transform="matrix(1.6513130664825442, 0, 0, 1.6513130664825442, -3.1178770065307475, -0.9889410138130117)" style="">
+    <g clip-path="url(#clip0_88_1598)" transform="matrix(1, 0, 0, 1, -55.276371, -29.646034)">
+      <ellipse style="stroke: rgb(0, 0, 0); stroke-opacity: 0; stroke-width: 0px; fill: rgb(251, 113, 37);" cx="71.369" cy="44.418" rx="14.046" ry="14.046"/>
+      <g style="" transform="matrix(0.227507, 0, 0, 0.227507, 61.702583, 34.70871)">
+        <path d="M36.855 33.3111L28.8144 44.1155L0.895264 56.72L10.947 44.3422V20.9333L27.4736 13.0533L35.0687 18.1875V24.3067L27.0281 19.3556V37.5867V38.9378L36.855 33.3111Z" style="fill: rgb(255, 255, 255);"/>
+        <path d="M5.58383 58.9689V65.7244H0V70H79.9643V65.4978H73.71V17.5556L68.3511 15.08V65.7244H58.7449V5.62667L73.935 12.6044V7.70998L58.2994 0L39.0912 9.00442V31.96L53.6065 50.8667H50.2588V65.4978H10.9471V56.4934L5.58383 58.9689Z" style="fill: rgb(255, 255, 255);"/>
+        <path d="M35.1466 45.8328V57.4522L43.0444 59.043V47.4236L35.1466 45.8328Z" style="fill: rgb(255, 255, 255);"/>
+      </g>
+    </g>
+    <path d="M 16.106 -42.709 L 28.263 -21.684 L 3.949 -21.684 L 16.106 -42.709 Z" style="stroke: rgb(0, 0, 0); fill: rgb(251, 113, 37); stroke-opacity: 0; stroke-width: 0px;" transform="matrix(1, 0, 0, -1, 0, 0)" bx:shape="triangle 3.949 -42.709 24.314 21.025 0.5 0 1@ec7e1b25"/>
+  </g>
+</svg>

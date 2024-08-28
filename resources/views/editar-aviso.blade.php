@@ -16,10 +16,10 @@
 {{-- {{ $op_inmueble }}
 {{ $ubi_inmueble }} --}}
 {{-- {{ $caract_inmueble_id }} --}}
-{{-- {{ $mult_inmueble }} --}}
-{{-- {{ $imgs_inmueble }} --}}
+{{ $mult_inmueble }}
+{{ $imgs_inmueble }}
 {{-- {{ $extra_inmueble }} --}}
-{{ $extra_carac_inmueble }}
+{{-- {{ $extra_carac_inmueble }} --}}
 
 
     <div id="loader-overlay">
@@ -455,12 +455,13 @@
                 </div>
 
                 <!-- Paso 4: Multimedia (fotos, videos, planos) -->
+
                 <div x-show="step === 4">
                     <form @submit.prevent="nextStep(4)" enctype="multipart/form-data" class="d-flex flex-column gap-4 my-3 my-lg-5">
                         @csrf
-                        <h2 class="m-0" class="m-0" class="m-0">Multimedia</h2>
+                        <h2 class="m-0">Multimedia</h2>
                         <input type="hidden" name="multimedia" :value="step === 4 ? 1 : 0">
-
+                
                         <!-- Input para la imagen principal -->
                         <div class="form-group">
                             <label for="imagen_principal" class="form-label text-secondary">Imagen Principal</label>
@@ -468,12 +469,12 @@
                             <!-- Mostrar miniatura de la imagen principal seleccionada -->
                             <div class="mt-3" x-show="imagen_principal">
                                 <h4>Miniatura de Imagen Principal</h4>
-                                <img x-bind:src="imagen_principal ? URL.createObjectURL(imagen_principal) : ''" class="img-thumbnail" style="max-width: 200px" alt="Imagen Principal">
+                                <img :src="typeof imagen_principal === 'string' ? imagen_principal : URL.createObjectURL(imagen_principal)" class="img-thumbnail" style="max-width: 200px" alt="Imagen Principal">
                                 <!-- Botón para eliminar la imagen principal -->
                                 <button type="button" class="btn btn-danger btn-sm mt-2" @click="eliminarImagen('imagen_principal')">Eliminar</button>
                             </div>
                         </div>
-
+                
                         <!-- Input para seleccionar imágenes -->
                         <div class="form-group">
                             <label for="images" class="form-label text-secondary">
@@ -484,35 +485,36 @@
                             <!-- Mostrar miniaturas de las imágenes seleccionadas -->
                             <div class="mt-3" x-show="fotos.length > 0">
                                 <h4>Miniaturas</h4>
-                                <div class="row">
-                                    {{-- <template x-for="(foto, index) in fotos" :key="index">
-                                        <div class="col-md-3 mb-3">
-                                            <img :src="URL.createObjectURL(foto)" class="img-thumbnail" style="max-width: 100%;"
-                                                :alt="'Imagen ' + (index + 1)">
-                                            <!-- Botón para eliminar imagen -->
-                                            <button type="button" class="btn btn-danger btn-sm mt-2" @click="eliminarImagen('fotos', index)">Eliminar</button>
-                                        </div>
-                                    </template> --}}
-
+                                {{-- <div class="row">
                                     <template x-for="(foto, index) in fotos" :key="index">
                                         <div class="col-md-3 mb-3">
-                                            <img :src="foto" class="img-thumbnail" style="max-width: 100%;" :alt="'Imagen ' + (index + 1)">
+                                            <img :src="foto.startsWith('http') ? foto : URL.createObjectURL(foto)" class="img-thumbnail" style="max-width: 100%;" :alt="'Imagen ' + (index + 1)">
                                             <!-- Botón para eliminar imagen -->
                                             <button type="button" class="btn btn-danger btn-sm mt-2" @click="eliminarImagen('fotos', index)">Eliminar</button>
                                         </div>
                                     </template>
-                                    
+                                </div> --}}
+                                <div class="row">
+                                    <template x-for="(foto, index) in fotos" :key="index">
+                                        <div class="col-md-3 mb-3">
+                                            <!-- Renderiza la imagen correctamente dependiendo si es un archivo nuevo o una URL existente -->
+                                            <img :src="foto.url" class="img-thumbnail" style="max-width: 100%;" :alt="'Imagen ' + (index + 1)">
+                                            <!-- Botón para eliminar imagen -->
+                                            <button type="button" class="btn btn-danger btn-sm mt-2" @click="eliminarImagen('fotos', index)">Eliminar</button>
+                                        </div>
+                                    </template>
                                 </div>
+                                
                             </div>
                         </div>
-
+                
                         <!-- Input para videos -->
                         <div class="form-group">
                             <label class="text-secondary">
                                 Videos
                                 <span class="h6">(opcional)</span>
                             </label>
-                            <input type="file" {{-- x-model="videos" --}} class="form-control" placeholder="URL de videos" @change="handleFiles($event, 'videos')">
+                            <input type="file" class="form-control" placeholder="URL de videos" @change="handleFiles($event, 'videos')">
                         </div>
                         
                         <!-- Input para seleccionar planos -->
@@ -528,7 +530,7 @@
                                 <div class="row">
                                     <template x-for="(plano, index) in planos" :key="index">
                                         <div class="col-md-3 mb-3">
-                                            <img :src="URL.createObjectURL(plano)" class="img-thumbnail" style="max-width: 100%;" :alt="'Plano ' + (index + 1)">
+                                            <img :src="plano.startsWith('http') ? plano : URL.createObjectURL(plano)" class="img-thumbnail" style="max-width: 100%;" :alt="'Plano ' + (index + 1)">
                                             <!-- Botón para eliminar plano -->
                                             <button type="button" class="btn btn-danger btn-sm mt-2" @click="eliminarImagen('planos', index)">Eliminar</button>
                                         </div>
@@ -536,7 +538,7 @@
                                 </div>
                             </div>
                         </div>
-
+                
                         <!-- Botones de navegación -->
                         <div class="d-flex justify-content-between gap-2 w-100">
                             <button type="button" @click="prevStep()" class="btn btn-secondary w-100">Atrás</button>
@@ -544,8 +546,9 @@
                         </div>
                     </form>
                 </div>
+                
 
-                {{-- Toasty error subir imagen principal primero --}}
+                <!-- Toasty error subir imagen principal primero -->
                 <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
                     <div id="toastPrincipalImageErrorEdit" class="toast text-bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
                         <div class="toast-body text-center fs-5 py-lg-4" id="error-principal-image-message-edit"></div>
@@ -650,8 +653,18 @@
                                 <template x-for="extra in extras" :key="extra.id">
                                     <div class="col-12 col-md-6 col-lg-4">
                                         <div class="form-check my-2">
-                                            <input class="form-check-input" type="checkbox" name="options[]" :id="'add_' + extra.id" :value="extra.id">
-                                            <label class="form-check-label text-secondary filter-additional-input" :for="'add_' + extra.id">
+                                            <input 
+                                                class="form-check-input" 
+                                                type="checkbox" 
+                                                name="options[]" 
+                                                :id="'add_' + extra.id" 
+                                                :value="extra.id"
+                                                :checked="extra_carac_inmueble.map(e => e.caracteristica_extra_id).includes(extra.id)"
+                                            >
+                                            <label 
+                                                class="form-check-label text-secondary filter-additional-input" 
+                                                :for="'add_' + extra.id"
+                                            >
                                                 <i :class="'fa-solid ' + extra.icono + ' icon-orange mx-2'"></i>
                                                 <span x-text="extra.caracteristica"></span>
                                             </label>
@@ -684,8 +697,18 @@
                                 <template x-for="extra in extras2" :key="extra.id">
                                     <div class="col-12 col-md-6 col-lg-4">
                                         <div class="form-check my-2">
-                                            <input class="form-check-input" type="checkbox" name="options[]" :value="extra.id" :id="'add_' + extra.id">
-                                            <label class="form-check-label text-secondary filter-additional-input" :for="'add_' + extra.id">
+                                            <input 
+                                                class="form-check-input" 
+                                                type="checkbox" 
+                                                name="options[]" 
+                                                :value="extra.id" 
+                                                :id="'add_' + extra.id"
+                                                :checked="extra_carac_inmueble.map(e => e.caracteristica_extra_id).includes(extra.id)"
+                                            >
+                                            <label 
+                                                class="form-check-label text-secondary filter-additional-input" 
+                                                :for="'add_' + extra.id"
+                                            >
                                                 <i :class="'fa-solid ' + extra.icono + ' icon-orange mx-2'"></i>
                                                 <span x-text="extra.caracteristica"></span>
                                             </label>
@@ -728,20 +751,26 @@
             geocoder = new google.maps.Geocoder();
 
             marker = new google.maps.Marker({
-                // position: defaultLocation,
+
                 map: map,
                 draggable: true, // Permite arrastrar el marcador
+                icon: {
+                    url: "/images/svg/marker_puja.svg",
+                    scaledSize: new google.maps.Size(80, 80), // Ajusta el tamaño del logo
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(40, 80)  // Ajusta el punto de anclaje
+                }
             });
 
             circle = new google.maps.Circle({
-                strokeColor: "#FFFF00",
-                strokeOpacity: 0.8,
+                strokeColor: "#fb7125",
+                strokeOpacity: 0,
                 strokeWeight: 2,
-                fillColor: "#FFFF00",
+                fillColor: "#fb7125",
                 fillOpacity: 0.35,
                 map: null,
                 center: defaultLocation,
-                radius: 1000,
+                radius: 500,
             });
 
             initAutocomplete();
@@ -762,7 +791,15 @@
 
                 geocoder.geocode({'location': newPosition}, (results, status) => {
                     if (status === 'OK' && results[0]) {
-                        input.value = results[0].formatted_address;
+                        let cadena = results[0].formatted_address;
+                        
+                        let ultimaComa = cadena.lastIndexOf(",");
+                        if (ultimaComa !== -1) {
+                            let penultimaComa = cadena.lastIndexOf(",", ultimaComa - 1);
+                            let cortarHasta = (penultimaComa !== -1) ? penultimaComa : ultimaComa;
+                            cadena = cadena.substring(0, cortarHasta);
+                        }
+                        input.value = cadena;
                     } else {
                         input.value = 'Dirección no encontrada';
                     }
@@ -802,7 +839,15 @@
 
             geocoder.geocode({'location': location}, (results, status) => {
                 if (status === 'OK' && results[0]) {
-                    input.value = results[0].formatted_address;
+                    let cadena = results[0].formatted_address;
+                    
+                    let ultimaComa = cadena.lastIndexOf(",");
+                    if (ultimaComa !== -1) {
+                        let penultimaComa = cadena.lastIndexOf(",", ultimaComa - 1);
+                        let cortarHasta = (penultimaComa !== -1) ? penultimaComa : ultimaComa;
+                        cadena = cadena.substring(0, cortarHasta);
+                    }
+                    input.value = cadena;
                 } else {
                     input.value = 'Dirección no encontrada';
                 }
@@ -830,56 +875,16 @@
 
         function avisoForm(inmueble, op_inmueble, ubi_inmueble, caract_inmueble_id, mult_inmueble, imgs_inmueble, videos_inmueble, planos_inmueble, extra_carac_inmueble) {
             return {
-                    step: {{ session('step', 1) }},
-                    aviso_id: {{ session('aviso_id', 'null') }},
+                step: {{ session('step', 1) }},
+                aviso_id: {{ session('aviso_id', 'null') }},
 
-                    perfil_acreedor: @json($es_acreedor),
+                perfil_acreedor: @json($es_acreedor),
 
-                    is_puja: false,
+                is_puja: false,
 
-                    // el campo es visible cuando es requerido
-                    isVisible: false,
-                    notVisible: true,
-                    
-                    // tipo_operacion: '',
-                    // subtipos: [],
-                    // selectedSubtipo: '',
-                    // titulo: '',
-                    // description: '',
-
-                    // direccion: '',
-                    // departamentos: [],
-                    // provincias: [],
-                    // distritos: [],
-                    // selectedDepartamento: '',
-                    // selectedProvincia: '',
-                    // selectedDistrito: '',
-
-                    // extras: [],
-                    // extras2: [],
-                    // extras3: [],
-                    // adicionales: [],
-                    // comodidades: [],
-
-                    // fotos: [],
-                    // imagen_principal: null,
-                    // videos: null,
-                    // planos: [],
-                    // dormitorios: '',
-                    // banios: '',
-                    // medio_banios: '',
-                    // estacionamiento: '',
-                    // area_construida: '',
-                    // area_total: '',
-                    // antiguedad: '',
-                    // anios_antiguedad: '',
-                    // precio_soles: '',
-                    // precio_dolares: '',
-                    // acceso_playa: false,
-                    // aire_acondicionado: false,
-                    // acceso_parque: false,
-                    // ascensores: false,
-                    // codigo_unico: '',
+                // el campo es visible cuando es requerido
+                isVisible: false,
+                notVisible: true,
 
                 tipo_operacion: op_inmueble ? op_inmueble.tipo_operacion_id : '', // Maneja null
                 subtipos: [],
@@ -895,19 +900,19 @@
                 selectedProvincia: '',
                 selectedDistrito: '',
 
-                // main_img_init: mult_inmueble ? mult_inmueble.imagen_principal : null,
-                // video_init: videos_inmueble ? videos_inmueble.video : null,
-
                 extras: [],
                 extras2: [],
                 extras3: [],
+                extra_carac_inmueble: @json($extra_carac_inmueble),
+                
                 adicionales: [],
                 comodidades: [],
 
                 fotos: imgs_inmueble ? imgs_inmueble.map(img => img.imagen) : [],
-                imagen_principal: null,
+                imagen_principal: mult_inmueble ? mult_inmueble.imagen_principal : null,
                 videos: null,
                 planos: [],
+
                 dormitorios: caract_inmueble_id ? caract_inmueble_id.habitaciones : '',
                 banios: caract_inmueble_id ? caract_inmueble_id.banios : '',
                 medio_banios: caract_inmueble_id ? caract_inmueble_id.medio_banios : '',
@@ -1116,24 +1121,32 @@
                             formData.append('caracteristicas', 1)
                             formData.append('codigo_unico', this.codigo_unico)
                         } else if (step === 4) /* Multimedia */ {
-                            if (this.imagen_principal) {
-                                formData.append('imagen_principal', this.imagen_principal)
-                            } 
-
-                            this.fotos.forEach((foto, index) => {
-                                formData.append(`imagen[]`, foto)
-                            })
-
-                            this.planos.forEach((plano, index) => {
-                                formData.append(`planos[]`, plano)
-                            })
-
-                            if (this.videos) {
-                                formData.append('video', this.videos)
+                            if (this.imagen_principal && this.imagen_principal.file) {
+                                // Solo añadir si es un nuevo archivo (File)
+                                formData.append('imagen_principal', this.imagen_principal.file);
                             }
 
-                            formData.append('multimedia', 1)
-                            formData.append('codigo_unico', this.codigo_unico)
+                            this.fotos.forEach((foto, index) => {
+                                if (foto.file) {
+                                    // Solo añadir si es un nuevo archivo (File)
+                                    formData.append('imagen[]', foto.file);
+                                }
+                            });
+
+                            this.planos.forEach((plano, index) => {
+                                if (plano.file) {
+                                    // Solo añadir si es un nuevo archivo (File)
+                                    formData.append('planos[]', plano.file);
+                                }
+                            });
+
+                            if (this.videos && this.videos.file) {
+                                // Solo añadir si es un nuevo archivo (File)
+                                formData.append('video', this.videos.file);
+                            }
+
+                            formData.append('multimedia', 1);
+                            formData.append('codigo_unico', this.codigo_unico);
                         }
                         fetch(stepMap[step], {
                             method: 'POST',
@@ -1144,29 +1157,28 @@
                         })
                         .then(response => response.json())
                         .then(data => {
-                            
                             if (data.codigo_unico) {
-                                this.codigo_unico = data.codigo_unico
+                                this.codigo_unico = data.codigo_unico;
                             }
                             console.log(this.codigo_unico);
 
                             if (step === 1) {
-                                this.aviso_id = data.id
+                                this.aviso_id = data.id;
                             }
-                            
+
                             if (step === 4) {
                                 if (data.message_error) {
                                     document.getElementById('error-principal-image-message-edit').innerText = data.message_error;
-                                    triggerToastPrincipalImageErrorEdit()
+                                    triggerToastPrincipalImageErrorEdit();
                                 } else {
-                                    this.step++
+                                    this.step++;
                                 }
                             } else {
-                                this.step++
+                                this.step++;
                             }
                         })
                         .catch(error => {
-                            console.error('Error:', error)
+                            console.error('Error:', error);
                         })
                         .finally(() => {
                             this.hideLoader();
@@ -1187,18 +1199,37 @@
                     this.updateStepStatus()
                 },
 
+                // handleFiles(event, type) {
+                //     const files = event.target.files
+                //     if (type === 'fotos') {
+                //         this.fotos.push(...files)
+                //     } else if (type === 'planos') {
+                //         this.planos.push(...files)
+                //     } else if (type === 'imagen_principal') {
+                //         this.imagen_principal = files[0]
+                //     } else if (type === 'videos') {
+                //         this.videos = files[0]
+                //     }
+                // },
+
                 handleFiles(event, type) {
-                    const files = event.target.files
+                    const files = event.target.files;
                     if (type === 'fotos') {
-                        this.fotos.push(...files)
+                        for (let i = 0; i < files.length; i++) {
+                            // Añadir las nuevas imágenes como objetos con la propiedad `file`
+                            this.fotos.push({ file: files[i], url: URL.createObjectURL(files[i]) });
+                        }
                     } else if (type === 'planos') {
-                        this.planos.push(...files)
+                        for (let i = 0; i < files.length; i++) {
+                            this.planos.push({ file: files[i], url: URL.createObjectURL(files[i]) });
+                        }
                     } else if (type === 'imagen_principal') {
-                        this.imagen_principal = files[0]
+                        this.imagen_principal = { file: files[0], url: URL.createObjectURL(files[0]) };
                     } else if (type === 'videos') {
-                        this.videos = files[0]
+                        this.videos = { file: files[0], url: URL.createObjectURL(files[0]) };
                     }
                 },
+
 
                 eliminarImagen(type, index) {
                     if (type === 'fotos') {

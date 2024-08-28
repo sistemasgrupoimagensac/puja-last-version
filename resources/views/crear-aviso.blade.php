@@ -707,9 +707,15 @@
             geocoder = new google.maps.Geocoder();
 
             marker = new google.maps.Marker({
-                // position: defaultLocation,
-                map: map,
-                draggable: true, // Permite arrastrar el marcador
+
+            map: map,
+            draggable: true, // Permite arrastrar el marcador
+            icon: {
+                url: "/images/svg/marker_puja.svg",
+                scaledSize: new google.maps.Size(50, 50), // Ajusta el tamaño del logo
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(25, 25)  // Ajusta el punto de anclaje
+            }
             });
 
             circle = new google.maps.Circle({
@@ -741,8 +747,15 @@
 
                 geocoder.geocode({'location': newPosition}, (results, status) => {
                     if (status === 'OK' && results[0]) {
-                        console.log(results[0])
-                        input.value = results[0].formatted_address;
+                        let cadena = results[0].formatted_address;
+                        
+                        let ultimaComa = cadena.lastIndexOf(",");
+                        if (ultimaComa !== -1) {
+                            let penultimaComa = cadena.lastIndexOf(",", ultimaComa - 1);
+                            let cortarHasta = (penultimaComa !== -1) ? penultimaComa : ultimaComa;
+                            cadena = cadena.substring(0, cortarHasta);
+                        }
+                        input.value = cadena;
                     } else {
                         input.value = 'Dirección no encontrada';
                     }
@@ -1090,7 +1103,9 @@
                         })
                         .then(response => response.json())
                         .then(data => {
-                            this.codigo_unico = data.codigo_unico
+                            if (data.codigo_unico) {
+                                this.codigo_unico = data.codigo_unico
+                            }
 
                             console.log(this.codigo_unico);
                             
