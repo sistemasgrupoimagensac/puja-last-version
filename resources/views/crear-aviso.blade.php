@@ -59,6 +59,8 @@
         <div class="container">
             <div class="col-12 col-lg-6 px-lg-5">
 
+                <div id="error-container" class="mt-3" style="margin-bottom: -1rem;"></div>
+
                 <!-- Paso 1: Operación y tipo de inmueble -->
                 <div x-show="step === 1">
                     <form @submit.prevent="nextStep(1)" class="d-flex flex-column gap-4 my-3 my-lg-5">
@@ -211,14 +213,14 @@
                                 <div class="form-group w-100">
                                     <label class="text-secondary" for="area_construida">Área Construida</label>
                                     <div class="input-group mb-3">
-                                        <input type="number" id="area_construida" x-model="area_construida" min="0" max="999999" class="form-control" required>
+                                        <input type="number" id="area_construida" x-model="area_construida" min="0" max="999999" class="form-control numeros-normales" required>
                                         <span class="input-group-text">m<sup>2</sup></span>
                                     </div>
                                 </div>
                                 <div class="form-group w-100">
                                     <label class="text-secondary" for="area_total">Área Total</label>
                                     <div class="input-group mb-3">
-                                        <input type="number" id="area_total" x-model="area_total" min="0" max="999999" class="form-control" required>
+                                        <input type="number" id="area_total" x-model="area_total" min="0" max="999999" class="form-control numeros-normales" required>
                                         <span class="input-group-text">m<sup>2</sup></span>
                                     </div>
                                 </div>
@@ -450,7 +452,7 @@
                         <!-- Input para la imagen principal -->
                         <div class="form-group">
                             <label for="imagen_principal" class="form-label text-secondary">Imagen Principal</label>
-                            <input type="file" id="imagen_principal" class="form-control" @change="handleFiles($event, 'imagen_principal')">
+                            <input type="file" accept="image/*" id="imagen_principal" class="form-control" @change="handleFiles($event, 'imagen_principal')">
                             <!-- Mostrar miniatura de la imagen principal seleccionada -->
                             <div class="mt-3" x-show="imagen_principal">
                                 <h4>Miniatura de Imagen Principal</h4>
@@ -468,7 +470,7 @@
                                 Imágenes
                                 <span style="font-size: .75rem">(opcional)</span>
                             </label>
-                            <input type="file" id="images" class="form-control" multiple @change="handleFiles($event, 'fotos')">
+                            <input type="file" accept="image/*" id="images" class="form-control" multiple @change="handleFiles($event, 'fotos')">
                             <!-- Mostrar miniaturas de las imágenes seleccionadas -->
                             <div class="mt-3" x-show="fotos.length > 0">
                                 <h4>Miniaturas</h4>
@@ -491,7 +493,7 @@
                                 Videos
                                 <span style="font-size: .75rem">(opcional)</span>
                             </label>
-                            <input type="file" {{-- x-model="videos" --}} class="form-control" placeholder="URL de videos" @change="handleFiles($event, 'videos')">
+                            <input type="file" {{-- x-model="videos" --}} class="form-control" placeholder="URL de videos" accept="video/*" @change="handleFiles($event, 'videos')">
                         </div>
                         
                         <!-- Input para seleccionar planos -->
@@ -500,7 +502,7 @@
                                 Planos
                                 <span style="font-size: .75rem">(opcional)</span>
                             </label>
-                            <input type="file" id="planos" class="form-control" multiple @change="handleFiles($event, 'planos')">
+                            <input type="file" accept="image/*" id="planos" class="form-control" multiple @change="handleFiles($event, 'planos')">
                             <!-- Mostrar miniaturas de los planos seleccionadas -->
                             <div class="mt-3" x-show="planos.length > 0">
                                 <h4>Miniaturas</h4>
@@ -697,6 +699,21 @@
         let lat_inmueble;
         let lng_inmueble;
         let geocoder;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const $inputFields = document.querySelectorAll('.numeros-normales');
+
+            $inputFields.forEach(function(inputField) {
+                inputField.addEventListener('input', function () {
+                    const regex = /^[1-9][0-9]{0,7}$/; // Permite hasta 8 dígitos, el primero debe ser del 1 al 9
+
+                    // Si el valor del campo no coincide con la expresión regular, lo truncamos
+                    if (!regex.test(inputField.value)) {
+                        inputField.value = inputField.value.slice(0, 8).replace(/^0+/, '');
+                    }
+                });
+            });
+        });
 
         function initMap() {
             map = new google.maps.Map(mapDiv, {
@@ -918,6 +935,11 @@
                     // Remover todos los caracteres no numéricos
                     let numericValue = this[modelName].replace(/\D/g, '');
 
+                    // Limitar a un máximo de 10 caracteres numéricos
+                    if (numericValue.length > 10) {
+                        numericValue = numericValue.slice(0, 10);
+                    }
+
                     if (numericValue === '' || parseInt(numericValue) === 0) {
                         this[modelName] = '';
                         return;
@@ -965,10 +987,13 @@
                 },
 
                 nextStep(step) {
+                    // Div para mostrar errores (clean)
+                    const $errorContainer = document.getElementById('error-container');
+                    $errorContainer.innerHTML = '';
                     // spinner
                     $loaderOverlay.style.display = 'flex';
-                    
                     document.body.style.pointerEvents = 'none';
+
                     const stepMap = {
                         1: `/my-post/store`,
                         2: `/my-post/store`,
@@ -1080,7 +1105,7 @@
 
                             formData.append('multimedia', 1)
                             formData.append('codigo_unico', this.codigo_unico)
-                        }
+                        }                        
                         fetch(stepMap[step], {
                             method: 'POST',
                             body: formData,
@@ -1088,7 +1113,15 @@
                                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
                             }
                         })
-                        .then(response => response.json())
+                        // .then(response => response.json())
+                        .then(response => {
+                            if (!response.ok) {
+                                return response.json().then(errorData => {
+                                    throw errorData;
+                                });
+                            }
+                            return response.json();
+                        })
                         .then(data => {
                             this.codigo_unico = data.codigo_unico
 
@@ -1113,6 +1146,17 @@
                         })
                         .catch(error => {
                             console.error('Error:', error)
+                            if (error.errors) {
+                                for (let key in error.errors) {
+                                    let errorMessages = error.errors[key];
+                                    errorMessages.forEach(errorMessage => {
+                                        let $errorElement = document.createElement('div');
+                                        $errorElement.className = 'alert alert-danger';
+                                        $errorElement.innerText = errorMessage;
+                                        $errorContainer.appendChild($errorElement);
+                                    });
+                                }
+                            }
                         })
                         .finally(() => {
                             this.hideLoader();
