@@ -707,22 +707,21 @@
             geocoder = new google.maps.Geocoder();
 
             marker = new google.maps.Marker({
-
-            map: map,
-            draggable: true, // Permite arrastrar el marcador
-            icon: {
-                url: "/images/svg/marker_puja.svg",
-                scaledSize: new google.maps.Size(50, 50), // Ajusta el tamaño del logo
-                origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(25, 25)  // Ajusta el punto de anclaje
-            }
+                map: map,
+                draggable: true, // Permite arrastrar el marcador
+                icon: {
+                    url: "/images/svg/marker_puja.svg",
+                    scaledSize: new google.maps.Size(80, 80), // Ajusta el tamaño del logo
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(40, 80)  // Ajusta el punto de anclaje
+                }
             });
 
             circle = new google.maps.Circle({
-                strokeColor: "#FFFF00",
-                strokeOpacity: 0.8,
+                strokeColor: "#fb7125",
+                strokeOpacity: 0,
                 strokeWeight: 2,
-                fillColor: "#FFFF00",
+                fillColor: "#fb7125",
                 fillOpacity: 0.35,
                 map: null,
                 center: defaultLocation,
