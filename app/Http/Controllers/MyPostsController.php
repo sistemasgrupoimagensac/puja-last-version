@@ -343,9 +343,10 @@ class MyPostsController extends Controller
             $routePlans = "planos/{$inmueble->id}";
             $routeVideos = "videos/{$inmueble->id}";
             if ( !App::environment('production') ) {
-                $routeImages = "dev/{$routeImages}";
-                $routePlans = "dev/{$routePlans}";
-                $routeVideos = "dev/{$routeVideos}";
+                $nameDev = "wsb-dev/".env('ROUTE_WSB')."/";
+                $routeImages = "{$nameDev}{$routeImages}";
+                $routePlans = "{$nameDev}{$routePlans}";
+                $routeVideos = "{$nameDev}{$routeVideos}";
             }
             Storage::disk('wasabi')->deleteDirectory($routeImages);
             Storage::disk('wasabi')->deleteDirectory($routePlans);
