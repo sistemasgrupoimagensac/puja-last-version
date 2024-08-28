@@ -41,22 +41,22 @@ class ImagesController extends Controller
 
 
     // Rutas para el entorno DEV
-    public function dev_get_images($id_inmueble, $archivo){
-        $path = "dev/images/{$id_inmueble}/{$archivo}";
+    public function dev_get_images($name_dev, $id_inmueble, $archivo){
+        $path = "wsb-dev/{$name_dev}/images/{$id_inmueble}/{$archivo}";
         $existe_archivo = Storage::disk('wasabi')->exists($path);
         if (!$existe_archivo) abort(404, 'El archivo no existe');
         return Storage::disk('wasabi')->response($path);
     }
     
-    public function dev_get_planos($id_inmueble, $archivo){
-        $path = "dev/planos/{$id_inmueble}/{$archivo}";
+    public function dev_get_planos($name_dev, $id_inmueble, $archivo){
+        $path = "wsb-dev/{$name_dev}/planos/{$id_inmueble}/{$archivo}";
         $existe_archivo = Storage::disk('wasabi')->exists($path);
         if (!$existe_archivo) abort(404, 'El archivo no existe');
         return Storage::disk('wasabi')->response($path);
     }
 
-    public function dev_get_videos($id_inmueble, $archivo){
-        $path = "dev/videos/{$id_inmueble}/{$archivo}";
+    public function dev_get_videos($name_dev, $id_inmueble, $archivo){
+        $path = "wsb-dev/{$name_dev}/videos/{$id_inmueble}/{$archivo}";
         $existe_archivo = Storage::disk('wasabi')->exists($path);
         if (!$existe_archivo) abort(404, 'El archivo no existe');
         return Storage::disk('wasabi')->response($path);

@@ -112,9 +112,9 @@ Route::get('/planos/{id_inmueble}/{archivo}', [ImagesController::class, 'get_pla
 Route::get('/videos/{id_inmueble}/{archivo}', [ImagesController::class, 'get_videos']);
 Route::get('/pdf/{archivo}', [ImagesController::class, 'get_pdf']);
 // Rutas para el entorno DEV
-Route::get('dev/images/{id_inmueble}/{archivo}', [ImagesController::class, 'dev_get_images']);
-Route::get('dev/planos/{id_inmueble}/{archivo}', [ImagesController::class, 'dev_get_planos']);
-Route::get('dev/videos/{id_inmueble}/{archivo}', [ImagesController::class, 'dev_get_videos']);
+Route::get('wsb-dev/{name_dev}/images/{id_inmueble}/{archivo}', [ImagesController::class, 'dev_get_images']);
+Route::get('wsb-dev/{name_dev}/planos/{id_inmueble}/{archivo}', [ImagesController::class, 'dev_get_planos']);
+Route::get('wsb-dev/{name_dev}/videos/{id_inmueble}/{archivo}', [ImagesController::class, 'dev_get_videos']);
 
 
 // Route::get('/openpay', [MyPostsController::class, 'openpay'])->middleware('sessiondata');
@@ -156,3 +156,7 @@ Route::post('/enviar-datos-contacto', [MyPostsController::class, 'enviar_datos_c
 // Ruta de contacto
 Route::get('/contacto', [ContactoController::class, 'index'])->name('contacto');
 Route::post('/contacto', [ContactoController::class, 'store'])->name('post.contacto');
+
+Route::fallback(function () {
+    return view('errors.404');
+});

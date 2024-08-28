@@ -437,11 +437,11 @@ class MyPostsController extends Controller
             $routeImages = "images/{$inmueble->id}";
             $routePlans = "planos/{$inmueble->id}";
             $routeVideos = "videos/{$inmueble->id}";
-        
-            if (!App::environment('production')) {
-                $routeImages = "dev/{$routeImages}";
-                $routePlans = "dev/{$routePlans}";
-                $routeVideos = "dev/{$routeVideos}";
+            if ( !App::environment('production') ) {
+                $nameDev = "wsb-dev/".env('ROUTE_WSB')."/";
+                $routeImages = "{$nameDev}{$routeImages}";
+                $routePlans = "{$nameDev}{$routePlans}";
+                $routeVideos = "{$nameDev}{$routeVideos}";
             }
 
             $multi_inmueble_id = MultimediaInmueble::where('inmueble_id', $inmueble->id)->value('id');
@@ -463,7 +463,7 @@ class MyPostsController extends Controller
                 }
         
                 $validator = Validator::make($request->all(), [
-                    'imagen_principal' => 'required|image|mimes:jpeg,jpg,png|max:4096',
+                    'imagen_principal' => 'required|image|max:4096',
                 ]);
                 if ($validator->fails()) {
                     return response()->json([
@@ -489,6 +489,16 @@ class MyPostsController extends Controller
                 ImagenInmueble::where('multimedia_inmueble_id', $multi_inmueble_id)->delete();
         
                 foreach ($request->file('imagen') as $imagen) {
+                    $validator = Validator::make(['imagen' => $imagen], [
+                        'imagen' => 'image|max:4096',
+                    ]);
+                    if ($validator->fails()) {
+                        return response()->json([
+                            'message' => 'Errores de validación',
+                            'errors' => $validator->errors(),
+                        ], 422);
+                    }
+
                     $path = Storage::disk('wasabi')->put($routeImages, $imagen);
                     $imagenURL = basename($path);
                     $imagenUrl_1 = url($routeImages . '/' . $imagenURL);
@@ -500,14 +510,17 @@ class MyPostsController extends Controller
                     ]);
                 }
             }
-        
-            // Videos
-            if ($request->hasFile('video')) {
-                $existingVideo = VideoInmueble::where('multimedia_inmueble_id', $multi_inmueble_id)->value('video');
-                if ($existingVideo) {
-                    Storage::disk('wasabi')->delete(str_replace(url('/'), '', $existingVideo));
+
+            if ( $request->hasFile('video') ) {
+                $validator = Validator::make($request->all(), [
+                    'video' => 'video|max:8192',
+                ]);
+                if ($validator->fails()) {
+                    return response()->json([
+                        'message' => 'Errores de validación',
+                        'errors' => $validator->errors(),
+                    ], 422);
                 }
-        
                 $video = $request->file('video');
                 $video_path = Storage::disk('wasabi')->put($routeVideos, $video);
                 $videoURL = basename($video_path);
@@ -526,6 +539,15 @@ class MyPostsController extends Controller
                 PlanoInmueble::where('multimedia_inmueble_id', $multi_inmueble_id)->delete();
         
                 foreach ($request->file('planos') as $plano) {
+                    $validator = Validator::make(['planos' => $imagen], [
+                        'planos' => 'image|max:4096',
+                    ]);
+                    if ($validator->fails()) {
+                        return response()->json([
+                            'message' => 'Errores de validación',
+                            'errors' => $validator->errors(),
+                        ], 422);
+                    }
                     $plano_path = Storage::disk('wasabi')->put($routePlans, $plano);
                     $basename_plano_path = basename($plano_path);
                     $planoUrl = url($routePlans . '/' . $basename_plano_path);
