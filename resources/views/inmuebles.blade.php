@@ -44,6 +44,7 @@
                 'views' => $aviso->views ,
             ])
         @endforeach
+        {{ $avisos->onEachSide(1)->links() }}
     </section>
 @endsection
 

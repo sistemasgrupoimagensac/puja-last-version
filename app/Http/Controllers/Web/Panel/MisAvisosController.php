@@ -21,7 +21,7 @@ class MisAvisosController extends Controller
                         $q->where('estado', 1)->where('user_id', Auth::user()->id);
                     })
                     ->orderBy('id', 'desc')
-        ->get();
+                    ->paginate(10);
         $tienePlanes = false;
         
         if (Auth::check()) {

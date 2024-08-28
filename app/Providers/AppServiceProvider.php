@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,7 +22,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Paginator::useBootstrapFive();
+        // Paginator::useBootstrapFour();
+
+        Paginator::defaultView('vendor.pagination.bootstrap-5');
+        Paginator::defaultSimpleView('vendor.pagination.bootstrap-5');
+        
 
         // RUTAS PARA CAMBIAR EL TEXTO DEL CORREO
         // VENDOR ==> laravel framework src Illuminate notificactions resources views email.blade.php

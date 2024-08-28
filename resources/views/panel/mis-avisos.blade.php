@@ -55,6 +55,8 @@
                     @endforeach
                     @if ($total_avisos_porpublicar === 0)
                         <p>No tienes avisos por publicar <i class="fa-regular fa-face-frown fa-lg"></i></p>
+                    @else
+                        {{ $avisos->onEachSide(1)->links() }}
                     @endif
 
                     {{-- AVISOS PUBLICADOS --}}
@@ -98,6 +100,8 @@
                     @endforeach
                     @if ($total_avisos_publicados === 0)
                         <p>No tienes avisos publicados <i class="fa-regular fa-face-sad-cry fa-lg"></i></p>
+                    @else
+                        {{ $avisos->onEachSide(1)->links() }}
                     @endif
 
                 </section>

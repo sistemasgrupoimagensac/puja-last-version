@@ -166,6 +166,15 @@
       "_bootstrap.esm-Dc7QL7cb.js"
     ]
   },
+  "resources/js/scripts/toastyImagenPrincipalError.js": {
+    "file": "assets/toastyImagenPrincipalError-DZY-YD9Y.js",
+    "name": "toastyImagenPrincipalError",
+    "src": "resources/js/scripts/toastyImagenPrincipalError.js",
+    "isEntry": true,
+    "imports": [
+      "_bootstrap.esm-Dc7QL7cb.js"
+    ]
+  },
   "resources/js/scripts/toastyPayError.js": {
     "file": "assets/toastyPayError-DdCmCIfq.js",
     "name": "toastyPayError",
