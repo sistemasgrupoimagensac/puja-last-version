@@ -41,5 +41,10 @@ class SuppliersController extends Controller
             return redirect('/')->with('user', $user->toJson());
         } 
     }
+
+    public function libroReclamos()
+    {
+        return view('libro.index');
+    }
     
 }

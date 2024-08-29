@@ -18,6 +18,7 @@ use App\Http\Controllers\Web\Panel\PlanesContratadosController;
 use App\Http\Controllers\Web\Puja\MainController;
 
 Route::get('/', MainController::class);
+Route::get('/libro-reclamaciones', [SuppliersController::class, 'libroReclamos'])->name('libro_reclamaciones');
 
 Route::middleware('auth')->group(function () {
     Route::get('/email/verify', [EmailVerificationController::class, 'notice'])
