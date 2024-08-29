@@ -44,8 +44,10 @@
           </a>
       </div>
       <div class="d-flex flex-column">
-        <i class="fs-1 fa-solid fa-book-open icon-white"></i>
-        <p class="m-0">Libro de reclamaciones</p>
+        <a class="text-decoration-none" target="_blank" href="{{ route('libro_reclamaciones') }}">
+          <i class="fs-1 fa-solid fa-book-open icon-white"></i>
+          <p class="m-0 text-white">Libro de reclamaciones</p>
+        </a>
       </div>
     </div>
 
