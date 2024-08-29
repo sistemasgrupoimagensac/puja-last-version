@@ -14,7 +14,7 @@
 
 {{-- {{ $inmueble }} --}}
 {{-- {{ $op_inmueble }} --}}
-{{ $ubi_inmueble }}
+{{-- {{ $ubi_inmueble }} --}}
 {{-- {{ $caract_inmueble_id }} --}}
 {{-- {{ $mult_inmueble }} --}}
 {{-- {{ $imgs_inmueble }} --}}
@@ -469,7 +469,10 @@
                             <!-- Mostrar miniatura de la imagen principal seleccionada -->
                             <div class="mt-3" x-show="imagen_principal">
                                 <h4>Miniatura de Imagen Principal</h4>
-                                <img :src="typeof imagen_principal === 'string' ? imagen_principal : URL.createObjectURL(imagen_principal)" class="img-thumbnail" style="max-width: 200px" alt="Imagen Principal">
+                                <img 
+                                    :src=" (typeof imagen_principal === 'string') || (imagen_principal === null) ? imagen_principal : URL.createObjectURL(imagen_principal)" 
+                                    class="img-thumbnail" style="max-width: 200px" alt="Imagen Principal"
+                                >
                                 <!-- Botón para eliminar la imagen principal -->
                                 <button type="button" class="btn btn-danger btn-sm mt-2" @click="eliminarImagen('imagen_principal')">Eliminar</button>
                             </div>
@@ -495,14 +498,27 @@
                                     </template>
                                 </div> --}}
                                 <div class="row">
-                                    <template x-for="(foto, index) in fotos" :key="index">
+                                    {{-- <template x-for="(foto, index) in fotos" :key="index">
                                         <div class="col-md-3 mb-3">
                                             <!-- Renderiza la imagen correctamente dependiendo si es un archivo nuevo o una URL existente -->
                                             <img :src="foto.url" class="img-thumbnail" style="max-width: 100%;" :alt="'Imagen ' + (index + 1)">
                                             <!-- Botón para eliminar imagen -->
                                             <button type="button" class="btn btn-danger btn-sm mt-2" @click="eliminarImagen('fotos', index)">Eliminar</button>
                                         </div>
+                                    </template> --}}
+
+                                    <template x-for="(foto, index) in fotos" :key="index">
+                                        <div class="col-md-3 mb-3">
+                                            <img 
+                                                :src="foto.url ? foto.url : URL.createObjectURL(foto)" 
+                                                class="img-thumbnail" 
+                                                style="max-width: 100%;" :alt="'Imagen ' + (index + 1)"
+                                            >
+                                            <!-- Botón para eliminar imagen -->
+                                            <button type="button" class="btn btn-danger btn-sm mt-2" @click="eliminarImagen('fotos', index)">Eliminar</button>
+                                        </div>
                                     </template>
+
                                 </div>
                                 
                             </div>
@@ -603,11 +619,6 @@
                                     <label for="distrito">Distrito</label>
                                 </div>
         
-                                {{-- inyecta el mapa de google maps --}}
-                                {{-- <div id="map" style="max-width: 600px; width: 100%; height: 600px"></div>
-                                <input type="hidden" x-model="latitude" name="latitude">
-                                <input type="hidden" x-model="longitude" name="longitude"> --}}
-                            
                                 <div class="d-flex justify-content-between gap-2 w-100">
                                     <button type="button" @click="prevStep()" class="btn btn-secondary w-100">Atrás</button>
                                     <button type="submit" class="btn button-orange w-100">Continuar</button>
@@ -748,8 +759,6 @@
                 lng: parseFloat("{{ $ubi_inmueble->longitud }}")
             };
 
-            
-            
             // Si hay coordenadas almacenadas, usarlas; de lo contrario, usar la ubicación predeterminada
             const initialLocation = storedLocation.lat && storedLocation.lng ? storedLocation : defaultLocation;
             
@@ -763,16 +772,14 @@
             geocoder = new google.maps.Geocoder();
 
             marker = new google.maps.Marker({
-                // map: map,
-                // draggable: true, // Permite arrastrar el marcador
                 position: initialLocation,
-                map: null, // El marcador se mostrará más adelante según es_exacta
-                draggable: true, // Permite arrastrar el marcador
+                map: null,
+                draggable: true, 
                 icon: {
                     url: "/images/svg/marker_puja.svg",
-                    scaledSize: new google.maps.Size(80, 80), // Ajusta el tamaño del logo
+                    scaledSize: new google.maps.Size(80, 80), 
                     origin: new google.maps.Point(0, 0),
-                    anchor: new google.maps.Point(40, 80)  // Ajusta el punto de anclaje
+                    anchor: new google.maps.Point(40, 80)
                 }
             });
 
@@ -787,15 +794,6 @@
                 radius: 500,
             });
 
-            // Comportamiento inicial basado en 'es_exacta'
-            // if (document.getElementById('exact').checked) {
-            //     marker.setMap(map);
-            //     circle.setMap(null);
-            // } else {
-            //     marker.setMap(null);
-            //     circle.setMap(map);
-            // }
-
             // Actualizar el mapa en función de la selección inicial (es_exacta)
             let esExactaData = false
             if ("{{ $ubi_inmueble->es_exacta }}" === "1") {
@@ -804,11 +802,8 @@
             } else {
                 esExactaData = false
             }
-
-            console.log('es exacta?', esExactaData);
             
             updateMapElements(initialLocation, esExactaData);
-
             initAutocomplete();
 
             map.addListener('click', (event) => {
@@ -853,13 +848,6 @@
                 updateMapElements(marker.getPosition(), isExactRadioButton)
             });
 
-            // document.getElementById('exact').addEventListener('change', () => updateMapElements(marker.getPosition()));
-            // document.getElementById('approximate').addEventListener('change', () => updateMapElements(marker.getPosition()));
-
-            // Actualizar el input con la dirección inicial si hay una ubicación almacenada
-            // if (storedLocation.lat && storedLocation.lng) {
-            //     updateMapElements(initialLocation);
-            // }
         }
 
         function initAutocomplete() {
@@ -878,26 +866,15 @@
         }
 
         function updateMapElements(location, isExact) {
-            // console.log('inició', location);
-            
-            // const isExact = document.getElementById('exact').checked;
-
-            console.log('es extacta en actualizar mapa?', isExact);
-            
 
             if (isExact) {
-                console.log('es exacto');
-                
                 marker.setPosition(location);
                 marker.setMap(map);
-                circle.setMap(null); // Ocultar el círculo si está visible
+                circle.setMap(null);
             } else {
-
-                console.log('es aproximado');
-                
                 circle.setCenter(location);
-                circle.setMap(map);  // Mostrar el círculo en el mapa
-                marker.setMap(null);  // Ocultar el marcador
+                circle.setMap(map);
+                marker.setMap(null);
             }
 
             geocoder.geocode({'location': location}, (results, status) => {
@@ -916,26 +893,6 @@
                 }
             });
         }
-
-
-        // function extractLocationComponents(addressComponents) {
-        //     let direccion = '';
-        //     let numeroDireccion = '';
-
-        //     addressComponents.forEach(component => {
-        //         if (component.types.includes('street_number')) {
-        //             numeroDireccion = component.long_name;
-        //         }
-        //         if (component.types.includes('route')) {
-        //             direccion = component.long_name;
-        //         }
-        //     });
-
-        //     return {
-        //         direccion,
-        //         numeroDireccion
-        //     };
-        // }
 
         function avisoForm(inmueble, op_inmueble, ubi_inmueble, caract_inmueble_id, mult_inmueble, imgs_inmueble, videos_inmueble, planos_inmueble, extra_carac_inmueble) {
             return {
@@ -972,10 +929,13 @@
                 adicionales: [],
                 comodidades: [],
 
-                fotos: imgs_inmueble ? imgs_inmueble.map(img => img.imagen) : [],
+                // fotos: imgs_inmueble ? imgs_inmueble.map(img => img.imagen) : [],
+                fotos: imgs_inmueble ? imgs_inmueble.map(img => ({ id: img.id, url: img.imagen })) : [],
                 imagen_principal: mult_inmueble ? mult_inmueble.imagen_principal : null,
                 videos: null,
                 planos: [],
+
+                imagenesAEliminar: [],
 
                 dormitorios: caract_inmueble_id ? caract_inmueble_id.habitaciones : '',
                 banios: caract_inmueble_id ? caract_inmueble_id.banios : '',
@@ -1185,28 +1145,28 @@
                             formData.append('caracteristicas', 1)
                             formData.append('codigo_unico', this.codigo_unico)
                         } else if (step === 4) /* Multimedia */ {
-                            if (this.imagen_principal && this.imagen_principal.file) {
-                                // Solo añadir si es un nuevo archivo (File)
-                                formData.append('imagen_principal', this.imagen_principal.file);
+
+                            if (this.imagen_principal) {
+                                formData.append('imagen_principal', this.imagen_principal)
+                            } 
+                            
+                            this.fotos.forEach((foto, index) => {
+                                if (foto) {
+                                    // Solo añadir si es un nuevo archivo (File)
+                                    formData.append('imagen[]', foto);
+                                }
+                            });
+
+                            if (this.imagenesAEliminar.length > 0) {
+                                formData.append('imagenes_a_eliminar', this.imagenesAEliminar.join(','));
                             }
 
-                            this.fotos.forEach((foto, index) => {
-                                if (foto.file) {
-                                    // Solo añadir si es un nuevo archivo (File)
-                                    formData.append('imagen[]', foto.file);
-                                }
-                            });
-
                             this.planos.forEach((plano, index) => {
-                                if (plano.file) {
-                                    // Solo añadir si es un nuevo archivo (File)
-                                    formData.append('planos[]', plano.file);
-                                }
-                            });
+                                formData.append(`planos[]`, plano)
+                            })
 
-                            if (this.videos && this.videos.file) {
-                                // Solo añadir si es un nuevo archivo (File)
-                                formData.append('video', this.videos.file);
+                            if (this.videos) {
+                                formData.append('video', this.videos)
                             }
 
                             formData.append('multimedia', 1);
@@ -1263,41 +1223,30 @@
                     this.updateStepStatus()
                 },
 
-                // handleFiles(event, type) {
-                //     const files = event.target.files
-                //     if (type === 'fotos') {
-                //         this.fotos.push(...files)
-                //     } else if (type === 'planos') {
-                //         this.planos.push(...files)
-                //     } else if (type === 'imagen_principal') {
-                //         this.imagen_principal = files[0]
-                //     } else if (type === 'videos') {
-                //         this.videos = files[0]
-                //     }
-                // },
-
                 handleFiles(event, type) {
-                    const files = event.target.files;
+                    const files = event.target.files
                     if (type === 'fotos') {
-                        for (let i = 0; i < files.length; i++) {
-                            // Añadir las nuevas imágenes como objetos con la propiedad `file`
-                            this.fotos.push({ file: files[i], url: URL.createObjectURL(files[i]) });
-                        }
+                        this.fotos.push(...files)
                     } else if (type === 'planos') {
-                        for (let i = 0; i < files.length; i++) {
-                            this.planos.push({ file: files[i], url: URL.createObjectURL(files[i]) });
-                        }
+                        this.planos.push(...files)
                     } else if (type === 'imagen_principal') {
-                        this.imagen_principal = { file: files[0], url: URL.createObjectURL(files[0]) };
+                        this.imagen_principal = files[0]
                     } else if (type === 'videos') {
-                        this.videos = { file: files[0], url: URL.createObjectURL(files[0]) };
+                        this.videos = files[0]
                     }
                 },
 
-
                 eliminarImagen(type, index) {
+
                     if (type === 'fotos') {
-                        this.fotos.splice(index, 1)
+                        const foto = this.fotos[index];
+
+                        // Si la imagen tiene un ID, agregarla a la lista de eliminaciones
+                        if (foto.id) {
+                            this.imagenesAEliminar.push(foto.id);
+                        }
+                        // Remover la foto del array
+                        this.fotos.splice(index, 1);
                     } else if (type === 'planos') {
                         this.planos.splice(index, 1)
                     } else if (type === 'imagen_principal') {

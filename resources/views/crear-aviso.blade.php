@@ -462,8 +462,6 @@
                             </div>
                         </div>
 
-
-
                         <!-- Input para seleccionar imágenes -->
                         <div class="form-group">
                             <label for="images" class="form-label text-secondary">
@@ -1145,31 +1143,20 @@
                             if (step === 1) {
                                 this.aviso_id = data.id
                             }
+
+                            this.step++
                             
-                            if (step === 4) {
-                                if (data.message_error) {
-                                    document.getElementById('error-principal-image-message').innerText = data.message_error;
-                                    triggerToastPrincipalImageError()
-                                } else {
-                                    this.step++
-                                }
-                            } else {
-                                this.step++
-                            }
                             
                         })
                         .catch(error => {
-                            console.error('Error:', error)
-                            if (error.errors) {
-                                for (let key in error.errors) {
-                                    let errorMessages = error.errors[key];
-                                    errorMessages.forEach(errorMessage => {
-                                        let $errorElement = document.createElement('div');
-                                        $errorElement.className = 'alert alert-danger';
-                                        $errorElement.innerText = errorMessage;
-                                        $errorContainer.appendChild($errorElement);
-                                    });
-                                }
+
+                            if (step === 4 && error.message_error) {
+
+                                document.getElementById('error-principal-image-message').innerText = error.message_error;
+                                triggerToastPrincipalImageError()
+
+                            } else {
+                                console.error('Error: ', error)
                             }
                         })
                         .finally(() => {

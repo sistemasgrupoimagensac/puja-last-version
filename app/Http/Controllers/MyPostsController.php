@@ -26,6 +26,7 @@ use App\Models\UbicacionInmueble;
 use App\Models\User;
 use App\Models\VideoInmueble;
 use Database\Seeders\ExtraInmuebleCaracteristicasInmueblesSeeder;
+use GuzzleHttp\Psr7\UploadedFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -290,148 +291,6 @@ class MyPostsController extends Controller
                 ], 422);
             }
         }
-        
-        // if ($request->multimedia) {
-        //     $routeImages = "images/{$inmueble->id}";
-        //     $routePlans = "planos/{$inmueble->id}";
-        //     $routeVideos = "videos/{$inmueble->id}";
-        //     if ( !App::environment('production') ) {
-        //         $routeImages = "dev/{$routeImages}";
-        //         $routePlans = "dev/{$routePlans}";
-        //         $routeVideos = "dev/{$routeVideos}";
-        //     }
-        //     Storage::disk('wasabi')->deleteDirectory($routeImages);
-        //     Storage::disk('wasabi')->deleteDirectory($routePlans);
-        //     Storage::disk('wasabi')->deleteDirectory($routeVideos);
-
-        //     if (!$request->imagen_principal) {
-        //         return response()->json([
-        //             'message_error' => 'Sube una imagen principal',
-        //         ], 402);
-        //     }
-
-        //     $multi_inmueble_id = MultimediaInmueble::where('inmueble_id', $inmueble->id)->value('id');
-
-        //     // Imagen principal
-        //     if ( $request->hasFile('imagen_principal') ) {
-
-        //         // Elimina la imagen existente si la hay
-        //         if ($multi_inmueble_id) {
-        //             $existingImage = MultimediaInmueble::where('id', $multi_inmueble_id)->value('imagen_principal');
-        //             Storage::disk('wasabi')->delete(str_replace(url('/'), '', $existingImage));
-        //         }
-
-        //         $validator = Validator::make($request->all(), [
-        //             'imagen_principal' => 'required|image|mimes:jpeg,jpg,png|max:4096',
-        //         ]);
-        //         if ($validator->fails()) {
-        //             return response()->json([
-        //                 'message' => 'Errores de validación',
-        //                 'errors' => $validator->errors()
-        //             ], 422);
-        //         }
-                
-        //         $image = $request->file('imagen_principal');
-        //         $path = Storage::disk('wasabi')->put($routeImages, $image);
-        //         $imageURL = basename($path);
-        //         $imagenUrl1 = url($routeImages . '/' . $imageURL);
-
-        //         // $multim_inmueble = MultimediaInmueble::updateOrCreate([
-        //         //     "inmueble_id" => $inmueble->id,
-        //         //     ],[
-        //         //     "imagen_principal" => $imagenUrl1,
-        //         //     "estado" => 1,
-        //         // ]);
-
-        //         MultimediaInmueble::updateOrCreate(
-        //             ["inmueble_id" => $inmueble->id],
-        //             ["imagen_principal" => $imagenUrl1, "estado" => 1]
-        //         );
-
-        //         // if (!$multim_inmueble) {
-        //         //     return response()->json([
-        //         //         'message' => 'No se pudo guardar el registro de multimedia inmueble',
-        //         //         'error' => true
-        //         //     ], 422);
-        //         // }
-        //     }
-
-        //     if ( $request->hasFile('imagen') ) {
-
-        //         // Si no se sube la imagen principal antes se produce este error
-        //         if (!$multi_inmueble_id) {
-        //             return response()->json([
-        //                 'message_error' => 'Sube una imagen principal',
-        //             ], 402);
-        //         }
-
-        //         // Elimina las imágenes existentes
-        //         ImagenInmueble::where('multimedia_inmueble_id', $multi_inmueble_id)->delete();
-
-        //         foreach ($request->file('imagen') as $imagen) {
-        //             $path = Storage::disk('wasabi')->put($routeImages, $imagen);
-        //             $imagenURL = basename($path);
-        //             $imagenUrl_1 = url($routeImages . '/' . $imagenURL);
-
-        //             ImagenInmueble::create([
-        //                 'multimedia_inmueble_id' => $multi_inmueble_id,
-        //                 'imagen' => $imagenUrl_1,
-        //                 "estado" => 1,
-        //             ]);
-                    
-        //             // $img_inmueble = ImagenInmueble::create([
-        //             //     'multimedia_inmueble_id' => $multi_inmueble_id,
-        //             //     'imagen' => $imagenUrl_1,
-        //             //     "estado" => 1,
-        //             // ]);
-        //             // if (!$img_inmueble) {
-        //             //     return response()->json([
-        //             //         'message' => 'No se pudo guardar el registro de la imagen principal inmueble',
-        //             //         'error' => true
-        //             //     ], 422);
-        //             // }
-        //         }
-        //     }
-
-        //     if ( $request->hasFile('video') ) {
-        //         $video = $request->file('video');
-        //         $video_path = Storage::disk('wasabi')->put($routeVideos, $video);
-        //         $videoURL = basename($video_path);
-        //         $videoUrl_2 = url($routeVideos . '/' . $videoURL);
-        //         $video_inmueble = VideoInmueble::updateOrCreate([
-        //             'multimedia_inmueble_id' => $multi_inmueble_id,
-        //             ],[
-        //             'video' => $videoUrl_2,
-        //             "estado" => 1,
-        //         ]);
-        //         if (!$video_inmueble) {
-        //             return response()->json([
-        //                 'message' => 'No se pudo guardar el registro del video inmueble',
-        //                 'error' => true
-        //             ], 422);
-        //         }
-        //     }
-
-        //     if ( $request->hasFile('planos') ) {
-        //         PlanoInmueble::where('multimedia_inmueble_id', $multi_inmueble_id)->delete();
-        //         foreach ($request->file('planos') as $plano) {
-        //             $plano_path = Storage::disk('wasabi')->put($routePlans, $plano);
-        //             $basename_plano_path = basename($plano_path);
-        //             $planoUrl = url($routePlans . '/' . $basename_plano_path);
-        //             $plano_inmueble = PlanoInmueble::create([
-        //                 'multimedia_inmueble_id' => $multi_inmueble_id,
-        //                 'plano' => $planoUrl,
-        //                 "estado" => 1,
-        //             ]);
-        //             if (!$plano_inmueble) {
-        //                 return response()->json([
-        //                     'message' => 'No se pudo guardar el registro de los planos inmueble',
-        //                     'error' => true
-        //                 ], 422);
-        //             }
-        //         }
-        //     }
-        // }
 
         if ($request->multimedia) {
             $routeImages = "images/{$inmueble->id}";
@@ -444,18 +303,18 @@ class MyPostsController extends Controller
                 $routeVideos = "{$nameDev}{$routeVideos}";
             }
 
-            $multi_inmueble_id = MultimediaInmueble::where('inmueble_id', $inmueble->id)->value('id');
-
+            // Si NO existe imagen principal (como archivo o como url)
             if (!$request->imagen_principal) {
                 return response()->json([
                     'message_error' => 'Sube una imagen principal',
                 ], 402);
             }
         
-            // Imagen principal
+            // Archivo (file) de la imagen principal
             if ($request->hasFile('imagen_principal')) {
-                // Elimina la imagen existente si la hay
-                if ($multi_inmueble_id) {
+
+                // Elimina la imagen principal existente si la hay
+                if (isset($multi_inmueble_id)) {
                     $existingImage = MultimediaInmueble::where('id', $multi_inmueble_id)->value('imagen_principal');
                     if ($existingImage) {
                         Storage::disk('wasabi')->delete(str_replace(url('/'), '', $existingImage));
@@ -465,6 +324,7 @@ class MyPostsController extends Controller
                 $validator = Validator::make($request->all(), [
                     'imagen_principal' => 'required|image|max:4096',
                 ]);
+
                 if ($validator->fails()) {
                     return response()->json([
                         'message' => 'Errores de validación',
@@ -482,33 +342,53 @@ class MyPostsController extends Controller
                     ["imagen_principal" => $imagenUrl1, "estado" => 1]
                 );
             }
-        
-            // Imágenes adicionales
-            if ($request->hasFile('imagen')) {
-                // Elimina las imágenes existentes solo si se suben nuevas imágenes
-                ImagenInmueble::where('multimedia_inmueble_id', $multi_inmueble_id)->delete();
-        
-                foreach ($request->file('imagen') as $imagen) {
-                    $validator = Validator::make(['imagen' => $imagen], [
-                        'imagen' => 'image|max:4096',
-                    ]);
-                    if ($validator->fails()) {
-                        return response()->json([
-                            'message' => 'Errores de validación',
-                            'errors' => $validator->errors(),
-                        ], 422);
-                    }
 
-                    $path = Storage::disk('wasabi')->put($routeImages, $imagen);
-                    $imagenURL = basename($path);
-                    $imagenUrl_1 = url($routeImages . '/' . $imagenURL);
+            $multi_inmueble_id = MultimediaInmueble::where('inmueble_id', $inmueble->id)->value('id');
         
-                    ImagenInmueble::create([
-                        'multimedia_inmueble_id' => $multi_inmueble_id,
-                        'imagen' => $imagenUrl_1,
-                        "estado" => 1,
-                    ]);
+
+            if ($request->imagen) {
+
+                if ($request->filled('imagenes_a_eliminar')) {
+                    $imagenesAEliminar = explode(',', $request->imagenes_a_eliminar);
+                
+                    foreach ($imagenesAEliminar as $imagenId) {
+                        $imagen = ImagenInmueble::where('id', $imagenId)->first();
+                
+                        if ($imagen) {
+                            // Eliminar la imagen de Wasabi
+                            Storage::disk('wasabi')->delete(str_replace(url('/'), '', $imagen->imagen));
+                
+                            // Eliminar la referencia de la base de datos
+                            $imagen->delete();
+                        }
+                    }
+                }                
+
+                if ( $request->file('imagen') !== null ) {
+                    foreach ($request->file('imagen') as $imagen) {
+    
+                        $validator = Validator::make(['imagen' => $imagen], [
+                            'imagen' => 'image|max:4096',
+                        ]);
+                        if ($validator->fails()) {
+                            return response()->json([
+                                'message' => 'Errores de validación',
+                                'errors' => $validator->errors(),
+                            ], 422);
+                        }
+    
+                        $path = Storage::disk('wasabi')->put($routeImages, $imagen);
+                        $imagenURL = basename($path);
+                        $imagenUrl_1 = url($routeImages . '/' . $imagenURL);
+            
+                        ImagenInmueble::create([
+                            'multimedia_inmueble_id' => $multi_inmueble_id,
+                            'imagen' => $imagenUrl_1,
+                            "estado" => 1,
+                        ]);
+                    }
                 }
+        
             }
 
             if ( $request->hasFile('video') ) {
@@ -635,9 +515,6 @@ class MyPostsController extends Controller
     public function edit (Aviso $aviso)
     {
 
-        // $mult_inmueble = MultimediaInmueble::where("inmueble_id", $aviso->inmueble_id)->first();
-        // dd($aviso);
-
         // ==========================================================================================================================
         $user = Auth::user();
     
@@ -689,13 +566,6 @@ class MyPostsController extends Controller
         } else {
             $extra_carac_inmueble = null;
         }
-
-        // if ($aviso) {
-        //     return view("actualizar-aviso", compact('inmueble','op_inmueble', 'ubi_inmueble', 'caract_inmueble_id', 'mult_inmueble', 'imgs_inmueble', 'videos_inmueble', 'planos_inmueble', 'extra_inmueble', 'extra_carac_inmueble', 'es_acreedor', 'es_propietario', 'es_corredor', 'es_proyecto'));
-        // } else {
-        //     dd("Aviso no encontrado, $aviso no existe");
-        // }
-        // return view('actualizar-aviso');
 
         if ($aviso) {
             return view("editar-aviso", compact('inmueble','op_inmueble', 'ubi_inmueble', 'caract_inmueble_id', 'mult_inmueble', 'imgs_inmueble', 'videos_inmueble', 'planos_inmueble', 'extra_inmueble', 'extra_carac_inmueble', 'es_acreedor', 'es_propietario', 'es_corredor', 'es_proyecto'));
@@ -856,10 +726,7 @@ class MyPostsController extends Controller
         ], 200);
     }
 
-
-
     // Funciones XD
-
     private function convertStringToFloat($value)
     {
         return floatval(str_replace(',', '', $value));
