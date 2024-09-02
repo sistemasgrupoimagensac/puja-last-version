@@ -393,7 +393,7 @@ class MyPostsController extends Controller
 
             if ( $request->hasFile('video') ) {
                 $validator = Validator::make($request->all(), [
-                    'video' => 'video|max:8192',
+                    'video' => 'mimes:mp4,mov,ogg,qt|max:8192',
                 ]);
                 if ($validator->fails()) {
                     return response()->json([
