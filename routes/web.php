@@ -84,6 +84,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/my-post/store', [MyPostsController::class, 'store'])->name('posts.store');
     Route::put('/my-posts/description/edit', [MyPostsController::class, 'edit_description'])->name('posts.edit_description');
     Route::post('/my-posts/sold', [MyPostsController::class, 'my_post_sold']);
+    Route::post('/my-post/delete', [MyPostsController::class, 'my_post_delete']);
     Route::get('/my-posts/{aviso}/edit', [MyPostsController::class, 'edit'])->name('posts.edit'); // PENDIENTE
 });
 

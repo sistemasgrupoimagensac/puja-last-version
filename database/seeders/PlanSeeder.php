@@ -116,30 +116,26 @@ class PlanSeeder extends Seeder
             ['package_id' => '3', 'total_ads' => '200', 'typical_ads' => '120', 'top_ads' => '60', 'premium_ads' => '20', 'duration_in_days' => '365', 'price' => '14900.00', 'name' => 'Plan Premium', 'created_at' => now(), 'updated_at' => now()],
 
 
-            ['package_id' => '4', 'total_ads' => '1', 'typical_ads' => '0', 'top_ads' => '1', 'premium_ads' => '0', 'duration_in_days' => '30', 'price' => '129.00', 'name' => 'Plan Básico', 'created_at' => now(), 'updated_at' => now()],
-            ['package_id' => '4', 'total_ads' => '1', 'typical_ads' => '0', 'top_ads' => '0', 'premium_ads' => '1', 'duration_in_days' => '30', 'price' => '239.00', 'name' => 'Plan Estandar', 'created_at' => now(), 'updated_at' => now()],
-            
-            ['package_id' => '4', 'total_ads' => '1', 'typical_ads' => '0', 'top_ads' => '1', 'premium_ads' => '0', 'duration_in_days' => '60', 'price' => '129.00', 'name' => 'Plan Básico', 'created_at' => now(), 'updated_at' => now()],
-            ['package_id' => '4', 'total_ads' => '1', 'typical_ads' => '0', 'top_ads' => '0', 'premium_ads' => '1', 'duration_in_days' => '60', 'price' => '239.00', 'name' => 'Plan Básico', 'created_at' => now(), 'updated_at' => now()],
-            
-            ['package_id' => '4', 'total_ads' => '1', 'typical_ads' => '0', 'top_ads' => '1', 'premium_ads' => '0', 'duration_in_days' => '90', 'price' => '129.00', 'name' => 'Plan Premium', 'created_at' => now(), 'updated_at' => now()],
-            ['package_id' => '4', 'total_ads' => '1', 'typical_ads' => '0', 'top_ads' => '0', 'premium_ads' => '1', 'duration_in_days' => '90', 'price' => '239.00', 'name' => 'Plan Básico', 'created_at' => now(), 'updated_at' => now()],
+            ['package_id' => '4', 'total_ads' => '1', 'typical_ads' => '0', 'top_ads' => '1', 'premium_ads' => '0', 'duration_in_days' => '30', 'price' => '129.00', 'name' => 'Plan Top', 'created_at' => now(), 'updated_at' => now()],
+            ['package_id' => '4', 'total_ads' => '1', 'typical_ads' => '0', 'top_ads' => '0', 'premium_ads' => '1', 'duration_in_days' => '30', 'price' => '239.00', 'name' => 'Plan Premium', 'created_at' => now(), 'updated_at' => now()],
+            ['package_id' => '4', 'total_ads' => '1', 'typical_ads' => '0', 'top_ads' => '1', 'premium_ads' => '0', 'duration_in_days' => '60', 'price' => '129.00', 'name' => 'Plan Top', 'created_at' => now(), 'updated_at' => now()],
+            ['package_id' => '4', 'total_ads' => '1', 'typical_ads' => '0', 'top_ads' => '0', 'premium_ads' => '1', 'duration_in_days' => '60', 'price' => '239.00', 'name' => 'Plan Premium', 'created_at' => now(), 'updated_at' => now()],
+            ['package_id' => '4', 'total_ads' => '1', 'typical_ads' => '0', 'top_ads' => '1', 'premium_ads' => '0', 'duration_in_days' => '90', 'price' => '129.00', 'name' => 'Plan Top', 'created_at' => now(), 'updated_at' => now()],
+            ['package_id' => '4', 'total_ads' => '1', 'typical_ads' => '0', 'top_ads' => '0', 'premium_ads' => '1', 'duration_in_days' => '90', 'price' => '239.00', 'name' => 'Plan Premium', 'created_at' => now(), 'updated_at' => now()],
 
-            ['package_id' => '4', 'total_ads' => '3', 'typical_ads' => '0', 'top_ads' => '3', 'premium_ads' => '0', 'duration_in_days' => '30', 'price' => '650.00', 'name' => 'Plan Básico', 'created_at' => now(), 'updated_at' => now()],
-            ['package_id' => '4', 'total_ads' => '3', 'typical_ads' => '0', 'top_ads' => '0', 'premium_ads' => '3', 'duration_in_days' => '30', 'price' => '1210.00', 'name' => 'Plan Estandar', 'created_at' => now(), 'updated_at' => now()],
-            
-            ['package_id' => '4', 'total_ads' => '3', 'typical_ads' => '0', 'top_ads' => '3', 'premium_ads' => '0', 'duration_in_days' => '60', 'price' => '650.00', 'name' => 'Plan Básico', 'created_at' => now(), 'updated_at' => now()],
-            ['package_id' => '4', 'total_ads' => '3', 'typical_ads' => '0', 'top_ads' => '0', 'premium_ads' => '3', 'duration_in_days' => '60', 'price' => '1210.00', 'name' => 'Plan Básico', 'created_at' => now(), 'updated_at' => now()],
-            
-            ['package_id' => '4', 'total_ads' => '3', 'typical_ads' => '0', 'top_ads' => '3', 'premium_ads' => '0', 'duration_in_days' => '90', 'price' => '650.00', 'name' => 'Plan Premium', 'created_at' => now(), 'updated_at' => now()],
-            ['package_id' => '4', 'total_ads' => '3', 'typical_ads' => '0', 'top_ads' => '0', 'premium_ads' => '3', 'duration_in_days' => '90', 'price' => '1210.00', 'name' => 'Plan Básico', 'created_at' => now(), 'updated_at' => now()],
+            ['package_id' => '4', 'total_ads' => '3', 'typical_ads' => '0', 'top_ads' => '3', 'premium_ads' => '0', 'duration_in_days' => '30', 'price' => '650.00', 'name' => 'Plan Top', 'created_at' => now(), 'updated_at' => now()],
+            ['package_id' => '4', 'total_ads' => '3', 'typical_ads' => '0', 'top_ads' => '0', 'premium_ads' => '3', 'duration_in_days' => '30', 'price' => '1210.00', 'name' => 'Plan Premium', 'created_at' => now(), 'updated_at' => now()],
+            ['package_id' => '4', 'total_ads' => '3', 'typical_ads' => '0', 'top_ads' => '3', 'premium_ads' => '0', 'duration_in_days' => '60', 'price' => '650.00', 'name' => 'Plan Top', 'created_at' => now(), 'updated_at' => now()],
+            ['package_id' => '4', 'total_ads' => '3', 'typical_ads' => '0', 'top_ads' => '0', 'premium_ads' => '3', 'duration_in_days' => '60', 'price' => '1210.00', 'name' => 'Plan Premium', 'created_at' => now(), 'updated_at' => now()],
+            ['package_id' => '4', 'total_ads' => '3', 'typical_ads' => '0', 'top_ads' => '3', 'premium_ads' => '0', 'duration_in_days' => '90', 'price' => '650.00', 'name' => 'Plan Top', 'created_at' => now(), 'updated_at' => now()],
+            ['package_id' => '4', 'total_ads' => '3', 'typical_ads' => '0', 'top_ads' => '0', 'premium_ads' => '3', 'duration_in_days' => '90', 'price' => '1210.00', 'name' => 'Plan Premium', 'created_at' => now(), 'updated_at' => now()],
 
-            ['package_id' => '4', 'total_ads' => '5', 'typical_ads' => '0', 'top_ads' => '5', 'premium_ads' => '0', 'duration_in_days' => '30', 'price' => '1225.00', 'name' => 'Plan Básico', 'created_at' => now(), 'updated_at' => now()],
-            ['package_id' => '4', 'total_ads' => '5', 'typical_ads' => '0', 'top_ads' => '0', 'premium_ads' => '5', 'duration_in_days' => '30', 'price' => '1610.00', 'name' => 'Plan Estandar', 'created_at' => now(), 'updated_at' => now()],
-            ['package_id' => '4', 'total_ads' => '5', 'typical_ads' => '0', 'top_ads' => '5', 'premium_ads' => '0', 'duration_in_days' => '60', 'price' => '1225.00', 'name' => 'Plan Básico', 'created_at' => now(), 'updated_at' => now()],
-            ['package_id' => '4', 'total_ads' => '5', 'typical_ads' => '0', 'top_ads' => '0', 'premium_ads' => '5', 'duration_in_days' => '60', 'price' => '1610.00', 'name' => 'Plan Básico', 'created_at' => now(), 'updated_at' => now()],
-            ['package_id' => '4', 'total_ads' => '5', 'typical_ads' => '0', 'top_ads' => '5', 'premium_ads' => '0', 'duration_in_days' => '90', 'price' => '1225.00', 'name' => 'Plan Premium', 'created_at' => now(), 'updated_at' => now()],
-            ['package_id' => '4', 'total_ads' => '5', 'typical_ads' => '0', 'top_ads' => '0', 'premium_ads' => '5', 'duration_in_days' => '90', 'price' => '1610.00', 'name' => 'Plan Básico', 'created_at' => now(), 'updated_at' => now()],
+            ['package_id' => '4', 'total_ads' => '5', 'typical_ads' => '0', 'top_ads' => '5', 'premium_ads' => '0', 'duration_in_days' => '30', 'price' => '1225.00', 'name' => 'Plan Top', 'created_at' => now(), 'updated_at' => now()],
+            ['package_id' => '4', 'total_ads' => '5', 'typical_ads' => '0', 'top_ads' => '0', 'premium_ads' => '5', 'duration_in_days' => '30', 'price' => '1610.00', 'name' => 'Plan Premium', 'created_at' => now(), 'updated_at' => now()],
+            ['package_id' => '4', 'total_ads' => '5', 'typical_ads' => '0', 'top_ads' => '5', 'premium_ads' => '0', 'duration_in_days' => '60', 'price' => '1225.00', 'name' => 'Plan Top', 'created_at' => now(), 'updated_at' => now()],
+            ['package_id' => '4', 'total_ads' => '5', 'typical_ads' => '0', 'top_ads' => '0', 'premium_ads' => '5', 'duration_in_days' => '60', 'price' => '1610.00', 'name' => 'Plan Premium', 'created_at' => now(), 'updated_at' => now()],
+            ['package_id' => '4', 'total_ads' => '5', 'typical_ads' => '0', 'top_ads' => '5', 'premium_ads' => '0', 'duration_in_days' => '90', 'price' => '1225.00', 'name' => 'Plan Top', 'created_at' => now(), 'updated_at' => now()],
+            ['package_id' => '4', 'total_ads' => '5', 'typical_ads' => '0', 'top_ads' => '0', 'premium_ads' => '5', 'duration_in_days' => '90', 'price' => '1610.00', 'name' => 'Plan Premium', 'created_at' => now(), 'updated_at' => now()],
             
             
             ['package_id' => '5', 'total_ads' => '1', 'typical_ads' => '1', 'top_ads' => '0', 'premium_ads' => '0', 'duration_in_days' => '7', 'price' => '150.00', 'name' => 'Plan Estandar', 'created_at' => now(), 'updated_at' => now()],

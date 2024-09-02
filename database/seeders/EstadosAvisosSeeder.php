@@ -17,7 +17,9 @@ class EstadosAvisosSeeder extends Seeder
             ['estado' => 'Borrador', 'created_at' => now(), 'updated_at' => now()],
             ['estado' => 'Pendiente', 'created_at' => now(), 'updated_at' => now()],
             ['estado' => 'Publicado', 'created_at' => now(), 'updated_at' => now()],
-            ['estado' => 'Aceptado', 'created_at' => now(), 'updated_at' => now()],
+            ['estado' => 'Vendido', 'created_at' => now(), 'updated_at' => now()],
+            ['estado' => 'Vencido', 'created_at' => now(), 'updated_at' => now()],
+            ['estado' => 'Eliminado', 'created_at' => now(), 'updated_at' => now()],
         ];
 
         DB::table('estados_avisos')->insert($estados);
