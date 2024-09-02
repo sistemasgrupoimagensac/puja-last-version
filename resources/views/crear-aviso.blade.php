@@ -10,16 +10,10 @@
 
 @section('content')
     
-    {{-- <div id="loader-overlay">
-        <img src="{{ asset('images/loader.svg') }}" alt="Cargando...">
-    </div> --}}
-
-
     <div id="loader-overlay">
         <div class="flipping"></div>
     </div>
     
-
     <div x-data="avisoForm()">
 
         <x-completa-registro-google></x-completa-registro-google>
@@ -578,11 +572,6 @@
                                     </select>
                                     <label for="distrito">Distrito</label>
                                 </div>
-        
-                                {{-- inyecta el mapa de google maps --}}
-                                {{-- <div id="map" style="max-width: 600px; width: 100%; height: 600px"></div>
-                                <input type="hidden" x-model="latitude" name="latitude">
-                                <input type="hidden" x-model="longitude" name="longitude"> --}}
                             
                                 <div class="d-flex justify-content-between gap-2 w-100">
                                     <button type="button" @click="prevStep()" class="btn btn-secondary w-100">Atrás</button>
