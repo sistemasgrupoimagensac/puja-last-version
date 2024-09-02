@@ -12,16 +12,6 @@
     
 {{-- 'inmueble','op_inmueble', 'ubi_inmueble', 'caract_inmueble_id', 'mult_inmueble', 'imgs_inmueble', 'videos_inmueble', 'planos_inmueble', 'extra_inmueble', 'extra_carac_inmueble' --}}
 
-{{-- {{ $inmueble }} --}}
-{{-- {{ $op_inmueble }} --}}
-{{-- {{ $ubi_inmueble }} --}}
-{{-- {{ $caract_inmueble_id }} --}}
-{{-- {{ $mult_inmueble }} --}}
-{{-- {{ $imgs_inmueble }} --}}
-{{-- {{ $extra_inmueble }} --}}
-{{-- {{ $extra_carac_inmueble }} --}}
-
-
     <div id="loader-overlay">
         <div class="flipping"></div>
     </div>
@@ -40,8 +30,6 @@
     {{ json_encode($extra_carac_inmueble) }}
 
     )">
-
-        {{-- <x-completa-registro-google></x-completa-registro-google> --}}
         
         <!-- Menú de los pasos -->
         <div class="py-3 py-lg-4 bg-body-tertiary border-bottom">
@@ -265,7 +253,7 @@
 
                                 <div class="form-group" x-show="antiguedad === '2'">
                                     <div class="input-group">
-                                        <input type="number" x-model="anios_antiguedad" min="0" max="99" class="form-control border-black" :required="antiguedad === 'antiguedad'">
+                                        <input type="number" x-model="anios_antiguedad" min="0" max="99" class="form-control border-black" :required="antiguedad === '2'">
                                     </div>
                                 </div>
 
@@ -488,25 +476,7 @@
                             <!-- Mostrar miniaturas de las imágenes seleccionadas -->
                             <div class="mt-3" x-show="fotos.length > 0">
                                 <h4>Miniaturas</h4>
-                                {{-- <div class="row">
-                                    <template x-for="(foto, index) in fotos" :key="index">
-                                        <div class="col-md-3 mb-3">
-                                            <img :src="foto.startsWith('http') ? foto : URL.createObjectURL(foto)" class="img-thumbnail" style="max-width: 100%;" :alt="'Imagen ' + (index + 1)">
-                                            <!-- Botón para eliminar imagen -->
-                                            <button type="button" class="btn btn-danger btn-sm mt-2" @click="eliminarImagen('fotos', index)">Eliminar</button>
-                                        </div>
-                                    </template>
-                                </div> --}}
                                 <div class="row">
-                                    {{-- <template x-for="(foto, index) in fotos" :key="index">
-                                        <div class="col-md-3 mb-3">
-                                            <!-- Renderiza la imagen correctamente dependiendo si es un archivo nuevo o una URL existente -->
-                                            <img :src="foto.url" class="img-thumbnail" style="max-width: 100%;" :alt="'Imagen ' + (index + 1)">
-                                            <!-- Botón para eliminar imagen -->
-                                            <button type="button" class="btn btn-danger btn-sm mt-2" @click="eliminarImagen('fotos', index)">Eliminar</button>
-                                        </div>
-                                    </template> --}}
-
                                     <template x-for="(foto, index) in fotos" :key="index">
                                         <div class="col-md-3 mb-3">
                                             <img 
@@ -755,14 +725,12 @@
 
         function initMap() {
             const storedLocation = {
-                lat: parseFloat("{{ $ubi_inmueble->latitud }}"),
-                lng: parseFloat("{{ $ubi_inmueble->longitud }}")
+                lat: parseFloat("{{ $ubi_inmueble->latitud ?? '0' }}"),
+                lng: parseFloat("{{ $ubi_inmueble->longitud ?? '0' }}"),
             };
 
             // Si hay coordenadas almacenadas, usarlas; de lo contrario, usar la ubicación predeterminada
             const initialLocation = storedLocation.lat && storedLocation.lng ? storedLocation : defaultLocation;
-            
-            console.log("{{ $ubi_inmueble->es_exacta }}");
             
             map = new google.maps.Map(mapDiv, {
                 center: initialLocation,
@@ -796,7 +764,7 @@
 
             // Actualizar el mapa en función de la selección inicial (es_exacta)
             let esExactaData = false
-            if ("{{ $ubi_inmueble->es_exacta }}" === "1") {
+            if ("{{ $ubi_inmueble->es_exacta ?? '' }}" === "1") {
                 esExactaData = true
 
             } else {
@@ -1107,14 +1075,20 @@
                             console.log(this.codigo_unico);
                             
                         } else if (step === 2) /* Ubicacion */ {
+
+                            const finalLat = lat_inmueble !== undefined ? lat_inmueble : parseFloat("{{ $ubi_inmueble->latitud ?? '0' }}");
+                            const finalLng = lng_inmueble !== undefined ? lng_inmueble : parseFloat("{{ $ubi_inmueble->longitud ?? '0' }}");
+
                             formData.append('direccion', input.value)
                             formData.append('departamento_id', this.selectedDepartamento)
                             formData.append('provincia_id', this.selectedProvincia)
                             formData.append('distrito_id', this.selectedDistrito)
                             formData.append('ubicacion', 1)
                             formData.append('es_exacta', this.es_exacta)
-                            formData.append('latitud', lat_inmueble)
-                            formData.append('longitud', lng_inmueble)
+
+                            formData.append('latitud', finalLat);
+                            formData.append('longitud', finalLng);
+
                             formData.append('codigo_unico', this.codigo_unico) 
                         } else if (step === 3) /* Caracteristicas */ {
                             formData.append('is_puja', this.is_puja ? 1 : 0)

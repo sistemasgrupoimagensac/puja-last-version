@@ -305,16 +305,17 @@
 
                     </div>
 
-
                     {{-- Card - descripción --}}
                     <div class="description-container mt-5">
                         <h3 class="fw-bold">Sobre este inmueble</h3>
 
-                        <p class="fw-bold">Antigüedad: 
-                            @if ( null !== $aviso->inmueble->aniosAntiguedad() )
+                        <p> <span class="fw-bold">Antigüedad:</span>
+                            @if ( $aviso->inmueble->antiguedad() === 0 )
+                                <span>En construccion</span>
+                            @elseif ( $aviso->inmueble->antiguedad() === 1 )
+                                <span>En estreno</span>
+                            @elseif ( $aviso->inmueble->antiguedad() === 2 )
                                 <span class=" fw-normal">{{ $aviso->inmueble->aniosAntiguedad() }} años</span>
-                            @else
-                                <span class=" fw-normal">De Estreno</span>
                             @endif
                         </p>
 
