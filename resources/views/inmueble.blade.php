@@ -184,7 +184,7 @@
                             @if($aviso->inmueble->remate_direccion())
                                 <p>
                                     <span class="fw-bolder">Lugar del remate:</span>
-                                    {{ $aviso->inmueble->remate_direccion() }}
+                                    {{ $aviso->inmueble->remate_direccion() }} - {{ $aviso->inmueble->remate_nombre_centro() }}
                                 </p>
                             @endif
 

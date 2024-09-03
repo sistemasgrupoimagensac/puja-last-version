@@ -360,7 +360,7 @@
                                             aria-expanded="false"
                                         >Arbitraje</button>
                                         <ul class="dropdown-menu dropdown-menu-end">
-                                            <li class="dropdown-item" type="button"  @click=" selectDireccionRemate(2) ">CACLI</li>
+                                            <li class="dropdown-item" type="button" @click=" selectDireccionRemate(2) ">CACLI</li>
                                             <li class="dropdown-item" type="button" @click=" selectDireccionRemate(3) ">CAFI</li>
                                             <li class="dropdown-item" type="button" @click=" selectDireccionRemate(4) ">REMAJU</li>
                                             <li class="dropdown-item" type="button" @click=" selectDireccionRemate(1) ">Otros</li>
@@ -1074,7 +1074,8 @@
                             formData.append('remate_valor_tasacion', this.valor_tasacion)
                             formData.append('remate_partida_registral', this.partida_registral)
                             formData.append('remate_direccion_id', this.remate_direccion_id)
-                            formData.append('remate_direccion', `${this.direccion_remate} - ${this.remate_nombre_centro}`)
+                            formData.append('remate_direccion', this.direccion_remate)
+                            formData.append('remate_nombre_centro', this.remate_nombre_centro)
                             formData.append('remate_fecha', this.fecha_remate)
                             formData.append('remate_hora', this.hora_remate)
                             formData.append('remate_nombre_contacto', this.contacto_remate)

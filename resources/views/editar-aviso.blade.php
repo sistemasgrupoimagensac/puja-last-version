@@ -12,6 +12,9 @@
     
 {{-- 'inmueble','op_inmueble', 'ubi_inmueble', 'caract_inmueble_id', 'mult_inmueble', 'imgs_inmueble', 'videos_inmueble', 'planos_inmueble', 'extra_inmueble', 'extra_carac_inmueble' --}}
 
+{{ $caract_inmueble_id }}
+{{-- {{ $caract_inmueble_id->remate_precio_base }} --}}
+
     <div id="loader-overlay">
         <div class="flipping"></div>
     </div>
@@ -371,12 +374,21 @@
                                             aria-expanded="false"
                                         >Arbitraje</button>
                                         <ul class="dropdown-menu dropdown-menu-end">
-                                            <li class="dropdown-item" type="button"  @click=" selectDireccionRemate(2) ">CACLI</li>
+                                            <li class="dropdown-item" type="button" @click=" selectDireccionRemate(2) ">CACLI</li>
                                             <li class="dropdown-item" type="button" @click=" selectDireccionRemate(3) ">CAFI</li>
                                             <li class="dropdown-item" type="button" @click=" selectDireccionRemate(4) ">REMAJU</li>
                                             <li class="dropdown-item" type="button" @click=" selectDireccionRemate(1) ">Otros</li>
                                         </ul>
                                     </div>
+
+
+                                    <label class="text-secondary mt-2" for="direccion_remate">
+                                        Nombre del centro de arbitraje
+                                        <span style="font-size: .75rem">(opcional)</span>
+                                    </label>
+                                    <input type="text" id="remate_nombre_centro" x-model="remate_nombre_centro" class="form-control">
+
+
                                 </div>
     
                                 <div class="form-group w-100">
@@ -897,7 +909,6 @@
                 adicionales: [],
                 comodidades: [],
 
-                // fotos: imgs_inmueble ? imgs_inmueble.map(img => img.imagen) : [],
                 fotos: imgs_inmueble ? imgs_inmueble.map(img => ({ id: img.id, url: img.imagen })) : [],
                 imagen_principal: mult_inmueble ? mult_inmueble.imagen_principal : null,
                 videos: null,
@@ -916,23 +927,20 @@
                 anios_antiguedad: caract_inmueble_id ? caract_inmueble_id.anios_antiguedad : '',
                 precio_soles: caract_inmueble_id ? caract_inmueble_id.precio_soles : '',
                 precio_dolares: caract_inmueble_id ? caract_inmueble_id.precio_dolares : '',
-                acceso_playa: false,
-                aire_acondicionado: false,
-                acceso_parque: false,
-                ascensores: false,
                 codigo_unico: inmueble ? inmueble.codigo_unico : '',
 
                 // detalles de remate
-                base_remate: '',
-                valor_tasacion: '',
-                direccion_remate: '',
-                remate_direccion_id: 1,
-                partida_registral: '',
-                fecha_remate: '',
-                hora_remate: '',
-                contacto_remate: '',
-                telefono_contacto_remate: '',
-                correo_contacto_remate: '',
+                base_remate: caract_inmueble_id ? caract_inmueble_id.remate_precio_base : '',
+                valor_tasacion: caract_inmueble_id ? caract_inmueble_id.remate_valor_tasacion : '',
+                direccion_remate: caract_inmueble_id ? caract_inmueble_id.remate_direccion : '',
+                remate_direccion_id: caract_inmueble_id ? caract_inmueble_id.remate_direccion_id : 1,
+                remate_nombre_centro: caract_inmueble_id ? caract_inmueble_id.remate_nombre_centro : '',
+                partida_registral: caract_inmueble_id ? caract_inmueble_id.remate_partida_registral : '',
+                fecha_remate: caract_inmueble_id ? caract_inmueble_id.remate_fecha : '',
+                hora_remate: caract_inmueble_id ? caract_inmueble_id.remate_hora : '',
+                contacto_remate: caract_inmueble_id ? caract_inmueble_id.remate_nombre_contacto : '',
+                telefono_contacto_remate: caract_inmueble_id ? caract_inmueble_id.remate_telef_contacto : '',
+                correo_contacto_remate: caract_inmueble_id ? caract_inmueble_id.remate_correo_contacto : '',
 
                 map: null,
                 marker: null,
@@ -942,20 +950,27 @@
 
                 selectDireccionRemate(val) {
                     const $direccion_remate = document.getElementById("direccion_remate")
+                    const $remate_nombre_centro = document.getElementById("remate_nombre_centro")
                     $direccion_remate.disabled = true;
+                    $remate_nombre_centro.disabled = true;
                     if ( val === 1 ) {
                         this.remate_direccion_id = val
                         this.direccion_remate = ""
                         $direccion_remate.disabled = false;
+                        this.remate_nombre_centro = ""
+                        $remate_nombre_centro.disabled = false;
                     } else if ( val === 2 ) {
                         this.remate_direccion_id = val
-                        this.direccion_remate = "Av. Arequipa 330, oficina 907, Cercado de Lima (CACLI)"
+                        this.direccion_remate = "Av. Arequipa 330, oficina 907, Cercado de Lima"                        
+                        this.remate_nombre_centro = "Centro de arbitraje comercial Lima"
                     } else if ( val === 3 ) {
                         this.remate_direccion_id = val
-                        this.direccion_remate = "Av. Diez Canseco 442, oficina 202, Miraflores (CAFI)"
+                        this.direccion_remate = "Av. Diez Canseco 442, oficina 202, Miraflores"                        
+                        this.remate_nombre_centro = "Centro de arbitraje financiero Inmobiliario"
                     } else if ( val === 4 ) {
                         this.remate_direccion_id = val
-                        this.direccion_remate = "Remate Virtual (REMAJU)"
+                        this.direccion_remate = "Remate Virtual"                        
+                        this.remate_nombre_centro = "Remate electrónico judicial"
                     }
                 },
 
@@ -1102,12 +1117,13 @@
                             formData.append('anios_antiguedad', this.anios_antiguedad)
                             formData.append('precio_soles', this.precio_soles)
                             formData.append('precio_dolares', this.precio_dolares)
-                            
+
                             formData.append('remate_precio_base', this.base_remate)
                             formData.append('remate_valor_tasacion', this.valor_tasacion)
                             formData.append('remate_partida_registral', this.partida_registral)
                             formData.append('remate_direccion_id', this.remate_direccion_id)
                             formData.append('remate_direccion', this.direccion_remate)
+                            formData.append('remate_nombre_centro', this.remate_nombre_centro)
                             formData.append('remate_fecha', this.fecha_remate)
                             formData.append('remate_hora', this.hora_remate)
                             formData.append('remate_nombre_contacto', this.contacto_remate)

@@ -227,6 +227,10 @@ class Inmueble extends Model
     {
         return optional(optional($this->principal)->caracteristicas)->remate_direccion;
     }
+    public function remate_nombre_centro()
+    {
+        return optional(optional($this->principal)->caracteristicas)->remate_nombre_centro;
+    }
     public function remate_fecha()
     {
         return optional(optional($this->principal)->caracteristicas)->remate_fecha;

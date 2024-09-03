@@ -1,5 +1,7 @@
+{{ $estado_aviso }}
 <div class="card mb-3 shadow">
     <div class="row g-0">
+
 
         <div class="col-md-3">
             <a href="{{ $link }}" target="_blank" class="text-decoration-none text-reset">

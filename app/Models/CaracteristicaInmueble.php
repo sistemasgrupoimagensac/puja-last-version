@@ -30,6 +30,7 @@ class CaracteristicaInmueble extends Model
         'remate_partida_registral',
         'remate_direccion_id',
         'remate_direccion',
+        'remate_nombre_centro',
         'remate_fecha',
         'remate_hora',
         'remate_nombre_contacto',
