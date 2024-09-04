@@ -17,6 +17,9 @@ use App\Http\Controllers\Web\Panel\MisAvisosController;
 use App\Http\Controllers\Web\Panel\PlanesContratadosController;
 use App\Http\Controllers\Web\Puja\MainController;
 
+// Post del blog
+use App\Models\Post;
+
 Route::get('/', MainController::class);
 Route::get('/libro-reclamaciones', [SuppliersController::class, 'libroReclamos'])->name('libro_reclamaciones');
 
@@ -161,4 +164,13 @@ Route::post('/contacto', [ContactoController::class, 'store'])->name('post.conta
 
 Route::fallback(function () {
     return view('errors.404');
+});
+
+// Blog posts
+
+Route::get('/blog/{slug}', function ($slug) {
+    $post = Post::where('slug', $slug)->where('is_published', true)->firstOrFail();
+    
+    // Si el post está publicado, se muestra la vista del post.
+    return view('blog.show', compact('post'));
 });
