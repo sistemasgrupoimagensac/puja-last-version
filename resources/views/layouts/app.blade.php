@@ -24,7 +24,7 @@
 
 		@yield('header')
 
-			@yield('content')
+		@yield('content')
 
 		@yield('footer')
 

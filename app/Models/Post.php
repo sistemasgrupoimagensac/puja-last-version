@@ -8,16 +8,15 @@ use Illuminate\Support\Str;
 
 class Post extends Model
 {
-    protected $fillable = ['title', 'content', 'slug', 'is_published'];
+    protected $fillable = ['title', 'content', 'slug', 'image', 'is_published'];
 
     public static function boot()
     {
         parent::boot();
 
-        // Al crear o actualizar, genera el slug si no está presente.
         static::saving(function ($post) {
-            if (empty($post->slug)) {
-                $post->slug = Str::slug($post->title);
+            if ($post->isDirty('title')) {
+                $post->slug = Str::slug($post->title);  // Genera el slug automáticamente
             }
         });
     }

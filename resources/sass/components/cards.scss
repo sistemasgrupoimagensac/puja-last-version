@@ -5,6 +5,12 @@
   height: 24rem;
   margin: 1rem;
 
+  &.blog {
+    height: 30rem;
+    width: 20rem;
+    min-width: 20rem;
+  }
+
   .card-image-container {
     width: 100%;
     height: 12.5rem;

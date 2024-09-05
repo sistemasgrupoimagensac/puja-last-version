@@ -6,6 +6,9 @@
     <title>{{ $post->title }}</title>
 </head>
 <body>
+  @if ($post->image)
+    <img src="{{ asset('storage/' . $post->image) }}" alt="Imagen del post">
+  @endif
   <h1>{{ $post->title }}</h1>
   {!! $post->content !!}  <!-- Renderiza HTML -->
   <p><strong>Publicado: </strong> {{ $post->created_at->format('d M, Y') }}</p>

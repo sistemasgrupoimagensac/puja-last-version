@@ -167,10 +167,17 @@ Route::fallback(function () {
 });
 
 // Blog posts
-
 Route::get('/blog/{slug}', function ($slug) {
     $post = Post::where('slug', $slug)->where('is_published', true)->firstOrFail();
     
     // Si el post está publicado, se muestra la vista del post.
-    return view('blog.show', compact('post'));
+    return view('blog.post', compact('post'));
+});
+
+Route::get('/blog', function () {
+    // Obtener todos los posts publicados
+    $posts = Post::where('is_published', true)->latest()->get();
+    
+    // Retornar la vista de blog con todos los posts
+    return view('blog.index', compact('posts'));
 });
