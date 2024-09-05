@@ -19,6 +19,7 @@ export default defineConfig({
         'resources/sass/pages/terminos.scss',
         'resources/sass/pages/contacto.scss',
         'resources/sass/pages/blog.scss',
+        'resources/sass/pages/post.scss',
         // sass - components
         "resources/sass/components/whatsapp_modal_contact.scss",
         "resources/sass/components/whatsapp_modal_inmueble_contact.scss",

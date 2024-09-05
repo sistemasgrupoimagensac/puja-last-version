@@ -1,0 +1,20 @@
+.post-titular {
+  height: 400px;
+  position: relative;
+
+  .post-titular-imagen {
+    background-image: linear-gradient(rgba(4, 19, 61, 0.712), rgba(158, 158, 158, 0.678)),url("{{ asset('storage/' . $post->image) }}");
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+
+  .post-titular-titulo {
+    max-width: 1440px;
+    position: absolute;
+    top: 30%;
+    // left:;
+    color: white;
+  }
+}

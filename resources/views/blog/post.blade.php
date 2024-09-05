@@ -1,4 +1,47 @@
-<!DOCTYPE html>
+@extends('layouts.app')
+
+@section('title')
+    Blog
+@endsection
+
+@push('styles')
+    @vite(['resources/sass/pages/post.scss'])
+@endpush
+
+@section('content')
+
+<div class="post-titular">
+  {{-- <img src="{{ asset('storage/' . $post->image) }}" class="post-titular-imagen" alt="Imagen del post"> --}}
+  <div class="post-titular-imagen"></div>
+  <style>
+    .post-titular {
+      .post-titular-imagen {
+        background-image: linear-gradient(rgba(4, 19, 61, 0.712), rgba(158, 158, 158, 0.678)),url("{{ asset('storage/' . $post->image) }}");
+      }
+    }
+  </style>
+  <div class="mx-auto">
+    <h1 class="post-titular-titulo display-4 fw-bold">{{ $post->title }}</h1>
+  </div>
+</div>
+
+<div class="container my-5">
+
+  <div class="d-flex justify-content-center">
+    <div style="max-width: 50rem; text-align: justify;">
+  
+      <p><strong>Publicado: </strong> {{ $post->created_at->format('d M, Y') }}</p>
+      {!! $post->content !!}
+    </div>
+  </div>
+
+</div>
+
+    
+@endsection
+
+
+{{-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,4 +57,4 @@
   <p><strong>Publicado: </strong> {{ $post->created_at->format('d M, Y') }}</p>
   
 </body>
-</html>
+</html> --}}
