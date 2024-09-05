@@ -1,13 +1,29 @@
 @extends('layouts.app')
 
+@section('title')
+    Blog
+@endsection
+
+@push('styles')
+    @vite(['resources/sass/pages/blog.scss'])
+@endpush
+
 @section('content')
 
-    <h1>Blog</h1>
+<div class="blog-titular position-relative">
+    <div class="blog-titular-parallax"></div>
+    <p class="position-absolute top-50 w-100 text-center text-white display-1 fw-bolder">Blog de Puja Inmobiliaria</p>
+</div>
 
-    <div class="row row-cols-1 row-cols-lg-3 row-cols-xl-5">
+<div class="container">
+
+    <div class="row justify-content-center row-cols-1 row-cols-lg-2 row-cols-xl-3 my-5">
         @foreach ($posts as $post)
             <x-post-card :post="$post"></x-post-card>
         @endforeach
     </div>
-    
+   
+</div>
+
+
 @endsection

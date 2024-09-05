@@ -45,7 +45,15 @@ class PostResource extends Resource
                     ->image()
                     ->visibility('public')
                     ->required()
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+
+                    ->image()
+                    ->imageEditor()
+                    ->imageEditorAspectRatios([
+                        '16:9',
+                        '4:3',
+                        '1:1',
+                    ]),
         
             ]),
         ]);
