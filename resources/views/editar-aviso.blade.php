@@ -12,7 +12,7 @@
     
 {{-- 'inmueble','op_inmueble', 'ubi_inmueble', 'caract_inmueble_id', 'mult_inmueble', 'imgs_inmueble', 'videos_inmueble', 'planos_inmueble', 'extra_inmueble', 'extra_carac_inmueble' --}}
 
-{{ $caract_inmueble_id }}
+{{-- {{ $caract_inmueble_id }} --}}
 {{-- {{ $caract_inmueble_id->remate_precio_base }} --}}
 
     <div id="loader-overlay">
