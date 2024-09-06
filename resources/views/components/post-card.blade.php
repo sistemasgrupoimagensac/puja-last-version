@@ -5,7 +5,6 @@
 
     </div>
     <div class="card-body">
-      {{-- <h4 class="card-title text-primary">{{ $post->title }}</h4> --}}
       <a href="{{ url('/blog/' . $post->slug) }}" class="post-card-title card-title h4 text-decoration-none d-block" target="blank">{{ $post->title }}</a>
       <div>
         <a href="{{ url('/blog/' . $post->slug) }}" class="btn btn-outline-secondary btn-sm mt-4" target="blank">Leer más</a>

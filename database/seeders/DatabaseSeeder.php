@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             SubTiposInmueblesSeeder::class,
             CategoriasCaracteristicasSeeder::class,
             CaracteristicasSeeder::class,
+            PostSeeder::class,
         ]);
         /**
          * Aqui ya son seeders de prueba, que se debe de obviar para producción

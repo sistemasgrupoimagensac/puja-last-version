@@ -110,6 +110,22 @@ class UsuariosSeeder extends Seeder
             'updated_at'        => now(),
         ];
 
-        DB::table('users')->insert([$user_1, $user_2, $user_3, $user_4, $user_5, $user_6]);
+        $user_admin = [
+            'tipo_usuario_id'   => 6,
+            'not_pay'           => 1,
+            'codigo_unico'      => 'PUJA-001-001-007',
+            'nombres'           => 'Admin',
+            'apellidos'         => 'Admin',
+            'email'             => 'admin@pujainmobiliaria.com.pe',
+            'password'          => Hash::make('7VE#SvHO'),
+            'tipo_documento_id' => 4,
+            'numero_documento'  => '00000001',
+            'acepta_termino_condiciones' => true,
+            'acepta_confidencialidad' => true,
+            'created_at'        => now(),
+            'updated_at'        => now(),
+        ];
+
+        DB::table('users')->insert([$user_1, $user_2, $user_3, $user_4, $user_5, $user_6, $user_admin]);
     }
 }

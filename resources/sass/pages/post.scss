@@ -1,20 +1,27 @@
 .post-titular {
   height: 400px;
-  position: relative;
 
   .post-titular-imagen {
-    background-image: linear-gradient(rgba(4, 19, 61, 0.712), rgba(158, 158, 158, 0.678)),url("{{ asset('storage/' . $post->image) }}");
+    background-image: linear-gradient(rgba(4, 19, 61, 0.712), rgba(158, 158, 158, 0.678));
     height: 100%;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.5);
+    }
   }
 
   .post-titular-titulo {
     max-width: 1440px;
-    position: absolute;
-    top: 30%;
-    // left:;
     color: white;
+  }
+}
+
+.post-content {
+
+  img {
+    width: 100%;
   }
 }
