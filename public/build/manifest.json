@@ -48,6 +48,10 @@
     "file": "assets/slide1-CFAUMLwB.webp",
     "src": "resources/images/slide1.webp"
   },
+  "resources/images/slide2.webp": {
+    "file": "assets/slide2-DIEIRj3r.webp",
+    "src": "resources/images/slide2.webp"
+  },
   "resources/js/app.js": {
     "file": "assets/app-CEyhmJdQ.js",
     "name": "app",
@@ -203,7 +207,7 @@
     ]
   },
   "resources/sass/app.scss": {
-    "file": "assets/app-D5CqsREb.css",
+    "file": "assets/app-DBejIiFs.css",
     "src": "resources/sass/app.scss",
     "isEntry": true
   },
@@ -227,14 +231,9 @@
     "src": "resources/sass/components/menu_panel.scss",
     "isEntry": true
   },
-  "resources/sass/components/whatsapp_modal_contact.scss": {
-    "file": "assets/whatsapp_modal_contact-oApYAwuG.css",
-    "src": "resources/sass/components/whatsapp_modal_inmueble_contact.scss",
-    "isEntry": true
-  },
-  "resources/sass/components/whatsapp_modal_inmueble_contact.scss": {
-    "file": "assets/whatsapp_modal_contact-oApYAwuG.css",
-    "src": "resources/sass/components/whatsapp_modal_inmueble_contact.scss",
+  "resources/sass/pages/blog.scss": {
+    "file": "assets/blog-BrUZmyRB.css",
+    "src": "resources/sass/pages/blog.scss",
     "isEntry": true
   },
   "resources/sass/pages/contacto.scss": {
@@ -260,6 +259,11 @@
   "resources/sass/pages/planes.scss": {
     "file": "assets/planes-DCwv9xvJ.css",
     "src": "resources/sass/pages/planes.scss",
+    "isEntry": true
+  },
+  "resources/sass/pages/post.scss": {
+    "file": "assets/post-RfDb7_P1.css",
+    "src": "resources/sass/pages/post.scss",
     "isEntry": true
   },
   "resources/sass/pages/publica-inmueble.scss": {
