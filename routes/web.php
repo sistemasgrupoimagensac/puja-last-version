@@ -11,6 +11,7 @@ use App\Http\Middleware\SessionData;
 use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\SuppliersController;
+use App\Http\Controllers\TransactionsController;
 use App\Http\Controllers\Web\Panel\PerfilController;
 use App\Http\Controllers\Web\Panel\PasswordController;
 use App\Http\Controllers\Web\Panel\MisAvisosController;
@@ -181,3 +182,6 @@ Route::get('/blog', function () {
     // Retornar la vista de blog con todos los posts
     return view('blog.index', compact('posts'));
 });
+
+// Transaccion
+Route::post('/save-transaction', [TransactionsController::class, 'store']);

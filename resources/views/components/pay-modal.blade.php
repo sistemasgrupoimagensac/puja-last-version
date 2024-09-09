@@ -59,10 +59,6 @@
                                 </div>
                             </div>
 
-                            {{-- error de completar campos tarjeta de credito --}}
-                            {{-- <div class="card text-bg-danger" x-show="errorInputCreditcard">
-                                <p id="error-message" class="card-text text-center">Complete todos los campos de la tarjeta.</p>
-                            </div> --}}
                         </div>
                         
                     </div>
@@ -154,7 +150,7 @@
         </div>
     </div>
 </div>
-@props(['avisoId', 'userName', 'userSurname', 'userEmail', 'userPhone'])
+@props(['avisoId', 'userName', 'userSurname', 'userEmail', 'userPhone', 'userTypeId'])
 
 <script>
 
@@ -258,6 +254,19 @@ function creditCardData() {
         },
 
         processPayment(formPost) {
+
+
+            let transactionData = {
+                amount: formPost.amount,
+                currency: formPost.currency,
+                customer_name: formPost.customer.name,
+                customer_email: formPost.customer.email,
+                customer_phone_number: formPost.customer.phone_number,
+                description: formPost.description,
+                tipo_usuario_id: {{ $userTypeId }}
+            }
+
+
             fetch("/pagar-openpay", {
                 method: 'POST',
                 headers: {
@@ -271,6 +280,19 @@ function creditCardData() {
             .then( data => {
 
                 if (data.error_code) {
+
+                    console.log(data);
+
+                    transactionData = {
+                        ...transactionData,
+                        status: 0, // Transacción fallida
+                        error_description: data.description,
+                        error_code: data.error_code,
+                        request_id: data.request_id
+                    };
+
+                    this.saveTransaction(transactionData);
+                    
                     this.clearForm()
                     this.isProcessing = false
                     document.getElementById('pay-button').disabled = false
@@ -281,6 +303,20 @@ function creditCardData() {
                     }, 5000);
 
                 } else {
+
+                    console.log(data);
+
+                    transactionData = {
+                        ...transactionData,
+                        status: 1, // Transacción exitosa
+                        card_bank_code: data.card.bank_code,
+                        card_bank_name: data.card.bank_name,
+                        card_holder_name: data.card.holder_name,
+                        card_type: data.card.type,
+                    };
+
+                    this.saveTransaction(transactionData);
+
                     this.clearForm()
                     this.isProcessing = false
                     document.getElementById('pay-button').disabled = false
@@ -291,9 +327,29 @@ function creditCardData() {
                     }, 5000);
                 }
 
+
             }).catch(error => {
-                console.log(error)
+                console.error(error)
             })
+        },
+
+        saveTransaction(transactionData) {
+            fetch("/save-transaction", {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify(transactionData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Transacción guardada:', data);
+            })
+            .catch(error => {
+                console.error('Error guardando la transacción:', error);
+            });
         },
 
         contratarPlan(price, description) {
@@ -501,6 +557,7 @@ function consultaDocumento() {
         }
     }
 }
+
 </script>
 
 @push('scripts')
