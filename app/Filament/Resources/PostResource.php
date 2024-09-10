@@ -12,6 +12,12 @@ use Filament\Tables\Table;
 use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Support\Str;
 use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\Action;
 use Illuminate\Http\UploadedFile;
 
 
@@ -27,7 +33,7 @@ class PostResource extends Resource
         ->schema([
             Forms\Components\Grid::make()
             ->schema([
-                Forms\Components\TextInput::make('title')
+                TextInput::make('title')
                     ->required()
                     ->maxLength(255)
                     ->afterStateUpdated(fn ($state, callable $set) => $set('slug', Str::slug($state)))
@@ -63,26 +69,26 @@ class PostResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('image')
+                ImageColumn::make('image')
                     ->disk('public')
                     ->size(50),
-                Tables\Columns\TextColumn::make('title')
+                TextColumn::make('title')
                     ->sortable()
                     ->url(fn ($record) => url('/blog/' . $record->slug))
                     ->openUrlInNewTab(),
-                Tables\Columns\IconColumn::make('is_published')
+                IconColumn::make('is_published')
                     ->boolean()
                     ->trueIcon('heroicon-o-check-circle')
                     ->falseIcon('heroicon-o-x-circle')
                     ->trueColor('success')
                     ->falseColor('danger'),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime(),
             ])
             ->filters([])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\Action::make('toggle_publish')
+                EditAction::make(),
+                Action::make('toggle_publish')
                     ->label(fn ($record) => $record->is_published ? 'Ocultar' : 'Publicar')
                     ->icon(fn ($record) => $record->is_published ? 'heroicon-o-x-circle' : 'heroicon-o-check-circle')
                     ->color(fn ($record) => $record->is_published ? 'danger' : 'success')

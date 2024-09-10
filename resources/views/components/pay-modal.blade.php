@@ -304,8 +304,6 @@ function creditCardData() {
 
                 } else {
 
-                    console.log(data);
-
                     transactionData = {
                         ...transactionData,
                         status: 1, // Transacción exitosa
