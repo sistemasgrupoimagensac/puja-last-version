@@ -4,41 +4,6 @@
 
     <div class="row m-0 p-0">
 
-      {{-- <div class="d-none d-md-block col p-0">
-        <div class="modal-image-container">
-          <img src="{{ asset('images/signin5.webp') }}" class="modal-image-custom" alt="Imagen pujando por casa">
-        </div>
-      </div>
-
-      <div class="col p-4">
-        <form action="/">
-          @csrf
-          <div class="d-flex flex-column gap-4">
-
-            <fieldset class="d-flex flex-column gap-2">
-              <legend class="h6 m-0 p-0">Realiza una oferta para este inmueble</legend>
-
-              <div class="form-floating">
-                <input type="text" class="form-control" id="precio_base" name="precio_base" placeholder="Precio base" disabled readonly value="{{ $monto }}">
-                <label class="text-secondary" for="precio_base" id="label_precio_base">Precio base</label>
-              </div>
-
-              <div class="form-floating">
-                <input type="text" class="form-control" id="monto_ofrecido" name="monto_ofrecido" placeholder="Nombre" required>
-                <label class="text-secondary" for="monto_ofrecido" id="label_monto_ofrecido">Monto ofrecido</label>
-              </div>
-
-
-            </fieldset>
-
-
-          <input class="btn button-orange w-100 fw-bold p-2" type="submit" value="Enviar">
-          </div>
-  
-        </form>
-
-      </div> --}}
-
       <div class="row m-0 p-0">
 
         <div class="d-none d-md-block col p-0">

@@ -47,8 +47,8 @@ export default defineConfig({
         // js - scripts - components
         "resources/js/scripts/components/back_button.js",
         "resources/js/scripts/components/card_simple.js",
-        "resources/js/scripts/components/whatsapp_modal_contact.js",
-        "resources/js/scripts/components/whatsapp_modal_inmueble_contact.js",
+        // "resources/js/scripts/components/whatsapp_modal_contact.js",
+        // "resources/js/scripts/components/whatsapp_modal_inmueble_contact.js",
         "resources/js/scripts/components/footer.js",
         "resources/js/scripts/components/puja_modal_contact.js",
 
