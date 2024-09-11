@@ -280,9 +280,6 @@ function creditCardData() {
             .then( data => {
 
                 if (data.error_code) {
-
-                    console.log(data);
-
                     transactionData = {
                         ...transactionData,
                         status: 0, // Transacción fallida
@@ -303,7 +300,6 @@ function creditCardData() {
                     }, 5000);
 
                 } else {
-
                     transactionData = {
                         ...transactionData,
                         status: 1, // Transacción exitosa
@@ -324,7 +320,6 @@ function creditCardData() {
                         this.contratarPlan(formPost.amount, formPost.description);
                     }, 5000);
                 }
-
 
             }).catch(error => {
                 console.error(error)

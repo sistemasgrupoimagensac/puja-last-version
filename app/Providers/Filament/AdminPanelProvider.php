@@ -40,6 +40,7 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
                 \App\Filament\Widgets\BlogLinkWidget::class,
+                \App\Filament\Widgets\GoHomeWidget::class, 
             ])
             ->middleware([
                 EncryptCookies::class,

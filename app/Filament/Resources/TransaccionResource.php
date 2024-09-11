@@ -42,14 +42,6 @@ class TransaccionResource extends Resource
                     ->sortable()
                     ->formatStateUsing(fn (Transaccion $record): string => $record->customer_name )
                     ->description(fn (Transaccion $record): ?string => $record->customer_email ),
-                // TextColumn::make('tipo_usuario_id')
-                //     ->label('Tipo de Usuario')
-                //     ->formatStateUsing(fn ($record) => match ($record->tipo_usuario_id) {
-                //         2 => 'Propietario',
-                //         3 => 'Corredor Inmobiliario',
-                //         4 => 'Acreedor Hipotecario',
-                //         default => 'Desconocido',
-                //     }),
 
                 TextColumn::make('amount')
                     ->label('Monto')

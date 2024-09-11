@@ -4,7 +4,7 @@
           <h2 class="text-lg font-semibold">
               Ir al Blog
           </h2>
-          <a href="{{ url('/blog') }}" class="text-primary-600 hover:underline">
+          <a href="{{ url('/blog') }}" class="text-primary-600 hover:underline" target="blank">
               Ver todas las publicaciones
           </a>
       </div>
