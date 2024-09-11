@@ -582,14 +582,14 @@
                                 <button class="btn btn-light border-secondary-subtle" type="button" id="whatsapp_contact_button">
                                     <i class="fab fa-whatsapp"></i> WhatsApp
                                 </button>
-                                <x-whatsapp-modal-inmueble-contact></x-whatsapp-modal-inmueble-contact>
+                                {{-- <x-whatsapp-modal-inmueble-contact></x-whatsapp-modal-inmueble-contact> --}}
                 
                                 {{-- contacto por correo --}}
                                 <button class="btn btn-light border-secondary-subtle" id="btn-enviar-form-single">
                                     <i class="fa-regular fa-paper-plane"></i> Enviar
                                 </button>
 
-                                <x-puja-modal-contact :monto="number_format($aviso->inmueble->precioSoles())"></x-puja-modal-contact>
+                                {{-- <x-puja-modal-contact :monto="number_format($aviso->inmueble->precioSoles())"></x-puja-modal-contact> --}}
                 
                                 <div class="form-group d-flex align-items-top gap-2 mb-4 position-relative">
                                   
