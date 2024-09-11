@@ -20,13 +20,12 @@ export default defineConfig({
         'resources/sass/pages/contacto.scss',
         'resources/sass/pages/blog.scss',
         'resources/sass/pages/post.scss',
+        'resources/sass/pages/404.scss',
         // sass - components
         "resources/sass/components/menu_panel.scss",
         "resources/sass/components/footer.scss",
         "resources/sass/components/card_plan.scss",
         "resources/sass/components/card-plan-propietario.scss",
-        // CSS
-        "resources/css/app.css",
 
         // js
         "resources/js/app.js",
@@ -47,8 +46,6 @@ export default defineConfig({
         // js - scripts - components
         "resources/js/scripts/components/back_button.js",
         "resources/js/scripts/components/card_simple.js",
-        // "resources/js/scripts/components/whatsapp_modal_contact.js",
-        // "resources/js/scripts/components/whatsapp_modal_inmueble_contact.js",
         "resources/js/scripts/components/footer.js",
         "resources/js/scripts/components/puja_modal_contact.js",
 

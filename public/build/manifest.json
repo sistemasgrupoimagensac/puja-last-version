@@ -35,11 +35,6 @@
     "file": "assets/fa-v4compatibility-BRdYr4HJ.woff2",
     "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2"
   },
-  "resources/css/app.css": {
-    "file": "assets/app-ytxSy7Dn.css",
-    "src": "resources/css/app.css",
-    "isEntry": true
-  },
   "resources/images/bg3.webp": {
     "file": "assets/bg3-UVkOpnB3.webp",
     "src": "resources/images/bg3.webp"
@@ -102,18 +97,6 @@
     "file": "assets/puja_modal_contact-l0sNRNKZ.js",
     "name": "puja_modal_contact",
     "src": "resources/js/scripts/components/puja_modal_contact.js",
-    "isEntry": true
-  },
-  "resources/js/scripts/components/whatsapp_modal_contact.js": {
-    "file": "assets/whatsapp_modal_contact-BUM2Unt-.js",
-    "name": "whatsapp_modal_contact",
-    "src": "resources/js/scripts/components/whatsapp_modal_contact.js",
-    "isEntry": true
-  },
-  "resources/js/scripts/components/whatsapp_modal_inmueble_contact.js": {
-    "file": "assets/whatsapp_modal_inmueble_contact-l0sNRNKZ.js",
-    "name": "whatsapp_modal_inmueble_contact",
-    "src": "resources/js/scripts/components/whatsapp_modal_inmueble_contact.js",
     "isEntry": true
   },
   "resources/js/scripts/contacto.js": {
@@ -207,7 +190,7 @@
     ]
   },
   "resources/sass/app.scss": {
-    "file": "assets/app-DBejIiFs.css",
+    "file": "assets/app-Cfm9A8_o.css",
     "src": "resources/sass/app.scss",
     "isEntry": true
   },
@@ -229,6 +212,11 @@
   "resources/sass/components/menu_panel.scss": {
     "file": "assets/menu_panel-BBxd21Df.css",
     "src": "resources/sass/components/menu_panel.scss",
+    "isEntry": true
+  },
+  "resources/sass/pages/404.scss": {
+    "file": "assets/404-C-5gW7TM.css",
+    "src": "resources/sass/pages/404.scss",
     "isEntry": true
   },
   "resources/sass/pages/blog.scss": {
