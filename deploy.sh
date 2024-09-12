@@ -11,40 +11,61 @@ NC='\e[0m' # Sin color (reset)
 deploy_from_scratch() {
     echo -e "${BLUE}Iniciando despliegue desde cero...${NC}"
 
-    # Pedir la URL del repositorio
+    # Paso 0: Descargar Composer localmente en ~/composer.phar
+    echo -e "${YELLOW}Descargando Composer localmente...${NC}"
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=$HOME --filename=composer.phar
+
+    # Actualizar Composer a la versión 2 (si es necesario)
+    echo -e "${YELLOW}Actualizando Composer a la versión 2...${NC}"
+    php ~/composer.phar self-update --2
+
+    # Paso 1: Pedir la URL del repositorio
     read -p "Ingresa la URL del repositorio (HTTPS o SSH): " repo_url
 
     # Pedir el nombre del branch
     read -p "Ingresa el nombre de la rama (branch): " branch_name
 
-    # Clonar el repositorio
+    # Paso 2: Clonar el repositorio
     echo -e "${YELLOW}Clonando el repositorio...${NC}"
     git clone --branch $branch_name $repo_url
 
     # Extraer el nombre del repositorio de la URL
     repo_name=$(basename -s .git "$repo_url")
 
-    # Verificar si la carpeta public_html existe y crearla si no
-    if [ ! -d "$repo_name/public_html" ]; then
+    # Cambiar al directorio del proyecto
+    cd "$repo_name"
+
+    # Paso 2.1: Instalar dependencias con Composer (localmente usando php)
+    echo -e "${YELLOW}Instalando dependencias con Composer...${NC}"
+    php ~/composer.phar install --no-dev --optimize-autoloader
+
+    # Paso 3: Verificar si la carpeta public_html existe y crearla si no
+    if [ ! -d "public_html" ]; then
         echo -e "${YELLOW}Creando la carpeta public_html...${NC}"
-        mkdir "$repo_name/public_html"
+        mkdir public_html
     fi
 
-    # Mover el contenido de public a public_html
+    # Paso 4: Mover el contenido de public a public_html
     echo -e "${YELLOW}Moviendo el contenido de public a public_html...${NC}"
-    mv "$repo_name/public/"* "$repo_name/public_html/"
+    mv public/* public_html/
 
-    # Crear el enlace simbólico del storage
+    # Paso 5: Crear el enlace simbólico para storage
     echo -e "${YELLOW}Creando enlace simbólico para storage en public_html...${NC}"
-    ln -s ../storage/app/public "$repo_name/public_html/storage"
+    ln -s ../storage/app/public public_html/storage
 
-    # Ejecutar las migraciones y seeders
+    # Paso 6: Ejecutar las migraciones
     echo -e "${YELLOW}Ejecutando migraciones en producción...${NC}"
-    cd "$repo_name"
     php artisan migrate --force
 
+    # Paso 7: Ejecutar seeders
     echo -e "${YELLOW}Ejecutando seeders en producción...${NC}"
     php artisan db:seed --force
+
+    # Paso 8: Optimizar la aplicación para producción
+    echo -e "${YELLOW}Optimizando la aplicación para producción...${NC}"
+    php artisan config:cache
+    php artisan route:cache
+    php artisan view:cache
 
     # Confirmación
     echo -e "${GREEN}Despliegue desde cero completado.${NC}"
@@ -66,7 +87,7 @@ update_project() {
 
     # Mover el contenido actualizado de public a public_html
     echo -e "${YELLOW}Moviendo el contenido actualizado de public a public_html...${NC}"
-    mv "$repo_name/public/"* "$repo_name/public_html/"
+    mv public/* public_html/
 
     # Confirmación
     echo -e "${GREEN}Actualización completada.${NC}"
