@@ -117,7 +117,7 @@
                                 Servicios
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Servicios</a></li>
+                                <li><a class="dropdown-item" href="/blog">Blog</a></li>
                             </ul>
                         </li>
                         
