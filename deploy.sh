@@ -35,8 +35,7 @@ deploy_from_scratch() {
 
     # Paso 3: Mover el contenido de la carpeta temporal a la raíz, excluyendo deploy.sh
     echo -e "${YELLOW}Moviendo el contenido de la carpeta temporal a la raíz, excluyendo deploy.sh...${NC}"
-    shopt -s extglob
-    mv temp_repo/!(deploy.sh) ./
+    rsync -av --exclude='deploy.sh' temp_repo/ ./
 
     # Eliminar la carpeta temporal
     echo -e "${YELLOW}Eliminando la carpeta temporal...${NC}"
