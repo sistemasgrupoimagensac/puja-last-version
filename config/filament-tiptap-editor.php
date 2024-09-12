@@ -2,21 +2,6 @@
 
 return [
 
-    'accepted_file_types' => ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml', 'application/pdf'],
-    'disk' => 'public',  // El disco donde se guardarán las imágenes
-    'directory' => 'images',  // El directorio donde se guardarán
-    'visibility' => 'public',
-    'preserve_file_names' => false,  // Esto genera nombres únicos para los archivos
-    'max_file_size' => 2048,  // Tamaño máximo del archivo en KB
-    'image_crop_aspect_ratio' => null,
-    'image_resize_target_width' => null,
-    'image_resize_target_height' => null,
-
-    'direction' => 'ltr',
-    'max_content_width' => '5xl',
-    'disable_stylesheet' => false,
-    'disable_link_as_button' => false,
-
     /*
     |--------------------------------------------------------------------------
     | Profiles
@@ -74,7 +59,7 @@ return [
     */
     'accepted_file_types' => ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml', 'application/pdf'],
     'disk' => 'public',
-    'directory' => 'images',
+    'directory' => 'images/content_post',
     'visibility' => 'public',
     'preserve_file_names' => false,
     'max_file_size' => 2042,

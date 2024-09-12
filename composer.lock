@@ -74,16 +74,16 @@
         },
         {
             "name": "awcodes/filament-tiptap-editor",
-            "version": "v3.4.13",
+            "version": "v3.4.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/awcodes/filament-tiptap-editor.git",
-                "reference": "411ee658176054cfeecd202faaab8660fa28ee0d"
+                "reference": "bf24b5b8c99f81d8db71c91962734a8376999192"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/awcodes/filament-tiptap-editor/zipball/411ee658176054cfeecd202faaab8660fa28ee0d",
-                "reference": "411ee658176054cfeecd202faaab8660fa28ee0d",
+                "url": "https://api.github.com/repos/awcodes/filament-tiptap-editor/zipball/bf24b5b8c99f81d8db71c91962734a8376999192",
+                "reference": "bf24b5b8c99f81d8db71c91962734a8376999192",
                 "shasum": ""
             },
             "require": {
@@ -145,7 +145,7 @@
             ],
             "support": {
                 "issues": "https://github.com/awcodes/filament-tiptap-editor/issues",
-                "source": "https://github.com/awcodes/filament-tiptap-editor/tree/v3.4.13"
+                "source": "https://github.com/awcodes/filament-tiptap-editor/tree/v3.4.14"
             },
             "funding": [
                 {
@@ -153,7 +153,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-08-30T17:43:11+00:00"
+            "time": "2024-09-10T16:08:52+00:00"
         },
         {
             "name": "aws/aws-crt-php",
