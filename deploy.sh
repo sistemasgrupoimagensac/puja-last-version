@@ -7,6 +7,37 @@ YELLOW='\e[33m'
 BLUE='\e[34m'
 NC='\e[0m' # Sin color (reset)
 
+# Función para validar la clonación del repositorio y el branch
+validate_repo_and_branch() {
+    while true; do
+        # Pedir la URL del repositorio
+        read -p "Ingresa la URL del repositorio (HTTPS o SSH): " repo_url
+
+        # Pedir el nombre del branch
+        read -p "Ingresa el nombre de la rama (branch): " branch_name
+
+        # Intentar clonar el repositorio en una carpeta temporal para verificar
+        echo -e "${YELLOW}Verificando el acceso al repositorio y rama...${NC}"
+        git clone --branch $branch_name $repo_url temp_repo 2> error.log
+
+        # Verificar si hubo un error
+        if [ $? -ne 0 ]; then
+            echo -e "${RED}Error al clonar el repositorio o la rama. Detalles del error:${NC}"
+            cat error.log
+
+            # Preguntar al usuario si quiere volver a intentar ingresar los datos
+            read -p "¿Deseas intentar de nuevo? (s/n): " retry
+            if [ "$retry" != "s" ]; then
+                echo -e "${RED}Abortando despliegue.${NC}"
+                exit 1
+            fi
+        else
+            echo -e "${GREEN}Repositorio y rama verificados correctamente.${NC}"
+            break
+        fi
+    done
+}
+
 # Función para la subida inicial del proyecto
 deploy_from_scratch() {
     echo -e "${BLUE}Iniciando despliegue desde cero...${NC}"
@@ -23,43 +54,38 @@ deploy_from_scratch() {
     echo -e "${YELLOW}Verificando la versión de Composer...${NC}"
     php ~/composer.phar --version
 
-    # Paso 1: Pedir la URL del repositorio
-    read -p "Ingresa la URL del repositorio (HTTPS o SSH): " repo_url
+    # Paso 1: Validar el acceso al repositorio y rama
+    validate_repo_and_branch
 
-    # Pedir el nombre del branch
-    read -p "Ingresa el nombre de la rama (branch): " branch_name
-
-    # Paso 2: Clonar el repositorio en una carpeta temporal
-    echo -e "${YELLOW}Clonando el repositorio en una carpeta temporal...${NC}"
-    git clone --branch $branch_name $repo_url temp_repo
-
-    # Paso 3: Mover el contenido de la carpeta temporal a la raíz, excluyendo deploy.sh
+    # Paso 2: Mover el contenido de la carpeta temporal a la raíz, excluyendo deploy.sh
     echo -e "${YELLOW}Moviendo el contenido de la carpeta temporal a la raíz, excluyendo deploy.sh...${NC}"
     rsync -av --exclude='deploy.sh' temp_repo/ ./
 
     # Eliminar la carpeta temporal
     echo -e "${YELLOW}Eliminando la carpeta temporal...${NC}"
-    rm -rf temp_repo
+    rm -rf temp_repo error.log
 
-    # Paso 4: Instalar dependencias con Composer
+    # Paso 3: Instalar dependencias con Composer
     echo -e "${YELLOW}Instalando dependencias con Composer...${NC}"
     php ~/composer.phar install --no-dev --optimize-autoloader
 
-    # Paso 5: Verificar si la carpeta public_html existe y crearla si no
+    # Paso 4: Verificar si la carpeta public_html existe y crearla si no
     if [ ! -d "public_html" ]; then
         echo -e "${YELLOW}Creando la carpeta public_html...${NC}"
         mkdir public_html
     fi
 
-    # Paso 6: Copiar el contenido de public a public_html
-    echo -e "${YELLOW}Copiando el contenido de public a public_html...${NC}"
+    # Paso 5: Copiar el contenido de public a public_html, incluyendo archivos ocultos
+    echo -e "${YELLOW}Copiando el contenido de public a public_html, incluyendo archivos ocultos...${NC}"
+    shopt -s dotglob # Permitir copiar archivos ocultos
     cp -r public/* public_html/
+    shopt -u dotglob # Deshabilitar el modo dotglob
 
-    # Paso 7: Crear el enlace simbólico para storage
+    # Paso 6: Crear el enlace simbólico para storage
     echo -e "${YELLOW}Creando enlace simbólico para storage en public_html...${NC}"
     ln -s ../storage/app/public public_html/storage
 
-    # Paso 8: Verificar que el archivo .env existe antes de continuar
+    # Paso 7: Verificar que el archivo .env existe antes de continuar
     while [ ! -f ".env" ]; do
         echo -e "${RED}El archivo .env no se encuentra en la raíz del proyecto.${NC}"
         read -p "¿Ya has agregado el archivo .env en la raíz? (s/n): " response
@@ -72,38 +98,19 @@ deploy_from_scratch() {
         fi
     done
 
-    # Paso 9: Verificar y generar clave de aplicación
-    if grep -Fxq "APP_KEY=" .env
-    then
-        echo -e "${GREEN}La clave de aplicación ya existe.${NC}"
-    else
-        echo -e "${YELLOW}Generando clave de cifrado para la aplicación...${NC}"
-        php artisan key:generate
-
-        # Verificar si la clave fue generada y tiene la longitud correcta
-        app_key=$(grep 'APP_KEY=' .env | cut -d '=' -f2)
-        if [[ ${#app_key} -eq 51 ]] && [[ $app_key == base64:* ]]
-        then
-            echo -e "${GREEN}Clave de cifrado generada correctamente.${NC}"
-        else
-            echo -e "${RED}Error: La clave generada no es válida. Verifica manualmente el archivo .env.${NC}"
-            exit 1
-        fi
-    fi
-
-    # Paso 10: Limpiar la caché de configuración
+    # Paso 8: Limpiar la caché de configuración
     echo -e "${YELLOW}Limpiando la caché de configuración...${NC}"
     php artisan config:clear
 
-    # Paso 11: Ejecutar las migraciones
+    # Paso 9: Ejecutar las migraciones
     echo -e "${YELLOW}Ejecutando migraciones en producción...${NC}"
     php artisan migrate --force
 
-    # Paso 12: Ejecutar seeders
+    # Paso 10: Ejecutar seeders
     echo -e "${YELLOW}Ejecutando seeders en producción...${NC}"
     php artisan db:seed --force
 
-    # Paso 13: Optimizar la aplicación para producción
+    # Paso 11: Optimizar la aplicación para producción
     echo -e "${YELLOW}Optimizando la aplicación para producción...${NC}"
     php artisan config:cache
     php artisan route:cache
@@ -124,9 +131,11 @@ update_project() {
     echo -e "${YELLOW}Actualizando el repositorio con git pull...${NC}"
     git pull origin $branch_name
 
-    # Copiar el contenido actualizado de public a public_html
-    echo -e "${YELLOW}Copiando el contenido actualizado de public a public_html...${NC}"
+    # Copiar el contenido actualizado de public a public_html, incluyendo archivos ocultos
+    echo -e "${YELLOW}Copiando el contenido actualizado de public a public_html, incluyendo archivos ocultos...${NC}"
+    shopt -s dotglob
     cp -r public/* public_html/
+    shopt -u dotglob
 
     # Confirmación
     echo -e "${GREEN}Actualización completada.${NC}"
