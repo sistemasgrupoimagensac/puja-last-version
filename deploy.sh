@@ -29,29 +29,38 @@ deploy_from_scratch() {
     # Pedir el nombre del branch
     read -p "Ingresa el nombre de la rama (branch): " branch_name
 
-    # Paso 2: Clonar el repositorio directamente en la raíz
-    echo -e "${YELLOW}Clonando el repositorio en la raíz...${NC}"
-    git clone --branch $branch_name $repo_url .
+    # Paso 2: Clonar el repositorio en una carpeta temporal
+    echo -e "${YELLOW}Clonando el repositorio en una carpeta temporal...${NC}"
+    git clone --branch $branch_name $repo_url temp_repo
 
-    # Paso 2.1: Instalar dependencias con Composer (localmente usando php)
+    # Paso 3: Mover el contenido de la carpeta temporal a la raíz, excluyendo deploy.sh
+    echo -e "${YELLOW}Moviendo el contenido de la carpeta temporal a la raíz, excluyendo deploy.sh...${NC}"
+    shopt -s extglob
+    mv temp_repo/!(deploy.sh) ./
+
+    # Eliminar la carpeta temporal
+    echo -e "${YELLOW}Eliminando la carpeta temporal...${NC}"
+    rm -rf temp_repo
+
+    # Paso 4: Instalar dependencias con Composer
     echo -e "${YELLOW}Instalando dependencias con Composer...${NC}"
     php ~/composer.phar install --no-dev --optimize-autoloader
 
-    # Paso 3: Verificar si la carpeta public_html existe y crearla si no
+    # Paso 5: Verificar si la carpeta public_html existe y crearla si no
     if [ ! -d "public_html" ]; then
         echo -e "${YELLOW}Creando la carpeta public_html...${NC}"
         mkdir public_html
     fi
 
-    # Paso 4: Copiar el contenido de public a public_html en lugar de moverlo
+    # Paso 6: Copiar el contenido de public a public_html
     echo -e "${YELLOW}Copiando el contenido de public a public_html...${NC}"
     cp -r public/* public_html/
 
-    # Paso 5: Crear el enlace simbólico para storage
+    # Paso 7: Crear el enlace simbólico para storage
     echo -e "${YELLOW}Creando enlace simbólico para storage en public_html...${NC}"
     ln -s ../storage/app/public public_html/storage
 
-    # Paso 6: Generar clave de aplicación si no existe
+    # Paso 8: Generar clave de aplicación si no existe
     if grep -Fxq "APP_KEY=" .env
     then
         echo -e "${GREEN}La clave de aplicación ya existe.${NC}"
@@ -60,19 +69,19 @@ deploy_from_scratch() {
         php artisan key:generate
     fi
 
-    # Paso 7: Limpiar la caché de configuración
+    # Paso 9: Limpiar la caché de configuración
     echo -e "${YELLOW}Limpiando la caché de configuración...${NC}"
     php artisan config:clear
 
-    # Paso 8: Ejecutar las migraciones
+    # Paso 10: Ejecutar las migraciones
     echo -e "${YELLOW}Ejecutando migraciones en producción...${NC}"
     php artisan migrate --force
 
-    # Paso 9: Ejecutar seeders
+    # Paso 11: Ejecutar seeders
     echo -e "${YELLOW}Ejecutando seeders en producción...${NC}"
     php artisan db:seed --force
 
-    # Paso 10: Optimizar la aplicación para producción
+    # Paso 12: Optimizar la aplicación para producción
     echo -e "${YELLOW}Optimizando la aplicación para producción...${NC}"
     php artisan config:cache
     php artisan route:cache
