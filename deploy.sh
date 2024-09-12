@@ -59,28 +59,51 @@ deploy_from_scratch() {
     echo -e "${YELLOW}Creando enlace simbólico para storage en public_html...${NC}"
     ln -s ../storage/app/public public_html/storage
 
-    # Paso 8: Generar clave de aplicación si no existe
-    # if grep -Fxq "APP_KEY=" .env
-    # then
-    #     echo -e "${GREEN}La clave de aplicación ya existe.${NC}"
-    # else
-    #     echo -e "${YELLOW}Generando clave de cifrado para la aplicación...${NC}"
-    #     php artisan key:generate
-    # fi
+    # Paso 8: Verificar que el archivo .env existe antes de continuar
+    while [ ! -f ".env" ]; do
+        echo -e "${RED}El archivo .env no se encuentra en la raíz del proyecto.${NC}"
+        read -p "¿Ya has agregado el archivo .env en la raíz? (s/n): " response
+        if [ "$response" == "s" ]; then
+            if [ ! -f ".env" ]; then
+                echo -e "${RED}El archivo .env aún no se encuentra en la raíz. Por favor, agrégalo y vuelve a intentarlo.${NC}"
+            fi
+        else
+            echo -e "${YELLOW}Por favor, sube el archivo .env a la raíz del proyecto.${NC}"
+        fi
+    done
 
-    # Paso 9: Limpiar la caché de configuración
+    # Paso 9: Verificar y generar clave de aplicación
+    if grep -Fxq "APP_KEY=" .env
+    then
+        echo -e "${GREEN}La clave de aplicación ya existe.${NC}"
+    else
+        echo -e "${YELLOW}Generando clave de cifrado para la aplicación...${NC}"
+        php artisan key:generate
+
+        # Verificar si la clave fue generada y tiene la longitud correcta
+        app_key=$(grep 'APP_KEY=' .env | cut -d '=' -f2)
+        if [[ ${#app_key} -eq 51 ]] && [[ $app_key == base64:* ]]
+        then
+            echo -e "${GREEN}Clave de cifrado generada correctamente.${NC}"
+        else
+            echo -e "${RED}Error: La clave generada no es válida. Verifica manualmente el archivo .env.${NC}"
+            exit 1
+        fi
+    fi
+
+    # Paso 10: Limpiar la caché de configuración
     echo -e "${YELLOW}Limpiando la caché de configuración...${NC}"
     php artisan config:clear
 
-    # Paso 10: Ejecutar las migraciones
+    # Paso 11: Ejecutar las migraciones
     echo -e "${YELLOW}Ejecutando migraciones en producción...${NC}"
     php artisan migrate --force
 
-    # Paso 11: Ejecutar seeders
+    # Paso 12: Ejecutar seeders
     echo -e "${YELLOW}Ejecutando seeders en producción...${NC}"
     php artisan db:seed --force
 
-    # Paso 12: Optimizar la aplicación para producción
+    # Paso 13: Optimizar la aplicación para producción
     echo -e "${YELLOW}Optimizando la aplicación para producción...${NC}"
     php artisan config:cache
     php artisan route:cache
