@@ -1,8 +1,15 @@
 #!/bin/bash
 
+# Definir colores
+RED='\e[31m'
+GREEN='\e[32m'
+YELLOW='\e[33m'
+BLUE='\e[34m'
+NC='\e[0m' # Sin color (reset)
+
 # Función para la subida inicial del proyecto
 deploy_from_scratch() {
-    echo "Iniciando despliegue desde cero..."
+    echo -e "${BLUE}Iniciando despliegue desde cero...${NC}"
 
     # Pedir la URL del repositorio
     read -p "Ingresa la URL del repositorio (HTTPS o SSH): " repo_url
@@ -11,7 +18,7 @@ deploy_from_scratch() {
     read -p "Ingresa el nombre de la rama (branch): " branch_name
 
     # Clonar el repositorio
-    echo "Clonando el repositorio..."
+    echo -e "${YELLOW}Clonando el repositorio...${NC}"
     git clone --branch $branch_name $repo_url
 
     # Extraer el nombre del repositorio de la URL
@@ -19,25 +26,25 @@ deploy_from_scratch() {
 
     # Verificar si la carpeta public_html existe y crearla si no
     if [ ! -d "$repo_name/public_html" ]; then
-        echo "Creando la carpeta public_html..."
+        echo -e "${YELLOW}Creando la carpeta public_html...${NC}"
         mkdir "$repo_name/public_html"
     fi
 
     # Mover el contenido de public a public_html
-    echo "Moviendo el contenido de public a public_html..."
+    echo -e "${YELLOW}Moviendo el contenido de public a public_html...${NC}"
     mv "$repo_name/public/"* "$repo_name/public_html/"
 
     # Crear el enlace simbólico del storage
-    echo "Creando enlace simbólico para storage en public_html..."
+    echo -e "${YELLOW}Creando enlace simbólico para storage en public_html...${NC}"
     ln -s ../storage/app/public "$repo_name/public_html/storage"
 
     # Confirmación
-    echo "Despliegue desde cero completado."
+    echo -e "${GREEN}Despliegue desde cero completado.${NC}"
 }
 
 # Función para la actualización del proyecto con git pull
 update_project() {
-    echo "Iniciando actualización del proyecto..."
+    echo -e "${BLUE}Iniciando actualización del proyecto...${NC}"
 
     # Pedir el nombre del branch
     read -p "Ingresa el nombre de la rama (branch) que quieres actualizar: " branch_name
@@ -46,21 +53,21 @@ update_project() {
     repo_name=$(basename "$PWD")
 
     # Hacer pull de la rama
-    echo "Actualizando el repositorio con git pull..."
+    echo -e "${YELLOW}Actualizando el repositorio con git pull...${NC}"
     git pull origin $branch_name
 
     # Mover el contenido actualizado de public a public_html
-    echo "Moviendo el contenido actualizado de public a public_html..."
+    echo -e "${YELLOW}Moviendo el contenido actualizado de public a public_html...${NC}"
     mv "$repo_name/public/"* "$repo_name/public_html/"
 
     # Confirmación
-    echo "Actualización completada."
+    echo -e "${GREEN}Actualización completada.${NC}"
 }
 
 # Menú de opciones
-echo "Selecciona una opción:"
-echo "1. Subida del proyecto desde cero"
-echo "2. Actualización del proyecto con git pull"
+echo -e "${BLUE}Selecciona una opción:${NC}"
+echo -e "${YELLOW}1. Subida del proyecto desde cero${NC}"
+echo -e "${YELLOW}2. Actualización del proyecto con git pull${NC}"
 read -p "Elige (1 o 2): " option
 
 # Ejecutar la opción seleccionada
@@ -69,5 +76,5 @@ if [ "$option" == "1" ]; then
 elif [ "$option" == "2" ]; then
     update_project
 else
-    echo "Opción inválida. Por favor elige 1 o 2."
+    echo -e "${RED}Opción inválida. Por favor elige 1 o 2.${NC}"
 fi
