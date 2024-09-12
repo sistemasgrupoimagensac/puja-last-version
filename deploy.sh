@@ -38,6 +38,14 @@ deploy_from_scratch() {
     echo -e "${YELLOW}Creando enlace simbólico para storage en public_html...${NC}"
     ln -s ../storage/app/public "$repo_name/public_html/storage"
 
+    # Ejecutar las migraciones y seeders
+    echo -e "${YELLOW}Ejecutando migraciones en producción...${NC}"
+    cd "$repo_name"
+    php artisan migrate --force
+
+    echo -e "${YELLOW}Ejecutando seeders en producción...${NC}"
+    php artisan db:seed --force
+
     # Confirmación
     echo -e "${GREEN}Despliegue desde cero completado.${NC}"
 }
