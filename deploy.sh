@@ -60,13 +60,13 @@ deploy_from_scratch() {
     ln -s ../storage/app/public public_html/storage
 
     # Paso 8: Generar clave de aplicación si no existe
-    if grep -Fxq "APP_KEY=" .env
-    then
-        echo -e "${GREEN}La clave de aplicación ya existe.${NC}"
-    else
-        echo -e "${YELLOW}Generando clave de cifrado para la aplicación...${NC}"
-        php artisan key:generate
-    fi
+    # if grep -Fxq "APP_KEY=" .env
+    # then
+    #     echo -e "${GREEN}La clave de aplicación ya existe.${NC}"
+    # else
+    #     echo -e "${YELLOW}Generando clave de cifrado para la aplicación...${NC}"
+    #     php artisan key:generate
+    # fi
 
     # Paso 9: Limpiar la caché de configuración
     echo -e "${YELLOW}Limpiando la caché de configuración...${NC}"
