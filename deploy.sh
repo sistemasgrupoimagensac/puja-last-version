@@ -19,21 +19,19 @@ deploy_from_scratch() {
     echo -e "${YELLOW}Actualizando Composer a la versión 2...${NC}"
     php ~/composer.phar self-update --2
 
+    # Verificación de la versión de Composer después de la actualización
+    echo -e "${YELLOW}Verificando la versión de Composer...${NC}"
+    php ~/composer.phar --version
+
     # Paso 1: Pedir la URL del repositorio
     read -p "Ingresa la URL del repositorio (HTTPS o SSH): " repo_url
 
     # Pedir el nombre del branch
     read -p "Ingresa el nombre de la rama (branch): " branch_name
 
-    # Paso 2: Clonar el repositorio
-    echo -e "${YELLOW}Clonando el repositorio...${NC}"
-    git clone --branch $branch_name $repo_url
-
-    # Extraer el nombre del repositorio de la URL
-    repo_name=$(basename -s .git "$repo_url")
-
-    # Cambiar al directorio del proyecto
-    cd "$repo_name"
+    # Paso 2: Clonar el repositorio directamente en la raíz
+    echo -e "${YELLOW}Clonando el repositorio en la raíz...${NC}"
+    git clone --branch $branch_name $repo_url .
 
     # Paso 2.1: Instalar dependencias con Composer (localmente usando php)
     echo -e "${YELLOW}Instalando dependencias con Composer...${NC}"
@@ -45,23 +43,36 @@ deploy_from_scratch() {
         mkdir public_html
     fi
 
-    # Paso 4: Mover el contenido de public a public_html
-    echo -e "${YELLOW}Moviendo el contenido de public a public_html...${NC}"
-    mv public/* public_html/
+    # Paso 4: Copiar el contenido de public a public_html en lugar de moverlo
+    echo -e "${YELLOW}Copiando el contenido de public a public_html...${NC}"
+    cp -r public/* public_html/
 
     # Paso 5: Crear el enlace simbólico para storage
     echo -e "${YELLOW}Creando enlace simbólico para storage en public_html...${NC}"
     ln -s ../storage/app/public public_html/storage
 
-    # Paso 6: Ejecutar las migraciones
+    # Paso 6: Generar clave de aplicación si no existe
+    if grep -Fxq "APP_KEY=" .env
+    then
+        echo -e "${GREEN}La clave de aplicación ya existe.${NC}"
+    else
+        echo -e "${YELLOW}Generando clave de cifrado para la aplicación...${NC}"
+        php artisan key:generate
+    fi
+
+    # Paso 7: Limpiar la caché de configuración
+    echo -e "${YELLOW}Limpiando la caché de configuración...${NC}"
+    php artisan config:clear
+
+    # Paso 8: Ejecutar las migraciones
     echo -e "${YELLOW}Ejecutando migraciones en producción...${NC}"
     php artisan migrate --force
 
-    # Paso 7: Ejecutar seeders
+    # Paso 9: Ejecutar seeders
     echo -e "${YELLOW}Ejecutando seeders en producción...${NC}"
     php artisan db:seed --force
 
-    # Paso 8: Optimizar la aplicación para producción
+    # Paso 10: Optimizar la aplicación para producción
     echo -e "${YELLOW}Optimizando la aplicación para producción...${NC}"
     php artisan config:cache
     php artisan route:cache
@@ -78,16 +89,13 @@ update_project() {
     # Pedir el nombre del branch
     read -p "Ingresa el nombre de la rama (branch) que quieres actualizar: " branch_name
 
-    # Extraer el nombre del repositorio del directorio actual
-    repo_name=$(basename "$PWD")
-
     # Hacer pull de la rama
     echo -e "${YELLOW}Actualizando el repositorio con git pull...${NC}"
     git pull origin $branch_name
 
-    # Mover el contenido actualizado de public a public_html
-    echo -e "${YELLOW}Moviendo el contenido actualizado de public a public_html...${NC}"
-    mv public/* public_html/
+    # Copiar el contenido actualizado de public a public_html
+    echo -e "${YELLOW}Copiando el contenido actualizado de public a public_html...${NC}"
+    cp -r public/* public_html/
 
     # Confirmación
     echo -e "${GREEN}Actualización completada.${NC}"
