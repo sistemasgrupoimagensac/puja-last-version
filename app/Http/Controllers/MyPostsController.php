@@ -120,6 +120,7 @@ class MyPostsController extends Controller
             "estado" => 1,
         ]);
 
+
         if ( count($aviso->historial) === 0 ) {
             $hist_aviso = HistorialAvisos::updateOrCreate([
                 "aviso_id" => $aviso->id,
@@ -486,6 +487,29 @@ class MyPostsController extends Controller
                 }
             }
 
+
+
+
+            $aviso->inmueble->principal->caracteristicas->descripcion = $aviso->inmueble->descripcion;
+            $aviso->inmueble->principal->caracteristicas->save();
+
+
+            if ( $aviso->historial->first()->pivot->estado_aviso_id !== 3 ) {
+                $hist_aviso = HistorialAvisos::updateOrCreate([
+                    "aviso_id" => $aviso->id,
+                    ],[
+                    "estado_aviso_id" => 2,
+                ]);
+                if (!$hist_aviso) {
+                    return response()->json([
+                        'message' => 'Falló porque no se actualizo el historial avisos',
+                        'error' => true
+                    ], 422);
+                }
+
+            }
+
+
             $aviso->inmueble->principal->caracteristicas->descripcion = $aviso->inmueble->descripcion;
             $aviso->inmueble->principal->caracteristicas->save();
 
@@ -502,6 +526,7 @@ class MyPostsController extends Controller
                     ], 422);
                 }
             }
+
             return response()->json([
                 'message' => 'Registro exitoso, finalizado correcto.',
                 'status' => 'Success',

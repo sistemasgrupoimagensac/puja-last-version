@@ -110,7 +110,7 @@ return [
 
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'sistemasgrupoimagensac@gmail.com'),
-        'name' => env('MAIL_FROM_NAME', 'Puja version-Oscar Echegaray TEST"'),
+        'name' => env('MAIL_FROM_NAME', 'Puja Inmobiliaria'),
     ],
 
 ];

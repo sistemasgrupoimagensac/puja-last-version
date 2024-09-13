@@ -93,7 +93,7 @@
 								<input type="radio" class="btn-check" x-model="tipoPlan" id="topPlus" value="topPlus" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
 								<x-card-plan-propietario
 									title="Premium"
-                  					tipoAviso="Top Plus"
+                  tipoAviso="Top Plus"
 									price="prices.topPlus"
 									time="periodoPlan"
 									plan="topPlus"
@@ -135,32 +135,37 @@
 				</fieldset>
 
 				{{-- Modal de Pago --}}
-				<x-pay-modal
-					avisoId="{{ $aviso_id }}"
-					userName="{{ $user->nombres }}"
-					userSurname="{{ $user->apellidos }}"
-					userEmail="{{ $user->email }}"
-					userPhone="{{ $user->celular }}"
-				>
-					<x-card-plan-propietario-checkout
-					showPlan="topPlus"
-					title="Plan Premium"
-					bgColor="text-bg-dark"
-					/>
+				@isset($user)
 
-					<x-card-plan-propietario-checkout
-					showPlan="top"
-					title="Plan Top"
-					bgColor="text-bg-warning"
-					/> 
+					<x-pay-modal
+						avisoId="{{ $aviso_id }}"
+						userName="{{ $user->nombres }}"
+						userSurname="{{ $user->apellidos }}"
+						userEmail="{{ $user->email }}"
+						userPhone="{{ $user->celular }}"
+						userTypeId="{{ $user->tipo_usuario_id }}"
+					>
+						<x-card-plan-propietario-checkout
+						showPlan="topPlus"
+						title="Plan Premium"
+						bgColor="text-bg-dark"
+						/>
 
-					<x-card-plan-propietario-checkout
-					showPlan="estandar"
-					title="Plan Estandar"
-					bgColor="text-bg-success"
-					/>
+						<x-card-plan-propietario-checkout
+						showPlan="top"
+						title="Plan Top"
+						bgColor="text-bg-warning"
+						/> 
 
-				</x-pay-modal>
+						<x-card-plan-propietario-checkout
+						showPlan="estandar"
+						title="Plan Estandar"
+						bgColor="text-bg-success"
+						/>
+
+					</x-pay-modal>
+				@endisset
+
 
 			</div>    
 		</form>

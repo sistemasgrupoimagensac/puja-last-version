@@ -116,6 +116,10 @@ deploy_from_scratch() {
     php artisan route:cache
     php artisan view:cache
 
+    echo -e "${YELLOW}Limpiando la cache...${NC}"
+    php artisan config:clear
+    php artisan route:clear
+
     # Confirmación
     echo -e "${GREEN}Despliegue desde cero completado.${NC}"
 }

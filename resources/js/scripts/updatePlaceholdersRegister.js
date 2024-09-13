@@ -12,10 +12,10 @@ documentSelected.addEventListener("change", function () {
     case "1":
       placeholderText = "DNI"
       break
-    case "2":
+    case "3":
       placeholderText = "RUC"
       break
-    case "3":
+    case "2":
       placeholderText = "Otro Documento"
       break
     default:

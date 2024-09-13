@@ -93,32 +93,35 @@
 				</fieldset>
 
 				{{-- Modal de Pago --}}
-				<x-pay-modal
-					avisoId="{{ $aviso_id }}"
-					userName="{{ $user->nombres }}"
-					userSurname="{{ $user->apellidos }}"
-					userEmail="{{ $user->email }}"
-					userPhone="{{ $user->celular }}"
-				>
-					<x-card-plan-propietario-checkout
-					showPlan="topPlus"
-					title="Plan Premium"
-					bgColor="text-bg-dark"
-					/>
+				@isset($user)
+					<x-pay-modal
+						avisoId="{{ $aviso_id }}"
+						userName="{{ $user->nombres }}"
+						userSurname="{{ $user->apellidos }}"
+						userEmail="{{ $user->email }}"
+						userPhone="{{ $user->celular }}"
+						userTypeId="{{ $user->tipo_usuario_id }}"
+					>
+						<x-card-plan-propietario-checkout
+						showPlan="topPlus"
+						title="Plan Premium"
+						bgColor="text-bg-dark"
+						/>
 
-					<x-card-plan-propietario-checkout
-					showPlan="top"
-					title="Plan Top"
-					bgColor="text-bg-warning"
-					/> 
+						<x-card-plan-propietario-checkout
+						showPlan="top"
+						title="Plan Top"
+						bgColor="text-bg-warning"
+						/> 
 
-					<x-card-plan-propietario-checkout
-					showPlan="estandar"
-					title="Plan Estandar"
-					bgColor="text-bg-success"
-					/>
+						<x-card-plan-propietario-checkout
+						showPlan="estandar"
+						title="Plan Estandar"
+						bgColor="text-bg-success"
+						/>
 
-				</x-pay-modal>
+					</x-pay-modal>
+				@endisset
 
 			</div>    
 		</form>
