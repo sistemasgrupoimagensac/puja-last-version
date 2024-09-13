@@ -130,6 +130,7 @@ class BillingController extends Controller
             ];
 
         } catch (\Throwable $th) {
+            log::info($th->getMessage());
             return response()->json([
                 'http_code' => 500,
                 'message' => 'Error al generar la factura',
