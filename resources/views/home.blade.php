@@ -12,7 +12,11 @@
 
     {{-- Main: incluye el buscador y Titular --}}
     <main class="main-home">
+
+        {{-- Main: background imagen --}}
         <div class="main-home-background-image"></div>
+
+        {{-- Main: Buscador --}}
         <div class="main-home-search d-flex flex-column h-100 w-100 px-3">
 
             <form action="{{ route('filter_search') }}" method="" class="m-auto">

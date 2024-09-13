@@ -11,7 +11,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 
-class User extends Authenticatable implements MustVerifyEmail
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
+
+// class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, FilamentUser
 {
     use HasFactory, Notifiable, CanResetPassword;
 
@@ -111,12 +115,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->attributes['celular'];
     }
 
-
-
     public function sendPasswordResetNotification($token): void
     {
         $url = route('password.reset', ['token' => $token, 'email' => $this->email]);
     
         $this->notify(new RecoveryPasswordNotification($url));
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        // return $this->tipoUsuario->nombres === 'Admin' && $this->hasVerifiedEmail();
+        return $this->nombres === 'Admin';
     }
 }

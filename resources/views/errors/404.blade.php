@@ -5,7 +5,7 @@
 @endsection
 
 @push('styles')
-    @vite(['resources/css/404.css'])
+    @vite(['resources/sass/pages/404.scss'])
 @endpush
 
 

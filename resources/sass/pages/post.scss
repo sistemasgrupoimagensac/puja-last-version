@@ -1,0 +1,28 @@
+.post-titular {
+  height: 400px;
+
+  .post-titular-imagen {
+    background-image: linear-gradient(rgba(4, 19, 61, 0.712), rgba(158, 158, 158, 0.678));
+    height: 100%;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.5);
+    }
+  }
+
+  .post-titular-titulo {
+    max-width: 1440px;
+    color: white;
+  }
+}
+
+.post-content {
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
