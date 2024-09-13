@@ -97,7 +97,7 @@
               consultarFormulario();
 
           } else {
-              console.log('Response:', data)
+              console.log('Response error:', data)
               const errors = {
                 numero_de_documento: [data.message],
               }

@@ -254,8 +254,6 @@ function creditCardData() {
         },
 
         processPayment(formPost) {
-
-
             let transactionData = {
                 amount: formPost.amount,
                 currency: formPost.currency,
@@ -265,7 +263,6 @@ function creditCardData() {
                 description: formPost.description,
                 tipo_usuario_id: {{ $userTypeId }}
             }
-
 
             fetch("/pagar-openpay", {
                 method: 'POST',
