@@ -2,10 +2,10 @@
 {{-- Filtros --}}
 <div class="d-flex justify-content-between">
 
-    <div class="d-flex flex-wrap gap-3">
+    <div class="d-flex flex-wrap gap-1 gap-sm-3">
 
         <div class="btn-group d-none d-xl-inline-flex">
-            <button type="button" class="btn border dropdown-toggle py-2 " data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="true">
+            <button type="button" class="btn border dropdown-toggle py-2" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="true">
                 <i class="fa-solid fa-tag icon-orange me-2"></i>
                 <span id="trasactionfiltertittle">
                     @if(!$url_parse['operacion'])
@@ -91,7 +91,7 @@
         {{-- Precio Inmueble --}}
         <div id="priceRange">
             <div class="btn-group  filters-price-desktop ">
-                <button type="button" class="btn border dropdown-toggle px-1 py-2 p-sm-2" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="true" aria-label="Orden">
+                <button type="button" class="btn border dropdown-toggle p-2" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="true" aria-label="Orden">
                     <i class="fa-solid fa-money-bill-1 icon-orange me-2"></i>
                     <span id="ventafiltertittle">Precio</span>
                 </button>
@@ -116,7 +116,7 @@
         {{-- Filtros Generales MODAL --}}
         <div>
             <!-- Botón Filtros Generales -->
-            <button type="button" class="btn border px-1 py-2 p-sm-2" data-bs-toggle="modal" data-bs-target="#filterModal">
+            <button type="button" class="btn border p-2" data-bs-toggle="modal" data-bs-target="#filterModal">
                 <i class="fa-solid fa-filter icon-orange me-2"></i>
                 Filtros
             </button>
@@ -334,7 +334,7 @@
 
     {{-- Ordenar Anuncios --}}
     <div class="btn-group">
-        <button type="button" class="btn border dropdown-toggle px-1 py-2 p-sm-2" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="true" aria-label="Orden">
+        <button type="button" class="btn border dropdown-toggle p-2" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="true" aria-label="Orden">
             <i class="fa-solid fa-sort icon-orange me-2"></i>
             <span id="relevanceFilterTittle">Relevancia</span>
         </button>
