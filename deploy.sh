@@ -124,16 +124,16 @@ deploy_from_scratch() {
     echo -e "${GREEN}Despliegue desde cero completado.${NC}"
 }
 
-# Función para la actualización del proyecto con git pull
+# Función para la actualización del proyecto con git pull --ff-only
 update_project() {
     echo -e "${BLUE}Iniciando actualización del proyecto...${NC}"
 
     # Pedir el nombre del branch
     read -p "Ingresa el nombre de la rama (branch) que quieres actualizar: " branch_name
 
-    # Hacer pull de la rama
-    echo -e "${YELLOW}Actualizando el repositorio con git pull...${NC}"
-    git pull origin $branch_name
+    # Hacer pull de la rama con fast-forward only
+    echo -e "${YELLOW}Actualizando el repositorio con git pull --ff-only...${NC}"
+    git pull --ff-only origin $branch_name
 
     # Copiar el contenido actualizado de public a public_html, incluyendo archivos ocultos
     echo -e "${YELLOW}Copiando el contenido actualizado de public a public_html, incluyendo archivos ocultos...${NC}"
