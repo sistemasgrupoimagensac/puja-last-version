@@ -688,27 +688,29 @@
         const adBelongs = @json($ad_belongs);
         const owner_phone = @json( $aviso->inmueble->user->phone );
 
-        if(!adBelongs) {
+        if (!adBelongs) {
+            // Evento para el botón de enviar por correo
             document.getElementById('btn-enviar-form-single').addEventListener('click', function(event) {
                 event.preventDefault();
                 clearErrors();
-                submitForm('{{ route('email.enviar-datos_contacto') }}');
+                submitForm('{{ route('email.procesar_contacto') }}', 'correo');
             });
 
+            // Evento para el botón de WhatsApp
             document.getElementById('whatsapp_contact_button').addEventListener('click', function(event) {
                 event.preventDefault();
-                console.log( "cel", owner_phone )
-                sendWsp( owner_phone );
+                clearErrors();
+                submitForm('{{ route('email.procesar_contacto') }}', 'whatsapp');  // Primero validamos antes de enviar WhatsApp
             });
         }
 
-        function submitForm(actionUrl) {
+        function submitForm(actionUrl, accion) {
             let form = document.getElementById('send_contact');
             let formData = new FormData(form);
             formData.append('current_url', window.location.href);
+            formData.append('accion', accion);  // Agregamos la acción para que el backend sepa qué hacer
 
             console.log(formData);
-            
 
             fetch(actionUrl, {
                 method: 'POST',
@@ -720,10 +722,16 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status == "Success") {
-                    alert('Formulario enviado correctamente');
-                    form.reset();
+                    if (accion === 'whatsapp') {
+                        // Si la acción es WhatsApp, continuamos con la función sendWsp
+                        sendWsp(owner_phone);
+                    } else {
+                        // Si la acción es correo, mostramos el mensaje de éxito
+                        alert('Formulario enviado correctamente');
+                        form.reset();
+                    }
                 } else {
-                    handleErrors(data.errors);
+                    handleErrors(data.errors);  // Si hay errores, los mostramos
                 }
             })
             .catch(error => {

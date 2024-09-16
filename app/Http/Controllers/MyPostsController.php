@@ -545,7 +545,6 @@ class MyPostsController extends Controller
     public function edit (Aviso $aviso)
     {
 
-        // ==========================================================================================================================
         $user = Auth::user();
     
         $es_propietario = $user->tipo_usuario_id == 2 ? true : false;
@@ -668,8 +667,10 @@ class MyPostsController extends Controller
         return response()->json($extras);
     }
 
-    public function enviar_datos_contacto (Request $request) {
-
+    // Función para validar el formulario
+    public function validar_formulario_contacto(Request $request)
+    {
+        // Validar el formulario
         $validator = Validator::make($request->all(), [
             'nombre_contacto' => 'required|string|max:50',
             'email_contacto' => 'required|email',
@@ -679,6 +680,7 @@ class MyPostsController extends Controller
             'accept_terms' => 'required|accepted',
         ]);
 
+        // Si hay errores de validación, los retornamos
         if ($validator->fails()) {
             return response()->json([
                 'http_code' => 400,
@@ -688,21 +690,32 @@ class MyPostsController extends Controller
             ], 422);
         }
 
-        if ( !$request->accept_terms ) {
-            return response()->json([
-                'http_code' => 400,
-                'status' => "Error",
-                'message' => 'Debe aceptar los TyC.',
-            ], 400);
-        } else {
-            $accept_terms = true;
+        // Si la validación pasa, retornamos un éxito
+        return response()->json([
+            'http_code' => 200,
+            'status' => "Success",
+            'message' => 'Validación exitosa.',
+        ], 200);
+    }
+
+    // Función para procesar la solicitud, ya sea para enviar correo o WhatsApp
+    public function procesar_contacto(Request $request)
+    {
+        // Validamos el formulario antes de continuar
+        $response = $this->validar_formulario_contacto($request);
+
+        // Si la validación falla, retornamos la respuesta de error
+        if ($response->getStatusCode() !== 200) {
+            return $response;
         }
 
+        // Obtener la información del aviso
         $aviso_url = $request->current_url;
         $aviso = Aviso::findOrFail($request->aviso_id);
         $email_owner = $aviso->inmueble->user->email;
         $user_id = Auth::check() ? Auth::id() : null;
 
+        // Creamos o actualizamos el contacto en la base de datos
         $ad_contact = AdContact::updateOrCreate([
             'aviso_id' => $request->aviso_id,
             'email' => $request->email_contacto,
@@ -714,14 +727,25 @@ class MyPostsController extends Controller
             'bid_amount' => $request->contact_monto_puja,
             'type_currency_id' => $request->contact_divisa_monto,
             'message' => $request->contact_message,
-            'accept_terms' => $accept_terms,
+            'accept_terms' => true,
         ]);
 
+        // Verificamos qué tipo de acción es (WhatsApp o Correo)
+        if ($request->accion == 'whatsapp') {
+            // Para WhatsApp, solo retornamos la respuesta para que el frontend lo maneje
+            return response()->json([
+                'http_code' => 200,
+                'status' => 'Success',
+                'message' => 'Validación correcta. Se puede enviar el mensaje por WhatsApp.',
+            ], 200);
+        }
+
+        // Para correo, enviamos el email como ya lo haces
         Log::info('Iniciando el envío de correo para contactos ...');
         Mail::to($email_owner)
             ->cc(['soporte@pujainmobiliaria.com.pe'])
             ->bcc(['grupoimagen.908883889@gmail.com'])
-        ->send(new SendDataMail($ad_contact, $aviso_url));
+            ->send(new SendDataMail($ad_contact, $aviso_url));
         Log::info('Correo enviado para contactos .');
 
         return response()->json([
@@ -730,7 +754,6 @@ class MyPostsController extends Controller
             'message' => 'Registro para contactar, correcto.',
             'ad_contact_id' => $ad_contact->id,
         ], 200);
-
     }
 
     public function my_post_sold (Request $request) {
