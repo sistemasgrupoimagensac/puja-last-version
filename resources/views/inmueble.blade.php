@@ -181,42 +181,42 @@
                         <div class="description-container mt-4 bg-primary-subtle text-bg-light p-3 rounded border border-3 border-primary">
                             <h3 class="fw-bold">Detalles del Remate Público</h3>
 
-                            @if($aviso->inmueble->remate_direccion())
+                            @if($aviso->inmueble->remate_direccion() && $aviso->inmueble->remate_direccion() !== 'null')
                                 <p>
                                     <span class="fw-bolder">Lugar del remate:</span>
                                     {{ $aviso->inmueble->remate_direccion() }} - {{ $aviso->inmueble->remate_nombre_centro() }}
                                 </p>
                             @endif
 
-                            @if($aviso->inmueble->remate_fecha())
+                            @if($aviso->inmueble->remate_fecha() && $aviso->inmueble->remate_fecha() !== 'null')
                                 <p>
                                     <span class="fw-bolder">Fecha y hora:</span>
                                     {{ $aviso->inmueble->remate_fecha() }} a las {{ $aviso->inmueble->remate_hora() ? $aviso->inmueble->remate_hora() : "" }} horas
                                 </p>
                             @endif
 
-                            @if($aviso->inmueble->remate_nombre_contacto())
+                            @if($aviso->inmueble->remate_nombre_contacto() && $aviso->inmueble->remate_nombre_contacto() !== 'null')
                                 <p>
                                     <span class="fw-bolder">Contacto:</span>
                                     {{ $aviso->inmueble->remate_nombre_contacto() }}
                                 </p>
                             @endif
 
-                            @if($aviso->inmueble->remate_telef_contacto())
+                            @if($aviso->inmueble->remate_telef_contacto() && $aviso->inmueble->remate_nombre_contacto() !== 'null')
                                 <p>
                                     <span class="fw-bolder">Teléfono:</span>
                                     {{ $aviso->inmueble->remate_telef_contacto() }}
                                 </p>
                             @endif
 
-                            @if($aviso->inmueble->remate_correo_contacto())
+                            @if($aviso->inmueble->remate_correo_contacto() && $aviso->inmueble->remate_correo_contacto() !== 'null')
                                 <p>
                                     <span class="fw-bolder">Correo:</span>
                                     {{ $aviso->inmueble->remate_correo_contacto() }}
                                 </p>
                             @endif
 
-                            @if($aviso->inmueble->remate_partida_registral())
+                            @if($aviso->inmueble->remate_partida_registral() && $aviso->inmueble->remate_partida_registral() !== 'null')
                                 <p>
                                     <span class="fw-bolder">Partida Registral:</span>
                                     <span class="px-2 bg-body-tertiary rounded">{{ $aviso->inmueble->remate_partida_registral() }}</span>
@@ -582,14 +582,11 @@
                                 <button class="btn btn-light border-secondary-subtle" type="button" id="whatsapp_contact_button">
                                     <i class="fab fa-whatsapp"></i> WhatsApp
                                 </button>
-                                {{-- <x-whatsapp-modal-inmueble-contact></x-whatsapp-modal-inmueble-contact> --}}
                 
                                 {{-- contacto por correo --}}
                                 <button class="btn btn-light border-secondary-subtle" id="btn-enviar-form-single">
                                     <i class="fa-regular fa-paper-plane"></i> Enviar
                                 </button>
-
-                                {{-- <x-puja-modal-contact :monto="number_format($aviso->inmueble->precioSoles())"></x-puja-modal-contact> --}}
                 
                                 <div class="form-group d-flex align-items-top gap-2 mb-4 position-relative">
                                   
