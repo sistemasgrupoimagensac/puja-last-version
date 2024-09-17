@@ -9,9 +9,6 @@
 @endpush
 
 @section('content')
-
-{{ $caract_inmueble_id }}
-
     <div id="loader-overlay">
         <div class="flipping"></div>
     </div>
