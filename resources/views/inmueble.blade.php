@@ -323,7 +323,7 @@
                             <h4 class="fw-bold">Descripción</h4>
     
                             @if ($acepta_puja)
-                                <span class="badge text-bg-primary text-white fw-lighter my-3">Este aviso acepta ofertas en cuanto al precio que le afrezcas</span> 
+                                <span class="badge text-bg-primary text-white fw-lighter my-3">Este aviso acepta ofertas en cuanto al precio que le ofrezcas</span> 
                             @endif
     
                             <form id="editDescriptionForm" action="{{ route('posts.edit_description') }}" method="POST">
@@ -693,14 +693,14 @@
             document.getElementById('btn-enviar-form-single').addEventListener('click', function(event) {
                 event.preventDefault();
                 clearErrors();
-                submitForm('{{ route('email.procesar_contacto') }}', 'correo');
+                submitForm('{{ route('procesar_contacto') }}', 'correo');
             });
 
             // Evento para el botón de WhatsApp
             document.getElementById('whatsapp_contact_button').addEventListener('click', function(event) {
                 event.preventDefault();
                 clearErrors();
-                submitForm('{{ route('email.procesar_contacto') }}', 'whatsapp');  // Primero validamos antes de enviar WhatsApp
+                submitForm('{{ route('procesar_contacto') }}', 'whatsapp');  // Primero validamos antes de enviar WhatsApp
             });
         }
 
@@ -709,8 +709,6 @@
             let formData = new FormData(form);
             formData.append('current_url', window.location.href);
             formData.append('accion', accion);  // Agregamos la acción para que el backend sepa qué hacer
-
-            console.log(formData);
 
             fetch(actionUrl, {
                 method: 'POST',

@@ -1,0 +1,1 @@
+import{a as e}from"./bootstrap.esm-DgeKcj6p.js";const t=document.getElementById("toastBtnContact"),o=document.getElementById("contactToast");if(t){const n=e.getOrCreateInstance(o);t.addEventListener("click",()=>{n.show()})}o.addEventListener("hidden.bs.toast",()=>{window.location.href=contactoUrl});

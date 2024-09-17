@@ -216,7 +216,7 @@
 								@endif
 								<x-card-plan
 									:$sesion_iniciada
-									title="Top Plus"
+									title="Premium"
 									price="prices.topPlus"
 									time="periodoPlanTop"
 									plan="topPlus"
@@ -264,7 +264,7 @@
 		
 						<x-card-plan-checkout
 						showPlan="topPlus"
-						title="Top Plus"
+						title="Premium"
 						bgColor="text-bg-danger"
 						/>
 					</x-pay-modal>

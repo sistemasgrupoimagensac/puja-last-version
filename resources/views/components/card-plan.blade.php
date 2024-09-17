@@ -14,7 +14,7 @@
           @if ($plan === 'top')
             <p><span x-text={{ $avisos }}></span> avisos top</p>
           @elseif ($plan === 'topPlus')
-            <p><span x-text={{ $avisos }}></span> avisos top plus</p>
+            <p><span x-text={{ $avisos }}></span> avisos premium</p>
           @else     
             <ul class="list-unstyled text-start h6 mb-4">
               <template x-for="(aviso, index) in {{ $avisos }}">
@@ -22,7 +22,7 @@
                   <span x-text="aviso"></span>
                   <template x-if="index===0"><span>avisos típicos</span></template>
                   <template x-if="index===1"><span>avisos top</span></template>
-                  <template x-if="index===2"><span>avisos top plus</span></template>
+                  <template x-if="index===2"><span>avisos premium</span></template>
                 </li>
               </template>
             </ul>

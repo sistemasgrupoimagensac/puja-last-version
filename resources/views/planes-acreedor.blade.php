@@ -51,7 +51,7 @@
 								<input type="radio" class="btn-check" x-model="tipoPlan" id="topPlus" value="topPlus" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
 								<x-card-plan-acreedor
 									title="Premium"
-                  tipoAviso="Top Plus"
+                  tipoAviso="Premium"
 									price="prices.topPlus"
 									time="periodoPlan"
 									plan="topPlus"
