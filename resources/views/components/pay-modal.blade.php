@@ -231,7 +231,7 @@ function creditCardData() {
                 "method": "card",
                 "amount": price,
                 "currency": 'PEN',
-                "description": `Plan contrado: "${tipoPlan}", vigencia: ${periodoPlan} días y cuenta con un total de ${numAvisos} avisos.`,
+                "description": `Plan adquirido: ${tipoPlan} - Vigencia: ${periodoPlan} días - Avisos: ${numAvisos}.`,
                 "device_session_id": this.deviceSessionId,
                 "customer": {
                     "name": cliente.nombres,
