@@ -5,6 +5,9 @@
 
     RewriteEngine On
 
+    # BLOQUEAR EL ACCESO A LA CARPETA billing
+    RewriteRule ^billing(/.*)?$ - [F,L,NC]
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
