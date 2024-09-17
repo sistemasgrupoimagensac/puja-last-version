@@ -10,6 +10,8 @@
 
 @section('content')
 
+{{ $caract_inmueble_id }}
+
     <div id="loader-overlay">
         <div class="flipping"></div>
     </div>
@@ -234,7 +236,7 @@
                             <legend>Antigüedad</legend>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" x-model="antiguedad" id="estreno" value="1" required>
+                                <input class="form-check-input" type="radio" x-model="antiguedad" id="estreno" value="1">
                                 <label class="form-check-label" for="estreno">
                                     Estreno
                                 </label>
@@ -243,13 +245,13 @@
                             <div class="d-flex align-items-center justify-content-between my-2">
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" x-model="antiguedad" id="antiguedad" value="2" required>
-                                    <label class="form-check-label" for="antiguedad">
+                                    <input class="form-check-input" type="radio" x-model="antiguedad" id="antiguedad_anios" value="2">
+                                    <label class="form-check-label" for="antiguedad_anios">
                                         Años de antigüedad
                                     </label>
                                 </div>
 
-                                <div class="form-group" x-show="antiguedad === '2'">
+                                <div class="form-group">
                                     <div class="input-group">
                                         <input type="number" x-model="anios_antiguedad" min="0" max="99" class="form-control border-black" :required="antiguedad === '2'">
                                     </div>
@@ -258,7 +260,7 @@
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" x-model="antiguedad" id="construccion" value="0" required>
+                                <input class="form-check-input" type="radio" x-model="antiguedad" id="construccion" value="0">
                                 <label class="form-check-label" for="construccion">
                                     En construcción
                                 </label>
@@ -336,6 +338,7 @@
                                         >
                                     </div>
                                 </div>
+
                             </div>
                         </fieldset>
 

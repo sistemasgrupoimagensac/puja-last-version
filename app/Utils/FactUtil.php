@@ -140,7 +140,8 @@ class FactUtil
             ->setDireccion($this->datos_fact_elect->address));
     }
 
-    public function getPdfA4(DocumentInterface $document, $tipodocumento, $saleInvoice = null){
+    public function getPdfA4(DocumentInterface $document, $tipodocumento, $saleInvoice = null)
+    {
         $html = new HtmlReport(__DIR__.'/../templates', [
             'cache' => __DIR__ . '/../cache',
             'strict_variables' => true,

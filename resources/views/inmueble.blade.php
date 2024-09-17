@@ -181,42 +181,42 @@
                         <div class="description-container mt-4 bg-primary-subtle text-bg-light p-3 rounded border border-3 border-primary">
                             <h3 class="fw-bold">Detalles del Remate Público</h3>
 
-                            @if($aviso->inmueble->remate_direccion())
+                            @if($aviso->inmueble->remate_direccion() && $aviso->inmueble->remate_direccion() !== 'null')
                                 <p>
                                     <span class="fw-bolder">Lugar del remate:</span>
                                     {{ $aviso->inmueble->remate_direccion() }} - {{ $aviso->inmueble->remate_nombre_centro() }}
                                 </p>
                             @endif
 
-                            @if($aviso->inmueble->remate_fecha())
+                            @if($aviso->inmueble->remate_fecha() && $aviso->inmueble->remate_fecha() !== 'null')
                                 <p>
                                     <span class="fw-bolder">Fecha y hora:</span>
                                     {{ $aviso->inmueble->remate_fecha() }} a las {{ $aviso->inmueble->remate_hora() ? $aviso->inmueble->remate_hora() : "" }} horas
                                 </p>
                             @endif
 
-                            @if($aviso->inmueble->remate_nombre_contacto())
+                            @if($aviso->inmueble->remate_nombre_contacto() && $aviso->inmueble->remate_nombre_contacto() !== 'null')
                                 <p>
                                     <span class="fw-bolder">Contacto:</span>
                                     {{ $aviso->inmueble->remate_nombre_contacto() }}
                                 </p>
                             @endif
 
-                            @if($aviso->inmueble->remate_telef_contacto())
+                            @if($aviso->inmueble->remate_telef_contacto() && $aviso->inmueble->remate_nombre_contacto() !== 'null')
                                 <p>
                                     <span class="fw-bolder">Teléfono:</span>
                                     {{ $aviso->inmueble->remate_telef_contacto() }}
                                 </p>
                             @endif
 
-                            @if($aviso->inmueble->remate_correo_contacto())
+                            @if($aviso->inmueble->remate_correo_contacto() && $aviso->inmueble->remate_correo_contacto() !== 'null')
                                 <p>
                                     <span class="fw-bolder">Correo:</span>
                                     {{ $aviso->inmueble->remate_correo_contacto() }}
                                 </p>
                             @endif
 
-                            @if($aviso->inmueble->remate_partida_registral())
+                            @if($aviso->inmueble->remate_partida_registral() && $aviso->inmueble->remate_partida_registral() !== 'null')
                                 <p>
                                     <span class="fw-bolder">Partida Registral:</span>
                                     <span class="px-2 bg-body-tertiary rounded">{{ $aviso->inmueble->remate_partida_registral() }}</span>
@@ -323,7 +323,7 @@
                             <h4 class="fw-bold">Descripción</h4>
     
                             @if ($acepta_puja)
-                                <span class="badge text-bg-primary text-white fw-lighter my-3">Este aviso acepta ofertas en cuanto al precio que le afrezcas</span> 
+                                <span class="badge text-bg-primary text-white fw-lighter my-3">Este aviso acepta ofertas en cuanto al precio que le ofrezcas</span> 
                             @endif
     
                             <form id="editDescriptionForm" action="{{ route('posts.edit_description') }}" method="POST">
@@ -582,14 +582,11 @@
                                 <button class="btn btn-light border-secondary-subtle" type="button" id="whatsapp_contact_button">
                                     <i class="fab fa-whatsapp"></i> WhatsApp
                                 </button>
-                                {{-- <x-whatsapp-modal-inmueble-contact></x-whatsapp-modal-inmueble-contact> --}}
                 
                                 {{-- contacto por correo --}}
                                 <button class="btn btn-light border-secondary-subtle" id="btn-enviar-form-single">
                                     <i class="fa-regular fa-paper-plane"></i> Enviar
                                 </button>
-
-                                {{-- <x-puja-modal-contact :monto="number_format($aviso->inmueble->precioSoles())"></x-puja-modal-contact> --}}
                 
                                 <div class="form-group d-flex align-items-top gap-2 mb-4 position-relative">
                                   
@@ -691,27 +688,27 @@
         const adBelongs = @json($ad_belongs);
         const owner_phone = @json( $aviso->inmueble->user->phone );
 
-        if(!adBelongs) {
+        if (!adBelongs) {
+            // Evento para el botón de enviar por correo
             document.getElementById('btn-enviar-form-single').addEventListener('click', function(event) {
                 event.preventDefault();
                 clearErrors();
-                submitForm('{{ route('email.enviar-datos_contacto') }}');
+                submitForm('{{ route('procesar_contacto') }}', 'correo');
             });
 
+            // Evento para el botón de WhatsApp
             document.getElementById('whatsapp_contact_button').addEventListener('click', function(event) {
                 event.preventDefault();
-                console.log( "cel", owner_phone )
-                sendWsp( owner_phone );
+                clearErrors();
+                submitForm('{{ route('procesar_contacto') }}', 'whatsapp');  // Primero validamos antes de enviar WhatsApp
             });
         }
 
-        function submitForm(actionUrl) {
+        function submitForm(actionUrl, accion) {
             let form = document.getElementById('send_contact');
             let formData = new FormData(form);
             formData.append('current_url', window.location.href);
-
-            console.log(formData);
-            
+            formData.append('accion', accion);  // Agregamos la acción para que el backend sepa qué hacer
 
             fetch(actionUrl, {
                 method: 'POST',
@@ -723,10 +720,16 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status == "Success") {
-                    alert('Formulario enviado correctamente');
-                    form.reset();
+                    if (accion === 'whatsapp') {
+                        // Si la acción es WhatsApp, continuamos con la función sendWsp
+                        sendWsp(owner_phone);
+                    } else {
+                        // Si la acción es correo, mostramos el mensaje de éxito
+                        alert('Formulario enviado correctamente');
+                        form.reset();
+                    }
                 } else {
-                    handleErrors(data.errors);
+                    handleErrors(data.errors);  // Si hay errores, los mostramos
                 }
             })
             .catch(error => {

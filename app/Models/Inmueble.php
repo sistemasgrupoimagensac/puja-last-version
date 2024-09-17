@@ -254,7 +254,7 @@ class Inmueble extends Model
 
     public function getPujaDescripcionAttribute()
     {
-        $puja = $this->is_puja() == 1 ? "*Este aviso acepta ofertas en cuanto al precio que le afrezcas.\n" : "";
+        $puja = $this->is_puja() == 1 ? "*Este aviso acepta ofertas en cuanto al precio que le ofrezcas.\n" : "";
         
     }
 

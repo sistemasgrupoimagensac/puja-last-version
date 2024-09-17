@@ -78,7 +78,8 @@ class PlanController extends Controller
     }
 
     // Contratar un Plan y/o publicar un aviso
-    public function post_ad(Request $request){
+    public function post_ad(Request $request)
+    {
 
         try {
             $validator = Validator::make($request->all(), [
@@ -227,8 +228,6 @@ class PlanController extends Controller
     // Usar un plan contratado activo para publicar un aviso
     public function use_plan(Request $request){
         try {
-            // if ( !Auth::check() ) return redirect()->route('sign_in')->with('error', 'Inicia sesión, por favor.');
-            // $user_id = Auth::id();
             $user_id = 1;
             $plan_id = $request->plan_id;
             $tipo_aviso = $request->tipo_aviso;

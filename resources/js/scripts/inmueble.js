@@ -58,7 +58,7 @@ function renderPlans(plans) {
             <div class="card-body">
                 <ul class="list-unstyled m-0">
                     <li>Vence: <span class="fw-bold"> ${formatDate(plan.plan_user.end_date)} </span></li>
-                    <li>Avisos Top Plus: <span class="fw-bold"> ${plan.plan_user.premium_ads_remaining} </span></li>
+                    <li>Avisos Premium: <span class="fw-bold"> ${plan.plan_user.premium_ads_remaining} </span></li>
                     <li>Avisos Top: <span class="fw-bold"> ${plan.plan_user.top_ads_remaining} </span></li>
                     <li>Avisos Típicos: <span class="fw-bold"> ${plan.plan_user.typical_ads_remaining} </span></li>
                 </ul>
@@ -110,7 +110,7 @@ function renderPlans(plans) {
 
 // Añadir eventos a los botones del modal para seleccionar el tipo de aviso
 document.getElementById('btnPremiumAds')?.addEventListener('click', () => {
-  selectedPlanData.tipo_aviso = 3 // Plan Top Plus
+  selectedPlanData.tipo_aviso = 3 // Plan Premium
   console.log(selectedPlanData)
 })
 document.getElementById('btnTopAds')?.addEventListener('click', () => {

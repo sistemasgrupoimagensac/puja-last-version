@@ -4,7 +4,7 @@ const u=document.querySelector("#fullText"),g=document.querySelector("#shortText
             <div class="card-body">
                 <ul class="list-unstyled m-0">
                     <li>Vence: <span class="fw-bold"> ${h(t.plan_user.end_date)} </span></li>
-                    <li>Avisos Top Plus: <span class="fw-bold"> ${t.plan_user.premium_ads_remaining} </span></li>
+                    <li>Avisos Premium: <span class="fw-bold"> ${t.plan_user.premium_ads_remaining} </span></li>
                     <li>Avisos Top: <span class="fw-bold"> ${t.plan_user.top_ads_remaining} </span></li>
                     <li>Avisos Típicos: <span class="fw-bold"> ${t.plan_user.typical_ads_remaining} </span></li>
                 </ul>

@@ -164,7 +164,6 @@ function creditCardData() {
         showCVC: false,
         toggleCVC() {
             this.showCVC = !this.showCVC;
-            console.log('toggleCVC called:', this.showCVC); 
         },
         deviceSessionId: '',
         isProcessing: false,
@@ -292,9 +291,7 @@ function creditCardData() {
                     document.getElementById('pay-button').disabled = false
                     document.getElementById('error-message').innerText = 'La tarjeta ha sido rechazada';
                     triggerToastPayError()
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 5000);
+                    window.location.reload();
 
                 } else {
                     transactionData = {
@@ -313,9 +310,7 @@ function creditCardData() {
                     document.getElementById('pay-button').disabled = false
                     document.getElementById('success-message').innerText = 'Pago realizado con éxito';
                     triggerToastPaySuccess()
-                    setTimeout(() => {
-                        this.contratarPlan(formPost.amount, formPost.description);
-                    }, 5000);
+                    this.contratarPlan(formPost.amount, formPost.description);
                 }
 
             }).catch(error => {
@@ -334,9 +329,6 @@ function creditCardData() {
                 body: JSON.stringify(transactionData)
             })
             .then(response => response.json())
-            .then(data => {
-                console.log('Transacción guardada:', data);
-            })
             .catch(error => {
                 console.error('Error guardando la transacción:', error);
             });
@@ -348,7 +340,6 @@ function creditCardData() {
                     tipo_aviso: tipoDeAviso,
                     aviso_id: {{ $avisoId }},
                 }
-                console.log(dataToSend)
 
                 fetch('/contratar_plan', {
                     method: 'POST',
@@ -364,7 +355,7 @@ function creditCardData() {
                     if (data.status === "Success") {
                         const planUserId = data.planuser_id
                         this.factElectronica(price, planUserId, description)
-                        window.location.href = '/my-posts/create'
+                        window.location.href = '/panel/avisos'
                     } else {
                         console.error('Error en la suscripción:', data.message);
                     }
@@ -407,9 +398,6 @@ function creditCardData() {
                     body: JSON.stringify(data)
                 })
                 .then(response => response.json())
-                .then(data => {
-                    console.log('data_response__facturacion-electronica', data);
-                })
                 .catch(error => {
                     console.error('Hubo un error:', error)
                 })
@@ -520,8 +508,6 @@ function consultaDocumento() {
                         tipoDocumento = "DNI"
                         nombreDocumento =data_response.data.nombre_completo
                     }
-
-                    console.log('Response:', data_response)
                     this.resultados = data_response.data
 
                 } else {
@@ -537,7 +523,6 @@ function consultaDocumento() {
         getNombre() {
             if (this.tipo === 'DNI' && this.resultados) {
                 documentTypeId = 2
-                console.log(documentTypeId);
                 return this.resultados.nombre_completo
             } else if (this.tipo === 'RUC' && this.resultados) {
                 documentTypeId = 3

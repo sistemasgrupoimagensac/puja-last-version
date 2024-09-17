@@ -110,15 +110,21 @@
                                 </div>
                             </div>
                         </li>
-                        
-                        {{-- Servicios --}}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+                        <li class=" nav-item dropdown">
+                            <a class=" nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Servicios
                             </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="/blog">Blog</a></li>
-                            </ul>
+
+                            <div class=" dropdown-menu  p-3">
+
+                                <div class="d-flex justify-content-between">
+
+                                    <div class="d-flex flex-column">
+                                        <a class="text-decoration-none text-dark mb-1" href="/blog" target="_blank">Blog</a>
+                                    </div>
+                                </div>
+                            </div>
                         </li>
                         
                         {{-- Remates --}}
@@ -275,6 +281,7 @@
     {{-- Linea divisora --}}
     <hr class="m-0">
 
+    {{-- Menú para celuar si está autenticado --}}
     <div class="d-flex flex-column gap-3 mx-3 mt-4">
         @auth
 
@@ -570,6 +577,26 @@
                             </div>
                         </div>
                     
+                    </div>
+                </div>
+            </div>
+
+            {{-- SERVICIOS --}}
+            <div class="accordion-item rounded-0 border-0 border-bottom">
+                <h2 class="accordion-header" id="headingServicios">
+                    <button class="custom-accordion-button accordion-button p-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseServicios" aria-expanded="true" aria-controls="collapseServicios">
+                        <span class="icon-orange">Servicios</span>
+                    </button>
+                </h2>
+                <div id="collapseServicios" class="accordion-collapse collapse" aria-labelledby="headingServicios" data-bs-parent="#accordionGeneral">
+                    <div class="accordion-body py-2" id="accordionServicios">
+                        <div class="accordion" id="accordionServiciosProvincia">
+                            <div class="accordion-body py-2">
+                                <div class="list-group">
+                                    <a class="text-decoration-none text-dark mb-1" href="/blog" target="_blank">Blog</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
