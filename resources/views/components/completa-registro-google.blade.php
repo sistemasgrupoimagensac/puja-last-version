@@ -46,7 +46,7 @@
       
                           {{-- Aceptación de los terminos --}}
                           <small class="text-body-tertiary py-1">
-                            Al hacer click en Competar Registro, está aceptando nuestros <a href="/terminos-uso" target="blank" class="custom-link-register text-decoration-none">Términos y Condiciones de Uso</a> y las <a href="/politica-privacidad" target="blank" class="custom-link-register text-decoration-none">Políticas de Privacidad</a>
+                            Al hacer click en Competar Registro, está aceptando nuestros <a href="/terminos-uso" target="_blank" class="custom-link-register text-decoration-none">Términos y Condiciones de Uso</a> y las <a href="/politica-privacidad" target="_blank" class="custom-link-register text-decoration-none">Políticas de Privacidad</a>
                           </small>
                       </fieldset>
                   
