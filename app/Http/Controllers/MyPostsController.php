@@ -40,14 +40,16 @@ use Illuminate\Support\Str;
 class MyPostsController extends Controller
 {
 
-    public function openpay () {
+    public function openpay ()
+    {
         // return view('open-pay.index');
         $latitude = -12.09706477059002;
         $longitude = -77.02302118294135;
         return view('openpay', compact('latitude', 'longitude'));
     }
 
-    public function create (){
+    public function create ()
+    {
         if (!Auth::check()) {
             return redirect('/');
         }
@@ -61,7 +63,6 @@ class MyPostsController extends Controller
     
         return view('crear-aviso', compact('es_acreedor', 'es_propietario', 'es_corredor', 'es_proyecto', 'show_modal'));
     }
-    
     
     public function store (Request $request)
     {
@@ -544,7 +545,6 @@ class MyPostsController extends Controller
 
     public function edit (Aviso $aviso)
     {
-
         $user = Auth::user();
     
         $es_propietario = $user->tipo_usuario_id == 2 ? true : false;
@@ -577,17 +577,14 @@ class MyPostsController extends Controller
             $planos_inmueble = PlanoInmueble::where("multimedia_inmueble_id", $mult_inmueble->id)->first();
 
         } else {
-
             $imgs_inmueble = null;
             $videos_inmueble = null;
             if(!$videos_inmueble){
                 $videos_inmueble = "";
             }
             $planos_inmueble = null;
-
         }
         
-
         $extra_inmueble = ExtraInmueble::where("inmueble_id", $aviso->inmueble_id)->first();
 
         if ( isset($extra_inmueble) ) {
@@ -601,10 +598,12 @@ class MyPostsController extends Controller
         } else {
             dd("Aviso no encontrado, $aviso no existe");
         }
+
         return view('editar-aviso');
     }
 
-    public function edit_description (Request $request){
+    public function edit_description (Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'aviso_id' => 'required|integer',
             'description' => 'required|string',
@@ -756,7 +755,8 @@ class MyPostsController extends Controller
         ], 200);
     }
 
-    public function my_post_sold (Request $request) {
+    public function my_post_sold (Request $request) 
+    {
         $validator = Validator::make($request->all(), [
             'aviso_id' => 'required|integer',
         ]);
@@ -779,7 +779,8 @@ class MyPostsController extends Controller
         ], 200);
     }
 
-    public function my_post_delete (Request $request) {
+    public function my_post_delete (Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'aviso_id' => 'required|integer',
         ]);

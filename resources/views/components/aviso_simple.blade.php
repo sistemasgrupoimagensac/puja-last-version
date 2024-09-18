@@ -1,8 +1,9 @@
-<div class="card mb-3 shadow">
+<div class="card mb-4 shadow aviso-simple">
+
+    {{-- Card --}}
     <div class="row g-0">
 
-
-        <div class="col-md-3">
+        <div class="col-lg-3">
             <a href="{{ $link }}" target="_blank" class="text-decoration-none text-reset">
                 
                 @if (isset($image))
@@ -14,7 +15,7 @@
             </a>
         </div>
 
-        <div class="col-md-9">
+        <div class="col-lg-9">
             <div class="d-flex flex-column justify-content-between h-100">
 
                 {{-- titulo --}}
@@ -62,15 +63,15 @@
 
                                 <div class="d-flex flex-column">
 
-                                    <span>Fecha publicación: <span class=" fw-semibold">{{ \Carbon\Carbon::parse($aviso->fecha_publicacion)->format('d . m . Y') }}</span></span>
-                                    <span>Fecha finalización: <span class=" fw-semibold">{{ \Carbon\Carbon::parse($aviso->planUser->end_date)->format('d . m . Y') }}</span></span>
+                                    <span>Fecha publicación: <span class="fw-semibold">{{ \Carbon\Carbon::parse($aviso->fecha_publicacion)->format('d . m . Y') }}</span></span>
+                                    <span>Fecha finalización: <span class="fw-semibold">{{ \Carbon\Carbon::parse($aviso->planUser->end_date)->format('d . m . Y') }}</span></span>
                                     
                                     @if ( $aviso->ad_type === 3 )
-                                        <span>Aviso tipo: <span class=" fw-semibold">Premium</span></span>
+                                        <span>Aviso tipo: <span class="fw-semibold">Premium</span></span>
                                     @elseif ( $aviso->ad_type === 2 )
-                                        <span>Aviso tipo: <span class=" fw-semibold">Top</span></span>
+                                        <span>Aviso tipo: <span class="fw-semibold">Top</span></span>
                                     @else
-                                        <span>Aviso tipo: <span class=" fw-semibold">Típico</span></span>
+                                        <span>Aviso tipo: <span class="fw-semibold">Típico</span></span>
                                     @endif
     
                                 </div>
@@ -81,24 +82,34 @@
                 </div>
 
                 <div class="card-footer">
-                    <div class="d-flex justify-content-end gap-3">
+                    <div class="d-flex justify-content-end gap-3 mx-lg-4">
+
+                        {{-- Editar aviso --}}
                         @if ( $edit_enabled )
-                            <button
-                                class="btn btn-light border-secondary-subtle bg-white"
+                            <button type="button" class="action edit border-0 bg-transparent p-1"
 
                                 @if ($published)
-                                    title="Tiene 72 horas para editar desde el momento de la publicación"
+                                    title="Tiene 72 horas para editar el anuncio desde el momento de la publicación"
                                 @else
                                     title="Editar aviso"
                                 @endif
 
                                 onclick="window.location.href='{{ route('posts.edit', ['aviso' => $id]) }}'"
                             >
-                                <i class="fa-solid fa-pen-to-square"></i>
+                                <i class="fa-solid fa-pen-to-square w-100 h-100"></i>
                             </button>
                         @endif
-                        <a href="{{ $link }}" target="_blank" class="btn btn-light border-secondary-subtle bg-white" title="Ir al aviso">
-                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                        {{-- Eliminar aviso --}}
+                        <button type="button" class="action delete border-0 bg-transparent p-1" title="Eliminar anuncio" data-bs-toggle="modal" 
+                            data-bs-target="#avisoDeleteModal"
+                            onclick="setDeleteModal('{{ $title }}', '{{ $id }}')">
+                            <i class="fa-solid fa-trash-can w-100 h-100 text-danger"></i>
+                        </button>
+
+                        {{-- Ir al aviso --}}
+                        <a href="{{ $link }}" class="action link p-1" target="_blank">
+                            <i class="fa-solid fa-up-right-from-square w-100 h-100"></i>
                         </a>
                     </div>
                 </div>
@@ -107,4 +118,5 @@
         </div>
 
     </div>
+
 </div>

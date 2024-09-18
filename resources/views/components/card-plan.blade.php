@@ -13,7 +13,7 @@
   
           @if ($plan === 'top')
             <p><span x-text={{ $avisos }}></span> avisos top</p>
-          @elseif ($plan === 'topPlus')
+          @elseif ($plan === 'premium')
             <p><span x-text={{ $avisos }}></span> avisos premium</p>
           @else     
             <ul class="list-unstyled text-start h6 mb-4">

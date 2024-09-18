@@ -83,13 +83,12 @@ Route::get('/recuperar-password', [LoginController::class, 'recovery_password'])
 Route::post('/store-completeUserGoogle', [LoginController::class, 'complete_user_google'])->middleware('auth');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/my-posts/create', [MyPostsController::class, 'create'])->name('posts.create')
-        ->middleware('verified');
+    Route::get('/my-posts/create', [MyPostsController::class, 'create'])->name('posts.create')->middleware('verified');
     Route::post('/my-post/store', [MyPostsController::class, 'store'])->name('posts.store');
     Route::put('/my-posts/description/edit', [MyPostsController::class, 'edit_description'])->name('posts.edit_description');
     Route::post('/my-posts/sold', [MyPostsController::class, 'my_post_sold']);
     Route::post('/my-post/delete', [MyPostsController::class, 'my_post_delete']);
-    Route::get('/my-posts/{aviso}/edit', [MyPostsController::class, 'edit'])->name('posts.edit'); // PENDIENTE
+    Route::get('/my-posts/{aviso}/edit', [MyPostsController::class, 'edit'])->name('posts.edit');
 });
 
 Route::get('/my-post/operaciones/subtipos', [MyPostsController::class, 'get_subtipos']);

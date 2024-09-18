@@ -212,14 +212,14 @@
 							<!-- plan top plus -->
 							<div>
 								@if ($sesion_iniciada)
-									<input type="radio" class="btn-check" x-model="tipoPlan" id="topPlus" value="topPlus" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
+									<input type="radio" class="btn-check" x-model="tipoPlan" id="premium" value="premium" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
 								@endif
 								<x-card-plan
 									:$sesion_iniciada
 									title="Premium"
-									price="prices.topPlus"
+									price="prices.premium"
 									time="periodoPlanTop"
-									plan="topPlus"
+									plan="premium"
 									className="btn-danger border-danger"
 									avisos="numAvisosTop"
 								/>
@@ -263,7 +263,7 @@
 						/>
 		
 						<x-card-plan-checkout
-						showPlan="topPlus"
+						showPlan="premium"
 						title="Premium"
 						bgColor="text-bg-danger"
 						/>
@@ -305,7 +305,7 @@
 					superior: 405,
 					// categoria plan: top
 					top: 129,
-					topPlus: 239,
+					premium: 239,
 				},
 
 				avisos: {
@@ -367,7 +367,7 @@
 				updatePricesTop() {
 					const selectedPricesTop = this.priceTableTop[this.numAvisosTop][this.periodoPlanTop]
 					this.prices.top = selectedPricesTop[0]
-					this.prices.topPlus = selectedPricesTop[1]
+					this.prices.premium = selectedPricesTop[1]
 				},
 				updateAvisosDistribution() {
 					const selectAvisos = this.avisosDistribution[this.categoriaPlan][this.numAvisos]
@@ -389,7 +389,7 @@
           const selectedId = this.idsTop[this.numAvisosTop][this.periodoPlanTop]
           if(this.tipoPlan === 'top') {
 						idPlan = selectedId[0]
-          } else if (this.tipoPlan === 'topPlus') {
+          } else if (this.tipoPlan === 'premium') {
 						idPlan = selectedId[1]
           }
         },
