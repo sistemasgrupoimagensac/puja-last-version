@@ -93,6 +93,12 @@
     "src": "resources/js/scripts/components/footer.js",
     "isEntry": true
   },
+  "resources/js/scripts/components/mis_avisos.js": {
+    "file": "assets/mis_avisos-D2jOZCN6.js",
+    "name": "mis_avisos",
+    "src": "resources/js/scripts/components/mis_avisos.js",
+    "isEntry": true
+  },
   "resources/js/scripts/contacto.js": {
     "file": "assets/contacto-BoXg5C55.js",
     "name": "contacto",
@@ -184,7 +190,7 @@
     ]
   },
   "resources/sass/app.scss": {
-    "file": "assets/app-Cfm9A8_o.css",
+    "file": "assets/app-0aXUbU7b.css",
     "src": "resources/sass/app.scss",
     "isEntry": true
   },
@@ -199,12 +205,12 @@
     "isEntry": true
   },
   "resources/sass/components/footer.scss": {
-    "file": "assets/footer-CpFPmQVx.css",
+    "file": "assets/footer-CAvj0VRG.css",
     "src": "resources/sass/components/footer.scss",
     "isEntry": true
   },
   "resources/sass/components/menu_panel.scss": {
-    "file": "assets/menu_panel-BBxd21Df.css",
+    "file": "assets/menu_panel-nxQLwrhl.css",
     "src": "resources/sass/components/menu_panel.scss",
     "isEntry": true
   },
@@ -214,7 +220,7 @@
     "isEntry": true
   },
   "resources/sass/pages/blog.scss": {
-    "file": "assets/blog-BrUZmyRB.css",
+    "file": "assets/blog-DMFXVwPL.css",
     "src": "resources/sass/pages/blog.scss",
     "isEntry": true
   },
@@ -224,7 +230,7 @@
     "isEntry": true
   },
   "resources/sass/pages/crear-aviso.scss": {
-    "file": "assets/crear-aviso-Di3bPGgz.css",
+    "file": "assets/crear-aviso-SeGnOfCo.css",
     "src": "resources/sass/pages/crear-aviso.scss",
     "isEntry": true
   },
@@ -239,7 +245,7 @@
     "isEntry": true
   },
   "resources/sass/pages/planes.scss": {
-    "file": "assets/planes-DCwv9xvJ.css",
+    "file": "assets/planes-BbrPeHKe.css",
     "src": "resources/sass/pages/planes.scss",
     "isEntry": true
   },
@@ -264,7 +270,7 @@
     "isEntry": true
   },
   "resources/sass/pages/signin.scss": {
-    "file": "assets/signin-DHw37iqX.css",
+    "file": "assets/signin-DOeximKZ.css",
     "src": "resources/sass/pages/signin.scss",
     "isEntry": true
   },
