@@ -47,6 +47,7 @@ export default defineConfig({
         "resources/js/scripts/components/back_button.js",
         "resources/js/scripts/components/card_simple.js",
         "resources/js/scripts/components/footer.js",
+        "resources/js/scripts/components/mis_avisos.js",
 
       ],
       refresh: true,

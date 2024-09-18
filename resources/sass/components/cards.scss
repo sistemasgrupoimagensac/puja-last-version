@@ -131,6 +131,29 @@
   }
 }
 
+// Card de Mis Avisos (aviso_simple.blade.php)
+
+.aviso-simple {
+
+  .card-footer {
+
+    .action {
+      height: 30px;
+      width: 30px;
+
+      &.edit {
+        color: $blue;
+      }
+
+      &.link {
+        color: $azul-marino-oscuro;
+      }
+    }
+
+  }
+}
+
+
 // MEDIA QUERIES ===============================================
 @media (min-width: $lg) {
   .card-inmueble {
