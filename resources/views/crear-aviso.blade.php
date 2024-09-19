@@ -703,9 +703,23 @@
         });
 
         function initMap() {
+
+            // Definir los estilos para ocultar POI (puntos de interés) y otros elementos.
+            const mapStyles = [
+                {
+                    featureType: "poi", // Puntos de interés
+                    stylers: [{ visibility: "off" }] // Ocultar POI
+                },
+                {
+                    featureType: "transit.station", // Paraderos de buses, metro, etc.
+                    stylers: [{ visibility: "off" }] // Ocultar estaciones de transporte
+                }
+            ];
+
             map = new google.maps.Map(mapDiv, {
                 center: defaultLocation,
                 zoom: 14,
+                styles: mapStyles,
             });
 
             geocoder = new google.maps.Geocoder();
