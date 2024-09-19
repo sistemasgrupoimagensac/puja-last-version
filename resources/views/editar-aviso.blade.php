@@ -734,12 +734,25 @@
                 lng: parseFloat("{{ $ubi_inmueble->longitud ?? '0' }}"),
             };
 
+            // Definir los estilos para ocultar POI (puntos de interés) y otros elementos.
+            const mapStyles = [
+                {
+                    featureType: "poi", // Puntos de interés
+                    stylers: [{ visibility: "off" }] // Ocultar POI
+                },
+                {
+                    featureType: "transit.station", // Paraderos de buses, metro, etc.
+                    stylers: [{ visibility: "off" }] // Ocultar estaciones de transporte
+                }
+            ];
+
             // Si hay coordenadas almacenadas, usarlas; de lo contrario, usar la ubicación predeterminada
             const initialLocation = storedLocation.lat && storedLocation.lng ? storedLocation : defaultLocation;
             
             map = new google.maps.Map(mapDiv, {
                 center: initialLocation,
                 zoom: 14,
+                styles: mapStyles,
             });
 
             geocoder = new google.maps.Geocoder();

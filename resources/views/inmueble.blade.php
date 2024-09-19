@@ -33,7 +33,7 @@
 
 
     @endphp
-    <div class="custom-container my-2">
+    <div class="custom-container my-3 my-md-5">
         <div class="d-flex flex-column flex-lg-row">
         
             {{-- Caracteristicas del inmueble --}}
@@ -386,8 +386,19 @@
                     {{-- Geolocalización --}}
                     <div class="mt-5">
                         <h3 class="fw-bold">Localización</h3>
+
+                        {{-- direccion --}}
+                        <p class="p-0">
+                            <i class="fa-solid fa-location-dot icon-orange"></i>
+                            <span>{{ $aviso->inmueble->address() }}</span> {{-- address --}}
+                            <span>, </span>
+                            <span>{{ $aviso->inmueble->distrito() }}</span> {{-- district --}}
+                            <span>, </span>
+                            <span>{{ $aviso->inmueble->provincia() }}</span> {{-- departament --}}
+                        </p>
+
                         @if ($aviso->inmueble->principal->ubicacion->latitud)
-                            <div class="mt-3" id="map" style="max-width: 600px; height: 600px"></div>
+                            <div class="mt-3" id="map" style="height: 600px; width: 100%"></div>
                         @endif
                     </div>
                 </div>  
@@ -617,22 +628,52 @@
         let marker
         let circle
         function initMap() {
+
+            // Definir los estilos para ocultar POI (puntos de interés) y otros elementos.
+            const mapStyles = [
+                {
+                    featureType: "poi", // Puntos de interés
+                    stylers: [{ visibility: "off" }] // Ocultar POI
+                },
+                {
+                    featureType: "transit.station", // Paraderos de buses, metro, etc.
+                    stylers: [{ visibility: "off" }] // Ocultar estaciones de transporte
+                }
+            ];
+
             map = new google.maps.Map(mapDiv, {
                 center: defaultLocation,
                 zoom: 16,
+                styles: mapStyles,
             })
 
             if ( es_exacta === 1 ){
                 marker = new google.maps.Marker({
                     position: defaultLocation,
                     map: map,
+                    icon: {
+                        url: "/images/svg/marker_puja.svg",
+                        scaledSize: new google.maps.Size(80, 80), 
+                        origin: new google.maps.Point(0, 0),
+                        anchor: new google.maps.Point(40, 80)
+                    }
                 })
             } else {
+                // circle = new google.maps.Circle({
+                //     strokeColor: "#FFFF00",
+                //     strokeOpacity: 0.8,
+                //     strokeWeight: 2,
+                //     fillColor: "#FFFF00",
+                //     fillOpacity: 0.35,
+                //     map: map,
+                //     center: defaultLocation,
+                //     radius: 400,
+                // });
                 circle = new google.maps.Circle({
-                    strokeColor: "#FFFF00",
-                    strokeOpacity: 0.8,
+                    strokeColor: "#fb7125",
+                    strokeOpacity: 0,
                     strokeWeight: 2,
-                    fillColor: "#FFFF00",
+                    fillColor: "#fb7125",
                     fillOpacity: 0.35,
                     map: map,
                     center: defaultLocation,
