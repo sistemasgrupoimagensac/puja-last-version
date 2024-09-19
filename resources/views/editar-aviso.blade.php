@@ -1116,19 +1116,19 @@
                             formData.append('antiguedad', this.antiguedad)
                             formData.append('anios_antiguedad', this.anios_antiguedad)
                             formData.append('precio_soles', this.precio_soles)
-                            formData.append('precio_dolares', this.precio_dolares);  // Ejemplo con null
+                            formData.append('precio_dolares', this.precio_dolares)
 
-                            formData.append('remate_precio_base', this.base_remate);
-                            formData.append('remate_valor_tasacion', this.valor_tasacion);
-                            formData.append('remate_partida_registral', this.partida_registral);
-                            formData.append('remate_direccion_id', this.remate_direccion_id);
-                            formData.append('remate_direccion', this.direccion_remate);
-                            formData.append('remate_nombre_centro', this.remate_nombre_centro);
-                            formData.append('remate_fecha', this.fecha_remate);
-                            formData.append('remate_hora', this.hora_remate);
-                            formData.append('remate_nombre_contacto', this.contacto_remate);
-                            formData.append('remate_telef_contacto', this.telefono_contacto_remate);
-                            formData.append('remate_correo_contacto', this.correo_contacto_remate);
+                            formData.append('remate_precio_base', this.base_remate)
+                            formData.append('remate_valor_tasacion', this.valor_tasacion)
+                            formData.append('remate_partida_registral', this.partida_registral)
+                            formData.append('remate_direccion_id', this.remate_direccion_id)
+                            formData.append('remate_direccion', this.direccion_remate)
+                            formData.append('remate_nombre_centro', this.remate_nombre_centro)
+                            formData.append('remate_fecha', this.fecha_remate)
+                            formData.append('remate_hora', this.hora_remate)
+                            formData.append('remate_nombre_contacto', this.contacto_remate)
+                            formData.append('remate_telef_contacto', this.telefono_contacto_remate)
+                            formData.append('remate_correo_contacto', this.correo_contacto_remate)
 
                             formData.append('titulo', this.titulo)
                             formData.append('description', this.description)
