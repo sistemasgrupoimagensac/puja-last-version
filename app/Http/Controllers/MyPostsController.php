@@ -259,14 +259,14 @@ class MyPostsController extends Controller
                     "principal_inmueble_id" => $principal_inmueble->id,
                     ],[
                     "is_puja" => $request->is_puja,
-                    'habitaciones' => $request->habitaciones !== null ? (int)$request->habitaciones : 0,
-                    'banios' => $request->banios !== null ? (int)$request->banios : 0,
-                    'medio_banios' => $request->medio_banios !== null ? (int)$request->medio_banios : 0,
-                    'estacionamientos' => $request->estacionamientos !== null ? (int)$request->estacionamientos : 0,
+                    'habitaciones' => $request->habitaciones !== null ? (int)$request->habitaciones : '',
+                    'banios' => $request->banios !== null ? (int)$request->banios : '',
+                    'medio_banios' => $request->medio_banios !== null ? (int)$request->medio_banios : '',
+                    'estacionamientos' => $request->estacionamientos !== null ? (int)$request->estacionamientos : '',
                     "area_construida" => $request->area_construida,
                     "area_total" => $request->area_total,
                     "antiguedad" => $request->antiguedad,
-                    'anios_antiguedad' => $request->anios_antiguedad !== null ? (int)$request->anios_antiguedad : 0,
+                    'anios_antiguedad' => $request->anios_antiguedad !== null ? (int)$request->anios_antiguedad : '',
                     "precio_soles" => $precio_soles,
                     "precio_dolares" => $precio_dolares,
                     "remate_precio_base" => $remate_precio_base,
@@ -290,6 +290,7 @@ class MyPostsController extends Controller
                 ], 500);
             }
 
+            
             if (!$carac_inmueble) {
                 return response()->json([
                     'message' => 'No se pudo guardar el registro de caracteristicas',
@@ -297,7 +298,10 @@ class MyPostsController extends Controller
                 ], 422);
             }
         }
-
+        // return response()->json([
+        //     'request' => $request->all(),
+        // ], 200);
+        
         if ($request->multimedia) {
             $routeImages = "images/{$inmueble->id}";
             $routePlans = "planos/{$inmueble->id}";

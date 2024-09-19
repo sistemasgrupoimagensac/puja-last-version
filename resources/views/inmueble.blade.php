@@ -591,7 +591,7 @@
                                 <div class="form-group d-flex align-items-top gap-2 mb-4 position-relative">
                                   
                                     <input type="checkbox" name="accept_terms" id="terminos" class="form-check-input" required/>
-                                    <label for="terminos">Acepto los <a href="" class="custom-link-register text-decoration-none">Términos y Condiciones de Uso</a> y las <a href="" class="custom-link-register text-decoration-none">Políticas de Privacidad</a></label>
+                                    <label for="terminos">Acepto los <a href="/terminos-uso" target="_blank" class="custom-link-register text-decoration-none">Términos y Condiciones de Uso</a> y las <a href="/politica-privacidad" target="_blank" class="custom-link-register text-decoration-none">Políticas de Privacidad</a></label>
                                     <div id="validationServerAccept_termsFeedback" class="invalid-feedback position-absolute top-100 px-4"></div>
                                 
                                 </div>
