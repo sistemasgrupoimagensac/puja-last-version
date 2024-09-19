@@ -11,12 +11,10 @@
 @section('content')
 
     @php
-
-    $id = $active_plan_users;
-        
+        $id = $active_plan_users; 
     @endphp
 
-    <main id="main-misavisos" class="custom-container mt-3">
+    <main class="main-misavisos custom-container my-5">
         <div class="container-fluid p-0 d-flex">
             @include('components.menu_panel')
             <section class="col px-lg-5 pt-2">

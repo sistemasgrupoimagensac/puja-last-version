@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    <main id="main-misavisos" class="custom-container my-5">
+    <main class="main-misavisos custom-container my-5">
         <div class="container-fluid p-0 d-flex">
             {{-- menú del panel --}}
             @include('components.menu_panel')

@@ -23,8 +23,8 @@
                           <div class="form-floating">
                               <select class="form-select" id="document_type" name="tipo_documento">
                                   <option value="1" selected>DNI</option>
-                                  <option value="3">RUC</option>
-                                  <option value="2">Otro Documento</option>
+                                  <option value="2">RUC</option>
+                                  {{-- <option value="2">Otro Documento</option> --}}
                               </select>
                               <label for="document_type">Documento</label>
                               <div id="validationServerTipo_documentoFeedback" class="invalid-feedback"></div>
@@ -77,7 +77,7 @@
 
       if(tipo === '1') {
         bodyTipoDoc = 'dni'
-      } else if (tipo === '3') {
+      } else if (tipo === '2') {
         bodyTipoDoc = 'ruc'
       } 
 

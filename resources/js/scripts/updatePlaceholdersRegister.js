@@ -12,10 +12,10 @@ documentSelected.addEventListener("change", function () {
     case "1":
       placeholderText = "DNI"
       break
-    case "3":
+    case "2":
       placeholderText = "RUC"
       break
-    case "2":
+    case "3":
       placeholderText = "Otro Documento"
       break
     default:
@@ -25,6 +25,8 @@ documentSelected.addEventListener("change", function () {
   documentNumber.textContent = placeholderText
 
 })
+
+let showModal = false
 
 // Mostrar modal para completar registro de usuario logueado con Google
 document.addEventListener('DOMContentLoaded', function() {

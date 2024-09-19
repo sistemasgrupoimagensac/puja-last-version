@@ -4,7 +4,7 @@
 
 <aside class="lateral-submenu d-none d-lg-block">
     <div class="border rounded px-2 pt-2">
-        <ul id="menu-container" class="p-0 m-0 list-unstyled">
+        <ul class="menu-container p-0 m-0 list-unstyled">
             <li class="mb-2">
                 <a href="{{ route('panel.mis-avisos') }}" class="@if(Route::currentRouteName() == 'panel.mis-avisos') active @endif d-flex align-items-center px-3 text-decoration-none">
                     <i class="fa-solid fa-house fa-xl my-2 me-3"></i>

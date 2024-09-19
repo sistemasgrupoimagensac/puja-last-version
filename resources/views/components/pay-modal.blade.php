@@ -92,7 +92,7 @@
 
 {{-- Toasty pago exitoso --}}
 <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
-    <div id="toastPaySuccess" class="toast text-bg-success" role="alert" aria-live="assertive" aria-atomic="true">
+    <div id="toastSuccess" class="toast text-bg-success" role="alert" aria-live="assertive" aria-atomic="true">
       <div class="toast-body text-center fs-5 py-lg-4" id="success-message"></div>
     </div>
 </div>
@@ -309,7 +309,7 @@ function creditCardData() {
                     this.isProcessing = false
                     document.getElementById('pay-button').disabled = false
                     document.getElementById('success-message').innerText = 'Pago realizado con éxito';
-                    triggerToastPaySuccess()
+                    triggerToastSuccess()
                     this.contratarPlan(formPost.amount, formPost.description);
                 }
 
@@ -536,5 +536,5 @@ function consultaDocumento() {
 </script>
 
 @push('scripts')
-    @vite([ 'resources/js/scripts/toastyPaySuccess.js', 'resources/js/scripts/toastyPayError.js' ])
+    @vite([ 'resources/js/scripts/toastySuccess.js', 'resources/js/scripts/toastyPayError.js' ])
 @endpush

@@ -42,12 +42,12 @@ documentSelected.addEventListener("change", function () {
             placeholderName = "Nombre"
             surenameInput.disabled = false
             break
-        case "3":
+        case "2":
             placeholderText = "RUC"
             placeholderName = "Nombre o Razón Social"
             surenameInput.disabled = true
             break
-        case "2":
+        case "4":
             placeholderText = "Otro Documento"
             placeholderName = "Nombre"
             surenameInput.disabled = false

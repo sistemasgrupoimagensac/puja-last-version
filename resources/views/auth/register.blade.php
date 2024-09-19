@@ -101,8 +101,8 @@
 									<div class="form-floating col">
 										<select class="form-select" id="document_type" name="tipo_documento" required>
 											<option value="1" selected>DNI</option>
-											<option value="3">RUC</option>
-											<option value="2">CE</option>
+											<option value="2">RUC</option>
+											<option value="3">CE</option>
 											<option value="4">Otro Documento</option>
 										</select>
 										<label for="document_type">Documento</label>
