@@ -123,12 +123,6 @@
     "src": "resources/js/scripts/inmuebles.js",
     "isEntry": true
   },
-  "resources/js/scripts/perfil.js": {
-    "file": "assets/perfil-CwpQ0kZz.js",
-    "name": "perfil",
-    "src": "resources/js/scripts/perfil.js",
-    "isEntry": true
-  },
   "resources/js/scripts/planes.js": {
     "file": "assets/planes-BlaCxmg_.js",
     "name": "planes",
@@ -139,7 +133,7 @@
     ]
   },
   "resources/js/scripts/register.js": {
-    "file": "assets/register-C0m4_jj9.js",
+    "file": "assets/register-AekLudX5.js",
     "name": "register",
     "src": "resources/js/scripts/register.js",
     "isEntry": true
@@ -171,17 +165,17 @@
       "_bootstrap.esm-DgeKcj6p.js"
     ]
   },
-  "resources/js/scripts/toastyPaySuccess.js": {
-    "file": "assets/toastyPaySuccess-DaGVh12X.js",
-    "name": "toastyPaySuccess",
-    "src": "resources/js/scripts/toastyPaySuccess.js",
+  "resources/js/scripts/toastySuccess.js": {
+    "file": "assets/toastySuccess-jhgu2vA9.js",
+    "name": "toastySuccess",
+    "src": "resources/js/scripts/toastySuccess.js",
     "isEntry": true,
     "imports": [
       "_bootstrap.esm-DgeKcj6p.js"
     ]
   },
   "resources/js/scripts/updatePlaceholdersRegister.js": {
-    "file": "assets/updatePlaceholdersRegister-ymnLR3Sh.js",
+    "file": "assets/updatePlaceholdersRegister-CSpktGlP.js",
     "name": "updatePlaceholdersRegister",
     "src": "resources/js/scripts/updatePlaceholdersRegister.js",
     "isEntry": true,
@@ -210,7 +204,7 @@
     "isEntry": true
   },
   "resources/sass/components/menu_panel.scss": {
-    "file": "assets/menu_panel-nxQLwrhl.css",
+    "file": "assets/menu_panel-Cg5wEBK7.css",
     "src": "resources/sass/components/menu_panel.scss",
     "isEntry": true
   },

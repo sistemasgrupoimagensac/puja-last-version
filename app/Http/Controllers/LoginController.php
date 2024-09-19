@@ -247,13 +247,12 @@ class LoginController extends Controller
                     : back()->withErrors(['email' => [__($status)]]);
     }
 
-
     // actualizar registro de usuario logueado con Google
     public function complete_user_google(Request $request)
     {
 
         $validator = Validator::make($request->all(), [
-            'tipo_documento' => 'required|in:1,2,3',
+            'tipo_documento' => 'required|in:1,2,3,4',
             'numero_de_documento' => 'required|string|max:30|unique:users,numero_documento',
             'telefono' => 'required|string|min:9|max:9|regex:/^9[0-9+\-()\s]*$/',
             'direccion' => 'required|string|max:150',
@@ -295,32 +294,47 @@ class LoginController extends Controller
         return redirect('/');
     }
 
-
-
     // Editar Perfil
     public function editProfile(Request $request, $id)
     {
-        $request->validate([
-            'name_perfil' => 'required|string|max:255',
-            'surename_perfil' => 'nullable|string|max:255',
-            'document_perfil' => 'required|integer|exists:tipos_documento,id',
-            'doc_number_perfil' => 'required|string|max:30',
-            'phone_perfil' => 'required|integer|digits:9',
+
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required|string|max:255',
+            'apellido' => 'required|string|max:255',
+            'tipo_documento' => 'required|integer|in:1,2,3',
+            'telefono' => 'required|integer|digits:9',
+            'direccion' => 'required|string|max:255',
+            'numero_de_documento' => 'required|string|max:30',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Errores de validación',
+                'errors' => $validator->errors()
+            ], 422);
+        }
 
         if ( $id != Auth::id() ) {
             abort(Response::HTTP_FORBIDDEN, 'No puedes actualizar otro usuario');
         }
+
         $user = User::findOrFail($id);
         $user->update([
-            'nombres' => $request->name_perfil,
-            'apellidos' => $request->surename_perfil,
-            'tipo_documento_id' => $request->document_perfil,
-            'numero_documento' => $request->doc_number_perfil,
-            'celular' => $request->phone_perfil,
+            'nombres' => $request->nombre,
+            'apellidos' => $request->apellido,
+            'tipo_documento_id' => $request->tipo_documento,
+            'numero_documento' => $request->numero_de_documento,
+            'celular' => $request->telefono,
+            'direccion' => $request->direccion,
         ]);
 
-        return to_route('panel.perfil');
+        // return to_route('panel.perfil');
+        return response()->json([
+            'http_code' => 200,
+            'status' => "Success",
+            'message' => 'Actualización del perfil correcta',
+            'error' => false
+        ], 200);
     }
 
     public function editPassword(Request $request, $id)

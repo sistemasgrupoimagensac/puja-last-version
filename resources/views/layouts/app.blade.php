@@ -28,7 +28,7 @@
 
 		@yield('footer')
 
-		@vite(['resources/js/app.js', 'resources/js/profile-user.js'])
+		@vite(['resources/js/app.js', 'resources/js/profile-user.js', 'resources/js/scripts/updatePlaceholdersRegister.js'])
 
 		@stack('scripts')
 

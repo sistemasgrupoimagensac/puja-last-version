@@ -101,7 +101,7 @@
                         @endif
 
                         {{-- Eliminar aviso --}}
-                        <button type="button" class="action delete border-0 bg-transparent p-1" title="Eliminar anuncio" data-bs-toggle="modal" 
+                        <button type="button" class="action delete border-0 bg-transparent p-1" title="Eliminar aviso" data-bs-toggle="modal" 
                             data-bs-target="#avisoDeleteModal"
                             onclick="setDeleteModal('{{ $title }}', '{{ $id }}')">
                             <i class="fa-solid fa-trash-can w-100 h-100 text-danger"></i>

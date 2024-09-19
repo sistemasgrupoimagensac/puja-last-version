@@ -141,6 +141,15 @@ update_project() {
     cp -r public/* public_html/
     shopt -u dotglob
 
+    echo -e "${YELLOW}Optimizando la aplicación...${NC}"
+    php artisan config:cache
+    php artisan route:cache
+    php artisan view:cache
+
+    echo -e "${YELLOW}Limpiando la cache...${NC}"
+    php artisan config:clear
+    php artisan route:clear
+
     # Confirmación
     echo -e "${GREEN}Actualización completada.${NC}"
 }
