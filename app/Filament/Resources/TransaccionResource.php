@@ -37,6 +37,10 @@ class TransaccionResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id'),
+                TextColumn::make('creation_date')
+                    ->label('Fecha y Hora de Transacción')
+                    ->formatStateUsing(fn ($state) => \Carbon\Carbon::parse($state)->format('d/m/Y - H:i'))
+                    ->sortable(),
                 TextColumn::make('customer_name')
                     ->label('Nombre')
                     ->sortable()
@@ -47,18 +51,17 @@ class TransaccionResource extends Resource
                     ->label('Monto')
                     ->sortable()
                     ->formatStateUsing(fn ($state) => number_format($state, 2)),
-                IconColumn::make('status')
-                    ->label('Estado')
-                    ->boolean()
-                    ->trueIcon('heroicon-o-check-circle')
-                    ->falseIcon('heroicon-o-x-circle')
-                    ->trueColor('success')
-                    ->falseColor('danger')
-                    ->sortable(),
-                TextColumn::make('creation_date')
-                    ->label('Fecha y Hora de Transacción')
-                    ->formatStateUsing(fn ($state) => \Carbon\Carbon::parse($state)->format('d/m/Y - H:i'))
-                    ->sortable(),
+                TextColumn::make('status')
+                ->label('Estado')
+                ->badge()
+                ->color(fn (string $state): string => match ($state) {
+                    '0' => 'danger',
+                    '1' => 'success',
+                })
+                ->formatStateUsing(fn (string $state): string => match ($state) {
+                    '0' => 'Fallida',
+                    '1' => 'Exitosa',
+                }),
             ])
             ->actions([
                 Action::make('view')
