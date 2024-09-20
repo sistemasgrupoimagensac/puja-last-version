@@ -7,7 +7,7 @@ use Filament\Widgets\ChartWidget;
 
 class IncomeByProfileChart extends ChartWidget
 {
-    protected static ?string $maxHeight = '300px';
+    protected static ?string $maxHeight = '260px';
 
     public ?string $filter = 'week';
 
