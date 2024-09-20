@@ -71,6 +71,11 @@ class TransactionChart extends ChartWidget
         ];
     }
 
+    public function getDescription(): ?string
+    {
+        return 'The number of blog posts published per month.';
+    }
+
     protected function getType(): string
     {
         return 'line';

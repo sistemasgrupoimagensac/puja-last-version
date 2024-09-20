@@ -17,6 +17,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Filament\Enums\ThemeMode;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -27,6 +28,8 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->defaultThemeMode(ThemeMode::Dark)
+            ->brandName('Puja Inmobiliaria')
             ->favicon(asset('favicon.png'))
             ->colors([
                 'primary' => Color::Amber,
@@ -42,6 +45,7 @@ class AdminPanelProvider extends PanelProvider
                 \App\Filament\Widgets\BlogLinkWidget::class,
                 \App\Filament\Widgets\GoHomeWidget::class,
                 \App\Filament\Widgets\TransactionChart::class,
+                \App\Filament\Widgets\StackedTransactionChart::class,
             ])
             ->middleware([
                 EncryptCookies::class,
