@@ -4,110 +4,72 @@ namespace App\Filament\Widgets;
 
 use App\Models\Transaccion;
 use Filament\Widgets\ChartWidget;
-use Illuminate\Support\Facades\DB;
+use Flowframe\Trend\Trend;
+use Flowframe\Trend\TrendValue;
 
 class TransactionsTrendChart extends ChartWidget
 {
-    public ?string $filter = 'today'; // El filtro por defecto es 'año'
+    protected static ?string $maxHeight = '400px';
 
-    // Hacemos que ocupe dos espacios de ancho
-    public function getColumnSpan(): int
+    public ?string $filter = 'week';
+
+    public function getColumnSpan(): int|string|array
     {
-        return 2; // El widget ocupará 2 columnas
+        return [
+            'xl' => 2,
+            'lg' => 2,
+            'md' => 1,
+            'sm' => 1,
+        ];
     }
 
     protected function getData(): array
     {
         $activeFilter = $this->filter;
         
-        // Definir el rango de fechas según el filtro seleccionado
+        $transaccionesExitosasQuery = Transaccion::where('status', 1);
+
         switch ($activeFilter) {
             case 'today':
                 $start = now()->startOfDay();
                 $end = now()->endOfDay();
-                $dateFormat = '%H:%i'; // Formato para mostrar por horas en el día
                 break;
             case 'week':
                 $start = now()->startOfWeek();
                 $end = now()->endOfWeek();
-                $dateFormat = '%d %b'; // Formato para mostrar por días de la semana
                 break;
             case 'month':
                 $start = now()->startOfMonth();
                 $end = now()->endOfMonth();
-                $dateFormat = '%d %b'; // Formato para mostrar por días del mes
                 break;
             case 'year':
-            default:
                 $start = now()->startOfYear();
                 $end = now()->endOfYear();
-                $dateFormat = '%b'; // Formato para mostrar por meses del año
+                break;
+            default:
+                $start = now()->startOfMonth();
+                $end = now()->endOfMonth();
                 break;
         }
 
-        // Consulta para obtener la cantidad de transacciones por tipo de usuario desglosadas por el rango de fechas
-        $transactionData = Transaccion::select(
-            DB::raw("DATE_FORMAT(created_at, '$dateFormat') as period"),
-            'tipo_usuario_id',
-            DB::raw('COUNT(*) as total')
-        )
-        ->whereBetween('created_at', [$start, $end])
-        ->groupBy('period', 'tipo_usuario_id')
-        ->orderBy('created_at')
-        ->get();
-
-        // Etiquetas de perfiles
-        $profileLabels = [
-            2 => 'Propietario',
-            3 => 'Corredor',
-            4 => 'Acreedor',
-        ];
-
-        // Preparar los datos para cada perfil
-        $datasets = [];
-        $profileData = [];
-        $labels = [];
-
-        // Inicializamos un array para cada perfil
-        foreach ($profileLabels as $profileId => $profileName) {
-            $profileData[$profileId] = [];
-        }
-
-        // Rellenamos los datos para cada perfil y agregamos los labels (fechas formateadas)
-        foreach ($transactionData as $data) {
-            $labels[] = $data->period;
-            $profileData[$data->tipo_usuario_id][$data->period] = $data->total;
-        }
-
-        // Asegurarnos de que los labels sean únicos
-        $labels = array_unique($labels);
-
-        // Generar los datasets para el gráfico de líneas
-        foreach ($profileLabels as $profileId => $profileName) {
-            $datasets[] = [
-                'label' => $profileName,
-                'data' => array_map(fn($label) => $profileData[$profileId][$label] ?? 0, $labels),  // Usar 0 si no hay datos
-                'borderColor' => $this->getProfileColor($profileId),
-                'fill' => false, // No rellenar debajo de la línea
-            ];
-        }
+        // Filtra las transacciones dentro del rango especificado
+        $data = Trend::query($transaccionesExitosasQuery)
+            ->between(
+                start: $start,
+                end: $end,
+            )
+            ->perDay()
+            ->sum('amount');
 
         return [
-            'datasets' => $datasets,
-            'labels' => array_values($labels), // Etiquetas de tiempo (día, semana, mes, etc.)
+            'datasets' => [
+                [
+                    'label' => 'Monto de transacciones exitosas',
+                    'data' => $data->map(fn (TrendValue $value) => $value->aggregate),
+                ],
+            ],
+            'labels' => $data->map(fn (TrendValue $value) => $value->date),
         ];
-    }
-
-    // Método para obtener el color de la línea según el perfil
-    protected function getProfileColor($profileId)
-    {
-        $colors = [
-            2 => '#FF9999',  // Color para Propietario
-            3 => '#66B2FF',  // Color para Corredor
-            4 => '#99FF99',  // Color para Acreedor
-        ];
-
-        return $colors[$profileId] ?? '#CCCCCC'; // Color por defecto si no hay coincidencia
     }
 
     protected function getFilters(): ?array
@@ -120,16 +82,6 @@ class TransactionsTrendChart extends ChartWidget
         ];
     }
 
-    protected function getType(): string
-    {
-        return 'line';  // Gráfico de líneas
-    }
-
-    public function getDescription(): ?string
-    {
-        return 'Tendencia de transacciones en el tiempo';
-    }
-
     protected function getOptions(): array
     {
         return [
@@ -137,7 +89,7 @@ class TransactionsTrendChart extends ChartWidget
             'maintainAspectRatio' => false,
             'plugins' => [
                 'legend' => [
-                    'position' => 'top',  // Posición de la leyenda
+                    'display' => false,  // Esta línea oculta la leyenda
                 ],
             ],
             'scales' => [
@@ -150,11 +102,22 @@ class TransactionsTrendChart extends ChartWidget
                 'y' => [
                     'title' => [
                         'display' => true,
-                        'text' => 'Número de Transacciones',
+                        'text' => 'Transacciones',
                     ],
-                    'beginAtZero' => true,  // Empieza el eje Y desde 0
+                    'beginAtZero' => true,
                 ],
             ],
         ];
+    }
+
+
+    public function getDescription(): ?string
+    {
+        return 'Número de transacciones exitosas en el tiempo';
+    }
+
+    protected function getType(): string
+    {
+        return 'line';
     }
 }

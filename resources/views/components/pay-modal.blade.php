@@ -249,7 +249,7 @@ function creditCardData() {
             triggerToastPayError()
             setTimeout(() => {
                 window.location.reload();
-            }, 5000);
+            }, 3000);
         },
 
         processPayment(formPost) {
@@ -291,7 +291,11 @@ function creditCardData() {
                     document.getElementById('pay-button').disabled = false
                     document.getElementById('error-message').innerText = 'La tarjeta ha sido rechazada';
                     triggerToastPayError()
-                    window.location.reload();
+
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 3000);
+
 
                 } else {
                     transactionData = {
