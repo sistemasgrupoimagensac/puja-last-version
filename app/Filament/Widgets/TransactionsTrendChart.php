@@ -8,8 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class TransactionsTrendChart extends ChartWidget
 {
-    protected static ?string $maxHeight = '400px';
-    protected static ?string $maxWidth = '100%'; // Para que ocupe todo el ancho posible
     public ?string $filter = 'today'; // El filtro por defecto es 'año'
 
     // Hacemos que ocupe dos espacios de ancho
@@ -125,6 +123,11 @@ class TransactionsTrendChart extends ChartWidget
     protected function getType(): string
     {
         return 'line';  // Gráfico de líneas
+    }
+
+    public function getDescription(): ?string
+    {
+        return 'Tendencia de transacciones en el tiempo';
     }
 
     protected function getOptions(): array
