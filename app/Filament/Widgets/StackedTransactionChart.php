@@ -7,6 +7,8 @@ use Filament\Widgets\ChartWidget;
 
 class StackedTransactionChart extends ChartWidget
 {
+    protected static ?string $maxHeight = '300px';
+
     public ?string $filter = 'week';
 
     protected function getData(): array

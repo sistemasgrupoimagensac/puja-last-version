@@ -46,6 +46,7 @@ class AdminPanelProvider extends PanelProvider
                 \App\Filament\Widgets\GoHomeWidget::class,
                 \App\Filament\Widgets\TransactionChart::class,
                 \App\Filament\Widgets\StackedTransactionChart::class,
+                \App\Filament\Widgets\IncomeByProfileChart::class,
             ])
             ->middleware([
                 EncryptCookies::class,
