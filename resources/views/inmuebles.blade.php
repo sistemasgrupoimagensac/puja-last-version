@@ -10,7 +10,7 @@
 
 @section('content')
     {{-- Sección de filtros --}}
-    <section class="custom-container my-3">
+    <section class="custom-container my-4">
         @include('components.filters')
     </section>
 
