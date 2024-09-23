@@ -56,7 +56,7 @@
     <small class="m-0 ms-4 position-absolute">
       &#169 <span id="currentYear"></span>
       <a class="footer-link-puja" href="https://grupoimagensac.com.pe/" target="blank"> Grupo Inmobiliario Imagen SAC </a>
-      <i><img src="{{ asset('images/svg/peru.svg') }}" alt="bandera Perú" style="width: 20px;"></i>
+      <span><img src="{{ asset('images/svg/peru.svg') }}" alt="bandera Perú" style="width: 20px;"></span>
     </small>
   </div>
 </footer>
