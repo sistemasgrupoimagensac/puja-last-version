@@ -19,7 +19,7 @@
         {{-- Main: Buscador --}}
         <div class="main-home-search d-flex flex-column h-100 w-100 px-3">
 
-            <form action="{{ route('filter_search') }}" method="" class="m-auto">
+            <form action="{{ route('filter_search') }}" class="m-auto">
                 <h1 class="main-home-titular text-white font-weight-bold text-center mb-5">Consigue tu Próximo Inmueble</h1>
                 <div class="main-home-filter">
 
@@ -71,7 +71,6 @@
     {{-- Sección de Destacados --}}
     <section class="custom-container">
 
-        {{-- <h3 class="m-3 font-weight-bold fs-md-5">Busca entre todos nuestro inmuebles</h3> --}}
         <h3 class="mx-3 my-5 font-weight-bold fs-md-5 mx-md-5">Busca entre todos nuestro inmuebles</h3>
 
         <div class="d-flex flex-column flex-lg-row justify-content-between m-3">
