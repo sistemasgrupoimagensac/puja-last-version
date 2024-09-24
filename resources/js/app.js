@@ -1,7 +1,13 @@
 // import 'bootstrap'
 import * as bootstrap from 'bootstrap'
 import 'popper.js'
-import 'flickity'
+// import 'flickity'
+// import 'flickity-fullscreen';
+
+import 'flickity';
+import 'flickity-fullscreen';
+import 'flickity-as-nav-for';
+
 import Alpine from 'alpinejs'
 
 window.Alpine = Alpine

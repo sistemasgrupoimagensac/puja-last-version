@@ -15,7 +15,9 @@
         "@fortawesome/fontawesome-free": "^6.5.2",
         "alpinejs": "^3.14.1",
         "bootstrap": "^5.3.3",
-        "flickity": "^2.3.0",
+        "flickity": "^3.0.0",
+        "flickity-as-nav-for": "^3.0.0",
+        "flickity-fullscreen": "^2.0.0",
         "jquery": "^3.7.1",
         "popper.js": "^1.16.1-lts"
     }
