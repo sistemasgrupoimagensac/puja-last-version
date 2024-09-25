@@ -19,6 +19,7 @@
         "flickity-as-nav-for": "^3.0.0",
         "flickity-fullscreen": "^2.0.0",
         "jquery": "^3.7.1",
-        "popper.js": "^1.16.1-lts"
+        "popper.js": "^1.16.1-lts",
+        "swiper": "^11.1.14"
     }
 }
