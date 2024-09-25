@@ -533,17 +533,21 @@
                     <div class="mt-5">
                         <h3 class="fw-bold">Unidades en venta</h3>
 
-                        <input type="radio" class="btn-check" name="options-base" id="option5" autocomplete="off" checked>
-                        <label class="btn" for="option5">1 dormitorio</label>
+                        <div class=" my-3">
 
-                        <input type="radio" class="btn-check" name="options-base" id="option6" autocomplete="off">
-                        <label class="btn" for="option6">2 dormitorios</label>
+                            <input type="radio" class="btn-check" name="options-base" id="option5" autocomplete="off" checked>
+                            <label class="btn" for="option5">1 dormitorio</label>
+    
+                            <input type="radio" class="btn-check" name="options-base" id="option6" autocomplete="off">
+                            <label class="btn" for="option6">2 dormitorios</label>
+    
+                            <input type="radio" class="btn-check" name="options-base" id="option7" autocomplete="off">
+                            <label class="btn" for="option7">3 dormitorios</label>
+    
+                            <input type="radio" class="btn-check" name="options-base" id="option8" autocomplete="off">
+                            <label class="btn" for="option8">4 dormitorios</label>
 
-                        <input type="radio" class="btn-check" name="options-base" id="option7" autocomplete="off">
-                        <label class="btn" for="option7">3 dormitorios</label>
-
-                        <input type="radio" class="btn-check" name="options-base" id="option8" autocomplete="off">
-                        <label class="btn" for="option8">4 dormitorios</label>
+                        </div>
 
                         <div class=" border rounded shadow p-3 pb-0">
 
