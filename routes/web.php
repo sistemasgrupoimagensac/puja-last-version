@@ -17,8 +17,8 @@ use App\Http\Controllers\Web\Panel\PasswordController;
 use App\Http\Controllers\Web\Panel\MisAvisosController;
 use App\Http\Controllers\Web\Panel\PlanesContratadosController;
 use App\Http\Controllers\Web\Puja\MainController;
-
-// Post del blog
+use App\Http\Controllers\ProyectoController;
+use App\Http\Controllers\UnidadProyectoController;
 use App\Models\Post;
 
 Route::get('/', MainController::class);
@@ -182,3 +182,13 @@ Route::get('/blog', function () {
 
 // Transaccion
 Route::post('/save-transaction', [TransactionsController::class, 'store']);
+
+// Proyectos
+// Ruta para ver el formulario de creación de proyectos
+Route::get('/proyectos/create', [ProyectoController::class, 'create'])->name('proyectos.create');
+
+// Ruta para almacenar la información del proyecto
+Route::post('/proyectos', [ProyectoController::class, 'store'])->name('proyectos.store');
+
+// Ruta para agregar una nueva unidad (AJAX)
+Route::post('/unidades', [UnidadProyectoController::class, 'store'])->name('unidades.store');
