@@ -108,13 +108,14 @@ document.getElementById('proyectoForm').addEventListener('submit', function (eve
 
     const action = this.querySelector('button[type="submit"][name="action"]:focus').value;
 
-    fetch(storeUrl, {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-CSRF-TOKEN': csrfToken,
-        },
-    })
+        fetch(storeUrl, {
+          method: 'POST',
+          body: formData,
+          headers: {
+              'X-CSRF-TOKEN': csrfToken,
+              'Accept': 'application/json'
+          }
+        })  
         .then((response) => response.json())
         .then((data) => {
             if (data.proyecto) {

@@ -2,26 +2,26 @@
 
 @section('content')
 <div class="container">
-    <h2>Crear Proyecto Inmobiliario</h2>
+    <h2>{{ isset($proyecto) ? 'Editar Proyecto Inmobiliario' : 'Crear Proyecto Inmobiliario' }}</h2>
 
     <!-- Formulario de creación de proyecto -->
     <form id="proyectoForm" data-proyecto-id="{{ $proyecto->id ?? '' }}">
         @csrf
         <div class="mb-3">
             <label for="nombre_proyecto" class="form-label">Nombre del Proyecto</label>
-            <input type="text" class="form-control" id="nombre_proyecto" name="nombre_proyecto" required>
+            <input type="text" class="form-control" id="nombre_proyecto" name="nombre_proyecto" value="{{ $proyecto->nombre_proyecto ?? '' }}" required>
         </div>
 
         <div class="mb-3">
             <label for="unidades_cantidad" class="form-label">Cantidad de Unidades</label>
-            <input type="number" class="form-control" id="unidades_cantidad" name="unidades_cantidad" required>
+            <input type="number" class="form-control" id="unidades_cantidad" name="unidades_cantidad" value="{{ $proyecto->unidades_cantidad ?? '' }}" required>
         </div>
 
         <div class="mb-3">
             <label for="banco_id" class="form-label">Banco</label>
             <select class="form-control" id="banco_id" name="banco_id" required>
                 @foreach($bancos as $banco)
-                    <option value="{{ $banco->id }}">{{ $banco->nombre }}</option>
+                    <option value="{{ $banco->id }}" {{ isset($proyecto) && $proyecto->banco_id == $banco->id ? 'selected' : '' }}>{{ $banco->nombre }}</option>
                 @endforeach
             </select>
         </div>
@@ -30,14 +30,19 @@
             <label for="proyecto_progreso_id" class="form-label">Progreso del Proyecto</label>
             <select class="form-control" id="proyecto_progreso_id" name="proyecto_progreso_id" required>
                 @foreach($progresos as $progreso)
-                    <option value="{{ $progreso->id }}">{{ $progreso->estado }}</option>
+                    <option value="{{ $progreso->id }}" {{ isset($proyecto) && $proyecto->proyecto_progreso_id == $progreso->id ? 'selected' : '' }}>{{ $progreso->estado }}</option>
                 @endforeach
             </select>
         </div>
 
         <div class="mb-3">
             <label for="descripcion" class="form-label">Descripción del Proyecto</label>
-            <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required></textarea>
+            <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required>{{ $proyecto->descripcion ?? '' }}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="fecha_entrega" class="form-label">Fecha de Entrega</label>
+            <input type="date" class="form-control" id="fecha_entrega" name="fecha_entrega" value="{{ $proyecto->fecha_entrega ?? '' }}">
         </div>
 
         <!-- Botón para abrir el modal para agregar unidades -->
