@@ -185,7 +185,7 @@ Route::post('/save-transaction', [TransactionsController::class, 'store']);
 
 // Proyectos
 // Ruta para ver el formulario de creación de proyectos
-Route::get('/proyectos/create', [ProyectoController::class, 'create'])->name('proyectos.create');
+Route::get('/proyectos/create/{id?}', [ProyectoController::class, 'create'])->name('proyectos.create');
 
 // Ruta para almacenar la información del proyecto
 Route::post('/proyectos', [ProyectoController::class, 'store'])->name('proyectos.store');

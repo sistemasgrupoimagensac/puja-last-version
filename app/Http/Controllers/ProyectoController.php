@@ -56,13 +56,10 @@ class ProyectoController extends Controller
             // Convertir el campo unidades a un array si no está vacío
             $unidadesArray = $request->filled('unidades') ? json_decode($request->unidades, true) : [];
 
-            // Si se envía un proyecto_id, buscar el proyecto en lugar de crearlo
-            if ($request->has('proyecto_id') && !empty($request->proyecto_id)) {
-                // Buscar el proyecto existente
-                $proyecto = Proyecto::findOrFail($request->proyecto_id);
-            } else {
-                // Si no existe un proyecto_id, crear un nuevo proyecto
-                $proyecto = Proyecto::create([
+            // Usar `updateOrCreate` para crear o actualizar el proyecto según `proyecto_id`
+            $proyecto = Proyecto::updateOrCreate(
+                ['id' => $request->proyecto_id],
+                [
                     'nombre_proyecto' => $request->nombre_proyecto,
                     'unidades_cantidad' => $request->unidades_cantidad,
                     'banco_id' => $request->banco_id,
@@ -71,27 +68,17 @@ class ProyectoController extends Controller
                     'fecha_entrega' => $request->fecha_entrega,
 
                     // Valores predeterminados para evitar el error de campos vacíos
-                    'area_desde' => 0,
-                    'area_hasta' => 0,
-                    'area_techada_desde' => 0,
-                    'area_techada_hasta' => 0,
-                    'dormitorios_desde' => 0,
-                    'dormitorios_hasta' => 0,
-                    'banios_desde' => 0,
-                    'banios_hasta' => 0,
-                    'precio_desde' => 0,
-                ]);
-            }
-
-            // Actualizar el proyecto con los valores enviados (solo si el proyecto ya existe)
-            $proyecto->update([
-                'nombre_proyecto' => $request->nombre_proyecto,
-                'unidades_cantidad' => $request->unidades_cantidad,
-                'banco_id' => $request->banco_id,
-                'proyecto_progreso_id' => $request->proyecto_progreso_id,
-                'descripcion' => $request->descripcion,
-                'fecha_entrega' => $request->fecha_entrega,
-            ]);
+                    'area_desde' => $request->input('area_desde', 0),
+                    'area_hasta' => $request->input('area_hasta', 0),
+                    'area_techada_desde' => $request->input('area_techada_desde', 0),
+                    'area_techada_hasta' => $request->input('area_techada_hasta', 0),
+                    'dormitorios_desde' => $request->input('dormitorios_desde', 0),
+                    'dormitorios_hasta' => $request->input('dormitorios_hasta', 0),
+                    'banios_desde' => $request->input('banios_desde', 0),
+                    'banios_hasta' => $request->input('banios_hasta', 0),
+                    'precio_desde' => $request->input('precio_desde', 0),
+                ]
+            );
 
             // Guardar o actualizar las unidades asociadas al proyecto
             foreach ($unidadesArray as $unidadData) {
@@ -124,6 +111,4 @@ class ProyectoController extends Controller
             ], 500);
         }
     }
-
 }
-
