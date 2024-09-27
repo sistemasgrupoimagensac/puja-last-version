@@ -21,3 +21,4 @@ yarn-error.log
 /.vscode
 /public_html
 /public/billing/
+/migraciones.txt

@@ -13,8 +13,8 @@
         </div>
 
         <div class="mb-3">
-            <label for="unidades" class="form-label">Cantidad de Unidades</label>
-            <input type="number" class="form-control" id="unidades" name="unidades" required>
+            <label for="unidades_cantidad" class="form-label">Cantidad de Unidades</label>
+            <input type="number" class="form-control" id="unidades_cantidad" name="unidades_cantidad" required>
         </div>
 
         <div class="mb-3">
@@ -27,8 +27,8 @@
         </div>
 
         <div class="mb-3">
-            <label for="progreso_proyecto_id" class="form-label">Progreso del Proyecto</label>
-            <select class="form-control" id="progreso_proyecto_id" name="progreso_proyecto_id" required>
+            <label for="proyecto_progreso_id" class="form-label">Progreso del Proyecto</label>
+            <select class="form-control" id="proyecto_progreso_id" name="proyecto_progreso_id" required>
                 @foreach($progresos as $progreso)
                     <option value="{{ $progreso->id }}">{{ $progreso->estado }}</option>
                 @endforeach
@@ -116,14 +116,12 @@
 </div>
 
 <script>
-// Array para almacenar las unidades temporalmente en el frontend
 let unidades = [];
 
 // Manejar el envío del formulario de unidades (modal)
 document.getElementById('unidadForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
-    // Capturar los datos del formulario
     const unidad = {
         dormitorios: document.getElementById('dormitorios').value,
         precio_soles: document.getElementById('precio_soles').value,
@@ -132,22 +130,16 @@ document.getElementById('unidadForm').addEventListener('submit', function(event)
         piso_numero: document.getElementById('piso_numero').value
     };
 
-    // Agregar la unidad al array de unidades
     unidades.push(unidad);
-
-    // Actualizar la tabla de unidades en la interfaz
     actualizarTablaUnidades();
 
-    // Limpiar el formulario y cerrar el modal
     document.getElementById('unidadForm').reset();
     $('#unidadModal').modal('hide');
 });
 
-// Función para actualizar la tabla de unidades en la interfaz
 function actualizarTablaUnidades() {
     const tableBody = document.querySelector('#unidadesTable tbody');
-    tableBody.innerHTML = ''; // Limpiar la tabla
-
+    tableBody.innerHTML = '';
     unidades.forEach((unidad, index) => {
         const row = `
             <tr>
@@ -156,41 +148,33 @@ function actualizarTablaUnidades() {
                 <td>${unidad.area}</td>
                 <td>${unidad.banios}</td>
                 <td>${unidad.piso_numero}</td>
-                <td>
-                    <button type="button" class="btn btn-danger" onclick="eliminarUnidad(${index})">Eliminar</button>
-                </td>
+                <td><button type="button" class="btn btn-danger" onclick="eliminarUnidad(${index})">Eliminar</button></td>
             </tr>
         `;
         tableBody.innerHTML += row;
     });
 }
 
-// Función para eliminar una unidad del array
 function eliminarUnidad(index) {
-    unidades.splice(index, 1); // Eliminar la unidad del array
-    actualizarTablaUnidades(); // Actualizar la tabla
+    unidades.splice(index, 1);
+    actualizarTablaUnidades();
 }
 
-// Manejo del envío del formulario del proyecto
 document.getElementById('proyectoForm').addEventListener('submit', function(event) {
     event.preventDefault();
-
     const formData = new FormData(this);
-    formData.append('unidades', JSON.stringify(unidades)); // Añadir las unidades al formulario
-
+    formData.append('unidades', JSON.stringify(unidades));
     const action = this.querySelector('button[type="submit"][name="action"]:focus').value;
 
     fetch('{{ route('proyectos.store') }}', {
         method: 'POST',
         body: formData,
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        }
+        headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content }
     })
     .then(response => response.json())
     .then(data => {
         if (action === 'guardar_salir') {
-            window.location.href = '/'; // Redirigir a la página principal
+            window.location.href = '/';
         } else {
             alert('Proyecto guardado parcialmente.');
         }

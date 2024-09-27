@@ -13,7 +13,7 @@ class ProgresoProyectoSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('progreso_proyecto')->insert([
+        DB::table('proyecto_progreso')->insert([
             ['estado' => 'En planos'],
             ['estado' => 'En construcción'],
             ['estado' => 'Entrega inmediata'],

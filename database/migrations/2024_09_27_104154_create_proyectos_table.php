@@ -6,14 +6,11 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('proyectos', function (Blueprint $table) {
             $table->id();
-            $table->integer('unidades');  // Número de unidades en el proyecto
+            $table->integer('unidades_cantidad');  // Número de unidades en el proyecto
             $table->double('area_desde');  // Área mínima
             $table->double('area_hasta');  // Área máxima
             $table->double('area_techada_desde')->nullable();  // Área techada mínima
@@ -23,30 +20,29 @@ return new class extends Migration
             $table->integer('banios_desde');  // Número mínimo de baños
             $table->integer('banios_hasta');  // Número máximo de baños
             $table->double('precio_desde');  // Precio más bajo de las unidades
-        
-            // Relación con la tabla progreso_proyecto
-            $table->unsignedBigInteger('progreso_proyecto_id');
-            $table->foreign('progreso_proyecto_id')->references('id')->on('progreso_proyecto')->onDelete('cascade');
-            
+
+            // Relación con la tabla proyecto_progreso (antes era progreso_proyecto)
+            $table->foreignId('proyecto_progreso_id')->constrained('proyecto_progreso')->onDelete('cascade');
+
             // Relación con la tabla bancos
-            $table->unsignedBigInteger('banco_id');
-            $table->foreign('banco_id')->references('id')->on('bancos')->onDelete('cascade');
-            
+            $table->foreignId('banco_id')->constrained('bancos')->onDelete('cascade');
+
             $table->date('fecha_entrega')->nullable();  // Fecha estimada de entrega
             $table->text('descripcion');  // Descripción del proyecto
             $table->string('nombre_proyecto');  // Nombre del proyecto
             
-            $table->timestamps();  // Fechas de creación y actualización
-
-            $table->engine = 'InnoDB'; 
+            $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
+        Schema::table('proyectos', function (Blueprint $table) {
+            // Eliminar las llaves foráneas antes de eliminar la tabla
+            $table->dropForeign(['proyecto_progreso_id']);
+            $table->dropForeign(['banco_id']);
+        });
+
         Schema::dropIfExists('proyectos');
     }
 };

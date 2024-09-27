@@ -6,16 +6,14 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('unidad_proyecto', function (Blueprint $table) {
+        Schema::create('proyecto_unidades', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('proyecto_id');  // Relación con la tabla proyectos
-            $table->foreign('proyecto_id')->references('id')->on('proyectos')->onDelete('cascade');
-            
+
+            // Relación con la tabla proyectos usando la sintaxis de foreignId y constrained
+            $table->foreignId('proyecto_id')->constrained('proyectos')->onDelete('cascade');
+
             $table->integer('dormitorios');  // Número de dormitorios en la unidad
             $table->double('precio_soles')->nullable();  // Precio en soles
             $table->double('precio_dolares')->nullable();  // Precio en dólares
@@ -23,16 +21,18 @@ return new class extends Migration
             $table->double('area_techada')->nullable();  // Área techada de la unidad
             $table->integer('banios');  // Número de baños
             $table->integer('piso_numero');  // Piso en el que se encuentra la unidad
-            
+
             $table->timestamps();  // Campos created_at y updated_at
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('unidades_proyecto');
+        Schema::table('proyecto_unidades', function (Blueprint $table) {
+            // Eliminar las llaves foráneas antes de eliminar la tabla
+            $table->dropForeign(['proyecto_id']);
+        });
+
+        Schema::dropIfExists('proyecto_unidades');  // Asegúrate de que coincida con el nombre definido en up()
     }
 };
