@@ -5,7 +5,7 @@
     <h2>Crear Proyecto Inmobiliario</h2>
 
     <!-- Formulario de creación de proyecto -->
-    <form id="proyectoForm">
+    <form id="proyectoForm" data-proyecto-id="{{ $proyecto->id ?? '' }}">
         @csrf
         <div class="mb-3">
             <label for="nombre_proyecto" class="form-label">Nombre del Proyecto</label>
@@ -41,7 +41,7 @@
         </div>
 
         <!-- Botón para abrir el modal para agregar unidades -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#unidadModal">
+        <button type="button" class="btn btn-primary" id="btnAddUnit" data-bs-toggle="modal" data-bs-target="#unidadModal">
             + Agregar Unidad
         </button>
 
@@ -52,6 +52,7 @@
                     <th>Dormitorios</th>
                     <th>Precio (Soles)</th>
                     <th>Área</th>
+                    <th>Área Techada</th>
                     <th>Baños</th>
                     <th>Piso</th>
                     <th>Acciones</th>
@@ -77,10 +78,11 @@
             <form id="unidadForm">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="unidadModalLabel">Agregar Unidad</h5>
+                    <h5 class="modal-title" id="unidadModalLabel">Agregar/Editar Unidad</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <input type="hidden" id="editIndex" value="">
                     <div class="mb-3">
                         <label for="dormitorios" class="form-label">Dormitorios</label>
                         <input type="number" class="form-control" id="dormitorios" name="dormitorios" required>
@@ -97,6 +99,11 @@
                     </div>
 
                     <div class="mb-3">
+                        <label for="area_techada" class="form-label">Área Techada</label>
+                        <input type="number" class="form-control" id="area_techada" name="area_techada" required>
+                    </div>
+
+                    <div class="mb-3">
                         <label for="banios" class="form-label">Baños</label>
                         <input type="number" class="form-control" id="banios" name="banios" required>
                     </div>
@@ -108,7 +115,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary">Agregar Unidad</button>
+                    <button type="submit" class="btn btn-primary" id="btnSaveUnit">Guardar Unidad</button>
                 </div>
             </form>
         </div>
@@ -116,70 +123,12 @@
 </div>
 
 <script>
-let unidades = [];
-
-// Manejar el envío del formulario de unidades (modal)
-document.getElementById('unidadForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    const unidad = {
-        dormitorios: document.getElementById('dormitorios').value,
-        precio_soles: document.getElementById('precio_soles').value,
-        area: document.getElementById('area').value,
-        banios: document.getElementById('banios').value,
-        piso_numero: document.getElementById('piso_numero').value
-    };
-
-    unidades.push(unidad);
-    actualizarTablaUnidades();
-
-    document.getElementById('unidadForm').reset();
-    $('#unidadModal').modal('hide');
-});
-
-function actualizarTablaUnidades() {
-    const tableBody = document.querySelector('#unidadesTable tbody');
-    tableBody.innerHTML = '';
-    unidades.forEach((unidad, index) => {
-        const row = `
-            <tr>
-                <td>${unidad.dormitorios}</td>
-                <td>${unidad.precio_soles}</td>
-                <td>${unidad.area}</td>
-                <td>${unidad.banios}</td>
-                <td>${unidad.piso_numero}</td>
-                <td><button type="button" class="btn btn-danger" onclick="eliminarUnidad(${index})">Eliminar</button></td>
-            </tr>
-        `;
-        tableBody.innerHTML += row;
-    });
-}
-
-function eliminarUnidad(index) {
-    unidades.splice(index, 1);
-    actualizarTablaUnidades();
-}
-
-document.getElementById('proyectoForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const formData = new FormData(this);
-    formData.append('unidades', JSON.stringify(unidades));
-    const action = this.querySelector('button[type="submit"][name="action"]:focus').value;
-
-    fetch('{{ route('proyectos.store') }}', {
-        method: 'POST',
-        body: formData,
-        headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (action === 'guardar_salir') {
-            window.location.href = '/';
-        } else {
-            alert('Proyecto guardado parcialmente.');
-        }
-    })
-    .catch(error => console.error('Error:', error));
-});
+    const storeUrl = "{{ route('proyectos.store') }}";
+    const csrfToken = "{{ csrf_token() }}";
 </script>
+       
 @endsection
+
+@push('scripts')
+    @vite(['resources/js/scripts/create_project.js'])
+@endpush
