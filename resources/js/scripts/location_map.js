@@ -76,6 +76,9 @@ window.initMap = function () {
     if (latitudeInput) latitudeInput.value = location.lat();
     if (longitudeInput) longitudeInput.value = location.lng();
 
+    console.log("Latitud actualizada:", latitudeInput.value);
+    console.log("Longitud actualizada:", longitudeInput.value);
+
     geocodeLocation(location);
   }
 

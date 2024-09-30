@@ -24,6 +24,12 @@ class Proyecto extends Model
         'banios_desde',
         'banios_hasta',
         'precio_desde',
+        'direccion',
+        'distrito',
+        'provincia',
+        'departamento',
+        'latitude',
+        'longitude',
     ];
 
     public function unidades()

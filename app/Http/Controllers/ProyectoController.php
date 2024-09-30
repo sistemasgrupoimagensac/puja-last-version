@@ -46,6 +46,12 @@ class ProyectoController extends Controller
             'descripcion' => 'required|string',
             'fecha_entrega' => 'nullable|date|after:today',
             'unidades' => 'nullable|string',
+            'direccion' => 'nullable|string|max:255',
+            'distrito' => 'nullable|string|max:255',
+            'provincia' => 'nullable|string|max:255',
+            'departamento' => 'nullable|string|max:255',
+            'latitude' => 'nullable|numeric',
+            'longitude' => 'nullable|numeric',
         ]);
     
         if ($validator->fails()) {
@@ -78,6 +84,12 @@ class ProyectoController extends Controller
                     'banios_desde' => $request->input('banios_desde', 0),
                     'banios_hasta' => $request->input('banios_hasta', 0),
                     'precio_desde' => $request->input('precio_desde', 0),
+                    'direccion' => $request->direccion,
+                    'distrito' => $request->distrito,
+                    'provincia' => $request->provincia,
+                    'departamento' => $request->departamento,
+                    'latitude' => $request->latitude,
+                    'longitude' => $request->longitude,
                 ]
             );
 

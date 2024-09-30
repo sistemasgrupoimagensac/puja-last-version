@@ -89,7 +89,7 @@ function actualizarTablaUnidades() {
                     <td>${unidad.area_techada}</td>
                     <td>${unidad.banios}</td>
                     <td>${unidad.piso_numero}</td>
-                    <td>
+                    <td class="d-flex gap-3">
                         <button type="button" class="btn btn-warning" onclick="editarUnidad(${index})">Editar</button>
                         <button type="button" class="btn btn-danger" onclick="mostrarConfirmacionEliminar(${index})">Eliminar</button>
                     </td>
