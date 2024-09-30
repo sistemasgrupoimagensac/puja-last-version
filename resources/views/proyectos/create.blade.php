@@ -49,58 +49,39 @@
             <input type="date" class="form-control" id="fecha_entrega" name="fecha_entrega" value="{{ $proyecto->fecha_entrega ?? '' }}">
         </div>
 
-        <!-- Sección para la ubicación -->
-        {{-- <div class="mb-3">
-            <label for="place_input" class="form-label">Ubicación del Proyecto</label>
-            <input type="text" id="place_input" class="form-control" placeholder="Ingrese la dirección o seleccione en el mapa">
-        </div>
+        {{-- <div class="d-flex flex-column justify-content-between flex-md-row mb-3">
 
-        <input type="text" id="place_input" placeholder="Ingresa la dirección">
-        <input type="text" id="direccion" name="direccion" placeholder="Dirección">
-        <input type="text" id="distrito" name="distrito" placeholder="Distrito">
-        <input type="text" id="provincia" name="provincia" placeholder="Provincia">
-        <input type="text" id="departamento" name="departamento" placeholder="Departamento">
-        <input type="hidden" id="latitude" name="latitude" value="{{ $proyecto->latitude ?? '' }}">
-        <input type="hidden" id="longitude" name="longitude" value="{{ $proyecto->longitude ?? '' }}">
-        <div id="map" style="max-width: 600px; width: 100%; height: 600px"></div>
-
-
-        <div id="map" style="max-width: 600px; width: 100%; height: 600px; border: 1px solid #ddd;"></div>
-
-        <input type="hidden" id="latitude" name="latitude" value="{{ $proyecto->latitude ?? '' }}">
-        <input type="hidden" id="longitude" name="longitude" value="{{ $proyecto->longitude ?? '' }}"> --}}
-
-        <div class="mb-3">
-            <!-- Campos ocultos para latitud y longitud -->
-            <input type="hidden" id="latitude" name="latitude" value="{{ $proyecto->latitude ?? '' }}">
-            <input type="hidden" id="longitude" name="longitude" value="{{ $proyecto->longitude ?? '' }}">
-            
-            <div class="form-group">
-              <label for="place_input">Dirección</label>
-              <input type="text" id="place_input" class="form-control" name="direccion" value="{{ $proyecto->direccion ?? '' }}">
-            </div>
-            
-            <div class="form-group">
-              <label for="distrito">Distrito</label>
-              <input type="text" id="distrito" class="form-control" name="distrito" value="{{ $proyecto->distrito ?? '' }}">
-            </div>
-            
-            <div class="form-group">
-              <label for="provincia">Provincia</label>
-              <input type="text" id="provincia" class="form-control" name="provincia" value="{{ $proyecto->provincia ?? '' }}">
-            </div>
-            
-            <div class="form-group">
-              <label for="departamento">Departamento</label>
-              <input type="text" id="departamento" class="form-control" name="departamento" value="{{ $proyecto->departamento ?? '' }}">
+            <div class="w-100 me-md-3">
+                <!-- Campos ocultos para latitud y longitud -->
+                <input type="hidden" id="latitude" name="latitude" value="{{ $proyecto->latitude ?? '' }}">
+                <input type="hidden" id="longitude" name="longitude" value="{{ $proyecto->longitude ?? '' }}">
+                
+                <div class="form-group">
+                    <label for="place_input">Dirección</label>
+                    <input type="text" id="place_input" class="form-control" name="direccion" value="{{ $proyecto->direccion ?? '' }}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="distrito">Distrito</label>
+                    <input type="text" id="distrito" class="form-control" name="distrito" value="{{ $proyecto->distrito ?? '' }}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="provincia">Provincia</label>
+                    <input type="text" id="provincia" class="form-control" name="provincia" value="{{ $proyecto->provincia ?? '' }}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="departamento">Departamento</label>
+                    <input type="text" id="departamento" class="form-control" name="departamento" value="{{ $proyecto->departamento ?? '' }}">
+                </div>
             </div>
 
             <!-- Div para mostrar el mapa -->
             <div id="map" style="max-width: 600px; width: 100%; height: 600px; border: 1px solid #ddd;"></div>
 
-        </div>
+        </div> --}}
           
-
         <!-- Botón para abrir el modal para agregar unidades -->
         <button type="button" class="btn btn-primary" id="btnAddUnit" data-bs-toggle="modal" data-bs-target="#unidadModal">
             + Agregar Unidad
@@ -123,6 +104,39 @@
                 <!-- Aquí se agregarán dinámicamente las unidades -->
             </tbody>
         </table>
+
+        <div class="d-flex flex-column justify-content-between flex-md-row my-5">
+
+            <div class="w-100 me-md-3">
+                <!-- Campos ocultos para latitud y longitud -->
+                <input type="hidden" id="latitude" name="latitude" value="{{ $proyecto->latitude ?? '' }}">
+                <input type="hidden" id="longitude" name="longitude" value="{{ $proyecto->longitude ?? '' }}">
+                
+                <div class="form-group">
+                    <label for="place_input">Dirección</label>
+                    <input type="text" id="place_input" class="form-control" name="direccion" value="{{ $proyecto->direccion ?? '' }}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="distrito">Distrito</label>
+                    <input type="text" id="distrito" class="form-control" name="distrito" value="{{ $proyecto->distrito ?? '' }}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="provincia">Provincia</label>
+                    <input type="text" id="provincia" class="form-control" name="provincia" value="{{ $proyecto->provincia ?? '' }}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="departamento">Departamento</label>
+                    <input type="text" id="departamento" class="form-control" name="departamento" value="{{ $proyecto->departamento ?? '' }}">
+                </div>
+            </div>
+        
+            <!-- Div para mostrar el mapa -->
+            <div id="map" style="max-width: 600px; width: 100%; height: 600px; border: 1px solid #ddd;"></div>
+        
+        </div>
 
         <!-- Botón para guardar parcialmente -->
         <button type="submit" name="action" value="guardar" class="btn btn-secondary">Guardar parcialmente</button>
