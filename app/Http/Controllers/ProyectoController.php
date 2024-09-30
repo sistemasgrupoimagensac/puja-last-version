@@ -20,14 +20,17 @@ class ProyectoController extends Controller
         $bancos = Banco::all();
         $progresos = ProyectoProgreso::all();
         $proyecto = null;
-
-        // Si se pasa un ID, buscar el proyecto y pasarlo a la vista para editar
+    
+        // Si se pasa un ID, buscar el proyecto y cargar solo las unidades activas
         if ($id) {
-            $proyecto = Proyecto::with('unidades')->findOrFail($id); // Traer también las unidades relacionadas
+            $proyecto = Proyecto::with(['unidades' => function ($query) {
+                $query->where('estado', 1); // Filtrar solo las unidades activas
+            }])->findOrFail($id);
         }
-
+    
         return view('proyectos.create', compact('bancos', 'progresos', 'proyecto'));
     }
+    
 
     /**
      * Guardar un nuevo proyecto o actualizar uno existente junto con sus unidades.
@@ -35,7 +38,7 @@ class ProyectoController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'proyecto_id' => 'nullable|exists:proyectos,id',  // Asegurar que el ID del proyecto sea válido si está presente
+            'proyecto_id' => 'nullable|exists:proyectos,id',
             'nombre_proyecto' => 'required|string|max:255',
             'unidades_cantidad' => 'required|integer',
             'banco_id' => 'required|exists:bancos,id',
@@ -44,19 +47,19 @@ class ProyectoController extends Controller
             'fecha_entrega' => 'nullable|date|after:today',
             'unidades' => 'nullable|string',
         ]);
-
+    
         if ($validator->fails()) {
             return response()->json([
                 'message' => 'Errores de validación',
                 'errors' => $validator->errors()
             ], 422);
         }
-
+    
         try {
             // Convertir el campo unidades a un array si no está vacío
             $unidadesArray = $request->filled('unidades') ? json_decode($request->unidades, true) : [];
-
-            // Usar `updateOrCreate` para crear o actualizar el proyecto según `proyecto_id`
+    
+            // Crear o actualizar el proyecto
             $proyecto = Proyecto::updateOrCreate(
                 ['id' => $request->proyecto_id],
                 [
@@ -66,8 +69,6 @@ class ProyectoController extends Controller
                     'proyecto_progreso_id' => $request->proyecto_progreso_id,
                     'descripcion' => $request->descripcion,
                     'fecha_entrega' => $request->fecha_entrega,
-
-                    // Valores predeterminados para evitar el error de campos vacíos
                     'area_desde' => $request->input('area_desde', 0),
                     'area_hasta' => $request->input('area_hasta', 0),
                     'area_techada_desde' => $request->input('area_techada_desde', 0),
@@ -80,12 +81,12 @@ class ProyectoController extends Controller
                 ]
             );
 
-            // Guardar o actualizar las unidades asociadas al proyecto
-            foreach ($unidadesArray as $unidadData) {
-                ProyectoUnidades::updateOrCreate(
+            // Guardar o actualizar las unidades con el estado enviado desde el frontend
+            foreach ($unidadesArray as $key => $unidadData) {
+                $unidad = ProyectoUnidades::updateOrCreate(
                     [
                         'id' => $unidadData['id'] ?? null,  // Actualizar si ya existe `id`
-                        'proyecto_id' => $proyecto->id,      // Asegurar que pertenece al mismo proyecto
+                        'proyecto_id' => $proyecto->id,
                     ],
                     [
                         'dormitorios' => $unidadData['dormitorios'],
@@ -95,15 +96,20 @@ class ProyectoController extends Controller
                         'area' => $unidadData['area'],
                         'area_techada' => $unidadData['area_techada'] ?? 0,
                         'piso_numero' => $unidadData['piso_numero'],
+                        'estado' => $unidadData['estado'],
                     ]
                 );
+    
+                // Actualizar el ID de la unidad si es nueva
+                $unidadesArray[$key]['id'] = $unidad->id;
             }
-
+    
             return response()->json([
                 'message' => 'Proyecto guardado correctamente.',
                 'proyecto' => $proyecto,
+                'unidades' => $unidadesArray,
             ], 201);
-
+    
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'Error al guardar el proyecto.',
@@ -111,4 +117,5 @@ class ProyectoController extends Controller
             ], 500);
         }
     }
+    
 }

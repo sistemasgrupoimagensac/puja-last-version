@@ -19,6 +19,7 @@ class ProyectoUnidades extends Model
         'area_techada',
         'banios',
         'piso_numero',
+        'estado',
     ];
 
     // Evento que se dispara cada vez que se guarda o elimina una unidad

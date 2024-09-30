@@ -183,12 +183,12 @@ Route::get('/blog', function () {
 // Transaccion
 Route::post('/save-transaction', [TransactionsController::class, 'store']);
 
-// Proyectos
+// Proyectos ==========================================================================================
 // Ruta para ver el formulario de creación de proyectos
-Route::get('/proyectos/create/{id?}', [ProyectoController::class, 'create'])->name('proyectos.create');
+Route::get('/projects/maker/{id?}', [ProyectoController::class, 'create'])->name('proyectos.create');
 
 // Ruta para almacenar la información del proyecto
 Route::post('/proyectos', [ProyectoController::class, 'store'])->name('proyectos.store');
 
 // Ruta para agregar una nueva unidad (AJAX)
-Route::post('/unidades', [UnidadProyectoController::class, 'store'])->name('unidades.store');
+// Route::post('/unidades', [UnidadProyectoController::class, 'store'])->name('unidades.store');
