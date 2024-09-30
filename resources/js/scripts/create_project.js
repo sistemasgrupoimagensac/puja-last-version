@@ -100,7 +100,6 @@ function actualizarTablaUnidades() {
     });
 }
 
-
 // Función para editar una unidad
 function editarUnidad(index) {
     const unidad = unidades[index];
@@ -134,7 +133,6 @@ function eliminarUnidad(index) {
     }
     actualizarTablaUnidades(); // Actualizar la tabla
 }
-
 
 // Manejo del envío del formulario del proyecto
 document.getElementById('proyectoForm').addEventListener('submit', function (event) {

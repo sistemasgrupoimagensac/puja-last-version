@@ -37,6 +37,7 @@ export default defineConfig({
         'resources/js/scripts/register.js',
         'resources/js/scripts/updatePlaceholdersRegister.js',
         'resources/js/scripts/create_project.js',
+        'resources/js/scripts/location_map.js',
         // 'resources/js/scripts/perfil.js',
         'resources/js/scripts/planes.js',
         'resources/js/scripts/toastyContact.js',
