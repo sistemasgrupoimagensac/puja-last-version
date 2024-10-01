@@ -105,6 +105,12 @@
         
         </div>
 
+        <!-- Botón para abrir el modal de subida de imágenes -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#proyectoImgUploadModal">
+            Subir Imágenes del Proyecto
+        </button>
+
+
         <!-- Botón para guardar parcialmente -->
         <button type="submit" name="action" value="guardar" class="btn btn-secondary">Guardar parcialmente</button>
 
@@ -182,6 +188,35 @@
         </div>
     </div>
 </div>
+
+<!-- Modal para Subir Imágenes del Proyecto -->
+<div class="modal fade" id="proyectoImgUploadModal" tabindex="-1" aria-labelledby="proyectoImgUploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="proyectoImgUploadModalLabel">Subir Imágenes del Proyecto Inmobiliario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="proyectoImgUploadForm">
+                    <div class="mb-3">
+                        <label for="proyectoImgInput" class="form-label">Selecciona las imágenes (Máximo 50)</label>
+                        <input type="file" id="proyectoImgInput" name="proyecto_images[]" accept=".jpg, .jpeg, .png, .webp" multiple class="form-control">
+                    </div>
+                    <!-- Contenedor para mostrar las miniaturas de las imágenes seleccionadas -->
+                    <div id="proyectoImgPreviewContainer" class="d-flex flex-wrap gap-2">
+                        <!-- Aquí se cargarán las miniaturas de las imágenes -->
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="proyectoImgUploadButton">Subir Imágenes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script>
     const storeUrl = "{{ route('proyectos.store') }}";

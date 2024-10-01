@@ -1,0 +1,23 @@
+#imagePreviewContainer img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#imagePreviewContainer .image-preview {
+  position: relative;
+  display: inline-block;
+}
+
+#imagePreviewContainer .image-preview .remove-image {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #f44336;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
