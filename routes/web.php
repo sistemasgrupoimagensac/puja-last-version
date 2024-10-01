@@ -20,6 +20,10 @@ use App\Http\Controllers\Web\Puja\MainController;
 use App\Http\Controllers\ProyectoController;
 use App\Http\Controllers\UnidadProyectoController;
 use App\Models\Post;
+use App\Http\Controllers\ProyectoImagenesPrincipalController;
+use App\Http\Controllers\ProyectoImagenesAdicionalController;
+use App\Http\Controllers\ProyectoImagenController;
+
 
 Route::get('/', MainController::class);
 Route::get('/libro-reclamaciones', [SuppliersController::class, 'libroReclamos'])->name('libro_reclamaciones');
@@ -190,5 +194,25 @@ Route::get('/projects/maker/{id?}', [ProyectoController::class, 'create'])->name
 // Ruta para almacenar la información del proyecto
 Route::post('/proyectos', [ProyectoController::class, 'store'])->name('proyectos.store');
 
-// Ruta para agregar una nueva unidad (AJAX)
-// Route::post('/unidades', [UnidadProyectoController::class, 'store'])->name('unidades.store');
+// Rutas para imágenes principales de un proyecto
+// Route::prefix('proyectos/{proyecto}/imagenes-principales')->group(function () {
+//     Route::post('/', [ProyectoImagenesPrincipalController::class, 'store'])->name('imagenes-principales.store');
+//     Route::get('/', [ProyectoImagenesPrincipalController::class, 'index'])->name('imagenes-principales.index');
+//     Route::delete('/{imagen}', [ProyectoImagenesPrincipalController::class, 'destroy'])->name('imagenes-principales.destroy');
+// });
+
+// // Rutas para imágenes adicionales de un proyecto
+// Route::prefix('proyectos/{proyecto}/imagenes-adicionales')->group(function () {
+//     Route::post('/', [ProyectoImagenAdicionalController::class, 'store'])->name('imagenes-adicionales.store');
+//     Route::get('/', [ProyectoImagenAdicionalController::class, 'index'])->name('imagenes-adicionales.index');
+//     Route::delete('/{imagen}', [ProyectoImagenAdicionalController::class, 'destroy'])->name('imagenes-adicionales.destroy');
+// });
+
+
+// Ruta para subir imágenes
+Route::post('/proyectos/{proyecto}/imagenes', [ProyectoImagenController::class, 'store'])
+    ->name('proyectos.imagenes.store');
+
+// Ruta para eliminar imágenes
+Route::delete('/proyectos/{proyecto}/imagenes/{imagen}', [ProyectoImagenController::class, 'destroy'])
+    ->name('proyectos.imagenes.destroy');

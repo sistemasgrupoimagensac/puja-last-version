@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('styles')
+    @vite(['resources/sass/pages/create_project.scss'])
+@endpush
+
 @section('content')
 <div class="container">
     <h2>{{ isset($proyecto) ? 'Editar Proyecto Inmobiliario' : 'Crear Proyecto Inmobiliario' }}</h2>
@@ -190,7 +194,7 @@
 </div>
 
 <!-- Modal para Subir Imágenes del Proyecto -->
-<div class="modal fade" id="proyectoImgUploadModal" tabindex="-1" aria-labelledby="proyectoImgUploadModalLabel" aria-hidden="true">
+{{-- <div class="modal fade" id="proyectoImgUploadModal" tabindex="-1" aria-labelledby="proyectoImgUploadModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -215,7 +219,42 @@
             </div>
         </div>
     </div>
+</div> --}}
+
+<!-- Modal para Subir Imágenes del Proyecto -->
+<div class="modal fade" id="proyectoImgUploadModal" tabindex="-1" aria-labelledby="proyectoImgUploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="proyectoImgUploadModalLabel">Subir Imágenes del Proyecto Inmobiliario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="proyectoImgUploadForm" class="proyecto-img-upload-form">
+                    <div class="mb-3">
+                        <label for="proyectoImgInput" class="form-label">Selecciona las imágenes (Máximo 50)</label>
+                        
+                        <!-- Contenedor de Drag and Drop -->
+                        <div id="proyectoImgDropZone" class="proyecto-img-drop-zone">
+                            <p>Arrastra las imágenes aquí o haz clic para seleccionarlas</p>
+                            <input type="file" id="proyectoImgInput" name="proyecto_images[]" accept=".jpg, .jpeg, .png, .webp" multiple class="form-control d-none">
+                        </div>
+                    </div>
+                    
+                    <!-- Contenedor para mostrar las miniaturas de las imágenes seleccionadas -->
+                    <div id="proyectoImgPreviewContainer" class="d-flex flex-wrap gap-2 proyecto-img-preview-container">
+                        <!-- Aquí se agregarán las miniaturas de las imágenes -->
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="proyectoImgUploadButton">Subir Imágenes</button>
+            </div>
+        </div>
+    </div>
 </div>
+
 
 
 <script>
@@ -227,5 +266,5 @@
 @endsection
 
 @push('scripts')
-    @vite(['resources/js/scripts/create_project.js', 'resources/js/scripts/location_map.js'])
+    @vite(['resources/js/scripts/create_project.js', 'resources/js/scripts/location_map.js', 'resources/js/scripts/project_upload_image.js'])
 @endpush

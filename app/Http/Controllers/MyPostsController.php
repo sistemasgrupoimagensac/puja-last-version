@@ -298,9 +298,6 @@ class MyPostsController extends Controller
                 ], 422);
             }
         }
-        // return response()->json([
-        //     'request' => $request->all(),
-        // ], 200);
         
         if ($request->multimedia) {
             $routeImages = "images/{$inmueble->id}";

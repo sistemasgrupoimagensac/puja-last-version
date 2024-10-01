@@ -47,6 +47,18 @@ class Proyecto extends Model
         return $this->belongsTo(ProyectoProgreso::class, 'proyecto_progreso_id');
     }
 
+    // Relación con imágenes principales
+    public function imagenesPrincipales()
+    {
+        return $this->hasMany(ProyectoImagenesPrincipal::class)->where('estado', 1);
+    }
+
+    // Relación con imágenes adicionales
+    public function imagenesAdicionales()
+    {
+        return $this->hasMany(ProyectoImagenesAdicional::class)->where('estado', 1);
+    }
+
     // Modificar el método para recalcular solo con unidades activas
     public function recalcularValores()
     {
