@@ -51,10 +51,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Crear un FormData para enviar las imágenes
     const formData = new FormData();
+
     selectedImages.forEach((image) => {
       formData.append('images[]', image);
     });
-
+    
     // Enviar las imágenes a través de fetch
     fetch(`/proyectos/${proyectoId}/imagenes`, {
       method: 'POST',

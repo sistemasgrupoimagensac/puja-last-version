@@ -14,9 +14,6 @@
 
 @section('content')
 
-
-
-
     <div id="loader-overlay">
         <img src="{{ asset('images/loader.svg') }}" alt="Cargando...">
     </div>

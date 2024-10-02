@@ -116,6 +116,8 @@ Route::get('/proyectos', function() {
     return view('landing-projects');
 });
 
+// Obtener imagenes
+// Rutas imagenes para producción
 Route::get('/images/{id_inmueble}/{archivo}', [ImagesController::class, 'get_images']);
 Route::get('/planos/{id_inmueble}/{archivo}', [ImagesController::class, 'get_planos']);
 Route::get('/videos/{id_inmueble}/{archivo}', [ImagesController::class, 'get_videos']);
@@ -125,6 +127,10 @@ Route::get('wsb-dev/{name_dev}/images/{id_inmueble}/{archivo}', [ImagesControlle
 Route::get('wsb-dev/{name_dev}/planos/{id_inmueble}/{archivo}', [ImagesController::class, 'dev_get_planos']);
 Route::get('wsb-dev/{name_dev}/videos/{id_inmueble}/{archivo}', [ImagesController::class, 'dev_get_videos']);
 
+// Rutas imagenes de PROYECTOS producción
+
+// Rutas imagenes de PROYECTOS para desarrollo
+Route::get('wsb-dev/{name_dev}/proyectos/images/{id_proyecto}/{archivo}', [ImagesController::class, 'dev_get_project_images']);
 
 // Route::get('/openpay', [MyPostsController::class, 'openpay'])->middleware('sessiondata');
 Route::post('/generarComprobanteElec/{id}', [BillingController::class, 'generarFactura'])->middleware(SessionData::class);
@@ -194,25 +200,10 @@ Route::get('/projects/maker/{id?}', [ProyectoController::class, 'create'])->name
 // Ruta para almacenar la información del proyecto
 Route::post('/proyectos', [ProyectoController::class, 'store'])->name('proyectos.store');
 
-// Rutas para imágenes principales de un proyecto
-// Route::prefix('proyectos/{proyecto}/imagenes-principales')->group(function () {
-//     Route::post('/', [ProyectoImagenesPrincipalController::class, 'store'])->name('imagenes-principales.store');
-//     Route::get('/', [ProyectoImagenesPrincipalController::class, 'index'])->name('imagenes-principales.index');
-//     Route::delete('/{imagen}', [ProyectoImagenesPrincipalController::class, 'destroy'])->name('imagenes-principales.destroy');
-// });
-
-// // Rutas para imágenes adicionales de un proyecto
-// Route::prefix('proyectos/{proyecto}/imagenes-adicionales')->group(function () {
-//     Route::post('/', [ProyectoImagenAdicionalController::class, 'store'])->name('imagenes-adicionales.store');
-//     Route::get('/', [ProyectoImagenAdicionalController::class, 'index'])->name('imagenes-adicionales.index');
-//     Route::delete('/{imagen}', [ProyectoImagenAdicionalController::class, 'destroy'])->name('imagenes-adicionales.destroy');
-// });
-
-
-// Ruta para subir imágenes
-Route::post('/proyectos/{proyecto}/imagenes', [ProyectoImagenController::class, 'store'])
+// Ruta para subir imágenes PROYECTOS
+Route::post('/proyectos/{proyectoId}/imagenes', [ProyectoImagenController::class, 'store'])
     ->name('proyectos.imagenes.store');
 
-// Ruta para eliminar imágenes
+// Ruta para eliminar imágenes PROYECTOS
 Route::delete('/proyectos/{proyecto}/imagenes/{imagen}', [ProyectoImagenController::class, 'destroy'])
     ->name('proyectos.imagenes.destroy');

@@ -31,7 +31,6 @@ class ProyectoController extends Controller
         return view('proyectos.create', compact('bancos', 'progresos', 'proyecto'));
     }
     
-
     /**
      * Guardar un nuevo proyecto o actualizar uno existente junto con sus unidades.
      */
