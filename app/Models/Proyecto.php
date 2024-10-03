@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Proyecto extends Model
 {
@@ -30,7 +31,39 @@ class Proyecto extends Model
         'departamento',
         'latitude',
         'longitude',
+        'slug',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Generar el slug antes de crear o actualizar el proyecto
+        static::saving(function ($model) {
+            if (empty($model->slug)) {
+                $model->slug = $model->generateSlug($model->nombre_proyecto);
+            }
+        });
+    }
+
+    /**
+    * Método para generar el slug basado en el nombre del proyecto
+    */
+    public function generateSlug($nombreProyecto)
+    {
+        $baseSlug = Str::slug($nombreProyecto); // Convertir el nombre del proyecto en slug
+        $slug = $baseSlug;
+
+        $counter = 1;
+
+        // Asegurarse de que el slug es único
+        while (Proyecto::where('slug', $slug)->exists()) {
+            $slug = "{$baseSlug}-{$counter}";
+            $counter++;
+        }
+
+        return $slug;
+    }
 
     public function unidades()
     {
@@ -56,7 +89,7 @@ class Proyecto extends Model
     // Relación con imágenes adicionales
     public function imagenesAdicionales()
     {
-        return $this->hasMany(ProyectoImagenesAdicional::class)->where('estado', 1);
+        return $this->hasMany(ProyectoImagenesAdicionales::class)->where('estado', 1);
     }
 
     // Modificar el método para recalcular solo con unidades activas

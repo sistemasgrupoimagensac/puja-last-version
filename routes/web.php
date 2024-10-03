@@ -193,17 +193,18 @@ Route::get('/blog', function () {
 // Transaccion
 Route::post('/save-transaction', [TransactionsController::class, 'store']);
 
-// Proyectos ==========================================================================================
+// Proyectos =============================================================================================
 // Ruta para ver el formulario de creación de proyectos
-Route::get('/projects/maker/{id?}', [ProyectoController::class, 'create'])->name('proyectos.create');
+Route::get('/proyecto/editor/{id?}', [ProyectoController::class, 'create'])->name('proyectos.create');
 
 // Ruta para almacenar la información del proyecto
 Route::post('/proyectos', [ProyectoController::class, 'store'])->name('proyectos.store');
 
 // Ruta para subir imágenes PROYECTOS
-Route::post('/proyectos/{proyectoId}/imagenes', [ProyectoImagenController::class, 'store'])
-    ->name('proyectos.imagenes.store');
+Route::post('/proyectos/{proyectoId}/imagenes', [ProyectoImagenController::class, 'store'])->name('proyectos.imagenes.store');
 
 // Ruta para eliminar imágenes PROYECTOS
-Route::delete('/proyectos/{proyecto}/imagenes/{imagen}', [ProyectoImagenController::class, 'destroy'])
-    ->name('proyectos.imagenes.destroy');
+Route::delete('/proyectos/{proyecto}/imagenes/{imagen}', [ProyectoImagenController::class, 'destroy'])->name('proyectos.imagenes.destroy');
+
+// Ruta para visualizar un proyecto con URL amigable
+Route::get('/proyecto/{slug}', [ProyectoController::class, 'show'])->name('proyecto.show');

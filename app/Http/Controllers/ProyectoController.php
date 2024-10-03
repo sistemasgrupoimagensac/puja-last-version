@@ -49,7 +49,7 @@ class ProyectoController extends Controller
             'banco_id' => 'required|exists:bancos,id',
             'proyecto_progreso_id' => 'required|exists:proyecto_progreso,id',
             'descripcion' => 'required|string',
-            'fecha_entrega' => 'nullable|date|after:today',
+            'fecha_entrega' => 'nullable|date',
             'unidades' => 'nullable|string',
             'direccion' => 'nullable|string|max:255',
             'distrito' => 'nullable|string|max:255',
@@ -134,5 +134,35 @@ class ProyectoController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * Mostrar la vista de un proyecto específico basado en su slug.
+     */
+    public function show($slug)
+    {
+        try {
+            // Buscar el proyecto por su slug
+            $proyecto = Proyecto::where('slug', $slug)->firstOrFail();
+    
+            // Buscar las imágenes relacionadas solo si el proyecto fue encontrado
+            $imagenes = ProyectoImagenesAdicionales::where('proyecto_id', $proyecto->id)
+                ->where('estado', 1) // Solo imágenes activas
+                ->get();
+    
+            // Pasar el proyecto y las imágenes a la vista
+            // produccion:
+            // return view('proyecto', compact('proyecto', 'imagenes'));
+            
+            // desarrollo:
+            return view('proyecto_dev', compact('proyecto', 'imagenes'));
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Proyecto no encontrado.',
+                'error' => $e->getMessage()
+            ], 404);
+        }
+    }
+    
+
     
 }
