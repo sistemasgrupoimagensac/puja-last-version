@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\App;
 
-
 class ProyectoImagenController extends Controller
 {
     /**
@@ -20,18 +19,18 @@ class ProyectoImagenController extends Controller
 
         $routeImagesProjects = "proyectos/images/{$proyectoId}";
 
-        if ( !App::environment('production') ) {
-            $nameDev = "wsb-dev/".env('ROUTE_WSB')."/";
+        if (!App::environment('production')) {
+            $nameDev = "wsb-dev/" . env('ROUTE_WSB') . "/";
             $routeImagesProjects = "{$nameDev}{$routeImagesProjects}";
         }
 
 
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'images' => 'required|array|min:1',
             'images.*' => 'required|image|mimes:jpg,jpeg,png,webp|max:400'
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json([
                 'message' => 'Error formato y/o tamaño imagen',
                 'errors' => $validator->errors(),
@@ -40,8 +39,6 @@ class ProyectoImagenController extends Controller
 
         // Buscar el proyecto o retornar error 404 si no existe
         $proyecto = Proyecto::findOrFail($proyectoId);
-
-   
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
@@ -65,9 +62,6 @@ class ProyectoImagenController extends Controller
         ], 200);  // Código 200 para indicar éxito
     }
 
-    /**
-     * Eliminar una imagen de Wasabi y la base de datos.
-     */
     public function destroy($proyectoId, $imagenId)
     {
         // Validar la existencia de la imagen en el proyecto
@@ -75,15 +69,23 @@ class ProyectoImagenController extends Controller
             ->where('id', $imagenId)
             ->firstOrFail();
 
-        // Eliminar la imagen de Wasabi utilizando la URL de la imagen guardada
-        $imagePath = parse_url($imagen->imagen, PHP_URL_PATH);
-        Storage::disk('wasabi')->delete($imagePath);
+        // Cambiar el estado de la imagen a inactivo en la base de datos
+        $imagen->update(['estado' => 0]);
 
-        // Eliminar la referencia de la base de datos
-        $imagen->delete();
+        // Eliminar la imagen físicamente de Wasabi
+        $imagePath = parse_url($imagen->image_url, PHP_URL_PATH);
+        $deletedFromWasabi = Storage::disk('wasabi')->delete($imagePath);
+
+        // Si la eliminación física falla, retorna un mensaje de advertencia
+        if (!$deletedFromWasabi) {
+            return response()->json([
+                'message' => 'El estado de la imagen fue actualizado, pero no se pudo eliminar.',
+            ], 500);
+        }
 
         return response()->json([
             'message' => 'Imagen eliminada correctamente.',
-        ], 200);  // Código 200 para éxito
+        ], 200);  // Código 200 para éxito total
     }
+
 }

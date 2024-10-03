@@ -5,7 +5,7 @@
 @endpush
 
 @section('content')
-<div class="container">
+<div class="container my-5">
     <h2>{{ isset($proyecto) ? 'Editar Proyecto Inmobiliario' : 'Crear Proyecto Inmobiliario' }}</h2>
 
     <!-- Formulario de creación de proyecto -->
@@ -193,16 +193,16 @@
     </div>
 </div>
 
-<!-- Modal para Subir Imágenes del Proyecto -->
+<!-- Modal para Subir y Editar Imágenes del Proyecto -->
 <div class="modal fade" id="proyectoImgUploadModal" tabindex="-1" aria-labelledby="proyectoImgUploadModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="proyectoImgUploadModalLabel">Subir Imágenes del Proyecto Inmobiliario</h5>
+                <h5 class="modal-title" id="proyectoImgUploadModalLabel">Gestionar Imágenes del Proyecto</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <!-- Se agregó el atributo `enctype="multipart/form-data"` aquí -->
+                <!-- Formulario para subir imágenes -->
                 <form id="proyectoImgUploadForm" class="proyecto-img-upload-form" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="proyectoImgInput" class="form-label">Selecciona las imágenes (Máximo 50)</label>
@@ -216,7 +216,22 @@
                     
                     <!-- Contenedor para mostrar las miniaturas de las imágenes seleccionadas -->
                     <div id="proyectoImgPreviewContainer" class="d-flex flex-wrap gap-2 proyecto-img-preview-container">
-                        <!-- Aquí se agregarán las miniaturas de las imágenes -->
+                        <!-- Aquí se agregarán las miniaturas de las imágenes seleccionadas -->
+                    </div>
+
+                    <!-- Contenedor para mostrar las miniaturas de las imágenes ya existentes -->
+                    <h5 class="mt-4">Imágenes Existentes</h5>
+                    <div id="existingImagesContainer" class="d-flex flex-wrap gap-2">
+
+                        @foreach($imagenes->where('estado', 1) as $imagen)
+                            <div class="image-thumbnail position-relative">
+                                <img src="{{ $imagen->image_url }}" alt="Imagen del Proyecto" class="img-thumbnail" style="max-width: 100px;">
+                                <button type="button" class="remove-image-btn btn-close d-flex justify-content-center align-items-center delete-image-btn" data-id="{{ $imagen->id }}">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                        @endforeach
+
                     </div>
                 </form>
             </div>
@@ -227,6 +242,7 @@
         </div>
     </div>
 </div>
+
 
 <script>
     const storeUrl = "{{ route('proyectos.store') }}";

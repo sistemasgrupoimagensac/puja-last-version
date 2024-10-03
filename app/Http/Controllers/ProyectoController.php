@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Banco;
 use App\Models\Proyecto;
+use App\Models\ProyectoImagenesAdicionales;
 use App\Models\ProyectoProgreso;
 use App\Models\ProyectoUnidades;
 use Illuminate\Http\Request;
@@ -20,15 +21,20 @@ class ProyectoController extends Controller
         $bancos = Banco::all();
         $progresos = ProyectoProgreso::all();
         $proyecto = null;
-    
-        // Si se pasa un ID, buscar el proyecto y cargar solo las unidades activas
+        $imagenes = collect(); // Colección vacía si es un nuevo proyecto
+
+        // Si se pasa un ID, estamos en modo edición, buscar el proyecto y cargar sus datos e imágenes
         if ($id) {
             $proyecto = Proyecto::with(['unidades' => function ($query) {
                 $query->where('estado', 1); // Filtrar solo las unidades activas
             }])->findOrFail($id);
+
+            // Obtener las imágenes relacionadas del proyecto
+            $imagenes = ProyectoImagenesAdicionales::where('proyecto_id', $id)->get();
         }
-    
-        return view('proyectos.create', compact('bancos', 'progresos', 'proyecto'));
+
+        // Pasar la variable $imagenes a la vista
+        return view('proyectos.create', compact('bancos', 'progresos', 'proyecto', 'imagenes'));
     }
     
     /**

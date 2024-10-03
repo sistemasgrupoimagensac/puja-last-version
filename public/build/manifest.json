@@ -48,7 +48,7 @@
     "src": "resources/images/slide2.webp"
   },
   "resources/js/app.js": {
-    "file": "assets/app-Brz4Vt-x.js",
+    "file": "assets/app-DqSDGhWU.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
@@ -105,6 +105,15 @@
     "src": "resources/js/scripts/contacto.js",
     "isEntry": true
   },
+  "resources/js/scripts/create_project.js": {
+    "file": "assets/create_project-C8PuNm1o.js",
+    "name": "create_project",
+    "src": "resources/js/scripts/create_project.js",
+    "isEntry": true,
+    "imports": [
+      "_bootstrap.esm-DgeKcj6p.js"
+    ]
+  },
   "resources/js/scripts/home.js": {
     "file": "assets/home-BrnziL0-.js",
     "name": "home",
@@ -123,6 +132,12 @@
     "src": "resources/js/scripts/inmuebles.js",
     "isEntry": true
   },
+  "resources/js/scripts/location_map.js": {
+    "file": "assets/location_map-CPT9d1jP.js",
+    "name": "location_map",
+    "src": "resources/js/scripts/location_map.js",
+    "isEntry": true
+  },
   "resources/js/scripts/planes.js": {
     "file": "assets/planes-BlaCxmg_.js",
     "name": "planes",
@@ -131,6 +146,12 @@
     "imports": [
       "_bootstrap.esm-DgeKcj6p.js"
     ]
+  },
+  "resources/js/scripts/project_upload_image.js": {
+    "file": "assets/project_upload_image-BlKTR6GA.js",
+    "name": "project_upload_image",
+    "src": "resources/js/scripts/project_upload_image.js",
+    "isEntry": true
   },
   "resources/js/scripts/register.js": {
     "file": "assets/register-AekLudX5.js",
@@ -175,7 +196,7 @@
     ]
   },
   "resources/js/scripts/updatePlaceholdersRegister.js": {
-    "file": "assets/updatePlaceholdersRegister-CSpktGlP.js",
+    "file": "assets/updatePlaceholdersRegister-DcpNU9Mz.js",
     "name": "updatePlaceholdersRegister",
     "src": "resources/js/scripts/updatePlaceholdersRegister.js",
     "isEntry": true,

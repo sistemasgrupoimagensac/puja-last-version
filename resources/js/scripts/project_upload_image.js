@@ -11,6 +11,39 @@ document.addEventListener('DOMContentLoaded', function () {
   const maxImageCount = 50;
   const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+  const existingImageDeleteButtons = document.querySelectorAll('.delete-image-btn');
+
+  existingImageDeleteButtons.forEach(button => {
+    button.addEventListener('click', function () {
+      const imageId = this.dataset.id;
+  
+      if (confirm('¿Estás seguro de que deseas eliminar esta imagen?')) {
+        fetch(`/proyectos/${proyectoId}/imagenes/${imageId}`, {
+          method: 'DELETE',
+          headers: {
+            'X-CSRF-TOKEN': csrfToken, // Token CSRF para la eliminación en Laravel
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.message === 'Imagen eliminada correctamente.') {
+            // Eliminar la miniatura de la interfaz si la eliminación es exitosa
+            this.parentElement.remove();
+            alert('Imagen eliminada correctamente.');
+          } else if (response.status === 500) {
+            alert('El estado de la imagen fue actualizado, pero no se pudo eliminar de Wasabi.');
+          } else {
+            alert('Error al eliminar la imagen.');
+          }
+        })
+        .catch(error => {
+          console.error('Error al eliminar la imagen:', error);
+          alert('Hubo un error al eliminar la imagen.');
+        });
+      }
+    });
+  });
+  
   let selectedImages = []; // Array para almacenar las imágenes seleccionadas
 
   // Mostrar el input de selección de archivos al hacer clic en el contenedor de arrastre
