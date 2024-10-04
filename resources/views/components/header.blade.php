@@ -172,7 +172,9 @@
                               <li><a class="dropdown-item" href="#">En construcción</a></li>
                               <li><a class="dropdown-item" href="#">Entrega inmediata</a></li>
                               <li><hr class="dropdown-divider"></li>
-                              <li><a class="dropdown-item" href="#">Todos</a></li>
+                              <li><a class="dropdown-item" href="/proyectos">Todos</a></li>
+                              <li><hr class="dropdown-divider"></li>
+                              <li><a class="dropdown-item fw-bold" href="/proyecto/editor">EDITAR - DEMO</a></li>
                             </ul>
                           </div>
         

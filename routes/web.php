@@ -23,6 +23,7 @@ use App\Models\Post;
 use App\Http\Controllers\ProyectoImagenesPrincipalController;
 use App\Http\Controllers\ProyectoImagenesAdicionalController;
 use App\Http\Controllers\ProyectoImagenController;
+use App\Http\Controllers\ProyectosController;
 
 
 Route::get('/', MainController::class);
@@ -208,3 +209,6 @@ Route::delete('/proyectos/{proyecto}/imagenes/{imagen}', [ProyectoImagenControll
 
 // Ruta para visualizar un proyecto con URL amigable
 Route::get('/proyecto/{slug}', [ProyectoController::class, 'show'])->name('proyecto.show');
+
+
+Route::get('/proyectos', [ProyectosController::class, 'index'])->name('proyectos.index');
