@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     if (!proyectoId) {
-      alert('El ID del proyecto no está definido.');
+      alert('Por favor, primero guarde el proyecto.');
       return;
     }
 

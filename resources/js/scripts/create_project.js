@@ -162,6 +162,7 @@ document.getElementById('proyectoForm').addEventListener('submit', function (eve
     .then((data) => {
         if (data.proyecto) {
             proyectoId = data.proyecto.id;  // Asignar el ID del proyecto si se guarda correctamente
+            window.location.href = `/proyecto/editor/${proyectoId}`
             console.log('Proyecto ID actualizado:', proyectoId);
         }
 
@@ -176,7 +177,7 @@ document.getElementById('proyectoForm').addEventListener('submit', function (eve
         }
 
         if (action === 'guardar_salir') {
-            window.location.href = '/'; // Redirigir a la página principal
+            window.location.href = '/proyectos'; // Redirigir a la página principal
         }
     })
     .catch((error) => console.error('Error:', error));

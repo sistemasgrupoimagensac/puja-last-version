@@ -110,7 +110,7 @@
         </div>
 
         <!-- Botón para abrir el modal de subida de imágenes -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#proyectoImgUploadModal">
+        <button type="button" class="btn button-orange" data-bs-toggle="modal" data-bs-target="#proyectoImgUploadModal" title="Primero guarde el proyecto">
             Subir Imágenes del Proyecto
         </button>
 

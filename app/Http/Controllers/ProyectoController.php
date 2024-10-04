@@ -135,35 +135,6 @@ class ProyectoController extends Controller
         }
     }
 
-    /**
-     * Mostrar la vista de un proyecto específico basado en su slug.
-     */
-    // public function show($slug)
-    // {
-    //     try {
-    //         // Buscar el proyecto por su slug
-    //         $proyecto = Proyecto::where('slug', $slug)->firstOrFail();
-    
-    //         // Buscar las imágenes relacionadas solo si el proyecto fue encontrado
-    //         $imagenes = ProyectoImagenesAdicionales::where('proyecto_id', $proyecto->id)
-    //             ->where('estado', 1) // Solo imágenes activas
-    //             ->get();
-    
-    //         // Pasar el proyecto y las imágenes a la vista
-    //         // produccion:
-    //         // return view('proyecto', compact('proyecto', 'imagenes'));
-
-    //         // desarrollo:
-    //         return view('proyecto_dev', compact('proyecto', 'imagenes'));
-
-    //     } catch (\Exception $e) {
-    //         return response()->json([
-    //             'message' => 'Proyecto no encontrado.',
-    //             'error' => $e->getMessage()
-    //         ], 404);
-    //     }
-    // }
-
     public function show($slug)
 {
     try {
@@ -181,7 +152,7 @@ class ProyectoController extends Controller
             ->get();
 
         // Pasar el proyecto, las imágenes y las unidades a la vista
-        return view('proyecto_dev', compact('proyecto', 'imagenes', 'unidades'));
+        return view('proyecto', compact('proyecto', 'imagenes', 'unidades'));
 
     } catch (\Exception $e) {
         return response()->json([
