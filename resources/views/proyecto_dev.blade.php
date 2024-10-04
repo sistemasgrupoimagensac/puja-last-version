@@ -146,6 +146,55 @@
                     </div>
                 </div>
 
+                {{-- Unidades en venta --}}
+                <div class="mt-5">
+                    <h3 class="fw-bold">Unidades en venta</h3>
+
+                    {{-- <div class="my-3">
+                        @php
+                            $dormitorios = $unidades->pluck('dormitorios')->unique();
+                        @endphp
+
+                        @foreach ($dormitorios as $index => $dorm)
+                            <input type="radio" class="btn-check" name="options-base" id="option{{ $index }}" autocomplete="off" {{ $index === 0 ? 'checked' : '' }}>
+                            <label class="btn" for="option{{ $index }}">{{ $dorm }} dormitorio{{ $dorm > 1 ? 's' : '' }}</label>
+                        @endforeach
+                    </div> --}}
+
+                    <div class="my-3">
+                        @php
+                            $dormitorios = $unidades->pluck('dormitorios')->unique();
+                        @endphp
+                        {{-- Generar botones dinámicamente para cada cantidad de dormitorios --}}
+                        @foreach ($dormitorios as $index => $dorm)
+                            <input type="radio" class="btn-check" name="options-base" id="option{{ $index }}" value="{{ $dorm }}" autocomplete="off" {{ $index === 0 ? 'checked' : '' }}>
+                            <label class="btn" for="option{{ $index }}">{{ $dorm }} dormitorio{{ $dorm > 1 ? 's' : '' }}</label>
+                        @endforeach
+                    </div>
+                    
+
+                    <div class="border rounded shadow p-3 pb-0">
+                        <div class="swiper swiperUnidadProyecto container">
+                            <div class="swiper-wrapper" style="height: 400px;">
+                                {{-- Recorrer las unidades y agregar clases según el número de dormitorios --}}
+                                @foreach ($unidades as $unidad)
+                                    <div class="swiper-slide dormitorio-{{ $unidad->dormitorios }}">
+                                        <x-card-unidad-proyecto 
+                                            :precioSoles="$unidad->precio_soles"
+                                            :precioDolares="$unidad->precio_dolares"
+                                            :area="$unidad->area"
+                                            :banios="$unidad->banios"
+                                            :dormitorios="$unidad->dormitorios">
+                                        </x-card-unidad-proyecto>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div class="swiper-pagination mt-4"></div>
+                        </div>
+                    </div>
+                </div>
+
+
                 {{-- Descripción del Proyecto --}}
                 <div class="mt-5">
                     <h3 class="fw-bold">Descripción</h3>
@@ -280,12 +329,14 @@
             initMap();
         }
     });
+
+
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuCCuPnZoJYgILw9e3PNom-ZG5TnsGNeg&callback=initMap" async defer></script>
 
 @endsection
 
-@push('scripts')
+{{-- @push('scripts')
     @vite(['resources/js/scripts/proyecto.js'])
-@endpush
+@endpush --}}
