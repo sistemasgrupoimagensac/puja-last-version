@@ -148,7 +148,7 @@
     ]
   },
   "resources/js/scripts/project_upload_image.js": {
-    "file": "assets/project_upload_image-BlKTR6GA.js",
+    "file": "assets/project_upload_image-DY37NWgg.js",
     "name": "project_upload_image",
     "src": "resources/js/scripts/project_upload_image.js",
     "isEntry": true
@@ -247,6 +247,11 @@
   "resources/sass/pages/crear-aviso.scss": {
     "file": "assets/crear-aviso-Di3bPGgz.css",
     "src": "resources/sass/pages/crear-aviso.scss",
+    "isEntry": true
+  },
+  "resources/sass/pages/create_project.scss": {
+    "file": "assets/create_project-E6JB-ek6.css",
+    "src": "resources/sass/pages/create_project.scss",
     "isEntry": true
   },
   "resources/sass/pages/inmueble.scss": {

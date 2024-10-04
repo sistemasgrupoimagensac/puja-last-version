@@ -21,6 +21,7 @@ export default defineConfig({
         'resources/sass/pages/blog.scss',
         'resources/sass/pages/post.scss',
         'resources/sass/pages/404.scss',
+        'resources/sass/pages/create_project.scss',
         // sass - components
         "resources/sass/components/menu_panel.scss",
         "resources/sass/components/footer.scss",
