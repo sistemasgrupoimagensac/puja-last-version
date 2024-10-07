@@ -226,6 +226,13 @@
                         @foreach($imagenes->where('estado', 1) as $imagen)
                             <div class="image-thumbnail position-relative">
                                 <img src="{{ $imagen->image_url }}" alt="Imagen del Proyecto" class="img-thumbnail" style="max-width: 100px;">
+
+                                <!-- Checkbox para seleccionar la imagen principal -->
+                                <div class="form-check">
+                                    <input class="form-check-input principal-checkbox" type="radio" name="principal" value="{{ $imagen->id }}" {{ $imagen->tipo == 1 ? 'checked' : '' }}>
+                                    <label class="form-check-label icon-orange fw-bold">principal</label>
+                                </div>
+
                                 <button type="button" class="remove-image-btn btn-close d-flex justify-content-center align-items-center delete-image-btn" data-id="{{ $imagen->id }}">
                                     <i class="fa-solid fa-xmark"></i>
                                 </button>
@@ -237,7 +244,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" id="proyectoImgUploadButton">Subir Imágenes</button>
+                <button type="button" class="btn button-orange" id="proyectoImgUploadButton">Subir / Actualizar Imágenes</button>
             </div>
         </div>
     </div>

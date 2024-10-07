@@ -202,6 +202,7 @@ Route::post('/proyectos', [ProyectoController::class, 'store'])->name('proyectos
 
 // Ruta para subir imágenes PROYECTOS
 Route::post('/proyectos/{proyectoId}/imagenes', [ProyectoImagenController::class, 'store'])->name('proyectos.imagenes.store');
+Route::post('/proyectos/{proyectoId}/imagenes-principal', [ProyectoImagenController::class, 'updatePrincipal'])->name('proyectos.imagenes-principal.update');
 
 // Ruta para eliminar imágenes PROYECTOS
 Route::delete('/proyectos/{proyecto}/imagenes/{imagen}', [ProyectoImagenController::class, 'destroy'])->name('proyectos.imagenes.destroy');

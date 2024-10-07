@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Proyecto;
 use App\Models\ProyectoImagenesAdicionales;
+use App\Models\ProyectoImagenesPrincipal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -88,4 +89,36 @@ class ProyectoImagenController extends Controller
         ], 200);  // Código 200 para éxito total
     }
 
+    /**
+     * Actualizar la imagen principal del proyecto.
+     */
+    public function updatePrincipal(Request $request, $proyectoId)
+    {
+        // Validar el ID de la imagen enviada en la solicitud
+        $validator = Validator::make($request->all(), [
+            'image_id' => 'required|exists:proyecto_imagenes_adicionales,id'
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Error en la solicitud: ID de imagen no válido',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+    
+        // Buscar el proyecto o retornar error 404 si no existe
+        $proyecto = Proyecto::findOrFail($proyectoId);
+    
+        // Establecer todas las imágenes adicionales del proyecto como no principales (tipo = 0)
+        ProyectoImagenesAdicionales::where('proyecto_id', $proyectoId)->update(['tipo' => 0]);
+    
+        // Actualizar la imagen seleccionada a tipo 1 para que sea la nueva imagen principal
+        ProyectoImagenesAdicionales::where('id', $request->image_id)->update(['tipo' => 1]);
+    
+        return response()->json([
+            'success' => true,
+            'message' => 'Imagen principal actualizada correctamente.'
+        ], 200);
+    }
+    
 }
