@@ -171,6 +171,7 @@ Route::post('/procesar-contacto-proyecto', [MyPostsController::class, 'procesar_
 
 // Ruta de contacto
 Route::get('/contacto', [ContactoController::class, 'index'])->name('contacto');
+Route::get('/contacto/proyecto', [ContactoController::class, 'contacto_proyecto'])->name('contacto_proyecto');
 Route::post('/contacto', [ContactoController::class, 'store'])->name('post.contacto');
 
 Route::fallback(function () {

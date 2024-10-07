@@ -13,11 +13,10 @@
 @endsection
 
 @section('content')
-
   <div class="container d-flex flex-column align-items-center my-3 my-lg-5">
     <div class="p-3 p-lg-4 pt-5 shadow-lg rounded">
-      <h1 class="text-center">Puedes contar con nosotros</h1>
-      <h4 class="text-secondary text-center">Completa el formulario y resolveremos tus consultas</h4>
+      <h1 class="text-center">¡Te ayudaremos a hacer visible tu <br> proyecto inmobiliario!</h1>
+      <h4 class="text-secondary text-center">Completa el formulario y empecemos</h4>
     
       <form method="POST" id="page-contact-formData">
         @csrf
@@ -43,19 +42,6 @@
           </div>
     
           <div class="form-floating">
-            <select class="form-select shadow-none" id="page-contact-issue" name="consulta">
-              <option value="1" selected>Publicar tu Proyecto Inmobiliario</option>
-              <option value="2">Publicar tu inmueble</option>
-              <option value="3">Soporte sobre el uso del servicio</option>
-              <option value="4">Sugerencias y comentarios</option>
-              <option value="5">Reportar un problema</option>
-              <option value="6">Otro</option>
-            </select>
-            <label for="floatingSelect">Tipo de Consulta</label>
-            <div id="validationServerAsuntoFeedback" class="invalid-feedback"></div>
-          </div>
-    
-          <div class="form-floating">
             <textarea class="form-control shadow-none" placeholder="Contactame" id="page-contact-message" name="mensaje" maxlength="2000"></textarea>
             <label for="page-contact-message" class="text-secondary">Mensaje*</label>
             <div id="validationServerMensajeFeedback" class="invalid-feedback"></div>
@@ -68,9 +54,7 @@
           <small class="text-body-tertiary py-1">Al hacer clic en Enviar, estás aceptando nuestra 
             <a href="/politica-privacidad" target="blank" class="text-decoration-none">Política de Privacidad</a>
           </small>
-    
-    
-    
+
         </div>
     
     

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Contacto;
-
+use Hamcrest\Type\IsString;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -11,6 +11,11 @@ class ContactoController extends Controller
     public function index() 
     {
         return view('contacto');
+    }
+
+    public function contacto_proyecto() 
+    {
+        return view('contacto_proyecto');
     }
 
     public function store(Request $request)
