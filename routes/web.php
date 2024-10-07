@@ -63,7 +63,6 @@ Route::middleware(['auth', 'verified'])->group(function() {
     });
 });
 
-
 Route::middleware(['guest'])->group(function() {
     Route::get('/recuperar-contrasena', [LoginController::class, 'forgot_password'])->name('auth.forgot-password.index');
     Route::post('/recuperar-contrasena', [LoginController::class, 'send_password'])->name('auth.forgot-password.send');

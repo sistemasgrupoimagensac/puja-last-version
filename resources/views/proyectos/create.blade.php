@@ -23,7 +23,7 @@
         </div>
 
         <div class="mb-3">
-            <label for="banco_id" class="form-label">Banco</label>
+            <label for="banco_id" class="form-label">Financiamiento</label>
             <select class="form-control" id="banco_id" name="banco_id" required>
                 @foreach($bancos as $banco)
                     <option value="{{ $banco->id }}" {{ isset($proyecto) && $proyecto->banco_id == $banco->id ? 'selected' : '' }}>{{ $banco->nombre }}</option>
