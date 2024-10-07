@@ -218,13 +218,14 @@
             </div>  
         </div>
 
+        {{-- Contacto --}}
         <div class="col-lg-4 ps-lg-3">
                     
             <div class="sticky-lg-top py-3">
                 <div class="rounded bg-white border shadow">
                     <form class="d-flex flex-column gap-3 p-3" method="POST" id="send_contact">
                         @csrf
-                        <input type="hidden" name="aviso_id" value="{{ $proyecto->id }}">
+                        <input type="hidden" name="proyecto_id" value="{{ $proyecto->id }}">
                         <div class="d-flex justify-content-between align-items-center">
 
                             <h5 class="form-title m-0">Contactar</h5>
@@ -258,13 +259,31 @@
 
                         {{-- contacto por whatsapp --}}
                         <button class="btn btn-light border-secondary-subtle" type="button" id="whatsapp_contact_button">
-                            <i class="fab fa-whatsapp"></i> WhatsApp
+                            <i class="fab fa-whatsapp"></i> 
+                            Contáctenme
                         </button>
-        
-                        {{-- contacto por correo --}}
-                        <button class="btn btn-light border-secondary-subtle" id="btn-enviar-form-single">
-                            <i class="fa-regular fa-paper-plane"></i> Enviar
-                        </button>
+
+                        <div class="d-flex flex-column">
+                            <small class="fw-secondary">Deseo que me contacten en:</small>
+                            {{-- Selector de periodo de contacto --}}
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+                                <input type="radio" class="btn-check" name="time" id="horario_contacto_manana" autocomplete="off" value="mañana" checked>
+                                <label class="btn btn-outline-secondary rounded-bottom-0" for="horario_contacto1_manana">Mañana</label>
+                              
+                                <input type="radio" class="btn-check" name="time" id="horario_contacto_tarde" autocomplete="off" value="tarde">
+                                <label class="btn btn-outline-secondary rounded-bottom-0" for="horario_contacto_tarde">Tarde</label>
+                              
+                                <input type="radio" class="btn-check" name="time" id="horario_contacto_noche" autocomplete="off" value="noche">
+                                <label class="btn btn-outline-secondary rounded-bottom-0" for="horario_contacto_noche">Noche</label>
+                            </div>
+            
+                            {{-- contacto por correo --}}
+                            <button class="btn btn-light border-secondary-subtle rounded-top-0" id="btn-enviar-form-single">
+                                <i class="fa-regular fa-envelope"></i>
+                                Enviar correo
+                            </button>
+                        </div>
+
         
                         <div class="form-group d-flex align-items-top gap-2 mb-4 position-relative">
                             
@@ -329,6 +348,111 @@
             initMap();
         }
     });
+
+    // Evento para el botón de correo
+    document.getElementById('btn-enviar-form-single').addEventListener('click', function(event) {
+        event.preventDefault();
+        clearFormErrors();
+        submitForm('{{ route('procesar_contacto_proyecto') }}', 'correo');
+    });
+
+    // Evento para el botón de WhatsApp
+    document.getElementById('whatsapp_contact_button').addEventListener('click', function(event) {
+        event.preventDefault();
+        clearFormErrors();
+        submitForm('{{ route('procesar_contacto_proyecto') }}', 'whatsapp');  // Primero validamos antes de enviar WhatsApp
+    });
+
+    function submitForm(actionUrl, accion) {
+        let form = document.getElementById('send_contact');
+        let formData = new FormData(form);
+        formData.append('current_url', window.location.href);
+        formData.append('accion', accion);  // Agregamos la acción para que el backend sepa qué hacer
+
+        console.log(formData);
+        
+
+        fetch(actionUrl, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status == "Success") {
+                if (accion === 'whatsapp') {
+                    // Si la acción es WhatsApp, continuamos con la función sendWsp
+                    // sendWsp(owner_phone);
+                    sendWsp('986640912');
+                } else {
+                    // Si la acción es correo, mostramos el mensaje de éxito
+                    alert('Formulario enviado correctamente');
+                    form.reset();
+                }
+            } else {
+                handleFormErrors(data.errors);  // Si hay errores, los mostramos
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // alert('Error de comunicación con el servidor');
+        });
+    }
+
+    function handleFormErrors(errors) {
+        for (const field in errors) {
+            
+            const inputElement = document.querySelector(`[name="${field}"]`);
+            const feedbackElement = document.getElementById(`validationServer${capitalizeFirstLetter(field)}Feedback`);
+
+            if (inputElement && feedbackElement) {
+                inputElement.classList.add('is-invalid');
+                if(inputElement.getAttribute('id') === 'terminos') {
+                    feedbackElement.textContent = 'Acepte los términos';
+                } else {
+                    feedbackElement.textContent = errors[field][0];
+                }
+            }
+        }
+    }
+
+    function clearFormErrors() {
+        const inputElements = document.querySelectorAll('.is-invalid');
+        inputElements.forEach(element => {
+            element.classList.remove('is-invalid');
+        });
+
+        const feedbackElement = document.querySelectorAll('.invalid-feedback');
+        feedbackElement.forEach(element => {
+            element.textContent = '';
+        });
+    }
+
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    function sendWsp(phoneNumber) {
+        const init_name = document.getElementById('nombre_contacto').value;
+        const init_email = document.getElementById('email_contacto').value;
+        const init_monto = document.getElementById('monto_puja')?.value;
+        const init_phone = document.getElementById('telefono_contacto').value;
+        const init_message = document.getElementById('contact-message').value;
+
+        const name = init_name ? `Nombre: ${init_name}\n` : ''
+        const email = init_email ? `Correo: ${init_email}\n` : ''
+        const monto = init_monto ? `Monto ofrecido: ${init_monto}\n` : ''
+        const phone = init_phone ? `Teléfono llamada: ${init_phone}\n` : ''
+        const message = init_message ? `Mensaje: ${init_message}\n` : ''
+        const currentUrl = `\n${window.location.href}`
+        
+        const fullMessage = `${name + email + monto + phone + message + currentUrl}`;
+        var encodedMessage = encodeURIComponent(fullMessage);
+        const url = `https://wa.me/+51${phoneNumber}?text=${encodedMessage}`;
+        window.open(url, '_blank');
+    }
 
 
 </script>

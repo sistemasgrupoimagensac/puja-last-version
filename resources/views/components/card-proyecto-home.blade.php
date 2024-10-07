@@ -1,3 +1,5 @@
+{{ $image }}
+
 <div class="card my-4 card-inmueble shadow border-0 bg-white filterAvisos-card">
     <div class="row g-0 h-100">
         <div class="col-lg-4 h-100 position-relative">

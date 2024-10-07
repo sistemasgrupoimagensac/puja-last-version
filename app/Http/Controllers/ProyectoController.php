@@ -36,7 +36,7 @@ class ProyectoController extends Controller
         // Pasar la variable $imagenes a la vista
         return view('proyectos.create', compact('bancos', 'progresos', 'proyecto', 'imagenes'));
     }
-    
+
     /**
      * Guardar un nuevo proyecto o actualizar uno existente junto con sus unidades.
      */
@@ -58,18 +58,18 @@ class ProyectoController extends Controller
             'latitude' => 'nullable|numeric',
             'longitude' => 'nullable|numeric',
         ]);
-    
+
         if ($validator->fails()) {
             return response()->json([
                 'message' => 'Errores de validación',
                 'errors' => $validator->errors()
             ], 422);
         }
-    
+
         try {
             // Convertir el campo unidades a un array si no está vacío
             $unidadesArray = $request->filled('unidades') ? json_decode($request->unidades, true) : [];
-    
+
             // Crear o actualizar el proyecto
             $proyecto = Proyecto::updateOrCreate(
                 ['id' => $request->proyecto_id],
@@ -116,17 +116,16 @@ class ProyectoController extends Controller
                         'estado' => $unidadData['estado'],
                     ]
                 );
-    
+
                 // Actualizar el ID de la unidad si es nueva
                 $unidadesArray[$key]['id'] = $unidad->id;
             }
-    
+
             return response()->json([
                 'message' => 'Proyecto guardado correctamente.',
                 'proyecto' => $proyecto,
                 'unidades' => $unidadesArray,
             ], 201);
-    
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'Error al guardar el proyecto.',
@@ -136,33 +135,28 @@ class ProyectoController extends Controller
     }
 
     public function show($slug)
-{
-    try {
-        // Buscar el proyecto por su slug
-        $proyecto = Proyecto::where('slug', $slug)->firstOrFail();
+    {
+        try {
+            // Buscar el proyecto por su slug
+            $proyecto = Proyecto::where('slug', $slug)->firstOrFail();
 
-        // Obtener las imágenes adicionales del proyecto
-        $imagenes = ProyectoImagenesAdicionales::where('proyecto_id', $proyecto->id)
-            ->where('estado', 1) // Solo imágenes activas
-            ->get();
+            // Obtener las imágenes adicionales del proyecto
+            $imagenes = ProyectoImagenesAdicionales::where('proyecto_id', $proyecto->id)
+                ->where('estado', 1) // Solo imágenes activas
+                ->get();
 
-        // Obtener las unidades relacionadas con el proyecto y estado activo (1)
-        $unidades = ProyectoUnidades::where('proyecto_id', $proyecto->id)
-            ->where('estado', 1)
-            ->get();
+            // Obtener las unidades relacionadas con el proyecto y estado activo (1)
+            $unidades = ProyectoUnidades::where('proyecto_id', $proyecto->id)
+                ->where('estado', 1)
+                ->get();
 
-        // Pasar el proyecto, las imágenes y las unidades a la vista
-        return view('proyecto', compact('proyecto', 'imagenes', 'unidades'));
-
-    } catch (\Exception $e) {
-        return response()->json([
-            'message' => 'Proyecto no encontrado.',
-            'error' => $e->getMessage()
-        ], 404);
+            // Pasar el proyecto, las imágenes y las unidades a la vista
+            return view('proyecto', compact('proyecto', 'imagenes', 'unidades'));
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Proyecto no encontrado.',
+                'error' => $e->getMessage()
+            ], 404);
+        }
     }
-}
-
-    
-
-    
 }

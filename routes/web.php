@@ -166,6 +166,9 @@ Route::post('/enviar-datos-dni-ruc', [BillingController::class, 'recibirDatos'])
 // Procesar contacto
 Route::post('/procesar-contacto', [MyPostsController::class, 'procesar_contacto'])->name('procesar_contacto');
 
+// Procesar contacto Proyecto
+Route::post('/procesar-contacto-proyecto', [MyPostsController::class, 'procesar_contacto_proyecto'])->name('procesar_contacto_proyecto');
+
 // Ruta de contacto
 Route::get('/contacto', [ContactoController::class, 'index'])->name('contacto');
 Route::post('/contacto', [ContactoController::class, 'store'])->name('post.contacto');

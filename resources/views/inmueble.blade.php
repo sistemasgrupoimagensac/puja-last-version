@@ -41,9 +41,6 @@
             <div class="col-lg-8 pe-lg-3">
                 <div class="py-3">
 
-                
-                 
-                            
                         {{-- Imagenes --}}
                         <div class="images-wrapper position-relative mb-4" data-bs-toggle="modal" data-bs-target="#modalImagesCarousel">
 
