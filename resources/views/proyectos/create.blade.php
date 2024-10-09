@@ -250,6 +250,49 @@
     </div>
 </div>
 
+<!-- Modal para Subir y Editar Imágenes de la Unidad -->
+<div class="modal fade" id="unidadImgUploadModal" tabindex="-1" aria-labelledby="unidadImgUploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="unidadImgUploadModalLabel">Gestionar Imágenes de la Unidad</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="unidadImgUploadForm" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="unidadImgInput" class="form-label">Selecciona las imágenes (Máximo 50)</label>
+                        <input hidden type="file" id="unidadImgInput" name="unidad_images[]" accept=".jpg, .jpeg, .png, .webp" multiple class="form-control">
+                    </div>
+
+                    <!-- Contenedor de Drag and Drop -->
+                    <div id="unidadImgDropZone" class="proyecto-img-drop-zone">
+                        <p>Arrastra las imágenes aquí o haz clic para seleccionarlas</p>
+                    </div>
+
+                    <!-- Contenedor para mostrar las miniaturas de las imágenes seleccionadas -->
+                    <h5 class="mt-4">Imágenes Seleccionadas</h5>
+                    <div id="unidadImgPreviewContainer" class="d-flex flex-wrap gap-2 mb-3">
+                        <!-- Aquí se agregarán las miniaturas de las imágenes seleccionadas -->
+                    </div>
+
+                    <!-- Contenedor para mostrar las miniaturas de las imágenes ya existentes -->
+                    <h5 class="mt-4">Imágenes Existentes de la Unidad</h5>
+                    <div id="unidadExistingImagesContainer" class="d-flex flex-wrap gap-2">
+                        <!-- Se cargan dinámicamente las imagenes de la unidad -->
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="unidadImgUploadButton">Subir Imágenes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
 <script>
     const storeUrl = "{{ route('proyectos.store') }}";
@@ -260,5 +303,9 @@
 @endsection
 
 @push('scripts')
-    @vite(['resources/js/scripts/create_project.js', 'resources/js/scripts/location_map.js', 'resources/js/scripts/project_upload_image.js'])
+    @vite([ 'resources/js/scripts/create_project.js', 
+            'resources/js/scripts/location_map.js', 
+            'resources/js/scripts/project_upload_image.js', 
+            'resources/js/scripts/upload_unit_image.js',
+            ])
 @endpush

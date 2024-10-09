@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Banco;
 use App\Models\Proyecto;
 use App\Models\ProyectoImagenesAdicionales;
+use App\Models\ProyectoImagenesUnidades;
 use App\Models\ProyectoProgreso;
 use App\Models\ProyectoUnidades;
 use Illuminate\Http\Request;
@@ -22,20 +23,28 @@ class ProyectoController extends Controller
         $progresos = ProyectoProgreso::all();
         $proyecto = null;
         $imagenes = collect(); // Colección vacía si es un nuevo proyecto
-
+        $imagenesUnidades = collect(); // Colección para las imágenes de las unidades
+    
         // Si se pasa un ID, estamos en modo edición, buscar el proyecto y cargar sus datos e imágenes
         if ($id) {
             $proyecto = Proyecto::with(['unidades' => function ($query) {
                 $query->where('estado', 1); // Filtrar solo las unidades activas
             }])->findOrFail($id);
-
+    
             // Obtener las imágenes relacionadas del proyecto
             $imagenes = ProyectoImagenesAdicionales::where('proyecto_id', $id)->get();
+    
+            // Obtener las imágenes de cada unidad asociada al proyecto
+            $imagenesUnidades = ProyectoImagenesUnidades::where('proyecto_id', $id)
+                ->where('estado', 1) // Solo imágenes activas
+                ->get()
+                ->groupBy('proyecto_unidades_id'); // Agrupar por la ID de la unidad para mostrar correctamente
         }
-
-        // Pasar la variable $imagenes a la vista
-        return view('proyectos.create', compact('bancos', 'progresos', 'proyecto', 'imagenes'));
+    
+        // Pasar la variable $imagenes y $imagenesUnidades a la vista
+        return view('proyectos.create', compact('bancos', 'progresos', 'proyecto', 'imagenes', 'imagenesUnidades'));
     }
+    
 
     /**
      * Guardar un nuevo proyecto o actualizar uno existente junto con sus unidades.

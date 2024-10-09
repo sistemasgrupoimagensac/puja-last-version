@@ -69,4 +69,12 @@ class ImagesController extends Controller
         if (!$existe_archivo) abort(404, 'El archivo no existe');
         return Storage::disk('wasabi')->response($path);
     }
+
+    // Rutas DEV para proyectos
+    public function dev_get_project_unidad_images($name_dev, $id_proyecto, $id_unidad, $archivo){
+        $path = "wsb-dev/{$name_dev}/proyectos/unidades/{$id_proyecto}/{$id_unidad}/{$archivo}";
+        $existe_archivo = Storage::disk('wasabi')->exists($path);
+        if (!$existe_archivo) abort(404, 'El archivo no existe');
+        return Storage::disk('wasabi')->response($path);
+    }
 }

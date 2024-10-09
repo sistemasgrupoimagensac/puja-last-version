@@ -23,6 +23,7 @@ use App\Models\Post;
 use App\Http\Controllers\ProyectoImagenesPrincipalController;
 use App\Http\Controllers\ProyectoImagenesAdicionalController;
 use App\Http\Controllers\ProyectoImagenController;
+use App\Http\Controllers\ProyectoImagenUnidadController;
 use App\Http\Controllers\ProyectosController;
 
 
@@ -132,6 +133,9 @@ Route::get('wsb-dev/{name_dev}/videos/{id_inmueble}/{archivo}', [ImagesControlle
 // Rutas imagenes de PROYECTOS para desarrollo
 Route::get('wsb-dev/{name_dev}/proyectos/images/{id_proyecto}/{archivo}', [ImagesController::class, 'dev_get_project_images']);
 
+// Rutas planos UNIDADES de PROYECTOS para desarrollo
+Route::get('wsb-dev/{name_dev}/proyectos/unidades/{id_proyecto}/{id_unidad}/{archivo}', [ImagesController::class, 'dev_get_project_unidad_images']);
+
 // Route::get('/openpay', [MyPostsController::class, 'openpay'])->middleware('sessiondata');
 Route::post('/generarComprobanteElec/{id}', [BillingController::class, 'generarFactura'])->middleware(SessionData::class);
 
@@ -216,3 +220,7 @@ Route::get('/proyecto/{slug}', [ProyectoController::class, 'show'])->name('proye
 
 
 Route::get('/proyectos', [ProyectosController::class, 'index'])->name('proyectos.index');
+
+Route::get('unidades/{unidadId}/imagenes', [ProyectoImagenUnidadController::class, 'index'])->name('unidad.imagenes');
+Route::post('/unidades/{unidadId}/imagenes', [ProyectoImagenUnidadController::class, 'store'])->name('unidades.imagenes.store');
+Route::delete('/unidades/imagenes/{imagenId}', [ProyectoImagenUnidadController::class, 'destroy']);

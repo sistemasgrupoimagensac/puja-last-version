@@ -92,6 +92,7 @@ function actualizarTablaUnidades() {
                     <td class="d-flex gap-3">
                         <button type="button" class="btn btn-warning" onclick="editarUnidad(${index})">Editar</button>
                         <button type="button" class="btn btn-danger" onclick="mostrarConfirmacionEliminar(${index})">Eliminar</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#unidadImgUploadModal" onclick="abrirModalPlano(${unidad.id})">Subir Plano</button>
                     </td>
                 </tr>
             `;
@@ -99,6 +100,12 @@ function actualizarTablaUnidades() {
         }
     });
 }
+
+function abrirModalPlano(unidadId) {
+    const unidadImgUploadButton = document.getElementById('unidadImgUploadButton');
+    unidadImgUploadButton.setAttribute('data-unidad-id', unidadId);
+}
+
 
 // Función para editar una unidad
 function editarUnidad(index) {
@@ -206,6 +213,7 @@ function ocultarModal() {
 
 // Hacer las funciones accesibles globalmente para el manejo de eventos desde HTML
 window.editarUnidad = editarUnidad;
+window.abrirModalPlano = abrirModalPlano;
 window.eliminarUnidad = eliminarUnidad;
 window.proyectoId = proyectoId;
 window.mostrarConfirmacionEliminar = mostrarConfirmacionEliminar;
