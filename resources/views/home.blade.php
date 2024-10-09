@@ -13,11 +13,13 @@
     {{-- Main: incluye el buscador y Titular --}}
     <main class="main-home">
 
-        {{-- Main: background imagen --}}
-        <div class="main-home-background-image"></div>
-
+        <div class="main-home-background-image-container">
+            <!-- Mostrar la imagen dinámica obtenida desde el controlador o una imagen por defecto -->
+            <img src="{{ $imagenFondo ? $imagenFondo->image_url : asset('images/slide1.webp') }}" class="main-home-background-image" alt="Imagen de Fondo">
+        </div>
+        
         {{-- Main: Buscador --}}
-        <div class="main-home-search d-flex flex-column h-100 w-100 px-3">
+        <div class="main-home-search d-flex flex-column">
 
             <form action="{{ route('filter_search') }}" class="m-auto">
                 <h1 class="main-home-titular text-white font-weight-bold text-center mb-5">Consigue tu Próximo Inmueble</h1>
@@ -53,6 +55,7 @@
                 </div>
             </form>
         </div>
+
     </main>
     {{-- Main: incluye el buscador y Titular --}}
     

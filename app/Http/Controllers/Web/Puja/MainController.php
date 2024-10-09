@@ -10,6 +10,7 @@ use App\Services\TipoInmueble\ObtenerTiposInmuebles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\ProyectoImagenesAdicionales;
 
 class MainController extends Controller
 {
@@ -22,7 +23,6 @@ class MainController extends Controller
         $avisos = (new ObtenerAvisosPrincipales($this->repository_aviso))->__invoke();
         $tipos_inmuebles = (new ObtenerTiposInmuebles($this->repository_tipoinmueble))->__invoke();
 
-
         // Inicializar la variable $tienePlanes como false
         $tienePlanes = false;
 
@@ -34,6 +34,10 @@ class MainController extends Controller
             $tienePlanes = $active_plan_users->isNotEmpty();
         }
 
-        return view('home', compact('avisos', 'tipos_inmuebles', 'tienePlanes'));
+        // Obtener una imagen aleatoria con tipo = 1 de la tabla proyecto_imagenes_adicionales
+        $imagenFondo = ProyectoImagenesAdicionales::where('tipo', 1)->inRandomOrder()->first();
+
+        // Pasar la variable $imagenFondo a la vista
+        return view('home', compact('avisos', 'tipos_inmuebles', 'tienePlanes', 'imagenFondo'));
     }
 }
