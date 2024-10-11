@@ -61,6 +61,7 @@
             <table class="table table-striped mt-3" id="unidadesTable">
                 <thead>
                     <tr>
+                        <th>Miniatura</th>
                         <th>Dormitorios</th>
                         <th>Precio (Soles)</th>
                         <th>Área</th>
@@ -291,13 +292,11 @@
     </div>
 </div>
 
-
-
-
 <script>
     const storeUrl = "{{ route('proyectos.store') }}";
     const csrfToken = "{{ csrf_token() }}";
     const initialUnidades = @json($proyecto->unidades ?? []);
+    const imagenesUnidades = @json($imagenesUnidades);
 </script>
 
 @endsection

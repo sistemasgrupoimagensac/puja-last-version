@@ -40,12 +40,13 @@ class ProyectoController extends Controller
                 ->get()
                 ->groupBy('proyecto_unidades_id'); // Agrupar por la ID de la unidad para mostrar correctamente
         }
+
+        $imagenesUnidades = $imagenesUnidades ?? [];
     
         // Pasar la variable $imagenes y $imagenesUnidades a la vista
         return view('proyectos.create', compact('bancos', 'progresos', 'proyecto', 'imagenes', 'imagenesUnidades'));
     }
     
-
     /**
      * Guardar un nuevo proyecto o actualizar uno existente junto con sus unidades.
      */

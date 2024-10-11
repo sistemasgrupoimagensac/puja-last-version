@@ -74,25 +74,41 @@ document.getElementById('unidadForm').addEventListener('submit', function (event
     ocultarModal(); // Cerrar el modal después de agregar o editar
 });
 
+function ordenarUnidadesPorDormitorios() {
+    unidades.sort((a, b) => a.dormitorios - b.dormitorios);
+}
+
 // Actualizar la tabla de unidades en la interfaz
 function actualizarTablaUnidades() {
+    ordenarUnidadesPorDormitorios();
     const tableBody = document.querySelector('#unidadesTable tbody');
     tableBody.innerHTML = ''; // Limpiar la tabla
 
     unidades.forEach((unidad, index) => {
         if (unidad.estado === 1) {  // Solo mostrar las unidades activas
+            // Buscar la primera imagen para la unidad si existe en el objeto `imagenesUnidades`
+            const unidadImages = imagenesUnidades[unidad.id] || []; // Obtener el array de imágenes o array vacío si no existe
+            const primeraImagenUrl = unidadImages.length > 0 ? unidadImages[0].image_url : '/images/placeholder_plano.png'; // Obtener la primera imagen
+
+            // Deshabilitar el botón de subir plano si no tiene ID
+            const isDisabled = unidad.id ? '' : 'disabled';
+
+            // Crear la fila de la unidad con la miniatura y botones de acciones
             const row = `
                 <tr>
+                    <td>
+                        <img src="${primeraImagenUrl}" alt="Miniatura" style="width: 50px; height: 50px; object-fit: cover;">
+                    </td>
                     <td>${unidad.dormitorios}</td>
                     <td>${unidad.precio_soles}</td>
                     <td>${unidad.area}</td>
                     <td>${unidad.area_techada}</td>
                     <td>${unidad.banios}</td>
                     <td>${unidad.piso_numero}</td>
-                    <td class="d-flex gap-3">
+                    <td class="d-flex gap-3 p-3" style="height: 67px;">
                         <button type="button" class="btn btn-warning" onclick="editarUnidad(${index})">Editar</button>
                         <button type="button" class="btn btn-danger" onclick="mostrarConfirmacionEliminar(${index})">Eliminar</button>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#unidadImgUploadModal" onclick="abrirModalPlano(${unidad.id})">Subir Plano</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#unidadImgUploadModal" ${isDisabled} onclick="abrirModalPlano(${unidad.id || ''})">Subir Plano</button>
                     </td>
                 </tr>
             `;
@@ -100,6 +116,8 @@ function actualizarTablaUnidades() {
         }
     });
 }
+
+
 
 function abrirModalPlano(unidadId) {
     const unidadImgUploadButton = document.getElementById('unidadImgUploadButton');
@@ -178,6 +196,15 @@ document.getElementById('proyectoForm').addEventListener('submit', function (eve
             unidades = data.unidades.map(unidad => ({ ...unidad, id: unidad.id.toString() }));  // Actualizar con las nuevas IDs
             actualizarTablaUnidades(); // Refrescar la tabla con las nuevas IDs
         }
+
+        // if (data.unidades) {
+        //     unidades = data.unidades.map(unidad => ({ 
+        //         ...unidad, 
+        //         id: unidad.id.toString(),
+        //         imagen_url: unidad.imagen_url || '/images/no-image.webp' // Agregar la URL de la imagen miniatura
+        //     })); 
+        //     actualizarTablaUnidades(); // Refrescar la tabla con las nuevas IDs
+        // }
 
         if (data.message) {
             alert(data.message);
