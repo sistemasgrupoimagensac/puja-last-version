@@ -19,7 +19,12 @@
         <div class="card-body pt-0">
             {{-- Mostrar el precio en Soles y Dólares --}}
             <div class="mb-3">
-                <p class="m-0 h4 fw-bold">S/ {{ number_format($precioSoles, 0, ',', '.') }}</p>
+                <p class="m-0 h4 fw-bold">S/ {{ number_format($precioSoles, 0, '', ',') }}</p>
+                @if($precioDolares > 0)
+                    <small class="m-0 fw-bold text-secondary">U$ {{ number_format($precioDolares, 0, '', ',') }}</small>
+                @else
+                    <small>&nbsp;</small>
+                @endif
             </div>
             
             {{-- Mostrar la información de área y baños --}}

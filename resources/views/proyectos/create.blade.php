@@ -147,6 +147,11 @@
                     </div>
 
                     <div class="mb-3">
+                        <label for="precio_dolares" class="form-label">Precio en Dólares</label>
+                        <input type="number" class="form-control" id="precio_dolares" name="precio_dolares">
+                    </div>
+
+                    <div class="mb-3">
                         <label for="area" class="form-label">Área</label>
                         <input type="number" class="form-control" id="area" name="area" required>
                     </div>

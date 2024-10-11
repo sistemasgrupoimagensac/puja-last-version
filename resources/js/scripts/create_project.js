@@ -54,6 +54,7 @@ document.getElementById('unidadForm').addEventListener('submit', function (event
         id: document.getElementById('unidad_id').value || null, // Capturar la ID si existe
         dormitorios: document.getElementById('dormitorios').value,
         precio_soles: document.getElementById('precio_soles').value,
+        precio_dolares: document.getElementById('precio_dolares').value,
         area: document.getElementById('area').value,
         area_techada: document.getElementById('area_techada').value,
         banios: document.getElementById('banios').value,
@@ -129,6 +130,7 @@ function editarUnidad(index) {
     const unidad = unidades[index];
     document.getElementById('dormitorios').value = unidad.dormitorios;
     document.getElementById('precio_soles').value = unidad.precio_soles;
+    document.getElementById('precio_dolares').value = unidad.precio_dolares;
     document.getElementById('area').value = unidad.area;
     document.getElementById('area_techada').value = unidad.area_techada;
     document.getElementById('banios').value = unidad.banios;
