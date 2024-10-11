@@ -210,9 +210,9 @@
                         @endforeach
                     </div>
 
-                    <div class="border rounded shadow p-3">
+                    <div class="border rounded shadow p-3 pb-0">
                         <div class="swiper swiperUnidadProyecto container">
-                            <div class="swiper-wrapper" id="unidadesSwiperWrapper" style="height: 400px;">
+                            <div class="swiper-wrapper" id="unidadesSwiperWrapper" style="height: 430px;">
                                 {{-- Recorrer las unidades y agregar clases según el número de dormitorios --}}
                                 @foreach ($unidades as $unidad)
                                     @php
