@@ -95,7 +95,7 @@ function actualizarTablaUnidades() {
 
             // Crear la fila de la unidad con la miniatura y botones de acciones
             const row = `
-                <tr>
+                <tr class="">
                     <td>
                         <img src="${primeraImagenUrl}" alt="Miniatura" style="width: 50px; height: 50px; object-fit: cover;">
                     </td>
@@ -108,7 +108,7 @@ function actualizarTablaUnidades() {
                     <td class="d-flex gap-3 p-3" style="height: 67px;">
                         <button type="button" class="btn btn-warning" onclick="editarUnidad(${index})">Editar</button>
                         <button type="button" class="btn btn-danger" onclick="mostrarConfirmacionEliminar(${index})">Eliminar</button>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#unidadImgUploadModal" ${isDisabled} onclick="abrirModalPlano(${unidad.id || ''})">Subir Plano</button>
+                        <button type="button" class="btn button-orange" data-bs-toggle="modal" data-bs-target="#unidadImgUploadModal" ${isDisabled} onclick="abrirModalPlano(${unidad.id || ''})">Subir Plano</button>
                     </td>
                 </tr>
             `;
@@ -116,7 +116,6 @@ function actualizarTablaUnidades() {
         }
     });
 }
-
 
 
 function abrirModalPlano(unidadId) {
