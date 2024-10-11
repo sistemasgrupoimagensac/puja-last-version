@@ -70,7 +70,7 @@ class ImagesController extends Controller
         return Storage::disk('wasabi')->response($path);
     }
 
-    // Rutas DEV para proyectos
+    // Rutas DEV para unidades de proyectos
     public function dev_get_project_unidad_images($name_dev, $id_proyecto, $id_unidad, $archivo){
         $path = "wsb-dev/{$name_dev}/proyectos/unidades/{$id_proyecto}/{$id_unidad}/{$archivo}";
         $existe_archivo = Storage::disk('wasabi')->exists($path);

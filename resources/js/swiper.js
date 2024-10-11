@@ -45,35 +45,36 @@ document.querySelectorAll('.swiperProyectoImagenes2 .swiper-image').forEach((img
   });
 });
 
-// slide de las cards de unidades por proyecto
 const swiperUnidadProyecto = new Swiper(".swiperUnidadProyecto", {
   slidesPerView: 1,
   spaceBetween: 10,
-  grabCursor: true,
+  freeMode: true,
   pagination: {
-    el: ".swiper-pagination",
+    el: '.swiper-pagination',
     clickable: true,
   },
   breakpoints: {
-    524: {
+    640: {
       slidesPerView: 2,
-      spaceBetween: 0,
+      spaceBetween: 10,
     },
     768: {
       slidesPerView: 3,
-      spaceBetween: 0,
+      spaceBetween: 10,
     },
-    992: {
+    980: {
       slidesPerView: 2,
-      spaceBetween: 0,
+      spaceBetween: 10,
     },
-    1108: {
+    1160: {
       slidesPerView: 3,
-      spaceBetween: 0,
+      spaceBetween: 10,
     },
-    1437: {
+    1400: {
       slidesPerView: 4,
-      spaceBetween: 0,
+      spaceBetween: 10,
     },
   },
 });
+
+window.swiperUnidadProyecto = swiperUnidadProyecto

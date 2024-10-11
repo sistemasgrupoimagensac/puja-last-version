@@ -148,17 +148,20 @@ class ProyectoController extends Controller
         try {
             // Buscar el proyecto por su slug
             $proyecto = Proyecto::where('slug', $slug)->firstOrFail();
-
+    
             // Obtener las imágenes adicionales del proyecto
             $imagenes = ProyectoImagenesAdicionales::where('proyecto_id', $proyecto->id)
                 ->where('estado', 1) // Solo imágenes activas
                 ->get();
-
-            // Obtener las unidades relacionadas con el proyecto y estado activo (1)
+    
+            // Obtener las unidades con las imágenes relacionadas y estado activo (1)
             $unidades = ProyectoUnidades::where('proyecto_id', $proyecto->id)
                 ->where('estado', 1)
+                ->with(['imagenes' => function ($query) {
+                    $query->where('estado', 1); // Solo imágenes activas
+                }])
                 ->get();
-
+    
             // Pasar el proyecto, las imágenes y las unidades a la vista
             return view('proyecto', compact('proyecto', 'imagenes', 'unidades'));
         } catch (\Exception $e) {
@@ -168,4 +171,5 @@ class ProyectoController extends Controller
             ], 404);
         }
     }
+    
 }

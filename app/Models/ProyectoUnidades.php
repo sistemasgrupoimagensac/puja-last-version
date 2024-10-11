@@ -36,6 +36,12 @@ class ProyectoUnidades extends Model
         });
     }
 
+    // Relación con las imágenes de las unidades
+    public function imagenes()
+    {
+        return $this->hasMany(ProyectoImagenesUnidades::class, 'proyecto_unidades_id', 'id');
+    }
+
     // Relación con el proyecto
     public function proyecto()
     {

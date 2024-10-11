@@ -147,19 +147,53 @@
                 </div>
 
                 {{-- Unidades en venta --}}
-                <div class="mt-5">
+                {{-- <div class="mt-5">
                     <h3 class="fw-bold">Unidades en venta</h3>
-
-                    {{-- <div class="my-3">
+                
+                    <div class="my-3">
                         @php
                             $dormitorios = $unidades->pluck('dormitorios')->unique();
                         @endphp
-
+                        <!-- Generar botones dinámicamente para cada cantidad de dormitorios -->
                         @foreach ($dormitorios as $index => $dorm)
-                            <input type="radio" class="btn-check" name="options-base" id="option{{ $index }}" autocomplete="off" {{ $index === 0 ? 'checked' : '' }}>
+                            <input type="radio" class="btn-check" name="options-base" id="option{{ $index }}" value="{{ $dorm }}" autocomplete="off" {{ $index === 0 ? 'checked' : '' }}>
                             <label class="btn" for="option{{ $index }}">{{ $dorm }} dormitorio{{ $dorm > 1 ? 's' : '' }}</label>
                         @endforeach
-                    </div> --}}
+                    </div>
+                    
+                
+                    <div class="border rounded shadow p-3">
+                        <div class="swiper swiperUnidadProyecto container">
+                            <div class="swiper-wrapper" id="unidadesSwiperWrapper">
+                                <!-- Recorrer las unidades y agregar clases según el número de dormitorios -->
+                                @foreach ($unidades as $unidad)
+                                    @php
+                                        // Obtener la primera imagen de la unidad, si existe
+                                        $primeraImagen = $unidad->imagenes()->where('estado', 1)->first();
+                                        $imagenUrl = $primeraImagen ? $primeraImagen->image_url : null;
+                                    @endphp
+                                
+                                    <div class="swiper-slide dormitorio-{{ $unidad->dormitorios }}" data-dormitorios="{{ $unidad->dormitorios }}">
+                                        <x-card-unidad-proyecto 
+                                            :precioSoles="$unidad->precio_soles"
+                                            :precioDolares="$unidad->precio_dolares"
+                                            :area="$unidad->area"
+                                            :banios="$unidad->banios"
+                                            :dormitorios="$unidad->dormitorios"
+                                            :imagenUrl="$imagenUrl"
+                                            :unidadId="$unidad->id">
+                                        </x-card-unidad-proyecto>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+
+                </div> --}}
+
+                {{-- Unidades en venta --}}
+                <div class="mt-5">
+                    <h3 class="fw-bold">Unidades en venta</h3>
 
                     <div class="my-3">
                         @php
@@ -171,20 +205,27 @@
                             <label class="btn" for="option{{ $index }}">{{ $dorm }} dormitorio{{ $dorm > 1 ? 's' : '' }}</label>
                         @endforeach
                     </div>
-                    
 
-                    <div class="border rounded shadow p-3 pb-0">
+                    <div class="border rounded shadow p-3">
                         <div class="swiper swiperUnidadProyecto container">
-                            <div class="swiper-wrapper" style="height: 400px;">
+                            <div class="swiper-wrapper" id="unidadesSwiperWrapper" style="height: 400px;">
                                 {{-- Recorrer las unidades y agregar clases según el número de dormitorios --}}
                                 @foreach ($unidades as $unidad)
-                                    <div class="swiper-slide dormitorio-{{ $unidad->dormitorios }}">
+                                    @php
+                                        // Obtener la primera imagen de la unidad, si existe
+                                        $primeraImagen = $unidad->imagenes()->where('estado', 1)->first();
+                                        $imagenUrl = $primeraImagen ? $primeraImagen->image_url : null;
+                                    @endphp
+
+                                    <div class="swiper-slide dormitorio-{{ $unidad->dormitorios }}" data-dormitorios="{{ $unidad->dormitorios }}">
                                         <x-card-unidad-proyecto 
                                             :precioSoles="$unidad->precio_soles"
                                             :precioDolares="$unidad->precio_dolares"
                                             :area="$unidad->area"
                                             :banios="$unidad->banios"
-                                            :dormitorios="$unidad->dormitorios">
+                                            :dormitorios="$unidad->dormitorios"
+                                            :imagenUrl="$imagenUrl"
+                                            :unidadId="$unidad->id">
                                         </x-card-unidad-proyecto>
                                     </div>
                                 @endforeach
@@ -194,6 +235,7 @@
                     </div>
                 </div>
 
+                
 
                 {{-- Descripción del Proyecto --}}
                 <div class="mt-5">
@@ -299,168 +341,254 @@
         </div>
 
     </div>
+
+    {{-- Modal planos unidad con carrusel dinámico --}}
+    <div class="modal fade" id="unidadModal" tabindex="-1" aria-labelledby="unidadModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="unidadModalLabel">Imágenes de la Unidad</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body align-items-end">
+                    <!-- Carrusel de Bootstrap para las imágenes -->
+                    <div id="unidadCarousel" class="carousel slide carousel-fade">
+                        <div class="carousel-inner" id="unidadImgContainer">
+                            <!-- Aquí se cargarán las imágenes dinámicamente -->
+                        </div>
+                        <!-- Controles del carrusel -->
+                        <button class="carousel-control-prev" type="button" data-bs-target="#unidadCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Anterior</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#unidadCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Siguiente</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
 </div>
 
 <script>
-    // Coordenadas del proyecto
-    const lat = parseFloat(@json($proyecto->latitude));
-    const lng = parseFloat(@json($proyecto->longitude));
-    const defaultLocation = { lat, lng };
-    const mapDiv = document.getElementById("map");
-    let map, marker;
-
-    // Inicializar el mapa
-    function initMap() {
-        // Definir los estilos para ocultar POI
-        const mapStyles = [
-            {
-                featureType: "poi", // Puntos de interés
-                stylers: [{ visibility: "off" }] // Ocultar POI
-            },
-            {
-                featureType: "transit.station", // Paraderos de buses, metro, etc.
-                stylers: [{ visibility: "off" }] // Ocultar estaciones de transporte
-            }
-        ];
-
-        // Crear el mapa con estilos y configuración inicial
-        map = new google.maps.Map(mapDiv, {
-            center: defaultLocation,
-            zoom: 16,
-            styles: mapStyles, // Aplicar los estilos para ocultar POI
-        });
-
-        // Añadir marcador personalizado
-        marker = new google.maps.Marker({
-            position: defaultLocation,
-            map: map,
-            icon: {
-                url: "/images/svg/marker_puja.svg",
-                scaledSize: new google.maps.Size(80, 80),
-                origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(40, 80)
-            }
-        });
-    }
-
     document.addEventListener('DOMContentLoaded', function () {
+        const mapDiv = document.getElementById("map");
+        const unidadModal = document.getElementById('unidadModal');
+        const unidadImgContainer = document.getElementById('unidadImgContainer');
+        const sendContactForm = document.getElementById('send_contact');
+        const contactButton = document.getElementById('btn-enviar-form-single');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const messageField = document.getElementById('contact-message');
+        const swiperWrapper = document.getElementById('unidadesSwiperWrapper');
+        const filterButtons = document.querySelectorAll('input[name="options-base"]');
+        let map, marker;
+
+        // Coordenadas del proyecto
+        const lat = parseFloat(@json($proyecto->latitude));
+        const lng = parseFloat(@json($proyecto->longitude));
+        const defaultLocation = { lat, lng };
+
+        // Inicializar el mapa si existe el contenedor
         if (mapDiv) {
             initMap();
         }
-    });
 
-    // Evento para el botón de correo
-    document.getElementById('btn-enviar-form-single').addEventListener('click', function(event) {
-        event.preventDefault();
-        clearFormErrors();
-        submitForm('{{ route('procesar_contacto_proyecto') }}', 'correo');
-    });
+        function initMap() {
+            const mapStyles = [
+                { featureType: "poi", stylers: [{ visibility: "off" }] }, // Ocultar POI
+                { featureType: "transit.station", stylers: [{ visibility: "off" }] } // Ocultar estaciones de transporte
+            ];
 
-    // Evento para el botón de WhatsApp
-    document.getElementById('whatsapp_contact_button').addEventListener('click', function(event) {
-        event.preventDefault();
-        clearFormErrors();
-        submitForm('{{ route('procesar_contacto_proyecto') }}', 'whatsapp');  // Primero validamos antes de enviar WhatsApp
-    });
+            map = new google.maps.Map(mapDiv, {
+                center: defaultLocation,
+                zoom: 16,
+                styles: mapStyles,
+            });
 
-    function submitForm(actionUrl, accion) {
-        let form = document.getElementById('send_contact');
-        let formData = new FormData(form);
-        formData.append('current_url', window.location.href);
-        formData.append('accion', accion);  // Agregamos la acción para que el backend sepa qué hacer
-
-        console.log(formData);
-        
-
-        fetch(actionUrl, {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-            },
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status == "Success") {
-                if (accion === 'whatsapp') {
-                    // Si la acción es WhatsApp, continuamos con la función sendWsp
-                    // sendWsp(owner_phone);
-                    sendWsp('986640912');
-                } else {
-                    // Si la acción es correo, mostramos el mensaje de éxito
-                    alert('Formulario enviado correctamente');
-                    form.reset();
+            marker = new google.maps.Marker({
+                position: defaultLocation,
+                map: map,
+                icon: {
+                    url: "/images/svg/marker_puja.svg",
+                    scaledSize: new google.maps.Size(80, 80),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(40, 80)
                 }
-            } else {
-                handleFormErrors(data.errors);  // Si hay errores, los mostramos
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            // alert('Error de comunicación con el servidor');
-        });
-    }
+            });
+        }
 
-    function handleFormErrors(errors) {
-        for (const field in errors) {
-            
-            const inputElement = document.querySelector(`[name="${field}"]`);
-            const feedbackElement = document.getElementById(`validationServer${capitalizeFirstLetter(field)}Feedback`);
+        // Eventos de contacto
+        document.getElementById('btn-enviar-form-single').addEventListener('click', (e) => handleContactForm(e, 'correo'));
+        document.getElementById('whatsapp_contact_button').addEventListener('click', (e) => handleContactForm(e, 'whatsapp'));
 
-            if (inputElement && feedbackElement) {
-                inputElement.classList.add('is-invalid');
-                if(inputElement.getAttribute('id') === 'terminos') {
-                    feedbackElement.textContent = 'Acepte los términos';
+        function handleContactForm(event, actionType) {
+            event.preventDefault();
+            clearFormErrors();
+            submitForm('{{ route('procesar_contacto_proyecto') }}', actionType);
+        }
+
+        function submitForm(actionUrl, accion) {
+            let formData = new FormData(sendContactForm);
+            formData.append('current_url', window.location.href);
+            formData.append('accion', accion);
+
+            fetch(actionUrl, {
+                method: 'POST',
+                headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "Success") {
+                    accion === 'whatsapp' ? sendWsp('986640912') : alert('Formulario enviado correctamente');
+                    sendContactForm.reset();
                 } else {
+                    handleFormErrors(data.errors);
+                }
+            })
+            .catch(console.error);
+        }
+
+        function handleFormErrors(errors) {
+            for (const field in errors) {
+                const inputElement = document.querySelector(`[name="${field}"]`);
+                const feedbackElement = document.getElementById(`validationServer${capitalizeFirstLetter(field)}Feedback`);
+
+                if (inputElement && feedbackElement) {
+                    inputElement.classList.add('is-invalid');
                     feedbackElement.textContent = errors[field][0];
                 }
             }
         }
-    }
 
-    function clearFormErrors() {
-        const inputElements = document.querySelectorAll('.is-invalid');
-        inputElements.forEach(element => {
-            element.classList.remove('is-invalid');
+        function clearFormErrors() {
+            document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+            document.querySelectorAll('.invalid-feedback').forEach(el => el.textContent = '');
+        }
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        function sendWsp(phoneNumber) {
+            const formData = new FormData(sendContactForm);
+            const message = `Nombre: ${formData.get('nombre_contacto')}\nCorreo: ${formData.get('email_contacto')}\nTeléfono: ${formData.get('telefono_contacto')}\nMensaje: ${formData.get('contact_message')}\n${window.location.href}`;
+            window.open(`https://wa.me/+51${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        // *** Agregar funcionalidad para el botón "COTIZAR" de cada unidad ***
+        document.querySelectorAll('.btn-cotizar').forEach(button => {
+            button.addEventListener('click', function () {
+                // Obtener información de la unidad
+                const unidadId = this.getAttribute('data-unidad-id');
+                const dorm = this.closest('.card').querySelector('.fa-bed + span').textContent.trim(); // Obtener número de dormitorios
+                const precio = this.closest('.card').querySelector('.h4.fw-bold').textContent.trim(); // Obtener precio en soles
+
+                // Rellenar el mensaje dinámico
+                messageField.value = `Deseo una cotizacion por la unidad de ${dorm} domitorio(s), con un precio de ${precio}. Gracias.`;
+
+                // Simular clic en el botón de enviar correo del formulario
+                contactButton.click();
+            });
         });
 
-        const feedbackElement = document.querySelectorAll('.invalid-feedback');
-        feedbackElement.forEach(element => {
-            element.textContent = '';
+        // *** Manejar la carga dinámica de imágenes de las unidades ***
+        unidadModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget; // Botón que activa el modal
+            const unidadId = button.getAttribute('data-unidad-id');
+            loadUnitImages(unidadId);
         });
-    }
 
-    function capitalizeFirstLetter(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    }
+        function loadUnitImages(unidadId) {
+            unidadImgContainer.innerHTML = ''; // Limpiar contenedor
 
-    function sendWsp(phoneNumber) {
-        const init_name = document.getElementById('nombre_contacto').value;
-        const init_email = document.getElementById('email_contacto').value;
-        const init_monto = document.getElementById('monto_puja')?.value;
-        const init_phone = document.getElementById('telefono_contacto').value;
-        const init_message = document.getElementById('contact-message').value;
+            fetch(`/unidades/${unidadId}/imagenes`, {
+                method: 'GET',
+                headers: { 'X-CSRF-TOKEN': csrfToken }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.images && data.images.length > 0) {
+                    unidadImgContainer.innerHTML = `
+                        <div id="carouselUnidadImages" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                ${data.images.map((image, index) => `
+                                    <div class="carousel-item ${index === 0 ? 'active' : ''}">
+                                        <img src="${image.image_url}" alt="Imagen de la Unidad" class="d-block w-100">
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselUnidadImages" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Anterior</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselUnidadImages" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Siguiente</span>
+                            </button>
+                        </div>`;
+                } else {
+                    unidadImgContainer.innerHTML = '<p class="text-center">No hay imágenes para esta unidad.</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Error al cargar las imágenes:', error);
+                unidadImgContainer.innerHTML = '<p class="text-center">Error al cargar las imágenes.</p>';
+            });
+        }
 
-        const name = init_name ? `Nombre: ${init_name}\n` : ''
-        const email = init_email ? `Correo: ${init_email}\n` : ''
-        const monto = init_monto ? `Monto ofrecido: ${init_monto}\n` : ''
-        const phone = init_phone ? `Teléfono llamada: ${init_phone}\n` : ''
-        const message = init_message ? `Mensaje: ${init_message}\n` : ''
-        const currentUrl = `\n${window.location.href}`
-        
-        const fullMessage = `${name + email + monto + phone + message + currentUrl}`;
-        var encodedMessage = encodeURIComponent(fullMessage);
-        const url = `https://wa.me/+51${phoneNumber}?text=${encodedMessage}`;
-        window.open(url, '_blank');
-    }
+        // Añadir eventos a los botones de filtro
+        filterButtons.forEach(button => {
+            button.addEventListener('change', function () {
+                const selectedDorm = this.value; // Obtener el número de dormitorios seleccionado
+                filterUnitsByDorms(selectedDorm);
+            });
+        });
 
+        // Función para mostrar/ocultar slides basado en el número de dormitorios
+        function filterUnitsByDorms(selectedDorm) {
+            const slides = swiperWrapper.querySelectorAll('.swiper-slide');
+            let visibleSlideCount = 0;
 
+            // Mostrar solo las slides que coinciden con el filtro y contar las visibles
+            slides.forEach(slide => {
+                const dorms = slide.getAttribute('data-dormitorios');
+                if (dorms === selectedDorm) {
+                    slide.style.display = ''; // Mostrar la slide
+                    visibleSlideCount++; // Incrementar el contador de slides visibles
+                } else {
+                    slide.style.display = 'none'; // Ocultar la slide
+                }
+            });
+
+            // Actualizar Swiper para reflejar los cambios en las slides visibles
+            swiperUnidadProyecto.update(); // Forzar la actualización de Swiper
+            adjustSwiperPagination(visibleSlideCount); // Ajustar la paginación de Swiper
+        }
+
+        // Ajustar la paginación de Swiper basada en la cantidad de slides visibles
+        function adjustSwiperPagination(visibleCount) {
+            // Si hay menos de 4 slides visibles, ocultar la paginación
+            const swiperPagination = document.querySelector('.swiper-pagination');
+            if (visibleCount <= 4) {
+                swiperPagination.style.display = 'none';
+            } else {
+                swiperPagination.style.display = 'block';
+            }
+        }
+
+        // Filtro inicial para el valor predeterminado (el primer valor seleccionado)
+        const initialFilter = document.querySelector('input[name="options-base"]:checked').value;
+        filterUnitsByDorms(initialFilter);
+    });
 </script>
+
+
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuCCuPnZoJYgILw9e3PNom-ZG5TnsGNeg&callback=initMap" async defer></script>
 
 @endsection
-
-{{-- @push('scripts')
-    @vite(['resources/js/scripts/proyecto.js'])
-@endpush --}}
