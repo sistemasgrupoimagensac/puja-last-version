@@ -32,18 +32,6 @@
                                 <h2 class="fw-bolder display-5 p-0 m-0">S/ {{ number_format($precio_desde, 2) }}</h2>
                             </div>
 
-                            {{-- Características del proyecto --}}
-                            {{-- <p class="m-0 d-flex card-proyecto-features">
-                                <span class="text-secondary me-1">{{ $area_desde }} - {{ $area_hasta }}</span>
-                                <span class="text-secondary me-1">m²</span>
-                                <i class="fa-solid fa-ruler-combined icon-orange"></i>
-                            </p>
-                            <p class="m-0 d-flex card-proyecto-features">
-                                <span class="text-secondary me-1">{{ $area_desde }} - {{ $area_hasta }}</span>
-                                <span class="text-secondary me-1">m²</span>
-                                <i class="fa-solid fa-ruler-combined icon-orange"></i>
-                            </p> --}}
-
                             {{-- Características del Proyecto --}}
                             <p class="m-0 d-flex card-inmuebles-features">
                                 <span class="text-secondary me-1">{{ $area_desde }} - {{ $area_hasta }}</span>
@@ -57,21 +45,6 @@
                                 <i class="fa-solid fa-bed icon-orange"></i>
                             </p>
 
-                            {{-- Ubicación del proyecto --}}
-                            {{-- <div class="card-proyecto-location">
-                                <p class="m-0">
-                                    <i class="fa-solid fa-location-dot icon-orange"></i>
-                                    <span class="text-dark-emphasis fw-bolder">{{ $direccion }}</span>,
-                                    <span class="text-dark-emphasis fw-bolder">{{ $distrito }}</span>,
-                                    <span class="text-dark-emphasis fw-bolder">{{ $provincia }}</span>,
-                                    <span class="text-dark-emphasis fw-bolder">{{ $departamento }}</span>
-                                </p>
-                            </div> --}}
-
-                            {{-- <h5 class="btn-group mt-5" role="group" aria-label="Basic example">
-                                <span class="badge bg-dark-blue rounded-end-0 p-2 px-4">{{ $estado }}</span>
-                                <span class="badge text-bg-light rounded-start-0 p-2 px-4">Entrega {{ $entrega }}</span>                    
-                            </h5> --}}
                         </div>
                     </a>
                 </div>
