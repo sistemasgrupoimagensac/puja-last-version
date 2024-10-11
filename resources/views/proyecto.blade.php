@@ -8,6 +8,10 @@
     @vite(['resources/sass/pages/inmueble.scss'])
 @endpush
 
+@section('header')
+    @include('components.header')
+@endsection
+
 @section('content')
 
 <div id="loader-overlay">
@@ -591,4 +595,9 @@
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuCCuPnZoJYgILw9e3PNom-ZG5TnsGNeg&callback=initMap" async defer></script>
 
+@endsection
+
+
+@section('footer')
+    @include('components.footer')
 @endsection
