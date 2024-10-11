@@ -44,7 +44,7 @@
     "src": "resources/images/slide2.webp"
   },
   "resources/js/app.js": {
-    "file": "assets/app-BZSSZ8pC.js",
+    "file": "assets/app-1DSVgyMS.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
@@ -102,7 +102,7 @@
     "isEntry": true
   },
   "resources/js/scripts/create_project.js": {
-    "file": "assets/create_project-CP_YsIfx.js",
+    "file": "assets/create_project-DTtaYCT1.js",
     "name": "create_project",
     "src": "resources/js/scripts/create_project.js",
     "isEntry": true,

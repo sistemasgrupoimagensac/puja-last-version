@@ -1,8 +1,16 @@
 @extends('layouts.app')
 
+@section('title')
+    Editar Proyecto
+@endsection
+
 @push('styles')
     @vite(['resources/sass/pages/create_project.scss'])
 @endpush
+
+@section('header')
+	@include('components.header_editor_proyecto')
+@endsection
 
 @section('content')
 <div class="container my-5">
@@ -64,6 +72,7 @@
                         <th>Miniatura</th>
                         <th>Dormitorios</th>
                         <th>Precio (Soles)</th>
+                        <th>Precio (Dólares)</th>
                         <th>Área</th>
                         <th>Área Techada</th>
                         <th>Baños</th>

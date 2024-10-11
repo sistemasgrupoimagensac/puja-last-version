@@ -101,7 +101,8 @@ function actualizarTablaUnidades() {
                         <img src="${primeraImagenUrl}" alt="Miniatura" style="width: 50px; height: 50px; object-fit: cover;">
                     </td>
                     <td>${unidad.dormitorios}</td>
-                    <td>${unidad.precio_soles}</td>
+                    <td>${Number(unidad.precio_soles).toLocaleString('en')}</td>
+                    <td>${Number(unidad.precio_dolares).toLocaleString('en')}</td>
                     <td>${unidad.area}</td>
                     <td>${unidad.area_techada}</td>
                     <td>${unidad.banios}</td>
@@ -197,15 +198,6 @@ document.getElementById('proyectoForm').addEventListener('submit', function (eve
             unidades = data.unidades.map(unidad => ({ ...unidad, id: unidad.id.toString() }));  // Actualizar con las nuevas IDs
             actualizarTablaUnidades(); // Refrescar la tabla con las nuevas IDs
         }
-
-        // if (data.unidades) {
-        //     unidades = data.unidades.map(unidad => ({ 
-        //         ...unidad, 
-        //         id: unidad.id.toString(),
-        //         imagen_url: unidad.imagen_url || '/images/no-image.webp' // Agregar la URL de la imagen miniatura
-        //     })); 
-        //     actualizarTablaUnidades(); // Refrescar la tabla con las nuevas IDs
-        // }
 
         if (data.message) {
             alert(data.message);
