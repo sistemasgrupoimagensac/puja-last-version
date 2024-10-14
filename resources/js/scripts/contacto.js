@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.status == "Success") {
             alert('Formulario enviado correctamente');
             form.reset();
+            window.location.href='/';
         } else {
             handleErrors(data.errors);
         }

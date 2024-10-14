@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nombre', 50);
             $table->string('correo', 60);
             $table->string('telefono', 9);
-            $table->enum('consulta', ['1', '2', '3', '4', '5', '6']);
+            $table->string('consulta');
             $table->text('mensaje');
             $table->timestamps();
         });

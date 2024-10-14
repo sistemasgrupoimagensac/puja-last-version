@@ -21,7 +21,7 @@ class ContactoController extends Controller
             'nombre' => 'required|string|max:50',
             'correo' => 'required|string|email|max:60',
             'telefono' => 'required|string|min:9|max:9|regex:/^9[0-9+\-()\s]*$/',
-            'consulta' => 'required|in:1,2,3,4,5,6',
+            'consulta' => 'required|string|max:50',
             'mensaje' => 'required|string|max:2000',
         ]);
 

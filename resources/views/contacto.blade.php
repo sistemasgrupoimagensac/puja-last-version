@@ -44,11 +44,11 @@
     
           <div class="form-floating">
             <select class="form-select shadow-none" id="page-contact-issue" name="consulta">
-              <option value="1" selected>Publicar tu inmueble</option>
-              <option value="2">Soporte sobre el uso del servicio</option>
-              <option value="3">Sugerencias y comentarios</option>
-              <option value="4">Reportar un problema</option>
-              <option value="5">Otro</option>
+              <option value="1_publicar_inmueble" selected>Publicar tu inmueble</option>
+              <option value="2_soporte">Soporte sobre el uso del servicio</option>
+              <option value="3_sugerencia">Sugerencias y comentarios</option>
+              <option value="4_problema">Reportar un problema</option>
+              <option value="5_otro">Otro</option>
             </select>
             <label for="floatingSelect">Tipo de Consulta</label>
             <div id="validationServerAsuntoFeedback" class="invalid-feedback"></div>
