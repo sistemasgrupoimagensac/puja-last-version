@@ -13,6 +13,7 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 // class User extends Authenticatable implements MustVerifyEmail
 class User extends Authenticatable implements MustVerifyEmail, FilamentUser
@@ -50,6 +51,11 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
             'password' => 'hashed',
             'estado'   => 'boolean',
         ];
+    }
+
+    public function proyectoCliente(): HasOne
+    {
+        return $this->hasOne(ProyectoCliente::class);
     }
 
     public function tipoUsuario(): BelongsTo

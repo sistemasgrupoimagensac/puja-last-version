@@ -23,17 +23,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Paginator::useBootstrapFive();
-        // Paginator::useBootstrapFour();
-
         Paginator::defaultView('vendor.pagination.bootstrap-5');
         Paginator::defaultSimpleView('vendor.pagination.bootstrap-5');
-        // Blade::component('blog.components', 'post-card');
-        
 
-        // RUTAS PARA CAMBIAR EL TEXTO DEL CORREO
-        // VENDOR ==> laravel framework src Illuminate notificactions resources views email.blade.php
-        // VENDOR ==> laravel framework src Illuminate Mail resources views message.blade.php
         VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
             return (new MailMessage)
                 ->greeting('¡Hola!')
