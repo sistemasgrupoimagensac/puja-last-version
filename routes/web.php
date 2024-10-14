@@ -167,16 +167,18 @@ Route::post('/consulta-dni-ruc', [DocumentoController::class, 'consultar_dni_ruc
 
 Route::post('/enviar-datos-dni-ruc', [BillingController::class, 'recibirDatos']);
 
-// Procesar contacto
+// Procesar contacto interesado en un inmueble
 Route::post('/procesar-contacto', [MyPostsController::class, 'procesar_contacto'])->name('procesar_contacto');
 
-// Procesar contacto Proyecto
+// Procesar contacto interesado en un proyecto
 Route::post('/procesar-contacto-proyecto', [MyPostsController::class, 'procesar_contacto_proyecto'])->name('procesar_contacto_proyecto');
 
 // Ruta de contacto
 Route::get('/contacto', [ContactoController::class, 'index'])->name('contacto');
-Route::get('/contacto/proyecto', [ContactoController::class, 'contacto_proyecto'])->name('contacto_proyecto');
 Route::post('/contacto', [ContactoController::class, 'store'])->name('post.contacto');
+
+Route::get('/contacto/proyecto', [ContactoController::class, 'contacto_proyecto'])->name('contacto_proyecto');
+Route::post('/contacto/proyecto', [ContactoController::class, 'contacto_proyecto_store'])->name('contacto_proyecto_store');
 
 Route::fallback(function () {
     return view('errors.404');

@@ -759,7 +759,9 @@ class MyPostsController extends Controller
         ], 200);
     }
 
-    public function procesar_contacto_proyecto (Request $request) {
+    // Método para procesar el contacto por un proyecto inmobiliario desde un interesado
+    public function procesar_contacto_proyecto (Request $request) 
+    {
 
         
         // Validamos el formulario antes de continuar

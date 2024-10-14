@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
   function submitForm(actionUrl) {
     let form = document.getElementById('page-contact-formData');
     let formData = new FormData(form);
-    formData.append('current_url', window.location.href);
 
     fetch(actionUrl, {
         method: 'POST',

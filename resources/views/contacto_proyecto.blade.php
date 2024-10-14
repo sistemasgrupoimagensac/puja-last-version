@@ -15,8 +15,8 @@
 @section('content')
   <div class="container d-flex flex-column align-items-center my-3 my-lg-5">
     <div class="p-3 p-lg-4 pt-5 shadow-lg rounded">
-      <h1 class="text-center">¡Te ayudaremos a hacer visible tu <br> proyecto inmobiliario!</h1>
-      <h4 class="text-secondary text-center">Completa el formulario y empecemos</h4>
+      <h1 class="text-center">¡Es hora de vender tu proyecto!</h1>
+      <h4 class="text-secondary text-center">Cotiza ahora</h4>
     
       <form method="POST" id="page-contact-formData">
         @csrf
@@ -63,7 +63,7 @@
   </div>
 
   <script>
-    const contactoUrl = "{{ route('post.contacto') }}";
+    const contactoUrl = "{{ route('contacto_proyecto_store') }}";
   </script>
 @endsection
 
