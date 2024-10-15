@@ -99,14 +99,20 @@
                 <div class="d-flex justify-content-between align-items-end my-4">
                     <div class="d-flex flex-column">
                         <p class="m-0 p-0">Precio desde</p>
-                        <p class="m-0 p-0 display-4 fw-semibold">S/ {{ number_format($proyecto->precio_desde, 2) }}</p>
+                        <p class="m-0 p-0 display-4 fw-semibold">S/ {{ number_format($proyecto->precio_desde, 0) }}</p>
                     </div>
                     
-                    <h4 class="btn-group my-3" role="group" aria-label="Basic example">
-                        <span class="badge text-bg-light p-2 px-4">Financiamiento
-                            <span class="fw-light">{{ $proyecto->banco->nombre ?? 'No especificado' }}</span>
+                    <h4 class="btn-group my-3" role="group">
+                        <span class="badge text-bg-light p-2">
+                            <span class=" me-3">Financiamiento</span>
+                            <span class="fw-light">
+                                {{-- {{ $proyecto->banco->nombre ?? 'No especificado' }} --}}
+                                <img src="/images/bancos/{{ $proyecto->banco->nombre }}.png" alt="" style="height: 50px" class=" rounded rounded-2">
+
+                            </span>
                         </span>
                     </h4>
+
                 </div>
 
                 {{-- Datos del Proyecto --}}

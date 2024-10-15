@@ -14,12 +14,13 @@ class BancosSeeder extends Seeder
     public function run(): void
     {
         DB::table('bancos')->insert([
-            ['nombre' => 'Banco BCP'],
+            ['nombre' => 'BCP'],
             ['nombre' => 'Interbank'],
             ['nombre' => 'Scotiabank'],
             ['nombre' => 'BBVA'],
             ['nombre' => 'Banbif'],
             ['nombre' => 'Pichincha'],
+            ['nombre' => 'Propio'],
         ]);
     }
 }
