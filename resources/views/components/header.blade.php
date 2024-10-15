@@ -182,17 +182,19 @@
                     @auth
                         @php
                             $tipoUsuarioID = Auth::user()->tipo_usuario_id;
+
+                            if ($projectInfo !== false) {
+                                $proyectoActivo = $projectInfo['activo'];
+                            }
                         @endphp
-
-                        {{ $tipoUsuarioID }}
-                        {{ $tienePlanes }}
-
+               
                         @if (isset($tienePlanes)) 
                             @if (!$tienePlanes && $tipoUsuarioID === 3)
                                 <a href="/planes-inmobiliaria" class="btn-outline-secondary aside-menu btn mx-4">Publica Aquí</a>
-
-                            @elseif ($tipoUsuarioID === 5)
-                                holaaaaa
+                            @elseif ( $proyectoActivo && $tipoUsuarioID === 5 )
+                                <a href="{{ route("proyectos.create") }}" class="btn-outline-secondary aside-menu btn mx-4">Publica Aquí</a>
+                            @elseif ( !$proyectoActivo && $tipoUsuarioID === 5 )
+                                <a class="btn-outline-secondary aside-menu btn mx-4" href="/publica-tu-inmueble">Publica Aquí</a>
                             @else 
                                 <a href="{{ route("posts.create") }}" class="btn-outline-secondary aside-menu btn mx-4">Publica Aquí</a>
                             @endif

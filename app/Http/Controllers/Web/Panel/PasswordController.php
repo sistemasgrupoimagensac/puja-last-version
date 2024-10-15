@@ -20,8 +20,9 @@ class PasswordController extends Controller
             $user = User::find($user_id);
             $active_plan_users = $user->active_plans()->get();
             $tienePlanes = $active_plan_users->isNotEmpty();
+            $projectInfo = $user->canPublishProjects(); 
         }
 
-        return view('panel.password', compact('tienePlanes', 'user_id'));
+        return view('panel.password', compact('tienePlanes', 'user_id', 'projectInfo'));
     }
 }

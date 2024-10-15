@@ -39,8 +39,10 @@ class InmueblesController extends Controller
             $user = User::find($user_id);
             $active_plan_users = $user->active_plans()->get();
             $tienePlanes = $active_plan_users->isNotEmpty();
+            $projectInfo = $user->canPublishProjects(); 
         }
-        return view('inmuebles', compact('avisos', 'url_parse', 'tipos_inmuebles', 'tienePlanes', 'caracteristicas', 'comodidades'));
+
+        return view('inmuebles', compact('avisos', 'url_parse', 'tipos_inmuebles', 'tienePlanes', 'caracteristicas', 'comodidades', 'projectInfo'));
     }
 
     public function filterSearch(Request $request)

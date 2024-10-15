@@ -102,7 +102,6 @@ Route::get('/my-post/ubicacion/provincias/{departamentoId}', [MyPostsController:
 Route::get('/my-post/ubicacion/distritos/{provinciaId}', [MyPostsController::class, 'getDistritos']);
 Route::get('/my-post/extras/{extra_id}', [MyPostsController::class, 'getExtras']);
 
-
 // Ruta para planes de pago
 Route::get('/planes-inmobiliaria', [PlanController::class, 'index']);
 Route::post('/planes-user', [PlanController::class, 'list_plans_user']);
