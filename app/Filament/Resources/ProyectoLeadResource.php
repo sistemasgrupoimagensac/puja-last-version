@@ -9,6 +9,15 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\TextArea;
 
 class ProyectoLeadResource extends Resource
 {
@@ -20,19 +29,19 @@ class ProyectoLeadResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nombre')->required()->label('Nombre'),
-                Forms\Components\TextInput::make('correo')->required()->label('Correo')->email(),
-                Forms\Components\TextInput::make('telefono')->required()->label('Teléfono'),
-                Forms\Components\Textarea::make('mensaje')->label('Mensaje')->nullable(),
-                Forms\Components\Select::make('estado')
+                TextInput::make('nombre')->required()->label('Nombre'),
+                TextInput::make('correo')->required()->label('Correo')->email(),
+                TextInput::make('telefono')->required()->label('Teléfono'),
+                Textarea::make('mensaje')->label('Mensaje')->nullable(),
+                Select::make('estado')
                     ->label('Estado')
                     ->options([
                         'contactado' => 'Contactado',
                         'sin_contactar' => 'Sin Contactar',
                     ])->default('sin_contactar'),
-                Forms\Components\Toggle::make('respondio')->label('¿Respondió?'),
-                Forms\Components\Toggle::make('interesado')->label('¿Está interesado?'),
-                Forms\Components\DatePicker::make('fecha_contacto')->label('Fecha de Contacto'),
+                Toggle::make('respondio')->label('¿Respondió?'),
+                Toggle::make('interesado')->label('¿Está interesado?'),
+                DatePicker::make('fecha_contacto')->label('Fecha de Contacto'),
             ]);
     }
 
@@ -40,26 +49,26 @@ class ProyectoLeadResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('nombre')->label('Nombre'),
-                Tables\Columns\TextColumn::make('correo')->label('Correo'),
-                Tables\Columns\TextColumn::make('telefono')->label('Teléfono'),
-                Tables\Columns\TextColumn::make('estado')->label('Estado'),
-                Tables\Columns\IconColumn::make('respondio')
+                TextColumn::make('nombre')->label('Nombre'),
+                TextColumn::make('correo')->label('Correo'),
+                TextColumn::make('telefono')->label('Teléfono'),
+                TextColumn::make('estado')->label('Estado'),
+                IconColumn::make('respondio')
                     ->boolean()
                     ->label('¿Respondió?'),
-                Tables\Columns\IconColumn::make('interesado')
+                IconColumn::make('interesado')
                     ->boolean()
                     ->label('¿Interesado?'),
-                Tables\Columns\TextColumn::make('fecha_contacto')->label('Fecha de Contacto')->date(),
+                TextColumn::make('fecha_contacto')->label('Fecha de Contacto')->date(),
             ])
             ->filters([
                 // Puedes agregar filtros personalizados aquí si es necesario
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                DeleteBulkAction::make(),
             ]);
     }
 
