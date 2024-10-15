@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ProyectoClienteResource\Pages;
 use App\Models\ProyectoCliente;
 use App\Models\User;
+use Filament\Forms\Components\Builder;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Forms\Form;
@@ -13,8 +14,11 @@ use Illuminate\Support\Str;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Validation\Rule;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Filters\Filter;
 
 class ProyectoClienteResource extends Resource
 {
@@ -58,23 +62,37 @@ class ProyectoClienteResource extends Resource
                             ->default(1)
                             ->minValue(1),
                     ]),
+                
+                Section::make('Estado del Cliente')
+                    ->schema([
+                        Toggle::make('habilitado')
+                            ->label('Habilitado')
+                            ->default(true), // Por defecto, habilitado
+                        
+                        // El campo activo no es editable, se calcula automáticamente
+                        Toggle::make('activo')
+                            ->label('Activo')
+                            ->disabled()
+                            ->default(fn ($record) => $record->activo ?? false), // Mostrar el valor actual
+                    ]),
 
                 Section::make('Credenciales de Usuario')
                     ->schema([
                         TextInput::make('user_email')
-                        ->label('Correo Electrónico de Inicio de Sesión')
-                        ->required()
-                        ->email()
-                        ->rules(function ($livewire) {
-                            // Validar que el correo sea único solo cuando se crea un nuevo registro
-                            return [
-                                'required', 
-                                'email',
-                                Rule::unique(User::class, 'email')->ignore($livewire->record->user_id),
-                            ];
-                        })
-                        ->validationAttribute('Correo Electrónico de Inicio de Sesión')
-                        ->disabled(fn ($livewire) => $livewire instanceof \Filament\Resources\Pages\EditRecord), // Deshabilitar campo en modo edición
+                            ->label('Correo Electrónico de Inicio de Sesión')
+                            ->required()
+                            ->email()
+                            ->rules(function ($livewire) {
+                                // Verificar si es un nuevo registro o si está editando uno existente
+                                return [
+                                    'required',
+                                    'email',
+                                    Rule::unique(User::class, 'email')
+                                        ->ignore($livewire->record->user_id ?? null), // Ignorar solo si user_id existe
+                                ];
+                            })
+                            ->validationAttribute('Correo Electrónico de Inicio de Sesión')
+                            ->disabled(fn ($livewire) => $livewire instanceof \Filament\Resources\Pages\EditRecord), // Deshabilitar campo en modo edición                    
                     
 
                         TextInput::make('user_password')
@@ -97,6 +115,17 @@ class ProyectoClienteResource extends Resource
                 TextColumn::make('user.email')->label('Correo Electrónico'),
                 TextColumn::make('fecha_inicio_contrato')->label('Inicio de Contrato'),
                 TextColumn::make('fecha_fin_contrato')->label('Fin de Contrato'),
+                IconColumn::make('activo')
+                    ->boolean()
+                    ->label('Activo'),
+            ])
+            ->filters([
+                Filter::make('activo')
+                    ->label('Clientes Activos')
+                    ->query(fn (Builder $query) => $query->where('activo', true)),
+                Filter::make('inactivo')
+                    ->label('Clientes Inactivos')
+                    ->query(fn (Builder $query) => $query->where('activo', false)),
             ]);
     }
 

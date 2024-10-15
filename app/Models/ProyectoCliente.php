@@ -22,10 +22,38 @@ class ProyectoCliente extends Model
         'fecha_inicio_contrato',
         'fecha_fin_contrato',
         'numero_anuncios',
+        'habilitado',
+        'activo',
+        'vigente',
     ];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    // Método para determinar si el cliente está activo
+    public function actualizarEstado()
+    {
+        $hoy = now();
+        // Verificar si el contrato está vigente
+        $this->vigente = $this->fecha_fin_contrato >= $hoy;
+
+        // Verificar el estado activo
+        if ($this->habilitado && $this->vigente) {
+            $this->activo = true;
+        } else {
+            $this->activo = false;
+        }
+
+        $this->save();
+    }
+
+    // Evento para actualizar el estado cada vez que se recupera el cliente
+    protected static function booted()
+    {
+        static::retrieved(function ($proyectoCliente) {
+            $proyectoCliente->actualizarEstado();
+        });
     }
 }

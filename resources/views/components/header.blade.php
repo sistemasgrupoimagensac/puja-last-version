@@ -184,9 +184,15 @@
                             $tipoUsuarioID = Auth::user()->tipo_usuario_id;
                         @endphp
 
+                        {{ $tipoUsuarioID }}
+                        {{ $tienePlanes }}
+
                         @if (isset($tienePlanes)) 
                             @if (!$tienePlanes && $tipoUsuarioID === 3)
                                 <a href="/planes-inmobiliaria" class="btn-outline-secondary aside-menu btn mx-4">Publica Aquí</a>
+
+                            @elseif ($tipoUsuarioID === 5)
+                                holaaaaa
                             @else 
                                 <a href="{{ route("posts.create") }}" class="btn-outline-secondary aside-menu btn mx-4">Publica Aquí</a>
                             @endif

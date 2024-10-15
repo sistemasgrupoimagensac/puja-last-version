@@ -23,7 +23,10 @@ class CreateProyectoClientesTable extends Migration
             $table->string('email_contacto');
             $table->date('fecha_inicio_contrato');
             $table->date('fecha_fin_contrato');
-            $table->integer('numero_anuncios')->default(0); // Número de anuncios
+            $table->integer('numero_anuncios')->default(0);
+            $table->boolean('habilitado')->default(false);
+            $table->boolean('activo')->default(false);
+            $table->boolean('vigente')->default(false);
             $table->timestamps();
         });
     }
