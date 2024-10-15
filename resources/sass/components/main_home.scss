@@ -6,25 +6,25 @@
 
 
   .main-home-search {
-    border-radius: 2rem;
+    border-radius: 1rem;
     position: absolute;
     top: 40%;
     left: 7%;
-    padding: 3rem;
+    padding: 2rem;
     background-color: rgba($color: #081f41, $alpha: .8);
   }
 }
 
 .main-home-background-image-container {
   width: 100%; /* Ancho completo del contenedor */
-  height: 560px; /* Altura del contenedor */
+  height: 600px; /* Altura del contenedor */
   overflow: hidden; /* Oculta cualquier parte de la imagen que sobresalga */
   position: relative; /* Para posicionar elementos hijos si es necesario */
 }
 
 .main-home-background-image {
-  border-radius: 2rem;
-  width: 1200px; /* Asegura que el ancho de la imagen cubra el contenedor */
+  border-radius: 1rem;
+  width: 1400px; /* Asegura que el ancho de la imagen cubra el contenedor */
   height: 100%; /* La altura también debe cubrir el contenedor */
   object-fit: cover; /* Ajusta la imagen sin distorsionarla */
   position: absolute; /* Se posiciona dentro del contenedor */

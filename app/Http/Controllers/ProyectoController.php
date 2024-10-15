@@ -8,9 +8,11 @@ use App\Models\ProyectoImagenesAdicionales;
 use App\Models\ProyectoImagenesUnidades;
 use App\Models\ProyectoProgreso;
 use App\Models\ProyectoUnidades;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class ProyectoController extends Controller
 {
@@ -162,9 +164,16 @@ class ProyectoController extends Controller
                     $query->where('estado', 1); // Solo imágenes activas
                 }])
                 ->get();
+
+            if (Auth::check()) {
+                $user_id = Auth::id();
+                $user = User::find($user_id);
+                $projectInfo = $user->canPublishProjects(); 
+            }
     
             // Pasar el proyecto, las imágenes y las unidades a la vista
-            return view('proyecto', compact('proyecto', 'imagenes', 'unidades'));
+            return view('proyecto', compact('proyecto', 'imagenes', 'unidades', 'projectInfo'));
+            
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Proyecto no encontrado.',

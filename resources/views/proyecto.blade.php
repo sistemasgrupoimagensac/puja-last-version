@@ -156,50 +156,6 @@
                     </div>
                 </div>
 
-                {{-- Unidades en venta --}}
-                {{-- <div class="mt-5">
-                    <h3 class="fw-bold">Unidades en venta</h3>
-                
-                    <div class="my-3">
-                        @php
-                            $dormitorios = $unidades->pluck('dormitorios')->unique();
-                        @endphp
-                        <!-- Generar botones dinámicamente para cada cantidad de dormitorios -->
-                        @foreach ($dormitorios as $index => $dorm)
-                            <input type="radio" class="btn-check" name="options-base" id="option{{ $index }}" value="{{ $dorm }}" autocomplete="off" {{ $index === 0 ? 'checked' : '' }}>
-                            <label class="btn" for="option{{ $index }}">{{ $dorm }} dormitorio{{ $dorm > 1 ? 's' : '' }}</label>
-                        @endforeach
-                    </div>
-                    
-                
-                    <div class="border rounded shadow p-3">
-                        <div class="swiper swiperUnidadProyecto container">
-                            <div class="swiper-wrapper" id="unidadesSwiperWrapper">
-                                <!-- Recorrer las unidades y agregar clases según el número de dormitorios -->
-                                @foreach ($unidades as $unidad)
-                                    @php
-                                        // Obtener la primera imagen de la unidad, si existe
-                                        $primeraImagen = $unidad->imagenes()->where('estado', 1)->first();
-                                        $imagenUrl = $primeraImagen ? $primeraImagen->image_url : null;
-                                    @endphp
-                                
-                                    <div class="swiper-slide dormitorio-{{ $unidad->dormitorios }}" data-dormitorios="{{ $unidad->dormitorios }}">
-                                        <x-card-unidad-proyecto 
-                                            :precioSoles="$unidad->precio_soles"
-                                            :precioDolares="$unidad->precio_dolares"
-                                            :area="$unidad->area"
-                                            :banios="$unidad->banios"
-                                            :dormitorios="$unidad->dormitorios"
-                                            :imagenUrl="$imagenUrl"
-                                            :unidadId="$unidad->id">
-                                        </x-card-unidad-proyecto>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-
-                </div> --}}
 
                 {{-- Unidades en venta --}}
                 <div class="mt-5">
@@ -311,8 +267,8 @@
 
                         {{-- contacto por whatsapp --}}
                         <button class="btn btn-light border-secondary-subtle" type="button" id="whatsapp_contact_button">
-                            <i class="fab fa-whatsapp"></i> 
-                            Contáctenme
+                            <i class="fab fa-whatsapp text-success fa-lg"></i> 
+                            Contáctenme ahora
                         </button>
 
                         <div class="d-flex flex-column">
