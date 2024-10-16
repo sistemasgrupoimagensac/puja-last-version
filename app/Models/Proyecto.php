@@ -14,6 +14,7 @@ class Proyecto extends Model
         'unidades_cantidad',
         'banco_id',
         'proyecto_progreso_id',
+        'proyecto_cliente_id',
         'descripcion',
         'fecha_entrega',
         'area_desde',
@@ -79,6 +80,16 @@ class Proyecto extends Model
     {
         return $this->belongsTo(ProyectoProgreso::class, 'proyecto_progreso_id');
     }
+
+    public function cliente()
+    {
+        return $this->belongsTo(ProyectoCliente::class, 'proyecto_cliente_id');
+    }
+
+    // public function proyectoCliente()
+    // {
+    //     return $this->belongsTo(ProyectoCliente::class, 'proyecto_cliente_id');
+    // }
 
     // Relación con imágenes principales
     public function imagenesPrincipales()

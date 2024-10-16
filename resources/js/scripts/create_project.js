@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Capturar el ID del proyecto desde el atributo data-proyecto-id en el formulario
     proyectoId = document.getElementById('proyectoForm').dataset.proyectoId || null;
-    console.log('Proyecto ID inicial:', proyectoId);
 
     // Botón para agregar una nueva unidad
     document.getElementById('btnAddUnit').addEventListener('click', function () {
@@ -62,7 +61,6 @@ document.getElementById('unidadForm').addEventListener('submit', function (event
         estado: 1 // Asignar estado activo por defecto
     };
     
-
     // Determinar si se está agregando o editando
     if (editIndex === null) {
         unidades.push(unidad); // Agregar nueva unidad
@@ -124,7 +122,6 @@ function abrirModalPlano(unidadId) {
     const unidadImgUploadButton = document.getElementById('unidadImgUploadButton');
     unidadImgUploadButton.setAttribute('data-unidad-id', unidadId);
 }
-
 
 // Función para editar una unidad
 function editarUnidad(index) {
@@ -190,7 +187,6 @@ document.getElementById('proyectoForm').addEventListener('submit', function (eve
         if (data.proyecto) {
             proyectoId = data.proyecto.id;  // Asignar el ID del proyecto si se guarda correctamente
             window.location.href = `/proyecto/editor/${proyectoId}`
-            console.log('Proyecto ID actualizado:', proyectoId);
         }
 
         // Actualizar las unidades en el frontend con las IDs del backend

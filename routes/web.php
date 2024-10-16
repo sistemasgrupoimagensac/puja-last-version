@@ -15,6 +15,8 @@ use App\Http\Controllers\TransactionsController;
 use App\Http\Controllers\Web\Panel\PerfilController;
 use App\Http\Controllers\Web\Panel\PasswordController;
 use App\Http\Controllers\Web\Panel\MisAvisosController;
+use App\Http\Controllers\Web\PanelProyecto\MisProyectosController;
+use App\Http\Controllers\Web\PanelProyecto\PerfilProyectoController;
 use App\Http\Controllers\Web\Panel\PlanesContratadosController;
 use App\Http\Controllers\Web\Puja\MainController;
 use App\Http\Controllers\ProyectoController;
@@ -25,7 +27,6 @@ use App\Http\Controllers\ProyectoImagenesAdicionalController;
 use App\Http\Controllers\ProyectoImagenController;
 use App\Http\Controllers\ProyectoImagenUnidadController;
 use App\Http\Controllers\ProyectosController;
-
 
 Route::get('/', MainController::class);
 Route::get('/libro-reclamaciones', [SuppliersController::class, 'libroReclamos'])->name('libro_reclamaciones');
@@ -54,7 +55,17 @@ Route::prefix('/inmueble')->name('inmueble.')->group(function() {
     Route::get('/{inmueble}', App\Http\Controllers\Web\Puja\InmuebleController::class)->name('single');
 });
 
-Route::middleware(['auth', 'verified'])->group(function() {
+// Route::middleware(['auth', 'verified'])->group(function() {
+//     Route::prefix('/panel')->name('panel.')->group(function() {
+//         Route::get('/', fn() => redirect()->route('panel.mis-avisos'));
+//         Route::get('/avisos', MisAvisosController::class)->name('mis-avisos');
+//         Route::get('/planes-contratados', PlanesContratadosController::class)->name('planes-contratados');
+//         Route::get('/perfil', PerfilController::class)->name('perfil');
+//         Route::get('/password', PasswordController::class)->name('password');
+//     });
+// });
+
+Route::middleware(['auth', 'verified', \App\Http\Middleware\BlockProjectUsers::class])->group(function() {
     Route::prefix('/panel')->name('panel.')->group(function() {
         Route::get('/', fn() => redirect()->route('panel.mis-avisos'));
         Route::get('/avisos', MisAvisosController::class)->name('mis-avisos');
@@ -63,6 +74,7 @@ Route::middleware(['auth', 'verified'])->group(function() {
         Route::get('/password', PasswordController::class)->name('password');
     });
 });
+
 
 Route::middleware(['guest'])->group(function() {
     Route::get('/recuperar-contrasena', [LoginController::class, 'forgot_password'])->name('auth.forgot-password.index');
@@ -225,3 +237,27 @@ Route::get('/proyectos', [ProyectosController::class, 'index'])->name('proyectos
 Route::get('unidades/{unidadId}/imagenes', [ProyectoImagenUnidadController::class, 'index'])->name('unidad.imagenes');
 Route::post('/unidades/{unidadId}/imagenes', [ProyectoImagenUnidadController::class, 'store'])->name('unidades.imagenes.store');
 Route::delete('/unidades/imagenes/{imagenId}', [ProyectoImagenUnidadController::class, 'destroy']);
+
+// Route::middleware(['auth', 'verified', \App\Http\Middleware\CheckUserProjectType::class])->group(function() {
+//     Route::prefix('/panel-proyecto')->name('panel.proyecto.')->group(function() {
+//         Route::get('/', fn() => redirect()->route('panel.proyecto.mis-proyectos'));
+//         Route::get('/proyectos', MisProyectosController::class)->name('mis-proyectos');
+//         // Route::get('/planes-contratados', [PlanesContratadosProyectoController::class, 'index'])->name('planes-contratados');
+//         Route::get('/perfil', PerfilProyectoController::class)->name('perfil');
+//         // Route::get('/password', PasswordController::class)->name('password');
+//     });
+// });
+
+Route::middleware(['auth', 'verified', \App\Http\Middleware\CheckUserProjectType::class])->group(function() {
+    Route::prefix('/panel-proyecto')->name('panel.proyecto.')->group(function() {
+        Route::get('/', fn() => redirect()->route('panel.proyecto.mis-proyectos'));
+        Route::get('/proyectos', MisProyectosController::class)->name('mis-proyectos');
+        // Ruta para perfil del proyecto
+        Route::get('/perfil', PerfilController::class)->name('perfil');
+        // Si tienes cambiar contraseña para proyectos, puedes agregarlo aquí
+        Route::get('/password', PasswordController::class)->name('password');
+    });
+});
+
+
+

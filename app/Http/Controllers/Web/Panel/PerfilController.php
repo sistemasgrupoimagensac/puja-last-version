@@ -20,6 +20,7 @@ class PerfilController extends Controller
         $user = Auth::user();
         $tipos_documento = TipoDocumento::where('estado', 1)->get();
         $tienePlanes = false;
+        $projectInfo = false;
         
         if (Auth::check()) {
             $user_id = Auth::id();

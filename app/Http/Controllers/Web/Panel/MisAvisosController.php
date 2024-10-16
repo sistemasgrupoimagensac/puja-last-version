@@ -23,7 +23,7 @@ class MisAvisosController extends Controller
                     ->orderBy('id', 'desc')
                     ->paginate(10);
         $tienePlanes = false;
-        
+        $projectInfo = false;
         if (Auth::check()) {
             $user_id = Auth::id();
             $user = User::find($user_id);

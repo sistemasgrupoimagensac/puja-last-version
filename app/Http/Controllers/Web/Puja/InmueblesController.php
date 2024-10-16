@@ -34,6 +34,7 @@ class InmueblesController extends Controller
         $comodidades = Caracteristica::where('categoria_caracteristica_id', 2)->get();
         
         $tienePlanes = false;
+        $projectInfo = false;
         if (Auth::check()) {
             $user_id = Auth::id();
             $user = User::find($user_id);

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ProyectoCliente extends Model
 {
@@ -30,6 +31,12 @@ class ProyectoCliente extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    // Relación con proyectos
+    public function proyectos(): HasMany
+    {
+        return $this->hasMany(Proyecto::class, 'proyecto_cliente_id');
     }
 
     // Método para determinar si el cliente está activo

@@ -43,7 +43,7 @@ class InmuebleController extends Controller
             }
 
             $tienePlanes = null;
-
+            $projectInfo = false;
             if (Auth::check()) {
                 $user_id = Auth::id();
                 $user = User::find($user_id);

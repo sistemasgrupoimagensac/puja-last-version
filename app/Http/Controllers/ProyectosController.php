@@ -16,6 +16,7 @@ class ProyectosController extends Controller
             $query->where('tipo', 1); // Obtener la imagen con el menor ID
         }])->paginate(9); // Paginación para los proyectos
 
+        $projectInfo = false;
         if (Auth::check()) {
             $user_id = Auth::id();
             $user = User::find($user_id);

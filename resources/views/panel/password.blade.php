@@ -15,7 +15,14 @@
 @section('content')
     <main class="main-misavisos custom-container my-5">
         <div class="container-fluid p-0 d-flex">
-            @include('components.menu_panel')
+            {{-- @include('components.menu_panel') --}}
+
+            @if (Request::is('panel-proyecto/*'))
+                @include('components.menu-panel-proyecto')
+            @else
+                @include('components.menu_panel')
+            @endif
+            
             <section class="col px-lg-5 pt-2">
                 <h2>Cambiar contraseña</h2>
 

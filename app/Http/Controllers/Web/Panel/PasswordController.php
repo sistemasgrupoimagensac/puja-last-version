@@ -15,6 +15,8 @@ class PasswordController extends Controller
 
     public function __invoke(Request $request)
     {
+        $tienePlanes = false;
+        $projectInfo = false;
         if (Auth::check()) {
             $user_id = Auth::id();
             $user = User::find($user_id);

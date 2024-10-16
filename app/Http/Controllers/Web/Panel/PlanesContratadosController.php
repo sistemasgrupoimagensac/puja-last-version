@@ -20,7 +20,7 @@ class PlanesContratadosController extends Controller
         $user = User::find($user_id);
         $active_plan_users = $user->active_plans()->get();
         $tienePlanes = false;
-
+        $projectInfo = false;
         if (Auth::check()) {
             $user_id = Auth::id();
             $user = User::find($user_id);

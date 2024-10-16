@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Banco;
 use App\Models\Proyecto;
+use App\Models\ProyectoCliente;
 use App\Models\ProyectoImagenesAdicionales;
 use App\Models\ProyectoImagenesUnidades;
 use App\Models\ProyectoProgreso;
@@ -54,6 +55,15 @@ class ProyectoController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
+   
+        // Buscar el cliente de proyecto asociado al usuario autenticado
+        $proyectoCliente = ProyectoCliente::where('user_id', $user->id)->first();
+
+        if (!$proyectoCliente) {
+            return back()->with('error', 'No se encontró un cliente asociado a este usuario.');
+        }
+
         $validator = Validator::make($request->all(), [
             'proyecto_id' => 'nullable|exists:proyectos,id',
             'nombre_proyecto' => 'required|string|max:255',
@@ -87,6 +97,7 @@ class ProyectoController extends Controller
                 ['id' => $request->proyecto_id],
                 [
                     'nombre_proyecto' => $request->nombre_proyecto,
+                    'proyecto_cliente_id' => $proyectoCliente->id,
                     'unidades_cantidad' => $request->unidades_cantidad,
                     'banco_id' => $request->banco_id,
                     'proyecto_progreso_id' => $request->proyecto_progreso_id,
@@ -164,7 +175,8 @@ class ProyectoController extends Controller
                     $query->where('estado', 1); // Solo imágenes activas
                 }])
                 ->get();
-
+                
+            $projectInfo = false;
             if (Auth::check()) {
                 $user_id = Auth::id();
                 $user = User::find($user_id);

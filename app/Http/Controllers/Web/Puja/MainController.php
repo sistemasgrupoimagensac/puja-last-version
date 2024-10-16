@@ -70,7 +70,7 @@ class MainController extends Controller
 
         // Inicializar las variables
         $tienePlanes = false;
-        $projectInfo = null;
+        $projectInfo = false;
 
         // Verificar si el usuario está autenticado
         if (Auth::check()) {
