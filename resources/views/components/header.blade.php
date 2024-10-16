@@ -183,6 +183,7 @@
                         @php
                             $tipoUsuarioID = Auth::user()->tipo_usuario_id;
 
+                            $proyectoActivo = false;
                             if ($projectInfo !== false) {
                                 $proyectoActivo = $projectInfo['activo'];
                             }
