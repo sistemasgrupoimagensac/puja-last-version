@@ -44,7 +44,7 @@
     "src": "resources/images/slide2.webp"
   },
   "resources/js/app.js": {
-    "file": "assets/app-BZSSZ8pC.js",
+    "file": "assets/app-1DSVgyMS.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
@@ -96,7 +96,7 @@
     "isEntry": true
   },
   "resources/js/scripts/contacto.js": {
-    "file": "assets/contacto-BoXg5C55.js",
+    "file": "assets/contacto-CPk759Ji.js",
     "name": "contacto",
     "src": "resources/js/scripts/contacto.js",
     "isEntry": true
@@ -207,7 +207,7 @@
     "isEntry": true
   },
   "resources/sass/app.scss": {
-    "file": "assets/app-C8sQeiyL.css",
+    "file": "assets/app-CfTgTe4x.css",
     "src": "resources/sass/app.scss",
     "isEntry": true
   },
