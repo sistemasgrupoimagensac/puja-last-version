@@ -37,7 +37,7 @@ class ProyectoCliente extends Model
     {
         $hoy = now();
         // Verificar si el contrato está vigente
-        $this->vigente = $this->fecha_fin_contrato >= $hoy;
+        $this->vigente = $this->fecha_fin_contrato >= $hoy && $hoy >= $this->fecha_inicio_contrato;
 
         // Verificar el estado activo
         if ($this->habilitado && $this->vigente) {
