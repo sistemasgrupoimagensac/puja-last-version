@@ -16,14 +16,18 @@ class ProyectosController extends Controller
             $query->where('tipo', 1); // Obtener la imagen con el menor ID
         }])->paginate(9); // Paginación para los proyectos
 
+        $tienePlanes = false;
         $projectInfo = false;
         if (Auth::check()) {
             $user_id = Auth::id();
             $user = User::find($user_id);
+            $tipo_usuario = $user->tipo_usuario_id;
+            $active_plan_users = $user->active_plans()->get();
+            $tienePlanes = $active_plan_users->isNotEmpty();
             $projectInfo = $user->canPublishProjects(); 
         }
 
         // Retornar la vista con los proyectos y las imágenes
-        return view('proyectos', compact('proyectos', 'projectInfo'));
+        return view('proyectos', compact('proyectos', 'tienePlanes', 'projectInfo'));
     }
 }

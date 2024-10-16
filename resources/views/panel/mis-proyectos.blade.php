@@ -14,7 +14,7 @@
             {{-- menú del panel --}}
             @include('components.menu-panel-proyecto')
             <section class="col px-lg-5 pt-lg-2">
-                <h1>Mis avisos de Proyectos</h1>
+                <h1>Mis Proyectos</h1>
                 <hr>
                 <section class="my-3">
                     @foreach ($proyectos as $proyecto)
@@ -22,7 +22,7 @@
                         @include('components.proyecto-card-panel', [
                             'id' => $proyecto->id,
                             'link' => "/proyecto/$proyecto->slug",
-                            'image' => $proyecto->imagenesAdicionales->first()->image_url,
+                            'image' => $proyecto->imagenesAdicionales->first()->image_url ?? asset('images/no-image.webp'),
                             'title' => $proyecto->nombre_proyecto,
                             'address' => $proyecto->direccion,
                             'distrito' => $proyecto->distrito,
@@ -45,6 +45,6 @@
   @include('components.footer')
 @endsection
 
-@push('scripts')
-    {{-- @vite([ 'resources/js/scripts/components/mis_avisos.js' ]) --}}
-@endpush
+{{-- @push('scripts')
+    @vite([ 'resources/js/scripts/components/mis_avisos.js' ])
+@endpush --}}

@@ -182,7 +182,18 @@ document.getElementById('proyectoForm').addEventListener('submit', function (eve
             'Accept': 'application/json'
         }
     })
-    .then((response) => response.json())
+    .then((response) => {
+        if (!response.ok) {
+            return response.json().then((data) => {
+                // Mostrar alerta si se recibe un error 403 (límite de proyectos alcanzado)
+                if (response.status === 403) {
+                    alert(data.message); // Mensaje del controlador backend
+                }
+                throw new Error(data.message || 'Error al guardar el proyecto');
+            });
+        }
+        return response.json();
+    })
     .then((data) => {
         if (data.proyecto) {
             proyectoId = data.proyecto.id;  // Asignar el ID del proyecto si se guarda correctamente

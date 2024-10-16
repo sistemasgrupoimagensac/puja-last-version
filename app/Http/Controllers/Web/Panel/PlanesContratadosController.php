@@ -24,6 +24,7 @@ class PlanesContratadosController extends Controller
         if (Auth::check()) {
             $user_id = Auth::id();
             $user = User::find($user_id);
+            $tipo_usuario = $user->tipo_usuario_id;
             $active_plan_users = $user->active_plans()->get();
             $tienePlanes = $active_plan_users->isNotEmpty();
             $projectInfo = $user->canPublishProjects(); 

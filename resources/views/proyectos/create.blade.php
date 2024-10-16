@@ -307,7 +307,7 @@
 </div>
 
 <script>
-    const storeUrl = "{{ route('proyectos.store') }}";
+    const storeUrl = "{{ route('proyecto.store') }}";
     const csrfToken = "{{ csrf_token() }}";
     const initialUnidades = @json($proyecto->unidades ?? []);
     const imagenesUnidades = @json($imagenesUnidades);

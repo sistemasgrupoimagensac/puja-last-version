@@ -35,10 +35,18 @@ class MisProyectosController extends Controller
         ->orderBy('id', 'desc') // Ordenar los proyectos por ID descendente
         ->paginate(10); // Paginación de 10 proyectos
 
-        // Obtener la información del proyecto (activo, número de anuncios, etc.)
-        $projectInfo = $user->canPublishProjects();
+        $tienePlanes = false;
+        $projectInfo = false;
+        if (Auth::check()) {
+            $user_id = Auth::id();
+            $user = User::find($user_id);
+            $tipo_usuario = $user->tipo_usuario_id;
+            $active_plan_users = $user->active_plans()->get();
+            $tienePlanes = $active_plan_users->isNotEmpty();
+            $projectInfo = $user->canPublishProjects(); 
+        }
 
         // Renderizar la vista 'panel.mis-proyectos' y pasar los datos necesarios
-        return view('panel.mis-proyectos', compact('proyectos', 'projectInfo'));
+        return view('panel.mis-proyectos', compact('proyectos', 'tienePlanes', 'projectInfo'));
     }
 }

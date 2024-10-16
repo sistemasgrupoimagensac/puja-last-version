@@ -1,3 +1,7 @@
+@push('styles')
+    @vite(['resources/sass/components/menu_panel.scss'])
+@endpush
+
 <aside class="lateral-submenu d-none d-lg-block">
     <div class="border rounded px-2 pt-2">
         <ul class="menu-container p-0 m-0 list-unstyled">
@@ -24,7 +28,6 @@
                     <span>Mi cuenta</span>
                 </a>
             </li>
-            {{-- Si agregas cambiar contraseña para proyectos: --}}
             
             <li class="mb-2">
                 <a href="{{ route('panel.proyecto.password') }}" class="@if(Route::currentRouteName() == 'panel.proyecto.password') active @endif d-flex align-items-center px-3 text-decoration-none">

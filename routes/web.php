@@ -55,16 +55,6 @@ Route::prefix('/inmueble')->name('inmueble.')->group(function() {
     Route::get('/{inmueble}', App\Http\Controllers\Web\Puja\InmuebleController::class)->name('single');
 });
 
-// Route::middleware(['auth', 'verified'])->group(function() {
-//     Route::prefix('/panel')->name('panel.')->group(function() {
-//         Route::get('/', fn() => redirect()->route('panel.mis-avisos'));
-//         Route::get('/avisos', MisAvisosController::class)->name('mis-avisos');
-//         Route::get('/planes-contratados', PlanesContratadosController::class)->name('planes-contratados');
-//         Route::get('/perfil', PerfilController::class)->name('perfil');
-//         Route::get('/password', PasswordController::class)->name('password');
-//     });
-// });
-
 Route::middleware(['auth', 'verified', \App\Http\Middleware\BlockProjectUsers::class])->group(function() {
     Route::prefix('/panel')->name('panel.')->group(function() {
         Route::get('/', fn() => redirect()->route('panel.mis-avisos'));
@@ -219,7 +209,7 @@ Route::post('/save-transaction', [TransactionsController::class, 'store']);
 Route::get('/proyecto/editor/{id?}', [ProyectoController::class, 'create'])->name('proyectos.create');
 
 // Ruta para almacenar la información del proyecto
-Route::post('/proyectos', [ProyectoController::class, 'store'])->name('proyectos.store');
+Route::post('/proyecto', [ProyectoController::class, 'store'])->name('proyecto.store');
 
 // Ruta para subir imágenes PROYECTOS
 Route::post('/proyectos/{proyectoId}/imagenes', [ProyectoImagenController::class, 'store'])->name('proyectos.imagenes.store');
@@ -238,15 +228,6 @@ Route::get('unidades/{unidadId}/imagenes', [ProyectoImagenUnidadController::clas
 Route::post('/unidades/{unidadId}/imagenes', [ProyectoImagenUnidadController::class, 'store'])->name('unidades.imagenes.store');
 Route::delete('/unidades/imagenes/{imagenId}', [ProyectoImagenUnidadController::class, 'destroy']);
 
-// Route::middleware(['auth', 'verified', \App\Http\Middleware\CheckUserProjectType::class])->group(function() {
-//     Route::prefix('/panel-proyecto')->name('panel.proyecto.')->group(function() {
-//         Route::get('/', fn() => redirect()->route('panel.proyecto.mis-proyectos'));
-//         Route::get('/proyectos', MisProyectosController::class)->name('mis-proyectos');
-//         // Route::get('/planes-contratados', [PlanesContratadosProyectoController::class, 'index'])->name('planes-contratados');
-//         Route::get('/perfil', PerfilProyectoController::class)->name('perfil');
-//         // Route::get('/password', PasswordController::class)->name('password');
-//     });
-// });
 
 Route::middleware(['auth', 'verified', \App\Http\Middleware\CheckUserProjectType::class])->group(function() {
     Route::prefix('/panel-proyecto')->name('panel.proyecto.')->group(function() {
