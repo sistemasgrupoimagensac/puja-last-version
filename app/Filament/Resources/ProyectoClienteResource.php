@@ -35,22 +35,32 @@ class ProyectoClienteResource extends Resource
                         TextInput::make('razon_social')->required()->label('Razón Social'),
                         TextInput::make('ruc')->required()->label('RUC'),
                         TextInput::make('direccion_fiscal')->required()->label('Dirección Fiscal'),
-                        TextInput::make('telefono_inmobiliaria')->label('Teléfono de la Inmobiliaria'),
+                        TextInput::make('telefono_inmobiliaria')
+                            ->tel()
+                            ->telRegex('/^9[0-9]{8}$/')
+                            ->label('Teléfono de la Inmobiliaria'),
                         TextInput::make('nombre_comercial')->label('Nombre Comercial'),
-                    ]),
+                    ])
+                    ->columns(2),  // Distribuir en 2 columnas
 
                 Section::make('Información del Representante')
                     ->schema([
                         TextInput::make('representante_legal')->label('Representante Legal'),
                         TextInput::make('direccion_representante')->label('Dirección del Representante'),
-                    ]),
+                    ])
+                    ->columns(2),  // Distribuir en 2 columnas
 
                 Section::make('Información de Contacto')
                     ->schema([
                         TextInput::make('nombre_contacto')->required()->label('Nombre de la Persona de Contacto'),
-                        TextInput::make('telefono_contacto')->required()->label('Teléfono de la Persona de Contacto'),
+                        TextInput::make('telefono_contacto')
+                            ->required()
+                            ->tel()
+                            ->telRegex('/^9[0-9]{8}$/')
+                            ->label('Teléfono de la Persona de Contacto'),
                         TextInput::make('email_contacto')->required()->email()->label('Correo de la Persona de Contacto'),
-                    ]),
+                    ])
+                    ->columns(2),  // Distribuir en 2 columnas
 
                 Section::make('Datos del Contrato')
                     ->schema([
@@ -61,20 +71,21 @@ class ProyectoClienteResource extends Resource
                             ->label('Número de Anuncios')
                             ->default(1)
                             ->minValue(1),
-                    ]),
-                
+                    ])
+                    ->columns(2),  // Distribuir en 2 columnas
+
                 Section::make('Estado del Cliente')
                     ->schema([
                         Toggle::make('habilitado')
                             ->label('Habilitado')
                             ->default(true), // Por defecto, habilitado
                         
-                        // El campo activo no es editable, se calcula automáticamente
                         Toggle::make('activo')
                             ->label('Activo')
                             ->disabled()
                             ->default(fn ($record) => $record->activo ?? false), // Mostrar el valor actual
-                    ]),
+                    ])
+                    ->columns(2),  // Distribuir en 2 columnas
 
                 Section::make('Credenciales de Usuario')
                     ->schema([
@@ -83,17 +94,15 @@ class ProyectoClienteResource extends Resource
                             ->required()
                             ->email()
                             ->rules(function ($livewire) {
-                                // Verificar si es un nuevo registro o si está editando uno existente
                                 return [
                                     'required',
                                     'email',
                                     Rule::unique(User::class, 'email')
-                                        ->ignore($livewire->record->user_id ?? null), // Ignorar solo si user_id existe
+                                        ->ignore($livewire->record->user_id ?? null),
                                 ];
                             })
                             ->validationAttribute('Correo Electrónico de Inicio de Sesión')
-                            ->disabled(fn ($livewire) => $livewire instanceof \Filament\Resources\Pages\EditRecord), // Deshabilitar campo en modo edición                    
-                    
+                            ->disabled(fn ($livewire) => $livewire instanceof \Filament\Resources\Pages\EditRecord),
 
                         TextInput::make('user_password')
                             ->label('Contraseña')
@@ -101,7 +110,7 @@ class ProyectoClienteResource extends Resource
                             ->default(fn () => Str::random(10)) // Contraseña aleatoria
                             ->disabled(),
                     ])
-                    ->columns(2),
+                    ->columns(2),  // Distribuir en 2 columnas
             ]);
     }
 
