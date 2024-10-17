@@ -762,8 +762,6 @@ class MyPostsController extends Controller
     // Método para procesar el contacto por un proyecto inmobiliario desde un interesado
     public function procesar_contacto_proyecto (Request $request) 
     {
-
-        
         // Validamos el formulario antes de continuar
         $response = $this->validar_formulario_contacto($request);
         
@@ -775,10 +773,8 @@ class MyPostsController extends Controller
         // Obtener la información del aviso
         $proyecto_url = $request->current_url;
         $proyecto = Proyecto::findOrFail($request->proyecto_id);
-        // $email_owner = $aviso->inmueble->user->email;
-        $email_owner = "proyectista@inmobiliaria.con";
-        // $user_id = Auth::check() ? Auth::id() : null;
-        $user_id = 1;
+        $emailContacto = $proyecto->cliente->email_contacto;
+        $user_id = $proyecto->cliente->user_id;
 
         // Creamos o actualizamos el contacto en la base de datos
         $proyecto_contact = ProyectoContact::updateOrCreate([
@@ -806,8 +802,7 @@ class MyPostsController extends Controller
 
         // Para correo, enviamos el email como ya lo haces
         Log::info('Iniciando el envío de correo para contactos ...');
-        // Mail::to($email_owner)
-        Mail::to([ 'walkeralfarotrelles@gmail.com' ])
+        Mail::to($emailContacto)
             ->cc(['soporte@pujainmobiliaria.com.pe'])
             ->bcc(['grupoimagen.908883889@gmail.com'])
             ->send(new SendProjectMail($proyecto_contact, $proyecto_url));

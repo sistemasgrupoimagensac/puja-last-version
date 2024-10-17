@@ -378,6 +378,8 @@
             submitForm('{{ route('procesar_contacto_proyecto') }}', actionType);
         }
 
+        const phoneContacto = @json( $proyecto->cliente->telefono_contacto );
+
         function submitForm(actionUrl, accion) {
             let formData = new FormData(sendContactForm);
             formData.append('current_url', window.location.href);
@@ -391,7 +393,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === "Success") {
-                    accion === 'whatsapp' ? sendWsp('986640912') : alert('Formulario enviado correctamente');
+                    accion === 'whatsapp' ? sendWsp(phoneContacto) : alert('Formulario enviado correctamente');
                     sendContactForm.reset();
                 } else {
                     handleFormErrors(data.errors);
