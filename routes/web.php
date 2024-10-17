@@ -65,7 +65,6 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\BlockProjectUsers::c
     });
 });
 
-
 Route::middleware(['guest'])->group(function() {
     Route::get('/recuperar-contrasena', [LoginController::class, 'forgot_password'])->name('auth.forgot-password.index');
     Route::post('/recuperar-contrasena', [LoginController::class, 'send_password'])->name('auth.forgot-password.send');
@@ -77,7 +76,6 @@ Route::middleware('auth')->group(function () {
     Route::put('editar-perfil/{id}', [LoginController::class, 'editProfile'])->name('auth.edit-profile');
     Route::put('cambiar-contrasena/{id}', [LoginController::class, 'editPassword'])->name('auth.edit-password');
 });
-
 
 Route::get('/publica-tu-inmueble', [LoginController::class, 'select_profile'])->name('login.publica_tu_inmueble');
 Route::get('/login', [LoginController::class, 'sign_in'])->name('sign_in');

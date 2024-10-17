@@ -168,14 +168,18 @@ class ProyectoController extends Controller
             return back()->with('error', 'No se encontró un cliente asociado a este usuario.');
         }
 
-        // Verificar la cantidad de proyectos actuales del cliente
-        $cantidadProyectos = Proyecto::where('proyecto_cliente_id', $proyectoCliente->id)->count();
+        if($request->proyecto_id === null){
 
-        // Verificar si ha alcanzado el límite de proyectos permitidos
-        if ($cantidadProyectos >= $proyectoCliente->numero_anuncios) {
-            return response()->json([
-                'message' => 'Límite de anuncios disponibles alcanzado. No puedes crear más proyectos.',
-            ], 403);
+            // Verificar la cantidad de proyectos actuales del cliente
+            $cantidadProyectos = Proyecto::where('proyecto_cliente_id', $proyectoCliente->id)->count();
+    
+            // Verificar si ha alcanzado el límite de proyectos permitidos
+            if ($cantidadProyectos >= $proyectoCliente->numero_anuncios) {
+                return response()->json([
+                    'message' => 'Límite de anuncios disponibles alcanzado. No puedes crear más proyectos.',
+                ], 403);
+            }
+
         }
 
         // Validaciones
