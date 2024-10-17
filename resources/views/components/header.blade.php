@@ -168,15 +168,13 @@
                               Proyectos
                             </button>
                             <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="#">En planos</a></li>
-                              <li><a class="dropdown-item" href="#">En construcción</a></li>
-                              <li><a class="dropdown-item" href="#">Entrega inmediata</a></li>
-                              <li><hr class="dropdown-divider"></li>
-                              <li><a class="dropdown-item" href="/proyectos">Todos</a></li>
-                              <li><hr class="dropdown-divider"></li>
-                              <li><a class="dropdown-item fw-bold" href="/proyecto/editor">EDITAR - DEMO</a></li>
+                                <li><a class="dropdown-item" href="{{ route('proyectos.filtrar', 'en-planos') }}">En planos</a></li>
+                                <li><a class="dropdown-item" href="{{ route('proyectos.filtrar', 'en-construccion') }}">En construcción</a></li>
+                                <li><a class="dropdown-item" href="{{ route('proyectos.filtrar', 'entrega-inmediata') }}">Entrega inmediata</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{{ route('proyectos.index') }}">Todos</a></li>
                             </ul>
-                          </div>
+                        </div>
         
                     </ul>
                     @auth

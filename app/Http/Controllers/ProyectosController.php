@@ -16,11 +16,42 @@ class ProyectosController extends Controller
             $query->where('tipo', 1); // Obtener la imagen con el menor ID
         }])
         ->whereHas('cliente', function ($query) {
-            // Filtrar solo aquellos proyectos cuyo cliente esté activo
-            $query->where('activo', 1);
+            $query->where('activo', 1); // Filtrar solo aquellos proyectos cuyo cliente esté activo
         })
         ->paginate(9); // Paginación para los proyectos
 
+        return $this->renderView($proyectos);
+    }
+
+    public function filtrarProyectos($filtro)
+    {
+        // Definir los estados de progreso según el filtro
+        $progresoMap = [
+            'en-planos' => 1,
+            'en-construccion' => 2,
+            'entrega-inmediata' => 3,
+        ];
+
+        // Verificar si el filtro es válido
+        if (!array_key_exists($filtro, $progresoMap)) {
+            abort(404); // Si el filtro no es válido, mostrar un error 404
+        }
+
+        // Obtener los proyectos según el estado de progreso
+        $proyectos = Proyecto::with(['banco', 'progreso', 'imagenesAdicionales' => function ($query) {
+            $query->where('tipo', 1); // Obtener la imagen con el menor ID
+        }])
+        ->where('proyecto_progreso_id', $progresoMap[$filtro])
+        ->whereHas('cliente', function ($query) {
+            $query->where('activo', 1); // Filtrar solo proyectos cuyo cliente esté activo
+        })
+        ->paginate(9);
+
+        return $this->renderView($proyectos);
+    }
+
+    private function renderView($proyectos)
+    {
         $tienePlanes = false;
         $projectInfo = false;
 

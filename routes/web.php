@@ -222,6 +222,7 @@ Route::get('/proyecto/{slug}', [ProyectoController::class, 'show'])->name('proye
 
 
 Route::get('/proyectos', [ProyectosController::class, 'index'])->name('proyectos.index');
+Route::get('/proyectos/{filtro}', [ProyectosController::class, 'filtrarProyectos'])->name('proyectos.filtrar');
 
 Route::get('unidades/{unidadId}/imagenes', [ProyectoImagenUnidadController::class, 'index'])->name('unidad.imagenes');
 Route::post('/unidades/{unidadId}/imagenes', [ProyectoImagenUnidadController::class, 'store'])->name('unidades.imagenes.store');
