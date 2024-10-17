@@ -535,35 +535,33 @@
         // Filtro inicial para el valor predeterminado (el primer valor seleccionado)
         const initialFilter = document.querySelector('input[name="options-base"]:checked').value;
         filterUnitsByDorms(initialFilter);
+        
+        function initMap() {
+            const mapStyles = [
+                { featureType: "poi", stylers: [{ visibility: "off" }] }, // Ocultar POI
+                { featureType: "transit.station", stylers: [{ visibility: "off" }] } // Ocultar estaciones de transporte
+            ];
+    
+            map = new google.maps.Map(mapDiv, {
+                center: defaultLocation,
+                zoom: 16,
+                styles: mapStyles,
+            });
+    
+            marker = new google.maps.Marker({
+                position: defaultLocation,
+                map: map,
+                icon: {
+                    url: "/images/svg/marker_puja.svg",
+                    scaledSize: new google.maps.Size(80, 80),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(40, 80)
+                }
+            });
+        };
+        
     });
 
-    // Filtro inicial para el valor predeterminado (el primer valor seleccionado)
-    const initialFilter = document.querySelector('input[name="options-base"]:checked').value;
-    filterUnitsByDorms(initialFilter);
-
-    function initMap() {
-        const mapStyles = [
-            { featureType: "poi", stylers: [{ visibility: "off" }] }, // Ocultar POI
-            { featureType: "transit.station", stylers: [{ visibility: "off" }] } // Ocultar estaciones de transporte
-        ];
-
-        map = new google.maps.Map(mapDiv, {
-            center: defaultLocation,
-            zoom: 16,
-            styles: mapStyles,
-        });
-
-        marker = new google.maps.Marker({
-            position: defaultLocation,
-            map: map,
-            icon: {
-                url: "/images/svg/marker_puja.svg",
-                scaledSize: new google.maps.Size(80, 80),
-                origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(40, 80)
-            }
-        });
-    };
 
 </script>
 
