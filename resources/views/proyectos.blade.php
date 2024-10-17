@@ -14,7 +14,7 @@
         @foreach($proyectos as $proyecto)
             @include('components.card-proyecto-home', [
                 'link' => route('proyecto.show', ['slug' => $proyecto->slug]), // Ruta para el detalle del proyecto
-                'image' => $proyecto->imagenesAdicionales->first()->image_url ?? asset('images/default-project.jpg'), // Usar la primera imagen activa o una por defecto
+                'image' => $proyecto->imagenesAdicionales->first()->image_url ?? asset('images/no-image.webp'), // Usar la primera imagen activa o una por defecto
                 'nombre_proyecto' => $proyecto->nombre_proyecto,
                 'entrega' => \Carbon\Carbon::parse($proyecto->fecha_entrega)->locale('es')->translatedFormat('F Y'),
                 'direccion' => $proyecto->direccion,

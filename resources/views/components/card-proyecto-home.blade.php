@@ -49,14 +49,14 @@
                     </a>
                 </div>
                 <div class="card-footer bg-dark-subtle border-0">
-                    <div class="py-2 d-flex justify-content-between">
+                    <div class="py-2 d-flex justify-content-between align-items-center">
 
-                        <h5 class="btn-group p-0 m-0" role="group" aria-label="Basic example">
+                        <h5 class="btn-group p-0 m-0 h-100" role="group" aria-label="Basic example">
                             <span class="badge bg-dark-blue rounded-end-0 p-2 px-4">{{ $estado }}</span>
                             <span class="badge text-bg-light rounded-start-0 p-2 px-4">Entrega {{ $entrega }}</span>                    
                         </h5>
 
-                        <span class="badge text-bg-light p-2 px-4">{{ $banco }}</span>
+                        <img src="/images/bancos/{{ $banco }}.png" alt="" style="height: 40px" class=" rounded rounded-2">
                     </div>
                 </div>
             </div>
