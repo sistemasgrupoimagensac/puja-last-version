@@ -27,6 +27,7 @@ use App\Http\Controllers\ProyectoImagenesAdicionalController;
 use App\Http\Controllers\ProyectoImagenController;
 use App\Http\Controllers\ProyectoImagenUnidadController;
 use App\Http\Controllers\ProyectosController;
+use App\Http\Controllers\Web\PanelProyecto\ProyectoInteresadosController;
 use App\Http\Controllers\Web\PanelProyecto\ProyectosContratadosController;
 
 Route::get('/', MainController::class);
@@ -235,10 +236,13 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\CheckUserProjectType
         // Ruta para perfil del proyecto
         Route::get('/perfil', PerfilController::class)->name('perfil');
         Route::get('/proyectos-contratados', ProyectosContratadosController::class)->name('proyectos-contratados');
+        Route::get('/interesados', ProyectoInteresadosController::class)->name('interesados');
         // Si tienes cambiar contraseña para proyectos, puedes agregarlo aquí
         Route::get('/password', PasswordController::class)->name('password');
     });
 });
 
+// Actualizar el estado de los interesados en un Proyecto
+Route::post('/panel-proyecto/interesados/update-status', [ProyectoInteresadosController::class, 'updateStatus'])->name('interesados.update-status');
 
 

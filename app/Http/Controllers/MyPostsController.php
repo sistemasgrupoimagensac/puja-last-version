@@ -783,7 +783,7 @@ class MyPostsController extends Controller
             'user_id' => $user_id,
             ],[
             'full_name' => $request->nombre_contacto,
-            'status' => 1,
+            'status' => 0,
             'phone' => $request->telefono_contacto,
             'message' => $request->contact_message,
             'time' => $request->time,

@@ -19,6 +19,13 @@
                     <span>Proyectos contratados</span>
                 </a>
             </li>
+            
+            <li class="mb-2">
+                <a href="{{ route('panel.proyecto.interesados') }}" class="@if(Route::currentRouteName() == 'panel.proyecto.interesados') active @endif d-flex align-items-center px-3 text-decoration-none">
+                    <i class="fa-solid fa-envelope-open-text fa-xl my-2 me-3"></i>
+                    <span>Interesados</span>
+                </a>
+            </li>
            
             <hr class="m-2">
             <li class="mb-2">
