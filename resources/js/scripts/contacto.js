@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(response => response.json())
     .then(data => {
         if (data.status == "Success") {
-            alert('Formulario enviado correctamente');
+            alert('Enviado Correctamente ¡Pronto nos pondremos en contacto con usted!');
             form.reset();
             window.location.href='/';
         } else {

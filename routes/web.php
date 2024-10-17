@@ -20,7 +20,6 @@ use App\Http\Controllers\Web\PanelProyecto\PerfilProyectoController;
 use App\Http\Controllers\Web\Panel\PlanesContratadosController;
 use App\Http\Controllers\Web\Puja\MainController;
 use App\Http\Controllers\ProyectoController;
-use App\Http\Controllers\UnidadProyectoController;
 use App\Models\Post;
 use App\Http\Controllers\ProyectoImagenesPrincipalController;
 use App\Http\Controllers\ProyectoImagenesAdicionalController;
