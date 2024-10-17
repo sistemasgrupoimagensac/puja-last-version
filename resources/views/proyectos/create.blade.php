@@ -14,77 +14,95 @@
 
 @section('content')
 <div class="container my-5">
-    <h2>{{ isset($proyecto) ? 'Editar Proyecto Inmobiliario' : 'Crear Proyecto Inmobiliario' }}</h2>
+    <h2 class=" fw-bold text-secondary">{{ isset($proyecto) ? 'Editar Proyecto Inmobiliario' : 'Crear/Editar Proyecto Inmobiliario' }}</h2>
+    <hr>
 
     <!-- Formulario de creación de proyecto -->
     <form id="proyectoForm" data-proyecto-id="{{ $proyecto->id ?? '' }}">
         @csrf
 
-        <div class="mb-3">
-            <label for="nombre_proyecto" class="form-label">Nombre del Proyecto</label>
-            <input type="text" class="form-control" id="nombre_proyecto" name="nombre_proyecto" value="{{ $proyecto->nombre_proyecto ?? '' }}" required>
+        <div class="d-flex flex-column flex-lg-row gap-4 w-100 my-5">
+
+            <div class="w-100">
+    
+                <div class="mb-3">
+                    <label for="nombre_proyecto" class="form-label">Nombre del Proyecto</label>
+                    <input type="text" class="form-control" id="nombre_proyecto" name="nombre_proyecto" value="{{ $proyecto->nombre_proyecto ?? '' }}" required>
+                </div>
+        
+                <div class="mb-3">
+                    <label for="unidades_cantidad" class="form-label">Cantidad de Unidades</label>
+                    <input type="number" class="form-control" id="unidades_cantidad" name="unidades_cantidad" value="{{ $proyecto->unidades_cantidad ?? '' }}" required>
+                </div>
+        
+                <div class="mb-3">
+                    <label for="banco_id" class="form-label">Financiamiento</label>
+                    <select class="form-control" id="banco_id" name="banco_id" required>
+                        @foreach($bancos as $banco)
+                            <option value="{{ $banco->id }}" {{ isset($proyecto) && $proyecto->banco_id == $banco->id ? 'selected' : '' }}>{{ $banco->nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="proyecto_progreso_id" class="form-label">Progreso del Proyecto</label>
+                    <select class="form-control" id="proyecto_progreso_id" name="proyecto_progreso_id" required>
+                        @foreach($progresos as $progreso)
+                            <option value="{{ $progreso->id }}" {{ isset($proyecto) && $proyecto->proyecto_progreso_id == $progreso->id ? 'selected' : '' }}>{{ $progreso->estado }}</option>
+                        @endforeach
+                    </select>
+                </div>
+    
+            </div>
+    
+    
+            <div class="w-100">
+        
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripción del Proyecto</label>
+                    <textarea class="form-control" id="descripcion" name="descripcion" rows="8" required>{{ $proyecto->descripcion ?? '' }}</textarea>
+                </div>
+        
+                <div class="mb-3">
+                    <label for="fecha_entrega" class="form-label">Fecha de Entrega</label>
+                    <input type="date" class="form-control" id="fecha_entrega" name="fecha_entrega" value="{{ $proyecto->fecha_entrega ?? '' }}">
+                </div>
+            </div>
+
         </div>
 
-        <div class="mb-3">
-            <label for="unidades_cantidad" class="form-label">Cantidad de Unidades</label>
-            <input type="number" class="form-control" id="unidades_cantidad" name="unidades_cantidad" value="{{ $proyecto->unidades_cantidad ?? '' }}" required>
-        </div>
+        <div class="p-3 shadow my-4">
+            <h2 class="h4 fw-bold text-secondary">Unidades</h2>
 
-        <div class="mb-3">
-            <label for="banco_id" class="form-label">Financiamiento</label>
-            <select class="form-control" id="banco_id" name="banco_id" required>
-                @foreach($bancos as $banco)
-                    <option value="{{ $banco->id }}" {{ isset($proyecto) && $proyecto->banco_id == $banco->id ? 'selected' : '' }}>{{ $banco->nombre }}</option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="mb-3">
-            <label for="proyecto_progreso_id" class="form-label">Progreso del Proyecto</label>
-            <select class="form-control" id="proyecto_progreso_id" name="proyecto_progreso_id" required>
-                @foreach($progresos as $progreso)
-                    <option value="{{ $progreso->id }}" {{ isset($proyecto) && $proyecto->proyecto_progreso_id == $progreso->id ? 'selected' : '' }}>{{ $progreso->estado }}</option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="mb-3">
-            <label for="descripcion" class="form-label">Descripción del Proyecto</label>
-            <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required>{{ $proyecto->descripcion ?? '' }}</textarea>
-        </div>
-
-        <div class="mb-3">
-            <label for="fecha_entrega" class="form-label">Fecha de Entrega</label>
-            <input type="date" class="form-control" id="fecha_entrega" name="fecha_entrega" value="{{ $proyecto->fecha_entrega ?? '' }}">
+            <!-- Botón para abrir el modal para agregar unidades -->
+            <button type="button" class="btn button-orange" id="btnAddUnit" data-bs-toggle="modal" data-bs-target="#unidadModal">
+                + Agregar Unidad
+            </button>
+    
+            <!-- Tabla para mostrar las unidades agregadas -->
+            <div class=" overflow-x-scroll">
+    
+                <table class="table table-striped mt-3" id="unidadesTable">
+                    <thead>
+                        <tr>
+                            <th>Miniatura</th>
+                            <th>Dormitorios</th>
+                            <th>Precio (Soles)</th>
+                            <th>Precio (Dólares)</th>
+                            <th>Área</th>
+                            <th>Área Techada</th>
+                            <th>Baños</th>
+                            <th>Piso</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Aquí se agregarán dinámicamente las unidades -->
+                    </tbody>
+                </table>
+            </div>
         </div>
           
-        <!-- Botón para abrir el modal para agregar unidades -->
-        <button type="button" class="btn button-orange" id="btnAddUnit" data-bs-toggle="modal" data-bs-target="#unidadModal">
-            + Agregar Unidad
-        </button>
-
-        <!-- Tabla para mostrar las unidades agregadas -->
-        <div class=" overflow-x-scroll">
-
-            <table class="table table-striped mt-3" id="unidadesTable">
-                <thead>
-                    <tr>
-                        <th>Miniatura</th>
-                        <th>Dormitorios</th>
-                        <th>Precio (Soles)</th>
-                        <th>Precio (Dólares)</th>
-                        <th>Área</th>
-                        <th>Área Techada</th>
-                        <th>Baños</th>
-                        <th>Piso</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Aquí se agregarán dinámicamente las unidades -->
-                </tbody>
-            </table>
-        </div>
 
         <div class="d-flex flex-column justify-content-between flex-md-row my-5">
 
