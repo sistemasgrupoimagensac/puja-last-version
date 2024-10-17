@@ -27,6 +27,7 @@ use App\Http\Controllers\ProyectoImagenesAdicionalController;
 use App\Http\Controllers\ProyectoImagenController;
 use App\Http\Controllers\ProyectoImagenUnidadController;
 use App\Http\Controllers\ProyectosController;
+use App\Http\Controllers\Web\PanelProyecto\ProyectosContratadosController;
 
 Route::get('/', MainController::class);
 Route::get('/libro-reclamaciones', [SuppliersController::class, 'libroReclamos'])->name('libro_reclamaciones');
@@ -233,6 +234,7 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\CheckUserProjectType
         Route::get('/proyectos', MisProyectosController::class)->name('mis-proyectos');
         // Ruta para perfil del proyecto
         Route::get('/perfil', PerfilController::class)->name('perfil');
+        Route::get('/proyectos-contratados', ProyectosContratadosController::class)->name('proyectos-contratados');
         // Si tienes cambiar contraseña para proyectos, puedes agregarlo aquí
         Route::get('/password', PasswordController::class)->name('password');
     });

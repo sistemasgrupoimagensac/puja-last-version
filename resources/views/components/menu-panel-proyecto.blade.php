@@ -11,16 +11,15 @@
                     <span>Mis proyectos</span>
                 </a>
             </li>
-            {{-- Otras rutas de panel proyecto aquí --}}
-            {{-- Ejemplo: Planes contratados (comentado por ahora, pero puede ser habilitado) --}}
-            {{-- 
+
+            
             <li class="mb-2">
-                <a href="{{ route('panel.proyecto.planes-contratados') }}" class="@if(Route::currentRouteName() == 'panel.proyecto.planes-contratados') active @endif d-flex align-items-center px-3 text-decoration-none">
+                <a href="{{ route('panel.proyecto.proyectos-contratados') }}" class="@if(Route::currentRouteName() == 'panel.proyecto.proyectos-contratados') active @endif d-flex align-items-center px-3 text-decoration-none">
                     <i class="fa-solid fa-clipboard-list fa-xl my-2 me-3"></i>
-                    <span>Planes contratados</span>
+                    <span>Proyectos contratados</span>
                 </a>
             </li>
-            --}}
+           
             <hr class="m-2">
             <li class="mb-2">
                 <a href="{{ route('panel.proyecto.perfil') }}" class="@if(Route::currentRouteName() == 'panel.proyecto.perfil') active @endif d-flex align-items-center px-3 text-decoration-none">
