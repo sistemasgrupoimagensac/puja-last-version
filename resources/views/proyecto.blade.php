@@ -163,7 +163,8 @@
 
                     <div class="my-3">
                         @php
-                            $dormitorios = $unidades->pluck('dormitorios')->unique();
+                            // Obtener los dormitorios, hacerlos únicos y luego ordenarlos en orden ascendente
+                            $dormitorios = $unidades->pluck('dormitorios')->unique()->sort();
                         @endphp
                         {{-- Generar botones dinámicamente para cada cantidad de dormitorios --}}
                         @foreach ($dormitorios as $index => $dorm)
@@ -171,6 +172,7 @@
                             <label class="btn" for="option{{ $index }}">{{ $dorm }} dormitorio{{ $dorm > 1 ? 's' : '' }}</label>
                         @endforeach
                     </div>
+                    
 
                     <div class="border rounded shadow p-3 pb-0">
                         <div class="swiper swiperUnidadProyecto container">
@@ -534,6 +536,10 @@
         const initialFilter = document.querySelector('input[name="options-base"]:checked').value;
         filterUnitsByDorms(initialFilter);
     });
+
+    // Filtro inicial para el valor predeterminado (el primer valor seleccionado)
+    const initialFilter = document.querySelector('input[name="options-base"]:checked').value;
+    filterUnitsByDorms(initialFilter);
 
     function initMap() {
         const mapStyles = [
