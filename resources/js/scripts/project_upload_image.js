@@ -13,6 +13,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const existingImageDeleteButtons = document.querySelectorAll('.delete-image-btn');
     const principalCheckboxes = document.querySelectorAll('.principal-checkbox');
 
+    // Deshabilitar el botón mientras sube imágenes
+    function disableUploadButton(disable = true) {
+        proyectoImgUploadButton.disabled = disable;
+        proyectoImgUploadButton.textContent = disable ? 'Subiendo imágenes...' : 'Subir / Actualizar Imágenes';
+    }
+
     existingImageDeleteButtons.forEach(button => {
         button.addEventListener('click', function () {
             const imageId = this.dataset.id;
@@ -116,6 +122,9 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
+        // Deshabilitar el botón mientras sube las imágenes
+        disableUploadButton(true);
+
         // Crear un FormData para enviar las imágenes
         const formData = new FormData();
 
@@ -139,12 +148,14 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .then(data => {
                 alert('Imágenes subidas correctamente.');
-                // Actualizar la interfaz con las imágenes subidas
-                console.log('Imágenes subidas:', data.images);
             })
             .catch(error => {
                 console.error('Error al subir las imágenes:', error);
                 alert('Hubo un error al subir las imágenes.');
+            })
+            .finally(() => {
+                // Habilitar el botón nuevamente
+                disableUploadButton(false);
             });
     });
 

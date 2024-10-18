@@ -5,7 +5,7 @@
 @endsection
 
 @push('styles')
-    @vite(['resources/sass/pages/create_project.scss'])
+    @vite(['resources/sass/pages/create_project.scss', 'resources/sass/components/flipping.scss'])
 @endpush
 
 @section('header')
@@ -13,6 +13,11 @@
 @endsection
 
 @section('content')
+
+<div id="loader-overlay">
+    <div class="flipping"></div>
+</div>
+
 <div class="container my-5">
     <h2 class=" fw-bold text-secondary">{{ isset($proyecto) ? 'Editar Proyecto Inmobiliario' : 'Crear/Editar Proyecto Inmobiliario' }}</h2>
     <hr>
@@ -144,10 +149,10 @@
 
 
         <!-- Botón para guardar parcialmente -->
-        <button type="submit" name="action" value="guardar" class="btn btn-secondary">Guardar parcialmente</button>
+        <button type="submit" name="action" value="guardar" class="btn btn-secondary" id="guardarParcialmente">Guardar parcialmente</button>
 
         <!-- Botón para guardar y regresar -->
-        <button type="submit" name="action" value="guardar_salir" class="btn btn-success">Guardar y salir</button>
+        <button type="submit" name="action" value="guardar_salir" class="btn btn-success" id="guardarSalir">Guardar y salir</button>
     </form>
 </div>
 

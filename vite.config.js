@@ -27,6 +27,7 @@ export default defineConfig({
         "resources/sass/components/footer.scss",
         "resources/sass/components/card_plan.scss",
         "resources/sass/components/card-plan-propietario.scss",
+        "resources/sass/components/flipping.scss",
 
         // js
         "resources/js/app.js",

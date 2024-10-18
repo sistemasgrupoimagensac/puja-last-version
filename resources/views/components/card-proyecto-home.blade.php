@@ -29,7 +29,7 @@
                             {{-- Precio --}}
                             <div class="d-flex gap-4 justify-content-end align-items-end">
                                 <p class="p-0 m-0 h4">desde:</p>
-                                <h2 class="fw-bolder display-5 p-0 m-0">S/ {{ number_format($precio_desde, 2) }}</h2>
+                                <h2 class="fw-bolder display-5 p-0 m-0">S/ {{ number_format($precio_desde) }}</h2>
                             </div>
 
                             {{-- Características del Proyecto --}}

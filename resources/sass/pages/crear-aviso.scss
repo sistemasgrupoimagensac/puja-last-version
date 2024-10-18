@@ -21,155 +21,82 @@
   }
 }
 
-// Spinner =====================================
+// ======================================================================================
 // .flipping {
-//   width: 44.8px;
-//   height: 44.8px;
-//   transform: perspective(168px) rotateX(0);
-//   animation: flipping-p9pxr6md 1.5s infinite linear, flipping-kha4dimd 0.75s infinite linear alternate;
+//   width: 48px;
+//   height: 48px;
+//   display: inline-block;
+//   position: relative;
+//   transform: rotate(45deg);
+// }
+// .flipping::before {
+//   content: '';  
+//   box-sizing: border-box;
+//   width: 24px;
+//   height: 24px;
+//   position: absolute;
+//   left: 0;
+//   top: -24px;
+//   animation: animflipping 4.5s ease infinite;
+// }
+// .flipping::after {
+//   content: '';  
+//   box-sizing: border-box;
+//   position: absolute;
+//   left: 0;
+//   top: 0;
+//   width: 24px;
+//   height: 24px;
+//   background: rgba(255, 255, 255, 0.7);
+//   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+//   animation: animflipping2 1.5s ease infinite;
 // }
 
-// @keyframes flipping-p9pxr6md {
+// @keyframes animflipping {
+//   0% {
+//     box-shadow: 0 24px rgba(255, 255, 255, 0), 24px 24px rgba(255, 255, 255, 0), 24px 48px rgba(255, 255, 255, 0), 0px 48px rgba(255, 255, 255, 0);
+//   }
+//   12% {
+//     box-shadow: 0 24px $primary, 24px 24px rgba(255, 255, 255, 0), 24px 48px rgba(255, 255, 255, 0), 0px 48px rgba(255, 255, 255, 0);
+//   }
+//   25% {
+//     box-shadow: 0 24px white, 24px 24px $primary, 24px 48px rgba(255, 255, 255, 0), 0px 48px rgba(255, 255, 255, 0);
+//   }
+//   37% {
+//     box-shadow: 0 24px white, 24px 24px white, 24px 48px $primary, 0px 48px rgba(255, 255, 255, 0);
+//   }
+//   50% {
+//     box-shadow: 0 24px white, 24px 24px white, 24px 48px white, 0px 48px $primary;
+//   }
+//   62% {
+//     box-shadow: 0 24px rgba(255, 255, 255, 0), 24px 24px $primary, 24px 48px white, 0px 48px white;
+//   }
+//   75% {
+//     box-shadow: 0 24px rgba(255, 255, 255, 0), 24px 24px rgba(255, 255, 255, 0), 24px 48px $primary, 0px 48px white;
+//   }
+//   87% {
+//     box-shadow: 0 24px rgba(255, 255, 255, 0), 24px 24px rgba(255, 255, 255, 0), 24px 48px rgba(255, 255, 255, 0), 0px 48px $primary;
+//   }
 //   100% {
-//      transform: perspective(168) rotateX(360deg);
+//     box-shadow: 0 24px rgba(255, 255, 255, 0), 24px 24px rgba(255, 255, 255, 0), 24px 48px rgba(255, 255, 255, 0), 0px 48px rgba(255, 255, 255, 0);
 //   }
 // }
 
-// @keyframes flipping-kha4dimd {
-//   0%, 49.9% {
-//      background: #adb5bd;
+// @keyframes animflipping2 {
+//   0% {
+//     transform: translate(0, 0) rotateX(0) rotateY(0);
 //   }
-
-//   50%, 100% {
-//      background: #fb7125;
+//   25% {
+//     transform: translate(100%, 0) rotateX(0) rotateY(180deg);
+//   }
+//   50% {
+//     transform: translate(100%, 100%) rotateX(-180deg) rotateY(180deg);
+//   }
+//   75% {
+//     transform: translate(0, 100%) rotateX(-180deg) rotateY(360deg);
+//   }
+//   100% {
+//     transform: translate(0, 0) rotateX(0) rotateY(360deg);
 //   }
 // }
-
-
-
-// .flipping {
-//    width: 67.2px;
-//    height: 67.2px;
-//    animation: flipping-ozc3pxmd 1s infinite linear;
-// }
-
-// .flipping::before,
-// .flipping::after {
-//    content: "";
-//    position: absolute;
-//    inset: 0 50% 50% 0;
-//    transform: scale(var(--s,1)) perspective(168px) rotateX(0deg);
-//    transform-origin: bottom right;
-//    animation: flipping-wew828md 0.5s infinite linear alternate,
-//           flipping-5i0aczmd 0.5s infinite linear alternate;
-// }
-
-// .flipping::after {
-//    --s: -1,-1;
-// }
-
-// @keyframes flipping-ozc3pxmd {
-//    0%, 49.99% {
-//       transform: scale(1, 1) rotate(0deg);
-//    }
-
-//    50%, 100% {
-//       transform: scale(1,-1) rotate(90deg);
-//    }
-// }
-
-// @keyframes flipping-wew828md {
-//    100% {
-//       transform: scale(var(--s,1)) perspective(168px) rotateX(180deg);
-//    }
-// }
-
-// @keyframes flipping-5i0aczmd {
-//    0%, 49.9% {
-//       background: #474bff;
-//    }
-
-//    50%, 100% {
-//       background: #ff6761;
-//    }
-// }
-
-
-.flipping {
-  width: 48px;
-  height: 48px;
-  display: inline-block;
-  position: relative;
-  transform: rotate(45deg);
-}
-.flipping::before {
-  content: '';  
-  box-sizing: border-box;
-  width: 24px;
-  height: 24px;
-  position: absolute;
-  left: 0;
-  top: -24px;
-  animation: animflipping 4.5s ease infinite;
-}
-.flipping::after {
-  content: '';  
-  box-sizing: border-box;
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 24px;
-  height: 24px;
-  background: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-  animation: animflipping2 1.5s ease infinite;
-}
-
-@keyframes animflipping {
-  0% {
-    box-shadow: 0 24px rgba(255, 255, 255, 0), 24px 24px rgba(255, 255, 255, 0), 24px 48px rgba(255, 255, 255, 0), 0px 48px rgba(255, 255, 255, 0);
-  }
-  12% {
-    box-shadow: 0 24px $primary, 24px 24px rgba(255, 255, 255, 0), 24px 48px rgba(255, 255, 255, 0), 0px 48px rgba(255, 255, 255, 0);
-  }
-  25% {
-    box-shadow: 0 24px white, 24px 24px $primary, 24px 48px rgba(255, 255, 255, 0), 0px 48px rgba(255, 255, 255, 0);
-  }
-  37% {
-    box-shadow: 0 24px white, 24px 24px white, 24px 48px $primary, 0px 48px rgba(255, 255, 255, 0);
-  }
-  50% {
-    box-shadow: 0 24px white, 24px 24px white, 24px 48px white, 0px 48px $primary;
-  }
-  62% {
-    box-shadow: 0 24px rgba(255, 255, 255, 0), 24px 24px $primary, 24px 48px white, 0px 48px white;
-  }
-  75% {
-    box-shadow: 0 24px rgba(255, 255, 255, 0), 24px 24px rgba(255, 255, 255, 0), 24px 48px $primary, 0px 48px white;
-  }
-  87% {
-    box-shadow: 0 24px rgba(255, 255, 255, 0), 24px 24px rgba(255, 255, 255, 0), 24px 48px rgba(255, 255, 255, 0), 0px 48px $primary;
-  }
-  100% {
-    box-shadow: 0 24px rgba(255, 255, 255, 0), 24px 24px rgba(255, 255, 255, 0), 24px 48px rgba(255, 255, 255, 0), 0px 48px rgba(255, 255, 255, 0);
-  }
-}
-
-@keyframes animflipping2 {
-  0% {
-    transform: translate(0, 0) rotateX(0) rotateY(0);
-  }
-  25% {
-    transform: translate(100%, 0) rotateX(0) rotateY(180deg);
-  }
-  50% {
-    transform: translate(100%, 100%) rotateX(-180deg) rotateY(180deg);
-  }
-  75% {
-    transform: translate(0, 100%) rotateX(-180deg) rotateY(360deg);
-  }
-  100% {
-    transform: translate(0, 0) rotateX(0) rotateY(360deg);
-  }
-}
     

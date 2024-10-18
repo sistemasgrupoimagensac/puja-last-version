@@ -339,7 +339,6 @@
         </div>
     </div>
 
-    
 </div>
 
 <script>
@@ -561,11 +560,7 @@
         };
         
     });
-
-
 </script>
-
-
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuCCuPnZoJYgILw9e3PNom-ZG5TnsGNeg&callback=initMap" async defer></script>
 

@@ -96,13 +96,13 @@
     "isEntry": true
   },
   "resources/js/scripts/contacto.js": {
-    "file": "assets/contacto-CPk759Ji.js",
+    "file": "assets/contacto-BJqNGHj-.js",
     "name": "contacto",
     "src": "resources/js/scripts/contacto.js",
     "isEntry": true
   },
   "resources/js/scripts/create_project.js": {
-    "file": "assets/create_project-CTfmqm_o.js",
+    "file": "assets/create_project-Ds5ZiXn0.js",
     "name": "create_project",
     "src": "resources/js/scripts/create_project.js",
     "isEntry": true,
@@ -144,7 +144,7 @@
     ]
   },
   "resources/js/scripts/project_upload_image.js": {
-    "file": "assets/project_upload_image-gtAyI9Yd.js",
+    "file": "assets/project_upload_image-Cq_KmUYv.js",
     "name": "project_upload_image",
     "src": "resources/js/scripts/project_upload_image.js",
     "isEntry": true
@@ -201,7 +201,7 @@
     ]
   },
   "resources/js/scripts/upload_unit_image.js": {
-    "file": "assets/upload_unit_image-jUel4fub.js",
+    "file": "assets/upload_unit_image-BPzIzm4l.js",
     "name": "upload_unit_image",
     "src": "resources/js/scripts/upload_unit_image.js",
     "isEntry": true
@@ -219,6 +219,11 @@
   "resources/sass/components/card_plan.scss": {
     "file": "assets/card_plan-C4B44Xox.css",
     "src": "resources/sass/components/card_plan.scss",
+    "isEntry": true
+  },
+  "resources/sass/components/flipping.scss": {
+    "file": "assets/flipping-CR2ANjyK.css",
+    "src": "resources/sass/components/flipping.scss",
     "isEntry": true
   },
   "resources/sass/components/footer.scss": {
@@ -247,7 +252,7 @@
     "isEntry": true
   },
   "resources/sass/pages/crear-aviso.scss": {
-    "file": "assets/crear-aviso-Di3bPGgz.css",
+    "file": "assets/crear-aviso-Dm72DRC5.css",
     "src": "resources/sass/pages/crear-aviso.scss",
     "isEntry": true
   },

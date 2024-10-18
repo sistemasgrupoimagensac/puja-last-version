@@ -44,6 +44,8 @@ document.addEventListener('DOMContentLoaded', function () {
     actualizarTablaUnidades();
 });
 
+const loader = document.querySelector('#loader-overlay');
+
 // Manejar el envío del formulario de la unidad (Agregar o Editar)
 document.getElementById('unidadForm').addEventListener('submit', function (event) {
     event.preventDefault();
@@ -162,6 +164,8 @@ function eliminarUnidad(index) {
 document.getElementById('proyectoForm').addEventListener('submit', function (event) {
     event.preventDefault();
 
+    loader.style.display = 'flex';
+
     // Capturar los datos del proyecto
     const formData = new FormData(this);
 
@@ -214,7 +218,12 @@ document.getElementById('proyectoForm').addEventListener('submit', function (eve
             window.location.href = '/proyectos'; // Redirigir a la página principal
         }
     })
-    .catch((error) => console.error('Error:', error));
+    .catch((error) => console.error('Error:', error))
+    .finally(
+        () => {
+            loader.style.display = 'none';
+        }
+    );
 });
 
 // Función para restablecer el formulario de la unidad

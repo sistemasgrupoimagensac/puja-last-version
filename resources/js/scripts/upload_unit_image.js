@@ -11,6 +11,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const existingUnitImageDeleteButtons = document.querySelectorAll('.delete-image-unidad-btn');
 
+    // Deshabilitar el botón mientras sube imágenes
+    function disableUploadButton(disable = true) {
+        unidadImgUploadButton.disabled = disable;
+        unidadImgUploadButton.textContent = disable ? 'Subiendo imágenes...' : 'Subir / Actualizar Imágenes';
+    }
+
     existingUnitImageDeleteButtons.forEach(button => {
         button.addEventListener('click', function () {
             const imageId = this.dataset.id;
@@ -133,6 +139,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const formData = new FormData();
         selectedImages.forEach(image => formData.append('images[]', image));
 
+        disableUploadButton(true)
+
         fetch(`/unidades/${unidadId}/imagenes`, { method: 'POST', body: formData, headers: { 'X-CSRF-TOKEN': csrfToken } })
             .then(response => response.json())
             .then(data => {
@@ -141,7 +149,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 unidadImgPreviewContainer.innerHTML = '';
                 loadExistingImages(unidadId);
             })
-            .catch(() => showAlert('Hubo un error al subir las imágenes.'));
+            .catch(() => showAlert('Hubo un error al subir las imágenes.'))
+            .finally(() => {
+                // Habilitar el botón nuevamente
+                disableUploadButton(false);
+            });
     }
 
     // Cargar imágenes existentes desde la base de datos
