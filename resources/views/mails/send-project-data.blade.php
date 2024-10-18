@@ -7,8 +7,8 @@
     <title>Contáctate</title>
 </head>
 <body>
-    <h1>Contacto para su inmueble</h1>
-    <h4>Datos del contacto</h4>
+    <h1>Interesado en su Proyecto Inmobiliario</h1>
+    <h3>Datos del interesado:</h3>
     <ul>
         <li>Nombre: {{ $proyecto_contact->full_name }} </li>
         <li>Correo: {{ $proyecto_contact->email }} </li>
