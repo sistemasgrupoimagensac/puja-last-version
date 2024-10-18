@@ -63,7 +63,7 @@
   </div>
 
   <script>
-    const contactoUrl = "{{ route('contacto_proyecto_store') }}";
+    const contactoUrl = "{{ route('contacto_lead_proyecto_store') }}";
   </script>
 @endsection
 

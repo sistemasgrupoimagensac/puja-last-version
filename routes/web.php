@@ -178,7 +178,7 @@ Route::get('/contacto', [ContactoController::class, 'index'])->name('contacto');
 Route::post('/contacto', [ContactoController::class, 'store'])->name('post.contacto');
 
 Route::get('/contacto/proyecto', [ContactoController::class, 'contacto_proyecto'])->name('contacto_proyecto');
-Route::post('/contacto/proyecto', [ContactoController::class, 'contacto_proyecto_store'])->name('contacto_proyecto_store');
+Route::post('/contacto/proyecto', [ContactoController::class, 'contacto_lead_proyecto_store'])->name('contacto_lead_proyecto_store');
 
 Route::fallback(function () {
     return view('errors.404');
