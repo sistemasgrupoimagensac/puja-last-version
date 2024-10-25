@@ -68,10 +68,13 @@ class SendContractEndReminder extends Command
     public function handle()
     {
         Log::info('Iniciando el envío de correo...');
-        Mail::to('acreedor.pruebaspuja@gmail.com')
-            ->cc(['soporte@pujainmobiliaria.com.pe'])
-            ->bcc(['grupoimagen.908883889@gmail.com']);
-        // ->send(new newAdMail('hola'));
+
+
+        Mail::raw('Este es un correo de prueba', function ($message) {
+            $message->to('acreedor.pruebaspuja@gmail.com')
+                    ->subject('Correo de prueba');
+        });
+        
         Log::info('Correo enviado.');
 
         // Mail::raw('Este es un correo de prueba', function ($message) {
