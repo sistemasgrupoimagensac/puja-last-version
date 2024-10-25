@@ -14,7 +14,18 @@ use App\Mail\SubscriptionMail;
 
 class SendContractEndReminder extends Command
 {
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
     protected $signature = 'contract:send-reminder';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
     protected $description = 'Send email reminders 30 days before contract end date';
 
     // public function handle()
@@ -59,8 +70,8 @@ class SendContractEndReminder extends Command
         Log::info('Iniciando el envío de correo...');
         Mail::to('acreedor.pruebaspuja@gmail.com')
             ->cc(['soporte@pujainmobiliaria.com.pe'])
-            ->bcc(['grupoimagen.908883889@gmail.com'])
-        ->send(new newAdMail('hola'));
+            ->bcc(['grupoimagen.908883889@gmail.com']);
+        // ->send(new newAdMail('hola'));
         Log::info('Correo enviado.');
 
         // Mail::raw('Este es un correo de prueba', function ($message) {
