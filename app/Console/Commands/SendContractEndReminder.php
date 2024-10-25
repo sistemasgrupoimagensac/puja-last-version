@@ -39,6 +39,7 @@ class SendContractEndReminder extends Command
         foreach ($clientes as $cliente) {
             Log::info("cliente: {$cliente}");
             foreach ($cliente->contactos as $contacto) {
+                Log::info("contacto: {$contacto}. Correo: {$contacto->email}");
                 // Enviar correo a cada contacto de este cliente
                 Mail::to($contacto->email)->send(new ContractEndReminder($cliente));
             }
