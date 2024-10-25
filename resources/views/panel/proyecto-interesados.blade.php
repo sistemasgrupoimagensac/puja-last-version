@@ -25,8 +25,8 @@
                             <th>Email</th>
                             <th>Teléfono</th>
                             <th>Mensaje</th>
-                            <th>Cuando</th>
-                            <th>Fecha</th>
+                            <th>Hora de contacto</th>
+                            <th>Fecha registro</th>
                             <th>¿Contactado?</th>
                         </tr>
                     </thead>

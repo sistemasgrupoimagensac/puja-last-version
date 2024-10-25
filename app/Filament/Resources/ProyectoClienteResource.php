@@ -80,18 +80,6 @@ class ProyectoClienteResource extends Resource
                     ])
                     ->columns(1),
 
-                // Section::make('Información de Contacto')
-                //     ->schema([
-                //         TextInput::make('nombre_contacto')->required()->label('Nombre de la Persona de Contacto'),
-                //         TextInput::make('telefono_contacto')
-                //             ->required()
-                //             ->tel()
-                //             ->telRegex('/^9[0-9]{8}$/')
-                //             ->label('Teléfono de la Persona de Contacto'),
-                //         TextInput::make('email_contacto')->required()->email()->label('Correo de la Persona de Contacto'),
-                //     ])
-                //     ->columns(2),
-
                 Section::make('Información de Contacto')
                     ->schema([
                         \Filament\Forms\Components\Repeater::make('contactos')
@@ -121,10 +109,50 @@ class ProyectoClienteResource extends Resource
                     ])
                     ->columns(1), // Mantener la sección en una columna
             
+                // Section::make('Datos del Contrato')
+                //     ->schema([
+                //         DatePicker::make('fecha_inicio_contrato')->required()->label('Fecha de Inicio del Contrato'),
+                //         DatePicker::make('fecha_fin_contrato')->required()->label('Fecha de Finalización del Contrato'),
+                //         TextInput::make('numero_anuncios')
+                //             ->numeric()
+                //             ->label('Número de Anuncios')
+                //             ->default(1)
+                //             ->minValue(1),
+                //     ])
+                //     ->columns(2),
+
                 Section::make('Datos del Contrato')
                     ->schema([
-                        DatePicker::make('fecha_inicio_contrato')->required()->label('Fecha de Inicio del Contrato'),
-                        DatePicker::make('fecha_fin_contrato')->required()->label('Fecha de Finalización del Contrato'),
+                        DatePicker::make('fecha_inicio_contrato')
+                            ->required()
+                            ->label('Fecha de Inicio del Contrato')
+                            ->reactive(), // Hacer que el campo sea reactivo para actualizaciones en vivo
+                        
+                        DatePicker::make('fecha_fin_contrato')
+                            ->required()
+                            ->label('Fecha de Finalización del Contrato')
+                            ->reactive() // Hacer que el campo sea reactivo para actualizarse en base a 'fecha_inicio_contrato'
+                            ->afterStateUpdated(function (callable $set, $get, $state) {
+                                $fechaInicio = $get('fecha_inicio_contrato');
+                                $fechaFin = $state;
+                                
+                                if ($fechaInicio && $fechaFin) {
+                                    // Calcular la diferencia en días entre la fecha de inicio y la de fin
+                                    $diff = \Carbon\Carbon::parse($fechaInicio)->diffInDays(\Carbon\Carbon::parse($fechaFin));
+
+                                    // Verificar si la diferencia es mayor a 365 días
+                                    if ($diff > 365) {
+                                        // Restringir la fecha y mostrar un mensaje de error
+                                        $set('fecha_fin_contrato', null); // Resetear la fecha fin
+                                        \Filament\Notifications\Notification::make()
+                                            ->title('Error en la Fecha de Finalización')
+                                            ->body('El período no debe ser mayor a un año (365 días)')
+                                            ->danger()
+                                            ->send();
+                                    }
+                                }
+                            }),
+
                         TextInput::make('numero_anuncios')
                             ->numeric()
                             ->label('Número de Anuncios')
