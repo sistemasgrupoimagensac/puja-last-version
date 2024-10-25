@@ -6,8 +6,11 @@ use Illuminate\Console\Command;
 use App\Models\ProyectoCliente;
 use Carbon\Carbon;
 use App\Mail\ContractEndReminder;
+use App\Mail\newAdMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
+use App\Mail\SendProjectMail;
+use App\Mail\SubscriptionMail;
 
 class SendContractEndReminder extends Command
 {
@@ -53,10 +56,17 @@ class SendContractEndReminder extends Command
 
     public function handle()
     {
-        Mail::raw('Este es un correo de prueba', function ($message) {
-            $message->to('acreedor.pruebaspuja@gmail.com')
-                    ->subject('Correo de prueba');
-        });
+        Log::info('Iniciando el envío de correo...');
+        Mail::to('acreedor.pruebaspuja@gmail.com')
+            ->cc(['soporte@pujainmobiliaria.com.pe'])
+            ->bcc(['grupoimagen.908883889@gmail.com'])
+        ->send(new newAdMail('hola'));
+        Log::info('Correo enviado.');
+
+        // Mail::raw('Este es un correo de prueba', function ($message) {
+        //     $message->to('acreedor.pruebaspuja@gmail.com')
+        //             ->subject('Correo de prueba');
+        // });
         
     }
 
