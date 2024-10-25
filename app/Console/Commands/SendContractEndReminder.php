@@ -28,60 +28,24 @@ class SendContractEndReminder extends Command
      */
     protected $description = 'Send email reminders 30 days before contract end date';
 
-    // public function handle()
-    // {
-    //     // Fecha actual más 30 días
-    //     $fechaAviso = Carbon::now()->addDays(30)->toDateString();
-
-    //     // Buscar clientes con fecha_fin_contrato igual a la fecha de aviso
-    //     // $clientes = ProyectoCliente::whereDate('fecha_fin_contrato', $fechaAviso)->get();
-    //     $clientes = ProyectoCliente::all();
-
-    //     foreach ($clientes as $cliente) {
-    //         Mail::to($cliente->email_contacto)->send(new ContractEndReminder($cliente));
-    //     }
-
-    //     Log::info('Cron job ejecutado correctamente.');
-
-    //     $this->info('Correo de recordatorio enviado a los clientes con contrato a 30 días de vencimiento.');
-    // }
-
-    // public function handle()
-    // {
-    //     // Fecha actual más 30 días
-    //     $fechaAviso = Carbon::now()->addDays(30)->toDateString();
-
-    //     // Obtener todos los clientes
-    //     $clientes = ProyectoCliente::with('contactos')->get(); // Cargar la relación 'contactos'
-
-    //     foreach ($clientes as $cliente) {
-    //         foreach ($cliente->contactos as $contacto) {
-    //             Mail::to($contacto->email)->send(new ContractEndReminder($cliente));
-    //         }
-    //     }
-
-    //     Log::info('Cron job ejecutado correctamente.');
-
-    //     $this->info('Correo de recordatorio enviado a los clientes con contrato a 30 días de vencimiento.');
-    // }
-
     public function handle()
     {
-        Log::info('Iniciando el envío de correo...');
+        // Fecha actual más 30 días
+        $fechaAviso = Carbon::now()->addDays(30)->toDateString();
 
+        // Obtener todos los clientes cuyo contrato vence en 30 días y cargar sus contactos
+        $clientes = ProyectoCliente::with('contactos')->whereDate('fecha_fin_contrato', $fechaAviso)->get();
 
-        Mail::raw('Este es un correo de prueba', function ($message) {
-            $message->to('acreedor.pruebaspuja@gmail.com')
-                    ->subject('Correo de prueba');
-        });
-        
-        Log::info('Correo enviado.');
+        foreach ($clientes as $cliente) {
+            foreach ($cliente->contactos as $contacto) {
+                // Enviar correo a cada contacto de este cliente
+                Mail::to($contacto->email)->send(new ContractEndReminder($cliente));
+            }
+        }
 
-        // Mail::raw('Este es un correo de prueba', function ($message) {
-        //     $message->to('acreedor.pruebaspuja@gmail.com')
-        //             ->subject('Correo de prueba');
-        // });
-        
+        Log::info('Cron job correo recordatorio ejecutado correctamente.');
+        $this->info('Correo de recordatorio enviado a los clientes con contrato a 30 días de vencimiento.');
     }
+
 
 }
