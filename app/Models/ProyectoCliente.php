@@ -56,6 +56,12 @@ class ProyectoCliente extends Model
         $this->save();
     }
 
+    // relacion con la tabla de representantes legales
+    public function representantesLegales(): HasMany
+    {
+        return $this->hasMany(ProyectoClienteLegal::class);
+    }
+
     // Evento para actualizar el estado cada vez que se recupera el cliente
     protected static function booted()
     {
