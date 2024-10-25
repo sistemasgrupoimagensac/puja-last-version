@@ -11,4 +11,4 @@ Artisan::command('inspire', function () {
 
 // Schedule::command('app:ad-expired')->daily();
 
-Schedule::command('contract:send-reminder')->everyMinute();
+Schedule::command('contract:send-reminder')->everyTwoMinutes();
