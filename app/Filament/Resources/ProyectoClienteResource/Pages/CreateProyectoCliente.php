@@ -52,22 +52,4 @@ class CreateProyectoCliente extends CreateRecord
 
         return $data;
     }
-
-    protected function beforeCreate(array $data): void
-    {
-        $fechaInicio = $data['fecha_inicio_contrato'];
-        $fechaFin = $data['fecha_fin_contrato'];
-
-        if ($fechaInicio && $fechaFin) {
-            // Calcular la diferencia en días
-            $diff = Carbon::parse($fechaInicio)->diffInDays(Carbon::parse($fechaFin));
-
-            // Verificar si la diferencia es mayor a 365 días
-            if ($diff > 365) {
-                throw ValidationException::withMessages([
-                    'fecha_fin_contrato' => 'El período no debe ser mayor a un año (365 días).',
-                ]);
-            }
-        }
-    }
 }
