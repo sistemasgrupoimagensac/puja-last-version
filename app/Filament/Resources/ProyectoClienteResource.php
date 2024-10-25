@@ -22,6 +22,8 @@ use Filament\Tables\Filters\Filter;
 
 class ProyectoClienteResource extends Resource
 {
+    protected static ?string $navigationLabel = 'Ejecutivo de Cuenta';
+
     protected static ?string $model = ProyectoCliente::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
