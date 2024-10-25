@@ -21,6 +21,6 @@ class ContractEndReminder extends Mailable
     public function build()
     {
         return $this->subject('Recordatorio de Finalización de Contrato')
-                    ->view('emails.contract_end_reminder');
+                    ->view('mails.contract_end_reminder');
     }
 }
