@@ -28,94 +28,6 @@ class ProyectoClienteResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
-    // public static function form(Form $form): Form
-    // {
-    //     return $form
-    //         ->schema([
-    //             Section::make('Información de la Inmobiliaria')
-    //                 ->schema([
-    //                     TextInput::make('razon_social')->required()->label('Razón Social'),
-    //                     TextInput::make('ruc')->required()->label('RUC'),
-    //                     TextInput::make('direccion_fiscal')->required()->label('Dirección Fiscal'),
-    //                     TextInput::make('telefono_inmobiliaria')
-    //                         ->tel()
-    //                         ->telRegex('/^9[0-9]{8}$/')
-    //                         ->label('Teléfono de la Inmobiliaria'),
-    //                     TextInput::make('nombre_comercial')->label('Nombre Comercial'),
-    //                 ])
-    //                 ->columns(2),  // Distribuir en 2 columnas
-
-    //             Section::make('Información del Representante')
-    //                 ->schema([
-    //                     TextInput::make('representante_legal')->label('Representante Legal'),
-    //                     TextInput::make('direccion_representante')->label('Dirección del Representante'),
-    //                 ])
-    //                 ->columns(2),  // Distribuir en 2 columnas
-
-    //             Section::make('Información de Contacto')
-    //                 ->schema([
-    //                     TextInput::make('nombre_contacto')->required()->label('Nombre de la Persona de Contacto'),
-    //                     TextInput::make('telefono_contacto')
-    //                         ->required()
-    //                         ->tel()
-    //                         ->telRegex('/^9[0-9]{8}$/')
-    //                         ->label('Teléfono de la Persona de Contacto'),
-    //                     TextInput::make('email_contacto')->required()->email()->label('Correo de la Persona de Contacto'),
-    //                 ])
-    //                 ->columns(2),  // Distribuir en 2 columnas
-
-    //             Section::make('Datos del Contrato')
-    //                 ->schema([
-    //                     DatePicker::make('fecha_inicio_contrato')->required()->label('Fecha de Inicio del Contrato'),
-    //                     DatePicker::make('fecha_fin_contrato')->required()->label('Fecha de Finalización del Contrato'),
-    //                     TextInput::make('numero_anuncios')
-    //                         ->numeric()
-    //                         ->label('Número de Anuncios')
-    //                         ->default(1)
-    //                         ->minValue(1),
-    //                 ])
-    //                 ->columns(2),  // Distribuir en 2 columnas
-
-    //             Section::make('Estado del Cliente')
-    //                 ->schema([
-    //                     Toggle::make('habilitado')
-    //                         ->label('Habilitado')
-    //                         ->default(true), // Por defecto, habilitado
-                        
-    //                     Toggle::make('activo')
-    //                         ->label('Activo')
-    //                         ->disabled()
-    //                         ->default(fn ($record) => $record->activo ?? false), // Mostrar el valor actual
-    //                 ])
-    //                 ->columns(2),  // Distribuir en 2 columnas
-
-    //             Section::make('Credenciales de Usuario')
-    //                 ->schema([
-    //                     TextInput::make('user_email')
-    //                         ->label('Correo Electrónico de Inicio de Sesión')
-    //                         ->required()
-    //                         ->email()
-    //                         ->rules(function ($livewire) {
-    //                             return [
-    //                                 'required',
-    //                                 'email',
-    //                                 Rule::unique(User::class, 'email')
-    //                                     ->ignore($livewire->record->user_id ?? null),
-    //                             ];
-    //                         })
-    //                         ->validationAttribute('Correo Electrónico de Inicio de Sesión')
-    //                         ->disabled(fn ($livewire) => $livewire instanceof \Filament\Resources\Pages\EditRecord),
-
-    //                     TextInput::make('user_password')
-    //                         ->label('Contraseña')
-    //                         ->password()
-    //                         ->default(fn () => Str::random(10)) // Contraseña aleatoria
-    //                         ->disabled(),
-    //                 ])
-    //                 ->columns(2),  // Distribuir en 2 columnas
-    //         ]);
-    // }
-
     public static function form(Form $form): Form
     {
         return $form
@@ -150,7 +62,7 @@ class ProyectoClienteResource extends Resource
                                 TextInput::make('numero_documento')
                                     ->required()
                                     ->label('Número de Documento')
-                                    ->maxLength(15),
+                                    ->maxLength(20),
                                 \Filament\Forms\Components\Select::make('estado_civil')
                                     ->label('Estado Civil')
                                     ->options([
@@ -168,18 +80,47 @@ class ProyectoClienteResource extends Resource
                     ])
                     ->columns(1),
 
+                // Section::make('Información de Contacto')
+                //     ->schema([
+                //         TextInput::make('nombre_contacto')->required()->label('Nombre de la Persona de Contacto'),
+                //         TextInput::make('telefono_contacto')
+                //             ->required()
+                //             ->tel()
+                //             ->telRegex('/^9[0-9]{8}$/')
+                //             ->label('Teléfono de la Persona de Contacto'),
+                //         TextInput::make('email_contacto')->required()->email()->label('Correo de la Persona de Contacto'),
+                //     ])
+                //     ->columns(2),
+
                 Section::make('Información de Contacto')
                     ->schema([
-                        TextInput::make('nombre_contacto')->required()->label('Nombre de la Persona de Contacto'),
-                        TextInput::make('telefono_contacto')
-                            ->required()
-                            ->tel()
-                            ->telRegex('/^9[0-9]{8}$/')
-                            ->label('Teléfono de la Persona de Contacto'),
-                        TextInput::make('email_contacto')->required()->email()->label('Correo de la Persona de Contacto'),
+                        \Filament\Forms\Components\Repeater::make('contactos')
+                            ->relationship('contactos') // Define la relación con la tabla de contactos
+                            ->schema([
+                                TextInput::make('nombre')
+                                    ->required()
+                                    ->label('Nombre de la Persona de Contacto'),
+                                    
+                                TextInput::make('telefono')
+                                    ->required()
+                                    ->tel()
+                                    ->telRegex('/^9[0-9]{8}$/')
+                                    ->label('Teléfono de la Persona de Contacto'),
+                                
+                                TextInput::make('email')
+                                    ->required()
+                                    ->email()
+                                    ->label('Correo de la Persona de Contacto'),
+                            ])
+                            ->addActionLabel('Agregar Contacto')
+                            ->grid(2)
+                            ->columns(2)
+                            ->hiddenLabel(false)
+                            ->deletable(true)
+                            ->collapsible()
                     ])
-                    ->columns(2),
-
+                    ->columns(1), // Mantener la sección en una columna
+            
                 Section::make('Datos del Contrato')
                     ->schema([
                         DatePicker::make('fecha_inicio_contrato')->required()->label('Fecha de Inicio del Contrato'),

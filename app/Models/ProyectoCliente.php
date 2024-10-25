@@ -62,6 +62,12 @@ class ProyectoCliente extends Model
         return $this->hasMany(ProyectoClienteLegal::class);
     }
 
+    public function contactos(): HasMany
+    {
+        return $this->hasMany(ProyectoClienteContacto::class);
+    }
+
+
     // Evento para actualizar el estado cada vez que se recupera el cliente
     protected static function booted()
     {
