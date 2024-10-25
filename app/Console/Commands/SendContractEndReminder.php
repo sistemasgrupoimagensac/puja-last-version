@@ -37,14 +37,14 @@ class SendContractEndReminder extends Command
         $clientes = ProyectoCliente::with('contactos')->whereDate('fecha_fin_contrato', $fechaAviso)->get();
 
         foreach ($clientes as $cliente) {
-            Log::info($cliente);
+            Log::info("cliente: {$cliente}");
             foreach ($cliente->contactos as $contacto) {
                 // Enviar correo a cada contacto de este cliente
                 Mail::to($contacto->email)->send(new ContractEndReminder($cliente));
             }
         }
 
-        Log::info('Cron job correo recordatorio ejecutado correctamente.', $fechaAviso);
+        Log::info("Cron job correo recordatorio ejecutado correctamente. {$fechaAviso}");
         $this->info('Correo de recordatorio enviado a los clientes con contrato a 30 días de vencimiento.');
     }
 
