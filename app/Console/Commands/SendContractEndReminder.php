@@ -43,7 +43,7 @@ class SendContractEndReminder extends Command
             }
         }
 
-        Log::info('Cron job correo recordatorio ejecutado correctamente.');
+        Log::info('Cron job correo recordatorio ejecutado correctamente.', $fechaAviso, $clientes, $cliente->contactos);
         $this->info('Correo de recordatorio enviado a los clientes con contrato a 30 días de vencimiento.');
     }
 
