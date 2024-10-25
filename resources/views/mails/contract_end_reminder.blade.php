@@ -7,7 +7,7 @@
     <title>Recordatorio Puja Inmobiliaria</title>
 </head>
 <body>
-  <h1>Estimado {{ $cliente->nombre_contacto }}</h1>
+  <h3>Estimado {{ $cliente->nombre_comercial }}</h3>
 
   <p>Este es un recordatorio de que su contrato con fecha de finalización {{ $cliente->fecha_fin_contrato }} está próximo a vencerse en 30 días.</p>
   
