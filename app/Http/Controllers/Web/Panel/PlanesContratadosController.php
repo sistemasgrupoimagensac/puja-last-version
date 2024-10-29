@@ -20,15 +20,16 @@ class PlanesContratadosController extends Controller
         $user = User::find($user_id);
         $active_plan_users = $user->active_plans()->get();
         $tienePlanes = false;
-
+        $projectInfo = false;
         if (Auth::check()) {
             $user_id = Auth::id();
             $user = User::find($user_id);
             $tipo_usuario = $user->tipo_usuario_id;
             $active_plan_users = $user->active_plans()->get();
             $tienePlanes = $active_plan_users->isNotEmpty();
+            $projectInfo = $user->canPublishProjects(); 
         }
 
-        return view('panel.planes-contratados', compact('active_plan_users', 'tienePlanes', 'tipo_usuario'));
+        return view('panel.planes-contratados', compact('active_plan_users', 'tienePlanes', 'tipo_usuario', 'projectInfo'));
     }
 }

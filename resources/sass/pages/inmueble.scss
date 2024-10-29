@@ -55,11 +55,112 @@ textarea {
   display: none;
 }
 
-// MEDIA QUERIES ==========================
+// carrusel de proyectos ==============================================================================
+.swiper-image-container {
+  width: 100%;
+  position: relative;
+
+  .swiper-image {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    object-position: center;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+  }
+
+  // Efecto hover para hacer zoom suave
+  .swiper-image:hover {
+    transform: scale(1.05);
+  }
+}
+
+/* Garantizar que las imágenes en los thumbs tengan altura fija y sean consistentes */
+.swiper-thumbs .swiper-slide img {
+  margin-top: 1rem;
+  width: 100%;
+  height: 110px;  // Altura fija para los thumbnails
+  object-fit: cover;
+  object-position: center;
+  border-radius: 4px;
+}
+
+// Estilos del modal de imágenes de proyectos  ===================================
+.modal-fullscreen .modal-content {
+  background-color: black; /* Fondo negro para destacar las imágenes */
+}
+
+/* Cabecera del modal con botón de cerrar */
+.modal-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+  color: white;
+}
+
+.modal-header .btn-close {
+  color: white; /* Para que el botón de cerrar sea visible */
+  font-size: 1.5rem; /* Aumentar el tamaño de la X */
+  background-color: rgba(255, 255, 255, 0.8); /* Fondo claro detrás de la X */
+  border-radius: 50%; /* Hacerlo circular */
+  padding: 1rem; /* Espaciado alrededor */
+}
+
+.modal-header .btn-close:hover {
+  background-color: rgba(255, 255, 255, 1); /* Fondo más visible al pasar el ratón */
+}
+
+/* Eliminar padding para que Swiper ocupe todo el espacio */
+.modal-body {
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Para centrar verticalmente */
+}
+
+/* Contenedor del Swiper para controlar el tamaño máximo de las imágenes */
+.swiper-container-wrapper {
+  max-width: 95%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+/* Imágenes dentro del modal */
+.swiperModalGallery .swiper-slide img {
+  width: 100%;
+  height: auto; /* Mantener la proporción de la imagen */
+  max-height: 100%; /* Para asegurar que la imagen no se salga del contenedor */
+  object-fit: contain; /* Ajustar la imagen para que no se recorte */
+  border-radius: 8px; /* Bordes redondeados */
+}
+
+// swiper de las cards de unidad por proyecto =====================================
+
+.swiper-pagination-bullet {
+  background-color: $gray-400;
+  opacity: 1;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: $primary;
+}
+
+// MEDIA QUERIES ===========================================================================================
 @media (min-width: $lg) {
 
   textarea {
     height: 200px;
+  }
+
+  .swiper-container-wrapper {
+    max-width: 60%;
   }
 
 }

@@ -111,20 +111,14 @@
                             </div>
                         </li>
 
-                        <li class=" nav-item dropdown">
-                            <a class=" nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{-- Servicios --}}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Servicios
                             </a>
-
-                            <div class=" dropdown-menu  p-3">
-
-                                <div class="d-flex justify-content-between">
-
-                                    <div class="d-flex flex-column">
-                                        <a class="text-decoration-none text-dark mb-1" href="/blog" target="_blank">Blog</a>
-                                    </div>
-                                </div>
-                            </div>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/blog" target="_blank">Blog</a></li>
+                            </ul>
                         </li>
                         
                         {{-- Remates --}}
@@ -169,24 +163,37 @@
                         </li>
 
                         {{-- Proyectos --}}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-black-50" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Proyectos
-                            </a>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-outline-success dropdown-toggle p-0 px-3" data-bs-toggle="dropdown" aria-expanded="false">
+                              Proyectos
+                            </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">En Construcción</a></li>
+                                <li><a class="dropdown-item" href="{{ route('proyectos.filtrar', 'en-planos') }}">En planos</a></li>
+                                <li><a class="dropdown-item" href="{{ route('proyectos.filtrar', 'en-construccion') }}">En construcción</a></li>
+                                <li><a class="dropdown-item" href="{{ route('proyectos.filtrar', 'entrega-inmediata') }}">Entrega inmediata</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{{ route('proyectos.index') }}">Todos</a></li>
                             </ul>
-                        </li>
+                        </div>
         
                     </ul>
                     @auth
                         @php
                             $tipoUsuarioID = Auth::user()->tipo_usuario_id;
-                        @endphp
 
+                            $proyectoActivo = false;
+                            if ($projectInfo !== false) {
+                                $proyectoActivo = $projectInfo['activo'];
+                            }
+                        @endphp
+               
                         @if (isset($tienePlanes)) 
                             @if (!$tienePlanes && $tipoUsuarioID === 3)
                                 <a href="/planes-inmobiliaria" class="btn-outline-secondary aside-menu btn mx-4">Publica Aquí</a>
+                            @elseif ( $proyectoActivo && $tipoUsuarioID === 5 )
+                                <a href="{{ route("proyectos.create") }}" class="btn-outline-secondary aside-menu btn mx-4">Publica Aquí</a>
+                            @elseif ( !$proyectoActivo && $tipoUsuarioID === 5 )
+                                <a class="btn-outline-secondary aside-menu btn mx-4" href="/publica-tu-inmueble">Publica Aquí</a>
                             @else 
                                 <a href="{{ route("posts.create") }}" class="btn-outline-secondary aside-menu btn mx-4">Publica Aquí</a>
                             @endif
@@ -585,7 +592,7 @@
             <div class="accordion-item rounded-0 border-0 border-bottom">
                 <h2 class="accordion-header" id="headingServicios">
                     <button class="custom-accordion-button accordion-button p-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseServicios" aria-expanded="true" aria-controls="collapseServicios">
-                        <span class="icon-orange">Servicios</span>
+                        <span class="">Servicios</span>
                     </button>
                 </h2>
                 <div id="collapseServicios" class="accordion-collapse collapse" aria-labelledby="headingServicios" data-bs-parent="#accordionGeneral">
@@ -600,6 +607,37 @@
                     </div>
                 </div>
             </div>
+
+            {{-- PROYECTOS --}}
+            <div class="accordion-item rounded-0 border-0 border-bottom">
+                <h2 class="accordion-header" id="headingProyectos">
+                    <button class="custom-accordion-button accordion-button border border-success rounded-2 p-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseProyectos" aria-expanded="true" aria-controls="collapseProyectos">
+                        <span class="text-success fw-bold">Proyectos</span>
+                    </button>
+                </h2>
+                <div id="collapseProyectos" class="accordion-collapse collapse" aria-labelledby="headingProyectos" data-bs-parent="#accordionGeneral">
+                    <div class="accordion-body py-2" id="accordionProyectos">
+                        <div class="accordion" id="accordionProyectosProvincia">
+                            <div class="accordion-body py-2">
+                                <div class="list-group">
+                                    <a class="text-decoration-none text-dark mb-1" href="" target="_blank">En planos</a>
+                                </div>
+                                <div class="list-group">
+                                    <a class="text-decoration-none text-dark mb-1" href="" target="_blank">En construcción</a>
+                                </div>
+                                <div class="list-group">
+                                    <a class="text-decoration-none text-dark mb-1" href="" target="_blank">Entrega inmediata</a>
+                                </div>
+                                <hr class=" m-0 my-1">
+                                <div class="list-group">
+                                    <a class="text-decoration-none text-dark mb-1" href="" target="_blank">Todos</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
 
         </div>
 

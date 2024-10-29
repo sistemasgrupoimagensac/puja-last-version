@@ -21,11 +21,13 @@ export default defineConfig({
         'resources/sass/pages/blog.scss',
         'resources/sass/pages/post.scss',
         'resources/sass/pages/404.scss',
+        'resources/sass/pages/create_project.scss',
         // sass - components
         "resources/sass/components/menu_panel.scss",
         "resources/sass/components/footer.scss",
         "resources/sass/components/card_plan.scss",
         "resources/sass/components/card-plan-propietario.scss",
+        "resources/sass/components/flipping.scss",
 
         // js
         "resources/js/app.js",
@@ -36,13 +38,16 @@ export default defineConfig({
         'resources/js/scripts/inmuebles.js',
         'resources/js/scripts/register.js',
         'resources/js/scripts/updatePlaceholdersRegister.js',
-        // 'resources/js/scripts/perfil.js',
+        'resources/js/scripts/create_project.js',
+        'resources/js/scripts/location_map.js',
+        'resources/js/scripts/project_upload_image.js',
         'resources/js/scripts/planes.js',
         'resources/js/scripts/toastyContact.js',
         'resources/js/scripts/toastySuccess.js',
         'resources/js/scripts/toastyPayError.js',
         'resources/js/scripts/toastyImagenPrincipalError.js',
         'resources/js/scripts/contacto.js',
+        'resources/js/scripts/upload_unit_image.js',
         // js - scripts - components
         "resources/js/scripts/components/back_button.js",
         "resources/js/scripts/components/card_simple.js",

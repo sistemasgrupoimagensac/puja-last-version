@@ -10,3 +10,5 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 
 Schedule::command('app:ad-expired')->daily();
+
+Schedule::command('contract:send-reminder')->daily();

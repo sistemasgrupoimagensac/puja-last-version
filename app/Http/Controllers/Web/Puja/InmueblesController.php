@@ -34,13 +34,16 @@ class InmueblesController extends Controller
         $comodidades = Caracteristica::where('categoria_caracteristica_id', 2)->get();
         
         $tienePlanes = false;
+        $projectInfo = false;
         if (Auth::check()) {
             $user_id = Auth::id();
             $user = User::find($user_id);
             $active_plan_users = $user->active_plans()->get();
             $tienePlanes = $active_plan_users->isNotEmpty();
+            $projectInfo = $user->canPublishProjects(); 
         }
-        return view('inmuebles', compact('avisos', 'url_parse', 'tipos_inmuebles', 'tienePlanes', 'caracteristicas', 'comodidades'));
+
+        return view('inmuebles', compact('avisos', 'url_parse', 'tipos_inmuebles', 'tienePlanes', 'caracteristicas', 'comodidades', 'projectInfo'));
     }
 
     public function filterSearch(Request $request)

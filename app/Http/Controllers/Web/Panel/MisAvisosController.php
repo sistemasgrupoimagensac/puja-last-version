@@ -23,14 +23,15 @@ class MisAvisosController extends Controller
                     ->orderBy('id', 'desc')
                     ->paginate(10);
         $tienePlanes = false;
-        
+        $projectInfo = false;
         if (Auth::check()) {
             $user_id = Auth::id();
             $user = User::find($user_id);
             $active_plan_users = $user->active_plans()->get();
             $tienePlanes = $active_plan_users->isNotEmpty();
+            $projectInfo = $user->canPublishProjects(); 
         }
 
-        return view('panel.mis-avisos', compact('avisos', 'tienePlanes'));
+        return view('panel.mis-avisos', compact('avisos', 'tienePlanes', 'projectInfo'));
     }
 }

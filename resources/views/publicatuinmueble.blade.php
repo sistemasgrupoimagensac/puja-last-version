@@ -72,7 +72,7 @@
 		</div>
 
 
-    <div class="toast-container position-fixed top-0 end-0 p-3">
+    <div class="toast-container top-0 start-50 translate-middle-x p-3">
       <div id="contactToast" class="toast text-bg-success" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-body fs-6">
           Pónte en contacto con nosotros para publicar tu <strong>Proyecto Inmobiliario</strong>
@@ -84,7 +84,7 @@
 </div>
 
 <script>
-  const contactoUrl = "{{ route('contacto') }}";
+  const contactoUrl = "{{ route('contacto_proyecto') }}";
 </script>
 
 @endsection

@@ -13,6 +13,7 @@
 @endsection
 
 @section('content')
+
   <div class="container d-flex flex-column align-items-center my-3 my-lg-5">
     <div class="p-3 p-lg-4 pt-5 shadow-lg rounded">
       <h1 class="text-center">Puedes contar con nosotros</h1>
@@ -43,12 +44,11 @@
     
           <div class="form-floating">
             <select class="form-select shadow-none" id="page-contact-issue" name="consulta">
-              <option value="1" selected>Publicar tu Proyecto Inmobiliario</option>
-              <option value="2">Publicar tu inmueble</option>
-              <option value="3">Soporte sobre el uso del servicio</option>
-              <option value="4">Sugerencias y comentarios</option>
-              <option value="5">Reportar un problema</option>
-              <option value="6">Otro</option>
+              <option value="1_publicar_inmueble" selected>Publicar tu inmueble</option>
+              <option value="2_soporte">Soporte sobre el uso del servicio</option>
+              <option value="3_sugerencia">Sugerencias y comentarios</option>
+              <option value="4_problema">Reportar un problema</option>
+              <option value="5_otro">Otro</option>
             </select>
             <label for="floatingSelect">Tipo de Consulta</label>
             <div id="validationServerAsuntoFeedback" class="invalid-feedback"></div>

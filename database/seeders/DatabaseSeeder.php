@@ -27,6 +27,8 @@ class DatabaseSeeder extends Seeder
             CategoriasCaracteristicasSeeder::class,
             CaracteristicasSeeder::class,
             PostSeeder::class,
+            BancosSeeder::class,
+            ProgresoProyectoSeeder::class,
         ]);
         /**
          * Aqui ya son seeders de prueba, que se debe de obviar para producción

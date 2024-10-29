@@ -1,0 +1,140 @@
+// @import '../variables';
+
+/* Contenedor de zona de arrastre */
+.proyecto-img-drop-zone {
+    border: 2px dashed #ddd;
+    border-radius: 5px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    transition: background-color 0.2s;
+}
+
+.proyecto-img-drop-zone.dragover {
+    background-color: #e9e9e9;
+}
+
+/* Contenedor de miniaturas */
+.proyecto-img-preview-container {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* Estilo de cada miniatura */
+.image-preview {
+    position: relative;
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+/* Imagen dentro de la miniatura */
+.image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Botón para eliminar la miniatura */
+.remove-image-btn {
+    position: absolute;
+    padding: 1px;
+    top: 5px;
+    right: 5px;
+    background: rgba(255, 255, 255, .9);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+}
+
+.table > tbody {
+    vertical-align:middle;
+}
+
+// .flipping {
+//     width: 48px;
+//     height: 48px;
+//     display: inline-block;
+//     position: relative;
+//     transform: rotate(45deg);
+//   }
+//   .flipping::before {
+//     content: '';  
+//     box-sizing: border-box;
+//     width: 24px;
+//     height: 24px;
+//     position: absolute;
+//     left: 0;
+//     top: -24px;
+//     animation: animflipping 4.5s ease infinite;
+//   }
+//   .flipping::after {
+//     content: '';  
+//     box-sizing: border-box;
+//     position: absolute;
+//     left: 0;
+//     top: 0;
+//     width: 24px;
+//     height: 24px;
+//     background: rgba(255, 255, 255, 0.7);
+//     box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+//     animation: animflipping2 1.5s ease infinite;
+//   }
+  
+//   @keyframes animflipping {
+//     0% {
+//       box-shadow: 0 24px rgba(255, 255, 255, 0), 24px 24px rgba(255, 255, 255, 0), 24px 48px rgba(255, 255, 255, 0), 0px 48px rgba(255, 255, 255, 0);
+//     }
+//     12% {
+//       box-shadow: 0 24px $primary, 24px 24px rgba(255, 255, 255, 0), 24px 48px rgba(255, 255, 255, 0), 0px 48px rgba(255, 255, 255, 0);
+//     }
+//     25% {
+//       box-shadow: 0 24px white, 24px 24px $primary, 24px 48px rgba(255, 255, 255, 0), 0px 48px rgba(255, 255, 255, 0);
+//     }
+//     37% {
+//       box-shadow: 0 24px white, 24px 24px white, 24px 48px $primary, 0px 48px rgba(255, 255, 255, 0);
+//     }
+//     50% {
+//       box-shadow: 0 24px white, 24px 24px white, 24px 48px white, 0px 48px $primary;
+//     }
+//     62% {
+//       box-shadow: 0 24px rgba(255, 255, 255, 0), 24px 24px $primary, 24px 48px white, 0px 48px white;
+//     }
+//     75% {
+//       box-shadow: 0 24px rgba(255, 255, 255, 0), 24px 24px rgba(255, 255, 255, 0), 24px 48px $primary, 0px 48px white;
+//     }
+//     87% {
+//       box-shadow: 0 24px rgba(255, 255, 255, 0), 24px 24px rgba(255, 255, 255, 0), 24px 48px rgba(255, 255, 255, 0), 0px 48px $primary;
+//     }
+//     100% {
+//       box-shadow: 0 24px rgba(255, 255, 255, 0), 24px 24px rgba(255, 255, 255, 0), 24px 48px rgba(255, 255, 255, 0), 0px 48px rgba(255, 255, 255, 0);
+//     }
+//   }
+  
+//   @keyframes animflipping2 {
+//     0% {
+//       transform: translate(0, 0) rotateX(0) rotateY(0);
+//     }
+//     25% {
+//       transform: translate(100%, 0) rotateX(0) rotateY(180deg);
+//     }
+//     50% {
+//       transform: translate(100%, 100%) rotateX(-180deg) rotateY(180deg);
+//     }
+//     75% {
+//       transform: translate(0, 100%) rotateX(-180deg) rotateY(360deg);
+//     }
+//     100% {
+//       transform: translate(0, 0) rotateX(0) rotateY(360deg);
+//     }
+//   }

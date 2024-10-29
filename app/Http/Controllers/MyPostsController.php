@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Mail\newAdMail;
 use App\Mail\SendDataMail;
+use App\Mail\SendProjectMail;
 use App\Models\AdContact;
 use App\Models\Aviso;
 use App\Models\Caracteristica;
@@ -21,6 +22,8 @@ use App\Models\OperacionTipoInmueble;
 use App\Models\PlanoInmueble;
 use App\Models\PrincipalInmueble;
 use App\Models\Provincia;
+use App\Models\Proyecto;
+use App\Models\ProyectoContact;
 use App\Models\SubTipoInmueble;
 use App\Models\UbicacionInmueble;
 use App\Models\User;
@@ -298,9 +301,6 @@ class MyPostsController extends Controller
                 ], 422);
             }
         }
-        // return response()->json([
-        //     'request' => $request->all(),
-        // ], 200);
         
         if ($request->multimedia) {
             $routeImages = "images/{$inmueble->id}";
@@ -756,6 +756,63 @@ class MyPostsController extends Controller
             'status' => 'Success',
             'message' => 'Registro para contactar, correcto.',
             'ad_contact_id' => $ad_contact->id,
+        ], 200);
+    }
+
+    // Método para procesar el contacto por un proyecto inmobiliario desde un interesado
+    public function procesar_contacto_proyecto (Request $request) 
+    {
+        // Validamos el formulario antes de continuar
+        $response = $this->validar_formulario_contacto($request);
+        
+        // Si la validación falla, retornamos la respuesta de error
+        if ($response->getStatusCode() !== 200) {
+            return $response;
+        }
+
+        // Obtener la información del aviso
+        $proyecto_url = $request->current_url;
+        $proyecto = Proyecto::findOrFail($request->proyecto_id);
+        $emailContacto = $proyecto->cliente->email_contacto;
+        $user_id = $proyecto->cliente->user_id;
+
+        // Creamos o actualizamos el contacto en la base de datos
+        $proyecto_contact = ProyectoContact::updateOrCreate([
+            'proyecto_id' => $request->proyecto_id,
+            'email' => $request->email_contacto,
+            'user_id' => $user_id,
+            ],[
+            'full_name' => $request->nombre_contacto,
+            'status' => 0,
+            'phone' => $request->telefono_contacto,
+            'message' => $request->contact_message,
+            'time' => $request->time,
+            'accept_terms' => true,
+        ]);
+
+        // Verificamos qué tipo de acción es (WhatsApp o Correo)
+        if ($request->accion == 'whatsapp') {
+            // Para WhatsApp, solo retornamos la respuesta para que el frontend lo maneje
+            return response()->json([
+                'http_code' => 200,
+                'status' => 'Success',
+                'message' => 'Validación correcta. Se puede enviar el mensaje por WhatsApp.',
+            ], 200);
+        }
+
+        // Para correo, enviamos el email como ya lo haces
+        Log::info('Iniciando el envío de correo para contactos ...');
+        Mail::to($emailContacto)
+            ->cc(['soporte@pujainmobiliaria.com.pe'])
+            ->bcc(['grupoimagen.908883889@gmail.com'])
+            ->send(new SendProjectMail($proyecto_contact, $proyecto_url));
+        Log::info('Correo enviado para contactos .');
+
+        return response()->json([
+            'http_code' => 200,
+            'status' => 'Success',
+            'message' => 'Registro para contactar, correcto.',
+            'ad_contact_id' => $proyecto_contact->id,
         ], 200);
     }
 

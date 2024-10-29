@@ -20,14 +20,16 @@ class PerfilController extends Controller
         $user = Auth::user();
         $tipos_documento = TipoDocumento::where('estado', 1)->get();
         $tienePlanes = false;
+        $projectInfo = false;
         
         if (Auth::check()) {
             $user_id = Auth::id();
             $user = User::find($user_id);
             $active_plan_users = $user->active_plans()->get();
             $tienePlanes = $active_plan_users->isNotEmpty();
+            $projectInfo = $user->canPublishProjects(); 
         }
-
-        return view('panel.perfil', compact('user', 'tipos_documento', 'tienePlanes'));
+        
+        return view('panel.perfil', compact('user', 'tipos_documento', 'tienePlanes', 'projectInfo'));
     }
 }

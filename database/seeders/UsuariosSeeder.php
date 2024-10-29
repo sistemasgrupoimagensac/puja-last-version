@@ -117,7 +117,7 @@ class UsuariosSeeder extends Seeder
             'nombres'           => 'Admin',
             'apellidos'         => 'Admin',
             'email'             => 'admin@pujainmobiliaria.com.pe',
-            'password'          => Hash::make('7VE#SvHO'),
+            'password'          => Hash::make('123456'),
             'tipo_documento_id' => 4,
             'numero_documento'  => '00000001',
             'acepta_termino_condiciones' => true,

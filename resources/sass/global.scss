@@ -139,3 +139,14 @@
 .menu ul li a i {
   font-size: 1.2em;
 }
+
+// Clases perosnalizadas
+.bg-blue {
+  background-color: $blue;
+  color: $white;
+}
+
+.bg-dark-blue {
+  background-color: $dark-blue;
+  color: $white;
+}

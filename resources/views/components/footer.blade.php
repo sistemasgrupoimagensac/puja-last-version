@@ -23,7 +23,9 @@
     </div>
 
     <div class="d-flex flex-column text-center m-2 my-4">
-      <h4 class="mb-3">Contáctanos</h4>
+      <h4 class="mb-3">
+        <a class=" text-decoration-none" href="{{ route('contacto') }}">Contáctanos</a>
+      </h4>
       <p class="p-0 m-0">Av. Canaval y Moreyra 290</p>
       <p class="p-0 m-0">Oficina No 41 y 42</p>
       <p class="p-0 m-0">Cuarto Piso, San Isidro</p>
@@ -56,7 +58,7 @@
     <small class="m-0 ms-4 position-absolute">
       &#169 <span id="currentYear"></span>
       <a class="footer-link-puja" href="https://grupoimagensac.com.pe/" target="blank"> Grupo Inmobiliario Imagen SAC </a>
-      <i><img src="{{ asset('images/svg/peru.svg') }}" alt="bandera Perú" style="width: 20px;"></i>
+      <span><img src="{{ asset('images/svg/peru.svg') }}" alt="bandera Perú" style="width: 20px;"></span>
     </small>
   </div>
 </footer>

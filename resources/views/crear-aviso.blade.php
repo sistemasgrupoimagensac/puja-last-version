@@ -5,7 +5,7 @@
 @endsection
 
 @push('styles')
-    @vite(['resources/sass/pages/crear-aviso.scss'])
+    @vite(['resources/sass/pages/crear-aviso.scss', 'resources/sass/components/flipping.scss'])
 @endpush
 
 @section('content')

@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
   function submitForm(actionUrl) {
     let form = document.getElementById('page-contact-formData');
     let formData = new FormData(form);
-    formData.append('current_url', window.location.href);
 
     fetch(actionUrl, {
         method: 'POST',
@@ -33,8 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(response => response.json())
     .then(data => {
         if (data.status == "Success") {
-            alert('Formulario enviado correctamente');
+            alert('Enviado Correctamente ¡Pronto nos pondremos en contacto con usted!');
             form.reset();
+            window.location.href='/';
         } else {
             handleErrors(data.errors);
         }

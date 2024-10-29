@@ -12,7 +12,6 @@ class AdContact extends Model
     protected $table = "ad_contacts";
     protected $fillable = ['aviso_id', 'user_id', 'status', 'full_name', 'email', 'phone', 'bid_amount', 'message', 'accept_terms', 'type_currency_id'];
 
-
     public function aviso()
     {
         return $this->belongsTo(Aviso::class);

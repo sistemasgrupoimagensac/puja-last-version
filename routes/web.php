@@ -15,11 +15,19 @@ use App\Http\Controllers\TransactionsController;
 use App\Http\Controllers\Web\Panel\PerfilController;
 use App\Http\Controllers\Web\Panel\PasswordController;
 use App\Http\Controllers\Web\Panel\MisAvisosController;
+use App\Http\Controllers\Web\PanelProyecto\MisProyectosController;
+use App\Http\Controllers\Web\PanelProyecto\PerfilProyectoController;
 use App\Http\Controllers\Web\Panel\PlanesContratadosController;
 use App\Http\Controllers\Web\Puja\MainController;
-
-// Post del blog
+use App\Http\Controllers\ProyectoController;
 use App\Models\Post;
+use App\Http\Controllers\ProyectoImagenesPrincipalController;
+use App\Http\Controllers\ProyectoImagenesAdicionalController;
+use App\Http\Controllers\ProyectoImagenController;
+use App\Http\Controllers\ProyectoImagenUnidadController;
+use App\Http\Controllers\ProyectosController;
+use App\Http\Controllers\Web\PanelProyecto\ProyectoInteresadosController;
+use App\Http\Controllers\Web\PanelProyecto\ProyectosContratadosController;
 
 Route::get('/', MainController::class);
 Route::get('/libro-reclamaciones', [SuppliersController::class, 'libroReclamos'])->name('libro_reclamaciones');
@@ -48,7 +56,7 @@ Route::prefix('/inmueble')->name('inmueble.')->group(function() {
     Route::get('/{inmueble}', App\Http\Controllers\Web\Puja\InmuebleController::class)->name('single');
 });
 
-Route::middleware(['auth', 'verified'])->group(function() {
+Route::middleware(['auth', 'verified', \App\Http\Middleware\BlockProjectUsers::class])->group(function() {
     Route::prefix('/panel')->name('panel.')->group(function() {
         Route::get('/', fn() => redirect()->route('panel.mis-avisos'));
         Route::get('/avisos', MisAvisosController::class)->name('mis-avisos');
@@ -57,7 +65,6 @@ Route::middleware(['auth', 'verified'])->group(function() {
         Route::get('/password', PasswordController::class)->name('password');
     });
 });
-
 
 Route::middleware(['guest'])->group(function() {
     Route::get('/recuperar-contrasena', [LoginController::class, 'forgot_password'])->name('auth.forgot-password.index');
@@ -70,7 +77,6 @@ Route::middleware('auth')->group(function () {
     Route::put('editar-perfil/{id}', [LoginController::class, 'editProfile'])->name('auth.edit-profile');
     Route::put('cambiar-contrasena/{id}', [LoginController::class, 'editPassword'])->name('auth.edit-password');
 });
-
 
 Route::get('/publica-tu-inmueble', [LoginController::class, 'select_profile'])->name('login.publica_tu_inmueble');
 Route::get('/login', [LoginController::class, 'sign_in'])->name('sign_in');
@@ -97,7 +103,6 @@ Route::get('/my-post/ubicacion/provincias/{departamentoId}', [MyPostsController:
 Route::get('/my-post/ubicacion/distritos/{provinciaId}', [MyPostsController::class, 'getDistritos']);
 Route::get('/my-post/extras/{extra_id}', [MyPostsController::class, 'getExtras']);
 
-
 // Ruta para planes de pago
 Route::get('/planes-inmobiliaria', [PlanController::class, 'index']);
 Route::post('/planes-user', [PlanController::class, 'list_plans_user']);
@@ -112,6 +117,8 @@ Route::get('/proyectos', function() {
     return view('landing-projects');
 });
 
+// Obtener imagenes
+// Rutas imagenes para producción
 Route::get('/images/{id_inmueble}/{archivo}', [ImagesController::class, 'get_images']);
 Route::get('/planos/{id_inmueble}/{archivo}', [ImagesController::class, 'get_planos']);
 Route::get('/videos/{id_inmueble}/{archivo}', [ImagesController::class, 'get_videos']);
@@ -121,6 +128,13 @@ Route::get('wsb-dev/{name_dev}/images/{id_inmueble}/{archivo}', [ImagesControlle
 Route::get('wsb-dev/{name_dev}/planos/{id_inmueble}/{archivo}', [ImagesController::class, 'dev_get_planos']);
 Route::get('wsb-dev/{name_dev}/videos/{id_inmueble}/{archivo}', [ImagesController::class, 'dev_get_videos']);
 
+// Rutas imagenes de PROYECTOS producción
+
+// Rutas imagenes de PROYECTOS para desarrollo
+Route::get('wsb-dev/{name_dev}/proyectos/images/{id_proyecto}/{archivo}', [ImagesController::class, 'dev_get_project_images']);
+
+// Rutas planos UNIDADES de PROYECTOS para desarrollo
+Route::get('wsb-dev/{name_dev}/proyectos/unidades/{id_proyecto}/{id_unidad}/{archivo}', [ImagesController::class, 'dev_get_project_unidad_images']);
 
 // Route::get('/openpay', [MyPostsController::class, 'openpay'])->middleware('sessiondata');
 Route::post('/generarComprobanteElec/{id}', [BillingController::class, 'generarFactura'])->middleware(SessionData::class);
@@ -153,12 +167,18 @@ Route::post('/consulta-dni-ruc', [DocumentoController::class, 'consultar_dni_ruc
 
 Route::post('/enviar-datos-dni-ruc', [BillingController::class, 'recibirDatos']);
 
-// Procesar contacto
+// Procesar contacto interesado en un inmueble
 Route::post('/procesar-contacto', [MyPostsController::class, 'procesar_contacto'])->name('procesar_contacto');
+
+// Procesar contacto interesado en un proyecto
+Route::post('/procesar-contacto-proyecto', [MyPostsController::class, 'procesar_contacto_proyecto'])->name('procesar_contacto_proyecto');
 
 // Ruta de contacto
 Route::get('/contacto', [ContactoController::class, 'index'])->name('contacto');
 Route::post('/contacto', [ContactoController::class, 'store'])->name('post.contacto');
+
+Route::get('/contacto/proyecto', [ContactoController::class, 'contacto_proyecto'])->name('contacto_proyecto');
+Route::post('/contacto/proyecto', [ContactoController::class, 'contacto_lead_proyecto_store'])->name('contacto_lead_proyecto_store');
 
 Route::fallback(function () {
     return view('errors.404');
@@ -182,3 +202,47 @@ Route::get('/blog', function () {
 
 // Transaccion
 Route::post('/save-transaction', [TransactionsController::class, 'store']);
+
+// Proyectos =============================================================================================
+// Ruta para ver el formulario de creación de proyectos
+Route::get('/proyecto/editor/{id?}', [ProyectoController::class, 'create'])->name('proyectos.create');
+
+// Ruta para almacenar la información del proyecto
+Route::post('/proyecto', [ProyectoController::class, 'store'])->name('proyecto.store');
+
+// Ruta para subir imágenes PROYECTOS
+Route::post('/proyectos/{proyectoId}/imagenes', [ProyectoImagenController::class, 'store'])->name('proyectos.imagenes.store');
+Route::post('/proyectos/{proyectoId}/imagenes-principal', [ProyectoImagenController::class, 'updatePrincipal'])->name('proyectos.imagenes-principal.update');
+
+// Ruta para eliminar imágenes PROYECTOS
+Route::delete('/proyectos/{proyecto}/imagenes/{imagen}', [ProyectoImagenController::class, 'destroy'])->name('proyectos.imagenes.destroy');
+
+// Ruta para visualizar un proyecto con URL amigable
+Route::get('/proyecto/{slug}', [ProyectoController::class, 'show'])->name('proyecto.show');
+
+
+Route::get('/proyectos', [ProyectosController::class, 'index'])->name('proyectos.index');
+Route::get('/proyectos/{filtro}', [ProyectosController::class, 'filtrarProyectos'])->name('proyectos.filtrar');
+
+Route::get('unidades/{unidadId}/imagenes', [ProyectoImagenUnidadController::class, 'index'])->name('unidad.imagenes');
+Route::post('/unidades/{unidadId}/imagenes', [ProyectoImagenUnidadController::class, 'store'])->name('unidades.imagenes.store');
+Route::delete('/unidades/imagenes/{imagenId}', [ProyectoImagenUnidadController::class, 'destroy']);
+
+
+Route::middleware(['auth', 'verified', \App\Http\Middleware\CheckUserProjectType::class])->group(function() {
+    Route::prefix('/panel-proyecto')->name('panel.proyecto.')->group(function() {
+        Route::get('/', fn() => redirect()->route('panel.proyecto.mis-proyectos'));
+        Route::get('/proyectos', MisProyectosController::class)->name('mis-proyectos');
+        // Ruta para perfil del proyecto
+        Route::get('/perfil', PerfilController::class)->name('perfil');
+        Route::get('/proyectos-contratados', ProyectosContratadosController::class)->name('proyectos-contratados');
+        Route::get('/interesados', ProyectoInteresadosController::class)->name('interesados');
+        // Si tienes cambiar contraseña para proyectos, puedes agregarlo aquí
+        Route::get('/password', PasswordController::class)->name('password');
+    });
+});
+
+// Actualizar el estado de los interesados en un Proyecto
+Route::post('/panel-proyecto/interesados/update-status', [ProyectoInteresadosController::class, 'updateStatus'])->name('interesados.update-status');
+
+

@@ -15,7 +15,11 @@
 @import "@fortawesome/fontawesome-free/scss/regular";
 
 // Flickity
-@import 'flickity/dist/flickity.min.css';
+@import 'flickity/css/flickity.css';
+@import 'flickity-fullscreen/fullscreen.css';
+
+@import 'swiper/css/bundle';
+// @import 'swiper/swiper-bundle.min'; 
 
 // Importar estilos globales
 @import './global.scss';

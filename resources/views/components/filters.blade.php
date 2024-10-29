@@ -123,7 +123,7 @@
             
             <!-- Modal Filtros Generales -->
             <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-dialog modal-dialog-scrollable">
                     <div class="modal-content">
                 
                         <form id="formFilterInmueble" class="modal-body overflow-x-hidden p-0" action="{{ route('filter_search') }}" method="get">
@@ -318,7 +318,7 @@
                     
                             </div>
                         
-                            <div class="modal-footer justify-content-between">
+                            <div class="modal-footer justify-content-between bg-white sticky-bottom">
                                 <input type="button" class="btn button-clear aside-menu mx-1 px-3" value="Restablecer Filtros">
                                 <input type="submit" class="btn button-orange mx-1 px-3" value="Aplicar Filtros">
                             </div>

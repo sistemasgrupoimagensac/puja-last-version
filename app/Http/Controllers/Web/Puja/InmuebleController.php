@@ -43,15 +43,16 @@ class InmuebleController extends Controller
             }
 
             $tienePlanes = null;
-
+            $projectInfo = false;
             if (Auth::check()) {
                 $user_id = Auth::id();
                 $user = User::find($user_id);
                 $active_plan_users = $user->active_plans()->get();
                 $tienePlanes = $active_plan_users->isNotEmpty();
+                $projectInfo = $user->canPublishProjects(); 
             }
             
-            return view('inmueble', compact('aviso', 'ad_belongs', 'publicado', 'tipo_usuario', 'tienePlanes', 'user_not_pay', 'plan_id', 'tipo_aviso'));
+            return view('inmueble', compact('aviso', 'ad_belongs', 'publicado', 'tipo_usuario', 'tienePlanes', 'user_not_pay', 'plan_id', 'tipo_aviso', 'projectInfo'));
 
         } catch (\Throwable $th) {
             return response()->json([

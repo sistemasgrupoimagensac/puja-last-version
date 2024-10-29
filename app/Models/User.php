@@ -13,6 +13,7 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 // class User extends Authenticatable implements MustVerifyEmail
 class User extends Authenticatable implements MustVerifyEmail, FilamentUser
@@ -49,6 +50,28 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'estado'   => 'boolean',
+        ];
+    }
+
+    public function proyecto_cliente()
+    {
+        return $this->hasOne(ProyectoCliente::class, 'user_id');
+    }
+
+    // Método para verificar si el usuario puede publicar proyectos
+    public function canPublishProjects()
+    {
+        $proyecto = $this->proyecto_cliente;
+
+        if (!$proyecto) {
+            return false; // Si no tiene un proyecto asociado, no puede publicar
+        }
+
+        return [
+            'activo' => $proyecto->activo,
+            'numero_anuncios' => $proyecto->numero_anuncios,
+            'fecha_inicio_contrato' => $proyecto->fecha_inicio_contrato,
+            'fecha_fin_contrato' => $proyecto->fecha_fin_contrato,
         ];
     }
 
