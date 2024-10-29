@@ -1,0 +1,55 @@
+@import '../variables';
+
+.signin-image {
+  // background-image: url('../../images/signin2.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+
+.input-signin::placeholder {
+  opacity: 0.5;
+}
+
+.signin-form {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+  
+  .signin-form-content {
+    width: 100%;
+    max-width: 500px;
+
+    .signin-puja-logo {
+      width: 120px;
+    }
+
+    .signin-recuperar-password {
+      color: $dark_gray;
+      text-decoration: none;
+      font-weight: bold;
+      &:hover {
+        color: $orange;
+      }
+    }
+
+    .sigin-logo-google {
+      width: 30px;
+    }
+  }
+}
+
+.hr-container {
+  position: relative;
+  text-align: center;
+
+   span {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    padding: 0 10px;
+   }
+}

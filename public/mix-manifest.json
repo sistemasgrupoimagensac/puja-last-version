@@ -1,0 +1,11 @@
+{
+    "/js/app.js": "/js/app.js",
+    "/css/app.css": "/css/app.css",
+    "/css/pages/inmueble.css": "/css/pages/inmueble.css",
+    "/css/pages/publica-inmueble.css": "/css/pages/publica-inmueble.css",
+    "/css/pages/signin.css": "/css/pages/signin.css",
+    "/js/scripts/components/card_simple.js": "/js/scripts/components/card_simple.js",
+    "/js/scripts/home.js": "/js/scripts/home.js",
+    "/js/scripts/inmueble.js": "/js/scripts/inmueble.js",
+    "/js/scripts/inmuebles.js": "/js/scripts/inmuebles.js"
+}

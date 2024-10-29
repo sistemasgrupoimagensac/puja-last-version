@@ -1,0 +1,19 @@
+@import '../variables';
+
+.lateral-submenu {
+    width: 250px;
+}
+
+.main-misavisos {
+    min-height: calc(100vh - 200px);
+}
+
+.menu-container {
+    a {
+        color: $gray-600;
+
+        &.active{
+            color: $orange;
+        }
+    }
+}

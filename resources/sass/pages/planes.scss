@@ -1,0 +1,73 @@
+@import '../variables';
+
+
+.planes-numero-avisos {
+  max-width: 712px;
+
+  .avisos-desplegar {
+    cursor: pointer;
+    width: 160px;
+
+    &:hover {
+      color: $orange;
+      font-weight: bold;
+    }
+  }
+
+  label {
+    width: 160px;
+
+    &:hover {
+      outline: 2px solid;
+    }
+  }
+}
+
+// MODAL pago =============================================
+.modal-content.custom {
+  max-height: 640px;
+  height: calc(100vh - 30px);
+
+  .plan-checkout-card {
+    .card {
+      height: 100%;
+      max-height: 200px;
+      border-radius: 0%;
+
+      .card-title {
+        font-size: 2.4rem;
+      }
+    }
+  }
+}
+
+.credit-card-input {
+  font-family: monospace;
+  letter-spacing: 0.05em;
+}
+
+.form-label.custom {
+  font-size: .9rem;
+}
+
+// MEDIA QUERIES ========================================
+
+@media (min-width: $lg) {
+
+  .modal-content.custom {
+    max-height: 540px;
+
+    .plan-checkout-card {
+      height: 100%;
+
+      .card {
+        max-height: 100%;
+        border-radius: 1rem;
+
+        .card-title {
+          font-size: 2.8rem;
+        }
+      }
+    }
+  }
+}

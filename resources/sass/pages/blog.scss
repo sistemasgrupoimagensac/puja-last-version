@@ -1,0 +1,39 @@
+@import '../variables';
+
+.blog-titular {
+  height: 500px;
+}
+
+.blog-titular-parallax {
+  background-image: linear-gradient(rgba(4, 19, 61, 0.712), rgba(158, 158, 158, 0.678)),url('../../images/slide2.webp');
+  background-attachment: fixed;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: cover;
+}
+
+@media (min-width: 1400px) {
+
+  .blog-titular-parallax {
+    background-size: contain;
+    background-position: top;
+  }
+
+}
+
+.post-card-container {
+  // cursor: pointer;
+  transition: transform 0.3s ease;
+
+  .post-card-title {
+    color: $dark-blue;
+    &:hover {
+      color: $orange;
+    }
+  }
+}
+
+.post-card-container:hover {
+  transform: scale(1.03);
+}

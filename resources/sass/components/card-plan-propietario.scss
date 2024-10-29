@@ -1,0 +1,15 @@
+.btn-check:checked + .card-plan-propietario-label {
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.6);
+  transform: scale(1.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-plan-propietario-label {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 15.8rem;
+  height: 100%;
+  
+  .card-description-plan {
+    height: 7.5rem;
+  }
+}

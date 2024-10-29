@@ -1,0 +1,10 @@
+.btn-check:checked + .card-plan-label {
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.6);
+  transform: scale(1.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-plan-label {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 14rem;
+}
