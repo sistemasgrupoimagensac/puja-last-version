@@ -40,6 +40,9 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
+use Google\Client;
+use Google\Service\Sheets;
+
 class MyPostsController extends Controller
 {
 
@@ -773,8 +776,11 @@ class MyPostsController extends Controller
         // Obtener la información del aviso
         $proyecto_url = $request->current_url;
         $proyecto = Proyecto::findOrFail($request->proyecto_id);
-        $emailContacto = $proyecto->cliente->email_contacto;
+        $contactos = $proyecto->cliente->contactos;
+        $googleSheet = $proyecto->cliente->googleSheet;
         $user_id = $proyecto->cliente->user_id;
+        $now = now();
+        $fechaHora = $now->format('Y-m-d H:i:s');
 
         // Creamos o actualizamos el contacto en la base de datos
         $proyecto_contact = ProyectoContact::updateOrCreate([
@@ -802,11 +808,26 @@ class MyPostsController extends Controller
 
         // Para correo, enviamos el email como ya lo haces
         Log::info('Iniciando el envío de correo para contactos ...');
-        Mail::to($emailContacto)
-            ->cc(['soporte@pujainmobiliaria.com.pe'])
-            ->bcc(['grupoimagen.908883889@gmail.com'])
-            ->send(new SendProjectMail($proyecto_contact, $proyecto_url));
+        foreach ($contactos as $contacto) {
+            Mail::to($contacto->email)
+                ->cc(['soporte@pujainmobiliaria.com.pe'])
+                ->bcc(['grupoimagen.908883889@gmail.com'])
+                ->send(new SendProjectMail($proyecto_contact, $proyecto_url));
+        }
         Log::info('Correo enviado para contactos .');
+
+        // Si está habilitada la opción de Google Sheet:
+        if ($googleSheet && $googleSheet->sheet_habilitado) {
+
+            $this->sendToGoogleSheet($googleSheet->google_sheet_url, [
+                $fechaHora,
+                $request->nombre_contacto,
+                $request->email_contacto,
+                $request->telefono_contacto,
+                $request->contact_message,
+                $request->time
+            ]);
+        }
 
         return response()->json([
             'http_code' => 200,
@@ -814,6 +835,41 @@ class MyPostsController extends Controller
             'message' => 'Registro para contactar, correcto.',
             'ad_contact_id' => $proyecto_contact->id,
         ], 200);
+    }
+
+    protected function sendToGoogleSheet($sheetUrl, array $data)
+    {
+        // Configurar cliente de Google Sheets
+        $client = new Client();
+        $client->setApplicationName('Your App Name');
+        $client->setScopes([Sheets::SPREADSHEETS]);
+        $client->setAuthConfig([
+            "type" => env('GOOGLE_TYPE'),
+            "project_id" => env('GOOGLE_PROJECT_ID'),
+            "private_key_id" => env('GOOGLE_PRIVATE_KEY_ID'),
+            "private_key" => env('GOOGLE_PRIVATE_KEY'),
+            "client_email" => env('GOOGLE_CLIENT_EMAIL'),
+            "client_id" => env('GOOGLE_CLIENT_ID_SHEET'),
+            "auth_uri" => env('GOOGLE_AUTH_URI'),
+            "token_uri" => env('GOOGLE_TOKEN_URI'),
+            "auth_provider_x509_cert_url" => env('GOOGLE_AUTH_PROVIDER_X509_CERT_URL'),
+            "client_x509_cert_url" => env('GOOGLE_CLIENT_X509_CERT_URL'),
+        ]);
+
+        $service = new Sheets($client);
+
+        // Extraer el ID de la hoja de la URL
+        preg_match('/spreadsheets\/d\/([a-zA-Z0-9-_]+)/', $sheetUrl, $matches);
+        $spreadsheetId = $matches[1] ?? null;
+
+        if ($spreadsheetId) {
+            $range = 'Sheet1!A1'; // Ajusta el rango según sea necesario
+            $body = new Sheets\ValueRange([
+                'values' => [$data]
+            ]);
+            $params = ['valueInputOption' => 'RAW'];
+            $service->spreadsheets_values->append($spreadsheetId, $range, $body, $params);
+        }
     }
 
     public function my_post_sold (Request $request) 

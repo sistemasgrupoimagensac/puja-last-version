@@ -108,19 +108,28 @@ class ProyectoClienteResource extends Resource
                             ->collapsible()
                     ])
                     ->columns(1), // Mantener la sección en una columna
-            
-                // Section::make('Datos del Contrato')
-                //     ->schema([
-                //         DatePicker::make('fecha_inicio_contrato')->required()->label('Fecha de Inicio del Contrato'),
-                //         DatePicker::make('fecha_fin_contrato')->required()->label('Fecha de Finalización del Contrato'),
-                //         TextInput::make('numero_anuncios')
-                //             ->numeric()
-                //             ->label('Número de Anuncios')
-                //             ->default(1)
-                //             ->minValue(1),
-                //     ])
-                //     ->columns(2),
 
+                
+                Section::make('Google sheet (opcional)')
+                    ->relationship('googleSheet')
+                    ->schema([
+                
+                        Toggle::make('sheet_habilitado')
+                            ->label('Habilitar Google Sheet')
+                            ->onColor('success')
+                            ->inline(false)
+                            ->default(false)
+                            ->reactive(), // Hacer el toggle reactivo
+                
+                        TextInput::make('google_sheet_url')
+                            ->label('URL de Google Sheet')
+                            ->url()
+                            ->placeholder('https://docs.google.com/spreadsheets/...')
+                            ->disabled(fn ($get) => !$get('sheet_habilitado'))
+                            ->reactive(),
+                    ])
+                    ->columns(1),
+                    
                 Section::make('Datos del Contrato')
                     ->schema([
                         DatePicker::make('fecha_inicio_contrato')
@@ -200,7 +209,6 @@ class ProyectoClienteResource extends Resource
                     ->columns(2),
             ]);
     }
-
 
     public static function table(Table $table): Table
     {
