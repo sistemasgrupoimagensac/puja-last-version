@@ -168,7 +168,7 @@
                         @endphp
                         {{-- Generar botones dinámicamente para cada cantidad de dormitorios --}}
                         @foreach ($dormitorios as $index => $dorm)
-                            <input type="radio" class="btn-check" name="options-base" id="option{{ $index }}" value="{{ $dorm }}" autocomplete="off" {{ $index === 0 ? 'checked' : '' }}>
+                            <input type="radio" class="btn-check" name="options-base" id="option{{ $index }}" value="{{ $dorm }}" autocomplete="off" {{ $loop->first ? 'checked' : '' }}>
                             <label class="btn" for="option{{ $index }}">{{ $dorm }} dormitorio{{ $dorm > 1 ? 's' : '' }}</label>
                         @endforeach
                     </div>
