@@ -52,6 +52,6 @@ class AdExpired extends Command
         if ( $cont_avisos_caducados === 0 ) {
             Log::info("No hubo avisos caducados.");
         }
-        $this->info('Expired ads have been updated successfully.');
+        $this->info('Este CRON va a cambiar al estado vencido los avisos que culminaron su tiempo de publicacion segun su Plan contratado.');
     }
 }

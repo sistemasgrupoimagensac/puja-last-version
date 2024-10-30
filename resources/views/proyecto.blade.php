@@ -223,6 +223,9 @@
                     </p>
                     @if ($proyecto->latitude && $proyecto->longitude)
                         <div class="mt-3" id="map" style="height: 400px; width: 100%"></div>
+
+            {{-- <div id="map" style="max-width: 600px; width: 100%; height: 600px; border: 1px solid #ddd;"></div> --}}
+
                     @endif
                 </div>
             </div>  
@@ -342,11 +345,10 @@
 </div>
 
 <script>
-    const mapDiv = document.getElementById("map");
+
     // Coordenadas del proyecto
-    const lat = parseFloat(@json($proyecto->latitude));
-    const lng = parseFloat(@json($proyecto->longitude));
-    const defaultLocation = { lat, lng };
+    const lat_saved = @json($proyecto->latitude);
+    const lng_saved = @json($proyecto->longitude);
 
     document.addEventListener('DOMContentLoaded', function () {
         const unidadModal = document.getElementById('unidadModal');
@@ -357,17 +359,6 @@
         const messageField = document.getElementById('contact-message');
         const swiperWrapper = document.getElementById('unidadesSwiperWrapper');
         const filterButtons = document.querySelectorAll('input[name="options-base"]');
-        let map, marker;
-
-        // Coordenadas del proyecto
-        const lat = parseFloat(@json($proyecto->latitude));
-        const lng = parseFloat(@json($proyecto->longitude));
-        const defaultLocation = { lat, lng };
-
-        // Inicializar el mapa si existe el contenedor
-        if (mapDiv) {
-            initMap();
-        }
 
         // Eventos de contacto
         document.getElementById('btn-enviar-form-single').addEventListener('click', (e) => handleContactForm(e, 'correo'));
@@ -430,7 +421,7 @@
             window.open(`https://wa.me/+51${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
         }
 
-        // *** Agregar funcionalidad para el botón "COTIZAR" de cada unidad ***
+        // Agregar funcionalidad para el botón "COTIZAR" de cada unidad
         document.querySelectorAll('.btn-cotizar').forEach(button => {
             button.addEventListener('click', function () {
                 // Obtener información de la unidad
@@ -446,7 +437,7 @@
             });
         });
 
-        // *** Manejar la carga dinámica de imágenes de las unidades ***
+        // Manejar la carga dinámica de imágenes de las unidades
         unidadModal.addEventListener('show.bs.modal', function (event) {
             const button = event.relatedTarget; // Botón que activa el modal
             const unidadId = button.getAttribute('data-unidad-id');
@@ -535,34 +526,8 @@
         const initialFilter = document.querySelector('input[name="options-base"]:checked').value;
         filterUnitsByDorms(initialFilter);
         
-        function initMap() {
-            const mapStyles = [
-                { featureType: "poi", stylers: [{ visibility: "off" }] }, // Ocultar POI
-                { featureType: "transit.station", stylers: [{ visibility: "off" }] } // Ocultar estaciones de transporte
-            ];
-    
-            map = new google.maps.Map(mapDiv, {
-                center: defaultLocation,
-                zoom: 16,
-                styles: mapStyles,
-            });
-    
-            marker = new google.maps.Marker({
-                position: defaultLocation,
-                map: map,
-                icon: {
-                    url: "/images/svg/marker_puja.svg",
-                    scaledSize: new google.maps.Size(80, 80),
-                    origin: new google.maps.Point(0, 0),
-                    anchor: new google.maps.Point(40, 80)
-                }
-            });
-        };
-        
     });
 </script>
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuCCuPnZoJYgILw9e3PNom-ZG5TnsGNeg&callback=initMap" async defer></script>
 
 @endsection
 
@@ -570,3 +535,7 @@
 @section('footer')
     @include('components.footer')
 @endsection
+
+@push('scripts')
+    @vite([ 'resources/js/scripts/proyecto_maps.js', ])
+@endpush

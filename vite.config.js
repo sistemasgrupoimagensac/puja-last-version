@@ -48,6 +48,7 @@ export default defineConfig({
         'resources/js/scripts/toastyImagenPrincipalError.js',
         'resources/js/scripts/contacto.js',
         'resources/js/scripts/upload_unit_image.js',
+        'resources/js/scripts/proyecto_maps.js',
         // js - scripts - components
         "resources/js/scripts/components/back_button.js",
         "resources/js/scripts/components/card_simple.js",
