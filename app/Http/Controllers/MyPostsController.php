@@ -863,7 +863,11 @@ class MyPostsController extends Controller
         $spreadsheetId = $matches[1] ?? null;
 
         if ($spreadsheetId) {
-            $range = 'Sheet1!A1'; // Ajusta el rango según sea necesario
+            // Obtener las hojas del archivo
+            $spreadsheet = $service->spreadsheets->get($spreadsheetId);
+            $sheetName = $spreadsheet->getSheets()[0]->getProperties()->getTitle(); // Usa la primera hoja
+    
+            $range = $sheetName . '!A1';
             $body = new Sheets\ValueRange([
                 'values' => [$data]
             ]);
