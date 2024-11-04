@@ -20,6 +20,8 @@
       Corredor Inmobiliario
     @elseif ($record->tipo_usuario_id === 4)
       Acreedor Hipotecario
+    @elseif ($record->tipo_usuario_id === 5)
+      Proyecto Inmobiliario
     @endif
   </p>
 

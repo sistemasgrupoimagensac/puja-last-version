@@ -180,8 +180,9 @@
                     @auth
                         @php
                             $tipoUsuarioID = Auth::user()->tipo_usuario_id;
-
+                            $projectInfo = false;
                             $proyectoActivo = false;
+                            
                             if ($projectInfo !== false) {
                                 $proyectoActivo = $projectInfo['activo'];
                             }

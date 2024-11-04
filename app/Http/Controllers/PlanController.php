@@ -62,7 +62,8 @@ class PlanController extends Controller
         }
     }
 
-    public function planes_propietario(Request $request){
+    public function planes_propietario(Request $request)
+    {
         if ( !Auth::check() ) return redirect()->route('sign_in')->with('error', 'Inicia sesión, por favor.');
         $user = Auth::user();
         $aviso_id = $request->input('aviso_id');
@@ -389,4 +390,28 @@ class PlanController extends Controller
 
         return response()->json($response->json());
     }
+
+    // Pagos de cuenta de proyecto
+    public function mostrarPagoProyecto(Request $request)
+    {
+        // Recuperar los datos de la sesión
+        $precio = session('precio');
+        $razonSocial = session('razonSocial');
+    
+        // Verificar si los datos existen para evitar accesos no autorizados
+        if (!$precio || !$razonSocial) {
+            abort(403, 'Acceso no autorizado');
+        }
+    
+        // Datos adicionales
+        $correo = 'proyectos.pruebaspuja@gmail.com';
+        $telefono = '999676767';
+        $documento = '10443883687';
+        $tipoDocumento = 'ruc';
+        $userTypeId = '5';
+    
+        return view('proyecto-pago', compact('precio', 'razonSocial', 'correo', 'telefono', 'documento', 'tipoDocumento', 'userTypeId'));
+    }
+    
+
 }

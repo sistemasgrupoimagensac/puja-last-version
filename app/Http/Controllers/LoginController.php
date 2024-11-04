@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\ProyectoCliente;
 use App\Models\TipoUsuario;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -78,7 +79,7 @@ class LoginController extends Controller
     
         // Buscar al usuario por correo electrónico
         $user = User::where('email', $request->input('correo'))->first();
-    
+
         // Validar si el usuario existe en la base de datos
         if (!$user) {
             return response()->json([
@@ -108,7 +109,25 @@ class LoginController extends Controller
                 ]
             ], 422);
         }
-    
+
+        // Verificar si el usuario es del tipo 5 y su estado de pago
+        if ($user->tipo_usuario_id == 5) {
+            $proyectoCliente = ProyectoCliente::where('user_id', $user->id)->first();
+
+            $precio = $proyectoCliente->precio_plan;
+            $razonSocial = $proyectoCliente->razon_social;
+            
+            if ($proyectoCliente && !$proyectoCliente->pagado) {
+                // Guardar los datos en la sesión
+                session(['precio' => $precio, 'razonSocial' => $razonSocial]);
+
+                return response()->json([
+                    'message' => 'Pago pendiente.',
+                    'redirect' => route('ruta.modal.pago')
+                ], 200);
+            }
+        }
+
         // Si las credenciales son correctas, iniciar sesión
         Auth::login($user);
     

@@ -203,7 +203,7 @@ Route::get('/blog', function () {
 // Transaccion
 Route::post('/save-transaction', [TransactionsController::class, 'store']);
 
-// Proyectos =============================================================================================
+// Proyectos ===================================================================================================================================
 // Ruta para ver el formulario de creación de proyectos
 Route::get('/proyecto/editor/{id?}', [ProyectoController::class, 'create'])->name('proyectos.create');
 
@@ -245,4 +245,5 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\CheckUserProjectType
 // Actualizar el estado de los interesados en un Proyecto
 Route::post('/panel-proyecto/interesados/update-status', [ProyectoInteresadosController::class, 'updateStatus'])->name('interesados.update-status');
 
-
+// Ruta para el pago de proyecto
+Route::get('/proyecto-pago', [PlanController::class, 'mostrarPagoProyecto'])->name('ruta.modal.pago');

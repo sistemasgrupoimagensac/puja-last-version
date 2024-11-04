@@ -28,7 +28,7 @@ class CreateProyectoCliente extends CreateRecord
         }
 
         // Generar una contraseña aleatoria
-        $randomPassword = Str::random(10); 
+        $randomPassword = Str::random(10);
 
         $user = User::create([
             'tipo_usuario_id' => 5, // El tipo de usuario específico (cliente inmobiliario)

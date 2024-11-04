@@ -26,6 +26,8 @@ class ProyectoCliente extends Model
         'habilitado',
         'activo',
         'vigente',
+        'pagado',
+        'precio_plan',
     ];
 
     public function user(): BelongsTo
