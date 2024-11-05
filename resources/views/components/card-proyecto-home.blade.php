@@ -34,12 +34,13 @@
 
                             {{-- Características del Proyecto --}}
                             <p class="m-0 d-flex card-inmuebles-features">
+                                {{-- Área --}}
                                 <span class="text-secondary me-1">{{ $area_desde }} - {{ $area_hasta }}</span>
                                 <span class="text-secondary me-1">m²</span>
                                 <i class="fa-solid fa-ruler-combined icon-orange"></i>
                                 
+                                <span class="text-secondary mx-2"><i class="fa-solid fa-circle fa-2xs"></i></span>
                                 {{-- Dormitorios --}}
-                                <span class="text-secondary mx-2">-</span>
                                 <span class="text-secondary me-1">{{ $dormitorios_desde }} - {{ $dormitorios_hasta }}</span>
                                 <span class="text-secondary me-1">dorm.</span>
                                 <i class="fa-solid fa-bed icon-orange"></i>

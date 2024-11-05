@@ -116,14 +116,34 @@ class LoginController extends Controller
 
             $precio = $proyectoCliente->precio_plan;
             $razonSocial = $proyectoCliente->razon_social;
+            $fechaInicio = $proyectoCliente->fecha_inicio_contrato;
+            $fechaFin = $proyectoCliente->fecha_fin_contrato;
+            $numeroAnuncios = $proyectoCliente->numero_anuncios;
+            $correo = $user->getEmailAttribute();
+            $telefono = $user->getPhoneAttribute();
+            $documento = $user->getDniAttribute();
+            $tipoDocumento = $user->tipoDocumento->documento;
+            $userTypeId = $user->tipoUsuario->id;
+
             
             if ($proyectoCliente && !$proyectoCliente->pagado) {
                 // Guardar los datos en la sesión
-                session(['precio' => $precio, 'razonSocial' => $razonSocial]);
+                session([
+                    'precio' => $precio, 
+                    'razonSocial' => $razonSocial,
+                    'correo' => $correo,
+                    'telefono' => $telefono,
+                    'documento' => $documento,
+                    'tipoDocumento' => $tipoDocumento,
+                    'fechaInicio' => $fechaInicio,
+                    'fechaFin' => $fechaFin,
+                    'numeroAnuncios' => $numeroAnuncios,
+                    'userTypeId' => $userTypeId,
+                ]);
 
                 return response()->json([
                     'message' => 'Pago pendiente.',
-                    'redirect' => route('ruta.modal.pago')
+                    'redirect' => route('ruta.proyecto.pago')
                 ], 200);
             }
         }

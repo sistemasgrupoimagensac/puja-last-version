@@ -95,6 +95,12 @@
     "src": "resources/js/scripts/components/mis_avisos.js",
     "isEntry": true
   },
+  "resources/js/scripts/consultar_documento.js": {
+    "file": "assets/consultar_documento-j4g7Vn2J.js",
+    "name": "consultar_documento",
+    "src": "resources/js/scripts/consultar_documento.js",
+    "isEntry": true
+  },
   "resources/js/scripts/contacto.js": {
     "file": "assets/contacto-BJqNGHj-.js",
     "name": "contacto",

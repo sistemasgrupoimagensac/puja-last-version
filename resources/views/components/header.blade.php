@@ -180,14 +180,13 @@
                     @auth
                         @php
                             $tipoUsuarioID = Auth::user()->tipo_usuario_id;
-                            $projectInfo = false;
                             $proyectoActivo = false;
-                            
-                            if ($projectInfo !== false) {
+
+                            if($projectInfo !== false) {
                                 $proyectoActivo = $projectInfo['activo'];
                             }
                         @endphp
-               
+
                         @if (isset($tienePlanes)) 
                             @if (!$tienePlanes && $tipoUsuarioID === 3)
                                 <a href="/planes-inmobiliaria" class="btn-outline-secondary aside-menu btn mx-4">Publica Aquí</a>
@@ -265,9 +264,11 @@
                         <a class="btn-outline-secondary btn mx-1" href="/publica-tu-inmueble">Publica Aquí</a>
                         <a class="button-orange btn mx-1" href="{{ route("sign_in", ['profile_type' => 2]) }}">Iniciar Sesión</a>
                     @endauth
+
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
                     </form>
+
                 </div>
             </div>
         </nav>

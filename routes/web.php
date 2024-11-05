@@ -246,4 +246,4 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\CheckUserProjectType
 Route::post('/panel-proyecto/interesados/update-status', [ProyectoInteresadosController::class, 'updateStatus'])->name('interesados.update-status');
 
 // Ruta para el pago de proyecto
-Route::get('/proyecto-pago', [PlanController::class, 'mostrarPagoProyecto'])->name('ruta.modal.pago');
+Route::get('/proyecto-pago', [PlanController::class, 'mostrarPagoProyecto'])->name('ruta.proyecto.pago');

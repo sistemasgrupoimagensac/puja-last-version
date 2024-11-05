@@ -11,12 +11,14 @@ use App\Models\PlanUser;
 use App\Models\Subscription;
 use App\Models\User;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use IntlDateFormatter;
 
 class PlanController extends Controller
 {
@@ -397,20 +399,50 @@ class PlanController extends Controller
         // Recuperar los datos de la sesión
         $precio = session('precio');
         $razonSocial = session('razonSocial');
+        $correo = session('correo');
+        $telefono = session('telefono');
+        $documento = session('documento');
+        $tipoDocumento = session('tipoDocumento');
+        $fechaInicioRaw = session('fechaInicio');
+        $fechaFinRaw = session('fechaFin');
+        $numeroAnuncios = session('numeroAnuncios');
+        $userTypeId = session('userTypeId');
+
+        $fechaInicio = $this->formatearFecha($fechaInicioRaw);
+        $fechaFin = $this->formatearFecha($fechaFinRaw);
     
         // Verificar si los datos existen para evitar accesos no autorizados
         if (!$precio || !$razonSocial) {
-            abort(403, 'Acceso no autorizado');
+            return response()->view('errors.404', [], 404);
         }
     
-        // Datos adicionales
-        $correo = 'proyectos.pruebaspuja@gmail.com';
-        $telefono = '999676767';
-        $documento = '10443883687';
-        $tipoDocumento = 'ruc';
-        $userTypeId = '5';
-    
-        return view('proyecto-pago', compact('precio', 'razonSocial', 'correo', 'telefono', 'documento', 'tipoDocumento', 'userTypeId'));
+        return view('proyecto-pago', 
+                compact(
+                    'precio', 
+                    'razonSocial', 
+                    'correo', 
+                    'telefono', 
+                    'documento', 
+                    'tipoDocumento', 
+                    'userTypeId',
+                    'fechaInicio',
+                    'fechaFin',
+                    'numeroAnuncios',
+                ));
+    }
+
+    private function formatearFecha($fecha)
+    {
+        $date = new DateTime($fecha);
+
+        $formatter = new IntlDateFormatter(
+            'es_ES',
+            IntlDateFormatter::LONG,
+            IntlDateFormatter::NONE
+        );
+        
+        // Formatear la fecha
+        return $formatter->format($date);
     }
     
 

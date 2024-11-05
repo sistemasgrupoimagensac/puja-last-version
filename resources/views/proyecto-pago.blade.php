@@ -11,9 +11,6 @@
 @section('content')
 
     @php
-        // $precio_formateado = null;
-        // $precio_formateado = number_format($precio);
-
         if ($precio) {
             $precio_formateado = number_format($precio);
         } else {
@@ -35,16 +32,56 @@
                 <div class="d-flex flex-column ">
 
                     {{-- detalles del plan contratado --}}
-                    <div class="card text-bg-dark shadow h-100">
-                        <div class="card-body text-center d-flex flex-column justify-content-around">
-                        <h3 class="card-title">Pago Proyecto</h3>
+                    {{-- <div class="text-bg-dark shadow h-100">
+                        <div class="text-center d-flex flex-column justify-content-around">
+                        <h3>Pago Proyecto</h3>
                     
                         <div class="d-flex flex-column align-items-center">
                             <div class="card-text fw-bold display-3 d-flex gap-2">
                             <span>S/ {{ $precio_formateado }}</span>
                             </div>
                         </div>
-                    
+
+                        <p class="card-text h2"> 
+                            <span>
+                                aviso(s) {{ $numeroAnuncios }} 
+                            </span>
+                        </p>
+
+                        <small class="h5 d-flex flex-column align-items-start">
+                            <div>
+                                <span class="">desde: </span> <span>{{ $fechaInicio }}</span>
+                            </div>
+                            <div>
+                                <span class="">hasta: </span> <span>{{ $fechaFin }}</span>
+                            </div>
+                        </small> 
+
+
+                        </div>
+                    </div> --}}
+
+                    <div class="card text-bg-dark mb-3 border-0 text-center">
+                        {{-- <div class="card-header"> --}}
+                            <h4 class="card-header fw-bold border-bottom">Pago Proyecto</h4>
+
+                        {{-- </div> --}}
+                        <div class="card-body py-4">
+                            {{-- <h4 class="card-title fw-bold">Pago Proyecto</h4> --}}
+                            <p class="card-text fw-bold display-3">S/ {{ $precio_formateado }}</p>
+                            <p class="card-text h3">aviso(s): {{ $numeroAnuncios }} </p>
+                        </div>
+
+                        <div class="card-footer bg-secondary d-flex justify-content-center py-3">
+                            <div class="d-flex flex-column align-items-start">
+                                <p class="m-0 h5">
+                                    <span>desde: </span> <span>{{ $fechaInicio }}</span>
+                                </p>
+
+                                <p class="m-0 h5">
+                                    <span>hasta: </span> <span>{{ $fechaFin }}</span>
+                                </p>
+                            </div>
                         </div>
                     </div>
 
@@ -52,12 +89,15 @@
                     <div class="d-flex gap-3 my-3">
                         <div>
                             <img style="height: 32px" src="/images/tarjetas/amex2.png" alt="amex">
+                            {{-- <i class="fa-brands fa-cc-amex fa-3x text-secondary"></i> --}}
                         </div>
                         <div>
                             <img style="height: 32px" src="/images/tarjetas/mastercard2.png" alt="amex">
+                            {{-- <i class="fa-brands fa-cc-mastercard fa-3x text-secondary"></i> --}}
                         </div>
                         <div>
                             <img style="height: 32px" src="/images/tarjetas/visa2.png" alt="amex">
+                            {{-- <i class="fa-brands fa-cc-visa fa-3x text-secondary"></i> --}}
                         </div>
                     </div>
         

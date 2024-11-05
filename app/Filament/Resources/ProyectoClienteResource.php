@@ -167,6 +167,14 @@ class ProyectoClienteResource extends Resource
                             ->label('Número de Anuncios')
                             ->default(1)
                             ->minValue(1),
+                            
+                        TextInput::make('precio_plan')
+                            ->label('Costo del Proyecto')
+                            ->numeric()
+                            ->default(0)
+                            ->minValue(0)
+                            ->suffix('S/')
+                            ->placeholder('Ingrese el monto del proyecto'),
                     ])
                     ->columns(2),
 

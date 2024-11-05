@@ -645,7 +645,7 @@
                                                 name="options[]" 
                                                 :id="'add_' + extra.id" 
                                                 :value="extra.id"
-                                                :checked="extra_carac_inmueble.map(e => e.caracteristica_extra_id).includes(extra.id)"
+                                                :checked="extra_carac_inmueble?.map(e => e.caracteristica_extra_id).includes(extra.id)"
                                             >
                                             <label 
                                                 class="form-check-label text-secondary filter-additional-input" 
@@ -689,7 +689,7 @@
                                                 name="options[]" 
                                                 :value="extra.id" 
                                                 :id="'add_' + extra.id"
-                                                :checked="extra_carac_inmueble.map(e => e.caracteristica_extra_id).includes(extra.id)"
+                                                :checked="extra_carac_inmueble?.map(e => e.caracteristica_extra_id).includes(extra.id)"
                                             >
                                             <label 
                                                 class="form-check-label text-secondary filter-additional-input" 
@@ -922,31 +922,31 @@
 
                 imagenesAEliminar: [],
 
-                dormitorios: caract_inmueble_id.habitaciones ? caract_inmueble_id.habitaciones : '',
-                banios: caract_inmueble_id.banios ? caract_inmueble_id.banios : '',
-                medio_banios: caract_inmueble_id.medio_banios ? caract_inmueble_id.medio_banios : '',
-                estacionamiento: caract_inmueble_id.estacionamientos ? caract_inmueble_id.estacionamientos : '',
+                dormitorios: caract_inmueble_id ? caract_inmueble_id.habitaciones : '',
+                banios: caract_inmueble_id ? caract_inmueble_id.banios : '',
+                medio_banios: caract_inmueble_id ? caract_inmueble_id.medio_banios : '',
+                estacionamiento: caract_inmueble_id ? caract_inmueble_id.estacionamientos : '',
 
-                area_construida: caract_inmueble_id.area_construida ? caract_inmueble_id.area_construida : '',
-                area_total: caract_inmueble_id.area_total ? caract_inmueble_id.area_total : '',
-                antiguedad: caract_inmueble_id.antiguedad ? caract_inmueble_id.antiguedad : '',
-                anios_antiguedad: caract_inmueble_id.anios_antiguedad ? caract_inmueble_id.anios_antiguedad : '',
-                precio_soles: caract_inmueble_id.precio_soles ? caract_inmueble_id.precio_soles : '',
-                precio_dolares: caract_inmueble_id.precio_dolares ? caract_inmueble_id.precio_dolares : '',
+                area_construida: caract_inmueble_id ? caract_inmueble_id.area_construida : '',
+                area_total: caract_inmueble_id ? caract_inmueble_id.area_total : '',
+                antiguedad: caract_inmueble_id ? caract_inmueble_id.antiguedad : '',
+                anios_antiguedad: caract_inmueble_id ? caract_inmueble_id.anios_antiguedad : '',
+                precio_soles: caract_inmueble_id ? caract_inmueble_id.precio_soles : '',
+                precio_dolares: caract_inmueble_id ? caract_inmueble_id.precio_dolares : '',
                 codigo_unico: inmueble.codigo_unico ? inmueble.codigo_unico : '',
 
                 // detalles de remate
-                base_remate: caract_inmueble_id.remate_precio_base ? caract_inmueble_id.remate_precio_base : '',
-                valor_tasacion: caract_inmueble_id.remate_valor_tasacion ? caract_inmueble_id.remate_valor_tasacion : '',
-                direccion_remate: caract_inmueble_id.remate_direccion ? caract_inmueble_id.remate_direccion : '',
-                remate_direccion_id: caract_inmueble_id.remate_direccion_id ? caract_inmueble_id.remate_direccion_id : '',
-                remate_nombre_centro: caract_inmueble_id.remate_nombre_centro ? caract_inmueble_id.remate_nombre_centro : '',
-                partida_registral: caract_inmueble_id.remate_partida_registral ? caract_inmueble_id.remate_partida_registral : '',
-                fecha_remate: caract_inmueble_id.remate_fecha ? caract_inmueble_id.remate_fecha : '',
-                hora_remate: caract_inmueble_id.remate_hora ? caract_inmueble_id.remate_hora : '',
-                contacto_remate: caract_inmueble_id.remate_nombre_contacto ? caract_inmueble_id.remate_nombre_contacto : '',
-                telefono_contacto_remate: caract_inmueble_id.remate_telef_contacto ? caract_inmueble_id.remate_telef_contacto : '',
-                correo_contacto_remate: caract_inmueble_id.remate_correo_contacto ? caract_inmueble_id.remate_correo_contacto : '',
+                base_remate: caract_inmueble_id ? caract_inmueble_id.remate_precio_base : '',
+                valor_tasacion: caract_inmueble_id ? caract_inmueble_id.remate_valor_tasacion : '',
+                direccion_remate: caract_inmueble_id ? caract_inmueble_id.remate_direccion : '',
+                remate_direccion_id: caract_inmueble_id ? caract_inmueble_id.remate_direccion_id : '',
+                remate_nombre_centro: caract_inmueble_id ? caract_inmueble_id.remate_nombre_centro : '',
+                partida_registral: caract_inmueble_id ? caract_inmueble_id.remate_partida_registral : '',
+                fecha_remate: caract_inmueble_id ? caract_inmueble_id.remate_fecha : '',
+                hora_remate: caract_inmueble_id ? caract_inmueble_id.remate_hora : '',
+                contacto_remate: caract_inmueble_id ? caract_inmueble_id.remate_nombre_contacto : '',
+                telefono_contacto_remate: caract_inmueble_id ? caract_inmueble_id.remate_telef_contacto : '',
+                correo_contacto_remate: caract_inmueble_id ? caract_inmueble_id.remate_correo_contacto : '',
 
                 map: null,
                 marker: null,
