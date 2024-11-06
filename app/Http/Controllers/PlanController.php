@@ -8,6 +8,7 @@ use App\Models\Aviso;
 use App\Models\HistorialAvisos;
 use App\Models\Plan;
 use App\Models\PlanUser;
+use App\Models\ProyectoCliente;
 use App\Models\Subscription;
 use App\Models\User;
 use Carbon\Carbon;
@@ -394,8 +395,55 @@ class PlanController extends Controller
     }
 
     // Pagos de cuenta de proyecto
+    // public function mostrarPagoProyecto(Request $request)
+    // {
+    //     // Recuperar los datos de la sesión
+    //     $precio = session('precio');
+    //     $razonSocial = session('razonSocial');
+    //     $correo = session('correo');
+    //     $telefono = session('telefono');
+    //     $documento = session('documento');
+    //     $tipoDocumento = session('tipoDocumento');
+    //     $fechaInicioRaw = session('fechaInicio');
+    //     $fechaFinRaw = session('fechaFin');
+    //     $numeroAnuncios = session('numeroAnuncios');
+    //     $userTypeId = session('userTypeId');
+    //     $proyectoClienteId = session('proyectoClienteId');
+
+    //     $fechaInicio = $this->formatearFecha($fechaInicioRaw);
+    //     $fechaFin = $this->formatearFecha($fechaFinRaw);
+    
+    //     // Verificar si los datos existen para evitar accesos no autorizados
+    //     if (!$precio || !$razonSocial) {
+    //         return response()->view('errors.404', [], 404);
+    //     }
+    
+    //     return view('proyecto-pago', 
+    //             compact(
+    //                 'precio', 
+    //                 'razonSocial', 
+    //                 'correo', 
+    //                 'telefono', 
+    //                 'documento', 
+    //                 'tipoDocumento', 
+    //                 'userTypeId',
+    //                 'fechaInicio',
+    //                 'fechaFin',
+    //                 'numeroAnuncios',
+    //                 'proyectoClienteId',
+    //             ));
+    // }
+
     public function mostrarPagoProyecto(Request $request)
     {
+        $proyectoClienteId = session('proyectoClienteId');
+        $proyectoCliente = ProyectoCliente::find($proyectoClienteId);
+        
+        // Evitar que accedan a la pantalla de pago si ya está pagado
+        if (!$proyectoCliente || $proyectoCliente->pagado) {
+            return response()->view('errors.404', [], 404);
+        }
+
         // Recuperar los datos de la sesión
         $precio = session('precio');
         $razonSocial = session('razonSocial');
@@ -410,26 +458,26 @@ class PlanController extends Controller
 
         $fechaInicio = $this->formatearFecha($fechaInicioRaw);
         $fechaFin = $this->formatearFecha($fechaFinRaw);
-    
-        // Verificar si los datos existen para evitar accesos no autorizados
+
         if (!$precio || !$razonSocial) {
             return response()->view('errors.404', [], 404);
         }
-    
-        return view('proyecto-pago', 
-                compact(
-                    'precio', 
-                    'razonSocial', 
-                    'correo', 
-                    'telefono', 
-                    'documento', 
-                    'tipoDocumento', 
-                    'userTypeId',
-                    'fechaInicio',
-                    'fechaFin',
-                    'numeroAnuncios',
-                ));
+
+        return view('proyecto-pago', compact(
+            'precio', 
+            'razonSocial', 
+            'correo', 
+            'telefono', 
+            'documento', 
+            'tipoDocumento', 
+            'userTypeId',
+            'fechaInicio',
+            'fechaFin',
+            'numeroAnuncios',
+            'proyectoClienteId',
+        ));
     }
+
 
     private function formatearFecha($fecha)
     {
@@ -445,5 +493,4 @@ class PlanController extends Controller
         return $formatter->format($date);
     }
     
-
 }

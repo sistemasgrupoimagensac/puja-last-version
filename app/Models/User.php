@@ -61,17 +61,18 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     // Método para verificar si el usuario puede publicar proyectos
     public function canPublishProjects()
     {
-        $proyecto = $this->proyecto_cliente;
+        $proyectoCliente = $this->proyecto_cliente;
 
-        if (!$proyecto) {
-            return false; // Si no tiene un proyecto asociado, no puede publicar
+        if (!$proyectoCliente) {
+            return false; // Si no tiene un proyectoCliente asociado, no puede publicar
         }
 
         return [
-            'activo' => $proyecto->activo,
-            'numero_anuncios' => $proyecto->numero_anuncios,
-            'fecha_inicio_contrato' => $proyecto->fecha_inicio_contrato,
-            'fecha_fin_contrato' => $proyecto->fecha_fin_contrato,
+            'activo' => $proyectoCliente->activo,
+            'pagado' => $proyectoCliente->pagado,
+            'numero_anuncios' => $proyectoCliente->numero_anuncios,
+            'fecha_inicio_contrato' => $proyectoCliente->fecha_inicio_contrato,
+            'fecha_fin_contrato' => $proyectoCliente->fecha_fin_contrato,
         ];
     }
 

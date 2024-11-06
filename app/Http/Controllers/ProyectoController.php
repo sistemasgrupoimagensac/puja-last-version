@@ -176,6 +176,10 @@ class ProyectoController extends Controller
         try {
             // Buscar el proyecto por su slug
             $proyecto = Proyecto::where('slug', $slug)->firstOrFail();
+
+            if (!isset($proyecto)) {
+                return response()->view('errors.404', [], 404);
+            }
     
             // Obtener las imágenes adicionales del proyecto
             $imagenes = ProyectoImagenesAdicionales::where('proyecto_id', $proyecto->id)
@@ -189,23 +193,48 @@ class ProyectoController extends Controller
                     $query->where('estado', 1); // Solo imágenes activas
                 }])
                 ->get();
-                
-            $projectInfo = false;
+
             if (Auth::check()) {
-                $user_id = Auth::id();
-                $user = User::find($user_id);
-                $projectInfo = $user->canPublishProjects(); 
+                $user_id_log = Auth::id();
             }
-    
-            // Pasar el proyecto, las imágenes y las unidades a la vista
-            return view('proyecto', compact('proyecto', 'imagenes', 'unidades', 'projectInfo'));
+
+            // dd($proyecto->cliente->user_id, $user_id_log);
+
+            if ($proyecto->cliente->activo || $proyecto->cliente->user_id === $user_id_log) {
+                // si el cliente esta activo
+                return view('proyecto', compact('proyecto', 'imagenes', 'unidades'));
+            } else {
+                // si no esta activo
+                return response()->view('errors.404', [], 404);
+            }
             
         } catch (\Exception $e) {
+            return response()->view('errors.404', [], 404);
+        }
+    }
+
+    public function savePaidProjectStatus(Request $request)
+    {
+        // Obtener el registro de ProyectoCliente según el ID proporcionado
+        $proyectoCliente = ProyectoCliente::where('id', $request->proyectoClienteId)->first();
+    
+        if ($proyectoCliente) {
+            // Actualizar el campo 'pagado' a true (o 1)
+            $proyectoCliente->pagado = true;
+            $proyectoCliente->save();
+    
             return response()->json([
-                'message' => 'Proyecto no encontrado.',
-                'error' => $e->getMessage()
+                'status' => 'Success',
+                'message' => 'El estado de pago ha sido actualizado correctamente.',
+            ], 200);
+        } else {
+
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'ProyectoCliente no encontrado.',
             ], 404);
         }
     }
+    
     
 }

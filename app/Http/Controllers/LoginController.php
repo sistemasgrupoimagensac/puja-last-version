@@ -124,6 +124,7 @@ class LoginController extends Controller
             $documento = $user->getDniAttribute();
             $tipoDocumento = $user->tipoDocumento->documento;
             $userTypeId = $user->tipoUsuario->id;
+            $proyectoClienteId = $proyectoCliente->id;
 
             
             if ($proyectoCliente && !$proyectoCliente->pagado) {
@@ -139,6 +140,7 @@ class LoginController extends Controller
                     'fechaFin' => $fechaFin,
                     'numeroAnuncios' => $numeroAnuncios,
                     'userTypeId' => $userTypeId,
+                    'proyectoClienteId' => $proyectoClienteId,
                 ]);
 
                 return response()->json([

@@ -32,52 +32,17 @@
                 <div class="d-flex flex-column ">
 
                     {{-- detalles del plan contratado --}}
-                    {{-- <div class="text-bg-dark shadow h-100">
-                        <div class="text-center d-flex flex-column justify-content-around">
-                        <h3>Pago Proyecto</h3>
-                    
-                        <div class="d-flex flex-column align-items-center">
-                            <div class="card-text fw-bold display-3 d-flex gap-2">
-                            <span>S/ {{ $precio_formateado }}</span>
-                            </div>
-                        </div>
-
-                        <p class="card-text h2"> 
-                            <span>
-                                aviso(s) {{ $numeroAnuncios }} 
-                            </span>
-                        </p>
-
-                        <small class="h5 d-flex flex-column align-items-start">
-                            <div>
-                                <span class="">desde: </span> <span>{{ $fechaInicio }}</span>
-                            </div>
-                            <div>
-                                <span class="">hasta: </span> <span>{{ $fechaFin }}</span>
-                            </div>
-                        </small> 
-
-
-                        </div>
-                    </div> --}}
-
                     <div class="card text-bg-dark mb-3 border-0 text-center">
-                        {{-- <div class="card-header"> --}}
-                            <h4 class="card-header fw-bold border-bottom">Pago Proyecto</h4>
-
-                        {{-- </div> --}}
+                        <h4 class="card-header fw-bold border-bottom m-0 py-3">Detalles Plan Proyecto</h4>
                         <div class="card-body py-4">
-                            {{-- <h4 class="card-title fw-bold">Pago Proyecto</h4> --}}
                             <p class="card-text fw-bold display-3">S/ {{ $precio_formateado }}</p>
                             <p class="card-text h3">aviso(s): {{ $numeroAnuncios }} </p>
                         </div>
-
                         <div class="card-footer bg-secondary d-flex justify-content-center py-3">
                             <div class="d-flex flex-column align-items-start">
                                 <p class="m-0 h5">
                                     <span>desde: </span> <span>{{ $fechaInicio }}</span>
                                 </p>
-
                                 <p class="m-0 h5">
                                     <span>hasta: </span> <span>{{ $fechaFin }}</span>
                                 </p>
@@ -388,6 +353,7 @@
                         };
 
                         this.saveTransaction(transactionData);
+                        this.savePaidProjectStatus();
 
                         this.clearForm()
                         this.isProcessing = false
@@ -416,6 +382,27 @@
                 .catch(error => {
                     console.error('Error guardando la transacción:', error);
                 });
+            },
+
+            savePaidProjectStatus(){
+                const dataProyectoClienteId = {
+                    "proyectoClienteId": {{ $proyectoClienteId }},
+                }
+
+                fetch("/save-paid-project-status", {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify(dataProyectoClienteId)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    
+                })
             },
 
             contratarPlan(price, description) {

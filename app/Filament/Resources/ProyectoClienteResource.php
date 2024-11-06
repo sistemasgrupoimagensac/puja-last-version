@@ -15,6 +15,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\ToggleButtons;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Validation\Rule;
 use Filament\Tables\Columns\IconColumn;
@@ -173,7 +174,7 @@ class ProyectoClienteResource extends Resource
                             ->numeric()
                             ->default(0)
                             ->minValue(0)
-                            ->suffix('S/')
+                            ->prefix('S/')
                             ->placeholder('Ingrese el monto del proyecto'),
                     ])
                     ->columns(2),
@@ -183,13 +184,21 @@ class ProyectoClienteResource extends Resource
                         Toggle::make('habilitado')
                             ->label('Habilitado')
                             ->default(true),
-                        
-                        Toggle::make('activo')
+
+                        ToggleButtons::make('activo')
                             ->label('Activo')
+                            ->boolean()
+                            ->inline()
                             ->disabled()
                             ->default(fn ($record) => $record->activo ?? false),
+
+                        ToggleButtons::make('pagado')
+                            ->label('Pagado')
+                            ->boolean()
+                            ->inline()
+                            ->disabled()
                     ])
-                    ->columns(2),
+                    ->columns(3),
 
                 Section::make('Credenciales de Usuario')
                     ->schema([
@@ -224,13 +233,15 @@ class ProyectoClienteResource extends Resource
             ->columns([
                 TextColumn::make('razon_social')->label('Razón Social'),
                 TextColumn::make('ruc')->label('RUC'),
-                TextColumn::make('nombre_contacto')->label('Nombre de Contacto'),
                 TextColumn::make('user.email')->label('Correo Electrónico'),
                 TextColumn::make('fecha_inicio_contrato')->label('Inicio de Contrato'),
                 TextColumn::make('fecha_fin_contrato')->label('Fin de Contrato'),
                 IconColumn::make('activo')
                     ->boolean()
                     ->label('Activo'),
+                IconColumn::make('pagado')
+                    ->boolean()
+                    ->label('Pagó'),
             ])
             ->filters([
                 Filter::make('activo')

@@ -28,6 +28,7 @@ use App\Http\Controllers\ProyectoImagenUnidadController;
 use App\Http\Controllers\ProyectosController;
 use App\Http\Controllers\Web\PanelProyecto\ProyectoInteresadosController;
 use App\Http\Controllers\Web\PanelProyecto\ProyectosContratadosController;
+use App\Http\Middleware\CheckPaymentProjectStatus;
 
 Route::get('/', MainController::class);
 Route::get('/libro-reclamaciones', [SuppliersController::class, 'libroReclamos'])->name('libro_reclamaciones');
@@ -246,4 +247,11 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\CheckUserProjectType
 Route::post('/panel-proyecto/interesados/update-status', [ProyectoInteresadosController::class, 'updateStatus'])->name('interesados.update-status');
 
 // Ruta para el pago de proyecto
-Route::get('/proyecto-pago', [PlanController::class, 'mostrarPagoProyecto'])->name('ruta.proyecto.pago');
+// Route::get('/proyecto-pago', [PlanController::class, 'mostrarPagoProyecto'])->name('ruta.proyecto.pago');
+
+Route::get('/proyecto-pago', [PlanController::class, 'mostrarPagoProyecto'])
+    ->name('ruta.proyecto.pago')
+    ->middleware(CheckPaymentProjectStatus::class);
+
+// cmabiar estado a cliente pagó
+Route::post('/save-paid-project-status', [ProyectoController::class, 'savePaidProjectStatus'])->name('paid.project');
