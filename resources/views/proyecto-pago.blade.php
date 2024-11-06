@@ -384,10 +384,10 @@
                 });
             },
 
-            savePaidProjectStatus(){
+            savePaidProjectStatus() {
                 const dataProyectoClienteId = {
                     "proyectoClienteId": {{ $proyectoClienteId }},
-                }
+                };
 
                 fetch("/save-paid-project-status", {
                     method: 'POST',
@@ -400,10 +400,17 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
-                    
+                    if (data.status === 'Success') {
+                        window.location.replace('/login'); 
+                    } else {
+                        console.error(data.message || 'Error al registrar el pago.');
+                    }
                 })
+                .catch(error => {
+                    console.error('Error:', error.message);
+                });
             },
+
 
             contratarPlan(price, description) {
                     const dataToSend = {
