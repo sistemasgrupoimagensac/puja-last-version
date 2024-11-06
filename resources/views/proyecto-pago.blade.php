@@ -268,9 +268,31 @@
                 }, callback, this.handleTokenError)
             },
 
+            // handleTokenSuccess(response) {
+            //     const source_id = response.data.id
+            //     const price = {{ $precio }}
+
+            //     const formPost = {
+            //         "source_id": source_id,
+            //         "method": "card",
+            //         "amount": price,
+            //         "currency": 'PEN',
+            //         "description": `Contrato de proyecto inmobiliario adquirido por S/ ${price}`,
+            //         "device_session_id": this.deviceSessionId,
+            //         "customer": {
+            //             "name": '{{ $razon_social }}',
+            //             "phone_number": '{{ $telefono }}',
+            //             "email": '{{ $correo }}'
+            //         }
+            //     }
+
+            //     this.processPayment(formPost)
+            // },
+
             handleTokenSuccess(response) {
-                const source_id = response.data.id
-                const price = {{ $precio }}
+                const source_id = response.data.id;
+                const price = {{ $precio }};
+                const duration = 1;  // Establece la duración predeterminada o cámbiala según sea necesario
 
                 const formPost = {
                     "source_id": source_id,
@@ -284,9 +306,10 @@
                         "phone_number": '{{ $telefono }}',
                         "email": '{{ $correo }}'
                     }
-                }
+                };
 
-                this.processPayment(formPost)
+                // Llamada a contratarPlan con formPost y duración
+                this.contratarPlan(formPost, duration);
             },
 
             handleTokenError(error) {
@@ -368,6 +391,42 @@
                 })
             },
 
+            createSubscriptionPlan(duration) {
+                // Configura los detalles del plan de suscripción basado en la duración
+                const amount = {{ $precio }};
+                const planDataRequest = {
+                    amount: amount,
+                    status_after_retry: 'cancelled',
+                    retry_times: 2,
+                    name: `Suscripción ${duration} Meses`,
+                    repeat_unit: 'month',
+                    repeat_every: duration,
+                    currency: 'PEN'
+                };
+
+                // Enviar solicitud al backend para crear el plan en Openpay
+                return fetch('/crear-plan', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify(planDataRequest)
+                })
+                .then(response => response.json()) // Retorna el plan creado
+                .then(plan => {
+                    if (plan.id) {
+                        return plan;  // Retorna el plan para su uso en `contratarPlan`
+                    } else {
+                        throw new Error('Error al crear el plan de suscripción');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error en la creación del plan:', error.message);
+                });
+            },
+
             saveTransaction(transactionData) {
                 fetch("/save-transaction", {
                     method: 'POST',
@@ -412,34 +471,126 @@
             },
 
 
-            contratarPlan(price, description) {
-                    const dataToSend = {
+            // contratarPlan(price, description) {
+            //         const dataToSend = {
+            //             // TODO: pendiente definir para la facturación
+            //         }
 
-                    }
+            //         fetch('/contratar_plan', {
+            //             method: 'POST',
+            //             headers: {
+            //                 'Accept': 'application/json',
+            //                 'Content-Type': 'application/json',
+            //                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            //             },
+            //             body: JSON.stringify(dataToSend)
+            //         })
+            //         .then(response => response.json())
+            //         .then(data => {
+            //             if (data.status === "Success") {
+            //                 const planUserId = data.planuser_id
+            //                 this.factElectronica(price, planUserId, description)
+            //                 window.location.href = '/panel/avisos'
+            //             } else {
+            //                 console.error('Error en la suscripción:', data.message);
+            //             }
+            //         })
+            //         .catch(error => {
+            //             console.error('Error sending data to backend:', error.message);
+            //         });
+            // },
 
-                    fetch('/contratar_plan', {
-                        method: 'POST',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        },
-                        body: JSON.stringify(dataToSend)
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.status === "Success") {
-                            const planUserId = data.planuser_id
-                            this.factElectronica(price, planUserId, description)
-                            window.location.href = '/panel/avisos'
-                        } else {
-                            console.error('Error en la suscripción:', data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error sending data to backend:', error.message);
+            contratarPlan(formPost, duration) {
+                // Verifica si el cliente existe en Openpay o créalo
+                this.createCustomer(formPost.customer).then(customer => {
+                    const customerId = customer.id;
+
+                    // Crear el plan en Openpay
+                    this.createSubscriptionPlan(duration).then(plan => {
+                        const subscriptionDataRequest = {
+                            plan_id: plan.id,
+                            card_id: formPost.source_id,  // Usa el `source_id` como `card_id`
+                            customer_id: customerId,       // Usa el `customer_id` del cliente creado
+                            trial_end_date: new Date().toISOString().split('T')[0]
+                        };
+
+                        // Enviar solicitud para suscribir al cliente en el backend
+                        fetch(`/suscribir_cliente`, {
+                            method: 'POST',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify(subscriptionDataRequest)
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === "Success") {
+                                // Guardar el estado de la suscripción como activa en la base de datos
+                                this.saveSubscriptionStatus(data.subscription_id, "active");
+                                this.savePaidProjectStatus();
+                            } else {
+                                console.error('Error en la suscripción:', data.message);
+                            }
+                        })
+                        .catch(error => console.error('Error en la suscripción:', error.message));
                     });
+                });
             },
+
+            createCustomer(customerData) {
+                return fetch('/crear_cliente', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify(customerData)
+                })
+                .then(response => response.json())
+                .then(customer => {
+                    if (customer.id) {
+                        return customer;  // Retorna el cliente creado para obtener el `customer_id`
+                    } else {
+                        throw new Error('Error al crear el cliente en Openpay');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error en la creación del cliente:', error.message);
+                });
+            },
+
+            saveSubscriptionStatus(subscriptionId, status) {
+                const data = {
+                    subscription_id: subscriptionId,
+                    status: status,
+                    proyectoClienteId: {{ $proyectoClienteId }}  // Incluye el ID del proyecto o cliente relacionado
+                };
+
+                fetch('/save-subscription-status', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "Success") {
+                        console.log("El estado de la suscripción ha sido guardado correctamente.");
+                    } else {
+                        console.error('Error al guardar el estado de la suscripción:', data.message);
+                    }
+                })
+                .catch(error => console.error('Error al enviar los datos de la suscripción:', error.message));
+            },
+
+
+
 
             factElectronica(price, planUserId, description) {
                 try {

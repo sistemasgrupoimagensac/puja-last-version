@@ -10,6 +10,7 @@ use App\Models\Plan;
 use App\Models\PlanUser;
 use App\Models\ProyectoCliente;
 use App\Models\Subscription;
+use App\Models\SubscriptionPlanProject;
 use App\Models\User;
 use Carbon\Carbon;
 use DateTime;
@@ -230,7 +231,8 @@ class PlanController extends Controller
     }
 
     // Usar un plan contratado activo para publicar un aviso
-    public function use_plan(Request $request){
+    public function use_plan(Request $request)
+    {
         try {
             $user_id = 1;
             $plan_id = $request->plan_id;
@@ -294,7 +296,8 @@ class PlanController extends Controller
         }
     }
 
-    public function pay_plan(Request $request){
+    public function pay_plan(Request $request)
+    {
         try {
             return response()->json([
                 'http_code' => 200,
@@ -395,45 +398,6 @@ class PlanController extends Controller
     }
 
     // Pagos de cuenta de proyecto
-    // public function mostrarPagoProyecto(Request $request)
-    // {
-    //     // Recuperar los datos de la sesión
-    //     $precio = session('precio');
-    //     $razonSocial = session('razonSocial');
-    //     $correo = session('correo');
-    //     $telefono = session('telefono');
-    //     $documento = session('documento');
-    //     $tipoDocumento = session('tipoDocumento');
-    //     $fechaInicioRaw = session('fechaInicio');
-    //     $fechaFinRaw = session('fechaFin');
-    //     $numeroAnuncios = session('numeroAnuncios');
-    //     $userTypeId = session('userTypeId');
-    //     $proyectoClienteId = session('proyectoClienteId');
-
-    //     $fechaInicio = $this->formatearFecha($fechaInicioRaw);
-    //     $fechaFin = $this->formatearFecha($fechaFinRaw);
-    
-    //     // Verificar si los datos existen para evitar accesos no autorizados
-    //     if (!$precio || !$razonSocial) {
-    //         return response()->view('errors.404', [], 404);
-    //     }
-    
-    //     return view('proyecto-pago', 
-    //             compact(
-    //                 'precio', 
-    //                 'razonSocial', 
-    //                 'correo', 
-    //                 'telefono', 
-    //                 'documento', 
-    //                 'tipoDocumento', 
-    //                 'userTypeId',
-    //                 'fechaInicio',
-    //                 'fechaFin',
-    //                 'numeroAnuncios',
-    //                 'proyectoClienteId',
-    //             ));
-    // }
-
     public function mostrarPagoProyecto(Request $request)
     {
         $proyectoClienteId = session('proyectoClienteId');
@@ -478,7 +442,6 @@ class PlanController extends Controller
         ));
     }
 
-
     private function formatearFecha($fecha)
     {
         $date = new DateTime($fecha);
@@ -492,5 +455,190 @@ class PlanController extends Controller
         // Formatear la fecha
         return $formatter->format($date);
     }
+
+    /**
+     * Crea un plan en Openpay
+     */
+    public function crearPlan(Request $request)
+    {
+        $base_url = env('OPENPAY_URL');
+        $openpay_id = env('OPENPAY_ID');
+        $openpay_sk = env('OPENPAY_SK');
+        $encoded_sk = base64_encode("$openpay_sk:");
+
+        $urlAPI = "{$base_url}{$openpay_id}/plans";
+
+        // Convertir los datos recibidos del frontend a JSON
+        $planData = json_encode($request->all());
+
+        // Llamada API para crear el plan en Openpay
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Basic ' . $encoded_sk,
+        ])->withBody($planData, 'application/json')->post($urlAPI);
+
+        // Retornar la respuesta del API de Openpay
+        return response()->json($response->json());
+    }
+
+    /**
+     * Suscribe al cliente a un plan en Openpay
+     */
+    // public function suscribirCliente(Request $request)
+    // {
+    //     $base_url = env('OPENPAY_URL');
+    //     $openpay_id = env('OPENPAY_ID');
+    //     $openpay_sk = env('OPENPAY_SK');
+    //     $encoded_sk = base64_encode("$openpay_sk:");
+
+    //     $customer_id = $request->customer['id'];  // ID del cliente en Openpay
+    //     $urlAPI = "{$base_url}{$openpay_id}/customers/{$customer_id}/subscriptions";
+
+    //     // Datos de la suscripción, incluyendo el ID del plan y tarjeta
+    //     $subscriptionData = [
+    //         'plan_id' => $request->plan_id,
+    //         'card_id' => $request->card_id,
+    //         'trial_end_date' => $request->trial_end_date
+    //     ];
+
+    //     // Llamada API para suscribir al cliente al plan
+    //     $response = Http::withHeaders([
+    //         'Content-Type' => 'application/json',
+    //         'Authorization' => 'Basic ' . $encoded_sk,
+    //     ])->withBody(json_encode($subscriptionData), 'application/json')->post($urlAPI);
+
+    //     // Retornar la respuesta del API de Openpay
+    //     return response()->json($response->json());
+    // }
+
+
+    // public function suscribirCliente(Request $request)
+    // {
+    //     $base_url = env('OPENPAY_URL');
+    //     $openpay_id = env('OPENPAY_ID');
+    //     $openpay_sk = env('OPENPAY_SK');
+    //     $encoded_sk = base64_encode("$openpay_sk:");
+    
+    //     $customer_id = $request->input('customer_id');
+    //     $urlAPI = "{$base_url}{$openpay_id}/customers/{$customer_id}/subscriptions";
+    
+    //     $subscriptionData = [
+    //         'plan_id' => $request->plan_id,
+    //         'card_id' => $request->card_id,
+    //         'trial_end_date' => $request->trial_end_date
+    //     ];
+    
+    //     $response = Http::withHeaders([
+    //         'Content-Type' => 'application/json',
+    //         'Authorization' => 'Basic ' . $encoded_sk,
+    //     ])->withBody(json_encode($subscriptionData), 'application/json')->post($urlAPI);
+    
+    //     $subscriptionResponse = $response->json();
+    
+    //     // if ($response->successful() && isset($subscriptionResponse['id'])) {
+    //     //     ProyectoCliente::where('id', $request->input('proyectoClienteId'))->update(['pagado' => true]);
+    //     // }
+    
+    //     return response()->json($subscriptionResponse);
+    // }
+
+
+    public function suscribirCliente(Request $request)
+    {
+        $base_url = env('OPENPAY_URL');
+        $openpay_id = env('OPENPAY_ID');
+        $openpay_sk = env('OPENPAY_SK');
+        $encoded_sk = base64_encode("$openpay_sk:");
+
+        $customer_id = $request->input('customer_id');
+        $urlAPI = "{$base_url}{$openpay_id}/customers/{$customer_id}/subscriptions";
+
+        $start_date = $request->input('start_date');
+
+        $subscriptionData = [
+            'plan_id' => $request->plan_id,
+            'card_id' => $request->card_id,
+            'trial_end_date' => $request->trial_end_date
+        ];
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Basic ' . $encoded_sk,
+        ])->withBody(json_encode($subscriptionData), 'application/json')->post($urlAPI);
+
+        $subscriptionResponse = $response->json();
+
+        // Agregar 'status' a la respuesta en función del resultado de la solicitud
+        if ($response->successful() && isset($subscriptionResponse['id'])) {
+            // Actualiza el estado de "pagado" en el proyecto, si es necesario
+            // ProyectoCliente::where('id', $request->input('proyectoClienteId'))->update(['pagado' => true]);
+            // dd($response);
+            // Añadir un campo de estado exitoso
+            return response()->json([
+                'status' => 'Success',
+                'subscription_id' => $subscriptionResponse['id'],
+                'message' => 'Suscripción creada exitosamente.',
+            ], 200);
+        } else {
+            // Devolver una respuesta de error si la suscripción falla
+            return response()->json([
+                'status' => 'Error',
+                'message' => $subscriptionResponse['description'] ?? 'Error al crear la suscripción.',
+            ], 500);
+        }
+    }
+
+    
+
+    public function crearCliente(Request $request)
+    {
+        $base_url = env('OPENPAY_URL');
+        $openpay_id = env('OPENPAY_ID');
+        $openpay_sk = env('OPENPAY_SK');
+        $encoded_sk = base64_encode("$openpay_sk:");
+
+        $urlCustomerAPI = "{$base_url}{$openpay_id}/customers";
+
+        // Datos del cliente
+        $customerData = [
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'phone_number' => $request->input('phone_number')
+        ];
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Basic ' . $encoded_sk,
+        ])->withBody(json_encode($customerData), 'application/json')->post($urlCustomerAPI);
+
+        return response()->json($response->json());
+    }
+
+    public function saveSubscriptionStatus(Request $request)
+    {
+        // Obtiene el `proyectoClienteId` y el `subscription_id` desde la solicitud
+        $subscription = SubscriptionPlanProject::create([
+            'subscription_id' => $request->input('subscription_id'),
+            'status' => $request->input('status'),
+            'proyecto_cliente_id' => $request->input('proyectoClienteId')
+        ]);
+
+        dd($subscription);
+
+        if ($subscription) {
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'El estado de la suscripción ha sido guardado correctamente.'
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'No se pudo guardar el estado de la suscripción.'
+            ], 500);
+        }
+    }
+
+
+
     
 }

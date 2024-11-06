@@ -255,3 +255,11 @@ Route::get('/proyecto-pago', [PlanController::class, 'mostrarPagoProyecto'])
 
 // cmabiar estado a cliente pagó
 Route::post('/save-paid-project-status', [ProyectoController::class, 'savePaidProjectStatus'])->name('paid.project');
+
+// suscribir al cliente inmobiliario
+Route::post('/crear-plan', [PlanController::class, 'crearPlan'])->name('crear.plan');
+Route::post('/crear_cliente', [PlanController::class, 'crearCliente'])->name('crear.cliente');
+Route::post('/suscribir_cliente', [PlanController::class, 'suscribirCliente'])->name('suscribir.cliente');
+
+// guardar la suscription del cliente a su debito automatico
+Route::post('/save-subscription-status', [PlanController::class, 'saveSubscriptionStatus'])->name('save.subscription.status');
