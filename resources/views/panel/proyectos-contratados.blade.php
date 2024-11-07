@@ -19,7 +19,7 @@
 
                 @if (isset($projectInfo))
     
-                    @if ($projectInfo['activo'])
+                    @if ($projectInfo['pagado'])
     
                     <div class="card text-bg-light my-5 shadow" style="width: 20rem;">
     
@@ -27,26 +27,35 @@
                             {{ $user->nombres }}
                         </div>
     
-                        <div class="card-body d-flex text-center align-items-center bg-white">
+                        <div class="card-body bg-white">
                             {{-- <p class="fs-4 m-0">Adquiere un plan con los mejores precios del mercado.</p> --}}
-    
-                            <div class="d-flex flex-column gap-2 align-items-start">
-    
-                                <p class="m-0">
-                                    <span class="fw-bold">Anuncios contratados: </span>
-                                    <span>{{ $projectInfo['numero_anuncios'] }}</span>
-                                </p>
-                                <p class="m-0">
-                                    <span class="fw-bold">Inicio contrato: </span>
-                                    <span>{{ $projectInfo['fecha_inicio_formateada'] }}</span>
-                                </p>
-                                <p class="m-0">
-                                    <span class="fw-bold">Fin contrato: </span>
-                                    <span>{{ $projectInfo['fecha_fin_formateada'] }}</span>
-                                </p>
+
+                            <div class="d-flex text-center align-items-center ">
+                                <div class="d-flex flex-column gap-2 align-items-start">
+        
+                                    <div>
+                                        <span class="fw-bold">Anuncios contratados: </span>
+                                        <h5 class="m-0 d-inline">
+                                            <span class="badge text-bg-warning">{{ $projectInfo['numero_anuncios'] }} proyectos</span>
+                                        </h5>
+                                    </div>
+                                    <p class="m-0">
+                                        <span class="fw-bold">Inicio contrato: </span>
+                                        <span>{{ $projectInfo['fecha_inicio_formateada'] }}</span>
+                                    </p>
+                                    <p class="m-0">
+                                        <span class="fw-bold">Fin contrato: </span>
+                                        <span>{{ $projectInfo['fecha_fin_formateada'] }}</span>
+                                    </p>
+                                </div>
+
                             </div>
     
+    
+                            <h5 class="m-0"><span class="badge text-bg-warning mt-2">Periodo: {{ $projectInfo['periodo_plan'] }} meses</span></h5>
                         </div>
+                        
+
 
                         <div class="card-footer d-flex align-items-center gap-3 py-3">
 

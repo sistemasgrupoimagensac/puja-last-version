@@ -71,6 +71,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
             'activo' => $proyectoCliente->activo,
             'pagado' => $proyectoCliente->pagado,
             'numero_anuncios' => $proyectoCliente->numero_anuncios,
+            'periodo_plan' => $proyectoCliente->periodo_plan,
             'fecha_inicio_contrato' => $proyectoCliente->fecha_inicio_contrato,
             'fecha_fin_contrato' => $proyectoCliente->fecha_fin_contrato,
         ];
