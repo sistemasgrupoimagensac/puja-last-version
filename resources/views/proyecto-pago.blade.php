@@ -268,32 +268,11 @@
                 }, callback, this.handleTokenError)
             },
 
-            // handleTokenSuccess(response) {
-            //     const source_id = response.data.id;
-            //     const price = {{ $precio }};
-            //     const duration = {{ $periodoPlan }};
-
-            //     const formPost = {
-            //         "source_id": source_id,
-            //         "method": "card",
-            //         "amount": price,
-            //         "currency": 'PEN',
-            //         "description": `Contrato de proyecto inmobiliario adquirido por S/ ${price}`,
-            //         "device_session_id": this.deviceSessionId,
-            //         "customer": {
-            //             "name": '{{ $razon_social }}',
-            //             "phone_number": '{{ $telefono }}',
-            //             "email": '{{ $correo }}'
-            //         }
-            //     };
-
-
-            // },
-
             handleTokenSuccess(response) {
                 const source_id = response.data.id; // Token de la tarjeta
                 const price = {{ $precio }};
                 const duration = {{ $periodoPlan }};
+                const proyectoClienteId = {{ $proyectoClienteId }};
 
                 const formPost = {
                     source_id: source_id,
@@ -303,33 +282,165 @@
                     description: `Contrato de proyecto inmobiliario adquirido por S/ ${price}`,
                     device_session_id: this.deviceSessionId,
                     customer: {
-                        name: '{{ $razon_social }}',
+                        name: '{{ $razonSocial }}',
                         phone_number: '{{ $telefono }}',
                         email: '{{ $correo }}'
                     }
                 };
 
-                // Llama al método para crear el cliente y luego asociar la tarjeta
-                this.createCustomer(formPost.customer).then(customer => {
-                    if (customer && customer.id) {
-                        // Asociar la tarjeta al cliente
+                this.createCustomer(formPost.customer)
+                    .then(customer => {
+
                         this.associateCardToCustomer(customer.id, formPost.source_id, formPost.device_session_id)
                             .then(cardData => {
 
-                                if (cardData.id) {
-                                    console.log('Cliente y tarjeta creados exitosamente:', {
-                                        customer_id: cardData.customer_id,
-                                        card_id: cardData.id
-                                    });
-                                    // TODO: Aquí puedes proceder con tu lógica de negocio, como la suscripción al plan.
-                                }
+                                this.realizarDebitoInicial(formPost, cardData, proyectoClienteId)
+
                             })
-                            .catch(error => {
-                                console.error('Error al asociar la tarjeta:', error.message);
-                            });
+                    })
+            },
+
+            realizarDebitoInicial(formPost, cardData, proyectoClienteId) {
+
+                let transactionData = {
+                    amount: formPost.amount,
+                    currency: formPost.currency,
+                    customer_name: formPost.customer.name,
+                    customer_email: formPost.customer.email,
+                    customer_phone_number: formPost.customer.phone_number,
+                    description: formPost.description,
+                    tipo_usuario_id: {{ $userTypeId }}
+                }
+
+                fetch('/realizar_debito_inicial', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        customer_id: cardData.customer_id,
+                        card_id: cardData.id,
+                        amount: formPost.amount,
+                        description: formPost.description,
+                        device_session_id: formPost.device_session_id
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+
+                    if (data.status === "Success") {
+                        transactionData = {
+                            ...transactionData,
+                            status: 1, // Transacción exitosa
+                            card_bank_code: cardData.bank_code,
+                            card_bank_name: cardData.brand,
+                            card_holder_name: cardData.holder_name,
+                            card_type: cardData.type,
+                        };
+
+                        this.saveTransaction(transactionData);
+
+                        // Si se puede realizar el pago recien se puede guardar la tarjeta en la DB
+                        this.saveCardData(cardData, proyectoClienteId)
+
+                        this.clearForm()
+                        this.isProcessing = false
+                        document.getElementById('pay-button').disabled = false
+                        document.getElementById('success-message').innerText = 'Pago realizado con éxito';
+                        triggerToastSuccess()
+
+                        setTimeout(() => {
+                            this.savePaidProjectStatus()
+                        }, 3000);
+
+
+                    } else {
+                        transactionData = {
+                            ...transactionData,
+                            status: 0, // Transacción fallida
+                            error_description: data.description,
+                            error_code: data.error_code,
+                            request_id: data.request_id
+                        };
+
+                        this.saveTransaction(transactionData);
+
+                        this.clearForm()
+                        this.isProcessing = false
+                        document.getElementById('pay-button').disabled = false
+                        document.getElementById('error-message').innerText = 'La tarjeta ha sido rechazada';
+                        triggerToastPayError()
+
+                        setTimeout(() => {
+                            window.location.reload()
+                        }, 3000);
                     }
-                }).catch(error => {
-                    console.error('Error en la creación del cliente:', error.message);
+
+                })
+                .catch(error => {
+                    console.error('Error al realizar el débito inicial:', error.message);
+                });
+            },
+
+            saveCardData(cardData, proyectoClienteId) {
+                return fetch('/guardar_tarjeta', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        proyecto_cliente_id: proyectoClienteId,
+                        customer_id: cardData.customer_id,
+                        card_id: cardData.id,
+                        card_brand: cardData.brand,
+                        card_last_digits: cardData.card_number,
+                        expiration_month: cardData.expiration_month,
+                        expiration_year: cardData.expiration_year,
+                        holder_name: cardData.holder_name,
+                        type: cardData.type,
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.message);
+                    if (data.status === "Success") {
+                        // Llamada para asociar la tarjeta a un plan
+                        this.associateCardToPlan(proyectoClienteId, cardData.customer_id, cardData.id, {{ $periodoPlan }});
+                    }
+                    return data;
+                })
+                .catch(error => {
+                    console.error('Error al guardar la tarjeta:', error.message);
+                    throw error;
+                });
+            },
+
+            // Función para asociar la tarjeta a un plan
+            associateCardToPlan(proyectoClienteId, customerId, cardId, periodoPlan) {
+                fetch('/suscribir_plan', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        proyecto_cliente_id: proyectoClienteId,
+                        customer_id: customerId,
+                        card_id: cardId,
+                        periodo_plan: periodoPlan, // Asegúrate de enviar el periodo del plan
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Asociación de plan:', data.message);
+                })
+                .catch(error => {
+                    console.error('Error al asociar el plan:', error.message);
                 });
             },
 

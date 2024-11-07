@@ -5,6 +5,7 @@ use App\Http\Controllers\MyPostsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\ContactoController;
+use App\Http\Controllers\CustomerCardController;
 use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\PlanController;
 use App\Http\Middleware\SessionData;
@@ -26,6 +27,7 @@ use App\Http\Controllers\ProyectoImagenesAdicionalController;
 use App\Http\Controllers\ProyectoImagenController;
 use App\Http\Controllers\ProyectoImagenUnidadController;
 use App\Http\Controllers\ProyectosController;
+use App\Http\Controllers\UserProjectSubscriptionController;
 use App\Http\Controllers\Web\PanelProyecto\ProyectoInteresadosController;
 use App\Http\Controllers\Web\PanelProyecto\ProyectosContratadosController;
 use App\Http\Middleware\CheckPaymentProjectStatus;
@@ -264,3 +266,7 @@ Route::post('/asociar_tarjeta', [PlanController::class, 'asociarTarjeta'])->name
 
 // guardar la suscription del cliente a su debito automatico
 Route::post('/save-subscription-status', [PlanController::class, 'saveSubscriptionStatus'])->name('save.subscription.status');
+
+Route::post('/guardar_tarjeta', [CustomerCardController::class, 'store'])->name('guardar_tarjeta');
+Route::post('/suscribir_plan', [UserProjectSubscriptionController::class, 'suscribirPlan']);
+Route::post('/realizar_debito_inicial', [PlanController::class, 'realizarDebitoInicial']);

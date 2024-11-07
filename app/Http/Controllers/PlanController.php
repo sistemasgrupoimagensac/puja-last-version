@@ -460,30 +460,6 @@ class PlanController extends Controller
         return $formatter->format($date);
     }
 
-    // public function crearCliente(Request $request)
-    // {
-    //     $base_url = env('OPENPAY_URL');
-    //     $openpay_id = env('OPENPAY_ID');
-    //     $openpay_sk = env('OPENPAY_SK');
-    //     $encoded_sk = base64_encode("$openpay_sk:");
-
-    //     $urlCustomerAPI = "{$base_url}{$openpay_id}/customers";
-
-    //     // Datos del cliente
-    //     $customerData = [
-    //         'name' => $request->input('name'),
-    //         'email' => $request->input('email'),
-    //         'phone_number' => $request->input('phone_number')
-    //     ];
-
-    //     $response = Http::withHeaders([
-    //         'Content-Type' => 'application/json',
-    //         'Authorization' => 'Basic ' . $encoded_sk,
-    //     ])->withBody(json_encode($customerData), 'application/json')->post($urlCustomerAPI);
-
-    //     return response()->json($response->json());
-    // }
-
     public function crearCliente(Request $request)
     {
         $base_url = env('OPENPAY_URL');
@@ -637,5 +613,54 @@ class PlanController extends Controller
             ], 500);
         }
     }
+
+    public function realizarDebitoInicial(Request $request)
+    {
+        $request->validate([
+            'customer_id' => 'required|string',
+            'card_id' => 'required|string',
+            'amount' => 'required|numeric',
+            'description' => 'required|string',
+        ]);
+
+        $base_url = env('OPENPAY_URL');
+        $openpay_id = env('OPENPAY_ID');
+        $openpay_sk = env('OPENPAY_SK');
+        $encoded_sk = base64_encode("$openpay_sk:");
+
+        $urlChargeAPI = "{$base_url}{$openpay_id}/customers/{$request->customer_id}/charges";
+
+        // Datos del cargo
+        $chargeData = [
+            'method' => 'card',
+            'source_id' => $request->card_id,
+            'amount' => $request->amount,
+            'currency' => 'PEN', // Ajusta la moneda si es necesario
+            'description' => $request->description,
+            'device_session_id' => $request->device_session_id, // Opcional si lo necesitas para seguridad
+        ];
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Basic ' . $encoded_sk,
+        ])->withBody(json_encode($chargeData), 'application/json')->post($urlChargeAPI);
+
+        $chargeResponse = $response->json();
+
+        if ($response->successful() && isset($chargeResponse['id'])) {
+            return response()->json([
+                'status' => 'Success',
+                'charge_id' => $chargeResponse['id'],
+                'message' => 'El débito inicial se ha realizado con éxito.',
+            ], 201);
+        }
+
+        return response()->json([
+            'status' => 'Error',
+            'message' => 'Error al realizar el débito inicial.',
+            'details' => $chargeResponse,
+        ], 500);
+    }
+
 
 }
