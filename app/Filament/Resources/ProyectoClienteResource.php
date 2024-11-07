@@ -7,6 +7,7 @@ use App\Models\ProyectoCliente;
 use App\Models\User;
 use Filament\Forms\Components\Builder;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Repeater;
 use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
@@ -14,6 +15,7 @@ use Illuminate\Support\Str;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Tables\Columns\TextColumn;
@@ -33,22 +35,23 @@ class ProyectoClienteResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('Información de la Inmobiliaria')
+                Section::make('Información de la Empresa')
                     ->schema([
                         TextInput::make('razon_social')->required()->label('Razón Social'),
                         TextInput::make('ruc')->required()->label('RUC'),
                         TextInput::make('direccion_fiscal')->required()->label('Dirección Fiscal'),
                         TextInput::make('telefono_inmobiliaria')
                             ->tel()
+                            ->required()
                             ->telRegex('/^9[0-9]{8}$/')
-                            ->label('Teléfono de la Inmobiliaria'),
+                            ->label('Teléfono de la empresa'),
                         TextInput::make('nombre_comercial')->label('Nombre Comercial'),
                     ])
                     ->columns(2),
 
                 Section::make('Representantes Legales')
                     ->schema([
-                        \Filament\Forms\Components\Repeater::make('representantesLegales')
+                        Repeater::make('representantesLegales')
                             ->relationship('representantesLegales')
                             ->schema([
                                 TextInput::make('nombre')->required()->label('Nombre del Representante Legal'),
@@ -64,7 +67,7 @@ class ProyectoClienteResource extends Resource
                                     ->required()
                                     ->label('Número de Documento')
                                     ->maxLength(20),
-                                \Filament\Forms\Components\Select::make('estado_civil')
+                                Select::make('estado_civil')
                                     ->label('Estado Civil')
                                     ->options([
                                         'soltero' => 'Soltero',
@@ -83,7 +86,7 @@ class ProyectoClienteResource extends Resource
 
                 Section::make('Información de Contacto')
                     ->schema([
-                        \Filament\Forms\Components\Repeater::make('contactos')
+                        Repeater::make('contactos')
                             ->relationship('contactos') // Define la relación con la tabla de contactos
                             ->schema([
                                 TextInput::make('nombre')
@@ -136,52 +139,53 @@ class ProyectoClienteResource extends Resource
                         DatePicker::make('fecha_inicio_contrato')
                             ->required()
                             ->label('Fecha de Inicio del Contrato')
-                            ->reactive(), // Hacer que el campo sea reactivo para actualizaciones en vivo
-                        
-                        DatePicker::make('fecha_fin_contrato')
-                            ->required()
-                            ->label('Fecha de Finalización del Contrato')
-                            ->reactive() // Hacer que el campo sea reactivo para actualizarse en base a 'fecha_inicio_contrato'
-                            ->afterStateUpdated(function (callable $set, $get, $state) {
-                                $fechaInicio = $get('fecha_inicio_contrato');
-                                $fechaFin = $state;
-                                
-                                if ($fechaInicio && $fechaFin) {
-                                    // Calcular la diferencia en días entre la fecha de inicio y la de fin
-                                    $diff = \Carbon\Carbon::parse($fechaInicio)->diffInDays(\Carbon\Carbon::parse($fechaFin));
+                            ->reactive(),
 
-                                    // Verificar si la diferencia es mayor a 365 días
-                                    if ($diff > 365) {
-                                        // Restringir la fecha y mostrar un mensaje de error
-                                        $set('fecha_fin_contrato', null); // Resetear la fecha fin
-                                        \Filament\Notifications\Notification::make()
-                                            ->title('Error en la Fecha de Finalización')
-                                            ->body('El período no debe ser mayor a un año (365 días)')
-                                            ->danger()
-                                            ->send();
-                                    }
+                        DatePicker::make('fecha_fin_contrato')
+                            ->label('Fecha fin del contrato')
+                            ->disabled(),
+                            // ->displayFormat('d-m-Y'),
+
+                        Select::make('periodo_plan')
+                            ->label('Periodo del Plan')
+                            ->options([
+                                3 => '3 meses',
+                                6 => '6 meses',
+                                12 => '12 meses',
+                            ])
+                            ->required()
+                            ->reactive()
+                            ->afterStateUpdated(function ($state, callable $get, callable $set) {
+                                $fechaInicio = $get('fecha_inicio_contrato'); // Obtiene la fecha de inicio seleccionada
+                                if ($fechaInicio) {
+                                    $fechaInicioCarbon = \Carbon\Carbon::parse($fechaInicio);
+                                    $fechaFin = $fechaInicioCarbon->addMonths((int) $state)->toDateString(); // Mantiene el formato de fecha
+                                    $set('fecha_fin_contrato', $fechaFin);
                                 }
                             }),
 
                         TextInput::make('numero_anuncios')
                             ->numeric()
                             ->label('Número de Anuncios')
+                            ->required()
                             ->default(1)
                             ->minValue(1),
                             
                         TextInput::make('precio_plan')
                             ->label('Costo del Proyecto')
                             ->numeric()
+                            ->required()
                             ->default(0)
                             ->minValue(0)
                             ->prefix('S/')
                             ->placeholder('Ingrese el monto del proyecto'),
                     ])
-                    ->columns(2),
+                    ->columns(3),
 
                 Section::make('Estado del Cliente')
                     ->schema([
                         Toggle::make('habilitado')
+                            ->inline(false)
                             ->label('Habilitado')
                             ->default(true),
 
@@ -221,7 +225,7 @@ class ProyectoClienteResource extends Resource
                             ->label('Contraseña')
                             ->password()
                             ->default(fn () => Str::random(10))
-                            ->disabled(),
+                            ->hidden(),
                     ])
                     ->columns(2),
             ]);

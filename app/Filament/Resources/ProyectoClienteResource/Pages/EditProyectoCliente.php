@@ -37,17 +37,23 @@ class EditProyectoCliente extends EditRecord
         // Evitar la modificación del correo electrónico durante la edición
         unset($data['user_email']);
 
+        // Actualizar el usuario relacionado si existe
         $user = User::find($this->record->user_id);
-        
         if ($user) {
             $user->update([
                 'nombres' => $data['razon_social'], // Actualiza el nombre del usuario con la razón social
                 'direccion' => $data['direccion_fiscal'], // Actualiza la dirección fiscal en la tabla `users`
                 'numero_documento' => $data['ruc'], // Actualiza el RUC en la tabla `users`
+                'celular' => $data['telefono_inmobiliaria'], // Actualizar el celular en la tabla usuarios
             ]);
+        }
+
+        // Calcular `fecha_fin_contrato` si `fecha_inicio_contrato` y `periodo_plan` están presentes
+        if (isset($data['fecha_inicio_contrato'], $data['periodo_plan'])) {
+            $fechaInicio = Carbon::parse($data['fecha_inicio_contrato']);
+            $data['fecha_fin_contrato'] = $fechaInicio->addMonths((int) $data['periodo_plan'])->toDateString();
         }
 
         return $data;
     }
-
 }

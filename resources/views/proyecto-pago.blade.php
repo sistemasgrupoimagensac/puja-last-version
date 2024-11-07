@@ -269,8 +269,9 @@
             },
 
             // handleTokenSuccess(response) {
-            //     const source_id = response.data.id
-            //     const price = {{ $precio }}
+            //     const source_id = response.data.id;
+            //     const price = {{ $precio }};
+            //     const duration = {{ $periodoPlan }};
 
             //     const formPost = {
             //         "source_id": source_id,
@@ -284,32 +285,88 @@
             //             "phone_number": '{{ $telefono }}',
             //             "email": '{{ $correo }}'
             //         }
-            //     }
+            //     };
 
-            //     this.processPayment(formPost)
+
             // },
 
             handleTokenSuccess(response) {
-                const source_id = response.data.id;
+                const source_id = response.data.id; // Token de la tarjeta
                 const price = {{ $precio }};
-                const duration = 1;  // Establece la duración predeterminada o cámbiala según sea necesario
+                const duration = {{ $periodoPlan }};
 
                 const formPost = {
-                    "source_id": source_id,
-                    "method": "card",
-                    "amount": price,
-                    "currency": 'PEN',
-                    "description": `Contrato de proyecto inmobiliario adquirido por S/ ${price}`,
-                    "device_session_id": this.deviceSessionId,
-                    "customer": {
-                        "name": '{{ $razon_social }}',
-                        "phone_number": '{{ $telefono }}',
-                        "email": '{{ $correo }}'
+                    source_id: source_id,
+                    method: "card",
+                    amount: price,
+                    currency: 'PEN',
+                    description: `Contrato de proyecto inmobiliario adquirido por S/ ${price}`,
+                    device_session_id: this.deviceSessionId,
+                    customer: {
+                        name: '{{ $razon_social }}',
+                        phone_number: '{{ $telefono }}',
+                        email: '{{ $correo }}'
                     }
                 };
 
-                // Llamada a contratarPlan con formPost y duración
-                this.contratarPlan(formPost, duration);
+                // Llama al método para crear el cliente y luego asociar la tarjeta
+                this.createCustomer(formPost.customer).then(customer => {
+                    if (customer && customer.id) {
+                        // Asociar la tarjeta al cliente
+                        this.associateCardToCustomer(customer.id, formPost.source_id, formPost.device_session_id)
+                            .then(cardData => {
+
+                                if (cardData.id) {
+                                    console.log('Cliente y tarjeta creados exitosamente:', {
+                                        customer_id: cardData.customer_id,
+                                        card_id: cardData.id
+                                    });
+                                    // TODO: Aquí puedes proceder con tu lógica de negocio, como la suscripción al plan.
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error al asociar la tarjeta:', error.message);
+                            });
+                    }
+                }).catch(error => {
+                    console.error('Error en la creación del cliente:', error.message);
+                });
+            },
+
+            createCustomer(customerData) {
+                return fetch('/crear_cliente', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify(customerData)
+                })
+                .then(response => response.json())
+                .catch(error => {
+                    console.error('Error en la creación del cliente:', error.message);
+                });
+            },
+
+            associateCardToCustomer(customer_id, token_id, device_session_id) {
+                return fetch('/asociar_tarjeta', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        customer_id: customer_id,
+                        source_id: token_id,
+                        device_session_id: device_session_id
+                    })
+                })
+                .then(response => response.json())
+                .catch(error => {
+                    console.error('Error al asociar la tarjeta:', error.message);
+                });
             },
 
             handleTokenError(error) {
@@ -320,112 +377,109 @@
                 }, 3000);
             },
 
-            processPayment(formPost) {
-                let transactionData = {
-                    amount: formPost.amount,
-                    currency: formPost.currency,
-                    customer_name: formPost.customer.name,
-                    customer_email: formPost.customer.email,
-                    customer_phone_number: formPost.customer.phone_number,
-                    description: formPost.description,
-                    tipo_usuario_id: {{ $userTypeId }}
-                }
+            // // Crear cliente
+            // createCustomer(customerData) {
+            //     return fetch('/crear_cliente', {
+            //         method: 'POST',
+            //         headers: {
+            //             'Accept': 'application/json',
+            //             'Content-Type': 'application/json',
+            //             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            //         },
+            //         body: JSON.stringify(customerData)
+            //     })
+            //     .then(response => response.json())
+            //     .then(customer => {
+            //         if (customer.id) {
+            //             return customer;  // Retorna el cliente creado para obtener el `customer_id`
+            //         } else {
+            //             throw new Error('Error al crear el cliente en Openpay');
+            //         }
+            //     })
+            //     .catch(error => {
+            //         console.error('Error en la creación del cliente:', error.message);
+            //     });
+            // },
 
-                fetch("/pagar-openpay", {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify(formPost)
-                })
-                .then(response => response.json())
-                .then( data => {
+            // // Crear plan
+            // createSubscriptionPlan(duration) {
+            //     // Configura los detalles del plan de suscripción basado en la duración
+            //     const amount = {{ $precio }};
+            //     const planDataRequest = {
+            //         amount: amount,
+            //         status_after_retry: 'cancelled',
+            //         retry_times: 2,
+            //         name: `Suscripción PujaInmobiliaria por ${duration} Meses`,
+            //         repeat_unit: 'month',
+            //         // trial_days: '0',
+            //         repeat_every: duration,
+            //         currency: 'PEN'
+            //     };
 
-                    if (data.error_code) {
-                        transactionData = {
-                            ...transactionData,
-                            status: 0, // Transacción fallida
-                            error_description: data.description,
-                            error_code: data.error_code,
-                            request_id: data.request_id
-                        };
+            //     // Enviar solicitud al backend para crear el plan en Openpay
+            //     return fetch('/crear-plan', {
+            //         method: 'POST',
+            //         headers: {
+            //             'Accept': 'application/json',
+            //             'Content-Type': 'application/json',
+            //             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            //         },
+            //         body: JSON.stringify(planDataRequest)
+            //     })
+            //     .then(response => response.json()) // Retorna el plan creado
+            //     .then(plan => {
+            //         if (plan.id) {
+            //             return plan;  // Retorna el plan para su uso en `contratarPlan`
+            //         } else {
+            //             throw new Error('Error al crear el plan de suscripción');
+            //         }
+            //     })
+            //     .catch(error => {
+            //         console.error('Error en la creación del plan:', error.message);
+            //     });
+            // },
 
-                        this.saveTransaction(transactionData);
-                        
-                        this.clearForm()
-                        this.isProcessing = false
-                        document.getElementById('pay-button').disabled = false
-                        document.getElementById('error-message').innerText = 'La tarjeta ha sido rechazada';
-                        triggerToastPayError()
+            // // Suscribir cliente al plan
+            // contratarPlan(formPost, duration) {
+            //     // Verifica si el cliente existe en Openpay o créalo
+            //     this.createCustomer(formPost.customer).then(customer => {
+            //         const customerId = customer.id;
 
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 3000);
+            //         // Crear el plan en Openpay
+            //         this.createSubscriptionPlan(duration).then(plan => {
+            //             const subscriptionDataRequest = {
+            //                 plan_id: plan.id,
+            //                 card_id: formPost.source_id,  // Usa el `source_id` como `card_id`
+            //                 customer_id: customerId,       // Usa el `customer_id` del cliente creado
+            //                 // start_date: {{ $fechaInicioRaw }},
+            //                 // start_date: '2024-12-01',      // Fecha de inicio manual
+                            
+            //             };
 
-
-                    } else {
-                        transactionData = {
-                            ...transactionData,
-                            status: 1, // Transacción exitosa
-                            card_bank_code: data.card.bank_code,
-                            card_bank_name: data.card.bank_name,
-                            card_holder_name: data.card.holder_name,
-                            card_type: data.card.type,
-                        };
-
-                        this.saveTransaction(transactionData);
-                        this.savePaidProjectStatus();
-
-                        this.clearForm()
-                        this.isProcessing = false
-                        document.getElementById('pay-button').disabled = false
-                        document.getElementById('success-message').innerText = 'Pago realizado con éxito';
-                        triggerToastSuccess()
-                        this.contratarPlan(formPost.amount, formPost.description);
-                    }
-
-                }).catch(error => {
-                    console.error(error)
-                })
-            },
-
-            createSubscriptionPlan(duration) {
-                // Configura los detalles del plan de suscripción basado en la duración
-                const amount = {{ $precio }};
-                const planDataRequest = {
-                    amount: amount,
-                    status_after_retry: 'cancelled',
-                    retry_times: 2,
-                    name: `Suscripción ${duration} Meses`,
-                    repeat_unit: 'month',
-                    repeat_every: duration,
-                    currency: 'PEN'
-                };
-
-                // Enviar solicitud al backend para crear el plan en Openpay
-                return fetch('/crear-plan', {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify(planDataRequest)
-                })
-                .then(response => response.json()) // Retorna el plan creado
-                .then(plan => {
-                    if (plan.id) {
-                        return plan;  // Retorna el plan para su uso en `contratarPlan`
-                    } else {
-                        throw new Error('Error al crear el plan de suscripción');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error en la creación del plan:', error.message);
-                });
-            },
+            //             // Enviar solicitud para suscribir al cliente en el backend
+            //             fetch(`/suscribir_cliente`, {
+            //                 method: 'POST',
+            //                 headers: {
+            //                     'Accept': 'application/json',
+            //                     'Content-Type': 'application/json',
+            //                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            //                 },
+            //                 body: JSON.stringify(subscriptionDataRequest)
+            //             })
+            //             .then(response => response.json())
+            //             .then(data => {
+            //                 if (data.status === "Success") {
+            //                     // Guardar el estado de la suscripción como activa en la base de datos
+            //                     this.saveSubscriptionStatus(data.subscription_id, "active");
+            //                     this.savePaidProjectStatus();
+            //                 } else {
+            //                     console.error('Error en la suscripción:', data.message);
+            //                 }
+            //             })
+            //             .catch(error => console.error('Error en la suscripción:', error.message));
+            //         });
+            //     });
+            // },
 
             saveTransaction(transactionData) {
                 fetch("/save-transaction", {
@@ -470,98 +524,6 @@
                 });
             },
 
-
-            // contratarPlan(price, description) {
-            //         const dataToSend = {
-            //             // TODO: pendiente definir para la facturación
-            //         }
-
-            //         fetch('/contratar_plan', {
-            //             method: 'POST',
-            //             headers: {
-            //                 'Accept': 'application/json',
-            //                 'Content-Type': 'application/json',
-            //                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            //             },
-            //             body: JSON.stringify(dataToSend)
-            //         })
-            //         .then(response => response.json())
-            //         .then(data => {
-            //             if (data.status === "Success") {
-            //                 const planUserId = data.planuser_id
-            //                 this.factElectronica(price, planUserId, description)
-            //                 window.location.href = '/panel/avisos'
-            //             } else {
-            //                 console.error('Error en la suscripción:', data.message);
-            //             }
-            //         })
-            //         .catch(error => {
-            //             console.error('Error sending data to backend:', error.message);
-            //         });
-            // },
-
-            contratarPlan(formPost, duration) {
-                // Verifica si el cliente existe en Openpay o créalo
-                this.createCustomer(formPost.customer).then(customer => {
-                    const customerId = customer.id;
-
-                    // Crear el plan en Openpay
-                    this.createSubscriptionPlan(duration).then(plan => {
-                        const subscriptionDataRequest = {
-                            plan_id: plan.id,
-                            card_id: formPost.source_id,  // Usa el `source_id` como `card_id`
-                            customer_id: customerId,       // Usa el `customer_id` del cliente creado
-                            trial_end_date: new Date().toISOString().split('T')[0]
-                        };
-
-                        // Enviar solicitud para suscribir al cliente en el backend
-                        fetch(`/suscribir_cliente`, {
-                            method: 'POST',
-                            headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                            },
-                            body: JSON.stringify(subscriptionDataRequest)
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.status === "Success") {
-                                // Guardar el estado de la suscripción como activa en la base de datos
-                                this.saveSubscriptionStatus(data.subscription_id, "active");
-                                this.savePaidProjectStatus();
-                            } else {
-                                console.error('Error en la suscripción:', data.message);
-                            }
-                        })
-                        .catch(error => console.error('Error en la suscripción:', error.message));
-                    });
-                });
-            },
-
-            createCustomer(customerData) {
-                return fetch('/crear_cliente', {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify(customerData)
-                })
-                .then(response => response.json())
-                .then(customer => {
-                    if (customer.id) {
-                        return customer;  // Retorna el cliente creado para obtener el `customer_id`
-                    } else {
-                        throw new Error('Error al crear el cliente en Openpay');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error en la creación del cliente:', error.message);
-                });
-            },
-
             saveSubscriptionStatus(subscriptionId, status) {
                 const data = {
                     subscription_id: subscriptionId,
@@ -588,9 +550,6 @@
                 })
                 .catch(error => console.error('Error al enviar los datos de la suscripción:', error.message));
             },
-
-
-
 
             factElectronica(price, planUserId, description) {
                 try {

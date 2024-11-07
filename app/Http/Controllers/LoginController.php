@@ -118,6 +118,7 @@ class LoginController extends Controller
             $razonSocial = $proyectoCliente->razon_social;
             $fechaInicio = $proyectoCliente->fecha_inicio_contrato;
             $fechaFin = $proyectoCliente->fecha_fin_contrato;
+            $periodoPlan = $proyectoCliente->periodo_plan;
             $numeroAnuncios = $proyectoCliente->numero_anuncios;
             $correo = $user->getEmailAttribute();
             $telefono = $user->getPhoneAttribute();
@@ -138,6 +139,7 @@ class LoginController extends Controller
                     'tipoDocumento' => $tipoDocumento,
                     'fechaInicio' => $fechaInicio,
                     'fechaFin' => $fechaFin,
+                    'periodoPlan'=> $periodoPlan,
                     'numeroAnuncios' => $numeroAnuncios,
                     'userTypeId' => $userTypeId,
                     'proyectoClienteId' => $proyectoClienteId,

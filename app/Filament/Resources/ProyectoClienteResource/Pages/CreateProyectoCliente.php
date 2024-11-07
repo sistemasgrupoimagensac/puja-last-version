@@ -41,11 +41,18 @@ class CreateProyectoCliente extends CreateRecord
             'acepta_confidencialidad' => 1, // Aceptación de confidencialidad por defecto
             'tipo_documento_id' => 2, // Tipo de documento: RUC (asumiendo que '2' es el ID de RUC)
             'numero_documento' => $data['ruc'], // Usar el RUC ingresado en el formulario
+            'celular' => $data['telefono_inmobiliaria'],
             'direccion' => $data['direccion_fiscal'], // Usar la dirección fiscal ingresada en el formulario
         ]);
 
         // Añadir el `user_id` a los datos de cliente
         $data['user_id'] = $user->id;
+
+        // Calcular `fecha_fin_contrato` a partir de `fecha_inicio_contrato` y `periodo_plan`
+        if (isset($data['fecha_inicio_contrato'], $data['periodo_plan'])) {
+            $fechaInicio = \Carbon\Carbon::parse($data['fecha_inicio_contrato']);
+            $data['fecha_fin_contrato'] = $fechaInicio->addMonths((int) $data['periodo_plan'])->toDateString();
+        }
 
         // Enviar notificación con las credenciales al correo del cliente
         $user->notify(new SendCredentialsProjectNotification($data['user_email'], $randomPassword));
