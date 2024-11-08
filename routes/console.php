@@ -11,4 +11,8 @@ Artisan::command('inspire', function () {
 
 Schedule::command('app:ad-expired')->daily();
 
+// Correo recordatorio de fin de plan proyecto 45 dias antes
 Schedule::command('contract:send-reminder')->daily();
+
+// Debito automático
+Schedule::command('subscription:auto-debit')->daily();
