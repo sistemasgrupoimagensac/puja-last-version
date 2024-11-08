@@ -3,72 +3,86 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Models\UserProjectSubscription;
-use App\Models\ProjectPlan;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
+use App\Models\UserProjectSubscription;
+use Carbon\Carbon;
 
 class AutoDebitSubscription extends Command
 {
     protected $signature = 'subscription:auto-debit';
-    protected $description = 'Realiza el débito automático de las suscripciones que vencen hoy y crea nuevas suscripciones si el pago es exitoso.';
+    protected $description = 'Realiza el débito automático de las suscripciones que vencen hoy y gestiona nuevas suscripciones si el pago es exitoso.';
 
     public function handle()
     {
-        $today = Carbon::today();
+        $today = Carbon::now()->toDateString();
 
-        // Buscar suscripciones que terminan hoy y están activas
+        // Obtener las suscripciones activas que vencen hoy
         $subscriptions = UserProjectSubscription::where('end_date', $today)
             ->where('status', true)
             ->get();
 
         foreach ($subscriptions as $subscription) {
-            $projectPlan = ProjectPlan::find($subscription->project_plan_id);
+            $projectPlan = $subscription->projectPlan; // Obtener la relación del plan
+            $retryCount = 0; // Manejar los intentos localmente
 
-            if (!$projectPlan) {
-                $this->error("Plan no encontrado para la suscripción ID: {$subscription->id}");
-                continue;
-            }
+            // Intentar realizar el débito hasta el número de intentos máximo permitido
+            while ($retryCount < $projectPlan->retry_times) {
+                $response = $this->realizarDebito($subscription->customer_id, $subscription->card_id, $projectPlan->price, $projectPlan->description);
 
-            $response = $this->makeDebitRequest($subscription);
+                if ($response['status'] === 'Success') {
+                    // Si el débito es exitoso, crear una nueva suscripción
+                    $this->crearNuevaSuscripcion($subscription, $projectPlan);
+                    $this->info('Débito exitoso para la suscripción ID: ' . $subscription->id);
+                    break;
+                } else {
+                    $retryCount++;
+                    $this->warn('Débito fallido para la suscripción ID: ' . $subscription->id . '. Intento número ' . $retryCount);
 
-            if ($response['status'] === 'success') {
-                $this->createNewSubscription($subscription, $projectPlan);
-                $this->info("Pago exitoso y nueva suscripción creada para el usuario ID: {$subscription->user_id}");
-            } else {
-                $subscription->increment('retry_count');
-
-                if ($subscription->retry_count >= $projectPlan->retry_times) {
-                    $subscription->status = false;
-                    $subscription->save();
-                    $this->warn("Suscripción ID: {$subscription->id} desactivada después de {$projectPlan->retry_times} intentos fallidos.");
+                    if ($retryCount >= $projectPlan->retry_times) {
+                        $subscription->update(['status' => false]); // Desactivar la suscripción
+                        $this->warn('Suscripción ID: ' . $subscription->id . ' desactivada tras superar los intentos de débito.');
+                        break;
+                    }
                 }
             }
         }
     }
 
-    private function makeDebitRequest($subscription)
+    private function realizarDebito($customerId, $cardId, $amount, $description)
     {
-        $response = Http::post('https://api.openpay.example/charge', [
-            'customer_id' => $subscription->customer_id,
-            'card_id' => $subscription->card_id,
-            'amount' => $subscription->projectPlan->price,
-            'description' => 'Pago automático de suscripción',
-        ]);
+        $base_url = env('OPENPAY_URL');
+        $openpay_id = env('OPENPAY_ID');
+        $openpay_sk = env('OPENPAY_SK');
+        $encoded_sk = base64_encode("$openpay_sk:");
+
+        $urlChargeAPI = "{$base_url}{$openpay_id}/customers/{$customerId}/charges";
+
+        $chargeData = [
+            'method' => 'card',
+            'source_id' => $cardId,
+            'amount' => $amount,
+            'currency' => 'PEN',
+            'description' => $description,
+        ];
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Basic ' . $encoded_sk,
+        ])->withBody(json_encode($chargeData), 'application/json')->post($urlChargeAPI);
 
         return $response->json();
     }
 
-    private function createNewSubscription($oldSubscription, $projectPlan)
+    private function crearNuevaSuscripcion($subscription, $projectPlan)
     {
-        $newStartDate = Carbon::parse($oldSubscription->end_date)->addDay();
+        $newStartDate = Carbon::parse($subscription->end_date)->addDay();
         $newEndDate = $newStartDate->copy()->addMonths($projectPlan->duration_in_months);
 
         UserProjectSubscription::create([
-            'user_id' => $oldSubscription->user_id,
-            'project_plan_id' => $oldSubscription->project_plan_id,
-            'customer_id' => $oldSubscription->customer_id,
-            'card_id' => $oldSubscription->card_id,
+            'user_id' => $subscription->user_id,
+            'project_plan_id' => $subscription->project_plan_id,
+            'customer_id' => $subscription->customer_id,
+            'card_id' => $subscription->card_id,
             'start_date' => $newStartDate,
             'end_date' => $newEndDate,
             'status' => true,
