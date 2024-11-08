@@ -50,6 +50,7 @@ class IncomeByProfileChart extends ChartWidget
             2 => 'Propietario',
             3 => 'Corredor',
             4 => 'Acreedor',
+            5 => 'Proyectos',
         ];
 
         // Preparar etiquetas y datos para el gráfico
@@ -69,7 +70,7 @@ class IncomeByProfileChart extends ChartWidget
                 [
                     'data' => $data,
                     'borderWidth' => 0,
-                    'backgroundColor' => ['#FF9999', '#66B2FF', '#99FF99'],  // Colores personalizados para cada perfil
+                    'backgroundColor' => ['#CC33CC', '#FF9999', '#66B2FF', '#99FF99'],  // Colores personalizados para cada perfil
                 ],
             ],
             'labels' => $labels,

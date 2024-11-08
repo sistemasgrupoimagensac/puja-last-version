@@ -57,10 +57,11 @@ class StackedTransactionChart extends ChartWidget
             2 => 'Propietario',
             3 => 'Corredor',
             4 => 'Acreedor',
+            5 => 'Proyectos',
         ];
 
         // Tipo de usuarios presentes en el sistema
-        $perfiles = [2, 3, 4];
+        $perfiles = [2, 3, 4, 5];
 
         // Datos para cada perfil
         $successData = [];
