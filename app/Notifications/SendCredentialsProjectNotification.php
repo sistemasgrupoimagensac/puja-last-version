@@ -12,15 +12,17 @@ class SendCredentialsProjectNotification extends Notification
     use Queueable;
 
     public $email;
+    public $email_credentials;
     public $password;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($email, $password)
+    public function __construct($email, $email_credentials, $password)
     {
         $this->email = $email;
         $this->password = $password;
+        $this->email_credentials = $email_credentials;
     }
 
     /**
@@ -40,7 +42,7 @@ class SendCredentialsProjectNotification extends Notification
                     ->subject('Credenciales de Acceso a Puja Inmobiliaria')
                     ->greeting('¡Hola!')
                     ->line('Se han generado tus credenciales para acceder al sistema:')
-                    ->line('**Email:** ' . $this->email)
+                    ->line('**Email:** ' . $this->email_credentials)
                     ->line('**Contraseña:** ' . $this->password)
                     ->action('Iniciar Sesión', url('/login')) // Ruta de login
                     ->line('Por favor, cambia tu contraseña una vez que inicies sesión.')

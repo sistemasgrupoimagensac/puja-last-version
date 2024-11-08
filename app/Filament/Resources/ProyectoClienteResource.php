@@ -6,6 +6,7 @@ use App\Filament\Resources\ProyectoClienteResource\Pages;
 use App\Models\ProyectoCliente;
 use App\Models\User;
 use Filament\Forms\Components\Builder;
+use Filament\Forms\Components\Checkbox;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Repeater;
 use Filament\Tables;
@@ -84,6 +85,35 @@ class ProyectoClienteResource extends Resource
                     ])
                     ->columns(1),
 
+                // Section::make('Información de Contacto')
+                //     ->schema([
+                //         Repeater::make('contactos')
+                //             ->relationship('contactos') // Define la relación con la tabla de contactos
+                //             ->schema([
+                //                 TextInput::make('nombre')
+                //                     ->required()
+                //                     ->label('Nombre de la Persona de Contacto'),
+                                    
+                //                 TextInput::make('telefono')
+                //                     ->required()
+                //                     ->tel()
+                //                     ->telRegex('/^9[0-9]{8}$/')
+                //                     ->label('Teléfono de la Persona de Contacto'),
+                                
+                //                 TextInput::make('email')
+                //                     ->required()
+                //                     ->email()
+                //                     ->label('Correo de la Persona de Contacto'),
+                //             ])
+                //             ->addActionLabel('Agregar Contacto')
+                //             ->grid(2)
+                //             ->columns(2)
+                //             ->hiddenLabel(false)
+                //             ->deletable(true)
+                //             ->collapsible()
+                //     ])
+                //     ->columns(1), // Mantener la sección en una columna
+
                 Section::make('Información de Contacto')
                     ->schema([
                         Repeater::make('contactos')
@@ -92,17 +122,22 @@ class ProyectoClienteResource extends Resource
                                 TextInput::make('nombre')
                                     ->required()
                                     ->label('Nombre de la Persona de Contacto'),
-                                    
+
                                 TextInput::make('telefono')
                                     ->required()
                                     ->tel()
                                     ->telRegex('/^9[0-9]{8}$/')
                                     ->label('Teléfono de la Persona de Contacto'),
-                                
+
                                 TextInput::make('email')
                                     ->required()
                                     ->email()
                                     ->label('Correo de la Persona de Contacto'),
+
+                                Checkbox::make('habilitado_correo')
+                                    ->label('Habilitar Correo')
+                                    ->inline(false)
+                                    ->default(true),
                             ])
                             ->addActionLabel('Agregar Contacto')
                             ->grid(2)
@@ -111,7 +146,8 @@ class ProyectoClienteResource extends Resource
                             ->deletable(true)
                             ->collapsible()
                     ])
-                    ->columns(1), // Mantener la sección en una columna
+                    ->columns(1),
+
 
                 
                 Section::make('Google sheet (opcional)')
@@ -175,7 +211,6 @@ class ProyectoClienteResource extends Resource
                             ->label('Costo del Proyecto')
                             ->numeric()
                             ->required()
-                            ->default(0)
                             ->minValue(0)
                             ->prefix('S/')
                             ->placeholder('Ingrese el monto del proyecto'),
