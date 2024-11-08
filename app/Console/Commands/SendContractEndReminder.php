@@ -30,8 +30,8 @@ class SendContractEndReminder extends Command
 
     public function handle()
     {
-        // Fecha actual más 30 días
-        $fechaAviso = Carbon::now()->addDays(30)->toDateString();
+        // Fecha actual más 45 días
+        $fechaAviso = Carbon::now()->addDays(45)->toDateString();
 
         // Obtener todos los clientes cuyo contrato vence en 30 días y cargar sus contactos
         $clientes = ProyectoCliente::with('contactos')->whereDate('fecha_fin_contrato', $fechaAviso)->get();
