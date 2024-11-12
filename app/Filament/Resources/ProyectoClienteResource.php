@@ -191,7 +191,6 @@ class ProyectoClienteResource extends Resource
                             ->label('Pago único')
                             ->inline(false)
                             ->reactive()
-                            ->default(true)
                             ->afterStateUpdated(function (callable $set, $state) {
                                 if ($state) {
                                     $set('pago_fraccionado', false); // Desactiva Checkbox 2 si Checkbox 1 se activa
@@ -202,6 +201,7 @@ class ProyectoClienteResource extends Resource
                             ->label('Pago fraccionado')
                             ->inline(false)
                             ->reactive()
+                            ->default(true)
                             ->afterStateUpdated(function (callable $set, $state) {
                                 if ($state) {
                                     $set('pago_unico', false); // Desactiva Checkbox 1 si Checkbox 2 se activa

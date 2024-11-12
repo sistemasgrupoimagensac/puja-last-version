@@ -8,19 +8,15 @@ return new class extends Migration {
     public function up()
     {
         Schema::table('proyecto_clientes', function (Blueprint $table) {
-            $table->boolean('pago_unico')
-                ->after('precio_plan');
-
-            $table->boolean('renovacion')
-                ->after('pago_unico')
-                ->comment('1: Renovación automática, 0: Sin renovación');
+            $table->boolean('pago_fraccionado')
+                ->after('pago_unico');
         });
     }
 
     public function down()
     {
         Schema::table('proyecto_clientes', function (Blueprint $table) {
-            $table->dropColumn(['pago_unico', 'renovacion']);
+            $table->dropColumn(['pago_fraccionado']);
         });
     }
 };

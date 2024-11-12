@@ -30,8 +30,10 @@ class ProyectoCliente extends Model
         'precio_plan',
         'periodo_plan',
         'pago_unico',
+        'pago_fraccionado',
         'renovacion',
         'contrato_url',
+        'mensualidad',
     ];
 
     public function user(): BelongsTo
