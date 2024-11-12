@@ -170,7 +170,6 @@ class ProyectoController extends Controller
         }
     }
 
-
     public function show($slug)
     {
         try {
@@ -235,6 +234,5 @@ class ProyectoController extends Controller
             ], 404);
         }
     }
-    
     
 }

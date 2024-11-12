@@ -39,12 +39,12 @@ class IncomeByProfileChart extends ChartWidget
                 break;
         }
 
-        // Consulta los ingresos totales agrupados por el tipo de perfil de usuario
         $incomeData = Transaccion::selectRaw('tipo_usuario_id, SUM(amount) as total')
+            ->where('status', 1)  // Agregar filtro por status = 1
             ->whereBetween('created_at', [$start, $end])
             ->groupBy('tipo_usuario_id')
             ->pluck('total', 'tipo_usuario_id');
-        
+
         // Mapeamos tipo_usuario_id a nombres legibles
         $profileLabels = [
             2 => 'Propietario',

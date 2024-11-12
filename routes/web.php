@@ -11,6 +11,7 @@ use App\Http\Controllers\PlanController;
 use App\Http\Middleware\SessionData;
 use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\EmailVerificationController;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\SuppliersController;
 use App\Http\Controllers\TransactionsController;
 use App\Http\Controllers\Web\Panel\PerfilController;
@@ -270,3 +271,5 @@ Route::post('/save-subscription-status', [PlanController::class, 'saveSubscripti
 Route::post('/guardar_tarjeta', [CustomerCardController::class, 'store'])->name('guardar_tarjeta');
 Route::post('/suscribir_plan', [UserProjectSubscriptionController::class, 'suscribirPlan']);
 Route::post('/realizar_debito_inicial', [PlanController::class, 'realizarDebitoInicial']);
+
+Route::get('/contratos/{archivo}', [PDFController::class, 'getPDF'])->name('contratos.get');

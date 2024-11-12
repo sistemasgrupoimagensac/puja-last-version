@@ -15,6 +15,7 @@ use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
@@ -84,35 +85,6 @@ class ProyectoClienteResource extends Resource
                             ->columns(2)
                     ])
                     ->columns(1),
-
-                // Section::make('Información de Contacto')
-                //     ->schema([
-                //         Repeater::make('contactos')
-                //             ->relationship('contactos') // Define la relación con la tabla de contactos
-                //             ->schema([
-                //                 TextInput::make('nombre')
-                //                     ->required()
-                //                     ->label('Nombre de la Persona de Contacto'),
-                                    
-                //                 TextInput::make('telefono')
-                //                     ->required()
-                //                     ->tel()
-                //                     ->telRegex('/^9[0-9]{8}$/')
-                //                     ->label('Teléfono de la Persona de Contacto'),
-                                
-                //                 TextInput::make('email')
-                //                     ->required()
-                //                     ->email()
-                //                     ->label('Correo de la Persona de Contacto'),
-                //             ])
-                //             ->addActionLabel('Agregar Contacto')
-                //             ->grid(2)
-                //             ->columns(2)
-                //             ->hiddenLabel(false)
-                //             ->deletable(true)
-                //             ->collapsible()
-                //     ])
-                //     ->columns(1), // Mantener la sección en una columna
 
                 Section::make('Información de Contacto')
                     ->schema([
@@ -214,16 +186,36 @@ class ProyectoClienteResource extends Resource
                             ->minValue(0)
                             ->prefix('S/')
                             ->placeholder('Ingrese el monto del proyecto'),
+
+                        Checkbox::make('pago_unico')
+                            ->label('Pago único')
+                            ->inline(false)
+                            ->reactive()
+                            ->default(true)
+                            ->afterStateUpdated(function (callable $set, $state) {
+                                if ($state) {
+                                    $set('pago_fraccionado', false); // Desactiva Checkbox 2 si Checkbox 1 se activa
+                                }
+                            }),
+
+                        Checkbox::make('pago_fraccionado')
+                            ->label('Pago fraccionado')
+                            ->inline(false)
+                            ->reactive()
+                            ->afterStateUpdated(function (callable $set, $state) {
+                                if ($state) {
+                                    $set('pago_unico', false); // Desactiva Checkbox 1 si Checkbox 2 se activa
+                                }
+                            }),
+                            
+                        Checkbox::make('renovacion')
+                            ->label('Renovación automática')
+                            ->inline(false),
                     ])
-                    ->columns(3),
+                    ->columns(4),
 
                 Section::make('Estado del Cliente')
                     ->schema([
-                        Toggle::make('habilitado')
-                            ->inline(false)
-                            ->label('Habilitado')
-                            ->default(true),
-
                         ToggleButtons::make('activo')
                             ->label('Activo')
                             ->boolean()
@@ -235,7 +227,16 @@ class ProyectoClienteResource extends Resource
                             ->label('Pagado')
                             ->boolean()
                             ->inline()
-                            ->disabled()
+                            ->disabled(),
+
+                        FileUpload::make('contrato_url')
+                            ->label('Contrato')
+                            ->acceptedFileTypes(['application/pdf'])
+                            ->disk('wasabi')
+                            ->directory('proyectos/contratos')
+                            ->visibility('public')
+                            ->maxSize(4096),
+                        
                     ])
                     ->columns(3),
 
@@ -281,6 +282,12 @@ class ProyectoClienteResource extends Resource
                 IconColumn::make('pagado')
                     ->boolean()
                     ->label('Pagó'),
+                TextColumn::make('contrato_url')
+                    ->label('Ver Contrato')
+                    ->formatStateUsing(fn ($state) => $state ? 'Ver Contrato' : 'No Disponible')
+                    ->url(fn ($record) => $record->contrato_url ? route('contratos.get', ['archivo' => basename($record->contrato_url)]) : null)
+                    ->openUrlInNewTab(),
+                
             ])
             ->filters([
                 Filter::make('activo')

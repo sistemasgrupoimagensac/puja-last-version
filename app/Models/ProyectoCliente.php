@@ -29,6 +29,9 @@ class ProyectoCliente extends Model
         'pagado',
         'precio_plan',
         'periodo_plan',
+        'pago_unico',
+        'renovacion',
+        'contrato_url',
     ];
 
     public function user(): BelongsTo

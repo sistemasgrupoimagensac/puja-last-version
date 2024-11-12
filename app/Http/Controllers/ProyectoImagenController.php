@@ -25,7 +25,6 @@ class ProyectoImagenController extends Controller
             $routeImagesProjects = "{$nameDev}{$routeImagesProjects}";
         }
 
-
         $validator = Validator::make($request->all(), [
             'images' => 'required|array|min:1',
             'images.*' => 'required|image|mimes:jpg,jpeg,png,webp|max:400'
