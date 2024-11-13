@@ -284,13 +284,11 @@ class ProyectoClienteResource extends Resource
                     ->label('Pagó'),
                 TextColumn::make('contrato_url')
                     ->label('Contratos')
-                    ->formatStateUsing(fn ($state) => $state ? 'Ver Contrato' : 'No Disponible')
+                    ->formatStateUsing(fn ($state) => !empty($state) ? 'Ver Contrato' : 'No Disponible')
                     ->url(fn ($record) => $record->contrato_url ? route('contratos.get', ['archivo' => basename($record->contrato_url)]) : null)
                     ->openUrlInNewTab()
                     ->badge()
                     ->color(fn ($state) => $state === 'Ver Contrato' ? 'success' : 'warning'),
-                
-                
             ])
             ->filters([
                 Filter::make('activo')

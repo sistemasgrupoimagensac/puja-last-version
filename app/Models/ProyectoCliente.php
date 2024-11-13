@@ -87,4 +87,11 @@ class ProyectoCliente extends Model
             $proyectoCliente->actualizarEstado();
         });
     }
+
+    // Relacion con la tabla customer_cards (que contiene los datos de la tarjeta y el cliente)
+    public function tarjeta()
+    {
+        return $this->hasOne(ProyectoClienteTarjeta::class, 'proyecto_cliente_id');
+    }
+
 }

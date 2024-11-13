@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\CustomerCard;
+use App\Models\ProyectoClienteTarjeta;
 use App\Models\ProyectoCliente;
 
 class CustomerCardController extends Controller
@@ -29,15 +29,13 @@ class CustomerCardController extends Controller
             return response()->json(['status' => 'Error', 'message' => 'ProyectoCliente no encontrado.'], 404);
         }
     
-        $userId = $proyectoCliente->user_id;
-    
         // Verificar si ya existe una tarjeta con el mismo card_id
-        $existingCard = CustomerCard::where('card_id', $request->card_id)->first();
+        $existingCard = ProyectoClienteTarjeta::where('card_id', $request->card_id)->first();
     
         if (!$existingCard) {
             // Crear una nueva entrada en la tabla customer_cards
-            CustomerCard::create([
-                'user_id' => $userId,
+            ProyectoClienteTarjeta::create([
+                'proyecto_cliente_id' => $request->proyecto_cliente_id,
                 'customer_id' => $request->customer_id,
                 'card_id' => $request->card_id,
                 'card_brand' => $request->card_brand,

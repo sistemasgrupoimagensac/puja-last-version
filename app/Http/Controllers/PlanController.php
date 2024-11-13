@@ -507,112 +507,29 @@ class PlanController extends Controller
         return response()->json($response->json());
     }
 
-
-
-    // /**
-    //  * Crea un plan en Openpay
-    //  */
-    // public function crearPlan(Request $request)
+    // public function saveSubscriptionStatus(Request $request)
     // {
-    //     $base_url = env('OPENPAY_URL');
-    //     $openpay_id = env('OPENPAY_ID');
-    //     $openpay_sk = env('OPENPAY_SK');
-    //     $encoded_sk = base64_encode("$openpay_sk:");
+    //     // Obtiene el `proyectoClienteId` y el `subscription_id` desde la solicitud
+    //     $subscription = SubscriptionPlanProject::create([
+    //         'subscription_id' => $request->input('subscription_id'),
+    //         'status' => $request->input('status'),
+    //         'proyecto_cliente_id' => $request->input('proyectoClienteId')
+    //     ]);
 
-    //     $urlAPI = "{$base_url}{$openpay_id}/plans";
+    //     dd($subscription);
 
-    //     // Convertir los datos recibidos del frontend a JSON
-    //     $planData = json_encode($request->all());
-
-    //     // Llamada API para crear el plan en Openpay
-    //     $response = Http::withHeaders([
-    //         'Content-Type' => 'application/json',
-    //         'Authorization' => 'Basic ' . $encoded_sk,
-    //     ])->withBody($planData, 'application/json')->post($urlAPI);
-
-    //     // Retornar la respuesta del API de Openpay
-    //     return response()->json($response->json());
-    // }
-
-    // /**
-    //  * Suscribe al cliente a un plan en Openpay
-    //  */
-    // public function suscribirCliente(Request $request)
-    // {
-    //     $base_url = env('OPENPAY_URL');
-    //     $openpay_id = env('OPENPAY_ID');
-    //     $openpay_sk = env('OPENPAY_SK');
-    //     $encoded_sk = base64_encode("$openpay_sk:");
-
-    //     $customer_id = $request->input('customer_id');
-    //     $urlAPI = "{$base_url}{$openpay_id}/customers/{$customer_id}/subscriptions";
-
-    //     $start_date = $request->input('start_date');
-
-    //     $subscriptionData = [
-    //         'trial_end_date' => now()->toDateString(),
-    //         'plan_id' => $request->plan_id,
-    //         'card_id' => $request->card_id,
-    //     ];
-
-    //     dd($subscriptionData);
-
-    //     if ($start_date) {
-    //         $subscriptionData['start_date'] = $start_date;
-    //     }
-
-    //     $response = Http::withHeaders([
-    //         'Content-Type' => 'application/json',
-    //         'Authorization' => 'Basic ' . $encoded_sk,
-    //     ])->withBody(json_encode($subscriptionData), 'application/json')->post($urlAPI);
-
-    //     $subscriptionResponse = $response->json();
-
-    //     dd($subscriptionResponse);
-
-    //     // Agregar 'status' a la respuesta en función del resultado de la solicitud
-    //     if ($response->successful()) {
-    //         // Actualiza el estado de "pagado" en el proyecto, si es necesario
-    //         // ProyectoCliente::where('id', $request->input('proyectoClienteId'))->update(['pagado' => true]);
-    //         // dd($response);
-    //         // Añadir un campo de estado exitoso
+    //     if ($subscription) {
     //         return response()->json([
     //             'status' => 'Success',
-    //             'subscription_id' => $subscriptionResponse['id'],
-    //             'message' => 'Suscripción creada exitosamente.',
+    //             'message' => 'El estado de la suscripción ha sido guardado correctamente.'
     //         ], 200);
     //     } else {
-    //         // Devolver una respuesta de error si la suscripción falla
     //         return response()->json([
     //             'status' => 'Error',
-    //             'message' => $subscriptionResponse['description'] ?? 'Error al crear la suscripción.',
+    //             'message' => 'No se pudo guardar el estado de la suscripción.'
     //         ], 500);
     //     }
     // }
-
-    public function saveSubscriptionStatus(Request $request)
-    {
-        // Obtiene el `proyectoClienteId` y el `subscription_id` desde la solicitud
-        $subscription = SubscriptionPlanProject::create([
-            'subscription_id' => $request->input('subscription_id'),
-            'status' => $request->input('status'),
-            'proyecto_cliente_id' => $request->input('proyectoClienteId')
-        ]);
-
-        dd($subscription);
-
-        if ($subscription) {
-            return response()->json([
-                'status' => 'Success',
-                'message' => 'El estado de la suscripción ha sido guardado correctamente.'
-            ], 200);
-        } else {
-            return response()->json([
-                'status' => 'Error',
-                'message' => 'No se pudo guardar el estado de la suscripción.'
-            ], 500);
-        }
-    }
 
     public function realizarDebitoInicial(Request $request)
     {
@@ -661,6 +578,4 @@ class PlanController extends Controller
             'details' => $chargeResponse,
         ], 500);
     }
-
-
 }

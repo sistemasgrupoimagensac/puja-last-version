@@ -16,3 +16,6 @@ Schedule::command('contract:send-reminder')->daily();
 
 // Debito automático
 Schedule::command('subscription:auto-debit')->daily();
+
+// Cobros automaticos para proyectos
+Schedule::command('proyectos:cobros-automaticos')->daily();
