@@ -30,7 +30,7 @@ class ProcesarCobrosProyectos extends Command
         // Selecciona pagos pendientes cuyo due_date es hoy o en reintento (retrying)
         $payments = ProyectoCronogramaPago::where(function ($query) use ($today, $estadoPending) {
                 $query->where('estado_pago_id', $estadoPending)
-                      ->where('fecha_vencimiento', $today);
+                      ->where('fecha_programada', $today);
             })
             ->orWhere(function ($query) use ($today, $estadoRetrying) {
                 $query->where('estado_pago_id', $estadoRetrying)

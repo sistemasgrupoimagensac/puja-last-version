@@ -7,6 +7,7 @@ use Filament\Resources\Pages\CreateRecord;
 use App\Models\User;
 use App\Models\ProyectoClienteContacto;
 use App\Models\ProyectoCronogramaPago;
+use App\Models\ProyectoPagoEstado;
 use App\Notifications\SendCredentialsProjectNotification;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -59,7 +60,6 @@ class CreateProyectoCliente extends CreateRecord
 
         // Calcular la mensualidad solo si el pago es fraccionado
         if (isset($data['pago_unico']) && !$data['pago_unico'] && isset($data['precio_plan'], $data['periodo_plan'])) {
-            // Divide el precio del plan entre el periodo para calcular la mensualidad
             $data['mensualidad'] = $data['precio_plan'] / $data['periodo_plan'];
         } else {
             $data['mensualidad'] = null; // No aplica para pago único
@@ -80,9 +80,9 @@ class CreateProyectoCliente extends CreateRecord
             ->where('habilitado_correo', true)
             ->get();
     
-            foreach ($contactos as $contacto) {
-                $contacto->notify(new SendCredentialsProjectNotification($contacto->email, $proyectoCliente->user->email, $this->randomPassword));
-            }
+        foreach ($contactos as $contacto) {
+            $contacto->notify(new SendCredentialsProjectNotification($contacto->email, $proyectoCliente->user->email, $this->randomPassword));
+        }
 
         // Verifica si se subió un contrato y guarda en Wasabi
         if (request()->hasFile('contrato_url')) {
@@ -103,16 +103,19 @@ class CreateProyectoCliente extends CreateRecord
         // Generar cronograma de pagos si es un pago fraccionado
         if (!$proyectoCliente->pago_unico) {
             // Calcula el monto mensual de pago
-            $monthlyPayment = $proyectoCliente->precio_plan / $proyectoCliente->periodo_plan;
-            $startDate = Carbon::parse($proyectoCliente->fecha_inicio_contrato);
+            $montoMensual = $proyectoCliente->precio_plan / $proyectoCliente->periodo_plan;
+            $fechaInicio = Carbon::parse($proyectoCliente->fecha_inicio_contrato);
+
+            // Obtener el ID del estado 'pendiente' para asignarlo a los nuevos pagos
+            $estadoPendiente = ProyectoPagoEstado::where('nombre', 'pendiente')->first()->id;
 
             for ($i = 0; $i < $proyectoCliente->periodo_plan; $i++) {
                 ProyectoCronogramaPago::create([
-                    'project_client_id' => $proyectoCliente->id,
-                    'due_date' => $startDate->copy()->addMonths($i),
-                    'amount' => $monthlyPayment,
-                    'status' => 'pending',
-                    'attempts' => 0,
+                    'proyecto_cliente_id' => $proyectoCliente->id,
+                    'fecha_programada' => $fechaInicio->copy()->addMonths($i),
+                    'monto' => $montoMensual,
+                    'estado_pago_id' => $estadoPendiente,
+                    'intentos' => 0,
                 ]);
             }
         }
