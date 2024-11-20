@@ -12,24 +12,29 @@ class ProyectoCronogramaPago extends Model
     protected $table = 'proyecto_cronograma_pagos';
 
     protected $fillable = [
-        'proyecto_cliente_id',    // Referencia al cliente del proyecto
-        'fecha_programada',       // Fecha programada para el cobro
-        'monto',                  // Monto a debitar
-        'estado_pago_id',         // ID del estado del pago
-        'intentos',               // Cantidad de intentos de cobro realizados
-        'reintento_hasta',        // Fecha límite para reintentos
-        'fecha_ultimo_intento',   // Fecha del último intento de cobro
-        'razon_fallo',            // Razón de falla del cobro
-        'fallo_final',            // Indicador de fallo después de todos los reintentos
+        'proyecto_cliente_id',
+        'fecha_programada',
+        'monto',
+        'estado_pago_id',
+        'intentos',
+        'reintento_hasta',
+        'fecha_ultimo_intento',
+        'razon_fallo',
+        'fallo_final',
     ];
 
-    // Relación con ProyectoCliente
+    // Asegurarte que las fechas se manejen como objetos Carbon
+    protected $casts = [
+        'fecha_programada' => 'datetime',
+        'reintento_hasta' => 'datetime',
+        'fecha_ultimo_intento' => 'datetime',
+    ];
+
     public function proyectoCliente()
     {
         return $this->belongsTo(ProyectoCliente::class, 'proyecto_cliente_id');
     }
 
-    // Relación con ProyectoPagoEstado
     public function estadoPago()
     {
         return $this->belongsTo(ProyectoPagoEstado::class, 'estado_pago_id');

@@ -111,46 +111,109 @@ class LoginController extends Controller
         }
 
         // Verificar si el usuario es del tipo 5 y su estado de pago
+        // if ($user->tipo_usuario_id == 5) {
+        //     $proyectoCliente = ProyectoCliente::where('user_id', $user->id)->first();
+
+        //     // $precio = $proyectoCliente->precio_plan;
+        //     $razonSocial = $proyectoCliente->razon_social;
+        //     $fechaInicio = $proyectoCliente->fecha_inicio_contrato;
+        //     $fechaFin = $proyectoCliente->fecha_fin_contrato;
+        //     $periodoPlan = $proyectoCliente->periodo_plan;
+        //     $numeroAnuncios = $proyectoCliente->numero_anuncios;
+        //     $correo = $user->getEmailAttribute();
+        //     $telefono = $user->getPhoneAttribute();
+        //     $documento = $user->getDniAttribute();
+        //     $tipoDocumento = $user->tipoDocumento->documento;
+        //     $userTypeId = $user->tipoUsuario->id;
+        //     $proyectoClienteId = $proyectoCliente->id;
+
+            
+        //     if ($proyectoCliente && !$proyectoCliente->pagado) {
+        //         // Calcular el monto inicial según el tipo de pago
+        //         $montoInicial = $proyectoCliente->pago_unico 
+        //             ? $proyectoCliente->precio_plan 
+        //             : $proyectoCliente->mensualidad;
+            
+        //         // Guardar los datos en la sesión
+        //         session([
+        //             'precio' => $montoInicial, 
+        //             'razonSocial' => $razonSocial,
+        //             'correo' => $correo,
+        //             'telefono' => $telefono,
+        //             'documento' => $documento,
+        //             'tipoDocumento' => $tipoDocumento,
+        //             'fechaInicio' => $fechaInicio,
+        //             'fechaFin' => $fechaFin,
+        //             'periodoPlan' => $periodoPlan,
+        //             'numeroAnuncios' => $numeroAnuncios,
+        //             'userTypeId' => $userTypeId,
+        //             'proyectoClienteId' => $proyectoClienteId,
+        //         ]);
+            
+        //         return response()->json([
+        //             'message' => 'Pago pendiente.',
+        //             'redirect' => route('ruta.proyecto.pago')
+        //         ], 200);
+        //     }
+            
+        // }
+
+        // Verificar si el usuario es del tipo 5 y su estado de pago
         if ($user->tipo_usuario_id == 5) {
             $proyectoCliente = ProyectoCliente::where('user_id', $user->id)->first();
 
-            $precio = $proyectoCliente->precio_plan;
-            $razonSocial = $proyectoCliente->razon_social;
-            $fechaInicio = $proyectoCliente->fecha_inicio_contrato;
-            $fechaFin = $proyectoCliente->fecha_fin_contrato;
-            $periodoPlan = $proyectoCliente->periodo_plan;
-            $numeroAnuncios = $proyectoCliente->numero_anuncios;
-            $correo = $user->getEmailAttribute();
-            $telefono = $user->getPhoneAttribute();
-            $documento = $user->getDniAttribute();
-            $tipoDocumento = $user->tipoDocumento->documento;
-            $userTypeId = $user->tipoUsuario->id;
-            $proyectoClienteId = $proyectoCliente->id;
+            if ($proyectoCliente) {
+                // Obtener detalles del proyecto
+                $razonSocial = $proyectoCliente->razon_social;
+                $fechaInicio = $proyectoCliente->fecha_inicio_contrato;
+                $fechaFin = $proyectoCliente->fecha_fin_contrato;
+                $periodoPlan = $proyectoCliente->periodo_plan;
+                $numeroAnuncios = $proyectoCliente->numero_anuncios;
+                $correo = $user->getEmailAttribute();
+                $telefono = $user->getPhoneAttribute();
+                $documento = $user->getDniAttribute();
+                $tipoDocumento = $user->tipoDocumento->documento;
+                $userTypeId = $user->tipoUsuario->id;
+                $proyectoClienteId = $proyectoCliente->id;
 
-            
-            if ($proyectoCliente && !$proyectoCliente->pagado) {
-                // Guardar los datos en la sesión
-                session([
-                    'precio' => $precio, 
-                    'razonSocial' => $razonSocial,
-                    'correo' => $correo,
-                    'telefono' => $telefono,
-                    'documento' => $documento,
-                    'tipoDocumento' => $tipoDocumento,
-                    'fechaInicio' => $fechaInicio,
-                    'fechaFin' => $fechaFin,
-                    'periodoPlan'=> $periodoPlan,
-                    'numeroAnuncios' => $numeroAnuncios,
-                    'userTypeId' => $userTypeId,
-                    'proyectoClienteId' => $proyectoClienteId,
-                ]);
+                // Verificar el estado del cliente (pagado o al día)
+                if (!$proyectoCliente->al_dia) {
+                    // Calcular el monto inicial según el tipo de pago
+                    $montoInicial = $proyectoCliente->pago_unico 
+                        ? $proyectoCliente->precio_plan 
+                        : $proyectoCliente->mensualidad;
+                
+                    // Guardar los datos en la sesión
+                    session([
+                        'precio' => $montoInicial, 
+                        'razonSocial' => $razonSocial,
+                        'correo' => $correo,
+                        'telefono' => $telefono,
+                        'documento' => $documento,
+                        'tipoDocumento' => $tipoDocumento,
+                        'fechaInicio' => $fechaInicio,
+                        'fechaFin' => $fechaFin,
+                        'periodoPlan' => $periodoPlan,
+                        'numeroAnuncios' => $numeroAnuncios,
+                        'userTypeId' => $userTypeId,
+                        'proyectoClienteId' => $proyectoClienteId,
+                    ]);
 
-                return response()->json([
-                    'message' => 'Pago pendiente.',
-                    'redirect' => route('ruta.proyecto.pago')
-                ], 200);
+                    // Redirigir al flujo de pagos
+                    return response()->json([
+                        'message' => 'Pago pendiente.',
+                        'redirect' => route('ruta.proyecto.pago') // pasarela de pagos
+                    ], 200);
+                }
+
+                // Si el cliente está al día, continuar con el flujo normal del login
+                // return response()->json([
+                //     'message' => 'Login exitoso.',
+                //     'redirect' => route('home') // ir al home
+                // ], 200);
             }
         }
+
 
         // Si las credenciales son correctas, iniciar sesión
         Auth::login($user);

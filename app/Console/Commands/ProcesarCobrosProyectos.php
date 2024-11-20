@@ -27,7 +27,6 @@ class ProcesarCobrosProyectos extends Command
         $estadoPaid = ProyectoPagoEstado::where('nombre', 'pagado')->first()->id;
         $estadoFinalFailed = ProyectoPagoEstado::where('nombre', 'fallo_final')->first()->id;
 
-        // Selecciona pagos pendientes cuyo due_date es hoy o en reintento (retrying)
         $payments = ProyectoCronogramaPago::where(function ($query) use ($today, $estadoPending) {
                 $query->where('estado_pago_id', $estadoPending)
                       ->where('fecha_programada', $today);

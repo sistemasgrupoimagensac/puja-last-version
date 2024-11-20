@@ -11,18 +11,13 @@
 @section('content')
 
     @php
-        if ($precio) {
-            $precio_formateado = number_format($precio);
-        } else {
-            $precio_formateado = null;
-        }
+        $precio_formateado = $precio ? number_format($precio, 2) : null;
+        $precio_plan_formateado = $precioPlan ? number_format($precioPlan, 2) : null;
+        $razon_social = $razonSocial ?? null;
 
-        if ($razonSocial) {
-            $razon_social = $razonSocial;
-        } else {
-            $razon_social = null;
-        }
+        $descripcion_pago = $pagoFraccionado ? "Primera mensualidad a pagar" : "Precio pagar" 
     @endphp
+
 
     <div class="position-relative container my-5" style="max-width: 600px" id="modalPago2" x-data="creditCardData()" x-init="init()">
         <form id="payment-form">
@@ -33,19 +28,40 @@
 
                     {{-- detalles del plan contratado --}}
                     <div class="card text-bg-dark mb-3 border-0 text-center">
-                        <h4 class="card-header fw-bold border-bottom m-0 py-3">Detalles Plan Proyecto</h4>
+                        <h4 class="card-header text-bg-light fw-bold border-bottom m-0 py-3">Detalles Plan Proyecto</h4>
                         <div class="card-body py-4">
-                            <p class="card-text fw-bold display-3">S/ {{ $precio_formateado }}</p>
-                            <p class="card-text h3">aviso(s): {{ $numeroAnuncios }} </p>
+
+                            @if ($pagoFraccionado)
+                                <div class="mb-4">
+                                    <span>Precio del plan:</span>
+                                    <span class="h4 fw-bold">
+                                        S/ {{ $precio_plan_formateado }}
+                                    </span>
+                                </div>
+                            @endif
+
+                            <div class="d-flex justify-content-center">
+                                <div class="card-text d-flex flex-column align-items-start">
+
+                                    {{ $descripcion_pago }}
+                                    <span class="fw-bold display-3">
+                                        S/ {{ $precio_formateado }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <h2 class="card-text m-0">
+                                <span class="badge text-bg-secondary">
+                                    {{ $numeroAnuncios }} aviso(s)
+                                </span>
+                            </h2>
+
                         </div>
                         <div class="card-footer bg-secondary d-flex justify-content-center py-3">
                             <div class="d-flex flex-column align-items-start">
-                                <p class="m-0 h5">
-                                    <span>desde: </span> <span>{{ $fechaInicio }}</span>
-                                </p>
-                                <p class="m-0 h5">
-                                    <span>hasta: </span> <span>{{ $fechaFin }}</span>
-                                </p>
+                                <h3 class="mb-3"><span class="badge text-bg-warning mt-2">Periodo del plan: {{ $periodoPlan }} meses</span></h3>
+                                <h6 class="m-0"><span>desde: </span> <span>{{ $fechaInicio }}</span></h6>
+                                <h6 class="m-0"><span>hasta: </span> <span>{{ $fechaFin }}</span></h6>
                             </div>
                         </div>
                     </div>
@@ -270,8 +286,7 @@
 
             handleTokenSuccess(response) {
                 const source_id = response.data.id; // Token de la tarjeta
-                const price = {{ $precio }};
-                const duration = {{ $periodoPlan }};
+                const price = {{ $precio }}; // Dinámicamente selecciona el monto correcto
                 const proyectoClienteId = {{ $proyectoClienteId }};
 
                 const formPost = {
@@ -279,7 +294,7 @@
                     method: "card",
                     amount: price,
                     currency: 'PEN',
-                    description: `Contrato de proyecto inmobiliario adquirido por S/ ${price}`,
+                    description: '{{ $descripcion }}',
                     device_session_id: this.deviceSessionId,
                     customer: {
                         name: '{{ $razonSocial }}',
@@ -290,14 +305,11 @@
 
                 this.createCustomer(formPost.customer)
                     .then(customer => {
-
                         this.associateCardToCustomer(customer.id, formPost.source_id, formPost.device_session_id)
                             .then(cardData => {
-
-                                this.realizarDebitoInicial(formPost, cardData, proyectoClienteId)
-
-                            })
-                    })
+                                this.realizarDebitoInicial(formPost, cardData, proyectoClienteId);
+                            });
+                    });
             },
 
             realizarDebitoInicial(formPost, cardData, proyectoClienteId) {

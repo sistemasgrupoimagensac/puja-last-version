@@ -9,6 +9,8 @@ use App\Models\ProyectoClienteContacto;
 use App\Models\ProyectoCronogramaPago;
 use App\Models\ProyectoPagoEstado;
 use App\Notifications\SendCredentialsProjectNotification;
+use App\Services\Proyectos\ServicioEstadoCliente;
+use App\Services\Proyectos\ServicioVigenciaProyecto; // Importar el servicio
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -79,7 +81,7 @@ class CreateProyectoCliente extends CreateRecord
         $contactos = ProyectoClienteContacto::where('proyecto_cliente_id', $proyectoCliente->id)
             ->where('habilitado_correo', true)
             ->get();
-    
+
         foreach ($contactos as $contacto) {
             $contacto->notify(new SendCredentialsProjectNotification($contacto->email, $proyectoCliente->user->email, $this->randomPassword));
         }
@@ -100,14 +102,24 @@ class CreateProyectoCliente extends CreateRecord
             $proyectoCliente->update(['contrato_url' => $ruta]);
         }
 
-        // Generar cronograma de pagos si es un pago fraccionado
-        if (!$proyectoCliente->pago_unico) {
-            // Calcula el monto mensual de pago
-            $montoMensual = $proyectoCliente->precio_plan / $proyectoCliente->periodo_plan;
-            $fechaInicio = Carbon::parse($proyectoCliente->fecha_inicio_contrato);
+        // Obtener el ID del estado 'pendiente' para asignarlo a los nuevos pagos
+        $estadoPendiente = ProyectoPagoEstado::where('nombre', 'pendiente')->first()->id;
 
-            // Obtener el ID del estado 'pendiente' para asignarlo a los nuevos pagos
-            $estadoPendiente = ProyectoPagoEstado::where('nombre', 'pendiente')->first()->id;
+        // Generar cronograma de pagos
+        $fechaInicio = Carbon::parse($proyectoCliente->fecha_inicio_contrato);
+
+        if ($proyectoCliente->pago_unico) {
+            // Crear un único pago para proyectos de pago único
+            ProyectoCronogramaPago::create([
+                'proyecto_cliente_id' => $proyectoCliente->id,
+                'fecha_programada' => $fechaInicio,
+                'monto' => $proyectoCliente->precio_plan,
+                'estado_pago_id' => $estadoPendiente,
+                'intentos' => 0,
+            ]);
+        } else {
+            // Crear pagos fraccionados
+            $montoMensual = $proyectoCliente->precio_plan / $proyectoCliente->periodo_plan;
 
             for ($i = 0; $i < $proyectoCliente->periodo_plan; $i++) {
                 ProyectoCronogramaPago::create([
@@ -119,5 +131,11 @@ class CreateProyectoCliente extends CreateRecord
                 ]);
             }
         }
+
+        // Ejecutar el servicio de vigencia
+        $servicioVigencia = app(ServicioVigenciaProyecto::class);
+        $servicioVigencia->actualizarVigencia();
+
+        app(ServicioEstadoCliente::class)->actualizarEstadoCliente($proyectoCliente);
     }
 }

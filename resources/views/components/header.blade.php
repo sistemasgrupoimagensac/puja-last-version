@@ -178,29 +178,29 @@
         
                     </ul>
                     @auth
-                        @php
-                            $tipoUsuarioID = Auth::user()->tipo_usuario_id;
-                            $canEditProject = false;
-
-                            if (isset($projectInfo)) {
-                                if($projectInfo !== false) {
-                                    $canEditProject = $projectInfo['pagado'];
-                                }
+                    @php
+                        $tipoUsuarioID = Auth::user()->tipo_usuario_id;
+                        $canEditProject = false;
+                    
+                        if (isset($projectInfo)) {
+                            if ($projectInfo !== false) {
+                                $canEditProject = $projectInfo['al_dia']; // Usar el campo 'al_dia'
                             }
-
-                        @endphp
-
-                        @if (isset($tienePlanes)) 
-                            @if (!$tienePlanes && $tipoUsuarioID === 3)
-                                <a href="/planes-inmobiliaria" class="btn-outline-secondary aside-menu btn mx-4">Publica Aquí</a>
-                            @elseif ( $canEditProject && $tipoUsuarioID === 5 )
-                                <a href="{{ route("proyectos.create") }}" class="btn-outline-secondary aside-menu btn mx-4">Publica Aquí</a>
-                            @elseif ( !$canEditProject && $tipoUsuarioID === 5 )
-                                <a class="btn-outline-secondary aside-menu btn mx-4" href="/publica-tu-inmueble">Publica Aquí</a>
-                            @else 
-                                <a href="{{ route("posts.create") }}" class="btn-outline-secondary aside-menu btn mx-4">Publica Aquí</a>
-                            @endif
+                        }
+                    @endphp
+                    
+                    @if (isset($tienePlanes)) 
+                        @if (!$tienePlanes && $tipoUsuarioID === 3)
+                            <a href="/planes-inmobiliaria" class="btn-outline-secondary aside-menu btn mx-4">Publica Aquí</a>
+                        @elseif ( $canEditProject && $tipoUsuarioID === 5 )
+                            <a href="{{ route("proyectos.create") }}" class="btn-outline-secondary aside-menu btn mx-4">Publica Aquí</a>
+                        @elseif ( !$canEditProject && $tipoUsuarioID === 5 )
+                            <a class="btn-outline-secondary aside-menu btn mx-4" href="/publica-tu-inmueble">Publica Aquí</a>
+                        @else 
+                            <a href="{{ route("posts.create") }}" class="btn-outline-secondary aside-menu btn mx-4">Publica Aquí</a>
                         @endif
+                    @endif
+                
 
                         @php
                             $nombreCompleto = Auth::user()->nombres;

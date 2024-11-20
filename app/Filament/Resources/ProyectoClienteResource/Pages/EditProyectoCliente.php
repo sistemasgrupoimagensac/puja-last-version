@@ -6,6 +6,7 @@ use App\Filament\Resources\ProyectoClienteResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use App\Models\User;
+use App\Services\Proyectos\ServicioVigenciaProyecto;
 use Carbon\Carbon;
 use Illuminate\Validation\ValidationException;
 
@@ -48,14 +49,15 @@ class EditProyectoCliente extends EditRecord
             ]);
         }
 
-        // Calcular `fecha_fin_contrato` si `fecha_inicio_contrato` y `periodo_plan` están presentes
-        // if (isset($data['fecha_inicio_contrato'], $data['periodo_plan'])) {
-        //     $fechaInicio = Carbon::parse($data['fecha_inicio_contrato']);
-        //     $data['fecha_fin_contrato'] = $fechaInicio->addMonths((int) $data['periodo_plan'])->toDateString();
-        // }
-
-        // TODO: hacer que la actualizacion de fin de contrato se ejecute en un cronjob
-
         return $data;
+    }
+
+    protected function afterSave(): void
+    {
+        $proyectoCliente = $this->record;
+
+        // Calcular y actualizar la vigencia
+        app(ServicioVigenciaProyecto::class)->actualizarVigencia($proyectoCliente);
+
     }
 }

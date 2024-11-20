@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Banco;
 use App\Models\Proyecto;
 use App\Models\ProyectoCliente;
+use App\Models\ProyectoCronogramaPago;
 use App\Models\ProyectoImagenesAdicionales;
 use App\Models\ProyectoImagenesUnidades;
+use App\Models\ProyectoPagoEstado;
 use App\Models\ProyectoProgreso;
 use App\Models\ProyectoUnidades;
 use App\Models\User;
+use App\Services\Proyectos\ServicioEstadoCliente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Exception;
@@ -214,25 +217,85 @@ class ProyectoController extends Controller
 
     public function savePaidProjectStatus(Request $request)
     {
-        // Obtener el registro de ProyectoCliente según el ID proporcionado
-        $proyectoCliente = ProyectoCliente::where('id', $request->proyectoClienteId)->first();
+        // Buscar el cliente del proyecto
+        $proyectoCliente = ProyectoCliente::find($request->proyectoClienteId);
     
-        if ($proyectoCliente) {
-            // Actualizar el campo 'pagado' a true (o 1)
-            $proyectoCliente->pagado = true;
-            $proyectoCliente->save();
-    
-            return response()->json([
-                'status' => 'Success',
-                'message' => 'El estado de pago ha sido actualizado correctamente.',
-            ], 200);
-        } else {
-
+        if (!$proyectoCliente) {
             return response()->json([
                 'status' => 'Error',
                 'message' => 'ProyectoCliente no encontrado.',
             ], 404);
         }
+    
+        // Obtener el estado "pagado"
+        $estadoPagado = ProyectoPagoEstado::where('nombre', 'pagado')->first();
+    
+        if (!$estadoPagado) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Estado de pago "pagado" no encontrado.',
+            ], 500);
+        }
+    
+        // Actualizar el cronograma según el tipo de pago
+        if ($proyectoCliente->pago_unico) {
+            // Si es un pago único, actualizar el único registro del cronograma
+            $cronograma = ProyectoCronogramaPago::where('proyecto_cliente_id', $proyectoCliente->id)->first();
+    
+            if ($cronograma) {
+                $cronograma->update([
+                    'estado_pago_id' => $estadoPagado->id,
+                    'fecha_ultimo_intento' => now(),
+                ]);
+            }
+    
+            // Marcar el proyecto como completamente pagado y al día
+            $proyectoCliente->update([
+                'pagado' => true,
+                'al_dia' => true,
+            ]);
+        } else {
+            // Si es un pago fraccionado, actualizar el primer pago pendiente
+            $primerPagoPendiente = ProyectoCronogramaPago::where('proyecto_cliente_id', $proyectoCliente->id)
+            ->where('estado_pago_id', '!=', $estadoPagado->id)
+            ->orderBy('fecha_programada', 'asc')
+            ->first();
+            
+            if ($primerPagoPendiente) {
+                $primerPagoPendiente->update([
+                    'estado_pago_id' => $estadoPagado->id,
+                    'fecha_ultimo_intento' => now(),
+                ]);
+                
+                // Marcar como "al día" porque el primer pago pendiente se realizó con éxito
+                $proyectoCliente->update(['al_dia' => true]);
+            }
+    
+            // Verificar si todos los pagos están completados
+            $todosPagosRealizados = ProyectoCronogramaPago::where('proyecto_cliente_id', $proyectoCliente->id)
+                ->where('estado_pago_id', '!=', $estadoPagado->id)
+                ->doesntExist();
+    
+            if ($todosPagosRealizados) {
+                // Marcar el proyecto como completamente pagado si no hay pagos pendientes
+                $proyectoCliente->update(['pagado' => true]);
+            }
+        }
+    
+        // Actualizar el estado del cliente
+        app(ServicioEstadoCliente::class)->actualizarEstadoCliente($proyectoCliente);
+    
+        // Retornar una respuesta
+        $todosPagosRealizados = $proyectoCliente->pago_unico || $todosPagosRealizados ?? false;
+    
+        return response()->json([
+            'status' => 'Success',
+            'message' => $todosPagosRealizados
+                ? 'El estado de pago ha sido actualizado correctamente. Todos los pagos están completados.'
+                : 'El estado de pago ha sido actualizado para el primer pago, pero aún hay pagos pendientes.',
+        ], 200);
     }
     
+    
+
 }

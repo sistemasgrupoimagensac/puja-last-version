@@ -379,7 +379,8 @@ class PlanController extends Controller
     }
 
     // Pagos por OPEN PAY
-    public function pay_openpay (Request $request) {
+    public function pay_openpay (Request $request) 
+    {
         $base_url = env('OPENPAY_URL');
         $openpay_id = env('OPENPAY_ID');
         $openpay_sk = env('OPENPAY_SK');
@@ -402,14 +403,15 @@ class PlanController extends Controller
     {
         $proyectoClienteId = session('proyectoClienteId');
         $proyectoCliente = ProyectoCliente::find($proyectoClienteId);
-        
+    
         // Evitar que accedan a la pantalla de pago si ya está pagado
         if (!$proyectoCliente || $proyectoCliente->pagado) {
             return response()->view('errors.404', [], 404);
         }
-
+    
         // Recuperar los datos de la sesión
         $precio = session('precio');
+        $precioPlan = $proyectoCliente->precio_plan;
         $razonSocial = session('razonSocial');
         $correo = session('correo');
         $telefono = session('telefono');
@@ -420,16 +422,23 @@ class PlanController extends Controller
         $periodoPlan = session('periodoPlan');
         $numeroAnuncios = session('numeroAnuncios');
         $userTypeId = session('userTypeId');
-
+        $pagoUnico = $proyectoCliente->pago_unico;
+        $pagoFraccionado = $proyectoCliente->pago_fraccionado;
+    
         $fechaInicio = $this->formatearFecha($fechaInicioRaw);
         $fechaFin = $this->formatearFecha($fechaFinRaw);
 
+        $descripcion = $proyectoCliente->pago_unico 
+            ? 'Pago único por la totalidad del plan.' 
+            : 'Primer pago mensual del plan.';
+    
         if (!$precio || !$razonSocial) {
             return response()->view('errors.404', [], 404);
         }
-
+    
         return view('proyecto-pago', compact(
             'precio', 
+            'precioPlan',
             'razonSocial', 
             'correo', 
             'telefono', 
@@ -443,8 +452,12 @@ class PlanController extends Controller
             'proyectoClienteId',
             'fechaInicioRaw',
             'fechaFinRaw',
+            'descripcion',
+            'pagoUnico',
+            'pagoFraccionado',
         ));
     }
+    
 
     private function formatearFecha($fecha)
     {

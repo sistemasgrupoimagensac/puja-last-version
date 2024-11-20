@@ -24,6 +24,7 @@ use Filament\Tables\Columns\TextColumn;
 use Illuminate\Validation\Rule;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Filters\Filter;
+use Filament\Tables\Actions\Action;
 
 class ProyectoClienteResource extends Resource
 {
@@ -224,7 +225,7 @@ class ProyectoClienteResource extends Resource
                             ->default(fn ($record) => $record->activo ?? false),
 
                         ToggleButtons::make('pagado')
-                            ->label('Pagado')
+                            ->label('Pago Total')
                             ->boolean()
                             ->inline()
                             ->disabled(),
@@ -279,16 +280,30 @@ class ProyectoClienteResource extends Resource
                 IconColumn::make('activo')
                     ->boolean()
                     ->label('Activo'),
-                IconColumn::make('pagado')
+                IconColumn::make('vigente')
                     ->boolean()
-                    ->label('Pagó'),
+                    ->label('Vigente'),
                 TextColumn::make('contrato_url')
-                    ->label('Contratos')
+                    ->label('Contrato')
                     ->formatStateUsing(fn ($state) => !empty($state) ? 'Ver Contrato' : 'No Disponible')
                     ->url(fn ($record) => $record->contrato_url ? route('contratos.get', ['archivo' => basename($record->contrato_url)]) : null)
                     ->openUrlInNewTab()
                     ->badge()
                     ->color(fn ($state) => $state === 'Ver Contrato' ? 'success' : 'warning'),
+            ])
+            ->actions([
+                Action::make('verCronograma')
+                ->label('Pagos')
+                ->modalHeading('Cronograma de Pagos')
+                ->modalContent(function (ProyectoCliente $record) {
+                    $cronogramaPagos = $record->cronogramaPagos()
+                        ->with('estadoPago') // Carga la relación de estadoPago
+                        ->get();
+
+                    return view('filament.modals.cronograma-pagos', [
+                        'cronogramaPagos' => $cronogramaPagos,
+                    ]);
+                })
             ])
             ->filters([
                 Filter::make('activo')

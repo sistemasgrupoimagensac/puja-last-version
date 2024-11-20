@@ -27,6 +27,7 @@ class ProyectoCliente extends Model
         'activo',
         'vigente',
         'pagado',
+        'al_dia',
         'precio_plan',
         'periodo_plan',
         'pago_unico',
@@ -46,29 +47,18 @@ class ProyectoCliente extends Model
     {
         return $this->hasMany(Proyecto::class, 'proyecto_cliente_id');
     }
-
-    // Método para determinar si el cliente está activo
-    public function actualizarEstado()
-    {
-        $hoy = now();
-        // Verificar si el contrato está vigente
-        $this->vigente = $this->fecha_fin_contrato >= $hoy && $hoy >= $this->fecha_inicio_contrato;
-
-        // Verificar el estado activo
-        if ($this->habilitado && $this->vigente) {
-            $this->activo = true;
-        } else {
-            $this->activo = false;
-        }
-
-        $this->save();
-    }
-
+    
     // relacion con la tabla de representantes legales
     public function representantesLegales(): HasMany
     {
         return $this->hasMany(ProyectoClienteLegal::class);
     }
+
+    public function cronogramaPagos()
+    {
+        return $this->hasMany(ProyectoCronogramaPago::class, 'proyecto_cliente_id');
+    }
+
 
     public function contactos(): HasMany
     {
@@ -78,14 +68,6 @@ class ProyectoCliente extends Model
     public function googleSheet()
     {
         return $this->hasOne(ProyectoClienteSheet::class);
-    }
-
-    // Evento para actualizar el estado cada vez que se recupera el cliente
-    protected static function booted()
-    {
-        static::retrieved(function ($proyectoCliente) {
-            $proyectoCliente->actualizarEstado();
-        });
     }
 
     // Relacion con la tabla customer_cards (que contiene los datos de la tarjeta y el cliente)

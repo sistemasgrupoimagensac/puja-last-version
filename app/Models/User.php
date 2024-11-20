@@ -62,20 +62,22 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     public function canPublishProjects()
     {
         $proyectoCliente = $this->proyecto_cliente;
-
+    
         if (!$proyectoCliente) {
             return false; // Si no tiene un proyectoCliente asociado, no puede publicar
         }
-
+    
         return [
             'activo' => $proyectoCliente->activo,
             'pagado' => $proyectoCliente->pagado,
+            'al_dia' => $proyectoCliente->al_dia, // Nuevo campo que indica si el cliente está al día
             'numero_anuncios' => $proyectoCliente->numero_anuncios,
             'periodo_plan' => $proyectoCliente->periodo_plan,
             'fecha_inicio_contrato' => $proyectoCliente->fecha_inicio_contrato,
             'fecha_fin_contrato' => $proyectoCliente->fecha_fin_contrato,
         ];
     }
+    
 
     public function tipoUsuario(): BelongsTo
     {
