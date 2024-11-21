@@ -27,3 +27,6 @@ Schedule::command('proyectos:actualizar-vigencia')->daily();
 // Schedule::command('proyectos:actualizar-estado-pagos')->daily();
 
 Schedule::command('proyectos:procesar-pagos')->daily();
+
+Schedule::command('renovacion:promocion')->daily();
+Schedule::command('renovacion:recordatorio')->daily();

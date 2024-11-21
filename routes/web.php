@@ -277,3 +277,6 @@ Route::get('/contratos/{archivo}', [PDFController::class, 'getPDF'])->name('cont
 
 // renovacion de planes
 Route::post('/planes/renovacion/toggle', [RenovacionController::class, 'toggleRenovacion'])->name('planes.renovacion.toggle');
+
+// para renovar
+Route::get('/planes/renovacion/{plan_id}', [PlanController::class, 'showRenovacionPage'])->name('planes.renovacion');
