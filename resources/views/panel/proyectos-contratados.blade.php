@@ -54,71 +54,104 @@
     
                             <h5 class="m-0"><span class="badge text-bg-warning mt-2">Periodo: {{ $projectInfo['periodo_plan'] }} meses</span></h5>
                         </div>
-                        
+
+                        <div class="card-footer py-3">
+
+                            <div class="input-group input-group-lg">
+                                <div class="input-group-text">
+                                    <div class="form-check form-switch">
+                                        <input 
+                                            class="form-check-input" 
+                                            type="checkbox" 
+                                            role="switch" 
+                                            id="flexSwitchCheckCheckedDisabled"
+                                            {{ $renovacion_automatica ? 'checked' : '' }}
+                                            disabled
+                                        >
+                                    </div>
+                                </div>
+                                <button 
+                                    type="button" 
+                                    class="btn
+                                    {{ $renovacion_automatica ? 'btn-success' : 'btn-outline-success' }}
+                                    form-control"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#confirmRenovacionModal"
+                                >
+                                    Renovación
+                                </button>
+                            </div>
+
+                        </div>
 
 
-                        <div class="card-footer d-flex align-items-center gap-3 py-3">
-                            <div class="form-check">
-                                <input class="form-check-input" 
-                                       type="checkbox" 
-                                       id="flexCheckDefault" 
-                                       data-id={{ $proyecto_cliente_id }}
-                                       onchange="toggleRenovacion(this)">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Renovación automática
-                                </label>
+
+                        {{-- Modal confirmación de cancelar renovacion automatica --}}
+                        <div class="modal fade" id="confirmRenovacionModal" tabindex="-1" aria-labelledby="confirmRenovacionModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-content py-4">
+                                        <i class="fa-regular fa-circle-question fa-4x text-danger"></i>
+                                        <div class="modal-header justify-content-center">
+                                            <h4 class="modal-title">¿Confirmar cambio en la renovación automática?</h4>
+                                        </div>
+                                        <div class="d-flex p-3 justify-content-center gap-3">
+                                            <button type="button" class="btn btn-danger w-100" id="confirm-renovacion-btn" data-id={{ $proyecto_cliente_id }}>Confirmar</button>
+                                            <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Cancelar</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        
-
-
-                        
-    
                     </div>
-                    
                     
                     @else
                         <p>No tienes planes activos en este momento.</p>
                     @endif
                     
                 @endif
-                
-
             </section>
         </div>
 
     </main>
 
     <script>
-        function toggleRenovacion(checkbox) {
-            const proyectoClienteId = checkbox.getAttribute('data-id');
-            const isChecked = checkbox.checked;
+        document.addEventListener('DOMContentLoaded', () => {
+            const confirmButton = document.getElementById('confirm-renovacion-btn');
+            // const modal = document.getElementById('confirmRenovacionModal');
     
-            fetch('/planes/renovacion/toggle', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                },
-                body: JSON.stringify({
-                    proyecto_cliente_id: proyectoClienteId,
-                }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    alert(data.message);
-                } else {
-                    alert(data.message);
-                    checkbox.checked = !isChecked; // Revertir el estado si hubo un error
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Ocurrió un error al actualizar la renovación automática.');
-                checkbox.checked = !isChecked; // Revertir el estado si hubo un error
+            confirmButton.addEventListener('click', () => {
+                // const checkbox = document.querySelector('.form-check-input');
+                const clienteId = confirmButton.getAttribute('data-id');
+                // const renovacionAutomatica = checkbox.checked;
+    
+                // Enviar el valor actualizado al backend
+                fetch('/planes/renovacion/toggle', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    },
+                    body: JSON.stringify({
+                        proyecto_cliente_id: clienteId,
+                    }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            alert(data.message);
+                        } else {
+                            alert('Ocurrió un error al actualizar la renovación automática.');
+                        }
+                        location.reload()
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Ocurrió un error en el sistema.');
+                    });
             });
-        }
+        });
     </script>
+    
 
 @endsection

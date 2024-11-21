@@ -121,8 +121,6 @@ class ProyectoClienteResource extends Resource
                     ])
                     ->columns(1),
 
-
-                
                 Section::make('Google sheet (opcional)')
                     ->relationship('googleSheet')
                     ->schema([

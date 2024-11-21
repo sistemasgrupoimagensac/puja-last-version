@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web\PanelProyecto;
 
 use App\Http\Controllers\Controller;
 use App\Models\ProyectoCliente;
+use App\Models\ProyectoPlanesActivos;
 use App\Models\User;
 use DateTime;
 use Illuminate\Http\Request;
@@ -34,6 +35,7 @@ class ProyectosContratadosController extends Controller
             $user = User::find($user_id);
             $proyectoCliente = ProyectoCliente::where('user_id', $user_id)->first();
             $proyecto_cliente_id = $proyectoCliente->id;
+            $renovacion_automatica = ProyectoPlanesActivos::where('proyecto_cliente_id', $proyecto_cliente_id)->first()->renovacion_automatica;
             $tipo_usuario = $user->tipo_usuario_id;
             $active_plan_users = $user->active_plans()->get();
             $tienePlanes = $active_plan_users->isNotEmpty();
@@ -44,9 +46,9 @@ class ProyectosContratadosController extends Controller
             $projectInfo['fecha_fin_formateada'] = $this->formatearFecha($projectInfo['fecha_fin_contrato']);
         }
 
-        // dd($user, $tienePlanes, $tipo_usuario, $projectInfo, $proyectoCliente, $proyecto_cliente_id);
+        // dd($user, $tienePlanes, $tipo_usuario, $projectInfo, $proyectoCliente, $proyecto_cliente_id, $renovacion_automatica);
 
-        return view('panel.proyectos-contratados', compact('user', 'tienePlanes', 'tipo_usuario', 'projectInfo', 'proyecto_cliente_id'));
+        return view('panel.proyectos-contratados', compact('user', 'tienePlanes', 'tipo_usuario', 'projectInfo', 'proyecto_cliente_id', 'renovacion_automatica' ));
     }
 
     // Método privado para formatear la fecha
