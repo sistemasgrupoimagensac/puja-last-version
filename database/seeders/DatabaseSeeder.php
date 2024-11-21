@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
             PostSeeder::class,
             BancosSeeder::class,
             ProgresoProyectoSeeder::class,
-            ProjectPlansTableSeeder::class,
+            ProyectoPlanesTableSeeder::class,
             ProyectoPagoEstadoSeeder::class,
         ]);
         /**

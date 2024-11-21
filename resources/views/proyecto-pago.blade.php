@@ -421,7 +421,7 @@
                     console.log(data.message);
                     if (data.status === "Success") {
                         // Llamada para asociar la tarjeta a un plan
-                        this.associateCardToPlan(proyectoClienteId, cardData.customer_id, cardData.id, {{ $periodoPlan }});
+                        // this.associateCardToPlan(proyectoClienteId, cardData.customer_id, cardData.id, {{ $periodoPlan }});
                     }
                     return data;
                 })
@@ -432,29 +432,29 @@
             },
 
             // Función para asociar la tarjeta a un plan
-            associateCardToPlan(proyectoClienteId, customerId, cardId, periodoPlan) {
-                fetch('/suscribir_plan', {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        proyecto_cliente_id: proyectoClienteId,
-                        customer_id: customerId,
-                        card_id: cardId,
-                        periodo_plan: periodoPlan, // Asegúrate de enviar el periodo del plan
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Asociación de plan:', data.message);
-                })
-                .catch(error => {
-                    console.error('Error al asociar el plan:', error.message);
-                });
-            },
+            // associateCardToPlan(proyectoClienteId, customerId, cardId, periodoPlan) {
+            //     fetch('/suscribir_plan', {
+            //         method: 'POST',
+            //         headers: {
+            //             'Accept': 'application/json',
+            //             'Content-Type': 'application/json',
+            //             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            //         },
+            //         body: JSON.stringify({
+            //             proyecto_cliente_id: proyectoClienteId,
+            //             customer_id: customerId,
+            //             card_id: cardId,
+            //             periodo_plan: periodoPlan, // Asegúrate de enviar el periodo del plan
+            //         })
+            //     })
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         console.log('Asociación de plan:', data.message);
+            //     })
+            //     .catch(error => {
+            //         console.error('Error al asociar el plan:', error.message);
+            //     });
+            // },
 
             createCustomer(customerData) {
                 return fetch('/crear_cliente', {

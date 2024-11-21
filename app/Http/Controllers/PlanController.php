@@ -458,7 +458,6 @@ class PlanController extends Controller
         ));
     }
     
-
     private function formatearFecha($fecha)
     {
         $date = new DateTime($fecha);

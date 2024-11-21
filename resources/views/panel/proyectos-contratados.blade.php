@@ -19,7 +19,7 @@
 
                 @if (isset($projectInfo))
     
-                    @if ($projectInfo['pagado'])
+                    @if ($projectInfo['al_dia'])
     
                     <div class="card text-bg-light my-5 shadow" style="width: 20rem;">
     
@@ -58,17 +58,18 @@
 
 
                         <div class="card-footer d-flex align-items-center gap-3 py-3">
-
-                            <p class="m-0">¿Mejorar tu plan?</p>
-
-                            <a class="btn btn-success p-2" href="/contacto">
-                                <div class="d-flex justify-content-center align-items-center gap-2 h-100">
-                                    <i class="fa-solid fa-envelopes-bulk fa-lg"></i>
-                                    <span class="m-0">Contáctanos</span>
-        
-                                </div>
-                            </a>
+                            <div class="form-check">
+                                <input class="form-check-input" 
+                                       type="checkbox" 
+                                       id="flexCheckDefault" 
+                                       data-id={{ $proyecto_cliente_id }}
+                                       onchange="toggleRenovacion(this)">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Renovación automática
+                                </label>
+                            </div>
                         </div>
+                        
 
 
                         
@@ -87,4 +88,37 @@
         </div>
 
     </main>
+
+    <script>
+        function toggleRenovacion(checkbox) {
+            const proyectoClienteId = checkbox.getAttribute('data-id');
+            const isChecked = checkbox.checked;
+    
+            fetch('/planes/renovacion/toggle', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                },
+                body: JSON.stringify({
+                    proyecto_cliente_id: proyectoClienteId,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert(data.message);
+                } else {
+                    alert(data.message);
+                    checkbox.checked = !isChecked; // Revertir el estado si hubo un error
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Ocurrió un error al actualizar la renovación automática.');
+                checkbox.checked = !isChecked; // Revertir el estado si hubo un error
+            });
+        }
+    </script>
+
 @endsection

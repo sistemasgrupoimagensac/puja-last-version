@@ -32,6 +32,7 @@ use App\Http\Controllers\UserProjectSubscriptionController;
 use App\Http\Controllers\Web\PanelProyecto\ProyectoInteresadosController;
 use App\Http\Controllers\Web\PanelProyecto\ProyectosContratadosController;
 use App\Http\Middleware\CheckPaymentProjectStatus;
+use App\Http\Controllers\RenovacionController;
 
 Route::get('/', MainController::class);
 Route::get('/libro-reclamaciones', [SuppliersController::class, 'libroReclamos'])->name('libro_reclamaciones');
@@ -273,3 +274,6 @@ Route::post('/suscribir_plan', [UserProjectSubscriptionController::class, 'suscr
 Route::post('/realizar_debito_inicial', [PlanController::class, 'realizarDebitoInicial']);
 
 Route::get('/contratos/{archivo}', [PDFController::class, 'getPDF'])->name('contratos.get');
+
+// renovacion de planes
+Route::post('/planes/renovacion/toggle', [RenovacionController::class, 'toggleRenovacion'])->name('planes.renovacion.toggle');

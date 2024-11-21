@@ -236,6 +236,7 @@ class ProyectoClienteResource extends Resource
                             ->disk('wasabi')
                             ->directory('proyectos/contratos')
                             ->visibility('public')
+                            ->required()
                             ->maxSize(4096),
                         
                     ])
