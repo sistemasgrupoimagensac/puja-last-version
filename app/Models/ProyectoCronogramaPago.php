@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Carbon\Carbon;
 
 class ProyectoCronogramaPago extends Model
 {
@@ -23,7 +25,6 @@ class ProyectoCronogramaPago extends Model
         'fallo_final',
     ];
 
-    // Asegurarte que las fechas se manejen como objetos Carbon
     protected $casts = [
         'fecha_programada' => 'datetime',
         'reintento_hasta' => 'datetime',
@@ -38,5 +39,24 @@ class ProyectoCronogramaPago extends Model
     public function estadoPago()
     {
         return $this->belongsTo(ProyectoPagoEstado::class, 'estado_pago_id');
+    }
+
+    /**
+     * Scope para obtener pagos pendientes para procesar hoy.
+     */
+    public function scopePendientesHoy(Builder $query): Builder
+    {
+        $hoy = Carbon::today();
+        $estadoPendiente = 1; // ID del estado 'Pendiente'
+        $estadoReintento = 4; // ID del estado 'Reintento'
+
+        return $query->where(function ($q) use ($hoy, $estadoPendiente) {
+                $q->where('estado_pago_id', $estadoPendiente)
+                  ->whereDate('fecha_programada', $hoy);
+            })
+            ->orWhere(function ($q) use ($hoy, $estadoReintento) {
+                $q->where('estado_pago_id', $estadoReintento)
+                  ->whereDate('reintento_hasta', '>=', $hoy);
+            });
     }
 }

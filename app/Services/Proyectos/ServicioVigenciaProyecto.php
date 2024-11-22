@@ -21,7 +21,7 @@ class ServicioVigenciaProyecto
                 $cliente->update(['vigente' => $vigente]);
     
                 // Actualizar el estado activo después de actualizar la vigencia
-                app(ServicioEstadoCliente::class)->actualizarEstadoCliente($cliente);
+                // app(ServicioEstadoCliente::class)->actualizarEstadoCliente($cliente);
             });
     }
 }

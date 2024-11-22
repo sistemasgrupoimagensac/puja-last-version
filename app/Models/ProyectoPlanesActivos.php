@@ -33,4 +33,18 @@ class ProyectoPlanesActivos extends Model
     {
         return $this->belongsTo(ProyectoPlanes::class, 'proyecto_planes_id');
     }
+
+    public function scopeSinRenovacion($query)
+    {
+        return $query->where('renovacion_automatica', false)
+            ->where('estado', 'activo')
+            ->whereDate('fecha_fin', '>=', now()->addDays(45));
+    }
+
+    public function scopeConRenovacion($query)
+    {
+        return $query->where('renovacion_automatica', true)
+            ->where('estado', 'activo')
+            ->whereDate('fecha_fin', '=', now()->addDays(45));
+    }
 }

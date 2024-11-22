@@ -15,7 +15,7 @@
         $precio_plan_formateado = $precioPlan ? number_format($precioPlan, 2) : null;
         $razon_social = $razonSocial ?? null;
 
-        $descripcion_pago = $pagoFraccionado ? "Primera mensualidad a pagar" : "Precio pagar" 
+        $descripcion_pago = $pagoFraccionado ? "Primer pago (50%)" : "Precio pagar" 
     @endphp
 
 

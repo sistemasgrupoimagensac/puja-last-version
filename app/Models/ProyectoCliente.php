@@ -34,7 +34,6 @@ class ProyectoCliente extends Model
         'pago_fraccionado',
         'renovacion',
         'contrato_url',
-        'mensualidad',
     ];
 
     public function user(): BelongsTo
