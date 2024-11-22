@@ -168,8 +168,9 @@ class CreateProyectoCliente extends CreateRecord
     {
         $estadoPendiente = ProyectoPagoEstado::where('nombre', 'pendiente')->first()->id;
         $fechaInicio = Carbon::parse($proyectoCliente->fecha_inicio_contrato);
-
+    
         if ($proyectoCliente->pago_unico) {
+            // Caso de pago único
             ProyectoCronogramaPago::create([
                 'proyecto_cliente_id' => $proyectoCliente->id,
                 'fecha_programada' => $fechaInicio,
@@ -178,8 +179,25 @@ class CreateProyectoCliente extends CreateRecord
                 'intentos' => 0,
             ]);
         } else {
-            $montoMensual = $proyectoCliente->precio_plan / $proyectoCliente->periodo_plan;
-            for ($i = 0; $i < $proyectoCliente->periodo_plan; $i++) {
+            // Caso de pago fraccionado con el 50% inicial
+            $primerPago = $proyectoCliente->precio_plan * 0.5; // 50% del total
+            $montoRestante = $proyectoCliente->precio_plan * 0.5; // 50% restante
+            $numeroPagosRestantes = $proyectoCliente->periodo_plan - 1;
+    
+            // Monto mensual para los pagos restantes
+            $montoMensual = $numeroPagosRestantes > 0 ? $montoRestante / $numeroPagosRestantes : 0;
+    
+            // Primer pago al inicio del contrato
+            ProyectoCronogramaPago::create([
+                'proyecto_cliente_id' => $proyectoCliente->id,
+                'fecha_programada' => $fechaInicio,
+                'monto' => $primerPago,
+                'estado_pago_id' => $estadoPendiente,
+                'intentos' => 0,
+            ]);
+    
+            // Pagos restantes divididos en los meses restantes
+            for ($i = 1; $i < $proyectoCliente->periodo_plan; $i++) {
                 ProyectoCronogramaPago::create([
                     'proyecto_cliente_id' => $proyectoCliente->id,
                     'fecha_programada' => $fechaInicio->copy()->addMonths($i),
@@ -190,7 +208,7 @@ class CreateProyectoCliente extends CreateRecord
             }
         }
     }
-
+    
     /**
      * Crea un registro en la tabla de planes activos.
      */

@@ -4,49 +4,36 @@ namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Models\ProyectoPlanesActivos;
 
 class RenovacionRecordatorio extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $plan;
+
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(ProyectoPlanesActivos $plan)
     {
-        //
+        $this->plan = $plan;
     }
 
     /**
-     * Get the message envelope.
+     * Build the message.
      */
-    public function envelope(): Envelope
+    public function build()
     {
-        return new Envelope(
-            subject: 'Renovacion Recordatorio',
-        );
-    }
-
-    /**
-     * Get the message content definition.
-     */
-    public function content(): Content
-    {
-        return new Content(
-            view: 'view.name',
-        );
-    }
-
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
-    public function attachments(): array
-    {
-        return [];
+        return $this->view('emails.renovacion-recordatorio')
+            ->subject('Recordatorio de Renovación de Contrato')
+            ->with([
+                'nombreCliente' => $this->plan->proyectoCliente->razon_social,
+                'fechaFin' => $this->plan->fecha_fin->format('d/m/Y'),
+                'renovacionAutomatica' => $this->plan->renovacion_automatica,
+                'planNombre' => $this->plan->proyectoPlanes->nombre ?? 'Plan Personalizado',
+            ]);
     }
 }
