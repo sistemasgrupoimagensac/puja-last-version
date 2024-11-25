@@ -3,8 +3,8 @@
 namespace App\Services\Proyectos;
 
 use App\Models\ProyectoCronogramaPago;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 
 class ServicioDebitoAutomatico
 {
@@ -21,15 +21,72 @@ class ServicioDebitoAutomatico
     }
 
     /**
+     * Gestiona un pago específico del cronograma.
+     *
+     * @param ProyectoCronogramaPago $pago
+     */
+    public function gestionarPago(ProyectoCronogramaPago $pago): void
+    {
+        $cliente = $pago->proyectoCliente;
+        $tarjeta = $cliente->tarjeta; // Relación definida en el modelo ProyectoCliente
+
+        if (!$tarjeta) {
+            $this->registrarFalloFinal($pago, 'No hay tarjeta asociada');
+            return;
+        }
+
+        $successful = $this->procesarCobroAutomatico($pago, $tarjeta->card_id, $tarjeta->customer_id);
+
+        if (!$successful && $pago->reintento_hasta && now()->greaterThanOrEqualTo($pago->reintento_hasta)) {
+            $this->registrarFalloFinal($pago, 'Reintentos agotados');
+        }
+    }
+
+    /**
+     * Procesa un cobro automático para un pago específico.
+     *
+     * @param ProyectoCronogramaPago $pago
+     * @param string $cardId
+     * @param string $customerId
+     * @return bool
+     */
+    public function procesarCobroAutomatico(ProyectoCronogramaPago $pago, string $cardId, string $customerId): bool
+    {
+        $chargeId = $this->realizarCobro(
+            $customerId,
+            $cardId,
+            $pago->monto,
+            "Cobro automático del cronograma de pago"
+        );
+
+        if ($chargeId) {
+            $pago->update([
+                'estado_pago_id' => 2, // Estado 'Pagado'
+                'fecha_ultimo_intento' => now(),
+                'fallo_final' => false,
+            ]);
+            return true;
+        }
+
+        $pago->increment('intentos');
+        $pago->update([
+            'estado_pago_id' => 4, // Estado 'Reintento'
+            'fecha_ultimo_intento' => now(),
+        ]);
+
+        return false;
+    }
+
+    /**
      * Realiza un cobro en la pasarela de pagos OpenPay.
      *
-     * @param string $customerId El ID del cliente en OpenPay.
-     * @param string $cardId El ID de la tarjeta en OpenPay.
-     * @param float $amount El monto a cobrar.
-     * @param string $description Una descripción para la transacción.
-     * @return string|null Devuelve el ID del cobro si es exitoso, o null si falla.
+     * @param string $customerId
+     * @param string $cardId
+     * @param float $amount
+     * @param string $description
+     * @return string|null
      */
-    public function realizarCobro(string $customerId, string $cardId, float $amount, string $description): ?string
+    protected function realizarCobro(string $customerId, string $cardId, float $amount, string $description): ?string
     {
         $urlChargeAPI = "{$this->baseUrl}{$this->openpayId}/customers/{$customerId}/charges";
 
@@ -61,35 +118,18 @@ class ServicioDebitoAutomatico
     }
 
     /**
-     * Procesa el cobro automático para un pago específico.
+     * Registra un fallo final en el cronograma de pagos.
      *
-     * @param ProyectoCronogramaPago $payment El registro de cronograma de pago.
-     * @param string $cardId El ID de la tarjeta del cliente.
-     * @param string $customerId El ID del cliente en OpenPay.
-     * @return bool Devuelve true si el cobro es exitoso, false en caso contrario.
+     * @param ProyectoCronogramaPago $pago
+     * @param string $razon
      */
-    public function procesarCobroAutomatico(ProyectoCronogramaPago $payment, string $cardId, string $customerId): bool
+    protected function registrarFalloFinal(ProyectoCronogramaPago $pago, string $razon): void
     {
-        $chargeId = $this->realizarCobro(
-            $customerId,
-            $cardId,
-            $payment->monto,
-            "Cobro automático del cronograma de pago"
-        );
-
-        if ($chargeId) {
-            $payment->update([
-                'estado_pago_id' => 2, // Estado 'Pagado'
-                'fecha_ultimo_intento' => now(),
-            ]);
-            return true;
-        }
-
-        $payment->increment('intentos');
-        $payment->update([
-            'fecha_ultimo_intento' => now(),
+        $pago->update([
+            'estado_pago_id' => 4, // Estado 'Fallo final'
+            'fallo_final' => true,
+            'razon_fallo' => $razon,
         ]);
-
-        return false;
+        Log::error("Fallo final registrado para pago ID: {$pago->id}. Razón: {$razon}");
     }
 }

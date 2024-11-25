@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\ProyectoClienteContacto;
 use App\Models\ProyectoCronogramaPago;
 use App\Models\ProyectoPagoEstado;
+use App\Models\ProyectoPlanes;
 use App\Models\ProyectoPlanesActivos; // Importar el modelo de planes activos
 use App\Notifications\SendCredentialsProjectNotification;
 use App\Services\Proyectos\ServicioVigenciaProyecto;
@@ -63,7 +64,7 @@ class CreateProyectoCliente extends CreateRecord
         // Guarda el plan activo
         $this->createActivePlan($proyectoCliente);
 
-        // Actualiza vigencia y estado del cliente
+        // Actualiza vigencia
         app(ServicioVigenciaProyecto::class)->actualizarVigencia();
     }
 
@@ -207,7 +208,7 @@ class CreateProyectoCliente extends CreateRecord
     private function createActivePlan($proyectoCliente): void
     {
         // Asociar el plan según la duración seleccionada
-        $plan = \App\Models\ProyectoPlanes::where('duracion_en_meses', $proyectoCliente->periodo_plan)->first();
+        $plan = ProyectoPlanes::where('duracion_en_meses', $proyectoCliente->periodo_plan)->first();
 
         if (!$plan) {
             throw new \Exception('No se encontró un plan con la duración seleccionada.');

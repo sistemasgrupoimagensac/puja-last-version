@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web\PanelProyecto;
 
 use App\Http\Controllers\Controller;
 use App\Models\ProyectoCliente;
+use App\Models\ProyectoCronogramaPago;
 use App\Models\ProyectoPlanesActivos;
 use App\Models\User;
 use DateTime;
@@ -44,11 +45,16 @@ class ProyectosContratadosController extends Controller
             // Formatear las fechas en $projectInfo
             $projectInfo['fecha_inicio_formateada'] = $this->formatearFecha($projectInfo['fecha_inicio_contrato']);
             $projectInfo['fecha_fin_formateada'] = $this->formatearFecha($projectInfo['fecha_fin_contrato']);
+
+            // Obtener los cronogramas de pago relacionados
+            $cronogramasPago = ProyectoCronogramaPago::where('proyecto_cliente_id', $proyecto_cliente_id)
+                ->orderBy('fecha_programada', 'asc')
+                ->get();
         }
 
         // dd($user, $tienePlanes, $tipo_usuario, $projectInfo, $proyectoCliente, $proyecto_cliente_id, $renovacion_automatica);
 
-        return view('panel.proyectos-contratados', compact('user', 'tienePlanes', 'tipo_usuario', 'projectInfo', 'proyecto_cliente_id', 'renovacion_automatica' ));
+        return view('panel.proyectos-contratados', compact('user', 'tienePlanes', 'tipo_usuario', 'projectInfo', 'proyecto_cliente_id', 'renovacion_automatica', 'cronogramasPago' ));
     }
 
     // Método privado para formatear la fecha

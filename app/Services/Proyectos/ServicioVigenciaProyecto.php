@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 
 class ServicioVigenciaProyecto
 {
-    public function actualizarVigencia()
+    public function actualizarVigencia(): void
     {
         $hoy = now();
     
@@ -19,9 +19,7 @@ class ServicioVigenciaProyecto
             ->each(function ($cliente) use ($hoy) {
                 $vigente = $cliente->fecha_inicio_contrato <= $hoy && $cliente->fecha_fin_contrato >= $hoy;
                 $cliente->update(['vigente' => $vigente]);
-    
-                // Actualizar el estado activo después de actualizar la vigencia
-                // app(ServicioEstadoCliente::class)->actualizarEstadoCliente($cliente);
             });
     }
+    
 }

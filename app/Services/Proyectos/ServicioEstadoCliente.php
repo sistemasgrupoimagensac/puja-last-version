@@ -16,9 +16,7 @@ class ServicioEstadoCliente
 
         $pagoCritico = $ultimoPagoPendiente && $ultimoPagoPendiente->fecha_programada->addDays(7)->isPast();
 
-        dd($pagoCritico);
-
-        $vigente = Carbon::now()->between($cliente->fecha_inicio_contrato, $cliente->fecha_fin_contrato);
+        $vigente = $cliente->vigente;
 
         $cliente->update([
             'al_dia' => !$pagoCritico,
