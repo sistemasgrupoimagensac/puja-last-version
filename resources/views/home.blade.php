@@ -26,8 +26,8 @@
                 $precioDesde = $proyecto->precio_desde;
                 $precioDesde = number_format($precioDesde, 0, '', ',');
             } else {
-                $nombreProyecto = $proyecto->nombre_proyecto;
-                $precioDesde = $proyecto->precio_desde;
+                $nombreProyecto = null;
+                $precioDesde = null;
             }
 
             @endphp

@@ -85,9 +85,7 @@ class MainController extends Controller
 
         // Obtener una imagen aleatoria con tipo = 1 de la tabla proyecto_imagenes_adicionales
         $imagenFondo = ProyectoImagenesAdicionales::where('tipo', 1)->inRandomOrder()->first();
-        $proyecto = Proyecto::where('id', $imagenFondo->proyecto_id)->first();
-        // dd($proyecto);
-        // $proyectoCliente = ProyectoCliente::where('id', $proyecto->proyecto_cliente_id);
+        $proyecto = $imagenFondo ? Proyecto::where('id', $imagenFondo->proyecto_id)->first() : null;
 
         // Pasar la variable $imagenFondo y $projectInfo a la vista
         return view('home', compact('avisos', 'tipos_inmuebles', 'tienePlanes', 'imagenFondo', 'projectInfo', 'proyecto'));
