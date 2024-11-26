@@ -78,7 +78,6 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         ];
     }
     
-
     public function tipoUsuario(): BelongsTo
     {
         return $this->belongsTo(TipoUsuario::class, 'tipo_usuario_id');
