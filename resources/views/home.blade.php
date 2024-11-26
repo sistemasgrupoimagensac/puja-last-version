@@ -53,7 +53,7 @@
             
             
             {{-- Main: Buscador --}}
-            <div class="main-home-search rounded rounded-3 d-flex flex-column">
+            <div class="main-home-search rounded rounded-3">
         
                 <form action="{{ route('filter_search') }}" class="m-auto">
                     <h2 class="main-home-titular text-white font-weight-bold text-center mb-4 mb-md-5">Consigue tu Próximo Inmueble</h2>
@@ -88,6 +88,7 @@
                         </div>
                     </div>
                 </form>
+                
             </div>
         
         </div>

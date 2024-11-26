@@ -1,5 +1,5 @@
 <footer class="footer-container py-4">
-  <div class="container d-flex flex-column flex-md-row justify-content-md-between position-relative">
+  <div class="container d-flex flex-column flex-lg-row justify-content-md-between position-relative">
 
     <div class="d-flex flex-column my-4">
       <img src={{ asset('images/svg/logoblanco_puja.svg') }} class="footer-img-logo" alt="logo de pujainmobiliaria del footer">  

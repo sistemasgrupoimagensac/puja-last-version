@@ -46,8 +46,8 @@
     padding: 2rem;
   
     .main-home-search {
-      bottom: 4rem;
-      left: 4rem;
+      bottom: 3rem;
+      left: calc(50% - 275px);
 
       padding: 1.2rem;
       background-color: rgba($color: #081f41, $alpha: .8);
@@ -71,9 +71,13 @@
 
 @media (min-width: $lg) {
 
-  .main-container {
-    padding: 0 3rem;
+  .main-home {
+    .main-home-search {
+      bottom: 3rem;
+      left: 3rem;
+    }
   }
+
 }
 
 
