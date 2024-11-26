@@ -11,7 +11,6 @@
                     <span>Mis proyectos</span>
                 </a>
             </li>
-
             
             <li class="mb-2">
                 <a href="{{ route('panel.proyecto.proyectos-contratados') }}" class="@if(Route::currentRouteName() == 'panel.proyecto.proyectos-contratados') active @endif d-flex align-items-center px-3 text-decoration-none">

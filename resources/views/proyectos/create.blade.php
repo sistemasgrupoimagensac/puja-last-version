@@ -19,7 +19,7 @@
 </div>
 
 <div class="container my-5">
-    <h2 class=" fw-bold text-secondary">{{ isset($proyecto) ? 'Editar Proyecto Inmobiliario' : 'Crear/Editar Proyecto Inmobiliario' }}</h2>
+    <h2 class=" fw-bold text-secondary"> <span class="icon-orange">{{ isset($proyecto) ? 'Editar' : 'Crear' }}</span> Proyecto Inmobiliario</h2>
     <hr>
 
     <!-- Formulario de creación de proyecto -->

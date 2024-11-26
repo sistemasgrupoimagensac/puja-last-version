@@ -17,7 +17,7 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               
             </ul>
-            <a href="/proyectos" class="btn btn-danger">SALIR</a>
+            <a href="{{ route('panel.proyecto.mis-proyectos') }}" class="btn btn-danger">SALIR</a>
           </div>
   
         </div>
@@ -28,7 +28,7 @@
 </header> 
 
 {{-- Navbar Mobile (contenido en un offcanvas) --}}
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+<div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
   <div class="offcanvas-header d-flex justify-content-between">
     <a class="navbar-brand" href="/">
       <img class="navbar-logo-puja" src="{{ asset('images/svg/logo_puja.svg') }}" alt="logo de pujainmobiliaria">
@@ -42,6 +42,6 @@
   <hr class="m-0">
 
   <div class="mx-3 mt-4">
-    <a class="button-orange btn w-100" href="{{ route("sign_in", ['profile_type' => 2]) }}">Iniciar Sesión</a>
+    <a href="{{ route('panel.proyecto.mis-proyectos') }}" class="btn btn-danger w-100">SALIR</a>
   </div>
 </div>

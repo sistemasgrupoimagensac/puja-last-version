@@ -10,53 +10,59 @@
 
 @section('content')
 
-    {{-- Main: incluye el buscador y Titular --}}
-    <main class="main-home">
+    <main class="container-fluid main-container">
 
-        <div class="main-home-background-image-container">
-            <!-- Mostrar la imagen dinámica obtenida desde el controlador o una imagen por defecto -->
-            <img src="{{ $imagenFondo ? $imagenFondo->image_url : asset('images/slide1.webp') }}" class="main-home-background-image" alt="Imagen de Fondo">
-        </div>
+        {{-- Main: incluye el buscador y Titular --}}
+        <div class="main-home">
         
-        {{-- Main: Buscador --}}
-        <div class="main-home-search d-flex flex-column">
-
-            <form action="{{ route('filter_search') }}" class="m-auto">
-                <h1 class="main-home-titular text-white font-weight-bold text-center mb-5">Consigue tu Próximo Inmueble</h1>
-                <div class="main-home-filter">
-
-                    <div class="d-flex flex-column flex-md-row justify-content-between gap-2">
-                        
-                        <div class="input-group-lg mr-4">
-                            <select class="form-select" aria-label="Tipo de Propiedad" name="categoria">
-                                @foreach($tipos_inmuebles as $tipo)
-                                <option value="{{ $tipo->id }}" @if($loop->first) selected @endif>{{ $tipo->tipo }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                       
-                        <div class="btn-group ml-4" role="group" aria-label="tipo de transaccion">
-                            <input type="radio" class="btn-check" name="transaccion" id="comprar" autocomplete="off" value="1" checked>
-                            <label class="btn p-2 px-3 mb-2 btn-light fs-5 text-body-secondary" for="comprar">Comprar</label>
+            <div class="main-home-background-image-container">
+                <img src="{{ $imagenFondo ? $imagenFondo->image_url : asset('images/slide1.webp') }}" class="rounded rounded-3 w-100 h-100 main-home-background-image" alt="Imagen de Fondo">
+            </div>
+            
+            {{-- Main: Buscador --}}
+            <div class="main-home-search rounded rounded-3 d-flex flex-column">
+        
+                <form action="{{ route('filter_search') }}" class="m-auto">
+                    <h2 class="main-home-titular text-white font-weight-bold text-center mb-4 mb-md-5">Consigue tu Próximo Inmueble</h2>
+                    <div class="main-home-filter">
+        
+                        <div class="d-flex flex-column flex-md-row justify-content-between gap-2">
                             
-                            <input type="radio" class="btn-check" name="transaccion" id="alquilar" autocomplete="off" value="2">
-                            <label class="btn p-2 px-3 mb-2 btn-light fs-5 text-body-secondary" for="alquilar">Alquilar</label>
-    
-                            <input type="radio" class="btn-check" name="transaccion" id="remates" autocomplete="off" value="3">
-                            <label class="btn p-2 px-3 mb-2 btn-light fs-5 text-body-secondary" for="remates">Remates</label>
+                            <div class="input-group-lg mr-4">
+                                <select class="form-select" aria-label="Tipo de Propiedad" name="categoria">
+                                    @foreach($tipos_inmuebles as $tipo)
+                                    <option value="{{ $tipo->id }}" @if($loop->first) selected @endif>{{ $tipo->tipo }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        
+                            <div class="btn-group ml-4" role="group" aria-label="tipo de transaccion">
+                                <input type="radio" class="btn-check" name="transaccion" id="comprar" autocomplete="off" value="1" checked>
+                                <label class="btn p-2 px-3 mb-2 btn-light fs-5 text-body-secondary" for="comprar">Comprar</label>
+                                
+                                <input type="radio" class="btn-check" name="transaccion" id="alquilar" autocomplete="off" value="2">
+                                <label class="btn p-2 px-3 mb-2 btn-light fs-5 text-body-secondary" for="alquilar">Alquilar</label>
+        
+                                <input type="radio" class="btn-check" name="transaccion" id="remates" autocomplete="off" value="3">
+                                <label class="btn p-2 px-3 mb-2 btn-light fs-5 text-body-secondary" for="remates">Remates</label>
+                            </div>
+        
                         </div>
-
+                        
+                        <div class="input-group input-group-lg">
+                            <input type="text" class="form-control" placeholder="Ciudad, provincia o distrito" aria-label="direccion" aria-describedby="direccion" name="direccion">
+                            <input class="button-orange btn" type="submit" value="Buscar">
+                        </div>
                     </div>
-                    
-                    <div class="input-group input-group-lg">
-                        <input type="text" class="form-control" placeholder="Ciudad, provincia o distrito" aria-label="direccion" aria-describedby="direccion" name="direccion">
-                        <input class="button-orange btn" type="submit" value="Buscar">
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
+        
         </div>
 
     </main>
+
+
+
     {{-- Main: incluye el buscador y Titular --}}
     
     {{-- Sección de Recomendados --}}

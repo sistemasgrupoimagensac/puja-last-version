@@ -8,6 +8,7 @@
 
         <div class="col-lg-8">
             <div class="card-body h-100 p-0 d-flex flex-column justify-content-between">
+
                 <div class="card-proyecto-content p-3 h-100">
                     <a href="{{ $link }}" target="_blank" class="text-decoration-none text-reset">
                         <div class="h-100 d-flex flex-column justify-content-between">
@@ -49,8 +50,9 @@
                         </div>
                     </a>
                 </div>
+
                 <div class="card-footer bg-dark-subtle border-0">
-                    <div class="py-2 d-flex justify-content-between align-items-center">
+                    <div class="py-2 d-flex flex-column flex-md-row gap-3 justify-content-between align-items-center">
 
                         <h5 class="btn-group p-0 m-0 h-100" role="group" aria-label="Basic example">
                             <span class="badge bg-dark-blue rounded-end-0 p-2 px-4">{{ $estado }}</span>
@@ -60,6 +62,7 @@
                         <img src="/images/bancos/{{ $banco }}.png" alt="" style="height: 40px" class=" rounded rounded-2">
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

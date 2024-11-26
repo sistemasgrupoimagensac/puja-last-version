@@ -33,6 +33,7 @@ use App\Http\Controllers\Web\PanelProyecto\ProyectoInteresadosController;
 use App\Http\Controllers\Web\PanelProyecto\ProyectosContratadosController;
 use App\Http\Middleware\CheckPaymentProjectStatus;
 use App\Http\Controllers\RenovacionController;
+use \App\Http\Middleware\CheckUserProjectType;
 
 Route::get('/', MainController::class);
 Route::get('/libro-reclamaciones', [SuppliersController::class, 'libroReclamos'])->name('libro_reclamaciones');
@@ -234,7 +235,7 @@ Route::post('/unidades/{unidadId}/imagenes', [ProyectoImagenUnidadController::cl
 Route::delete('/unidades/imagenes/{imagenId}', [ProyectoImagenUnidadController::class, 'destroy']);
 
 
-Route::middleware(['auth', 'verified', \App\Http\Middleware\CheckUserProjectType::class])->group(function() {
+Route::middleware(['auth', 'verified', CheckUserProjectType::class])->group(function() {
     Route::prefix('/panel-proyecto')->name('panel.proyecto.')->group(function() {
         Route::get('/', fn() => redirect()->route('panel.proyecto.mis-proyectos'));
         Route::get('/proyectos', MisProyectosController::class)->name('mis-proyectos');

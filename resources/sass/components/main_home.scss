@@ -1,33 +1,68 @@
+@import '../variables';
+
+.main-container {
+  padding: 1rem;
+}
+
 .main-home {
   margin-top: 2rem;
-  padding: 2rem;
-  padding-right: 8rem;
   position: relative;
-
-
+  
   .main-home-search {
-    border-radius: 1rem;
     position: absolute;
-    top: 40%;
-    left: 7%;
-    padding: 2rem;
-    background-color: rgba($color: #081f41, $alpha: .8);
+
+    bottom: 0;
+    padding: 1rem;
+
+    .main-home-titular {
+      text-shadow: 3px 3px 3px $dark_gray;
+    }
   }
 }
 
-.main-home-background-image-container {
-  width: 100%; /* Ancho completo del contenedor */
-  height: 600px; /* Altura del contenedor */
-  overflow: hidden; /* Oculta cualquier parte de la imagen que sobresalga */
-  position: relative; /* Para posicionar elementos hijos si es necesario */
+.main-home-background-image {
+  object-fit: cover;
 }
 
-.main-home-background-image {
-  border-radius: 1rem;
-  width: 1400px; /* Asegura que el ancho de la imagen cubra el contenedor */
-  height: 100%; /* La altura también debe cubrir el contenedor */
-  object-fit: cover; /* Ajusta la imagen sin distorsionarla */
-  position: absolute; /* Se posiciona dentro del contenedor */
-  top: 0;
-  right: 0;
+.main-home-background-image-container {
+  height: 550px;
+}
+
+@media (min-width: $md) {
+
+  .main-home {
+    padding: 2rem;
+  
+    .main-home-search {
+      bottom: 4rem;
+      left: 4rem;
+
+      padding: 1.2rem;
+      background-color: rgba($color: #081f41, $alpha: .8);
+    }
+  }
+
+  .main-home-background-image {
+    object-fit: cover;
+  }
+  
+  .main-home-background-image-container {
+    height: 600px;
+  }
+
+}
+
+@media (min-width: $lg) {
+
+  .main-container {
+    padding: 0 3rem;
+  }
+}
+
+
+@media (min-width: $xxl) {
+
+  .main-container {
+    padding: 0 8rem;
+  }
 }
