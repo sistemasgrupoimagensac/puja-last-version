@@ -18,6 +18,39 @@
             <div class="main-home-background-image-container">
                 <img src="{{ $imagenFondo ? $imagenFondo->image_url : asset('images/slide1.webp') }}" class="rounded rounded-3 w-100 h-100 main-home-background-image" alt="Imagen de Fondo">
             </div>
+
+            @php
+
+            if(isset($proyecto)) {
+                $nombreProyecto = $proyecto->nombre_proyecto;
+                $precioDesde = $proyecto->precio_desde;
+                $precioDesde = number_format($precioDesde, 0, '', ',');
+            } else {
+                $nombreProyecto = $proyecto->nombre_proyecto;
+                $precioDesde = $proyecto->precio_desde;
+            }
+
+            @endphp
+
+            {{-- datos proyecto --}}
+            @if (isset($proyecto))
+                
+
+                    <a href="{{ route('proyecto.show', ['slug' => $proyecto->slug] ) }}" class="main-home-proyecto-data text-decoration-none rounded-3">
+
+                        <h4 class=" fw-bold">
+                            {{ $nombreProyecto }}
+                        </h4>
+                        <p class="m-0 p-0"> precio desde:
+                            <span class="fw-bold">
+                                S/ {{ $precioDesde }}
+                            </span>
+                        </p>
+
+                    </a>
+
+            @endif
+            
             
             {{-- Main: Buscador --}}
             <div class="main-home-search rounded rounded-3 d-flex flex-column">

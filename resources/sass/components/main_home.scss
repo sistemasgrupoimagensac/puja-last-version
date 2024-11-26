@@ -18,6 +18,18 @@
       text-shadow: 3px 3px 3px $dark_gray;
     }
   }
+
+  .main-home-proyecto-data {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    padding: 1rem;
+    margin: 1rem;
+    color: $white;
+    background-color: rgba($color: #081f41, $alpha: .8);
+
+  }
 }
 
 .main-home-background-image {
@@ -39,6 +51,11 @@
 
       padding: 1.2rem;
       background-color: rgba($color: #081f41, $alpha: .8);
+    }
+
+    .main-home-proyecto-data {
+      top: 2rem;
+      right: 2rem;
     }
   }
 

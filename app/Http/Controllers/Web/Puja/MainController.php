@@ -48,6 +48,8 @@
 namespace App\Http\Controllers\Web\Puja;
 
 use App\Http\Controllers\Controller;
+use App\Models\Proyecto;
+use App\Models\ProyectoCliente;
 use App\Repositories\AvisoRepository;
 use App\Repositories\TipoInmuebleRepository;
 use App\Services\Aviso\ObtenerAvisosPrincipales;
@@ -83,8 +85,11 @@ class MainController extends Controller
 
         // Obtener una imagen aleatoria con tipo = 1 de la tabla proyecto_imagenes_adicionales
         $imagenFondo = ProyectoImagenesAdicionales::where('tipo', 1)->inRandomOrder()->first();
+        $proyecto = Proyecto::where('id', $imagenFondo->proyecto_id)->first();
+        // dd($proyecto);
+        // $proyectoCliente = ProyectoCliente::where('id', $proyecto->proyecto_cliente_id);
 
         // Pasar la variable $imagenFondo y $projectInfo a la vista
-        return view('home', compact('avisos', 'tipos_inmuebles', 'tienePlanes', 'imagenFondo', 'projectInfo'));
+        return view('home', compact('avisos', 'tipos_inmuebles', 'tienePlanes', 'imagenFondo', 'projectInfo', 'proyecto'));
     }
 }
