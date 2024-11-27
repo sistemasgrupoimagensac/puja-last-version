@@ -4,6 +4,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MyPostsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BillingController;
+use App\Http\Controllers\ConfirmacionPagoAntesDeDebitar;
 use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\CustomerCardController;
 use App\Http\Controllers\ImagesController;
@@ -281,3 +282,6 @@ Route::post('/planes/renovacion/toggle', [RenovacionController::class, 'toggleRe
 
 // para renovar
 Route::get('/planes/renovacion/{plan_id}', [PlanController::class, 'showRenovacionPage'])->name('planes.renovacion');
+
+// confirmacion de estado de pago antes de debitar
+Route::post('/confirmacion_pago_proyecto', [ConfirmacionPagoAntesDeDebitar::class, 'check']);

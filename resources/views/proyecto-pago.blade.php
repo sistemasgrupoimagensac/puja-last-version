@@ -284,6 +284,30 @@
                 }, callback, this.handleTokenError)
             },
 
+            confimarEstadoPago() {
+                const dataProyectoClienteId = {
+                    "proyectoClienteId": {{ $proyectoClienteId }},
+                };
+
+                fetch('/confirmacion_pago_proyecto', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify(dataProyectoClienteId)
+                })
+                .then(response => response.json())
+                .then(data => {
+
+                    if(data.up_to_date) {
+                        window.location.replace('/login'); 
+                    }
+
+                })
+            },
+
             handleTokenSuccess(response) {
                 const source_id = response.data.id; // Token de la tarjeta
                 const price = {{ $precio }}; // Dinámicamente selecciona el monto correcto
@@ -622,6 +646,9 @@
 
             registerPayButton() {
                 document.getElementById('pay-button').addEventListener('click', () => {
+
+                    this.confimarEstadoPago()
+                    
                     const errorInline = document.getElementById('error-message')
                     if (this.isProcessing) return
                     if (this.isValidForm()) {
@@ -639,6 +666,7 @@
 
             init() {
                 window.onload = () => {
+                    this.confimarEstadoPago() 
                     this.initOpenPay()
                     this.$nextTick(() => {
                         this.registerPayButton()
