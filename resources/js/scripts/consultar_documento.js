@@ -2,6 +2,7 @@ const resultadoConsultaDocContainer = document.querySelector('#resultadoConsulta
 const errorConsultaDocContainer = document.querySelector('#errorConsultaDocContainer')
 const resultadoEtiqueta = document.querySelector('#resultadoEtiqueta')
 const resultadoTipoDoc = document.querySelector('#resultadoTipoDoc')
+const resultadoNumeroDoc = document.querySelector('#resultadoNumeroDoc')
 const resultadoConsultaDoc = document.querySelectorAll('.resultadoConsultaDoc')
 const errorConsultaDoc = document.querySelector('#errorConsultaDoc')
 
@@ -30,13 +31,16 @@ function submitForm() {
   })
   .then(response => response.json())
   .then(data_response => {
+    
       if (data_response.success) {
 
-          if (data_response.data.ruc) {  
+          if (data_response.data.ruc) {
 
               resultadoConsultaDoc.forEach(nombre => {
                 nombre.textContent = data_response.data.nombre_o_razon_social
               })
+
+              resultadoNumeroDoc.textContent = data_response.data.ruc
 
               resultadoTipoDoc.textContent = 'RUC'
               resultadoEtiqueta.textContent = 'Razón Social: '
@@ -44,10 +48,11 @@ function submitForm() {
               errorConsultaDocContainer.style.display = 'none'
 
           } else {
-
               resultadoConsultaDoc.forEach(nombre => {
                 nombre.textContent = data_response.data.nombre_completo
               })
+
+              resultadoNumeroDoc.textContent = data_response.data.numero
 
               resultadoTipoDoc.textContent = 'DNI'
               resultadoEtiqueta.textContent = 'Nombre: '

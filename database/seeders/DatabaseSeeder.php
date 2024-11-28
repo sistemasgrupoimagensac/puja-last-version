@@ -31,6 +31,8 @@ class DatabaseSeeder extends Seeder
             ProgresoProyectoSeeder::class,
             ProyectoPlanesTableSeeder::class,
             ProyectoPagoEstadoSeeder::class,
+            ProyectoPlanesEstadosSeeder::class,
+            EmpresasSeeder::class,
         ]);
         /**
          * Aqui ya son seeders de prueba, que se debe de obviar para producción

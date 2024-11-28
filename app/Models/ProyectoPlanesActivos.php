@@ -14,12 +14,12 @@ class ProyectoPlanesActivos extends Model
     protected $fillable = [
         'proyecto_cliente_id',
         'proyecto_planes_id',
+        'estado_id',
         'fecha_inicio',
         'fecha_fin',
         'monto',
         'duracion',
         'renovacion_automatica',
-        'estado',
     ];
 
     // Relación con ProyectoCliente
@@ -32,6 +32,11 @@ class ProyectoPlanesActivos extends Model
     public function proyectoPlanes()
     {
         return $this->belongsTo(ProyectoPlanes::class, 'proyecto_planes_id');
+    }
+
+    public function estado()
+    {
+        return $this->belongsTo(ProyectoPlanesEstados::class, 'estado_id');
     }
 
     public function scopeSinRenovacion($query)

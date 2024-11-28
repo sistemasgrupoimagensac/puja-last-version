@@ -526,10 +526,10 @@ function consultaDocumento() {
 
         getNombre() {
             if (this.tipo === 'DNI' && this.resultados) {
-                documentTypeId = 2
+                documentTypeId = 1
                 return this.resultados.nombre_completo
             } else if (this.tipo === 'RUC' && this.resultados) {
-                documentTypeId = 3
+                documentTypeId = 2
                 return this.resultados.nombre_o_razon_social
             }
             return ''

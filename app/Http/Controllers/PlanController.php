@@ -403,6 +403,9 @@ class PlanController extends Controller
     {
         $proyectoClienteId = session('proyectoClienteId');
         $proyectoCliente = ProyectoCliente::find($proyectoClienteId);
+        $planUser = PlanUser::where('user_id', $proyectoCliente->user_id)->first();
+        // dd($planUser);
+        $planUserId = $planUser->id;
     
         // Evitar que accedan a la pantalla de pago si ya está pagado
         if (!$proyectoCliente || $proyectoCliente->pagado) {
@@ -455,6 +458,7 @@ class PlanController extends Controller
             'descripcion',
             'pagoUnico',
             'pagoFraccionado',
+            'planUserId',
         ));
     }
     
@@ -589,5 +593,10 @@ class PlanController extends Controller
             'message' => 'Error al realizar el débito inicial.',
             'details' => $chargeResponse,
         ], 500);
+    }
+
+    public function crearPlanUserProyectos(Request $request)
+    {
+        
     }
 }

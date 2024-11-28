@@ -3,6 +3,8 @@
 namespace App\Filament\Resources\ProyectoClienteResource\Pages;
 
 use App\Filament\Resources\ProyectoClienteResource;
+use App\Models\PlanUser;
+use App\Models\ProyectoCliente;
 use Filament\Resources\Pages\CreateRecord;
 use App\Models\User;
 use App\Models\ProyectoClienteContacto;
@@ -10,6 +12,7 @@ use App\Models\ProyectoCronogramaPago;
 use App\Models\ProyectoPagoEstado;
 use App\Models\ProyectoPlanes;
 use App\Models\ProyectoPlanesActivos; // Importar el modelo de planes activos
+use App\Models\ProyectoPlanesEstados;
 use App\Notifications\SendCredentialsProjectNotification;
 use App\Services\Proyectos\ServicioVigenciaProyecto;
 use Carbon\Carbon;
@@ -63,6 +66,9 @@ class CreateProyectoCliente extends CreateRecord
 
         // Guarda el plan activo
         $this->createActivePlan($proyectoCliente);
+
+        // Crear un plan user por el tema de la boleta
+        $this->createPlanUser($proyectoCliente);
 
         // Actualiza vigencia
         app(ServicioVigenciaProyecto::class)->actualizarVigencia();
@@ -214,15 +220,33 @@ class CreateProyectoCliente extends CreateRecord
             throw new \Exception('No se encontró un plan con la duración seleccionada.');
         }
 
+        $estadoPlanActivo = ProyectoPlanesEstados::where('nombre', 'activo')->first();
+
         ProyectoPlanesActivos::create([
             'proyecto_cliente_id' => $proyectoCliente->id,
-            'proyecto_planes_id' => $plan->id, // ID del plan encontrado
+            'proyecto_planes_id' => $plan->id,
+            'estado_id' => $estadoPlanActivo->id,
             'fecha_inicio' => $proyectoCliente->fecha_inicio_contrato,
             'fecha_fin' => $proyectoCliente->fecha_fin_contrato,
             'monto' => $proyectoCliente->precio_plan,
             'duracion' => $proyectoCliente->periodo_plan,
             'renovacion_automatica' => $proyectoCliente->renovacion ?? false,
-            'estado' => 'activo',
+        ]);
+    }
+
+    private function createPlanUser($proyectoCliente): void
+    {
+        $userId = ProyectoCliente::where('id', $proyectoCliente->id)->first()->user_id;
+
+        PlanUser::create([
+            'user_id' => $userId,
+            'plan_id' => 1,
+            'start_date' =>  $proyectoCliente->fecha_inicio_contrato,
+            'end_date' => $proyectoCliente->fecha_fin_contrato,
+            'estado' => 1,
+            // 'typical_ads_remaining' => 0,
+            // 'top_ads_remaining' => $top_ad,
+            // 'premium_ads_remaining' => $premium_ad,
         ]);
     }
 }

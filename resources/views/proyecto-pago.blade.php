@@ -13,7 +13,7 @@
     @php
         $precio_formateado = $precio ? number_format($precio, 2) : null;
         $precio_plan_formateado = $precioPlan ? number_format($precioPlan, 2) : null;
-        $razon_social = $razonSocial ?? null;
+        // $razon_social = $razonSocial ?? null;
 
         $descripcion_pago = $pagoFraccionado ? "Primer pago (50%)" : "Precio pagar" 
     @endphp
@@ -128,15 +128,22 @@
             <div class="mt-4 p-2 mb-2 mb-lg-0 p-lg-4">
 
                 <h6 class="icon-orange fw-bold">Datos para el comprobante</h6>
+
                 <p class="m-0"> 
                     <span class=" fw-bold">Tipo Documento:</span>
-                    <span class="text-uppercase" id="resultadoTipoDoc" > {{ $tipoDocumento }}</span>
+                    <span class="text-uppercase" id="resultadoTipoDoc" >{{ $tipoDocumento }}</span>
+                </p>
+
+                <p class="m-0"> 
+                    <span class=" fw-bold">Documento:</span>
+                    <span class="text-uppercase" id="resultadoNumeroDoc" >{{ $documento }}</span>
                 </p>
     
                 <p class="m-0">
                     <span class=" fw-bold">Nombre: </span>
-                    <span class="resultadoConsultaDoc"> {{ $razon_social }}</span>
+                    <span class="resultadoConsultaDoc">{{ $razonSocial }}</span>
                 </p>
+
             </div>
 
             <div class="d-flex justify-content-center w-100">
@@ -160,7 +167,7 @@
     </div>
 
     {{-- MODAL ELECCION DOCUMENTO --}}
-    <div class="modal fade" id="modalDNIoRUC" tabindex="-1" aria-hidden="true" aria-labelledby="modalDNIoRUC" >
+    <div class="modal fade" id="modalDNIoRUC" tabindex="-1" aria-labelledby="modalDNIoRUC" >
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -376,10 +383,12 @@
                             card_type: cardData.type,
                         };
 
-                        this.saveTransaction(transactionData);
+                        this.saveTransaction(transactionData)
 
                         // Si se puede realizar el pago recien se puede guardar la tarjeta en la DB
                         this.saveCardData(cardData, proyectoClienteId)
+
+                        this.factElectronica()
 
                         this.clearForm()
                         this.isProcessing = false
@@ -401,7 +410,7 @@
                             request_id: data.request_id
                         };
 
-                        this.saveTransaction(transactionData);
+                        this.saveTransaction(transactionData)
 
                         this.clearForm()
                         this.isProcessing = false
@@ -569,27 +578,48 @@
                 .catch(error => console.error('Error al enviar los datos de la suscripción:', error.message));
             },
 
-            factElectronica(price, planUserId, description) {
+            factElectronica() {
+
+                precio = {{ $precio }}
+                planUserId = {{ $planUserId }}
+                numeroAnuncios = {{ $numeroAnuncios }}
+                fechaInicio = "{{ $fechaInicio }}"
+                fechaFin = "{{ $fechaFin }}"
+
+                const resultadoTipoDoc = document.querySelector('#resultadoTipoDoc')
+                const resultadoNumeroDoc = document.querySelector('#resultadoNumeroDoc')
+                // const resultadoNumeroDoc = document.querySelector('#')
+                const resultadoConsultaDoc = document.querySelector('.resultadoConsultaDoc')
+                const documentTypeId = 2
+
+                console.log(resultadoNumeroDoc.innerHTML);
+                
+
+                if(resultadoTipoDoc === 'DNI') {
+                    documentTypeId = 1
+                }
+
+
                 try {
                     const data = {
                         details: [
                             {
-                                price: price,
+                                price: precio,
                                 quantity: 1,
                                 product: 
                                     {
-                                        id: idPlan,
-                                        name: description,
+                                        id: 1,
+                                        name: `Plan por ${numeroAnuncios} anuncios, desde ${fechaInicio} hasta ${fechaFin}`,
                                         type: 1
                                     }
                             }
                         ],
                         document_type_id: documentTypeId, // 3 ruc, 2 boleta
                         note: '',
-                        num_doc: numeroDocumento,
-                        tipo_doc: tipoDocumento,
-                        receipt_name: nombreDocumento,
-                        plan_name: `Plan ${this.tipoPlan}`,
+                        num_doc:  `${resultadoNumeroDoc.innerHTML.trim()}`,
+                        tipo_doc: `${resultadoTipoDoc.innerHTML.trim()}`,
+                        receipt_name: `${resultadoConsultaDoc.innerText.trim()}`,
+                        plan_name: `Plan por ${numeroAnuncios} anuncios, desde ${fechaInicio} hasta ${fechaFin}`,
                     }
 
                     fetch(`/generarComprobanteElec/${planUserId}`, {

@@ -44,7 +44,7 @@
     "src": "resources/images/slide2.webp"
   },
   "resources/js/app.js": {
-    "file": "assets/app-BZSSZ8pC.js",
+    "file": "assets/app-1DSVgyMS.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
@@ -96,7 +96,7 @@
     "isEntry": true
   },
   "resources/js/scripts/consultar_documento.js": {
-    "file": "assets/consultar_documento-j4g7Vn2J.js",
+    "file": "assets/consultar_documento-CkpyloG0.js",
     "name": "consultar_documento",
     "src": "resources/js/scripts/consultar_documento.js",
     "isEntry": true

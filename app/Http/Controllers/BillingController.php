@@ -101,11 +101,9 @@ class BillingController extends Controller
 
             if($data->documentType->type_doc == '02') {
                 $response = $this->generarFEBoleta($request, $data, $request->num_doc, $request->receipt_name);
-                // $response = $this->generarFEBoleta($request, $data);
             }
             else if($data->documentType->type_doc == '03')  {
                 $response = $this->generarFEFactura($request, $data, $request->num_doc, $request->receipt_name);
-                // $response = $this->generarFEFactura($request, $data);
             }
             else {
                 $response = $this->generarNotaVenta($request, $data);
@@ -264,8 +262,6 @@ class BillingController extends Controller
         $client->setTipoDoc('1')
         ->setNumDoc($num_receipt_owner)
         ->setRznSocial($name_receipt_owner)
-        // ->setNumDoc($data->client->dni)
-        // ->setRznSocial($data->client->name .' '. $data->client->last_name)
         ->setAddress((new Address())
             ->setDireccion($data->client->address));
 

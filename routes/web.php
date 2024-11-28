@@ -285,3 +285,6 @@ Route::get('/planes/renovacion/{plan_id}', [PlanController::class, 'showRenovaci
 
 // confirmacion de estado de pago antes de debitar
 Route::post('/confirmacion_pago_proyecto', [ConfirmacionPagoAntesDeDebitar::class, 'check']);
+
+// crear un plan user para proyectos
+Route::post('/crear_plan_user_proyectos', [PlanController::class, 'crearPlanUserProyectos']);

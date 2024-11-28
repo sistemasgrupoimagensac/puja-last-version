@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Banco;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +14,8 @@ class BancosSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('bancos')->insert([
+
+        $bancos = [
             ['nombre' => 'BCP'],
             ['nombre' => 'Interbank'],
             ['nombre' => 'Scotiabank'],
@@ -21,6 +23,10 @@ class BancosSeeder extends Seeder
             ['nombre' => 'Banbif'],
             ['nombre' => 'Pichincha'],
             ['nombre' => 'Propio'],
-        ]);
+        ];
+
+        foreach($bancos as $banco) {
+            Banco::create($banco);
+        }
     }
 }
