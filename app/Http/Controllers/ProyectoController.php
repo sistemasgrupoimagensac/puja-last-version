@@ -186,8 +186,20 @@ class ProyectoController extends Controller
             // Obtener las imágenes adicionales del proyecto
             $imagenes = ProyectoImagenesAdicionales::where('proyecto_id', $proyecto->id)
                 ->where('estado', 1) // Solo imágenes activas
-                ->get();
-    
+                ->get()
+                ->toArray();
+
+            usort($imagenes, function ($a, $b) {
+                // Ordena primero las imágenes con tipo=1
+                if ($a['tipo'] === '1' && $b['tipo'] !== '1') {
+                    return -1;
+                }
+                if ($a['tipo'] !== '1' && $b['tipo'] === '1') {
+                    return 1;
+                }
+                return 0; // Mantener el orden relativo de las demás imágenes
+            });
+
             // Obtener las unidades con las imágenes relacionadas y estado activo (1)
             $unidades = ProyectoUnidades::where('proyecto_id', $proyecto->id)
                 ->where('estado', 1)

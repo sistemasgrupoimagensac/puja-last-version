@@ -22,7 +22,7 @@
                         @include('components.proyecto-card-panel', [
                             'id' => $proyecto->id,
                             'link' => "/proyecto/$proyecto->slug",
-                            'image' => $proyecto->imagenesAdicionales->first()->image_url ?? asset('images/no-image.webp'),
+                            'image' => $proyecto->selected_image ?? null,
                             'title' => $proyecto->nombre_proyecto,
                             'address' => $proyecto->direccion,
                             'distrito' => $proyecto->distrito,

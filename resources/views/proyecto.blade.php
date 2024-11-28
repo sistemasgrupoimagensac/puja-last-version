@@ -25,12 +25,14 @@
         <div class="col-lg-8 pe-lg-3">
             <div class="py-3">
 
+                {{-- {{ $imagenes }} --}}
+
                 {{-- Imágenes del Proyecto --}}
                 <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper swiperProyectoImagenes2">
                     <div class="swiper-wrapper">
                         @foreach($imagenes as $n => $imagen)
                             <div class="swiper-image-container swiper-slide">
-                                <img src="{{ $imagen->image_url }}" class="swiper-image" alt="Imagen del Proyecto" loading="lazy">
+                                <img src="{{ $imagen['image_url'] }}" class="swiper-image" alt="Imagen del Proyecto" loading="lazy">
                             </div>
                         @endforeach
                     </div>
@@ -42,7 +44,7 @@
                     <div class="swiper-wrapper">
                         @foreach($imagenes as $n => $imagen)
                             <div class="swiper-image-container swiper-slide">
-                                <img src="{{ $imagen->image_url }}" class="swiper-image" alt="Imagen del Proyecto" loading="lazy">
+                                <img src="{{ $imagen['image_url'] }}" class="swiper-image" alt="Imagen del Proyecto" loading="lazy">
                             </div>
                         @endforeach
                     </div>
@@ -62,7 +64,7 @@
                                         <div class="swiper-wrapper">
                                             @foreach($imagenes as $imagen)
                                                 <div class="swiper-slide">
-                                                    <img src="{{ $imagen->image_url }}" class="swiper-image" alt="Imagen del Proyecto" loading="lazy">
+                                                    <img src="{{ $imagen['image_url'] }}" class="swiper-image" alt="Imagen del Proyecto" loading="lazy">
                                                 </div>
                                             @endforeach
                                         </div>
