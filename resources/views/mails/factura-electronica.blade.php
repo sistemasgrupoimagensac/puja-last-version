@@ -7,7 +7,7 @@
     <title>Correo Electrónico de Ejemplo</title>
 </head>
 <body>
-    <h1>Felicitaciones adquiriste un nuevo "{{$plan_name}}" con Puja Inmobiliaria</h1>
+    <h3>Felicitaciones adquiriste un nuevo "{{$plan_name}}" con Puja Inmobiliaria</h3>
     <p>Adjuntamos el documento electrónico generado.</p>
 </body>
 </html>

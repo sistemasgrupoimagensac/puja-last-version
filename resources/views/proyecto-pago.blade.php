@@ -609,7 +609,7 @@
                                 product: 
                                     {
                                         id: 1,
-                                        name: `Plan por ${numeroAnuncios} anuncios, desde ${fechaInicio} hasta ${fechaFin}`,
+                                        name: `Pago 50% por ${numeroAnuncios} anuncios, desde ${fechaInicio} hasta ${fechaFin}`,
                                         type: 1
                                     }
                             }
@@ -619,7 +619,7 @@
                         num_doc:  `${resultadoNumeroDoc.innerHTML.trim()}`,
                         tipo_doc: `${resultadoTipoDoc.innerHTML.trim()}`,
                         receipt_name: `${resultadoConsultaDoc.innerText.trim()}`,
-                        plan_name: `Plan por ${numeroAnuncios} anuncios, desde ${fechaInicio} hasta ${fechaFin}`,
+                        plan_name: `Pago 50% por ${numeroAnuncios} anuncios, desde ${fechaInicio} hasta ${fechaFin}`,
                     }
 
                     fetch(`/generarComprobanteElec/${planUserId}`, {
