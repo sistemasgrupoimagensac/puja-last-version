@@ -234,7 +234,7 @@
         </div>
 
         {{-- Contacto --}}
-        <div class="col-lg-4 ps-lg-3">
+        <div class="col-lg-4 ps-lg-3" id="casilla-contacto">
                     
             <div class="sticky-lg-top py-3">
                 <div class="rounded bg-white border shadow">
@@ -436,6 +436,12 @@
 
                 // Simular clic en el botón de enviar correo del formulario
                 contactButton.click();
+
+                // Autoscroll al elemento con id="casilla-contacto"
+                const contactoElement = document.getElementById('casilla-contacto');
+                if (contactoElement) {
+                    contactoElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             });
         });
 
