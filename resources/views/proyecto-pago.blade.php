@@ -355,7 +355,7 @@
                     tipo_usuario_id: {{ $userTypeId }}
                 }
 
-                fetch('/realizar_debito_inicial', {
+                fetch('/realizar_debito', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
@@ -586,17 +586,21 @@
                 fechaInicio = "{{ $fechaInicio }}"
                 fechaFin = "{{ $fechaFin }}"
 
-                const resultadoTipoDoc = document.querySelector('#resultadoTipoDoc')
-                const resultadoNumeroDoc = document.querySelector('#resultadoNumeroDoc')
-                // const resultadoNumeroDoc = document.querySelector('#')
-                const resultadoConsultaDoc = document.querySelector('.resultadoConsultaDoc')
-                const documentTypeId = 2
+                let resultadoTipoDoc = document.querySelector('#resultadoTipoDoc')
 
-                console.log(resultadoNumeroDoc.innerHTML);
+                let resultadoTipoDocNombre = `${resultadoTipoDoc.innerHTML.trim()}`
+
+                let resultadoNumeroDoc = document.querySelector('#resultadoNumeroDoc')
+                // let resultadoNumeroDoc = document.querySelector('#')
+                let resultadoConsultaDoc = document.querySelector('.resultadoConsultaDoc')
+                let documentTypeId = 2
+
                 
 
-                if(resultadoTipoDoc === 'DNI') {
-                    documentTypeId = 1
+                if(resultadoTipoDocNombre === 'DNI') {
+                    documentTypeId = 2
+                } else if (resultadoTipoDocNombre === 'RUC') {
+                    documentTypeId = 3
                 }
 
 
@@ -617,7 +621,7 @@
                         document_type_id: documentTypeId, // 3 ruc, 2 boleta
                         note: '',
                         num_doc:  `${resultadoNumeroDoc.innerHTML.trim()}`,
-                        tipo_doc: `${resultadoTipoDoc.innerHTML.trim()}`,
+                        tipo_doc: resultadoTipoDocNombre,
                         receipt_name: `${resultadoConsultaDoc.innerText.trim()}`,
                         plan_name: `Pago 50% por ${numeroAnuncios} anuncios, desde ${fechaInicio} hasta ${fechaFin}`,
                     }
@@ -667,6 +671,7 @@
                         this.deviceSessionId = OpenPay.deviceData.setup("payment-form")
                     } else {
                         console.error('Error openPay:', data.message);
+                        window.location.reload()
                     }
                 })
                 .catch(error => {

@@ -273,7 +273,7 @@ Route::post('/save-subscription-status', [PlanController::class, 'saveSubscripti
 
 Route::post('/guardar_tarjeta', [CustomerCardController::class, 'store'])->name('guardar_tarjeta');
 Route::post('/suscribir_plan', [UserProjectSubscriptionController::class, 'suscribirPlan']);
-Route::post('/realizar_debito_inicial', [PlanController::class, 'realizarDebitoInicial']);
+Route::post('/realizar_debito', [PlanController::class, 'realizarDebito']);
 
 Route::get('/contratos/{archivo}', [PDFController::class, 'getPDF'])->name('contratos.get');
 

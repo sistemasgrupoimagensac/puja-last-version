@@ -27,6 +27,10 @@ class ServicioDebitoAutomatico
      */
     public function gestionarPago(ProyectoCronogramaPago $pago): void
     {
+
+        Log::info($pago);
+        dd($pago);
+
         $cliente = $pago->proyectoCliente;
         $tarjeta = $cliente->tarjeta; // Relación definida en el modelo ProyectoCliente
 

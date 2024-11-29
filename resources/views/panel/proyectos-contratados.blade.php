@@ -111,6 +111,12 @@
                                                                     <td>{{ $cronograma->id }}</td>
                                                                     <td>{{ $cronograma->fecha_programada->format('d/m/Y') }}</td>
                                                                     <td>${{ number_format($cronograma->monto, 2) }}</td>
+
+                                                                    <td
+                                                                        class=""
+                                                                    
+                                                                    >{{ $cronograma->estadoPago->nombre }}</td>
+                                                                    
                                                                     @if ( $cronograma->estadoPago->nombre === 'pagado')
                                                                         
                                                                     @endif

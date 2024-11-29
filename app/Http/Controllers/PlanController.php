@@ -500,6 +500,76 @@ class PlanController extends Controller
         return response()->json($response->json());
     }
 
+    // public function crearCliente(Request $request)
+    // {
+    //     $base_url = env('OPENPAY_URL');
+    //     $openpay_id = env('OPENPAY_ID');
+    //     $openpay_sk = env('OPENPAY_SK');
+    
+    //     // Verificar configuración
+    //     if (!$base_url || !$openpay_id || !$openpay_sk) {
+    //         return response()->json([
+    //             'status' => 'error',
+    //             'message' => 'Configuración de OpenPay incompleta.',
+    //         ], 500);
+    //     }
+    
+    //     $encoded_sk = base64_encode("$openpay_sk:");
+    //     $urlCustomerAPI = "{$base_url}{$openpay_id}/customers";
+    
+    //     // Datos del cliente
+    //     $customerData = [
+    //         'name' => $request->input('name'),
+    //         'email' => $request->input('email'),
+    //         'phone_number' => $request->input('phone_number'),
+    //     ];
+    
+    //     try {
+    //         // Realizar la petición HTTP
+    //         $response = Http::withHeaders([
+    //             'Content-Type' => 'application/json',
+    //             'Authorization' => 'Basic ' . $encoded_sk,
+    //         ])->withBody(json_encode($customerData), 'application/json')->post($urlCustomerAPI);
+    
+    //         // Registrar la respuesta para auditoría o depuración
+    //         Log::info('Respuesta de OpenPay al crear cliente', [
+    //             'url' => $urlCustomerAPI,
+    //             'request' => $customerData,
+    //             'status' => $response->status(),
+    //             'body' => $response->json(),
+    //         ]);
+    
+    //         // Verificar si hubo error en la respuesta
+    //         if ($response->failed()) {
+    //             return response()->json([
+    //                 'status' => 'error',
+    //                 'message' => 'Error al crear el cliente en OpenPay.',
+    //                 'details' => $response->json(),
+    //             ], $response->status());
+    //         }
+    
+    //         // Retornar respuesta exitosa
+    //         return response()->json([
+    //             'status' => 'success',
+    //             'message' => 'Cliente creado exitosamente en OpenPay.',
+    //             'data' => $response->json(),
+    //         ], 200);
+    //     } catch (\Exception $e) {
+    //         // Manejo de excepciones
+    //         Log::error('Error al conectar con OpenPay', [
+    //             'url' => $urlCustomerAPI,
+    //             'request' => $customerData,
+    //             'exception' => $e->getMessage(),
+    //         ]);
+    
+    //         return response()->json([
+    //             'status' => 'error',
+    //             'message' => 'No se pudo conectar con OpenPay.',
+    //             'details' => $e->getMessage(),
+    //         ], 500);
+    //     }
+    // }
+    
     public function asociarTarjeta(Request $request)
     {
         $base_url = env('OPENPAY_URL');
@@ -547,7 +617,7 @@ class PlanController extends Controller
     //     }
     // }
 
-    public function realizarDebitoInicial(Request $request)
+    public function realizarDebito(Request $request)
     {
         $request->validate([
             'customer_id' => 'required|string',
@@ -584,13 +654,13 @@ class PlanController extends Controller
             return response()->json([
                 'status' => 'Success',
                 'charge_id' => $chargeResponse['id'],
-                'message' => 'El débito inicial se ha realizado con éxito.',
+                'message' => 'El débito se ha realizado con éxito.',
             ], 201);
         }
 
         return response()->json([
             'status' => 'Error',
-            'message' => 'Error al realizar el débito inicial.',
+            'message' => 'Error al realizar el débito.',
             'details' => $chargeResponse,
         ], 500);
     }
