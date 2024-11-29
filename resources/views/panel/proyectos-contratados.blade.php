@@ -110,19 +110,15 @@
                                                                 <tr>
                                                                     <td>{{ $cronograma->id }}</td>
                                                                     <td>{{ $cronograma->fecha_programada->format('d/m/Y') }}</td>
-                                                                    <td>${{ number_format($cronograma->monto, 2) }}</td>
-
+                                                                    <td>S/ {{ number_format($cronograma->monto, 2) }}</td>
                                                                     <td
-                                                                        class=""
-                                                                    
-                                                                    >{{ $cronograma->estadoPago->nombre }}</td>
-                                                                    
-                                                                    @if ( $cronograma->estadoPago->nombre === 'pagado')
-                                                                        
-                                                                    @endif
-                                                                    <td>{{ $cronograma->estadoPago->nombre }}</td>
+                                                                        @if ( $cronograma->estadoPago->nombre === 'pagado')
+                                                                            class=" text-success"
+                                                                        @endif
+                                                                    >
+                                                                        {{ $cronograma->estadoPago->nombre }}
+                                                                    </td>
                                                                     <td>{{ $cronograma->fecha_ultimo_intento ? $cronograma->fecha_ultimo_intento->format('d/m/Y') : 'N/A' }}</td>
-                                                
                                                                 </tr>
                                                             @endforeach
                                                         </tbody>
