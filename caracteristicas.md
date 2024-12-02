@@ -59,5 +59,3 @@
 [x] 31 Triplex
 [x] 32 Video Vigilancia
 [x] 33 Walk In Closet
-
-- un tercer bonton de reactivar contrato cuando ya se vencio el actual y no se renovo automaticamente

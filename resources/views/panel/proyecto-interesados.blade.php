@@ -59,6 +59,10 @@
 </main>
 @endsection
 
+@section('footer')
+  @include('components.footer')
+@endsection
+
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
