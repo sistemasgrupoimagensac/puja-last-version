@@ -52,18 +52,7 @@
 
                             <div class="card-footer py-3">
                                 <div class="input-group input-group-lg">
-                                    <div class="input-group-text">
-                                        <div class="form-check form-switch">
-                                            <input 
-                                                class="form-check-input" 
-                                                type="checkbox" 
-                                                role="switch" 
-                                                id="flexSwitchCheckCheckedDisabled"
-                                                {{ $renovacion_automatica ? 'checked' : '' }}
-                                                disabled
-                                            >
-                                        </div>
-                                    </div>
+
                                     <button 
                                         type="button" 
                                         class="btn
@@ -72,8 +61,14 @@
                                         data-bs-toggle="modal"
                                         data-bs-target="#confirmRenovacionModal"
                                     >
-                                        Renovación
+                                        @if ($renovacion_automatica)
+                                            Cancelar renovación
+                                        @else
+                                            Activar renovación
+                                        @endif
+
                                     </button>
+
                                 </div>
 
                                 <button type="button" class="btn btn-link text-decoration-none text-danger btn-sm mt-3 fw-bold" data-bs-toggle="modal" data-bs-target="#modalCronogramaPagos">
@@ -148,6 +143,7 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     
                     @else
