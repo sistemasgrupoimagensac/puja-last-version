@@ -9,9 +9,9 @@
 @endsection
 
 @section('content')
-
     <main class="main-misavisos custom-container my-5">
-        <div class=" p-0 row">
+        <div class="container-fluid p-0 d-flex">
+            {{-- menú del panel --}}
             @include('components.menu-panel-proyecto')
             <section class="col px-lg-5 pt-2">
                 <h1>Resumen anuncios contratados</h1>
