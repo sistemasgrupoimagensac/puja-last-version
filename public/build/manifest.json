@@ -44,7 +44,7 @@
     "src": "resources/images/slide2.webp"
   },
   "resources/js/app.js": {
-    "file": "assets/app-BZSSZ8pC.js",
+    "file": "assets/app-1DSVgyMS.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
@@ -244,7 +244,7 @@
     "isEntry": true
   },
   "resources/sass/components/menu_panel.scss": {
-    "file": "assets/menu_panel-DIhkIQaI.css",
+    "file": "assets/menu_panel-CFqLOypp.css",
     "src": "resources/sass/components/menu_panel.scss",
     "isEntry": true
   },
