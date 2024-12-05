@@ -1,7 +1,7 @@
 # Documentación del sistema Pujainmobiliaria
 
 ## 1. Introducción
-**Pujainmobiliaria** tiene como objetivo dar visibilidad en internet a inmuebles que se encuentran en remate público, en venta, en alquiler y a proyectos inmobiliarios completos. Maximizando la presencia online de los inmuebles en una intereface facil de entender.
+**Puja Inmobiliaria** da visibilidad en internet a inmuebles que se encuentran en remate público, en venta, en alquiler y a proyectos inmobiliarios completos. Maximizando la presencia online de los inmuebles en una intereface facil de entender.
 
 ---
 
@@ -23,20 +23,14 @@ Automatizar el proceso de venta, alquiler y remate online de diferentes tipos de
 
 ---
 
-## 4. Funciones y Subfunciones
-### Función Principal: Gestión de Clientes
-- **Subfunción 1:** Validar información del cliente.
-- **Subfunción 2:** Almacenar información en la base de datos.
-- **Subfunción 3:** Mostrar datos en el sistema.
+## 4. Flujos
+### Flujos Principales
 
-### Función Principal: Gestión de Proyectos
-- **Subfunción 1:** Crear proyectos asociados a clientes.
-- **Subfunción 2:** Validar fechas de inicio y fin.
-- **Subfunción 3:** Almacenar cronogramas de pagos.
 
 ---
 
-## 6. Alcance del Proyecto
-Definir qué está incluido y qué no está incluido en el proyecto. Ejemplo:  
-- **Incluye:** Registro de clientes, gestión de proyectos, reportes básicos.  
-- **No incluye:** Integración con sistemas externos no especificados.
+## 5. Alcance del Proyecto
+- **Incluye:**
+  - Presencia en la web para anuncios de inmuebles.
+- **No incluye:** 
+  - La venta directa de inmuebles.

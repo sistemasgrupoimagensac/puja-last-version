@@ -3,19 +3,19 @@
 namespace App\Filament\Resources\ProyectoClienteResource\Pages;
 
 use App\Filament\Resources\ProyectoClienteResource;
-use App\Models\PlanUser;
-use App\Models\ProyectoCliente;
-use Filament\Resources\Pages\CreateRecord;
 use App\Models\User;
-use App\Models\ProyectoClienteContacto;
-use App\Models\ProyectoCronogramaPago;
-use App\Models\ProyectoPagoEstado;
+use App\Models\PlanUser;
 use App\Models\ProyectoPlanes;
-use App\Models\ProyectoPlanesActivos; // Importar el modelo de planes activos
+use App\Models\ProyectoCliente;
+use App\Models\ProyectoPagoEstado;
+use App\Models\ProyectoPlanesActivos;
 use App\Models\ProyectoPlanesEstados;
+use App\Models\ProyectoCronogramaPago;
+use App\Models\ProyectoClienteContacto;
 use App\Notifications\SendCredentialsProjectNotification;
 use App\Services\Proyectos\ServicioVigenciaProyecto;
 use Carbon\Carbon;
+use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
