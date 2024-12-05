@@ -10,8 +10,8 @@ Facilitar al cliente el acceso a la plataforma para la publicación de sus *proy
 ---
 
 ## 2. Requerimiento Funcional
-**ID:** RF001  
-**Nombre del Requerimiento:** Crear Usuario Proyecto Inmobiliario.  
+**ID:** `RF005_01`
+**Nombre del Requerimiento:** Crear Usuario Proyecto Inmobiliario.
 
 **Descripción:**  
 Crear una cuenta del tipo **proyecto inmobiliario**, respetando las reglas definidas y los detalles del contrato establecido.

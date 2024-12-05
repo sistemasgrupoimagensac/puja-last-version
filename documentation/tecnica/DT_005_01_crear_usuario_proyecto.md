@@ -16,7 +16,7 @@ Garantizar que los clientes tengan acceso a la plataforma para gestionar sus pro
 
 | **ID**   | **Nombre del Requisito**                 | **Descripción**                                    |
 |----------|------------------------------------------|--------------------------------------------------|
-| RF001    | Crear Usuario Proyecto Inmobiliario      | Permite a un ejecutivo registrar clientes para publicar proyectos. |
+| `RF005_01` | Crear Usuario Proyecto Inmobiliario      | Permite a un ejecutivo registrar clientes para publicar proyectos. |
 
 
 ---
