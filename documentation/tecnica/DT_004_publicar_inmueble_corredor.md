@@ -1,4 +1,4 @@
-# Documento Técnico: Publicación de Inmuebles por Corredores
+# Documento Técnico: Publicar inmueble como Corredor
 
 ## 1. Resumen del Flujo
 **Descripción:**  
@@ -12,10 +12,10 @@ Facilitar la publicación de inmuebles por corredores y asegurar el cumplimiento
 ## 2. Requisitos Funcionales Relacionados
 | **ID**   | **Nombre del Requisito**             | **Descripción**                                  |
 |----------|--------------------------------------|--------------------------------------------------|
-| RF001    | Comprar Plan de Anuncios            | Permite a un corredor adquirir un plan de anuncios para publicar inmuebles. |
-| RF002    | Publicar Inmueble como Corredor     | Proceso de registro de inmuebles para corredores. |
-| RF003    | Gestión de Imágenes                  | Manejo de imágenes principales y adicionales.   |
-| RF004    | Ubicación                            | Establece la ubicación del inmueble.            |
+| RFxxx    | Comprar Plan de Anuncios            | Permite a un corredor adquirir un plan de anuncios para publicar inmuebles. |
+| `RF004`    | Publicar Inmueble como Corredor     | Proceso de registro de inmuebles para corredores. |
+| RFyyy    | Gestión de Imágenes                  | Manejo de imágenes principales y adicionales.   |
+| RFzzz    | Ubicación                            | Establece la ubicación del inmueble.            |
 
 ---
 

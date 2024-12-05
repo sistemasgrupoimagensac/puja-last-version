@@ -1,4 +1,4 @@
-# Documento Técnico: Publicación de Inmuebles por Acreedores
+# Documento Técnico: Publicar Inmueble como Acreedor
 
 ## 1. Resumen del Flujo
 **Descripción del Flujo:**  
@@ -12,7 +12,7 @@ Facilitar a los acreedores la publicación de propiedades en remate, asegurando 
 ## 2. Requisitos Funcionales Relacionados
 | **ID**   | **Nombre del Requisito**             | **Descripción**                                  |
 |----------|--------------------------------------|--------------------------------------------------|
-| RFxxx    | Publicar Inmueble como Acreedor      | Permite a un acreedor publicar inmuebles en remate.|
+| `RF003`    | Publicar Inmueble como Acreedor      | Permite a un acreedor publicar inmuebles en remate.|
 | RFyyy    | Gestión de Imágenes                  | Manejo de imágenes principales y adicionales.   |
 | RFzzz    | Ubicación                            | Establece la ubicación del inmueble.            |
 

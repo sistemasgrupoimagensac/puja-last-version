@@ -1,4 +1,4 @@
-# Documento Técnico: Publicación de Inmuebles por Propietarios
+# Documento Técnico: Publicar Inmueble como Propietario
 
 ## 1. Resumen del Flujo
 **Descripción del Flujo:**  
@@ -12,7 +12,7 @@ Facilitar a los propietarios la publicación de inmuebles para venta o alquiler,
 ## 2. Requisitos Funcionales Relacionados
 | **ID**   | **Nombre del Requisito**           | **Descripción**                                |
 |----------|------------------------------------|------------------------------------------------|
-| RFxxx    | Publicar Inmueble como Propietario | Permite a un propietario publicar inmuebles.  |
+| `RF002`  | Publicar Inmueble como Propietario | Permite a un propietario publicar inmuebles.  |
 | RFyyy    | Gestión de Imágenes                | Manejo de imágenes principales y adicionales. |
 | RFzzz    | Ubicación                          | Establece la ubicación del inmueble.          |
 
