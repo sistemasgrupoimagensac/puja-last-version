@@ -43,8 +43,8 @@
 
 ## Público Objetivo
 
-1. **Proyectos Inmobiliarios:** Empresas desarrolladoras que buscan promocionar proyectos y gestionar sus contratos.
-2. **Corredores:** Profesionales del sector que necesitan herramientas eficientes para publicar y promocionar inmuebles.
+1. **Proyectos Inmobiliarios:** Empresas desarrolladoras que buscan promocionar proyectos inmobiliarios.
+2. **Corredores:** Profesionales del sector que necesitan herramientas eficientes para publicar y promocionar su cartera de inmuebles.
 3. **Propietarios:** Personas interesadas en anunciar sus propiedades de manera sencilla y eficaz.
 
 ---
