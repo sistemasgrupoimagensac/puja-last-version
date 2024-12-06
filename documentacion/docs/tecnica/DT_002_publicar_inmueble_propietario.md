@@ -1,8 +1,3 @@
----
-sidebar_label: 'Hi!'
-sidebar_position: 3
----
-
 # Documento Técnico: Publicar Inmueble como Propietario
 
 ## 1. Resumen del Flujo

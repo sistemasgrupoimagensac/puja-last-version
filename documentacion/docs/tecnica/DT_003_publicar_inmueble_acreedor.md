@@ -1,44 +1,39 @@
----
-sidebar_label: 'Hi!'
-sidebar_position: 3
----
-
-# Documento Técnico: Publicar Inmueble como Propietario
+# Documento Técnico: Publicar Inmueble como Acreedor
 
 ## 1. Resumen del Flujo
 **Descripción del Flujo:**  
-El flujo permite a los usuarios con perfil de **propietario** publicar inmuebles para venta o alquiler, gestionando características, imágenes, ubicación y precios.
+Permite a los usuarios con perfil de **acreedor** publicar inmuebles en remate. El flujo incluye formularios dinámicos utilizando **Alpine.js** y Blade para el frontend, y valida información específica para remates.
 
 **Objetivo del Flujo:**  
-Facilitar a los propietarios la publicación de inmuebles para venta o alquiler, ofreciendo un proceso estructurado y segmentado en pasos.
+Facilitar a los acreedores la publicación de propiedades en remate, asegurando una experiencia de usuario optimizada y validación estructurada.
 
 ---
 
 ## 2. Requisitos Funcionales Relacionados
-| **ID**   | **Nombre del Requisito**           | **Descripción**                                |
-|----------|------------------------------------|------------------------------------------------|
-| `RF002`  | Publicar Inmueble como Propietario | Permite a un propietario publicar inmuebles.  |
-| RFyyy    | Gestión de Imágenes                | Manejo de imágenes principales y adicionales. |
-| RFzzz    | Ubicación                          | Establece la ubicación del inmueble.          |
+| **ID**   | **Nombre del Requisito**             | **Descripción**                                  |
+|----------|--------------------------------------|--------------------------------------------------|
+| `RF003`    | Publicar Inmueble como Acreedor      | Permite a un acreedor publicar inmuebles en remate.|
+| RFyyy    | Gestión de Imágenes                  | Manejo de imágenes principales y adicionales.   |
+| RFzzz    | Ubicación                            | Establece la ubicación del inmueble.            |
 
 ---
 
 ## 3. Base de Datos Relacionada
 ### Tablas Implicadas
 #### Tabla: `tipos_operaciones`
-| **Columna** | **Tipo**        | **Restricciones** | **Descripción**                          |
-|-------------|-----------------|-------------------|------------------------------------------|
-| id          | BIGINT (PK)     | AUTO_INCREMENT    | Identificador único del tipo de operación.|
-| tipo        | VARCHAR(150)    | NOT NULL          | Nombre del tipo de operación.            |
-| estado      | BOOLEAN         | DEFAULT 1         | Estado activo/inactivo del tipo.         |
+| **Columna** | **Tipo**        | **Restricciones** | **Descripción**                              |
+|-------------|-----------------|-------------------|----------------------------------------------|
+| id          | BIGINT (PK)     | AUTO_INCREMENT    | Identificador único del tipo de operación.   |
+| tipo        | VARCHAR(150)    | NOT NULL          | Nombre del tipo de operación.               |
+| estado      | BOOLEAN         | DEFAULT 1         | Estado activo/inactivo del tipo.            |
 
 #### Tabla: `subtipos_inmuebles`
-| **Columna**     | **Tipo**        | **Restricciones** | **Descripción**                         |
-|-----------------|-----------------|-------------------|-----------------------------------------|
-| id              | BIGINT (PK)     | AUTO_INCREMENT    | Identificador único del subtipo.        |
-| tipo_inmueble_id| BIGINT (FK)     | Constrained       | Relación con tipos de inmuebles.        |
-| subtipo         | VARCHAR(200)    | NOT NULL          | Nombre del subtipo de inmueble.         |
-| estado          | BOOLEAN         | DEFAULT 1         | Estado activo/inactivo del subtipo.     |
+| **Columna**     | **Tipo**        | **Restricciones** | **Descripción**                             |
+|-----------------|-----------------|-------------------|---------------------------------------------|
+| id              | BIGINT (PK)     | AUTO_INCREMENT    | Identificador único del subtipo.            |
+| tipo_inmueble_id| BIGINT (FK)     | Constrained       | Relación con tipos de inmuebles.            |
+| subtipo         | VARCHAR(200)    | NOT NULL          | Nombre del subtipo de inmueble.             |
+| estado          | BOOLEAN         | DEFAULT 1         | Estado activo/inactivo del subtipo.         |
 
 #### Tabla: `departamentos`
 | **Columna** | **Tipo**        | **Restricciones** | **Descripción**                          |
@@ -64,19 +59,19 @@ Facilitar a los propietarios la publicación de inmuebles para venta o alquiler,
 | estado          | BOOLEAN         | DEFAULT 1         | Estado activo/inactivo del distrito.    |
 
 #### Tabla: `categoria_caracteristicas_extra`
-| **Columna**                | **Tipo**        | **Restricciones** | **Descripción**                        |
-|----------------------------|-----------------|-------------------|----------------------------------------|
-| id                         | BIGINT (PK)     | AUTO_INCREMENT    | Identificador único de la categoría.   |
-| categoria                  | VARCHAR(150)    | NOT NULL          | Nombre de la categoría.                |
-| estado                     | BOOLEAN         | DEFAULT 1         | Estado activo/inactivo de la categoría.|
+| **Columna**                | **Tipo**        | **Restricciones** | **Descripción**                            |
+|----------------------------|-----------------|-------------------|--------------------------------------------|
+| id                         | BIGINT (PK)     | AUTO_INCREMENT    | Identificador único de la categoría.       |
+| categoria                  | VARCHAR(150)    | NOT NULL          | Nombre de la categoría.                    |
+| estado                     | BOOLEAN         | DEFAULT 1         | Estado activo/inactivo de la categoría.    |
 
 #### Tabla: `caracteristicas_extra`
-| **Columna**                | **Tipo**        | **Restricciones** | **Descripción**                        |
-|----------------------------|-----------------|-------------------|----------------------------------------|
-| id                         | BIGINT (PK)     | AUTO_INCREMENT    | Identificador único de la característica.|
+| **Columna**                | **Tipo**        | **Restricciones** | **Descripción**                            |
+|----------------------------|-----------------|-------------------|--------------------------------------------|
+| id                         | BIGINT (PK)     | AUTO_INCREMENT    | Identificador único de la característica.  |
 | categoria_caracteristica_id| BIGINT (FK)     | Constrained       | Relación con `categoria_caracteristicas_extra`.|
-| caracteristica             | VARCHAR(200)    | NOT NULL          | Nombre de la característica extra.     |
-| icono                      | VARCHAR(60)     | NULLABLE          | Icono asociado a la característica.    |
+| caracteristica             | VARCHAR(200)    | NOT NULL          | Nombre de la característica extra.         |
+| icono                      | VARCHAR(60)     | NULLABLE          | Icono asociado a la característica.        |
 | estado                     | BOOLEAN         | DEFAULT 1         | Estado activo/inactivo de la característica.|
 
 ---
@@ -94,43 +89,56 @@ Facilitar a los propietarios la publicación de inmuebles para venta o alquiler,
 ## 5. Rutas Relacionadas
 | **Método** | **Ruta**                                 | **Controlador y Método**                  | **Descripción**                                              |
 |------------|------------------------------------------|-------------------------------------------|--------------------------------------------------------------|
-| `POST`     | `/my-post/store`                         | `MyPostsController@store`                | Almacena los datos de un inmueble.                          |
-| `GET`      | `/my-posts/create`                       | `MyPostsController@create`               | Muestra el formulario de creación de inmuebles.             |
+| `POST`     | `/my-post/store`                         | `MyPostsController@store`                | Almacena los datos de un inmueble en remate.                |
+| `GET`      | `/my-posts/create`                       | `MyPostsController@create`               | Muestra el formulario de creación de inmuebles para acreedores.|
 | `GET`      | `/my-post/ubicacion/departamentos`       | `MyPostsController@getDepartamentos`     | Obtiene los departamentos disponibles.                      |
 | `GET`      | `/my-post/ubicacion/provincias/{id}`     | `MyPostsController@getProvincias`        | Obtiene las provincias asociadas a un departamento.         |
 | `GET`      | `/my-post/ubicacion/distritos/{id}`      | `MyPostsController@getDistritos`         | Obtiene los distritos asociados a una provincia.            |
-| `GET`      | `/my-post/extras/{id}`                   | `MyPostsController@getExtras`            | Obtiene las características adicionales.                    |
+| `GET`      | `/my-post/extras/{id}`                   | `MyPostsController@getExtras`            | Obtiene las características adicionales para remates.       |
 
 ---
 
-## 6. Análisis de Métodos del Controlador
+## 6. Métodos del Controlador MyPostsController
 ### Método: `create`
 **Descripción:**  
-Carga la vista para el formulario de creación de inmuebles con base en el tipo de usuario autenticado.
+Carga la vista para el formulario de creación de inmuebles para acreedores.
+
+**Frontend Asociado:**  
+Formulario dinámico con **Alpine.js** que muestra opciones específicas para remates.
 
 **Flujo:**
-1. Verifica si el usuario está autenticado.
-2. Retorna la vista `crear-aviso` con variables específicas para acreedores (`es_propietario`, `tipo_operacion`).
+1. Verifica el perfil del usuario autenticado.
+2. Retorna la vista `crear-aviso` con variables específicas para acreedores (`es_acreedor`, `tipo_operacion`).
 
 ---
 
 ### Método: `store`
 **Descripción:**  
-Almacena los datos del inmueble publicados por el usuario.
+Almacena los datos del inmueble en remate publicados por el usuario.
+
+**Frontend Asociado:**  
+Formulario dividido en pasos (uso de `x-show` para gestión de visibilidad de formularios en **Alpine.js**).
 
 **Flujo:**
 1. Valida los datos recibidos en el request.
-2. Crea o actualiza los registros relacionados:
+2. Crea o actualiza registros relacionados:
    - Tabla `inmuebles`.
    - Relación con `ubicacion`, `multimedia`, `caracteristicas`, y `extras`.
-3. Maneja las imágenes principales y adicionales.
-4. Retorna una respuesta JSON.
+3. Maneja imágenes principales y adicionales.
+4. Maneja campos específicos para remates:
+   - Base de remate.
+   - Valor de tasación.
+   - Detalles de contacto.
+5. Retorna una respuesta JSON.
 
 ---
 
 ### Método: `getDepartamentos`
 **Descripción:**  
 Obtiene los departamentos disponibles desde la tabla `departamentos`.
+
+**Frontend Asociado:**  
+Dropdown dinámico con **Alpine.js** para la selección de departamentos.
 
 **Flujo:**
 1. Filtra los departamentos con `estado = 1`.
@@ -141,6 +149,9 @@ Obtiene los departamentos disponibles desde la tabla `departamentos`.
 ### Método: `getProvincias`
 **Descripción:**  
 Obtiene las provincias asociadas a un departamento.
+
+**Frontend Asociado:**  
+Dropdown dinámico con **Alpine.js**, cargado tras seleccionar un departamento.
 
 **Flujo:**
 1. Recibe el ID del departamento como parámetro.
@@ -153,6 +164,9 @@ Obtiene las provincias asociadas a un departamento.
 **Descripción:**  
 Obtiene los distritos asociados a una provincia.
 
+**Frontend Asociado:**  
+Dropdown dinámico con **Alpine.js**, cargado tras seleccionar una provincia.
+
 **Flujo:**
 1. Recibe el ID de la provincia como parámetro.
 2. Filtra los distritos relacionados y con `estado = 1`.
@@ -162,7 +176,10 @@ Obtiene los distritos asociados a una provincia.
 
 ### Método: `getExtras`
 **Descripción:**  
-Obtiene las características adicionales relacionadas a una categoría.
+Obtiene las características adicionales relacionadas a una categoría para remates.
+
+**Frontend Asociado:**  
+Checkbox dinámico con **Alpine.js** para selección de características.
 
 **Flujo:**
 1. Recibe el ID de la categoría como parámetro.
@@ -171,20 +188,9 @@ Obtiene las características adicionales relacionadas a una categoría.
 
 ---
 
-### Método: `edit_description`
-**Descripción:**  
-Actualiza la descripción de un inmueble ya publicado.
-
-**Flujo:**
-1. Valida los datos recibidos en el request.
-2. Actualiza la descripción en la tabla `caracteristicas_inmuebles`.
-3. Retorna una respuesta JSON indicando éxito.
-
----
-
 ## 7. APIs y Detalles Técnicos
 ### API: `POST /my-post/store`
-- **Descripción:** Crea un nuevo inmueble en el sistema.
+- **Descripción:** Crea un nuevo inmueble en remate.
 - **Parámetros de Entrada:**
   | **Parámetro**          | **Tipo**    | **Obligatorio** | **Descripción**                             |
   |------------------------|-------------|-----------------|---------------------------------------------|
@@ -194,8 +200,8 @@ Actualiza la descripción de un inmueble ya publicado.
   | departamento_id        | Integer     | Sí              | ID del departamento.                        |
   | provincia_id           | Integer     | Sí              | ID de la provincia.                         |
   | distrito_id            | Integer     | Sí              | ID del distrito.                            |
-  | precio_soles           | Float       | No              | Precio en soles.                            |
-  | precio_dolares         | Float       | No              | Precio en dólares.                          |
+  | base_remate            | Float       | Sí              | Base de remate en dólares.                  |
+  | valor_tasacion         | Float       | Sí              | Valor de tasación en dólares.               |
 
 - **Respuestas:**
   | **Código** | **Mensaje**                                              |
@@ -207,7 +213,7 @@ Actualiza la descripción de un inmueble ya publicado.
 ---
 
 ## 8. Relación con la Documentación Funcional
-- **Documento Funcional Relacionado:** Publicar inmueble como Propietario.
+- **Documento Funcional Relacionado:** Publicar inmueble como Acreedor.
 - **Relación:** Este documento técnico implementa las reglas y flujos definidos en el documento funcional.
 
 ---
@@ -215,4 +221,4 @@ Actualiza la descripción de un inmueble ya publicado.
 ## 9. Historial de Cambios
 | **Versión** | **Fecha**       | **Cambios Realizados**           | **Autor**              |
 |-------------|-----------------|-----------------------------------|------------------------|
-| v1.0        | 05/12/2024      | Documento técnico inicial creado | Walker Alfaro          |
+| v1.0        | 04/12/2024      | Documento técnico inicial creado | Walker Alfaro          |

@@ -35,6 +35,7 @@ use App\Http\Controllers\Web\PanelProyecto\ProyectosContratadosController;
 use App\Http\Middleware\CheckPaymentProjectStatus;
 use App\Http\Controllers\RenovacionController;
 use \App\Http\Middleware\CheckUserProjectType;
+use Illuminate\Support\Facades\File;
 
 Route::get('/', MainController::class);
 Route::get('/libro-reclamaciones', [SuppliersController::class, 'libroReclamos'])->name('libro_reclamaciones');
@@ -288,3 +289,8 @@ Route::post('/confirmacion_pago_proyecto', [ConfirmacionPagoAntesDeDebitar::clas
 
 // crear un plan user para proyectos
 Route::post('/crear_plan_user_proyectos', [PlanController::class, 'crearPlanUserProyectos']);
+
+// Documentación ==========================================================================================================================
+Route::get('/documentacion/{any?}', function () {
+    return File::get(public_path('documentacion/index.html'));
+})->where('any', '.*');
