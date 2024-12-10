@@ -16,7 +16,10 @@
             <section class="col px-lg-5 pt-2">
                 <h1>Resumen anuncios contratados</h1>
 
-                @if (isset($projectInfo))
+                @if (isset($new))
+
+                    @foreach ($new as $projectInfo)
+                        
 
                     @if ($projectInfo['al_dia'])
 
@@ -53,31 +56,39 @@
                             <div class="card-footer py-3">
                                 <div class="input-group input-group-lg">
 
-                                    <button 
-                                        type="button" 
-                                        class="btn
-                                        {{ $renovacion_automatica ? 'btn-success' : 'btn-outline-success' }}
-                                        form-control"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#confirmRenovacionModal"
-                                    >
-                                        @if ($renovacion_automatica)
-                                            Cancelar renovación
-                                        @else
-                                            Activar renovación
-                                        @endif
+                                    @if ( $projectInfo['renovacion_automatica'] == "VIGENTE" )
+                                        <button 
+                                            type="button" 
+                                            class="btn
+                                            {{ $projectInfo['renovacion_automatica'] ? 'btn-success' : 'btn-outline-success' }}
+                                            form-control"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#confirmRenovacionModal_{{ $projectInfo['proy_plan_act_id'] }}"
+                                        >
+                                            @if ($projectInfo['renovacion_automatica'])
+                                                Cancelar renovación
+                                            @else
+                                                Activar renovación
+                                            @endif
+                                        </button>
+                                    @else
 
-                                    </button>
+                                        <form action="{{ route('contactar_plan_proyecto') }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-primary">Deseo renovar contrato.</button>
+                                        </form>
+
+                                    @endif
 
                                 </div>
 
-                                <button type="button" class="btn btn-link text-decoration-none text-danger btn-sm mt-3 fw-bold" data-bs-toggle="modal" data-bs-target="#modalCronogramaPagos">
+                                <button type="button" class="btn btn-link text-decoration-none text-danger btn-sm mt-3 fw-bold" data-bs-toggle="modal" data-bs-target="#modalCronogramaPagos_{{ $projectInfo['proy_plan_act_id'] }}">
                                     Cronograma de pagos
                                 </button>
                             </div>
 
                             {{-- Modal de cronograma de pagos --}}
-                            <div class="modal fade" id="modalCronogramaPagos" tabindex="-1" aria-labelledby="modalCronogramaPagosLabel" aria-hidden="true">
+                            <div class="modal fade" id="modalCronogramaPagos_{{ $projectInfo['proy_plan_act_id'] }}" tabindex="-1" aria-labelledby="modalCronogramaPagosLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -86,7 +97,7 @@
                                         </div>
                                         <div class="modal-body">
                             
-                                            @if($cronogramasPago->isEmpty())
+                                            @if(empty($projectInfo["cronograma"]))
                                                 <p>No hay pagos programados.</p>
                                             @else
                                                 <div class="table-responsive">
@@ -101,19 +112,20 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            @foreach($cronogramasPago as $cronograma)
+                                                            @foreach($projectInfo["cronograma"] as $cronograma)
                                                                 <tr>
-                                                                    <td>{{ $cronograma->id }}</td>
-                                                                    <td>{{ $cronograma->fecha_programada->format('d/m/Y') }}</td>
-                                                                    <td>S/ {{ number_format($cronograma->monto, 2) }}</td>
-                                                                    <td
+                                                                    <td>{{ $cronograma["cronograma_id"] }}</td>
+                                                                    <td>{{ $cronograma["fecha_programada"] }}</td>
+                                                                    <td>S/ {{ number_format($cronograma["monto"], 2) }}</td>
+                                                                    <td>{{ $cronograma["estado_pago_id"] }}</td>
+                                                                    {{-- <td
                                                                         @if ( $cronograma->estadoPago->nombre === 'pagado')
                                                                             class=" text-success"
                                                                         @endif
                                                                     >
                                                                         {{ $cronograma->estadoPago->nombre }}
-                                                                    </td>
-                                                                    <td>{{ $cronograma->fecha_ultimo_intento ? $cronograma->fecha_ultimo_intento->format('d/m/Y') : 'N/A' }}</td>
+                                                                    </td> --}}
+                                                                    <td>{{ $cronograma["fecha_ultimo_intento"] ? $cronograma["fecha_ultimo_intento"] : 'N/A' }}</td>
                                                                 </tr>
                                                             @endforeach
                                                         </tbody>
@@ -127,7 +139,7 @@
                             </div>
 
                             {{-- Modal confirmación de cancelar renovación automática --}}
-                            <div class="modal fade" id="confirmRenovacionModal" tabindex="-1" aria-labelledby="confirmRenovacionModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="confirmRenovacionModal_{{ $projectInfo['proy_plan_act_id'] }}" tabindex="-1" aria-labelledby="confirmRenovacionModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-content py-4">
@@ -136,7 +148,7 @@
                                                 <h4 class="modal-title">¿Confirmar cambio en la renovación automática?</h4>
                                             </div>
                                             <div class="d-flex p-3 justify-content-center gap-3">
-                                                <button type="button" class="btn btn-danger w-100" id="confirm-renovacion-btn" data-id="{{ $proyecto_cliente_id }}">Confirmar</button>
+                                                <button type="button" class="btn btn-danger w-100" id="confirm-renovacion-btn" data-id="{{ $projectInfo['proy_plan_act_id'] }}">Confirmar</button>
                                                 <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Cancelar</button>
                                             </div>
                                         </div>
@@ -149,6 +161,9 @@
                     @else
                         <p>No tienes planes activos en este momento.</p>
                     @endif
+
+                    @endforeach
+
                     
                 @endif
             </section>

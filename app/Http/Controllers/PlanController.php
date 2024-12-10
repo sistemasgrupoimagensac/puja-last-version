@@ -9,6 +9,7 @@ use App\Models\HistorialAvisos;
 use App\Models\Plan;
 use App\Models\PlanUser;
 use App\Models\ProyectoCliente;
+use App\Models\ProyectoPlanesActivos;
 use App\Models\Subscription;
 use App\Models\SubscriptionPlanProject;
 use App\Models\User;
@@ -402,7 +403,20 @@ class PlanController extends Controller
     public function mostrarPagoProyecto(Request $request)
     {
         $proyectoClienteId = session('proyectoClienteId');
-        $proyectoCliente = ProyectoCliente::find($proyectoClienteId);
+        // $proyectoCliente = ProyectoCliente::find($proyectoClienteId);
+        $proyectoCliente = ProyectoCliente::join('proyecto_planes_activos', 'proyecto_clientes.id', '=', 'proyecto_planes_activos.proyecto_cliente_id')
+            ->where('proyecto_cliente_id', $proyectoClienteId)
+            ->where('fecha_inicio', '<=', Carbon::now())
+            ->where('fecha_fin', '>=', Carbon::now())
+            ->select(
+                'proyecto_clientes.user_id as user_id',
+                'proyecto_clientes.pagado as pagado',
+                'proyecto_planes_activos.pago_unico as pago_unico',
+                'proyecto_planes_activos.pago_fraccionado as pago_fraccionado',
+                'proyecto_planes_activos.monto as precio_plan',
+            )
+            // ->orderBy('proyecto_planes_activos.fecha_inicio', 'desc')
+        ->first();
         $planUser = PlanUser::where('user_id', $proyectoCliente->user_id)->first();
         // dd($planUser);
         $planUserId = $planUser->id;

@@ -37,6 +37,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         'estado',
         'acepta_termino_condiciones',
         'acepta_confidencialidad',
+        'created_by',
     ];
 
     protected $hidden = [
@@ -152,5 +153,10 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     {
         // return $this->tipoUsuario->nombres === 'Admin' && $this->hasVerifiedEmail();
         return $this->nombres === 'Admin';
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 }

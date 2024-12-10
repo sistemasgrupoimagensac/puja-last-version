@@ -16,7 +16,9 @@ use App\Models\ProyectoPlanesEstados;
 use App\Notifications\SendCredentialsProjectNotification;
 use App\Services\Proyectos\ServicioVigenciaProyecto;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
@@ -65,7 +67,7 @@ class CreateProyectoCliente extends CreateRecord
         $this->generatePaymentSchedule($proyectoCliente);
 
         // Guarda el plan activo
-        $this->createActivePlan($proyectoCliente);
+        // $this->createActivePlan($proyectoCliente);
 
         // Crear un plan user por el tema de la boleta
         $this->createPlanUser($proyectoCliente);
@@ -106,6 +108,7 @@ class CreateProyectoCliente extends CreateRecord
             'numero_documento' => $data['ruc'],
             'celular' => $data['telefono_inmobiliaria'],
             'direccion' => $data['direccion_fiscal'],
+            'created_by' => Auth::id(),
         ]);
     }
 
@@ -166,44 +169,73 @@ class CreateProyectoCliente extends CreateRecord
     private function generatePaymentSchedule($proyectoCliente): void
     {
         $estadoPendiente = ProyectoPagoEstado::where('nombre', 'pendiente')->first()->id;
-        $fechaInicio = Carbon::parse($proyectoCliente->fecha_inicio_contrato);
-    
-        if ($proyectoCliente->pago_unico) {
-            // Caso de pago único
-            ProyectoCronogramaPago::create([
-                'proyecto_cliente_id' => $proyectoCliente->id,
-                'fecha_programada' => $fechaInicio,
-                'monto' => $proyectoCliente->precio_plan,
-                'estado_pago_id' => $estadoPendiente,
-                'intentos' => 0,
-            ]);
-        } else {
-            // Caso de pago fraccionado con el 50% inicial
-            $primerPago = $proyectoCliente->precio_plan * 0.5; // 50% del total
-            $montoRestante = $proyectoCliente->precio_plan * 0.5; // 50% restante
-            $numeroPagosRestantes = $proyectoCliente->periodo_plan - 1;
-    
-            // Monto mensual para los pagos restantes
-            $montoMensual = $numeroPagosRestantes > 0 ? $montoRestante / $numeroPagosRestantes : 0;
-    
-            // Primer pago al inicio del contrato
-            ProyectoCronogramaPago::create([
-                'proyecto_cliente_id' => $proyectoCliente->id,
-                'fecha_programada' => $fechaInicio,
-                'monto' => $primerPago,
-                'estado_pago_id' => $estadoPendiente,
-                'intentos' => 0,
-            ]);
-    
-            // Pagos restantes divididos en los meses restantes
-            for ($i = 1; $i < $proyectoCliente->periodo_plan; $i++) {
+
+        $proyectoCliente_all = ProyectoCliente::join('proyecto_planes_activos', 'proyecto_clientes.id', '=', 'proyecto_planes_activos.proyecto_cliente_id')
+            ->where('proyecto_clientes.id', $proyectoCliente->id)
+            ->select(
+                'proyecto_clientes.id as id',
+                'proyecto_clientes.al_dia as al_dia',
+                'proyecto_clientes.razon_social as razon_social',
+                'proyecto_planes_activos.id as plan_activo_id',
+                'proyecto_planes_activos.duracion as periodo_plan',
+                'proyecto_planes_activos.pago_unico as pago_unico',
+                'proyecto_planes_activos.monto as precio_plan',
+                'proyecto_planes_activos.fecha_fin as fecha_fin_contrato',
+                'proyecto_planes_activos.numero_anuncios as numero_anuncios',
+                'proyecto_planes_activos.fecha_inicio as fecha_inicio_contrato',
+            )
+            // ->orderBy('proyecto_planes_activos.fecha_inicio', 'desc')
+        ->get();
+        // $proyectoCliente->proyectoPlanesActivos;
+        Log::info("Entra una y otra vez");
+        Log::info($proyectoCliente_all);
+        
+        foreach ($proyectoCliente_all as $proyectoCliente) {
+            Log::info("dentro del foreach");
+            Log::info($proyectoCliente->plan_activo_id);
+            
+            $fechaInicio = Carbon::parse($proyectoCliente->fecha_inicio_contrato);
+        
+            if ($proyectoCliente->pago_unico) {
+                // Caso de pago único
                 ProyectoCronogramaPago::create([
                     'proyecto_cliente_id' => $proyectoCliente->id,
-                    'fecha_programada' => $fechaInicio->copy()->addMonths($i),
-                    'monto' => $montoMensual,
+                    'proyecto_plan_activo_id' => $proyectoCliente->plan_activo_id,
+                    'fecha_programada' => $fechaInicio,
+                    'monto' => $proyectoCliente->precio_plan,
                     'estado_pago_id' => $estadoPendiente,
                     'intentos' => 0,
                 ]);
+            } else {
+                // Caso de pago fraccionado con el 50% inicial
+                $primerPago = $proyectoCliente->precio_plan * 0.5; // 50% del total
+                $montoRestante = $proyectoCliente->precio_plan * 0.5; // 50% restante
+                $numeroPagosRestantes = $proyectoCliente->periodo_plan - 1;
+        
+                // Monto mensual para los pagos restantes
+                $montoMensual = $numeroPagosRestantes > 0 ? $montoRestante / $numeroPagosRestantes : 0;
+        
+                // Primer pago al inicio del contrato
+                ProyectoCronogramaPago::create([
+                    'proyecto_cliente_id' => $proyectoCliente->id,
+                    'proyecto_plan_activo_id' => $proyectoCliente->plan_activo_id,
+                    'fecha_programada' => $fechaInicio,
+                    'monto' => $primerPago,
+                    'estado_pago_id' => $estadoPendiente,
+                    'intentos' => 0,
+                ]);
+        
+                // Pagos restantes divididos en los meses restantes
+                for ($i = 1; $i < $proyectoCliente->periodo_plan; $i++) {
+                    ProyectoCronogramaPago::create([
+                        'proyecto_cliente_id' => $proyectoCliente->id,
+                        'proyecto_plan_activo_id' => $proyectoCliente->plan_activo_id,
+                        'fecha_programada' => $fechaInicio->copy()->addMonths($i),
+                        'monto' => $montoMensual,
+                        'estado_pago_id' => $estadoPendiente,
+                        'intentos' => 0,
+                    ]);
+                }
             }
         }
     }
@@ -237,16 +269,21 @@ class CreateProyectoCliente extends CreateRecord
     private function createPlanUser($proyectoCliente): void
     {
         $userId = ProyectoCliente::where('id', $proyectoCliente->id)->first()->user_id;
-
-        PlanUser::create([
-            'user_id' => $userId,
-            'plan_id' => 1,
-            'start_date' =>  $proyectoCliente->fecha_inicio_contrato,
-            'end_date' => $proyectoCliente->fecha_fin_contrato,
-            'estado' => 1,
-            // 'typical_ads_remaining' => 0,
-            // 'top_ads_remaining' => $top_ad,
-            // 'premium_ads_remaining' => $premium_ad,
-        ]);
+        // Asegurarse de que la relación está cargada
+        if (!$proyectoCliente->relationLoaded('proyectoPlanesActivos')) {
+            $proyectoCliente->load('proyectoPlanesActivos');
+        }
+        foreach ($proyectoCliente->proyectoPlanesActivos as $plan) {
+            PlanUser::create([
+                'user_id' => $userId,
+                'plan_id' => 1,
+                'start_date' => $plan->fecha_inicio,
+                'end_date' => $plan->fecha_fin,
+                'estado' => 1,
+                // 'typical_ads_remaining' => 0,
+                // 'top_ads_remaining' => $top_ad,
+                // 'premium_ads_remaining' => $premium_ad,
+            ]);
+        }
     }
 }

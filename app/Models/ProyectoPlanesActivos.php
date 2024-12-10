@@ -18,6 +18,12 @@ class ProyectoPlanesActivos extends Model
         'fecha_inicio',
         'fecha_fin',
         'monto',
+        'numero_anuncios',
+        'pago_unico',
+        'pago_fraccionado',
+        'contrato_url',
+        'activo',
+        'pagado',
         'duracion',
         'renovacion_automatica',
     ];
