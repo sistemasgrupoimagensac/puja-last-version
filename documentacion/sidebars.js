@@ -55,7 +55,9 @@
       type: 'category',
       label: 'Manual de Usuario',
       items: [
-        'usuario/MU_registrar_usuario', // Documento para registrar usuarios
+        'usuario/MU_registrar_usuario', 
+        'usuario/MU_publicar_proyecto_inmobiliario',
+        'usuario/MU_publicar_inmueble_propietario',
       ],
     },
   ],

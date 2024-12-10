@@ -2,7 +2,7 @@
 
 ---
 
-## 1. Resumen del Flujo
+## 1. Resumen
 
 **Descripción:**  
 Permite a un ejecutivo de cuenta crear un usuario del tipo **proyecto inmobiliario** basado en las negociaciones y contratos establecidos. Este proceso utiliza **Filament** para la gestión de formularios y recursos.
@@ -163,13 +163,6 @@ Prepara y valida los datos del cliente antes de la creación del registro en la 
 
 **Resumen:**  
 El método `mutateFormDataBeforeCreate` es crucial para garantizar que los datos almacenados sean válidos y que se asocien correctamente a otros recursos, como usuarios y contratos.
-
----
-
-## 6. Relación con la Documentación Funcional
-
-- **Documento Funcional Relacionado:** Crear Usuario Proyecto Inmobiliario.
-- **Relación:** Este documento técnico implementa las reglas y flujos definidos en el documento funcional utilizando Filament.
 
 ---
 

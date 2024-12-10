@@ -8,22 +8,11 @@
 
 ---
 
-## 2. Funcionalidad Implementada
+## 2. Requisitos Funcionales Relacionados
 
-### 2.1. Creación y Edición de Proyectos
-
-- **Formulario de Proyecto:** Permite a los usuarios ingresar los datos básicos del proyecto, como nombre, descripción, progreso, y financiamiento.
-- **Unidades del Proyecto:** Gestión dinámica de las unidades asociadas al proyecto con capacidad para agregar, editar y eliminar unidades.
-- **Geolocalización:** Captura de dirección y coordenadas para ubicación precisa del proyecto.
-- **Imágenes:** Subida de imágenes relacionadas al proyecto y sus unidades, con selección de imagen principal para el proyecto.
-
-### 2.2. Reglas de Negocio
-
-- El **nombre del proyecto** es obligatorio.
-- La **cantidad de unidades** es obligatoria.
-- El **banco financista** es obligatorio.
-- El **progreso del proyecto** es obligatorio.
-- Todos los campos de las unidades son obligatorios, excepto el precio en dólares.
+| **ID**   | **Nombre del Requisito**                 | **Descripción**                                    |
+|----------|------------------------------------------|--------------------------------------------------|
+| `RF005` | Publicar Proyecto Inmobiliario      | Permite a un usuario publicar sus proyectos inmobiliarios. |
 
 ---
 
@@ -337,23 +326,9 @@
 - **Gestión de Imágenes del Proyecto:** `ProyectoImagenController`.
 - **Gestión de Imágenes de Unidades:** `ProyectoImagenUnidadController`.
 
-
 ---
 
-## 8. Relación con la Documentación Funcional
-
-**Documento Funcional Relacionado:** Documento Funcional: Publicar Proyecto Inmobiliario 
-
-| **ID**   | **Nombre del Requisito**                 | **Descripción**                                    |
-|----------|------------------------------------------|--------------------------------------------------|
-| `RF005` | Publicar Proyecto Inmobiliario     | Permite publicar un proyecto inmobiliario. |
-
-**Relación:**  
-El presente documento técnico implementa las funcionalidades y flujos definidos en el documento funcional utilizando Laravel y Blade.
-
----
-
-## 9. Historial de Cambios
+## 8. Historial de Cambios
 
 | **Versión** | **Fecha**     | **Cambios Realizados**            | **Autor**       |
 |-------------|---------------|------------------------------------|-----------------|
