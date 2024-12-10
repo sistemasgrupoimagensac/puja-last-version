@@ -237,7 +237,11 @@
                             <div class="menu rounded-3">
                                 <ul class="p-0 m-0 rounded-3">
                                     <li class="rounded-3 rounded-bottom-0">
-                                        <a href="{{ route('panel.perfil') }}">
+                                        @if ($tipoUsuario === 5)
+                                            <a href="{{ route('panel.proyecto.perfil') }}">
+                                        @else
+                                            <a href="{{ route('panel.perfil') }}">
+                                        @endif
                                             <div>
                                                 <i class="fa-solid fa-user"></i>
                                                 &nbsp; Perfil
@@ -245,7 +249,11 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{ route('panel.mis-avisos') }}">
+                                        @if ($tipoUsuario === 5)
+                                            <a href="{{ route('panel.proyecto.mis-proyectos') }}">
+                                        @else 
+                                            <a href="{{ route('panel.mis-avisos') }}">
+                                        @endif
                                             <div>
                                                 <i class="fa-solid fa-store"></i></i>
                                                 &nbsp; Avisos
