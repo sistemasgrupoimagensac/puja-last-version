@@ -357,11 +357,12 @@ class PlanController extends Controller
 
     // Data OPEN PAY
     public function get_data_openpay () {
-        $openpay_id = env('OPENPAY_ID');
-        $openpay_pk = env('OPENPAY_PK');
+        $openpay_id = env('OPENPAY_ID', '');
+        $openpay_pk = env('OPENPAY_PK', '');
         $openpay_sb_mode = env('OPENPAY_SANDBOX_MODE');
+        $openpay_sb_mode = filter_var(env('OPENPAY_SANDBOX_MODE', false), FILTER_VALIDATE_BOOLEAN);
         
-        if ( strlen($openpay_id) > 1 && strlen($openpay_pk) > 1 && strlen($openpay_sb_mode) >= 1 ) {
+        if ( !empty($openpay_id) && !empty($openpay_pk) /* && $openpay_sb_mode */ ) {
             return response()->json([
                 "http_code" => 200,
                 "status" => "Success",
