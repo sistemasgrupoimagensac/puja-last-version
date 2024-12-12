@@ -49,6 +49,7 @@
         'tecnica/DT_004_publicar_inmueble_corredor',
         'tecnica/DT_005_01_crear_usuario_proyecto',
         'tecnica/DT_005_publicar_proyecto',
+        'tecnica/DT_pago_inmuebles'
       ],
     },
     {
