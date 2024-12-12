@@ -45,63 +45,74 @@ const config = {
     ],
   ],
 
-  themeConfig:
-  /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
-  {
-    colorMode: {
-      defaultMode: 'light', // Establece el tema luminoso como predeterminado
-      disableSwitch: false, // Habilita el cambio de tema (si deseas permitirlo)
-      respectPrefersColorScheme: false, // Ignora las preferencias del sistema del usuario
-    },
-    docs: {
-      sidebar: {
-        autoCollapseCategories: true, // Habilita el colapso automático
-        hideable: true, // Permite ocultar el sidebar
-      },
-    },
-    navbar: {
-      title: 'Puja Inmobiliaria',
-      logo: {
-        alt: 'Logo de Puja Inmobiliaria',
-        src: 'img/favicon.png',
-        href: 'https://www.pujainmobiliaria.com.pe',
-      },
-      items: [],
-    },
-    footer: {
-      style: 'dark',
-      links: [
-        {
-          title: 'Blog',
-          items: [
-            {
-              label: 'link',
-              href: 'https://pujainmobiliaria.com.pe/blog',
-            },
-          ],
-        },
-        {
-          title: 'Redes',
-          items: [
-            {
-              label: 'Facebook',
-              href: 'https://www.facebook.com/pujainmobiliaria',
-            },
-            {
-              label: 'Instagram',
-              href: 'https://www.instagram.com/pujainmobiliaria/',
-            },
-          ],
-        },
-      ],
-      copyright: `Copyright © ${new Date().getFullYear()} Puja Inmobiliaria`,
-    },
-    prism: {
-      theme: prismThemes.github,
-      darkTheme: prismThemes.dracula,
-    },
+  themes: ['@docusaurus/theme-mermaid'], // Añade el tema Mermaid
+
+  markdown: {
+    mermaid: true, // Habilita Mermaid en los archivos Markdown
   },
 
+  themeConfig:
+    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
+    {
+      colorMode: {
+        defaultMode: 'light', // Establece el tema luminoso como predeterminado
+        disableSwitch: false, // Habilita el cambio de tema (si deseas permitirlo)
+        respectPrefersColorScheme: false, // Ignora las preferencias del sistema del usuario
+      },
+      docs: {
+        sidebar: {
+          autoCollapseCategories: true, // Habilita el colapso automático
+          hideable: true, // Permite ocultar el sidebar
+        },
+      },
+      navbar: {
+        title: 'Puja Inmobiliaria',
+        logo: {
+          alt: 'Logo de Puja Inmobiliaria',
+          src: 'img/favicon.png',
+          href: 'https://www.pujainmobiliaria.com.pe',
+        },
+        items: [],
+      },
+      footer: {
+        style: 'dark',
+        links: [
+          {
+            title: 'Blog',
+            items: [
+              {
+                label: 'link',
+                href: 'https://pujainmobiliaria.com.pe/blog',
+              },
+            ],
+          },
+          {
+            title: 'Redes',
+            items: [
+              {
+                label: 'Facebook',
+                href: 'https://www.facebook.com/pujainmobiliaria',
+              },
+              {
+                label: 'Instagram',
+                href: 'https://www.instagram.com/pujainmobiliaria/',
+              },
+            ],
+          },
+        ],
+        copyright: `Copyright © ${new Date().getFullYear()} Puja Inmobiliaria`,
+      },
+      prism: {
+        theme: prismThemes.github,
+        darkTheme: prismThemes.dracula,
+      },
+      mermaid: {
+        theme: {
+          light: 'neutral', // Tema para modo claro
+          dark: 'forest',   // Tema para modo oscuro
+        },
+      },
+    },
 };
 
 export default config;
