@@ -15,6 +15,7 @@ use Greenter\Ws\Services\SunatEndpoints;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use phpseclib3\File\X509;
 
 class FactUtil
 {
@@ -42,7 +43,7 @@ class FactUtil
      * @param string $endpoint
      * @return See
      */
-    public function getSee()
+    public function getSee_old()
     { 
         
         $see = new See();
@@ -82,6 +83,72 @@ class FactUtil
         }
 
         $see->setClaveSOL($this->datos_fact_elect->ruc, $this->datos_fact_elect->sol_user, $this->datos_fact_elect->sol_password);
+
+        return $see;
+    }
+
+    public function getSee()
+    {
+        $see = new See();
+
+        if (App::environment('production')) {
+            $basePath = $this->datos_empresa->path;
+            $path = public_path() . $basePath;
+            $pathToPfx = $path . $this->datos_fact_elect->certificate_name;
+            $outputPem = $path . 'default.pem';
+            $password = $this->datos_fact_elect->certificate_pass;
+            Log::info("prueba de production ...");
+            Log::info("el archivo PFX: ", $pathToPfx);
+            Log::info("el archivo PEM: ", $outputPem);
+
+            // Cargar el contenido del archivo PFX
+            $pfxContent = file_get_contents($pathToPfx);
+            if ($pfxContent === false) {
+                Log::error("No se pudo cargar el archivo PFX: $pathToPfx");
+                throw new \Exception("No se pudo cargar el archivo PFX");
+            }
+
+            // Procesar el contenido del PFX y generar el PEM
+            $x509 = new X509();
+            $certData = $x509->loadPKCS12($pfxContent, $password);
+
+            if (!$certData) {
+                Log::error("No se pudo procesar el archivo PFX. Verifica la contraseña o el archivo.");
+                throw new \Exception("No se pudo procesar el archivo PFX");
+            }
+
+            // Guardar el contenido PEM en el archivo
+            file_put_contents($outputPem, $certData);
+
+            // Verificar que se haya escrito correctamente
+            if (!file_exists($outputPem)) {
+                Log::error("No se pudo guardar el archivo PEM: $outputPem");
+                throw new \Exception("No se pudo guardar el archivo PEM");
+            }
+        }
+
+        $basePath = $this->datos_empresa->path;
+        $path = public_path() . $basePath;
+        $certificate = file_get_contents($path . 'default.pem');
+
+        if ($certificate === false) {
+            throw new \Exception('No se pudo cargar el certificado PEM');
+        }
+
+        // Setear el certificado en el objeto See
+        $see->setCertificate($certificate);
+
+        if ($this->datos_empresa->status_electronic_billing == 0) {
+            $see->setService(SunatEndpoints::FE_BETA);
+        } else {
+            $see->setService(SunatEndpoints::FE_PRODUCCION);
+        }
+
+        $see->setClaveSOL(
+            $this->datos_fact_elect->ruc,
+            $this->datos_fact_elect->sol_user,
+            $this->datos_fact_elect->sol_password
+        );
 
         return $see;
     }
