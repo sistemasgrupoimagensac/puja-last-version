@@ -75,4 +75,9 @@ class ProyectoCliente extends Model
         return $this->hasOne(ProyectoClienteTarjeta::class, 'proyecto_cliente_id');
     }
 
+    public function proyectoPlanesActivos()
+    {
+        return $this->hasMany(ProyectoPlanesActivos::class, 'proyecto_cliente_id');
+    }
+
 }

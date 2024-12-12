@@ -9,10 +9,12 @@ return new class extends Migration {
     {
         Schema::table('proyecto_clientes', function (Blueprint $table) {
             $table->boolean('pago_unico')
+                ->nullable()
                 ->after('precio_plan');
 
             $table->boolean('renovacion')
                 ->after('pago_unico')
+                ->nullable()
                 ->comment('1: Renovación automática, 0: Sin renovación');
         });
     }

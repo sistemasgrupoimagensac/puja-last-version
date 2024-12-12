@@ -16,4 +16,10 @@ class ProyectoPlanes extends Model
         'descripcion',
         'duracion_en_meses',
     ];
+
+    public function proyectoPlanesActivos()
+    {
+        return $this->hasMany(ProyectoPlanesActivos::class, 'proyecto_planes_id');
+    }
+
 }

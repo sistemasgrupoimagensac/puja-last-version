@@ -7,12 +7,14 @@ use App\Models\ProyectoCliente;
 use App\Models\ProyectoCronogramaPago;
 use App\Models\TipoUsuario;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
@@ -63,6 +65,9 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
+        try {
+            
+        
         // Validación inicial de los campos del formulario
         $validator = Validator::make($request->all(), [
             'user_type' => 'required|string',
@@ -113,7 +118,22 @@ class LoginController extends Controller
 
         // Verificar si el usuario es del tipo 5 y su estado de pago
         if ($user->tipo_usuario_id == 5) {
-            $proyectoCliente = ProyectoCliente::where('user_id', $user->id)->first();
+            // $proyectoCliente = ProyectoCliente::where('user_id', $user->id)->first();
+            $proyectoCliente = ProyectoCliente::join('proyecto_planes_activos', 'proyecto_clientes.id', '=', 'proyecto_planes_activos.proyecto_cliente_id')
+                ->where('proyecto_clientes.user_id', $user->id)
+                ->where('proyecto_planes_activos.fecha_inicio', '<=', Carbon::now())
+                ->where('proyecto_planes_activos.fecha_fin', '>=', Carbon::now())
+                ->select(
+                    'proyecto_clientes.id as id',
+                    'proyecto_clientes.al_dia as al_dia',
+                    'proyecto_clientes.razon_social as razon_social',
+                    'proyecto_planes_activos.duracion as periodo_plan',
+                    'proyecto_planes_activos.fecha_fin as fecha_fin_contrato',
+                    'proyecto_planes_activos.numero_anuncios as numero_anuncios',
+                    'proyecto_planes_activos.fecha_inicio as fecha_inicio_contrato',
+                )
+                ->orderBy('proyecto_planes_activos.fecha_inicio', 'desc')
+            ->first();
 
             if ($proyectoCliente) {
                 // Obtener detalles del proyecto
@@ -175,6 +195,15 @@ class LoginController extends Controller
             'message' => 'Inicio de sesión exitoso.',
             'redirect' => redirect()->intended(route('panel.mis-avisos'))->getTargetUrl(),
         ]);
+
+        } catch (\Throwable $th) {
+            Log::info($th->getMessage());
+            return response()->json([
+                'http_code' => 400,
+                'message' => 'Error al loguearse',
+                'error' => $th->getMessage() // Mensaje de error detallado
+            ], 400); // Código de estado HTTP 500 (Internal Server Error)
+        }
     }    
 
     public function store(Request $request)

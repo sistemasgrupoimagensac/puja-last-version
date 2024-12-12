@@ -250,6 +250,8 @@ Route::middleware(['auth', 'verified', CheckUserProjectType::class])->group(func
     });
 });
 
+Route::post('/contactar-plan-proyecto', [ProyectosContratadosController::class, 'contactarPlanProyecto'])->name('contactar_plan_proyecto');
+
 // Actualizar el estado de los interesados en un Proyecto
 Route::post('/panel-proyecto/interesados/update-status', [ProyectoInteresadosController::class, 'updateStatus'])->name('interesados.update-status');
 

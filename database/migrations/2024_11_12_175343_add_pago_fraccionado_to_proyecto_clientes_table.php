@@ -9,6 +9,7 @@ return new class extends Migration {
     {
         Schema::table('proyecto_clientes', function (Blueprint $table) {
             $table->boolean('pago_fraccionado')
+                ->nullable()
                 ->after('pago_unico');
         });
     }

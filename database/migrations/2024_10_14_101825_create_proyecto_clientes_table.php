@@ -21,8 +21,8 @@ class CreateProyectoClientesTable extends Migration
             $table->string('nombre_contacto');
             $table->string('telefono_contacto');
             $table->string('email_contacto');
-            $table->date('fecha_inicio_contrato');
-            $table->date('fecha_fin_contrato');
+            $table->date('fecha_inicio_contrato')->nullable();
+            $table->date('fecha_fin_contrato')->nullable();
             $table->integer('numero_anuncios')->default(0);
             $table->boolean('habilitado')->default(false);
             $table->boolean('activo')->default(false);

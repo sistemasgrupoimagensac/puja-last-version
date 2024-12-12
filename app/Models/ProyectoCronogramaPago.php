@@ -15,6 +15,7 @@ class ProyectoCronogramaPago extends Model
 
     protected $fillable = [
         'proyecto_cliente_id',
+        'proyecto_plan_activo_id',
         'fecha_programada',
         'monto',
         'estado_pago_id',
