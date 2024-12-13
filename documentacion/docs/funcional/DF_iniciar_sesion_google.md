@@ -1,3 +1,9 @@
+---
+sidebar_label: 'Inicio de Sesión con Google'
+sidebar_position: 4
+title: 'Inicio de Sesión con Google'
+---
+
 # Documento Funcional: Iniciar Sesión con Google
 
 ## 1. Resumen
@@ -7,7 +13,7 @@
 ---
 
 ## 2. Requerimiento Funcional
-**ID:** RF001
+**ID:** `RF004`
 **Nombre del Requisito:** Iniciar sesión con Google.
 **Descripción:** Permitir a los usuarios iniciar sesión con su cuenta de Google, por lo que no será necesario pasar por el proceso de registro ni crear una contraseña, debe ser suficiente con un correo Gmail registrado en el navegador.
 **Reglas de Negocio:**  
@@ -26,12 +32,12 @@
 ---
 
 ## 4. Artefactos Técnicos Relacionados
-| **Requisito Funcional** | **Artefacto Técnico**                 | **Descripción**                                        |
-|-------------------------|---------------------------------------|--------------------------------------------------------|
-| RF001                   | Tabla `users`                         | Contiene los datos de un usuario para iniciar sesión   |
-|                         | Modelo `User`                         | Representa la lógica del cliente.                      |
-|                         | Controlador `selectAccountGoogle()`   | Método que selecciona la cuenta de Google              |
-|                         | Vista `auth.signin`                   | Pantalla de inicio de sesión.                          |
+| **Artefacto Técnico**                 | **Descripción**                                        |
+|---------------------------------------|--------------------------------------------------------|
+| Tabla `users`                         | Contiene los datos de un usuario para iniciar sesión   |
+| Modelo `User`                         | Representa la lógica del cliente.                      |
+| Controlador `selectAccountGoogle()`   | Método que selecciona la cuenta de Google              |
+| Vista `auth.signin`                   | Pantalla de inicio de sesión.                          |
 
 ---
 

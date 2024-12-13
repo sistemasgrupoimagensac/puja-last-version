@@ -1,53 +1,112 @@
 ---
 sidebar_label: 'Introducción'
 sidebar_position: 1
-title: 'Documentación'
+title: 'Introducción'
 ---
 
 # Documentación del Sistema **Puja Inmobiliaria**
 
-## **1. Introducción**
-**Puja Inmobiliaria** es una plataforma digital diseñada para maximizar la visibilidad y exposición de inmuebles en diferentes modalidades: remate público, venta, alquiler, y proyectos inmobiliarios completos. Su interfaz intuitiva facilita la interacción tanto para los usuarios interesados en adquirir inmuebles como para los propietarios o corredores que deseen publicarlos. 
+Bienvenido a la documentación oficial del sistema **Puja Inmobiliaria**, una herramienta diseñada para simplificar la publicación, gestión y adquisición de inmuebles en diversas modalidades: remates públicos, venta, alquiler, y proyectos inmobiliarios.
 
 ---
 
-## **2. Objetivo General**
-Automatizar y optimizar los procesos de publicación, gestión y contacto relacionados con la venta, alquiler y remate de inmuebles, ofreciendo una experiencia ágil y eficiente para todos los actores involucrados.
+## 1. Propósito
+La documentación tiene como objetivo proporcionar una guía integral para:
+- Desarrolladores interesados en mantener o extender el sistema.
+- Usuarios que deseen entender los flujos y funcionalidades principales.
+- Stakeholders que busquen evaluar el alcance y capacidades del sistema.
 
 ---
 
-## **3. Módulos Principales del Sistema**
-El sistema se organiza en diversos módulos que abarcan las funcionalidades clave de **Puja Inmobiliaria**:
+## 2. Estructura de la Documentación
 
-- **Módulo de Venta / Alquiler**: Permite gestionar la publicación de inmuebles en las modalidades de venta o alquiler, con opciones detalladas para destacar características únicas.
-- **Módulo de Remate Público**: Automatiza la gestión y publicación de inmuebles en remate público, asegurando visibilidad y cumplimiento normativo.
-- **Módulo de Proyectos Inmobiliarios**: Facilita la publicación de proyectos inmobiliarios (en planos, construcción o entrega inmediata), destacando beneficios y características de cada proyecto.
-- **Módulo de Inicio de Sesión**: Ofrece un sistema seguro de autenticación, permitiendo a los usuarios ingresar con correo y contraseña o mediante Google.
-- **Módulo de Registro de Usuario**: Gestiona el registro de nuevos usuarios interesados en publicar o contactar inmuebles.
-- **Módulo de Contactar Inmueble**: Establece una comunicación directa entre los interesados y los propietarios, asegurando fluidez en el intercambio de información.
+### Funcional
+Este apartado detalla los flujos y requerimientos de cada funcionalidad clave del sistema. Está dirigido a analistas, diseñadores y desarrolladores interesados en comprender los procesos desde una perspectiva funcional.
 
-> **Nota:** Un proyecto inmobiliario se define como un edificio habitacional en etapa de planos, proceso de construcción o entrega inmediata.
+### Técnica
+Aquí se documentan los aspectos técnicos de implementación, incluyendo modelos, controladores, rutas y vistas. Este apartado está orientado a desarrolladores que buscan trabajar con el código fuente o integrar nuevas funcionalidades.
 
----
-
-## **4. Flujos del Sistema**
-### **Flujos Principales**
-1. **Publicación de un inmueble en venta o alquiler.**
-2. **Gestión de remates públicos para inmuebles.**
-3. **Registro y autenticación de usuarios.**
-4. **Contacto entre interesados y propietarios.**
+### Guía del Usuario
+Una sección dedicada a los usuarios finales, con instrucciones claras para navegar y utilizar el sistema de manera efectiva.
 
 ---
 
-## **5. Alcance del Proyecto**
-El sistema tiene un alcance claramente definido para asegurar la efectividad de sus funciones:
-
-- **Incluye**:
-  - Presencia web para anuncios de inmuebles en remate, venta, alquiler o proyectos inmobiliarios.
-  - Herramientas de contacto para facilitar la comunicación entre interesados y propietarios.
-- **No incluye**:
-  - La venta directa de inmuebles ni la gestión de transacciones financieras.
+## 3. Módulos Principales
+1. **Registro y Autenticación:**  
+   Manejo del registro de usuarios y la autenticación mediante correo/contraseña o Google.
+2. **Publicación de Inmuebles:**  
+   Proceso de registro de inmuebles para propietarios, corredores y acreedores, así como proyectos completos.
+3. **Gestión de Pagos:**  
+   Integración con OpenPay para pagos de planes y proyectos.
+4. **Gestión de Proyectos:**  
+   Herramientas avanzadas como integración con Google Sheets y manejo de leads.
 
 ---
 
-Con esta documentación, se busca detallar de forma clara y precisa las funcionalidades, objetivos y alcances del sistema **Puja Inmobiliaria**, sirviendo como guía tanto para desarrolladores como para usuarios interesados en su implementación y uso.
+## 4. Flujos Principales
+1. Registro y autenticación de usuarios.
+2. Publicación y gestión de inmuebles.
+3. Pagos mediante OpenPay.
+4. Gestión de proyectos inmobiliarios y leads.
+
+---
+
+## 5. Alcance del Sistema
+- **Incluye:**
+  - Gestión de remates, ventas, alquileres y proyectos inmobiliarios.
+  - Contacto directo entre interesados y propietarios.
+  - Procesamiento de pagos y generación de comprobantes electrónicos.
+- **Excluye:**
+  - Venta directa de inmuebles.
+  - Gestión completa de transacciones financieras fuera de OpenPay.
+
+---
+
+## 6. Índice de la Documentación
+
+### Documentos Funcionales
+- **Registro y Autenticación**
+  - [Registro de Usuario](funcional/DF_Registro_Usuario.md)
+  - [Registro con Google](funcional/DF_Registro_Usuario_Google.md)
+  - [Inicio de Sesión](funcional/DF_Iniciar_Sesion.md)
+  - [Inicio de Sesión con Google](funcional/DF_Iniciar_Sesion_Google.md)
+- **Publicación de Inmuebles**
+  - [Propietario](funcional/DF_Publicar_Inmueble_Propietario.md)
+  - [Corredor](funcional/DF_Publicar_Inmueble_Corredor.md)
+  - [Acreedor](funcional/DF_Publicar_Inmueble_Acreedor.md)
+  - [Proyectos Inmobiliarios](funcional/DF_Publicar_Proyecto_Inmobiliario.md)
+  - [Crear Usuario Proyecto Inmobiliario](funcional/DF_Crear_Usuario_Proyecto_Inmobiliario.md)
+- **Pagos**
+  - [Planes](funcional/DF_Pago_Propietario_Corredor_Acreedor.md)
+  - [Proyectos](funcional/DF_Pago_Proyecto_Inmobiliario.md)
+- **Gestión de Proyectos**
+  - [Manejo de Leads](funcional/DF_Manejo_Leads_Proyecto.md)
+  - [Google Sheets](funcional/DF_Agregar_GoogleSheet_Proyecto.md)
+
+### Documentos Técnicos
+- **Registro y Autenticación**
+  - [Registro de Usuario](tecnica/DT_Registro_Usuario.md)
+  - [Registro con Google](tecnica/DT_Registro_Usuario_Google.md)
+  - [Inicio de Sesión](tecnica/DT_Iniciar_Sesion.md)
+  - [Inicio de Sesión con Google](tecnica/DT_Iniciar_Sesion_Google.md)
+- **Publicación de Inmuebles**
+  - [Propietario](tecnica/DT_Publicar_Inmueble_Propietario.md)
+  - [Corredor](tecnica/DT_Publicar_Inmueble_Corredor.md)
+  - [Acreedor](tecnica/DT_Publicar_Inmueble_Acreedor.md)
+  - [Proyectos Inmobiliarios](tecnica/DT_Publicar_Proyecto_Inmobiliario.md)
+  - [Crear Usuario Proyecto Inmobiliario](tecnica/DT_Crear_Usuario_Proyecto_Inmobiliario.md)
+- **Pagos**
+  - [Planes](tecnica/DT_Pago_Propietario_Corredor_Acreedor.md)
+  - [Proyectos](tecnica/DT_Pago_Proyecto_Inmobiliario.md)
+- **Gestión de Proyectos**
+  - [Manejo de Leads](tecnica/DT_Manejo_Leads_Proyecto.md)
+  - [Google Sheets](tecnica/DT_Agregar_GoogleSheet_Proyecto.md)
+
+### Manual de Usuario
+- [Registro de Usuario](usuario/MU_Registro_Usuario.md)
+- [Publicación de Inmuebles](usuario/MU_Publicar_Inmueble_Propietario.md)
+- [Pagos de Proyectos](usuario/MU_Publicar_Proyecto_Inmobiliario.md)
+
+---
+
+Esperamos que esta documentación sea una herramienta útil para entender y utilizar **Puja Inmobiliaria** de manera eficiente.

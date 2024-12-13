@@ -1,3 +1,9 @@
+---
+sidebar_label: 'Inicio de Sesión'
+sidebar_position: 3
+title: 'Inicio de Sesión'
+---
+
 # Documento Funcional: Iniciar Sesión
 
 ## 1. Resumen
@@ -7,7 +13,7 @@
 ---
 
 ## 2. Requerimiento Funcional
-**ID:** RF001
+**ID:** `RF003`
 **Nombre del Requisito:** Iniciar sesión.
 **Descripción:** Iniciar sesión por medio de un usuario y contraseña.
 
@@ -21,12 +27,12 @@
 ---
 
 ## 4. Artefactos Técnicos Relacionados
-| **Requisito Funcional** | **Artefacto Técnico**                   | **Descripción**                                        |
-|-------------------------|-----------------------------------------|--------------------------------------------------------|
-| RFxxx                   | Tabla `users`                           | Contiene los datos de un usuario para iniciar sesión   |
-|                         | Modelo `User`                           | Representa la lógica del cliente.                      |
-|                         | Controlador `LoginController.login()`   | Método que selecciona la cuenta de Google              |
-|                         | Vista `auth.signin`                     | Pantalla de inicio de sesión.                          |
+| **Artefacto Técnico**                   | **Descripción**                                        |
+|-----------------------------------------|--------------------------------------------------------|
+| Tabla `users`                           | Contiene los datos de un usuario para iniciar sesión   |
+| Modelo `User`                           | Representa la lógica del cliente.                      |
+| Controlador `LoginController.login()`   | Método que selecciona la cuenta de Google              |
+| Vista `auth.signin`                     | Pantalla de inicio de sesión.                          |
 
 ---
 

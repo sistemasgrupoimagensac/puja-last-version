@@ -144,120 +144,120 @@ class ProyectoClienteResource extends Resource
                     ])
                     ->columns(1),
                     
-                    Section::make('Datos del Contrato')
-                        ->schema([
-                            Repeater::make('proyectoPlanesActivos')
-                                ->relationship('proyectoPlanesActivos')
-                                ->schema([
-                                    DatePicker::make('fecha_inicio')
-                                        ->required()
-                                        ->label('Fecha de Inicio del Contrato')
-                                        ->reactive(),
+                Section::make('Datos del Contrato')
+                    ->schema([
+                        Repeater::make('proyectoPlanesActivos')
+                            ->relationship('proyectoPlanesActivos')
+                            ->schema([
+                                DatePicker::make('fecha_inicio')
+                                    ->required()
+                                    ->label('Fecha de Inicio del Contrato')
+                                    ->reactive(),
 
-                                    DatePicker::make('fecha_fin')
-                                        ->label('Fecha fin del contrato')
-                                        ->readOnly(),
-                                        // ->disabled(),
+                                DatePicker::make('fecha_fin')
+                                    ->label('Fecha fin del contrato')
+                                    ->readOnly(),
+                                    // ->disabled(),
 
-                                    Select::make('duracion')
-                                        ->label('Periodo del Plan')
-                                        ->options([
-                                            3 => '3 meses',
-                                            6 => '6 meses',
-                                            12 => '12 meses',
-                                        ])
-                                        ->required()
-                                        ->reactive()
-                                        ->afterStateUpdated(function ($state, callable $get, callable $set) {
-                                            $fechaInicio = $get('fecha_inicio');
-                                            if ($fechaInicio) {
-                                                $fechaInicioCarbon = \Carbon\Carbon::parse($fechaInicio);
-                                                $fechaFin = $fechaInicioCarbon->addMonths((int) $state)->toDateString();
-                                                $set('fecha_fin', $fechaFin);
-                                            }
+                                Select::make('duracion')
+                                    ->label('Periodo del Plan')
+                                    ->options([
+                                        3 => '3 meses',
+                                        6 => '6 meses',
+                                        12 => '12 meses',
+                                    ])
+                                    ->required()
+                                    ->reactive()
+                                    ->afterStateUpdated(function ($state, callable $get, callable $set) {
+                                        $fechaInicio = $get('fecha_inicio');
+                                        if ($fechaInicio) {
+                                            $fechaInicioCarbon = \Carbon\Carbon::parse($fechaInicio);
+                                            $fechaFin = $fechaInicioCarbon->addMonths((int) $state)->toDateString();
+                                            $set('fecha_fin', $fechaFin);
+                                        }
 
-                                            // Mapeo de duración a proyecto_planes_id
-                                            $duracionToPlanId = [
-                                                3 => 1,
-                                                6 => 2,
-                                                12 => 3,
-                                            ];
+                                        // Mapeo de duración a proyecto_planes_id
+                                        $duracionToPlanId = [
+                                            3 => 1,
+                                            6 => 2,
+                                            12 => 3,
+                                        ];
+                                
+                                        if (isset($duracionToPlanId[$state])) {
+                                            $set('proyecto_planes_id', $duracionToPlanId[$state]);
+                                        }
+                                    }),
+                                Hidden::make('proyecto_planes_id'),
+
+                                Hidden::make('estado_id')
+                                ->default(2),
+
+                                TextInput::make('numero_anuncios')
+                                    ->numeric()
+                                    ->label('Número de Anuncios')
+                                    ->required()
+                                    ->default(1)
+                                    ->minValue(1),
                                     
-                                            if (isset($duracionToPlanId[$state])) {
-                                                $set('proyecto_planes_id', $duracionToPlanId[$state]);
-                                            }
-                                        }),
-                                    Hidden::make('proyecto_planes_id'),
+                                TextInput::make('monto')
+                                    ->label('Costo del Proyecto')
+                                    ->numeric()
+                                    ->required()
+                                    ->minValue(0)
+                                    ->prefix('S/')
+                                    ->placeholder('Ingrese el monto del proyecto'),
 
-                                    Hidden::make('estado_id')
-                                    ->default(2),
+                                Checkbox::make('pago_unico')
+                                    ->label('Pago único')
+                                    ->inline(false)
+                                    ->reactive()
+                                    ->afterStateUpdated(function (callable $set, $state) {
+                                        if ($state) {
+                                            $set('pago_fraccionado', false);
+                                        }
+                                    }),
 
-                                    TextInput::make('numero_anuncios')
-                                        ->numeric()
-                                        ->label('Número de Anuncios')
-                                        ->required()
-                                        ->default(1)
-                                        ->minValue(1),
-                                        
-                                    TextInput::make('monto')
-                                        ->label('Costo del Proyecto')
-                                        ->numeric()
-                                        ->required()
-                                        ->minValue(0)
-                                        ->prefix('S/')
-                                        ->placeholder('Ingrese el monto del proyecto'),
+                                Checkbox::make('pago_fraccionado')
+                                    ->label('Pago fraccionado')
+                                    ->inline(false)
+                                    ->reactive()
+                                    ->default(true)
+                                    ->afterStateUpdated(function (callable $set, $state) {
+                                        if ($state) {
+                                            $set('pago_unico', false);
+                                        }
+                                    }),
+                                    
+                                Checkbox::make('renovacion_automatica')
+                                    ->label('Renovación automática')
+                                    ->inline(false),
 
-                                    Checkbox::make('pago_unico')
-                                        ->label('Pago único')
-                                        ->inline(false)
-                                        ->reactive()
-                                        ->afterStateUpdated(function (callable $set, $state) {
-                                            if ($state) {
-                                                $set('pago_fraccionado', false);
-                                            }
-                                        }),
+                                ToggleButtons::make('activo')
+                                    ->label('Activo')
+                                    ->boolean()
+                                    ->inline()
+                                    ->disabled()
+                                    ->default(fn ($record) => $record->activo ?? false),
 
-                                    Checkbox::make('pago_fraccionado')
-                                        ->label('Pago fraccionado')
-                                        ->inline(false)
-                                        ->reactive()
-                                        ->default(true)
-                                        ->afterStateUpdated(function (callable $set, $state) {
-                                            if ($state) {
-                                                $set('pago_unico', false);
-                                            }
-                                        }),
-                                        
-                                    Checkbox::make('renovacion_automatica')
-                                        ->label('Renovación automática')
-                                        ->inline(false),
+                                ToggleButtons::make('pagado')
+                                    ->label('Pago Total')
+                                    ->boolean()
+                                    ->inline()
+                                    ->disabled(),
 
-                                    ToggleButtons::make('activo')
-                                        ->label('Activo')
-                                        ->boolean()
-                                        ->inline()
-                                        ->disabled()
-                                        ->default(fn ($record) => $record->activo ?? false),
-
-                                    ToggleButtons::make('pagado')
-                                        ->label('Pago Total')
-                                        ->boolean()
-                                        ->inline()
-                                        ->disabled(),
-
-                                    FileUpload::make('contrato_url')
-                                        ->label('Contrato')
-                                        ->acceptedFileTypes(['application/pdf'])
-                                        ->disk('wasabi')
-                                        ->directory('proyectos/contratos')
-                                        ->visibility('public')
-                                        ->required()
-                                        ->maxSize(4096),
-                                        /* ->columnSpan(2) */
-                                ])
-                                ->addActionLabel('Agregar Contrato')
-                                ->columns(4),
-                        ]),
+                                FileUpload::make('contrato_url')
+                                    ->label('Contrato')
+                                    ->acceptedFileTypes(['application/pdf'])
+                                    ->disk('wasabi')
+                                    ->directory('proyectos/contratos')
+                                    ->visibility('public')
+                                    ->required()
+                                    ->maxSize(4096),
+                                    /* ->columnSpan(2) */
+                            ])
+                            ->addActionLabel('Agregar Contrato')
+                            ->columns(4),
+                    ]),
 
                 Section::make('Credenciales de Usuario')
                     ->schema([
