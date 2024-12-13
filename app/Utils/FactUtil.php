@@ -47,7 +47,7 @@ class FactUtil
         
         $see = new See();
 
-        if (App::environment('production')) {
+        /* if (App::environment('production')) {
             $basePath = $this->datos_empresa->path;
             $path = public_path() . $basePath;
             $pathToPfx = escapeshellarg($path . $this->datos_fact_elect->certificate_name);
@@ -62,7 +62,7 @@ class FactUtil
                 Log::error("Command execution failed with return code $returnVar. Output: " . implode("\n", $output));
                 throw new \Exception("Error executing command: " . implode("\n", $output));
             }
-        }
+        } */
 
         $basePath = $this->datos_empresa->path;
         $path = public_path() . $basePath;

@@ -99,6 +99,8 @@ class BillingController extends Controller
 
             $data->client;
 
+            Log::info("typo_doc");
+            Log::info($data->documentType->type_doc);
             if($data->documentType->type_doc == '02') {
                 $response = $this->generarFEBoleta($request, $data, $request->num_doc, $request->receipt_name);
             }
@@ -128,7 +130,7 @@ class BillingController extends Controller
             ];
 
         } catch (\Throwable $th) {
-            log::info($th->getMessage());
+            Log::info($th->getMessage());
             return response()->json([
                 'http_code' => 500,
                 'message' => 'Error al generar la factura',
@@ -363,9 +365,15 @@ class BillingController extends Controller
         // Verificamos que la conexión con SUNAT fue exitosa.
         if (!$result->isSuccess()) {
             // Mostrar error al conectarse a SUNAT.
-            return $this->successResponse([
+            Log::info("Antes de successRepso -- Generar Boleta");
+            Log::info($result->getError()->getMessage());
+            return [
+                'status'=> "message",
+                'message'=> $result->getError()->getMessage(),
+            ];
+            /* return $this->successResponse([
                 'result'=>'error',
-                'message'=> $result->getError()->getMessage()]);
+                'message'=> $result->getError()->getMessage()]); */
             exit();
         }
 
@@ -556,9 +564,16 @@ class BillingController extends Controller
         // Verificamos que la conexión con SUNAT fue exitosa.
         if (!$result->isSuccess()) {
             // Mostrar error al conectarse a SUNAT.
-            return $this->successResponse([
+            Log::info("Antes de successRepso -- Generar Factura");
+            Log::info($result->getError()->getMessage());
+            
+            return [
+                'status'=> "message",
+                'message'=> $result->getError()->getMessage(),
+            ];
+            /* return $this->successResponse([
                 'result'=>'error',
-                'message'=> $result->getError()->getMessage()]);
+                'message'=> $result->getError()->getMessage()]); */
             exit();
         }
 
