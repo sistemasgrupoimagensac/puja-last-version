@@ -120,6 +120,8 @@ class BillingController extends Controller
             ->send(new SubscriptionMail($pdfPath_fix, $request->plan_name));
             Log::info('Correo enviado.');
 
+            Log::info("Return 1");
+            Log::info($response['data']);
             return [
                 // "data" => $response,
                 'data' => $response['data'],
@@ -363,6 +365,8 @@ class BillingController extends Controller
         // Verificamos que la conexión con SUNAT fue exitosa.
         if (!$result->isSuccess()) {
             // Mostrar error al conectarse a SUNAT.
+            Log::info($result->getError()->getMessage());
+
             return response()->json([
                 "status" => "error",
                 "mensaje" => $result->getError()->getMessage(),
@@ -561,6 +565,8 @@ class BillingController extends Controller
         // Verificamos que la conexión con SUNAT fue exitosa.
         if (!$result->isSuccess()) {
             // Mostrar error al conectarse a SUNAT.
+            Log::info($result->getError()->getMessage());
+
             return response()->json([
                 "status" => "error",
                 "mensaje" => $result->getError()->getMessage(),
