@@ -43,12 +43,12 @@ class FactUtil
      * @param string $endpoint
      * @return See
      */
-    public function getSee_old()
+    public function getSee()
     { 
         
         $see = new See();
 
-        if (App::environment('production')) {
+        /* if (App::environment('production')) {
             $basePath = $this->datos_empresa->path;
             $path = public_path() . $basePath;
             $pathToPfx = escapeshellarg($path . $this->datos_fact_elect->certificate_name);
@@ -63,7 +63,7 @@ class FactUtil
                 Log::error("Command execution failed with return code $returnVar. Output: " . implode("\n", $output));
                 throw new \Exception("Error executing command: " . implode("\n", $output));
             }
-        }
+        } */
 
         $basePath = $this->datos_empresa->path;
         $path = public_path() . $basePath;
@@ -87,7 +87,7 @@ class FactUtil
         return $see;
     }
 
-    public function getSee()
+    public function getSee_test()
     {
         $see = new See();
 
@@ -98,8 +98,8 @@ class FactUtil
             $outputPem = $path . 'default.pem';
             $password = $this->datos_fact_elect->certificate_pass;
             Log::info("prueba de production ...");
-            Log::info("el archivo PFX: ", $pathToPfx);
-            Log::info("el archivo PEM: ", $outputPem);
+            Log::info($pathToPfx);
+            Log::info($outputPem);
 
             // Cargar el contenido del archivo PFX
             $pfxContent = file_get_contents($pathToPfx);
