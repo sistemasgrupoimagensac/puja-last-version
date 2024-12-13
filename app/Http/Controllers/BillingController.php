@@ -363,9 +363,14 @@ class BillingController extends Controller
         // Verificamos que la conexión con SUNAT fue exitosa.
         if (!$result->isSuccess()) {
             // Mostrar error al conectarse a SUNAT.
-            return $this->successResponse([
-                'result'=>'error',
-                'message'=> $result->getError()->getMessage()]);
+            return response()->json([
+                "status" => "error",
+                "mensaje" => $result->getError()->getMessage(),
+                "http_code" => 400,
+            ], 400);
+            // return $this->successResponse([
+            //     'result'=>'error',
+            //     'message'=> $result->getError()->getMessage()]);
             exit();
         }
 
@@ -556,9 +561,14 @@ class BillingController extends Controller
         // Verificamos que la conexión con SUNAT fue exitosa.
         if (!$result->isSuccess()) {
             // Mostrar error al conectarse a SUNAT.
-            return $this->successResponse([
-                'result'=>'error',
-                'message'=> $result->getError()->getMessage()]);
+            return response()->json([
+                "status" => "error",
+                "mensaje" => $result->getError()->getMessage(),
+                "http_code" => 400,
+            ], 400);
+            // return $this->successResponse([
+            //     'result'=>'error',
+            //     'message'=> $result->getError()->getMessage()]);
             exit();
         }
 
