@@ -6,11 +6,11 @@ title: 'Registro de Usuario'
 
 # Documento Técnico: Registro de Usuarios
 
-## 1. Resumen del Flujo
-**Descripción del Flujo:**  
+## 1. Resumen
+**Descripción:**  
 Proceso para registrar nuevos usuarios en la plataforma, asignándoles un perfil que les permita publicar inmuebles y acceder a funcionalidades específicas.
 
-**Objetivo del Flujo:**  
+**Propósito:**
 Proveer un mecanismo seguro y eficiente para registrar usuarios, asegurando que cada perfil cumpla con los requisitos necesarios para interactuar dentro del sistema.
 
 ---

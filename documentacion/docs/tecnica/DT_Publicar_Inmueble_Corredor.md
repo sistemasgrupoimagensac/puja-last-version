@@ -6,11 +6,11 @@ title: 'Publicar Inmueble Corredor'
 
 # Documento Técnico: Publicar inmueble como Corredor
 
-## 1. Resumen del Flujo
-**Descripción:**  
+## 1. Resumen
+**Descripción:**
 Permite a los usuarios con perfil de **corredor** publicar inmuebles mediante la compra previa de un plan de anuncios. Incluye gestión de imágenes, características del inmueble, ubicación y planes.
 
-**Propósito:**  
+**Propósito:**
 Facilitar la publicación de inmuebles por corredores y asegurar el cumplimiento de las reglas funcionales establecidas.
 
 ---

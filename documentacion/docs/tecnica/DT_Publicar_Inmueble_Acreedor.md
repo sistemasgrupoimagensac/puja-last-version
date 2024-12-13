@@ -6,11 +6,11 @@ title: 'Publicar Inmueble Acreedor'
 
 # Documento Técnico: Publicar Inmueble como Acreedor
 
-## 1. Resumen del Flujo
-**Descripción del Flujo:**  
+## 1. Resumen
+**Descripción:** 
 Permite a los usuarios con perfil de **acreedor** publicar inmuebles en remate. El flujo incluye formularios dinámicos utilizando **Alpine.js** y Blade para el frontend, y valida información específica para remates.
 
-**Objetivo del Flujo:**  
+**Propósito:**
 Facilitar a los acreedores la publicación de propiedades en remate, asegurando una experiencia de usuario optimizada y validación estructurada.
 
 ---

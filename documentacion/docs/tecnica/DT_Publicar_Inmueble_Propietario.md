@@ -6,11 +6,11 @@ title: 'Publicar Inmueble Propietario'
 
 # Documento Técnico: Publicar Inmueble como Propietario
 
-## 1. Resumen del Flujo
-**Descripción del Flujo:**  
-El flujo permite a los usuarios con perfil de **propietario** publicar inmuebles para venta o alquiler, gestionando características, imágenes, ubicación y precios.
+## 1. Resumen
+**Descripción:**  
+Permite a los usuarios con perfil de **propietario** publicar inmuebles para venta o alquiler, gestionando características, imágenes, ubicación y precios.
 
-**Objetivo del Flujo:**  
+**Propósito:**
 Facilitar a los propietarios la publicación de inmuebles para venta o alquiler, ofreciendo un proceso estructurado y segmentado en pasos.
 
 ---
