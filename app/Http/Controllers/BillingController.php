@@ -122,6 +122,8 @@ class BillingController extends Controller
             ->send(new SubscriptionMail($pdfPath_fix, $request->plan_name));
             Log::info('Correo enviado.');
 
+            Log::info("Return 1");
+            Log::info($response['data']);
             return [
                 // "data" => $response,
                 'data' => $response['data'],
@@ -247,6 +249,11 @@ class BillingController extends Controller
     }
 
     public function generarFEBoleta($request, $data, $num_doc, $receipt_name) {
+
+        try{
+
+
+
         $correlative = $this->generateCorrelative($data->document_type_id);
         
         $util = FactUtil::getInstance();
@@ -356,15 +363,19 @@ class BillingController extends Controller
 
         $invoice->setObservacion($request->note);
 
+        Log::info("antes de get See");
         // Envío a SUNAT
         $see = $util->getSee();
+        Log::info("despues de get See");
         
+
         $result = $see->send($invoice);
         $util->writeXml($invoice, $see->getFactory()->getLastXml());
         
         // Verificamos que la conexión con SUNAT fue exitosa.
         if (!$result->isSuccess()) {
             // Mostrar error al conectarse a SUNAT.
+<<<<<<< HEAD
             Log::info("Antes de successRepso -- Generar Boleta");
             Log::info($result->getError()->getMessage());
             return [
@@ -374,6 +385,18 @@ class BillingController extends Controller
             /* return $this->successResponse([
                 'result'=>'error',
                 'message'=> $result->getError()->getMessage()]); */
+=======
+            Log::info($result->getError()->getMessage());
+
+            return response()->json([
+                "status" => "error",
+                "mensaje" => $result->getError()->getMessage(),
+                "http_code" => 400,
+            ], 200);
+            // return $this->successResponse([
+            //     'result'=>'error',
+            //     'message'=> $result->getError()->getMessage()]);
+>>>>>>> 0cc53762f5359c60a76f8a28729d9bcd5ad64114
             exit();
         }
 
@@ -440,6 +463,16 @@ class BillingController extends Controller
             ];
         } else {
             echo 'Excepción';
+        }
+
+
+        } catch (\Throwable $th) {
+            log::info($th->getMessage());
+            return response()->json([
+                'http_code' => 500,
+                'message' => 'Error al generar la factura',
+                'error' => $th->getMessage() // Mensaje de error detallado
+            ], 500); // Código de estado HTTP 500 (Internal Server Error)
         }
     }
     
@@ -564,6 +597,7 @@ class BillingController extends Controller
         // Verificamos que la conexión con SUNAT fue exitosa.
         if (!$result->isSuccess()) {
             // Mostrar error al conectarse a SUNAT.
+<<<<<<< HEAD
             Log::info("Antes de successRepso -- Generar Factura");
             Log::info($result->getError()->getMessage());
             
@@ -574,6 +608,18 @@ class BillingController extends Controller
             /* return $this->successResponse([
                 'result'=>'error',
                 'message'=> $result->getError()->getMessage()]); */
+=======
+            Log::info($result->getError()->getMessage());
+
+            return response()->json([
+                "status" => "error",
+                "mensaje" => $result->getError()->getMessage(),
+                "http_code" => 400,
+            ], 200);
+            // return $this->successResponse([
+            //     'result'=>'error',
+            //     'message'=> $result->getError()->getMessage()]);
+>>>>>>> 0cc53762f5359c60a76f8a28729d9bcd5ad64114
             exit();
         }
 
