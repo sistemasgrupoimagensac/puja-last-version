@@ -375,7 +375,6 @@ class BillingController extends Controller
         // Verificamos que la conexión con SUNAT fue exitosa.
         if (!$result->isSuccess()) {
             // Mostrar error al conectarse a SUNAT.
-<<<<<<< HEAD
             Log::info("Antes de successRepso -- Generar Boleta");
             Log::info($result->getError()->getMessage());
             return [
@@ -385,18 +384,6 @@ class BillingController extends Controller
             /* return $this->successResponse([
                 'result'=>'error',
                 'message'=> $result->getError()->getMessage()]); */
-=======
-            Log::info($result->getError()->getMessage());
-
-            return response()->json([
-                "status" => "error",
-                "mensaje" => $result->getError()->getMessage(),
-                "http_code" => 400,
-            ], 200);
-            // return $this->successResponse([
-            //     'result'=>'error',
-            //     'message'=> $result->getError()->getMessage()]);
->>>>>>> 0cc53762f5359c60a76f8a28729d9bcd5ad64114
             exit();
         }
 
@@ -597,7 +584,6 @@ class BillingController extends Controller
         // Verificamos que la conexión con SUNAT fue exitosa.
         if (!$result->isSuccess()) {
             // Mostrar error al conectarse a SUNAT.
-<<<<<<< HEAD
             Log::info("Antes de successRepso -- Generar Factura");
             Log::info($result->getError()->getMessage());
             
@@ -608,18 +594,6 @@ class BillingController extends Controller
             /* return $this->successResponse([
                 'result'=>'error',
                 'message'=> $result->getError()->getMessage()]); */
-=======
-            Log::info($result->getError()->getMessage());
-
-            return response()->json([
-                "status" => "error",
-                "mensaje" => $result->getError()->getMessage(),
-                "http_code" => 400,
-            ], 200);
-            // return $this->successResponse([
-            //     'result'=>'error',
-            //     'message'=> $result->getError()->getMessage()]);
->>>>>>> 0cc53762f5359c60a76f8a28729d9bcd5ad64114
             exit();
         }
 
