@@ -30,27 +30,33 @@ Antes de iniciar, asegúrate de cumplir con los siguientes requisitos:
 ### **Paso 1: Acceso al Módulo de Publicación**
 1. Inicia sesión en la plataforma con tu perfil **Acreedor**.
 2. En el menú principal, selecciona la opción **Publica Aquí**.
-![imagen1](../../static/img/manuales/crear-inmueble-acreedor/acreedor_1.webp)
+
+   ![imagen1](../../static/img/manuales/crear-inmueble-acreedor/acreedor_1.webp)
+
 3. Dentro del módulo de publicación, selecciona la opción **Rematar**.
 
 ---
 
 ### **Paso 2: Registro del Inmueble**
 1. Selecciona el **Tipo de Inmueble** y su **Subtipo** desde las listas desplegables.
-![imagen1](../../static/img/manuales/crear-inmueble-acreedor/acreedor_2.webp)
+
+   ![imagen1](../../static/img/manuales/crear-inmueble-acreedor/acreedor_2.webp)
+
 2. Completa los campos obligatorios de **ubicación**:
    - Departamento.
    - Provincia.
    - Distrito.
-![imagen1](../../static/img/manuales/crear-inmueble-acreedor/acreedor_3.webp)
+
+   ![imagen1](../../static/img/manuales/crear-inmueble-acreedor/acreedor_3.webp)
 
 3. Ingresa las características principales del inmueble:
    - **Superficie** en metros cuadrados (m²).
    - **Antigüedad** en años.
    - **Precio de Remate** (en soles o dólares).
    - **Valor de Tasación** (en soles o dólares).
-![imagen1](../../static/img/manuales/crear-inmueble-acreedor/acreedor_4.webp)
 
+   ![imagen](../../static/img/manuales/crear-inmueble-acreedor/acreedor_4.webp)
+   
 ---
 
 ### **Paso 3: Gestión de Imágenes del Inmueble**
@@ -58,30 +64,34 @@ Antes de iniciar, asegúrate de cumplir con los siguientes requisitos:
 2. Elige la **imagen principal** del inmueble desde tu computadora.
 3. Opcionalmente, selecciona **imágenes adicionales** para brindar mayor detalle.
 
-![imagen1](../../static/img/manuales/crear-inmueble-acreedor/acreedor_5.webp)
-
+   ![imagen1](../../static/img/manuales/crear-inmueble-acreedor/acreedor_5.webp)
 
 ---
 
 ### **Paso 4: Selección de Características Adicionales**
 1. Si aplica, selecciona las características adicionales disponibles.
-2. Estas opciones se encuentran en la sección **Adicionales**.
-![imagen1](../../static/img/manuales/crear-inmueble-acreedor/acreedor_6.webp)
+2. Estas opciones se encuentran en la sección **Adicionales
+   
+   ![imagen1](../../static/img/manuales/crear-inmueble-acreedor/acreedor_6.webp)
 
 ---
 
 ### **Paso 5: Publicación del Inmueble**
 1. Una vez completados todos los campos, haz clic en el botón **Guardar y Publicar**.
-![imagen1](../../static/img/manuales/crear-inmueble-acreedor/acreedor_7.webp)
+   
+   ![imagen1](../../static/img/manuales/crear-inmueble-acreedor/acreedor_7.webp)
+
 
 2. Si los datos son correctos, el sistema mostrará un mensaje de éxito y redirigirá a la página del inmueble pre-publicado (borrador).
-![imagen1](../../static/img/manuales/crear-inmueble-acreedor/acreedor_8.webp)
+   
+   ![imagen1](../../static/img/manuales/crear-inmueble-acreedor/acreedor_8.webp)
 
 ---
 
 ### **Paso 6: Adquisición de un Plan de Visibilidad**
 1. En la página del inmueble publicado, haz clic en el botón **+ Plan**.
-![imagen1](../../static/img/manuales/crear-inmueble-acreedor/acreedor_9.webp)
+   
+   ![imagen1](../../static/img/manuales/crear-inmueble-acreedor/acreedor_9.webp)
 
 2. Selecciona la **duración del remate**:
    - 7 días.
@@ -90,20 +100,24 @@ Antes de iniciar, asegúrate de cumplir con los siguientes requisitos:
    - **Estándar**.
    - **Top**.
    - **Premium**.
-![imagen1](../../static/img/manuales/crear-inmueble-acreedor/acreedor_10.webp)
+   
+   ![imagen1](../../static/img/manuales/crear-inmueble-acreedor/acreedor_10.webp)
 
 4. Realiza el **pago** a través de la pasarela de pago.
-![imagen1](../../static/img/manuales/crear-inmueble-acreedor/acreedor_11.webp)
+   
+   ![imagen1](../../static/img/manuales/crear-inmueble-acreedor/acreedor_11.webp)
 
 5. Al finalizar, el inmueble se destacará en la plataforma según el plan adquirido.
-![imagen1](../../static/img/manuales/crear-inmueble-acreedor/acreedor_13.webp)
+   
+   ![imagen1](../../static/img/manuales/crear-inmueble-acreedor/acreedor_13.webp)
 
 ---
 
 ## 4. Flujos Opcionales
 - **Editar el Inmueble:**  
   Después de publicar, puedes editar la descripción o características desde la sección de **Mis Publicaciones**.
-![imagen1](../../static/img/manuales/crear-inmueble-acreedor/acreedor_12.webp)
+   
+   ![imagen1](../../static/img/manuales/crear-inmueble-acreedor/acreedor_12.webp)
 
 - **Agregar Imágenes Adicionales:**  
   Puedes volver a la sección de imágenes y subir más archivos.

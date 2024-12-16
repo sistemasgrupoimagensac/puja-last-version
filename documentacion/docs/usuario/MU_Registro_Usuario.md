@@ -24,11 +24,11 @@ Antes de comenzar, asegúrate de cumplir con los siguientes requisitos:
 1. Ingresa al sitio web oficial: [https://www.pujainmobiliaria.com.pe](https://www.pujainmobiliaria.com.pe).
 2. Haz clic en el botón **Iniciar Sesión** ubicado en la esquina superior derecha.
 
-![Paso1](../../static/img/manuales/registro-usuario/registro_1.webp)
+  ![Paso1](../../static/img/manuales/registro-usuario/registro_1.webp)
 
 3. Selecciona la opción **Registrar**.
 
-![Paso2](../../static/img/manuales/registro-usuario/registro_2.webp)
+  ![Paso2](../../static/img/manuales/registro-usuario/registro_2.webp)
 
 4. Completa el formulario de registro con la siguiente información:
    - **Nombre Completo**: Ingresa tus nombres y apellidos.
@@ -40,11 +40,11 @@ Antes de comenzar, asegúrate de cumplir con los siguientes requisitos:
    - **Dirección**: Ingresa tu dirección completa.
    - **Aceptación de Términos y Políticas**: Marca las casillas de aceptación para continuar.
 
-![Paso3](../../static/img/manuales/registro-usuario/registro_3.webp)
+  ![Paso3](../../static/img/manuales/registro-usuario/registro_3.webp)
 
 5. Haz clic en el botón **Regístrate**.
 
-![Paso4](../../static/img/manuales/registro-usuario/registro_4.webp)
+  ![Paso4](../../static/img/manuales/registro-usuario/registro_4.webp)
 
 6. Recibirás un correo para confirmar la dirección de correo electrónico ingresada.
 
@@ -54,7 +54,7 @@ Antes de comenzar, asegúrate de cumplir con los siguientes requisitos:
 
   - Serás redirigido al sitio y tu cuenta estará activada.
 
-  ![Paso7](../../static/img/manuales/registro-usuario/registro_7.webp)
+    ![Paso7](../../static/img/manuales/registro-usuario/registro_7.webp)
 
 > **Nota:** Si no encuentras el correo en tu bandeja de entrada, revisa la carpeta de spam o correo no deseado.
 
@@ -87,14 +87,14 @@ Antes de comenzar, asegúrate de cumplir con los siguientes requisitos:
 ### **Error 2: "DNI inválido"**
 - Se verifica si el DNI ingresado es válido. En caso de no serlo:
 
-![Paso6](../../static/img/manuales/registro-usuario/registro_6.webp)
+  ![Paso6](../../static/img/manuales/registro-usuario/registro_6.webp)
 
 - Solución: Ingresa un DNI válido.
 
 ### **Error 3: "DNI no existe"**
 - Se verifica si el DNI ingresado existe. Caso contrario:
 
-![Paso5](../../static/img/manuales/registro-usuario/registro_5.webp)
+  ![Paso5](../../static/img/manuales/registro-usuario/registro_5.webp)
 
 - Solución: Ingresa un DNI válido.
 
