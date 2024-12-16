@@ -7,13 +7,13 @@ title: 'Publicar Post'
 # Manual de Usuario - Publicar Post
 
 ## 1. Introducción
-Este manual guía a los administradores a través del proceso de publicación de un **Post** en el panel administrador **Filament**. Los posts son entradas de blog utilizadas para compartir contenido en la plataforma **Puja Inmobiliaria**.
+Este manual guía a los administradores a través del proceso de publicación de un **Post** para el **Blog** en el panel administrador. Los posts son entradas de blog utilizadas para compartir contenido en la plataforma **Puja Inmobiliaria**.
 
 ---
 
 ## 2. Requisitos
 Antes de comenzar, asegúrate de cumplir con los siguientes requisitos:
-1. Tener acceso al panel administrador **Filament** con permisos de administrador.
+1. Tener acceso al panel administrador con permisos de administrador.
 2. Contar con:
    - Un título para el post.
    - El contenido o cuerpo del post.
@@ -160,6 +160,3 @@ Si tienes problemas durante la publicación de un post, contacta con nuestro equ
 - **Slug:** URL amigable generada a partir del título del post.
 - **Tiptap Editor:** Editor de texto WYSIWYG usado para gestionar el contenido de los posts.
 
----
-
-¡Con este manual, podrás gestionar y publicar posts en el panel administrador de **Filament** de manera efectiva!
