@@ -129,4 +129,4 @@ Si tienes problemas durante el registro, contacta con nuestro equipo de soporte:
 
 ---
 
-¡Con este manual, podrás completar tu registro en **Puja Inmobiliaria** de manera rápida y sencilla! Si tienes dudas adicionales, no dudes en consultar el soporte técnico.
+¡Con este manual, podrás completar tu registro en **Puja Inmobiliaria** de manera rápida y sencilla! Si tienes dudas adicionales, no dudes en consultar el soporte técnico
