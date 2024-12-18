@@ -29,16 +29,22 @@ Antes de publicar un inmueble, asegúrate de cumplir con los siguientes requisit
 ### **Paso 1: Acceso al módulo de publicación**
 1. Inicia sesión en la plataforma como usuario **propietario**.
 2. Dirígete al módulo **Publica Aquí** desde el menú principal.
-![opcion](../../static/img/manuales/crear-inmueble-propietario/anuncio_propietario_8.webp)
+
+   ![opcion](../../static/img/manuales/crear-inmueble-propietario/anuncio_propietario_8.webp)
+   
 3. Selecciona la opción **Venta** o **Alquiler**.
 4. Selecciona el subtipo de inmueble.
-![subtipo](../../static/img/manuales/crear-inmueble-propietario/anuncio_propietario_9.webp)
+
+   ![subtipo](../../static/img/manuales/crear-inmueble-propietario/anuncio_propietario_9.webp)
+   
 
 ### **Paso 2: Ingreso de la ubicación**
 1. Completa los campos relacionados con la ubicación del inmueble:
    - Dirección exacta.
    - Distrito, provincia y departamento.
-   ![mapa](../../static/img/manuales/crear-inmueble-propietario/anuncio_propietario_1.webp)
+   
+      ![mapa](../../static/img/manuales/crear-inmueble-propietario/anuncio_propietario_1.webp)
+      
 2. Verifica que la ubicación sea precisa utilizando el mapa interactivo.
 
 ### **Paso 3: Características generales**
@@ -46,25 +52,35 @@ Antes de publicar un inmueble, asegúrate de cumplir con los siguientes requisit
    - Número de dormitorios, baños y estacionamientos (opcionales).
    - Superficie en m².
    - Antigüedad del inmueble.
-   ![caracteristicas](../../static/img/manuales/crear-inmueble-propietario/anuncio_propietario_10.webp)
+   
+      ![caracteristicas](../../static/img/manuales/crear-inmueble-propietario/anuncio_propietario_10.webp)
+      
 
 2. Ingresa los precios del inmueble:
    - Precio en soles o dólares (al menos uno es obligatorio).
    - Indica si el precio es negociable (opcional).
 
-   ![caracteristicas](../../static/img/manuales/crear-inmueble-propietario/anuncio_propietario_11.png)
+   
+      ![caracteristicas](../../static/img/manuales/crear-inmueble-propietario/anuncio_propietario_11.png)
+      
 
 ### **Paso 4: Subida de imágenes**
 1. Sube la **imagen principal** del inmueble (obligatoria).
 2. Agrega imágenes adicionales (opcional) arrastrando los archivos o seleccionándolos desde tu dispositivo.
 3. Confirma la subida haciendo clic en el botón **Subir Imágenes**.
-![caracteristicas](../../static/img/manuales/crear-inmueble-propietario/anuncio_propietario_2.webp)
+
+   ![caracteristicas](../../static/img/manuales/crear-inmueble-propietario/anuncio_propietario_2.webp)
+   
 
 ### **Paso 5: Comodidades y adicionales**
 1. Selecciona las comodidades que ofrece el inmueble (piscina, ascensor, seguridad, etc.).
-![caracteristicas](../../static/img/manuales/crear-inmueble-propietario/anuncio_propietario_12.webp)
+
+   ![caracteristicas](../../static/img/manuales/crear-inmueble-propietario/anuncio_propietario_12.webp)
+   
 2. Marca los adicionales disponibles (depósito, amoblado, etc.).
-![caracteristicas](../../static/img/manuales/crear-inmueble-propietario/anuncio_propietario_4.webp)
+
+   ![caracteristicas](../../static/img/manuales/crear-inmueble-propietario/anuncio_propietario_4.webp)
+   
 
 ### **Paso 6: Publicación del inmueble**
 1. Haz clic en el botón **Guardar y Publicar**.
@@ -72,7 +88,9 @@ Antes de publicar un inmueble, asegúrate de cumplir con los siguientes requisit
 
 ### **Paso 7: Adquisición de un plan de visibilidad (opcional)**
 1. Desde la página del inmueble publicado, haz clic en el botón **+ Plan**.
-![caracteristicas](../../static/img/manuales/crear-inmueble-propietario/anuncio_propietario_5.webp)
+
+   ![caracteristicas](../../static/img/manuales/crear-inmueble-propietario/anuncio_propietario_5.webp)
+   
 
 2. Selecciona el plan que prefieras:
    - **Estándar**: Publicación básica sin destaque.
@@ -80,7 +98,9 @@ Antes de publicar un inmueble, asegúrate de cumplir con los siguientes requisit
    - **Premium**: Máxima visibilidad en los resultados de búsqueda.
 3. Realiza el pago siguiendo las instrucciones de la plataforma.
 4. El inmueble se actualizará automáticamente con el nivel de visibilidad adquirido.
-![caracteristicas](../../static/img/manuales/crear-inmueble-propietario/anuncio_propietario_6.webp)
+
+   ![caracteristicas](../../static/img/manuales/crear-inmueble-propietario/anuncio_propietario_6.webp)
+   
 
 ---
 

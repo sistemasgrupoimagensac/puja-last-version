@@ -50,6 +50,8 @@ const sidebars = {
         'usuario/MU_Registro_Usuario',
         'usuario/MU_Publicar_Inmueble_Propietario',
         'usuario/MU_Publicar_Proyecto_Inmobiliario',
+        'usuario/MU_Publicar_Inmueble_Acreedor',
+        'usuario/MU_Publicar_Post_Blog',
       ],
     },
   ],
