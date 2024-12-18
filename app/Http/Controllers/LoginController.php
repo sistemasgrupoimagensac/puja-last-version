@@ -56,7 +56,7 @@ class LoginController extends Controller
     {
         if ($request->session()->has('profile_type')) {
             $profile_type = $request->session()->get('profile_type');
-            $user_types = TipoUsuario::where('id', '>', 1)->get();
+            $user_types = TipoUsuario::where('id', '>', 1)->where('id', '<', 5)->get();
         } else {
             return view('publicatuinmueble');
         }
