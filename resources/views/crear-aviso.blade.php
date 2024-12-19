@@ -1159,6 +1159,19 @@
                                 document.getElementById('error-principal-image-message').innerText = error.message_error;
                                 triggerToastPrincipalImageError()
 
+                            } else if (step === 4 && error.errors) {                                
+                                
+                                for (let key in error.errors) {
+                                    if (error.errors[key].length > 0) {
+                                        const errorMessageElement = document.getElementById('error-principal-image-message');
+                                        if (errorMessageElement) {
+                                            errorMessageElement.innerText = error.errors[key][0];
+                                        }
+                                        triggerToastPrincipalImageError();
+                                        break;
+                                    }
+                                }
+
                             } else {
                                 console.error('Error: ', error)
                             }

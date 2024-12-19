@@ -422,7 +422,7 @@
                                         Teléfono del Contacto
                                         <span class="h6">(opcional)</span>
                                     </label>
-                                    <input type="phone" id="telefono_contacto_remate" x-model="telefono_contacto_remate" class="form-control phone">
+                                    <input type="tel" id="telefono_contacto_remate" x-model="telefono_contacto_remate" class="form-control phone">
                                 </div>
 
                                 <div class="form-group w-100">
@@ -432,7 +432,7 @@
                                     </label>
                                     <div class="input-group">
                                         <span class="input-group-text">@</span>
-                                        <input type="email" class="form-control" id="correo_contacto_remate" x-model="correo_contacto_remate">
+                                        <input type="email" class="form-control" id="correo_contacto_remate" x-model="correo_contacto_remate" :disabled="!perfil_acreedor">
                                     </div>
                                 </div>
 
