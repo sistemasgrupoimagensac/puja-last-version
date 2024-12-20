@@ -210,11 +210,11 @@ formFilterInmueble.addEventListener('submit', function(event) {
 
     // WHERE Antiguedad
     const antiguedad = parseInt(document.getElementById('antiguedad')?.value);
-    const whereAntiguedad = typeof antiguedad === 'number' && !isNaN(antiguedad) ? whereAntiguedad = `&antiguedad=${antiguedad}` : ""
+    const whereAntiguedad = typeof antiguedad === 'number' && !isNaN(antiguedad) ? `&antiguedad=${antiguedad}` : ""
 
     // WHERE Estacionamientos
     const cantEstacionamientos = parseInt(document.querySelector('input[name="estacionamientos"]:checked')?.value);
-    const whereEstacionamientos = cantEstacionamientos > 0 ? whereEstacionamientos = `&estacionamientos=${cantEstacionamientos}` : ""
+    const whereEstacionamientos = cantEstacionamientos > 0 ? `&estacionamientos=${cantEstacionamientos}` : ""
 
     // WHERE caracteristicas - comodidades extras
     const valoresSeleccionados = []

@@ -5,13 +5,13 @@
 @endsection
 
 @push('styles')
-  	@vite(['resources/sass/pages/register.scss'])
+  	@vite(['resources/sass/pages/register.scss', 'resources/sass/components/flipping.scss'])
 @endpush
 
 @section('content')
 
 	<div id="loader-overlay">
-		<img src="{{ asset('images/loader.svg') }}" alt="Cargando...">
+		<div class="flipping"></div>
 	</div>
 
 	<section>
@@ -185,19 +185,19 @@
 					// Si la consulta es exitosa, procede a registrar al usuario
 					consultarFormulario();
 				} else {
+					$loaderOverlay.style.display = 'none';
+					document.body.style.pointerEvents = 'auto';
 					const errors = {
-							numero_de_documento: [data.message],
+						numero_de_documento: [data.message],
 					};
 					handleErrors(errors);
 				}
 			})
 			.catch(error => {
 				console.error('Error:', error.message);
-			})
-			.finally(() => {
 				$loaderOverlay.style.display = 'none';
 				document.body.style.pointerEvents = 'auto';
-			});
+			})
 		}
 
 		function consultarFormulario() {

@@ -5,7 +5,7 @@
 @endsection
 
 @push('styles')
-  @vite(['resources/sass/pages/perfil.scss'])
+  @vite(['resources/sass/pages/perfil.scss', 'resources/sass/components/flipping.scss'])
 @endpush
 
 @section('header')
@@ -13,6 +13,10 @@
 @endsection
 
 @section('content')
+
+<div id="loader-overlay">
+    <div class="flipping"></div>
+</div>
 
 <main class="main-misavisos custom-container my-5">
     <div class="container-fluid p-0 d-flex">
@@ -112,6 +116,7 @@
 </main>
 
 <script>
+    const $loaderOverlay = document.getElementById('loader-overlay');
 
     document.getElementById('submit-editProfile').addEventListener('click', (event) => {
       event.preventDefault();
@@ -120,6 +125,9 @@
     });
   
     function submitForm() {
+        // spinner
+        $loaderOverlay.style.display = 'flex';
+        document.body.style.pointerEvents = 'none';
         let form = document.getElementById('form-editProfile');
   
         let bodyTipoDoc = ''
@@ -160,6 +168,10 @@
         .catch(error => {
             console.error('Error:', error.message)
         })
+		.finally(() => {
+			$loaderOverlay.style.display = 'none';
+			document.body.style.pointerEvents = 'auto';
+		});
     }
   
     function consultarFormulario() {

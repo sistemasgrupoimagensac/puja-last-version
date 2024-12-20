@@ -67,6 +67,9 @@
 
 
 	function submitForm() {
+        // spinner
+        $loaderOverlay.style.display = 'flex';
+        document.body.style.pointerEvents = 'none';
 		let form = document.getElementById('formCompletaRegistro');
 
 		let bodyTipoDoc = ''
@@ -106,6 +109,10 @@
 		.catch(error => {
 			console.error('Error:', error.message)
 		})
+		.finally(() => {
+			$loaderOverlay.style.display = 'none';
+			document.body.style.pointerEvents = 'auto';
+		});
 	}
 
 	function consultarFormulario() {
