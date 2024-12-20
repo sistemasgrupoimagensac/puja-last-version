@@ -62,7 +62,6 @@
 
             <h1 class="terminos-titulo">Términos y Condiciones Generales de Contratación</h1>
 
-
             <p>
                 Esta sección establece los Términos y Condiciones Generales de Contratación (en adelante, las "Condiciones")
                 para los servicios proporcionados por <strong>“PUJA INMOBILIARIA”</strong> (en adelante, los “Servicios”), a
@@ -769,9 +768,6 @@
                 Estas Condiciones Generales de Contratación fueron actualizadas por última vez el 17
                 de diciembre de 2024.
             </p>
-
-
-
 
         </div>
     </div>
