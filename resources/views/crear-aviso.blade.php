@@ -306,8 +306,8 @@
                                             id="base_remate" 
                                             x-model="base_remate" 
                                             class="form-control" 
-                                            @input="formatAmount('base_remate')" 
-                                            @blur="formatAmount('base_remate', true)" 
+                                            {{-- @input="formatAmount('base_remate')"  --}}
+                                            {{-- @blur="formatAmount('base_remate', true)"  --}}
                                             :required="isVisible">
                                     </div>
                                 </div>
@@ -321,8 +321,8 @@
                                             id="valor_tasacion" 
                                             x-model="valor_tasacion" 
                                             class="form-control" 
-                                            @input="formatAmount('valor_tasacion')" 
-                                            @blur="formatAmount('valor_tasacion', true)" 
+                                            {{-- @input="formatAmount('valor_tasacion')"  --}}
+                                            {{-- @blur="formatAmount('valor_tasacion', true)"  --}}
                                             :required="isVisible"
                                         >
                                     </div>
