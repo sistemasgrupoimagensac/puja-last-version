@@ -213,14 +213,14 @@
                                 <div class="form-group w-100">
                                     <label class="text-secondary" for="area_construida">Área Construida</label>
                                     <div class="input-group mb-3">
-                                        <input type="number" id="area_construida" x-model="area_construida" min="0" max="999999" class="form-control" required>
+                                        <input type="text" id="area_construida" x-model="area_construida" min="0" max="999999" class="form-control" required>
                                         <span class="input-group-text">m<sup>2</sup></span>
                                     </div>
                                 </div>
                                 <div class="form-group w-100">
                                     <label class="text-secondary" for="area_total">Área Total</label>
                                     <div class="input-group mb-3">
-                                        <input type="number" id="area_total" x-model="area_total" min="0" max="999999" class="form-control" required>
+                                        <input type="text" id="area_total" x-model="area_total" min="0" max="999999" class="form-control" required>
                                         <span class="input-group-text">m<sup>2</sup></span>
                                     </div>
                                 </div>
