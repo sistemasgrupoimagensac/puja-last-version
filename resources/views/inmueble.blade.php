@@ -110,8 +110,20 @@
                         @if($inmueble_en_remate)
                             <div class="card m-0 my-4 text-bg-dark shadow p-3">
                                 <p class="h3">
-                                    <strong class="fw-bold text-primary">¡Gran oportunidad!</strong> Adquiere esta propiedad por <strong class="text-primary fw-bolder fs-2">USD {{ number_format($aviso->inmueble->remate_precio_base()) }}</strong> de precio base, 
-                                    muy por debajo de su valor tasado en <strong>USD {{ number_format($aviso->inmueble->remate_valor_tasacion()) }}</strong>
+                                    <strong class="fw-bold text-primary">
+                                        ¡Gran oportunidad! 
+                                    </strong> 
+                                    Adquiere esta propiedad por 
+                                    <strong class="text-primary fw-bolder fs-2">
+                                        USD {{ $aviso->inmueble->remate_precio_base() }}
+                                        {{-- USD {{ number_format($aviso->inmueble->remate_precio_base()) }} --}}
+                                    </strong>
+                                     de precio base, 
+                                    muy por debajo de su valor tasado en 
+                                    <strong>
+                                        USD {{ $aviso->inmueble->remate_valor_tasacion() }}
+                                        {{-- USD {{ number_format($aviso->inmueble->remate_valor_tasacion()) }} --}}
+                                    </strong>
                                 </p>
                             </div>
                         @endif
@@ -280,7 +292,8 @@
                                     <div class="d-flex">
                                         <i class="fa-solid fa-ruler-combined fa-lg icon-orange p-1"></i>
                                         <h5 class="text-secondary m-1 fw-bold"> 
-                                            <span>{{ number_format($aviso->inmueble->area(), 0, '', ','); }}</span>
+                                            <span>{{ $aviso->inmueble->area(); }}</span>
+                                            {{-- <span>{{ number_format($aviso->inmueble->area(), 0, '', ','); }}</span> --}}
                                             <span>m</span>
                                             <sup>2</sup>
                                         </h5>
@@ -295,7 +308,8 @@
                                     <div class="d-flex">
                                         <i class="fa-solid fa-ruler-combined fa-lg icon-orange p-1"></i>
                                         <h5 class="text-secondary m-1 fw-bold"> 
-                                            <span>{{ number_format($aviso->inmueble->areaConstruida(), 0, '', ','); }}</span>
+                                            <span>{{ $aviso->inmueble->areaConstruida(); }}</span>
+                                            {{-- <span>{{ number_format($aviso->inmueble->areaConstruida(), 0, '', ','); }}</span> --}}
                                             <span>m</span>
                                             <sup>2</sup>
                                         </h5>
