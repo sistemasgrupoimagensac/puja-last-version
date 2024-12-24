@@ -316,7 +316,7 @@
 
     var rs = window.location.hostname;
     switch (rs) {
-        case 'pujainmobiliaria.com.pe':
+        case '127.0.0.1':
             sl.innerHTML = `<img class="logo" src="./assets/img/prestacapital.png" alt="">`;
             favicon.setAttribute('href', './assets/img/favicon_prestacapital.png');
             producto = 0;
@@ -346,9 +346,9 @@
             favicon.setAttribute('href', './assets/img/favicon_soymype.png');
             producto = 4;
             break;
-        case 'reclamos.grupoimagensac.com.pe':
-            sl.innerHTML = `<img class="logo" src="./assets/img/soymype.png" alt="">`;
-            favicon.setAttribute('href', './assets/img/favicon_soymype.png');
+        case 'test.com':
+            // sl.innerHTML = `<img class="logo" src="./assets/img/soymype.png" alt="">`;
+            // favicon.setAttribute('href', './assets/img/favicon_soymype.png');
             producto = 9;
             break;
         default:

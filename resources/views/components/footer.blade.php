@@ -44,6 +44,9 @@
           <a class="text-decoration-none" href="https://www.instagram.com/pujainmobiliaria/" target="_blank">
             <i class="fa-brands fa-instagram text-center icon m-auto p-2 icon-white"></i>
           </a>
+          <a class="text-decoration-none" href="https://www.tiktok.com/@puja.inmobiliaria" target="_blank">
+            <i class="fa-brands fa-tiktok text-center icon m-auto p-2 icon-white"></i>
+          </a>
       </div>
       <div class="d-flex flex-column">
         <a class="text-decoration-none" target="_blank" href="{{ route('libro_reclamaciones') }}">
@@ -57,7 +60,7 @@
   <div class="d-flex justify-content-center">
     <small class="m-0 ms-4 position-absolute">
       &#169 <span id="currentYear"></span>
-      <a class="footer-link-puja" href="https://grupoimagensac.com.pe/" target="blank"> Grupo Inmobiliario Imagen SAC </a>
+      <a class="footer-link-puja" href="https://grupoimagensac.com.pe/" target="blank"> Corporación Grupo Imagen SAC </a>
       <span><img src="{{ asset('images/svg/peru.svg') }}" alt="bandera Perú" style="width: 20px;"></span>
     </small>
   </div>
