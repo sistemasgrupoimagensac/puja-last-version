@@ -116,13 +116,13 @@
                                     Adquiere esta propiedad por 
                                     <strong class="text-primary fw-bolder fs-2">
                                         {{-- USD {{ $aviso->inmueble->remate_precio_base() }} --}}
-                                        USD {{ number_format($aviso->inmueble->remate_precio_base()) }}
+                                        USD {{ number_format($aviso->inmueble->remate_precio_base(), 2, '.', ',') }}
                                     </strong>
                                      de precio base, 
                                     muy por debajo de su valor tasado en 
                                     <strong>
                                         {{-- USD {{ $aviso->inmueble->remate_valor_tasacion() }} --}}
-                                        USD {{ number_format($aviso->inmueble->remate_valor_tasacion()) }}
+                                        USD {{ number_format($aviso->inmueble->remate_valor_tasacion(), 2, '.', ',') }}
                                     </strong>
                                 </p>
                             </div>
@@ -292,8 +292,12 @@
                                     <div class="d-flex">
                                         <i class="fa-solid fa-ruler-combined fa-lg icon-orange p-1"></i>
                                         <h5 class="text-secondary m-1 fw-bold"> 
-                                            <span>{{ $aviso->inmueble->area(); }}</span>
-                                            {{-- <span>{{ number_format($aviso->inmueble->area(), 0, '', ','); }}</span> --}}
+                                            {{-- <span>{{ $aviso->inmueble->area(); }}</span> --}}
+                                            @if ( $aviso->inmueble->remate_precio_base() )
+                                                <span>{{ number_format($aviso->inmueble->area(), 2, '.', ','); }}</span>
+                                            @else
+                                                <span>{{ number_format($aviso->inmueble->area(), 0, '', ','); }}</span>
+                                            @endif
                                             <span>m</span>
                                             <sup>2</sup>
                                         </h5>
@@ -308,8 +312,13 @@
                                     <div class="d-flex">
                                         <i class="fa-solid fa-ruler-combined fa-lg icon-orange p-1"></i>
                                         <h5 class="text-secondary m-1 fw-bold"> 
-                                            <span>{{ $aviso->inmueble->areaConstruida(); }}</span>
+                                            {{-- <span>{{ $aviso->inmueble->areaConstruida(); }}</span> --}}
                                             {{-- <span>{{ number_format($aviso->inmueble->areaConstruida(), 0, '', ','); }}</span> --}}
+                                            @if ( $aviso->inmueble->remate_precio_base() )
+                                                <span>{{ number_format($aviso->inmueble->areaConstruida(), 2, '.', ','); }}</span>
+                                            @else
+                                                <span>{{ number_format($aviso->inmueble->areaConstruida(), 0, '', ','); }}</span>
+                                            @endif
                                             <span>m</span>
                                             <sup>2</sup>
                                         </h5>
