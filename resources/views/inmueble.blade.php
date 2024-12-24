@@ -115,13 +115,13 @@
                                     </strong> 
                                     Adquiere esta propiedad por 
                                     <strong class="text-primary fw-bolder fs-2">
-                                        USD {{ $aviso->inmueble->remate_precio_base() }}
+                                        {{-- USD {{ $aviso->inmueble->remate_precio_base() }} --}}
                                         USD {{ number_format($aviso->inmueble->remate_precio_base()) }}
                                     </strong>
                                      de precio base, 
                                     muy por debajo de su valor tasado en 
                                     <strong>
-                                        USD {{ $aviso->inmueble->remate_valor_tasacion() }}
+                                        {{-- USD {{ $aviso->inmueble->remate_valor_tasacion() }} --}}
                                         USD {{ number_format($aviso->inmueble->remate_valor_tasacion()) }}
                                     </strong>
                                 </p>
