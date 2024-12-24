@@ -316,7 +316,7 @@
 
     var rs = window.location.hostname;
     switch (rs) {
-        case '127.0.0.1':
+        case 'pujainmobiliaria.com.pe':
             sl.innerHTML = `<img class="logo" src="./assets/img/prestacapital.png" alt="">`;
             favicon.setAttribute('href', './assets/img/favicon_prestacapital.png');
             producto = 0;
