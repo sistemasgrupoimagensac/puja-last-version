@@ -225,7 +225,7 @@
         var date_happened = document.getElementById('date_happened');
         date_happened.setAttribute('max', currentDate);
     
-        var producto;
+        var producto = 0;
 
         var form = document.getElementById('form');
 
@@ -324,7 +324,7 @@
 
     });
 
-    var rs = window.location.hostname;
+    /* var rs = window.location.hostname;
     switch (rs) {
         case 'pujainmobiliaria.com.pe':
             // sl.innerHTML = `<img class="logo" src="./assets/img/prestacapital.png" alt="">`;
@@ -363,7 +363,8 @@
             break;
         default:
             break;
-    }
+    } */
+
     console.log('libro.js is loaded'); // Debes ver esto en la consola
     function validate_document() {
         console.log('validate_document is called');
