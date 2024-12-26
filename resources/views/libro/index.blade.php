@@ -197,7 +197,7 @@
   <x-footer></x-footer>
 @endsection
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.js" integrity="sha512-NXopZjApK1IRgeFWl6aECo0idl7A+EEejb8ur0O3nAVt15njX9Gvvk+ArwgHfbdvJTCCGC5wXmsOUXX+ZZzDQw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.js" integrity="sha512-NXopZjApK1IRgeFWl6aECo0idl7A+EEejb8ur0O3nAVt15njX9Gvvk+ArwgHfbdvJTCCGC5wXmsOUXX+ZZzDQw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
@@ -210,8 +210,18 @@
         favicon.setAttribute('type', 'image/png');
         sf.appendChild(favicon);
         document.getElementById('id_number').disabled = true
-        var date = moment();
+
+        /* var date = moment();
         var currentDate = date.format('YYYY-MM-DD');
+        var date_happened = document.getElementById('date_happened');
+        date_happened.setAttribute('max', currentDate); */
+
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = ('0' + (date.getMonth() + 1)).slice(-2); // Los meses en JS son 0-11
+        var day = ('0' + date.getDate()).slice(-2);
+        var currentDate = `${year}-${month}-${day}`;
+
         var date_happened = document.getElementById('date_happened');
         date_happened.setAttribute('max', currentDate);
     
