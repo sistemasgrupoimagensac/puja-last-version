@@ -78,7 +78,8 @@
 
                 <div class="d-flex justify-content-center w-100">
                     <button type="button" class="btn button-orange fs-3 rounded-3 m-2 m-lg-2 mx-lg-5 w-100" id="pay-button">Pagar S/ 
-                        <x-miles-coma amount="prices[tipoPlan]"></x-miles-coma>
+                        {{-- <x-miles-coma amount="prices[tipoPlan]"></x-miles-coma> --}}
+                        <span x-text="formatPrice(prices)"></span>
                     </button>
                 </div>
                 <small class="text-body-tertiary py-1 px-3 py-lg-3 px-lg-5">Al hacer clic en Pagar, está aceptando nuestros 
@@ -222,14 +223,16 @@
 
                 const categoriaPlan = this.categoriaPlan
                 const tipoPlan = this.tipoPlan
-                const numAvisos = categoriaPlan === 'top' ? this.numAvisosTop : this.numAvisos
-                const periodoPlan = categoriaPlan === 'top' ? this.periodoPlanTop : this.periodoPlan
-                const price = this.prices[tipoPlan]
+                const numAvisos = this.numAvisos
+                const periodoPlan = this.periodoPlan
+                const price = this.prices
+                const plan_id = this.planId
 
                 const formPost = {
                     "source_id": source_id,
                     "method": "card",
                     "amount": price,
+                    "plan_id": plan_id,
                     "currency": 'PEN',
                     "description": `Plan adquirido: ${tipoPlan} - Vigencia: ${periodoPlan} días - Avisos: ${numAvisos}.`,
                     "device_session_id": this.deviceSessionId,
@@ -255,6 +258,7 @@
             processPayment(formPost) {
                 let transactionData = {
                     amount: formPost.amount,
+                    plan_id: formPost.plan_id,
                     currency: formPost.currency,
                     customer_name: formPost.customer.name,
                     customer_email: formPost.customer.email,
@@ -339,7 +343,7 @@
 
             contratarPlan(price, description) {
                     const dataToSend = {
-                        plan_id: idPlan,
+                        plan_id: this.planId,
                         tipo_aviso: tipoDeAviso,
                         aviso_id: {{ $avisoId }},
                     }
@@ -377,7 +381,7 @@
                                 quantity: 1,
                                 product: 
                                     {
-                                        id: idPlan,
+                                        id: this.planId,
                                         name: description,
                                         type: 1
                                     }

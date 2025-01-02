@@ -13,6 +13,7 @@ class TransactionsController extends Controller
 
         Transaccion::create([
             'amount' => $data['amount'] ?? null,
+            'plan_id' => $data['plan_id'] ?? null,
             'currency' => $data['currency'] ?? null,
             'customer_name' => $data['customer_name'] ?? null,
             'customer_email' => $data['customer_email'] ?? null,

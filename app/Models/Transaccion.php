@@ -15,6 +15,7 @@ class Transaccion extends Model
     // Campos que pueden ser asignados masivamente
     protected $fillable = [
         'amount',
+        'plan_id',
         'currency',
         'customer_name',
         'customer_email',

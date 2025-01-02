@@ -684,4 +684,112 @@ class PlanController extends Controller
     {
         
     }
+
+    public function getPlans(Request $request)
+    {
+        try {
+            $request->validate([
+                'package' => 'required|string',
+                'total_ads' => 'required|integer|min:1',
+                'duration_in_days' => 'required|integer|min:1',
+            ], [
+                'package.required' => 'El campo paquete es obligatorio.',
+                'package.string' => 'El campo paquete debe ser una cadena de texto.',
+                'total_ads.required' => 'El campo total de anuncios es obligatorio.',
+                'total_ads.integer' => 'El total de anuncios debe ser un número entero.',
+                'total_ads.min' => 'El total de anuncios debe ser al menos 1.',
+                'duration_in_days.required' => 'El campo duración en días es obligatorio.',
+                'duration_in_days.integer' => 'La duración en días debe ser un número entero.',
+                'duration_in_days.min' => 'La duración en días debe ser al menos 1.',
+            ]);
+
+            $packageMapping = [
+                'unaviso' => 1,
+                'masavisos' => 2,
+            ];
+
+            $package = strtolower($request->input('package'));
+            $package_id = $packageMapping[$package] ?? null;
+            if (is_null($package_id)) {
+                return response()->json([
+                    'http_code' => 400,
+                    'status' => 'Error',
+                    'message' => 'Paquete no válido.',
+                ]);
+            }
+            $duration_in_days = $request->input('duration_in_days');
+            $total_ads = $request->input('total_ads');
+
+            $plans = Plan::where([
+                'package_id' => $package_id,
+                'total_ads' => $total_ads,
+                'duration_in_days' => $duration_in_days,
+            ])
+                ->orderBy('price', 'desc')
+            ->get();
+
+            if ( !$plans ) {
+                return response()->json([
+                    'http_code' => 400,
+                    'status' => 'Error',
+                    'message' => 'El plan no existe.',
+                ]);
+            }
+
+            return response()->json([
+                'http_code' => 200,
+                'status' => 'Success',
+                'message' => 'Se retorna los planes.',
+                'data' => $plans,
+            ]);
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                'http_code' => 404,
+                'status' => 'Error',
+                'message' => 'Error al mostrar el plan.',
+                'error' => $th->getMessage()
+            ], 404);
+        }
+
+    }
+
+    public function getPlan(Request $request)
+    {
+        try {
+            $request->validate([
+                'plan_id' => 'required|integer',
+            ], [
+                'plan_id.required' => 'El campo plan id es obligatorio.',
+                'plan_id.integer' => 'El plan id debe ser un número entero.',
+            ]);
+
+            $plan = Plan::find($request->plan_id);
+
+            if ( !$plan ) {
+                return response()->json([
+                    'http_code' => 400,
+                    'status' => 'Error',
+                    'message' => 'El plan no existe.',
+                ]);
+            }
+
+            return response()->json([
+                'http_code' => 200,
+                'status' => 'Success',
+                'message' => 'Se retorna el plan.',
+                'data' => $plan,
+            ]);
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                'http_code' => 404,
+                'status' => 'Error',
+                'message' => 'Error al mostrar el plan.',
+                'error' => $th->getMessage()
+            ], 404);
+        }
+
+    }
+    
 }

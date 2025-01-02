@@ -5,7 +5,7 @@
 @endsection
 
 @push('styles')
-  	@vite(['resources/sass/pages/planes.scss'])
+  	@vite(['resources/sass/pages/planes.scss', 'resources/sass/components/card-plan-propietario.scss', 'resources/sass/components/flipping.scss'])
 @endpush
 
 @section('header')
@@ -14,7 +14,11 @@
 
 @section('content')
 
-	<div class="container my-5" x-data="pricingData()">
+	<div id="loader-overlay">
+		<div class="flipping"></div>
+	</div>
+
+	<div class="container my-5" x-data="pricingData()" x-init="init()">
 		<div class="text-center">
 			<h1 class="text-center fw-bold h2">Publica tu inmueble</h1>
 			<h3 class=" text-secondary h5">Selecciona el plan con el que quieres publicar</h3>
@@ -89,7 +93,7 @@
 					<div>
 						<div role="group" class="d-flex flex-column align-items-center flex-md-row gap-4 mt-4 w-100">
 							<!-- plan top plus -->
-							<div>
+							{{-- <div>
 								<input type="radio" class="btn-check" x-model="tipoPlan" id="topPlus" value="topPlus" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
 								<x-card-plan-propietario
 									title="Premium"
@@ -128,7 +132,77 @@
 									className="btn-success border-success"
 									avisos="avisos.estandar"
 								/>
-							</div>
+							</div> --}}
+
+
+
+							<template x-for="plan in planes" :key="plan.id">
+								<div>
+									<input 
+										type="radio" 
+										class="btn-check" 
+										x-model="planId" 
+										:id="`plan-${plan.id}`" 
+										:value="plan.id"
+										autocomplete="off" 
+										data-bs-toggle="modal" 
+										data-bs-target="#modalPago"
+									>
+
+									<label
+										class="card btn btn-lg p-0 card-plan-propietario-label rounded-4"
+										:class="plan.class_name"
+										:for="`plan-${plan.id}`"
+									>
+										<div>
+											<div class="card-body p-0">
+												<h3 class="card-title fw-bolder mt-3" x-text="plan.name"></h3>
+												<h4 class="card-subtitle mb-2">
+													S/ <span x-text="formatPrice(plan.price)"></span> por 
+													<span x-text="plan.duration_in_days"></span> días
+												</h4>
+
+												<template x-if="plan.duration_in_days == 60">
+													<h6 class="fw-bolder">ahorras 15%</h6>
+												</template>
+
+												<template x-if="plan.duration_in_days == 90">
+													<h6 class="fw-bolder">ahorras 25%</h6>
+												</template>
+										
+												<hr>
+												<div class="card-description-plan d-flex justify-content-start px-4">
+													<ul class="list-unstyled text-start h6 mb-4">
+														<li>Publicación de Aviso <span x-text="plan.tipoAviso"></span></li>
+														<li><span x-text="plan.duration_in_days"></span> días de publicación</li>
+								
+														<!-- Condicionales basados en el nombre del plan -->
+														<template x-if="plan.name === 'Plan Premium'">
+															<li>Genera interesados</li>
+															<li>Alta visibilidad</li>
+															<li>Exposición Óptima</li>
+														</template>
+														<template x-if="plan.name === 'Plan Top'">
+															<li>Genera interesados</li>
+															<li>Alta visibilidad</li>
+														</template>
+														<template x-if="plan.name === 'Plan Estandar'">
+															<li>Visibilidad Convencional</li>
+														</template>
+													</ul>
+												</div>
+											</div>
+											<div class="card-footer fw-bold fs-5">
+												¡Lo quiero!
+											</div>
+										</div>
+									</label>
+
+								</div>
+							</template>
+
+
+
 						</div>
 					</div>
 				</fieldset>
@@ -143,21 +217,22 @@
 						userEmail="{{ $user->email }}"
 						userPhone="{{ $user->celular }}"
 						userTypeId="{{ $user->tipo_usuario_id }}"
+						userApe="Herrera"
 					>
 						<x-card-plan-propietario-checkout
-							showPlan="topPlus"
+							showPlan="Plan Premium"
 							title="Plan Premium"
 							bgColor="text-bg-dark"
 						/>
 
 						<x-card-plan-propietario-checkout
-							showPlan="top"
+							showPlan="Plan Top"
 							title="Plan Top"
 							bgColor="text-bg-warning"
 						/> 
 
 						<x-card-plan-propietario-checkout
-							showPlan="estandar"
+							showPlan="Plan Estandar"
 							title="Plan Estandar"
 							bgColor="text-bg-success"
 						/>
@@ -171,6 +246,7 @@
 
 	<script>
 
+		const $loaderOverlay = document.getElementById('loader-overlay');
 		let idPlan = 3;
 		let tipoDeAviso = 3;
 
@@ -178,21 +254,22 @@
 			return {
 				// campos formulario:
 				aviso_id: {{$aviso_id}},
-				categoriaPlan: 'unaviso',
+				/* categoriaPlan: 'unaviso',
 				tipoPlan: 'topPlus',
 
 				// plan unaviso
 				numAvisos: 1,
-				periodoPlan: 30,
+				periodoPlan: 30, */
 
-				prices: {
+				/* prices: {
 					topPlus: 239,
 					top: 129,
 					estandar: 79,
-				},
+				}, */
+				prices: 0,
 
 				priceTable: {
-					'1': { '30': [239, 129, 79], '60': [406, 219, 134], '90': [537, 290, 177] },
+					'1': { '30': [55555, 123, 79], '60': [406, 219, 134], '90': [537, 290, 177] },
 					'3': { '30': [540, 290, 177], '60': [915, 495, 302], '90': [1210, 650, 399] },
 					'5': { '30': [715, 505, 276], '60': [1220, 850, 470], '90': [1610, 1225, 622] },
 				},
@@ -201,6 +278,105 @@
 					'1': { '30': [1, 2, 3], '60': [4, 5, 6], '90': [7, 8, 9] },
 					'3': { '30': [10, 11, 12], '60': [13, 14, 15], '90': [16, 17, 18] },
 					'5': { '30': [19, 20, 21], '60': [22, 23, 24], '90': [25, 26, 27] },
+				},
+
+
+				planes: [],
+				planId: 1,
+				tipoPlan: "Plan Estandar",
+				categoriaPlan: 'unaviso',
+				tipoDeAviso: 0,
+				numAvisos: 1,
+				periodoPlan: 30,
+				loading: false,
+				error: '',
+
+
+				fetchPlanes() {
+					$loaderOverlay.style.display = 'flex';
+					document.body.style.pointerEvents = 'none';
+					console.log("Entro a esta funcion")
+
+					const datos = {
+						package: this.categoriaPlan,
+						total_ads: this.numAvisos,
+						duration_in_days: this.periodoPlan,
+					}
+
+					this.loading = true;
+					this.error = '';
+
+					fetch('{{ route("get_planes") }}', {
+						method: 'POST',
+						headers: {
+							'Accept': 'application/json',
+							'Content-Type': 'application/json',
+							'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+						},
+						body: JSON.stringify(datos)
+					})
+					.then( response => response.json() )
+					.then( data => {
+
+						this.loading = false;
+						console.log("data: ", data)
+						if(data.status === 'Success') {
+							this.planes = data.data;
+							console.log("Planes: ", this.planes)
+							console.log("Planes: ", this.planes[0].name)
+						} else {
+							this.error = data.message || 'Error al obtener los planes.';
+						}
+						
+					})
+					.catch(error => {
+						this.loading = false;
+						this.error = 'Error: ' + error.message;
+						console.error('Error:', error.message);
+					})
+					.finally(() => {
+						$loaderOverlay.style.display = 'none';
+						document.body.style.pointerEvents = 'auto';
+					});
+
+
+				},
+
+				getPlan() {
+					$loaderOverlay.style.display = 'flex';
+					document.body.style.pointerEvents = 'none';
+					console.log("Obteniendo información del plan seleccionado...");
+
+					const datos = {
+						plan_id: this.planId,
+					}
+
+					fetch('{{ route("get_plan") }}', {
+						method: 'POST',
+						headers: {
+							'Accept': 'application/json',
+							'Content-Type': 'application/json',
+							'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+						},
+						body: JSON.stringify(datos)
+					})
+					.then( response => response.json() )
+					.then( data => {
+						
+						console.log(' GET PLAN - Data: ', data)
+						this.prices = data.data.price
+						this.tipoPlan = data.data.name
+						console.log(' Precio del plan: ', this.prices)
+						
+					})
+					.catch(error => {
+						console.error('Error:', error.message)
+					})
+					.finally(() => {
+						$loaderOverlay.style.display = 'none';
+						document.body.style.pointerEvents = 'auto';
+					});
+
 				},
 
 				updatePrices() {
@@ -224,17 +400,43 @@
 					}
 				},
 
+				formatPrice(price) {
+					return Number(price).toLocaleString('es-PE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+				},
+
 				init() {
-					this.$watch('numAvisos', () => {
+
+					this.fetchPlanes();
+
+					this.$watch('categoriaPlan', () => {
+						console.log("Cuando das click al package que se elige")
+						if ( this.categoriaPlan === "unaviso" ) {
+							this.numAvisos = 1
+							this.periodoPlan = 30
+						} else if ( this.categoriaPlan === "masavisos" ) {
+							this.numAvisos = 3
+							this.periodoPlan = 30
+						}
 						this.updatePrices()
-						this.updateIds()
+						this.fetchPlanes();
+						// this.updateIds()
+					})
+					this.$watch('numAvisos', () => {
+						console.log("Cuando das click al numero de avisos")
+						this.updatePrices()
+						this.fetchPlanes();
+						// this.updateIds()
 					})
 					this.$watch('periodoPlan', () => {
+						console.log("Cuando das click al numero de dias")
 						this.updatePrices()
-						this.updateIds()
+						this.fetchPlanes();
+						// this.updateIds()
 					})
-					this.$watch('tipoPlan', () => {
-						this.updateIds()
+					this.$watch('planId', () => {
+						console.log("Plan seleccionado... ")
+						this.getPlan()
+						// this.updateIds()
 					})
 				},
 			}
