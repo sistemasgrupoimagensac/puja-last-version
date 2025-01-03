@@ -19,6 +19,8 @@ Alpine.start()
 import '@fortawesome/fontawesome-free/css/all.css'
 import '@fortawesome/fontawesome-free/js/all.js'
 
+window.bootstrap = bootstrap
+
 // Inicializar tooltips
 document.addEventListener('DOMContentLoaded', function () {
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')

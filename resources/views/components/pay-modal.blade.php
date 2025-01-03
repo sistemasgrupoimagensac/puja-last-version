@@ -205,6 +205,16 @@
                     "expiration_month": month,
                     "cvv2": this.cvcTarjeta,
                 }, callback, this.handleTokenError)
+                // (response) => {
+                //     console.log("[OpenPay] Éxito al crear token:", response);
+                //     // Llamas a tu callback de éxito
+                //     callback(response);
+                // },
+                // (error) => {
+                //     console.log("[OpenPay] Error al crear token:", error);
+                //     // Llamas a tu manejador de errores
+                //     this.handleTokenError(error);
+                // })
             },
 
             handleTokenSuccess(response) {
@@ -232,7 +242,7 @@
                     "source_id": source_id,
                     "method": "card",
                     "amount": price,
-                    "plan_id": plan_id,
+                    // "plan_id": plan_id,
                     "currency": 'PEN',
                     "description": `Plan adquirido: ${tipoPlan} - Vigencia: ${periodoPlan} días - Avisos: ${numAvisos}.`,
                     "device_session_id": this.deviceSessionId,
@@ -344,7 +354,7 @@
             contratarPlan(price, description) {
                     const dataToSend = {
                         plan_id: this.planId,
-                        tipo_aviso: tipoDeAviso,
+                        tipo_aviso: this.tipoDeAviso,
                         aviso_id: {{ $avisoId }},
                     }
 
@@ -454,6 +464,7 @@
                     if (this.isValidForm()) {
                         this.isProcessing = true
                         document.getElementById('pay-button').disabled = true
+
                         this.createToken(this.handleTokenSuccess.bind(this))
                     } else {
                         setTimeout(() => {

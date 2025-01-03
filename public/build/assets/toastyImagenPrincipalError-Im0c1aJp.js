@@ -1,0 +1,1 @@
+import{a as r}from"./bootstrap.esm-Cu-1HGb6.js";const t=document.getElementById("toastPrincipalImageError"),a=r.getOrCreateInstance(t);function o(){a.show()}window.triggerToastPrincipalImageError=o;const i=document.getElementById("toastPrincipalImageErrorEdit"),e=r.getOrCreateInstance(i);function n(){e.show()}window.triggerToastPrincipalImageErrorEdit=n;

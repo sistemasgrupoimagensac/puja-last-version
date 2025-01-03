@@ -1,6 +1,6 @@
 {
-  "_bootstrap.esm-DgeKcj6p.js": {
-    "file": "assets/bootstrap.esm-DgeKcj6p.js",
+  "_bootstrap.esm-Cu-1HGb6.js": {
+    "file": "assets/bootstrap.esm-Cu-1HGb6.js",
     "name": "bootstrap.esm"
   },
   "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.ttf": {
@@ -44,12 +44,12 @@
     "src": "resources/images/slide2.webp"
   },
   "resources/js/app.js": {
-    "file": "assets/app-BZSSZ8pC.js",
+    "file": "assets/app-Wmgcuojo.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "imports": [
-      "_bootstrap.esm-DgeKcj6p.js"
+      "_bootstrap.esm-Cu-1HGb6.js"
     ],
     "css": [
       "assets/app-DMqKAXLC.css"
@@ -108,12 +108,12 @@
     "isEntry": true
   },
   "resources/js/scripts/create_project.js": {
-    "file": "assets/create_project-Ds5ZiXn0.js",
+    "file": "assets/create_project-Rzjrc-Ju.js",
     "name": "create_project",
     "src": "resources/js/scripts/create_project.js",
     "isEntry": true,
     "imports": [
-      "_bootstrap.esm-DgeKcj6p.js"
+      "_bootstrap.esm-Cu-1HGb6.js"
     ]
   },
   "resources/js/scripts/home.js": {
@@ -141,12 +141,12 @@
     "isEntry": true
   },
   "resources/js/scripts/planes.js": {
-    "file": "assets/planes-BlaCxmg_.js",
+    "file": "assets/planes-D8d7MpSX.js",
     "name": "planes",
     "src": "resources/js/scripts/planes.js",
     "isEntry": true,
     "imports": [
-      "_bootstrap.esm-DgeKcj6p.js"
+      "_bootstrap.esm-Cu-1HGb6.js"
     ]
   },
   "resources/js/scripts/project_upload_image.js": {
@@ -168,48 +168,48 @@
     "isEntry": true
   },
   "resources/js/scripts/toastyContact.js": {
-    "file": "assets/toastyContact-B-Xn8oN5.js",
+    "file": "assets/toastyContact-aikcQuXM.js",
     "name": "toastyContact",
     "src": "resources/js/scripts/toastyContact.js",
     "isEntry": true,
     "imports": [
-      "_bootstrap.esm-DgeKcj6p.js"
+      "_bootstrap.esm-Cu-1HGb6.js"
     ]
   },
   "resources/js/scripts/toastyImagenPrincipalError.js": {
-    "file": "assets/toastyImagenPrincipalError-BSYHBSC4.js",
+    "file": "assets/toastyImagenPrincipalError-Im0c1aJp.js",
     "name": "toastyImagenPrincipalError",
     "src": "resources/js/scripts/toastyImagenPrincipalError.js",
     "isEntry": true,
     "imports": [
-      "_bootstrap.esm-DgeKcj6p.js"
+      "_bootstrap.esm-Cu-1HGb6.js"
     ]
   },
   "resources/js/scripts/toastyPayError.js": {
-    "file": "assets/toastyPayError-DmXRTODF.js",
+    "file": "assets/toastyPayError-QEv_RGHV.js",
     "name": "toastyPayError",
     "src": "resources/js/scripts/toastyPayError.js",
     "isEntry": true,
     "imports": [
-      "_bootstrap.esm-DgeKcj6p.js"
+      "_bootstrap.esm-Cu-1HGb6.js"
     ]
   },
   "resources/js/scripts/toastySuccess.js": {
-    "file": "assets/toastySuccess-jhgu2vA9.js",
+    "file": "assets/toastySuccess-DdPAZh6Y.js",
     "name": "toastySuccess",
     "src": "resources/js/scripts/toastySuccess.js",
     "isEntry": true,
     "imports": [
-      "_bootstrap.esm-DgeKcj6p.js"
+      "_bootstrap.esm-Cu-1HGb6.js"
     ]
   },
   "resources/js/scripts/updatePlaceholdersRegister.js": {
-    "file": "assets/updatePlaceholdersRegister-DpgK6oah.js",
+    "file": "assets/updatePlaceholdersRegister-unQ_IpE3.js",
     "name": "updatePlaceholdersRegister",
     "src": "resources/js/scripts/updatePlaceholdersRegister.js",
     "isEntry": true,
     "imports": [
-      "_bootstrap.esm-DgeKcj6p.js"
+      "_bootstrap.esm-Cu-1HGb6.js"
     ]
   },
   "resources/js/scripts/upload_unit_image.js": {

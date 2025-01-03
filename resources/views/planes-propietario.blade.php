@@ -92,50 +92,7 @@
 					{{-- PAQUETES unaviso - categoria plan--}}
 					<div>
 						<div role="group" class="d-flex flex-column align-items-center flex-md-row gap-4 mt-4 w-100">
-							<!-- plan top plus -->
-							{{-- <div>
-								<input type="radio" class="btn-check" x-model="tipoPlan" id="topPlus" value="topPlus" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
-								<x-card-plan-propietario
-									title="Premium"
-                  					tipoAviso="Premium"
-									price="prices.topPlus"
-									time="periodoPlan"
-									plan="topPlus"
-									className="btn-secondary border-secondary"
-									avisos="avisos.topPlus"
-								/>
-							</div>
-				
-							<!-- plan top -->
-							<div>
-								<input type="radio" class="btn-check" x-model="tipoPlan" id="top" value="top" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
-								<x-card-plan-propietario
-									title="Top"
-                  					tipoAviso="Top"
-									price="prices.top"
-									time="periodoPlan"
-									plan="top"
-									className="btn-warning border-warning"
-									avisos="avisos.top"
-								/>
-							</div>
-				
-							<!-- plan estándar -->
-							<div>
-								<input type="radio" class="btn-check" x-model="tipoPlan" id="estandar" value="estandar" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
-								<x-card-plan-propietario
-									title="Estándar"
-                  					tipoAviso="Típico"
-									price="prices.estandar"
-									time="periodoPlan"
-									plan="estandar"
-									className="btn-success border-success"
-									avisos="avisos.estandar"
-								/>
-							</div> --}}
-
-
-
+							
 							<template x-for="plan in planes" :key="plan.id">
 								<div>
 									<input 
@@ -144,9 +101,10 @@
 										x-model="planId" 
 										:id="`plan-${plan.id}`" 
 										:value="plan.id"
-										autocomplete="off" 
+										{{-- autocomplete="off" 
 										data-bs-toggle="modal" 
-										data-bs-target="#modalPago"
+										data-bs-target="#modalPago" --}}
+										@click="selectPlan(plan.id)"
 									>
 
 									<label
@@ -176,7 +134,6 @@
 														<li>Publicación de Aviso <span x-text="plan.tipoAviso"></span></li>
 														<li><span x-text="plan.duration_in_days"></span> días de publicación</li>
 								
-														<!-- Condicionales basados en el nombre del plan -->
 														<template x-if="plan.name === 'Plan Premium'">
 															<li>Genera interesados</li>
 															<li>Alta visibilidad</li>
@@ -248,41 +205,14 @@
 
 		const $loaderOverlay = document.getElementById('loader-overlay');
 		let idPlan = 3;
-		let tipoDeAviso = 3;
+		// let tipoDeAviso = 3;
 
 		function pricingData() {
 			return {
-				// campos formulario:
 				aviso_id: {{$aviso_id}},
-				/* categoriaPlan: 'unaviso',
-				tipoPlan: 'topPlus',
-
-				// plan unaviso
-				numAvisos: 1,
-				periodoPlan: 30, */
-
-				/* prices: {
-					topPlus: 239,
-					top: 129,
-					estandar: 79,
-				}, */
 				prices: 0,
-
-				priceTable: {
-					'1': { '30': [55555, 123, 79], '60': [406, 219, 134], '90': [537, 290, 177] },
-					'3': { '30': [540, 290, 177], '60': [915, 495, 302], '90': [1210, 650, 399] },
-					'5': { '30': [715, 505, 276], '60': [1220, 850, 470], '90': [1610, 1225, 622] },
-				},
-
-				ids: {
-					'1': { '30': [1, 2, 3], '60': [4, 5, 6], '90': [7, 8, 9] },
-					'3': { '30': [10, 11, 12], '60': [13, 14, 15], '90': [16, 17, 18] },
-					'5': { '30': [19, 20, 21], '60': [22, 23, 24], '90': [25, 26, 27] },
-				},
-
-
 				planes: [],
-				planId: 1,
+				planId: null,
 				tipoPlan: "Plan Estandar",
 				categoriaPlan: 'unaviso',
 				tipoDeAviso: 0,
@@ -291,11 +221,9 @@
 				loading: false,
 				error: '',
 
-
 				fetchPlanes() {
 					$loaderOverlay.style.display = 'flex';
 					document.body.style.pointerEvents = 'none';
-					console.log("Entro a esta funcion")
 
 					const datos = {
 						package: this.categoriaPlan,
@@ -319,11 +247,8 @@
 					.then( data => {
 
 						this.loading = false;
-						console.log("data: ", data)
 						if(data.status === 'Success') {
 							this.planes = data.data;
-							console.log("Planes: ", this.planes)
-							console.log("Planes: ", this.planes[0].name)
 						} else {
 							this.error = data.message || 'Error al obtener los planes.';
 						}
@@ -332,7 +257,6 @@
 					.catch(error => {
 						this.loading = false;
 						this.error = 'Error: ' + error.message;
-						console.error('Error:', error.message);
 					})
 					.finally(() => {
 						$loaderOverlay.style.display = 'none';
@@ -345,7 +269,6 @@
 				getPlan() {
 					$loaderOverlay.style.display = 'flex';
 					document.body.style.pointerEvents = 'none';
-					console.log("Obteniendo información del plan seleccionado...");
 
 					const datos = {
 						plan_id: this.planId,
@@ -363,10 +286,15 @@
 					.then( response => response.json() )
 					.then( data => {
 						
-						console.log(' GET PLAN - Data: ', data)
 						this.prices = data.data.price
 						this.tipoPlan = data.data.name
-						console.log(' Precio del plan: ', this.prices)
+						if ( this.tipoPlan === "Plan Estandar" ) {
+							this.tipoDeAviso = 1
+						} else if ( this.tipoPlan === "Plan Top" ) {
+							this.tipoDeAviso = 2
+						} else if ( this.tipoPlan === "Plan Premium" ) {
+							this.tipoDeAviso = 3
+						}
 						
 					})
 					.catch(error => {
@@ -379,25 +307,18 @@
 
 				},
 
-				updatePrices() {
-					const selectedPrices = this.priceTable[this.numAvisos][this.periodoPlan];
-					this.prices.topPlus = selectedPrices[0];
-					this.prices.top = selectedPrices[1];
-					this.prices.estandar = selectedPrices[2];
+				selectPlan(planId) {
+					this.planId = planId;
+					this.getPlan();
+					const modalPago = new bootstrap.Modal('#modalPago');
+					modalPago.show();
 				},
 
-				updateIds() {
-					const selectedId = this.ids[this.numAvisos][this.periodoPlan];
-					if (this.tipoPlan === 'estandar') {
-						idPlan = selectedId[0]
-						tipoDeAviso = 1
-					} else if (this.tipoPlan === 'top') {
-						idPlan = selectedId[1]
-						tipoDeAviso = 2
-					} else if (this.tipoPlan === 'topPlus') {
-						idPlan = selectedId[2]
-						tipoDeAviso = 3
-					}
+				debounceFetch() {
+					clearTimeout(this._fetchTimer);
+					this._fetchTimer = setTimeout(() => {
+						this.fetchPlanes();
+					}, 300);
 				},
 
 				formatPrice(price) {
@@ -406,37 +327,16 @@
 
 				init() {
 
-					this.fetchPlanes();
+					this.debounceFetch();
 
 					this.$watch('categoriaPlan', () => {
-						console.log("Cuando das click al package que se elige")
-						if ( this.categoriaPlan === "unaviso" ) {
-							this.numAvisos = 1
-							this.periodoPlan = 30
-						} else if ( this.categoriaPlan === "masavisos" ) {
-							this.numAvisos = 3
-							this.periodoPlan = 30
-						}
-						this.updatePrices()
-						this.fetchPlanes();
-						// this.updateIds()
+						this.debounceFetch();
 					})
 					this.$watch('numAvisos', () => {
-						console.log("Cuando das click al numero de avisos")
-						this.updatePrices()
-						this.fetchPlanes();
-						// this.updateIds()
+						this.debounceFetch();
 					})
 					this.$watch('periodoPlan', () => {
-						console.log("Cuando das click al numero de dias")
-						this.updatePrices()
-						this.fetchPlanes();
-						// this.updateIds()
-					})
-					this.$watch('planId', () => {
-						console.log("Plan seleccionado... ")
-						this.getPlan()
-						// this.updateIds()
+						this.debounceFetch();
 					})
 				},
 			}

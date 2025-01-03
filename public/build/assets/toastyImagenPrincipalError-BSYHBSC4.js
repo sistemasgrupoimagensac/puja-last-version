@@ -1,1 +1,0 @@
-import{a as r}from"./bootstrap.esm-DgeKcj6p.js";const t=document.getElementById("toastPrincipalImageError"),a=r.getOrCreateInstance(t);function o(){a.show()}window.triggerToastPrincipalImageError=o;const i=document.getElementById("toastPrincipalImageErrorEdit"),e=r.getOrCreateInstance(i);function n(){e.show()}window.triggerToastPrincipalImageErrorEdit=n;
