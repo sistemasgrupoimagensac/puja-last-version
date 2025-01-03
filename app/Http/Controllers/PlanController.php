@@ -720,11 +720,16 @@ class PlanController extends Controller
             $duration_in_days = $request->input('duration_in_days');
             $total_ads = $request->input('total_ads');
 
-            $plans = Plan::where([
-                'package_id' => $package_id,
-                'total_ads' => $total_ads,
-                'duration_in_days' => $duration_in_days,
-            ])
+            $plans = Plan::with(['promotion' => function ($query) {
+                    $query->where('status', 1)
+                        ->where('promo_start', '<=', Carbon::now())
+                    ->where('promo_end', '>=', Carbon::now());
+                }])
+                ->where([
+                    'package_id' => $package_id,
+                    'total_ads' => $total_ads,
+                    'duration_in_days' => $duration_in_days,
+                ])
                 ->orderBy('price', 'desc')
             ->get();
 
@@ -764,7 +769,13 @@ class PlanController extends Controller
                 'plan_id.integer' => 'El plan id debe ser un número entero.',
             ]);
 
-            $plan = Plan::find($request->plan_id);
+            $plan = Plan::with(['promotion' => function ($query) {
+                $query->where('status', 1)
+                        ->where('promo_start', '<=', Carbon::now())
+                    ->where('promo_end', '>=', Carbon::now());
+                }])
+                ->where('id', $request->plan_id)
+            ->first();
 
             if ( !$plan ) {
                 return response()->json([

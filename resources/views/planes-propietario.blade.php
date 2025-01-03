@@ -115,19 +115,26 @@
 										<div>
 											<div class="card-body p-0">
 												<h3 class="card-title fw-bolder mt-3" x-text="plan.name"></h3>
-												<h4 class="card-subtitle mb-2">
-													S/ <span x-text="formatPrice(plan.price)"></span> por 
-													<span x-text="plan.duration_in_days"></span> días
-												</h4>
-
-												<template x-if="plan.duration_in_days == 60">
-													<h6 class="fw-bolder">ahorras 15%</h6>
+												<template x-if="plan.promotion !== null">
+													<h4 class="card-subtitle mb-2">
+														S/ <span x-text="formatPrice(plan.price*plan.promotion.percentage/100)"></span> por 
+														<span x-text="plan.duration_in_days"></span> días
+													</h4>
+												</template>
+												<template x-if="plan.promotion !== null">
+													<h6 class="fw-bolder">ahorras <span x-text="plan.promotion.percentage"></span>%</h6>
+												</template>
+												<template x-if="plan.promotion !== null">
+													<h6 class="card-subtitle mb-2">precio regular S/ <span x-text="formatPrice(plan.price)"></span></h6>
 												</template>
 
-												<template x-if="plan.duration_in_days == 90">
-													<h6 class="fw-bolder">ahorras 25%</h6>
+												<template x-if="plan.promotion === null">
+													<h4 class="card-subtitle mb-2">
+														S/ <span x-text="formatPrice(plan.price)"></span> por 
+														<span x-text="plan.duration_in_days"></span> días
+													</h4>
 												</template>
-										
+
 												<hr>
 												<div class="card-description-plan d-flex justify-content-start px-4">
 													<ul class="list-unstyled text-start h6 mb-4">
@@ -157,8 +164,6 @@
 
 								</div>
 							</template>
-
-
 
 						</div>
 					</div>
@@ -249,6 +254,7 @@
 						this.loading = false;
 						if(data.status === 'Success') {
 							this.planes = data.data;
+							console.log(this.planes)
 						} else {
 							this.error = data.message || 'Error al obtener los planes.';
 						}
@@ -285,8 +291,11 @@
 					})
 					.then( response => response.json() )
 					.then( data => {
-						
-						this.prices = data.data.price
+						if ( data.data.promotion === null ) {
+							this.prices = data.data.price
+						} else {
+							this.prices = data.data.price * (data.data.promotion.percentage / 100)
+						}
 						this.tipoPlan = data.data.name
 						if ( this.tipoPlan === "Plan Estandar" ) {
 							this.tipoDeAviso = 1
