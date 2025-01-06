@@ -708,6 +708,7 @@ class PlanController extends Controller
                 'masavisos' => 2,
                 'mixto' => 3,
                 'top' => 4,
+                'acreedor' => 5,
             ];
 
             $package = strtolower($request->input('package'));
@@ -727,6 +728,7 @@ class PlanController extends Controller
                         ->where('promo_start', '<=', Carbon::now())
                     ->where('promo_end', '>=', Carbon::now());
                 }])
+                ->where('price', '>=', 1.00)
                 ->where([
                     'package_id' => $package_id,
                     'total_ads' => $total_ads,
