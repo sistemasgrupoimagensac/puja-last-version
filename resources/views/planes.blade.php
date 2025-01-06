@@ -30,7 +30,7 @@
 				<label class="btn btn-outline-dark" for="mixtoCheck">Planes Mixtos</label>
 
 				<input type="radio" class="btn-check" name="btnradio" id="topCheck" autocomplete="off" @click="categoriaPlan = 'top'" />
-				<label class="btn btn-outline-dark" for="topCheck">Planes Top</label>
+				<label class="btn btn-outline-dark" for="topCheck">Planes Exclusivos</label>
 			</div>
 		</div>
 
@@ -328,8 +328,8 @@
 						/>
 
 						<x-card-plan-checkout
-						showPlan="Plan Top"
-						title="Plan Top"
+						showPlan="Plan VIP"
+						title="Plan VIP"
 						bgColor="text-bg-warning"
 						/>
 		
@@ -549,7 +549,7 @@
 						this.tipoPlan = data.data.name
 						if ( this.tipoPlan === "Plan Estandar" ) {
 							this.tipoDeAviso = 1
-						} else if ( this.tipoPlan === "Plan Top" ) {
+						} else if ( this.tipoPlan === "Plan VIP" ) {
 							this.tipoDeAviso = 2
 						} else if ( this.tipoPlan === "Plan Premium" ) {
 							this.tipoDeAviso = 3
@@ -623,6 +623,7 @@
 						// this.updateIdTop()
 					})
 					this.$watch('categoriaPlan', () => {
+						console.log("Entro al cambio de Categoria")
 						this.debounceFetch();
 						// this.updatePrices()
 					})
