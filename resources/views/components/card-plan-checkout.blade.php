@@ -5,7 +5,8 @@
 
       <div class="d-flex flex-column align-items-center">
         <div class="card-text fw-bold display-3 d-flex gap-2">
-          <span>S/</span><x-miles-coma amount="prices[tipoPlan]"/>
+          {{-- <span>S/</span><x-miles-coma amount="prices[tipoPlan]"/> --}}
+          S/ <span x-text="formatPrice(prices)"></span>
         </div>
       </div>
         

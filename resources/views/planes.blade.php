@@ -5,7 +5,7 @@
 @endsection
 
 @push('styles')
-  	@vite(['resources/sass/pages/planes.scss'])
+  	@vite(['resources/sass/pages/planes.scss', 'resources/sass/components/card_plan.scss', 'resources/sass/components/flipping.scss'])
 @endpush
 
 @section('header')
@@ -13,6 +13,10 @@
 @endsection
 
 @section('content')
+
+	<div id="loader-overlay">
+		<div class="flipping"></div>
+	</div>
 
 	<div class="container my-5" x-data="pricingData()">
 		<x-completa-registro-google></x-completa-registro-google>
@@ -137,10 +141,9 @@
 				<!-- categoria de plan -->
 				<fieldset>
 					<legend class="text-secondary text-left h6 mb-3">3. Selecciona el mejor paquete para ti.</legend>
-					{{-- PAQUETES MIXTO - categoria plan--}}
-					<div x-show=" categoriaPlan === 'mixto' ">
+					
+					{{-- <div x-show=" categoriaPlan === 'mixto' ">
 						<div role="group" class="d-flex flex-column align-items-center flex-md-row gap-4 mt-4 w-100">
-							<!-- plan basico -->
 							<div>
 								@if ($sesion_iniciada)
 									<input type="radio" class="btn-check" x-model="tipoPlan" id="basico" value="basico" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
@@ -156,7 +159,6 @@
 								/>
 							</div>
 				
-							<!-- plan estandar -->
 							<div>
 								@if ($sesion_iniciada)
 									<input type="radio" class="btn-check" x-model="tipoPlan" id="estandar" value="estandar" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
@@ -172,7 +174,6 @@
 								/>
 							</div>
 				
-							<!-- plan superior -->
 							<div>
 								@if ($sesion_iniciada)
 									<input type="radio" class="btn-check" x-model="tipoPlan" id="superior" value="superior" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
@@ -190,10 +191,8 @@
 						</div>
 					</div>
 
-					{{-- PAQUETES TOP - categoria plan--}}
 					<div x-show=" categoriaPlan === 'top' ">
 						<div role="group" class="d-flex flex-column align-items-center flex-md-row gap-4 mt-4 w-100">
-							{{-- plan top --}}
 							<div>
 								@if ($sesion_iniciada)
 									<input type="radio" class="btn-check" x-model="tipoPlan" id="top" value="top" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
@@ -209,7 +208,6 @@
 								/>
 							</div>
 				
-							<!-- plan top plus -->
 							<div>
 								@if ($sesion_iniciada)
 									<input type="radio" class="btn-check" x-model="tipoPlan" id="premium" value="premium" autocomplete="off" data-bs-toggle="modal" data-bs-target="#modalPago">
@@ -225,7 +223,92 @@
 								/>
 							</div>
 						</div>
+					</div> --}}
+
+
+
+
+					<div role="group" class="d-flex flex-column align-items-center flex-md-row gap-4 mt-4 w-100">
+
+						<template x-for="plan in planes" :key="plan.id">
+							<div>
+								<input 
+									type="radio" 
+									class="btn-check" 
+									x-model="planId" 
+									:id="`plan-${plan.id}`" 
+									:value="plan.id"
+									@click="selectPlan(plan.id)"
+								>
+
+								<label
+									class="card btn btn-lg p-0 card-plan-label rounded-4"
+									:class="plan.class_name"
+									:for="`plan-${plan.id}`"
+								>
+
+									{{-- @if (!$sesion_iniciada)
+										<a class="text-decoration-none text-reset" href="{{ route("sign_in", ['profile_type' => 3]) }}">
+									@endif --}}
+
+										<div>
+											<div class="card-body p-0">
+												<h3 class="card-title fw-bolder mt-3" x-text="plan.name"></h3>
+												<template x-if="plan.promotion !== null">
+													<h4 class="card-subtitle mb-2">
+														S/ <span x-text="formatPrice(plan.price*plan.promotion.percentage/100)"></span> por 
+														<span x-text="plan.duration_in_days"></span> días
+													</h4>
+												</template>
+												<template x-if="plan.promotion !== null">
+													<h6 class="fw-bolder">ahorras <span x-text="plan.promotion.percentage"></span>%</h6>
+												</template>
+												<template x-if="plan.promotion !== null">
+													<h6 class="card-subtitle mb-2">precio regular S/ <span x-text="formatPrice(plan.price)"></span></h6>
+												</template>
+
+												<template x-if="plan.promotion === null">
+													<h4 class="card-subtitle mb-2">
+														S/ <span x-text="formatPrice(plan.price)"></span> por 
+														<span x-text="plan.duration_in_days"></span> días
+													</h4>
+												</template>
+
+												<hr>
+												<div class="card-description-plan d-flex justify-content-start px-4">
+													<ul class="list-unstyled text-start h6 mb-4">
+														<li>
+															<span x-text="plan.typical_ads"></span><span> avisos típicos</span>
+														</li>
+														<li>
+															<span x-text="plan.top_ads"></span><span> avisos top</span>
+														</li>
+														<li>
+															<span x-text="plan.premium_ads"></span><span> avisos premium</span>
+														</li>
+													</ul>
+												</div>
+											</div>
+											<div class="card-footer fw-bold fs-5">
+												¡Lo quiero!
+											</div>
+										</div>
+
+									{{-- @if (!$sesion_iniciada)
+										</a>   
+								  	@endif --}}
+
+								</label>
+
+							</div>
+						</template>
+
 					</div>
+
+
+
+
+
 				</fieldset>
 
 				{{-- Modal de Pago --}}
@@ -239,33 +322,21 @@
 						userTypeId="{{ $user->tipo_usuario_id }}"
 					>
 						<x-card-plan-checkout
-						showPlan="basico"
-						title="Básico"
+						showPlan="Plan Estandar"
+						title="Plan Estandar"
 						bgColor="text-bg-dark"
 						/>
 
 						<x-card-plan-checkout
-						showPlan="estandar"
-						title="Estándar"
+						showPlan="Plan Top"
+						title="Plan Top"
 						bgColor="text-bg-warning"
 						/>
 		
 						<x-card-plan-checkout
-						showPlan="superior"
-						title="Premium"
+						showPlan="Plan Premium"
+						title="Plan Premium"
 						bgColor="text-bg-success"
-						/>
-		
-						<x-card-plan-checkout
-						showPlan="top"
-						title="Top"
-						bgColor="text-bg-light"
-						/>
-		
-						<x-card-plan-checkout
-						showPlan="premium"
-						title="Premium"
-						bgColor="text-bg-danger"
 						/>
 					</x-pay-modal>
 				@endisset
@@ -274,8 +345,10 @@
 		</form>
 	</div>
 
+
 	<script>
 
+		const $loaderOverlay = document.getElementById('loader-overlay');
 		window.showModal = @json($show_modal);
 
 		let idPlan = 29;
@@ -283,14 +356,22 @@
 
 		function pricingData() {
 			return {
-				// campos formulario:
+				
+				planes: [],
 				categoriaPlan: 'mixto',
-				tipoPlan: 'estandar',
-        id: '',
-
-				// paquetes Mixtos
 				numAvisos: 5,
 				periodoPlan: 90,
+
+				planId: null,
+
+				prices: 0,
+
+
+				// campos formulario:
+				tipoPlan: 'Plan Estandar',
+				id: '',
+
+				// paquetes Mixtos
 				pricePlan: null,
 
 				// paquetes Top
@@ -298,7 +379,7 @@
 				periodoPlanTop: 30,
 				pricePlanTop: null,
 
-				prices: {
+				/* prices: {
 					// categoria plan: mixto
 					basico: 259,
 					estandar: 325,
@@ -306,7 +387,7 @@
 					// categoria plan: top
 					top: 129,
 					premium: 239,
-				},
+				}, */
 
 				avisos: {
 					basico: [5,0,0],
@@ -342,13 +423,13 @@
 					}
 				},
 
-        idsTop: {
-          '1': { '30': [91, 92], '60': [93, 94], '90': [95, 96]  },
-          '3': { '30': [97, 98], '60': [99, 100], '90': [101, 102]  },
-          '5': { '30': [103, 104], '60': [105, 106], '90': [107, 108]  },
-        },
+				idsTop: {
+					'1': { '30': [91, 92], '60': [93, 94], '90': [95, 96]  },
+					'3': { '30': [97, 98], '60': [99, 100], '90': [101, 102]  },
+					'5': { '30': [103, 104], '60': [105, 106], '90': [107, 108]  },
+				},
 
-        idsMixto: {
+				idsMixto: {
 					'5': { '90': [28, 29, 30], '180': [31, 32, 33], '365': [34, 35, 36] },
 					'10': { '90': [37, 38, 39], '180': [40, 41, 42], '365': [43, 44, 45] },
 					'25': { '90': [46, 47, 48], '180': [49, 50, 51], '365': [52, 53, 54] },
@@ -356,7 +437,7 @@
 					'75': { '90': [64, 65, 66], '180': [67, 68, 69], '365': [70, 71, 72] },
 					'100': { '90': [73, 74, 75], '180': [76, 77, 78], '365': [79, 80, 81] },
 					'200': { '90': [82, 83, 84], '180': [85, 86, 87], '365': [88, 89, 90] }
-        },
+				},
 
 				updatePrices() {
 					const selectedPrices = this.priceTable[this.numAvisos][this.periodoPlan]
@@ -375,66 +456,183 @@
 					this.avisos.estandar = selectAvisos[1]
 					this.avisos.superior = selectAvisos[2]
 				},
-        updateIdMixtos() {
-          const selectedId = this.idsMixto[this.numAvisos][this.periodoPlan]
-          if(this.tipoPlan === 'basico') {
+				updateIdMixtos() {
+					const selectedId = this.idsMixto[this.numAvisos][this.periodoPlan]
+					if(this.tipoPlan === 'basico') {
 						idPlan = selectedId[0]
-          } else if (this.tipoPlan === 'estandar') {
+					} else if (this.tipoPlan === 'estandar') {
 						idPlan = selectedId[1]
-          } else if (this.tipoPlan === 'superior') {
+					} else if (this.tipoPlan === 'superior') {
 						idPlan = selectedId[2]
-          }
-        },
-        updateIdTop() {
-          const selectedId = this.idsTop[this.numAvisosTop][this.periodoPlanTop]
-          if(this.tipoPlan === 'top') {
+					}
+				},
+				updateIdTop() {
+					const selectedId = this.idsTop[this.numAvisosTop][this.periodoPlanTop]
+					if(this.tipoPlan === 'top') {
 						idPlan = selectedId[0]
-          } else if (this.tipoPlan === 'premium') {
+					} else if (this.tipoPlan === 'premium') {
 						idPlan = selectedId[1]
-          }
-        },
+					}
+				},
+
+				fetchPlanes() {
+					console.log("Esa ejecutando la funcion fetchPlanes()")
+					$loaderOverlay.style.display = 'flex';
+					document.body.style.pointerEvents = 'none';
+
+					const datos = {
+						package: this.categoriaPlan,
+						total_ads: this.numAvisos,
+						duration_in_days: this.periodoPlan,
+					}
+
+					this.loading = true;
+					this.error = '';
+
+					fetch('{{ route("get_planes") }}', {
+						method: 'POST',
+						headers: {
+							'Accept': 'application/json',
+							'Content-Type': 'application/json',
+							'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+						},
+						body: JSON.stringify(datos)
+					})
+					.then( response => response.json() )
+					.then( data => {
+
+						this.loading = false;
+						if(data.status === 'Success') {
+							this.planes = data.data;
+							console.log(this.planes)
+						} else {
+							this.error = data.message || 'Error al obtener los planes.';
+						}
+						
+					})
+					.catch(error => {
+						this.loading = false;
+						this.error = 'Error: ' + error.message;
+					})
+					.finally(() => {
+						$loaderOverlay.style.display = 'none';
+						document.body.style.pointerEvents = 'auto';
+					});
+
+
+				},
+
+				getPlan() {
+					$loaderOverlay.style.display = 'flex';
+					document.body.style.pointerEvents = 'none';
+
+					const datos = {
+						plan_id: this.planId,
+					}
+
+					fetch('{{ route("get_plan") }}', {
+						method: 'POST',
+						headers: {
+							'Accept': 'application/json',
+							'Content-Type': 'application/json',
+							'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+						},
+						body: JSON.stringify(datos)
+					})
+					.then( response => response.json() )
+					.then( data => {
+						if ( data.data.promotion === null ) {
+							this.prices = data.data.price
+						} else {
+							this.prices = data.data.price * (data.data.promotion.percentage / 100)
+						}
+						this.tipoPlan = data.data.name
+						if ( this.tipoPlan === "Plan Estandar" ) {
+							this.tipoDeAviso = 1
+						} else if ( this.tipoPlan === "Plan Top" ) {
+							this.tipoDeAviso = 2
+						} else if ( this.tipoPlan === "Plan Premium" ) {
+							this.tipoDeAviso = 3
+						}
+						
+					})
+					.catch(error => {
+						console.error('Error:', error.message)
+					})
+					.finally(() => {
+						$loaderOverlay.style.display = 'none';
+						document.body.style.pointerEvents = 'auto';
+					});
+
+				},
+
+				selectPlan(planId) {
+					this.planId = planId;
+					this.getPlan();
+					const modalPago = new bootstrap.Modal('#modalPago');
+					modalPago.show();
+				},
+
+				debounceFetch() {
+					clearTimeout(this._fetchTimer);
+					this._fetchTimer = setTimeout(() => {
+						this.fetchPlanes();
+					}, 300);
+				},
+
+				formatPrice(price) {
+					return Number(price).toLocaleString('es-PE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+				},
 
 				init() {
+
+					this.debounceFetch();
+
 					// paquetes MIXTOS ========================
 					this.$watch('numAvisos', () => {
-						this.updatePrices() 
-						this.updateAvisosDistribution()
-            this.updateIdMixtos()
+						this.debounceFetch();
+						// this.updatePrices() 
+						// this.updateAvisosDistribution()
+						// this.updateIdMixtos()
 					})
 					this.$watch('periodoPlan', () => {
-						this.updatePrices()
-            this.updateIdMixtos()
+						this.debounceFetch();
+						// this.updatePrices()
+						// this.updateIdMixtos()
 					})
 
 					// paquetes TOP ============================
 					this.$watch('numAvisosTop', () => {
-						this.updatePricesTop() 
-            this.updateIdTop()
+						this.debounceFetch();
+						// this.updatePricesTop() 
+						// this.updateIdTop()
 					})
 					this.$watch('periodoPlanTop', () => {
-						this.updatePricesTop() 
-            this.updateIdTop()
+						this.debounceFetch();
+						// this.updatePricesTop() 
+						// this.updateIdTop()
 					})
 
 					this.$watch('tipoPlan', () => {
-						this.pricePlan = this.prices[this.tipoPlan]
-						this.pricePlaTop = this.prices[this.tipoPlan]
-
-            // update id
-            this.updateIdMixtos()
-            this.updateIdTop()
-        
+						console.log("aqui entro")
+						this.debounceFetch();
+						// this.pricePlan = this.prices[this.tipoPlan]
+						// this.pricePlaTop = this.prices[this.tipoPlan]
+						// update id
+						// this.updateIdMixtos()
+						// this.updateIdTop()
 					})
 					this.$watch('categoriaPlan', () => {
-						this.updatePrices()
+						this.debounceFetch();
+						// this.updatePrices()
 					})
 				},
 			}
 		}
 
 		document.addEventListener('alpine:init', () => {
-				Alpine.store('creditCardData', creditCardData());
-				Alpine.data('pricingData', pricingData);
+			Alpine.store('creditCardData', creditCardData());
+			Alpine.data('pricingData', pricingData);
 		});
 
 	</script>
@@ -446,7 +644,7 @@
 @endsection
 
 @push('scripts')
-  @vite([ 'resources/js/scripts/planes.js' ])
+  	@vite([ 'resources/js/scripts/planes.js' ])
 @endpush
   
 @push('scripts-head')  

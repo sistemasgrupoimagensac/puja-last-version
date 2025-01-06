@@ -706,6 +706,8 @@ class PlanController extends Controller
             $packageMapping = [
                 'unaviso' => 1,
                 'masavisos' => 2,
+                'mixto' => 3,
+                'top' => 4,
             ];
 
             $package = strtolower($request->input('package'));

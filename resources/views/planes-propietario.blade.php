@@ -179,7 +179,6 @@
 						userEmail="{{ $user->email }}"
 						userPhone="{{ $user->celular }}"
 						userTypeId="{{ $user->tipo_usuario_id }}"
-						userApe="Herrera"
 					>
 						<x-card-plan-propietario-checkout
 							showPlan="Plan Premium"
