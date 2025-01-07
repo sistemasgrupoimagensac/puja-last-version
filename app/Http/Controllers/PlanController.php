@@ -728,6 +728,11 @@ class PlanController extends Controller
                         ->where('promo_start', '<=', Carbon::now())
                     ->where('promo_end', '>=', Carbon::now());
                 }])
+                ->with(['promotion2' => function ($query) {
+                    $query->where('status', 1)
+                        ->where('promo_start', '<=', Carbon::now())
+                    ->where('promo_end', '>=', Carbon::now());
+                }])
                 ->where('price', '>=', 1.00)
                 ->where([
                     'package_id' => $package_id,
@@ -775,6 +780,11 @@ class PlanController extends Controller
 
             $plan = Plan::with(['promotion' => function ($query) {
                 $query->where('status', 1)
+                        ->where('promo_start', '<=', Carbon::now())
+                    ->where('promo_end', '>=', Carbon::now());
+                }])
+                ->with(['promotion2' => function ($query) {
+                    $query->where('status', 1)
                         ->where('promo_start', '<=', Carbon::now())
                     ->where('promo_end', '>=', Carbon::now());
                 }])

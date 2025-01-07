@@ -59,6 +59,16 @@ class PlanResource extends Resource
                     ->searchable()
                     ->preload()
                 ->nullable(), // Permitir nulo
+
+                Select::make('promotion2_id')
+                    ->label('Promoción 2')
+                    // Relationship: (nombre de la relación, campo a mostrar)
+                    ->relationship('promotion2', 'percentage')
+                    // Si deseas listar por algo más complejo, puedes usar ->options(...)
+                    ->placeholder('Sin promoción')
+                    ->searchable()
+                    ->preload()
+                ->nullable(), // Permitir nulo
             ]);
     }
 
@@ -97,6 +107,12 @@ class PlanResource extends Resource
 
                 TextColumn::make('promotion.percentage')
                     ->label('Promo (%)')
+                    ->formatStateUsing(fn ($state) => $state . '%')
+                    ->sortable()
+                ->searchable(),
+
+                TextColumn::make('promotion2.percentage')
+                    ->label('Promo2 (%)')
                     ->formatStateUsing(fn ($state) => $state . '%')
                     ->sortable()
                 ->searchable(),

@@ -86,10 +86,8 @@
 					</div>
 				</fieldset>
 
-				<!-- categoria de plan -->
 				<fieldset>
 					<legend class="text-secondary text-left h6 mb-3">3. Selecciona el mejor paquete para ti.</legend>
-					{{-- PAQUETES unaviso - categoria plan--}}
 					<div>
 						<div role="group" class="d-flex flex-column align-items-center flex-md-row gap-4 mt-4 w-100">
 							
@@ -101,9 +99,6 @@
 										x-model="planId" 
 										:id="`plan-${plan.id}`" 
 										:value="plan.id"
-										{{-- autocomplete="off" 
-										data-bs-toggle="modal" 
-										data-bs-target="#modalPago" --}}
 										@click="selectPlan(plan.id)"
 									>
 
@@ -115,24 +110,73 @@
 										<div>
 											<div class="card-body p-0">
 												<h3 class="card-title fw-bolder mt-3" x-text="plan.name"></h3>
-												<template x-if="plan.promotion !== null">
-													<h4 class="card-subtitle mb-2">
-														S/ <span x-text="formatPrice(plan.price*plan.promotion.percentage/100)"></span> por 
-														<span x-text="plan.duration_in_days"></span> días
-													</h4>
-												</template>
-												<template x-if="plan.promotion !== null">
-													<h6 class="fw-bolder">ahorras <span x-text="plan.promotion.percentage"></span>%</h6>
-												</template>
-												<template x-if="plan.promotion !== null">
-													<h6 class="card-subtitle mb-2">precio regular S/ <span x-text="formatPrice(plan.price)"></span></h6>
+
+												<template x-if="plan.promotion && plan.promotion2">
+													<div>
+														<h4 class="card-subtitle mb-2">
+															S/ <span x-text="
+																formatPrice(
+																	plan.price * (plan.promotion.percentage / 100) * (plan.promotion2.percentage / 100)
+																)
+															"></span>
+															por <span x-text="plan.duration_in_days"></span> días
+														</h4>
+														<h6 class="fw-bolder">
+															Primera promo: <span x-text="plan.promotion.percentage"></span>%
+															<br>
+															Segunda promo: <span x-text="plan.promotion2.percentage"></span>%
+														</h6>
+														<h6 class="card-subtitle mb-2">
+															precio regular S/ <span x-text="formatPrice(plan.price)"></span>
+														</h6>
+													</div>
 												</template>
 
-												<template x-if="plan.promotion === null">
-													<h4 class="card-subtitle mb-2">
-														S/ <span x-text="formatPrice(plan.price)"></span> por 
-														<span x-text="plan.duration_in_days"></span> días
-													</h4>
+												<template x-if="plan.promotion && !plan.promotion2">
+													<div>
+														<h4 class="card-subtitle mb-2">
+															S/ <span x-text="
+																formatPrice(
+																	plan.price * (plan.promotion.percentage / 100)
+																)
+															"></span>
+															por <span x-text="plan.duration_in_days"></span> días
+														</h4>
+														<h6 class="fw-bolder">
+															ahorras <span x-text="plan.promotion.percentage"></span>%
+														</h6>
+														<h6 class="card-subtitle mb-2">
+															precio regular S/ <span x-text="formatPrice(plan.price)"></span>
+														</h6>
+													</div>
+												</template>
+
+												<template x-if="!plan.promotion && plan.promotion2">
+													<div>
+														<h4 class="card-subtitle mb-2">
+															S/ <span x-text="
+																formatPrice(
+																	plan.price * (plan.promotion2.percentage / 100)
+																)
+															"></span>
+															por <span x-text="plan.duration_in_days"></span> días
+														</h4>
+														<h6 class="fw-bolder">
+															ahorras <span x-text="plan.promotion2.percentage"></span>%
+														</h6>
+														<h6 class="card-subtitle mb-2">
+															precio regular S/ <span x-text="formatPrice(plan.price)"></span>
+														</h6>
+													</div>
+												</template>
+
+												<template x-if="!plan.promotion && !plan.promotion2">
+													<div>
+														<h4 class="card-subtitle mb-2">
+															S/ <span x-text="formatPrice(plan.price)"></span>
+															por <span x-text="plan.duration_in_days"></span> días
+														</h4>
+													</div>
 												</template>
 
 												<hr>
@@ -169,9 +213,7 @@
 					</div>
 				</fieldset>
 
-				{{-- Modal de Pago --}}
 				@isset($user)
-
 					<x-pay-modal
 						avisoId="{{ $aviso_id }}"
 						userName="{{ $user->nombres }}"
@@ -197,7 +239,6 @@
 							title="Plan Estandar"
 							bgColor="text-bg-success"
 						/>
-
 					</x-pay-modal>
 				@endisset
 
@@ -209,7 +250,6 @@
 
 		const $loaderOverlay = document.getElementById('loader-overlay');
 		let idPlan = 3;
-		// let tipoDeAviso = 3;
 
 		function pricingData() {
 			return {
@@ -290,10 +330,18 @@
 					})
 					.then( response => response.json() )
 					.then( data => {
-						if ( data.data.promotion === null ) {
+						if (data.data.promotion !== null && data.data.promotion2 !== null ) {
 							this.prices = data.data.price
+								* (data.data.promotion.percentage / 100)
+								* (data.data.promotion2.percentage / 100);
+						} else if (data.data.promotion && !data.data.promotion2) {
+							this.prices = data.data.price
+								* (data.data.promotion.percentage / 100);
+						} else if (!data.data.promotion && data.data.promotion2) {
+							this.prices = data.data.price
+								* (data.data.promotion2.percentage / 100);
 						} else {
-							this.prices = data.data.price * (data.data.promotion.percentage / 100)
+							this.prices = data.data.price;
 						}
 						this.tipoPlan = data.data.name
 						if ( this.tipoPlan === "Plan Estandar" ) {
