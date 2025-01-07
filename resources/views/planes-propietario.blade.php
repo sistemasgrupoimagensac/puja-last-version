@@ -116,7 +116,7 @@
 														<h4 class="card-subtitle mb-2">
 															S/ <span x-text="
 																formatPrice(
-																	plan.price * (plan.promotion.percentage / 100) * (plan.promotion2.percentage / 100)
+																	plan.price * (1 - plan.promotion.percentage / 100) * (1 - plan.promotion2.percentage / 100)
 																)
 															"></span>
 															por <span x-text="plan.duration_in_days"></span> días
@@ -137,7 +137,7 @@
 														<h4 class="card-subtitle mb-2">
 															S/ <span x-text="
 																formatPrice(
-																	plan.price * (plan.promotion.percentage / 100)
+																	plan.price * (1 - plan.promotion.percentage / 100)
 																)
 															"></span>
 															por <span x-text="plan.duration_in_days"></span> días
@@ -156,7 +156,7 @@
 														<h4 class="card-subtitle mb-2">
 															S/ <span x-text="
 																formatPrice(
-																	plan.price * (plan.promotion2.percentage / 100)
+																	plan.price * (1 - plan.promotion2.percentage / 100)
 																)
 															"></span>
 															por <span x-text="plan.duration_in_days"></span> días
@@ -332,14 +332,14 @@
 					.then( data => {
 						if (data.data.promotion !== null && data.data.promotion2 !== null ) {
 							this.prices = data.data.price
-								* (data.data.promotion.percentage / 100)
-								* (data.data.promotion2.percentage / 100);
+								* (1 - data.data.promotion.percentage / 100)
+								* (1 - data.data.promotion2.percentage / 100);
 						} else if (data.data.promotion && !data.data.promotion2) {
 							this.prices = data.data.price
-								* (data.data.promotion.percentage / 100);
+								* (1 - data.data.promotion.percentage / 100);
 						} else if (!data.data.promotion && data.data.promotion2) {
 							this.prices = data.data.price
-								* (data.data.promotion2.percentage / 100);
+								* (1 - data.data.promotion2.percentage / 100);
 						} else {
 							this.prices = data.data.price;
 						}
