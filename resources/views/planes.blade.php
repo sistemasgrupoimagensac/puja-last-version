@@ -391,7 +391,7 @@
 						} else {
 							this.prices = data.data.price;
 						}
-						this.prices = formatPrice(this.prices)
+						this.prices = this.formatPrice(this.prices)
 						this.tipoPlan = data.data.name
 						if ( this.tipoPlan === "Plan Estandar" ) {
 							this.tipoDeAviso = 1
