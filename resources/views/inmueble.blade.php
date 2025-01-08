@@ -41,350 +41,345 @@
             <div class="col-lg-8 pe-lg-3">
                 <div class="py-3">
 
-                        {{-- Imagenes --}}
-                        <div class="images-wrapper position-relative mb-4" data-bs-toggle="modal" data-bs-target="#modalImagesCarousel">
+                    {{-- Imagenes --}}
+                    <div class="images-wrapper position-relative mb-4" data-bs-toggle="modal" data-bs-target="#modalImagesCarousel">
 
-                            @if ($inmueble_en_remate)
-                                <div class="position-absolute top-0 end-0 mt-4 me-2">
-                                    <h3 class="h2"><span class="badge text-bg-danger">REMATE PÚBLICO</span></h3>
-                                </div>
-                            @endif
-                            
-                            @if ($aviso->ad_type === 3)
-                                <div class="ribbon premium">Premium</div>
-                            @elseif ($aviso->ad_type === 2)
-                                <div class="ribbon top">Top</div>
-                            @endif
-
-                            <div class="first-image card-image-container shadow">
-                                <img src="{{ $aviso->inmueble->imagenPrincipal() }}" class="card-image-custom rounded" alt="{{ $aviso->inmueble->title() }}">
-                            </div>
-                            @foreach($aviso->inmueble->imagenes as $n => $image)
-                                <div class="@if($n == 0) second-image @elseif($n == 1) third-image @else d-none  @endif card-image-container shadow">
-                                    <img src="{{ $image->imagen }}" class="card-image-custom rounded" alt="{{ $aviso->inmueble->title() }}">
-                                </div>
-                            @endforeach
-
-
-                        </div>
-                        
-                        {{-- modal --}}
-                        <div class="modal fade" id="modalImagesCarousel" tabindex="-1">
-                            <div class="modal-dialog modal-xl modal-dialog-centered inmueble-modal-dialog">
-                                <div class="modal-content ">
-                                    <div class="modal-body p-0 bg-secondary">
-
-                                        {{-- imagenes carrusel --}}
-                                        <div id="carouselImagesInmueble" class="carousel slide carousel-fade">
-                                            <div class="carousel-inner">
-                                                <div class="carousel-item active"> 
-                                                    <img src="{{ $aviso->inmueble->imagenPrincipal() }}" class="d-block w-100" alt="{{ $aviso->inmueble->title() }}">
-                                                </div>
-                                                @foreach($aviso->inmueble->imagenes as $image)
-                                                    <div class="carousel-item @if($loop->first) @endif">
-                                                        <img src="{{ $image->imagen }}" class="d-block w-100" alt="{{ $aviso->inmueble->title() }}">
-                                                    </div>
-                                                @endforeach
-                                                @foreach($aviso->inmueble->planos as $plano)
-                                                    <div class="carousel-item @if($loop->first) @endif">
-                                                        <img src="{{ $plano->plano }}" class="d-block w-100" alt="planos">
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselImagesInmueble" data-bs-slide="prev">
-                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                <span class="visually-hidden">Previous</span>
-                                            </button>
-                                            <button class="carousel-control-next" type="button" data-bs-target="#carouselImagesInmueble" data-bs-slide="next">
-                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                <span class="visually-hidden">Next</span>
-                                            </button>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        {{-- Precio del inmueble Remate --}}
-                        @if($inmueble_en_remate)
-                            <div class="card m-0 my-4 text-bg-dark shadow p-3">
-                                <p class="h3">
-                                    <strong class="fw-bold text-primary">
-                                        ¡Gran oportunidad! 
-                                    </strong> 
-                                    Adquiere esta propiedad por 
-                                    <strong class="text-primary fw-bolder fs-2">
-                                        {{-- USD {{ $aviso->inmueble->remate_precio_base() }} --}}
-                                        USD {{ number_format($aviso->inmueble->remate_precio_base(), 2, '.', ',') }}
-                                    </strong>
-                                     de precio base, 
-                                    muy por debajo de su valor tasado en 
-                                    <strong>
-                                        {{-- USD {{ $aviso->inmueble->remate_valor_tasacion() }} --}}
-                                        USD {{ number_format($aviso->inmueble->remate_valor_tasacion(), 2, '.', ',') }}
-                                    </strong>
-                                </p>
-                            </div>
-                        @endif
-
-                        {{-- Card - Datos del inmueble --}}
                         @if ($inmueble_en_remate)
-                            <div class="custom-container mt-2 p-3 rounded bg-body-secondary d-flex flex-column justify-content-between align-items-md-stretch shadow">
-                        @else
-                            <div class="custom-container mt-2 p-3 rounded bg-body-secondary d-flex flex-row justify-content-between align-items-end flex-md-column align-items-md-stretch shadow">
+                            <div class="position-absolute top-0 end-0 mt-4 me-2">
+                                <h3 class="h2"><span class="badge text-bg-danger">REMATE PÚBLICO</span></h3>
+                            </div>
                         @endif
-
-                            @if ($inmueble_en_remate)
-                                <div class="d-flex flex-column">
-                            @else
-                                <div class="d-flex flex-column flex-md-row justify-content-between gap-2 gap-lg-5">
-                            @endif
-
-                                <div style="max-width: 700px">
-                                    
-                                    {{-- title --}}
-                                    <h1 class="p-0 h3 fw-bold">
-                                        {{ $aviso->inmueble->title() }}
-                                    </h1>
                         
-                                    {{-- direccion --}}
-                                    <h5 class="p-0">
-                                        <i class="fa-solid fa-location-dot icon-orange"></i>
-                                        <span>{{ $aviso->inmueble->address() }}</span> {{-- address --}}
-                                        <span>, </span>
-                                        <span>{{ $aviso->inmueble->distrito() }}</span> {{-- district --}}
-                                        <span>, </span>
-                                        <span>{{ $aviso->inmueble->provincia() }}</span> {{-- departament --}}
-                                    </h5>
+                        @if ($aviso->ad_type === 3)
+                            <div class="ribbon premium">Premium</div>
+                        @elseif ($aviso->ad_type === 2)
+                            <div class="ribbon top">Top</div>
+                        @endif
 
-                                </div>
-                    
-                                {{-- Precio del inmueble Alquiler y Venta --}}
-                                @if (!$inmueble_en_remate)
-                                    <div class="d-flex justify-content-between">
-
-                                        <div class="d-flex flex-column align-items-start align-items-md-end mt-4 mt-md-0">
-                                            @if($aviso->inmueble->precioSoles())
-                                                <h2 class="m-0 fw-bolder">
-                                                    <span>{{ $aviso->inmueble->currencySoles() }}</span>
-                                                    <span>{{ number_format($aviso->inmueble->precioSoles(), 0, '', ',') }}</span>
-                                                </h2>
-                                            @endif
-                                            @if($aviso->inmueble->precioDolares())
-                                                <h3 class="m-0 fw-bolder text-secondary">
-                                                    <small>{{ $aviso->inmueble->currencyDolares() }}</small>
-                                                    <small>{{ number_format($aviso->inmueble->precioDolares(), 0, '', ',') }}</small>
-                                                </h3>
-                                            @endif
-            
-                                        </div>
-                                    </div>
-                                @endif
-
-                                </div>
-
-                            <h4 class="p-0 m-0 mt-4" style="min-width: 70px">
-                                ID: {{ $aviso->id }}
-                            </h4>
+                        <div class="first-image card-image-container shadow">
+                            <img src="{{ $aviso->inmueble->imagenPrincipal() }}" class="card-image-custom rounded" alt="{{ $aviso->inmueble->title() }}">
                         </div>
+                        @foreach($aviso->inmueble->imagenes as $n => $image)
+                            <div class="@if($n == 0) second-image @elseif($n == 1) third-image @else d-none  @endif card-image-container shadow">
+                                <img src="{{ $image->imagen }}" class="card-image-custom rounded" alt="{{ $aviso->inmueble->title() }}">
+                            </div>
+                        @endforeach
 
-                        {{-- Card - Remate (OPCIONAL) --}}
-                        @if($inmueble_en_remate)
-                            <div class="description-container mt-4 bg-primary-subtle text-bg-light p-3 rounded border border-3 border-primary">
-                                <h3 class="fw-bold">Detalles del Remate Público</h3>
+                    </div>
+                    
+                    {{-- modal --}}
+                    <div class="modal fade" id="modalImagesCarousel" tabindex="-1">
+                        <div class="modal-dialog modal-xl modal-dialog-centered inmueble-modal-dialog">
+                            <div class="modal-content ">
+                                <div class="modal-body p-0 bg-secondary">
 
-                                @if($aviso->inmueble->remate_direccion() && $aviso->inmueble->remate_direccion() !== 'null')
-                                    <p>
-                                        <span class="fw-bolder">Lugar del remate:</span>
-                                        {{ $aviso->inmueble->remate_direccion() }} - {{ $aviso->inmueble->remate_nombre_centro() }}
-                                    </p>
-                                @endif
+                                    {{-- imagenes carrusel --}}
+                                    <div id="carouselImagesInmueble" class="carousel slide carousel-fade">
+                                        <div class="carousel-inner">
+                                            <div class="carousel-item active"> 
+                                                <img src="{{ $aviso->inmueble->imagenPrincipal() }}" class="d-block w-100" alt="{{ $aviso->inmueble->title() }}">
+                                            </div>
+                                            @foreach($aviso->inmueble->imagenes as $image)
+                                                <div class="carousel-item @if($loop->first) @endif">
+                                                    <img src="{{ $image->imagen }}" class="d-block w-100" alt="{{ $aviso->inmueble->title() }}">
+                                                </div>
+                                            @endforeach
+                                            @foreach($aviso->inmueble->planos as $plano)
+                                                <div class="carousel-item @if($loop->first) @endif">
+                                                    <img src="{{ $plano->plano }}" class="d-block w-100" alt="planos">
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselImagesInmueble" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button" data-bs-target="#carouselImagesInmueble" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </button>
+                                    </div>
 
-                                @if($aviso->inmueble->remate_fecha() && $aviso->inmueble->remate_fecha() !== 'null')
-                                    <p>
-                                        <span class="fw-bolder">Fecha y hora:</span>
-                                        {{ $aviso->inmueble->remate_fecha() }} a las {{ $aviso->inmueble->remate_hora() ? $aviso->inmueble->remate_hora() : "" }} horas
-                                    </p>
-                                @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {{-- Precio del inmueble Remate --}}
+                    @if($inmueble_en_remate)
+                        <div class="card m-0 my-4 text-bg-dark shadow p-3">
+                            <p class="h3">
+                                <strong class="fw-bold text-primary">
+                                    ¡Gran oportunidad! 
+                                </strong> 
+                                Adquiere esta propiedad por 
+                                <strong class="text-primary fw-bolder fs-2">
+                                    {{-- USD {{ $aviso->inmueble->remate_precio_base() }} --}}
+                                    USD {{ number_format($aviso->inmueble->remate_precio_base(), 2, '.', ',') }}
+                                </strong>
+                                    de precio base, muy por debajo de su valor tasado en 
+                                <strong>
+                                    {{-- USD {{ $aviso->inmueble->remate_valor_tasacion() }} --}}
+                                    USD {{ number_format($aviso->inmueble->remate_valor_tasacion(), 2, '.', ',') }}
+                                </strong>
+                            </p>
+                        </div>
+                    @endif
 
-                                @if($aviso->inmueble->remate_nombre_contacto() && $aviso->inmueble->remate_nombre_contacto() !== 'null')
-                                    <p>
-                                        <span class="fw-bolder">Contacto:</span>
-                                        {{ $aviso->inmueble->remate_nombre_contacto() }}
-                                    </p>
-                                @endif
+                    {{-- Card - Datos del inmueble --}}
+                    @if ($inmueble_en_remate)
+                        <div class="custom-container mt-2 p-3 rounded bg-body-secondary d-flex flex-column justify-content-between align-items-md-stretch shadow">
+                    @else
+                        <div class="custom-container mt-2 p-3 rounded bg-body-secondary d-flex flex-row justify-content-between align-items-end flex-md-column align-items-md-stretch shadow">
+                    @endif
 
-                                @if($aviso->inmueble->remate_telef_contacto() && $aviso->inmueble->remate_nombre_contacto() !== 'null')
-                                    <p>
-                                        <span class="fw-bolder">Teléfono:</span>
-                                        {{ $aviso->inmueble->remate_telef_contacto() }}
-                                    </p>
-                                @endif
+                        @if ($inmueble_en_remate)
+                            <div class="d-flex flex-column">
+                        @else
+                            <div class="d-flex flex-column flex-md-row justify-content-between gap-2 gap-lg-5">
+                        @endif
 
-                                @if($aviso->inmueble->remate_correo_contacto() && $aviso->inmueble->remate_correo_contacto() !== 'null')
-                                    <p>
-                                        <span class="fw-bolder">Correo:</span>
-                                        {{ $aviso->inmueble->remate_correo_contacto() }}
-                                    </p>
-                                @endif
+                            <div style="max-width: 700px">
+                                {{-- title --}}
+                                <h1 class="p-0 h3 fw-bold">
+                                    {{ $aviso->inmueble->title() }}
+                                </h1>
+                                {{-- direccion --}}
+                                <h5 class="p-0">
+                                    <i class="fa-solid fa-location-dot icon-orange"></i>
+                                    <span>{{ $aviso->inmueble->address() }}</span>
+                                    <span>, </span>
+                                    <span>{{ $aviso->inmueble->distrito() }}</span>
+                                    <span>, </span>
+                                    <span>{{ $aviso->inmueble->provincia() }}</span>
+                                </h5>
+                            </div>
+                
+                            {{-- Precio del inmueble Alquiler y Venta --}}
+                            @if (!$inmueble_en_remate)
+                                <div class="d-flex justify-content-between">
+                                    <div class="d-flex flex-column align-items-start align-items-md-end mt-4 mt-md-0">
+                                        @if($aviso->inmueble->precioSoles())
+                                            <h2 class="m-0 fw-bolder">
+                                                <span>{{ $aviso->inmueble->currencySoles() }}</span>
+                                                <span>{{ number_format($aviso->inmueble->precioSoles(), 0, '', ',') }}</span>
+                                            </h2>
+                                        @endif
+                                        @if($aviso->inmueble->precioDolares())
+                                            <h3 class="m-0 fw-bolder text-secondary">
+                                                <small>{{ $aviso->inmueble->currencyDolares() }}</small>
+                                                <small>{{ number_format($aviso->inmueble->precioDolares(), 0, '', ',') }}</small>
+                                            </h3>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endif
 
-                                @if($aviso->inmueble->remate_partida_registral() && $aviso->inmueble->remate_partida_registral() !== 'null')
-                                    <p>
-                                        <span class="fw-bolder">Partida Registral:</span>
-                                        <span class="px-2 bg-body-tertiary rounded">{{ $aviso->inmueble->remate_partida_registral() }}</span>
-                                    </p>
-                                @endif
+                            </div>
 
+                        <h4 class="p-0 m-0 mt-4" style="min-width: 70px">
+                            ID: {{ $aviso->id }}
+                        </h4>
+                    </div>
+
+                    {{-- Card - Remate (OPCIONAL) --}}
+                    @if($inmueble_en_remate)
+                        <div class="description-container mt-4 bg-primary-subtle text-bg-light p-3 rounded border border-3 border-primary">
+                            <h3 class="fw-bold">Detalles del Remate Público</h3>
+
+                            @if($aviso->inmueble->remate_direccion() && $aviso->inmueble->remate_direccion() !== 'null')
+                                <p>
+                                    <span class="fw-bolder">Lugar del remate:</span>
+                                    {{ $aviso->inmueble->remate_direccion() }} - {{ $aviso->inmueble->remate_nombre_centro() }}
+                                </p>
+                            @endif
+
+                            @if($aviso->inmueble->numero_remate() && $aviso->inmueble->remate_fecha() !== 'null')
+                                <p>
+                                    <span class="fw-bolder">Remate:</span>
+                                    # {{ $aviso->inmueble->numero_remate() }}
+                                </p>
+                            @endif
+
+                            @if($aviso->inmueble->remate_fecha() && $aviso->inmueble->remate_fecha() !== 'null')
+                                <p>
+                                    <span class="fw-bolder">Fecha y hora:</span>
+                                    {{ $aviso->inmueble->remate_fecha() }} a las {{ $aviso->inmueble->remate_hora() ? $aviso->inmueble->remate_hora() : "" }} horas
+                                </p>
+                            @endif
+
+                            @if($aviso->inmueble->remate_nombre_contacto() && $aviso->inmueble->remate_nombre_contacto() !== 'null')
+                                <p>
+                                    <span class="fw-bolder">Contacto:</span>
+                                    {{ $aviso->inmueble->remate_nombre_contacto() }}
+                                </p>
+                            @endif
+
+                            @if($aviso->inmueble->remate_telef_contacto() && $aviso->inmueble->remate_nombre_contacto() !== 'null')
+                                <p>
+                                    <span class="fw-bolder">Teléfono:</span>
+                                    {{ $aviso->inmueble->remate_telef_contacto() }}
+                                </p>
+                            @endif
+
+                            @if($aviso->inmueble->remate_correo_contacto() && $aviso->inmueble->remate_correo_contacto() !== 'null')
+                                <p>
+                                    <span class="fw-bolder">Correo:</span>
+                                    {{ $aviso->inmueble->remate_correo_contacto() }}
+                                </p>
+                            @endif
+
+                            @if($aviso->inmueble->remate_partida_registral() && $aviso->inmueble->remate_partida_registral() !== 'null')
+                                <p>
+                                    <span class="fw-bolder">Partida Registral:</span>
+                                    <span class="px-2 bg-body-tertiary rounded">{{ $aviso->inmueble->remate_partida_registral() }}</span>
+                                </p>
+                            @endif
+
+                        </div>
+                    @endif
+
+                    {{-- Card - Más datos del inmueble --}}
+                    <div class="d-flex flex-wrap justify-content-between gap-4 mt-4 px-3 py-4 border rounded shadow">
+
+                        {{-- dormitorios --}}
+                        @if($aviso->inmueble->dormitorios())
+                            <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
+                                <div class="d-flex">
+                                    <i class="fa-solid fa-bed fa-lg icon-orange p-1"></i>
+                                    <h5 class="text-secondary m-1 fw-bold"> {{ $aviso->inmueble->dormitorios() }} </h5>
+                                </div>
+                                <h6 class="text-secondary m-0"> dorm. </h6>
                             </div>
                         @endif
 
-                        {{-- Card - Más datos del inmueble --}}
-                        <div class="d-flex flex-wrap justify-content-between gap-4 mt-4 px-3 py-4 border rounded shadow">
-
-                            {{-- dormitorios --}}
-                            @if($aviso->inmueble->dormitorios())
-                                <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
-                                    <div class="d-flex">
-                                        <i class="fa-solid fa-bed fa-lg icon-orange p-1"></i>
-                                        <h5 class="text-secondary m-1 fw-bold"> {{ $aviso->inmueble->dormitorios() }} </h5>
-                                    </div>
-                                    <h6 class="text-secondary m-0"> dorm. </h6>
+                        {{-- baño completo --}}
+                        @if($aviso->inmueble->banios())
+                            <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
+                                <div class="d-flex">
+                                    <i class="fa-solid fa-bath fa-lg icon-orange p-1"></i>
+                                    <h5 class="text-secondary m-1 fw-bold"> {{ $aviso->inmueble->banios() }} </h5>
                                 </div>
-                            @endif
-
-                            {{-- baño completo --}}
-                            @if($aviso->inmueble->banios())
-                                <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
-                                    <div class="d-flex">
-                                        <i class="fa-solid fa-bath fa-lg icon-orange p-1"></i>
-                                        <h5 class="text-secondary m-1 fw-bold"> {{ $aviso->inmueble->banios() }} </h5>
-                                    </div>
-                                    <h6 class="text-secondary m-0"> bañ. </h6>
-                                </div>
-                            @endif
-
-                            {{-- medio baño --}}
-                            @if($aviso->inmueble->medioBanios())
-                                <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
-                                    <div class="d-flex">
-                                        <i class="fa-solid fa-toilet fa-lg icon-orange p-1"></i>
-                                        <h5 class="text-secondary m-1 fw-bold"> {{ $aviso->inmueble->medioBanios() }} </h5>
-                                    </div>
-                                    <h6 class="text-secondary m-0"> 1/2 bañ. </h6>
-                                </div>
-                            @endif
-                            
-                            {{-- estacionamientos --}}
-                            @if($aviso->inmueble->estacionamientos())
-                                <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
-                                    <div class="d-flex">
-                                        <i class="fa-solid fa-car fa-lg icon-orange p-1"></i>
-                                        <h5 class="text-secondary m-1 fw-bold"> {{ $aviso->inmueble->estacionamientos() }} </h5>
-                                    </div>
-                                    <h6 class="text-secondary m-0"> estacion. </h6>
-                                </div>
-                            @endif
-
-                            {{-- area total --}}
-                            @if($aviso->inmueble->area())
-                                <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
-                                    <div class="d-flex">
-                                        <i class="fa-solid fa-ruler-combined fa-lg icon-orange p-1"></i>
-                                        <h5 class="text-secondary m-1 fw-bold"> 
-                                            {{-- <span>{{ $aviso->inmueble->area(); }}</span> --}}
-                                            @if ( $aviso->inmueble->remate_precio_base() )
-                                                <span>{{ number_format($aviso->inmueble->area(), 2, '.', ','); }}</span>
-                                            @else
-                                                <span>{{ number_format($aviso->inmueble->area(), 0, '', ','); }}</span>
-                                            @endif
-                                            <span>m</span>
-                                            <sup>2</sup>
-                                        </h5>
-                                    </div>
-                                    <h6 class="text-secondary m-0"> area total </h6>
-                                </div>
-                            @endif
-                            
-                            {{-- area techada --}}
-                            @if($aviso->inmueble->areaConstruida())
-                                <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
-                                    <div class="d-flex">
-                                        <i class="fa-solid fa-ruler-combined fa-lg icon-orange p-1"></i>
-                                        <h5 class="text-secondary m-1 fw-bold"> 
-                                            {{-- <span>{{ $aviso->inmueble->areaConstruida(); }}</span> --}}
-                                            {{-- <span>{{ number_format($aviso->inmueble->areaConstruida(), 0, '', ','); }}</span> --}}
-                                            @if ( $aviso->inmueble->remate_precio_base() )
-                                                <span>{{ number_format($aviso->inmueble->areaConstruida(), 2, '.', ','); }}</span>
-                                            @else
-                                                <span>{{ number_format($aviso->inmueble->areaConstruida(), 0, '', ','); }}</span>
-                                            @endif
-                                            <span>m</span>
-                                            <sup>2</sup>
-                                        </h5>
-                                    </div>
-                                    <h6 class="text-secondary m-0"> area construida </h6>
-                                </div>
-                            @endif
-
-                        </div>
-
-                        {{-- Card - descripción --}}
-                        <div class="description-container mt-5">
-                            <h3 class="fw-bold">Sobre este inmueble</h3>
-
-                            <p> <span class="fw-bold">Antigüedad:</span>
-                                @if ( $aviso->inmueble->antiguedad() === 0 )
-                                    <span>En construccion</span>
-                                @elseif ( $aviso->inmueble->antiguedad() === 1 )
-                                    <span>En estreno</span>
-                                @elseif ( $aviso->inmueble->antiguedad() === 2 )
-                                    <span class=" fw-normal">{{ $aviso->inmueble->aniosAntiguedad() }} años</span>
-                                @endif
-                            </p>
-
-                            <div class="description-container mt-4">
-                                <h4 class="fw-bold">Descripción</h4>
-        
-                                @if ($acepta_puja)
-                                    <span class="badge text-bg-primary text-white fw-lighter my-3">Este aviso acepta ofertas en cuanto al precio que le ofrezcas</span> 
-                                @endif
-        
-                                <form id="editDescriptionForm" action="{{ route('posts.edit_description') }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                    <div class="form-group">
-                                        <input type="hidden" name="aviso_id" value="{{ $aviso->id }}">
-                                        <textarea class="form-control" id="editDescriptionTextarea" name="description" disabled>{!! $aviso->inmueble->principal->caracteristicas->descripcion !!}</textarea>
-                                    </div>
-                                    @if ( $ad_belongs && !in_array($aviso->historial[0]->estado, ["Publicado", "Aceptado"]) )
-                                        <div class="btn-group border mt-3" role="group">
-                                            <button type="button" id="editDesciptionButton" class="btn border-0 button-orange" style="width: 80px;">Editar</button>
-                                            <button type="submit" id="saveDesciptionButton" class="btn border-0 button-orange" style="width: 80px;" disabled>Guardar</button>
-                                        </div>
-                                    @endif
-                                </form>
+                                <h6 class="text-secondary m-0"> bañ. </h6>
                             </div>
+                        @endif
+
+                        {{-- medio baño --}}
+                        @if($aviso->inmueble->medioBanios())
+                            <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
+                                <div class="d-flex">
+                                    <i class="fa-solid fa-toilet fa-lg icon-orange p-1"></i>
+                                    <h5 class="text-secondary m-1 fw-bold"> {{ $aviso->inmueble->medioBanios() }} </h5>
+                                </div>
+                                <h6 class="text-secondary m-0"> 1/2 bañ. </h6>
+                            </div>
+                        @endif
+                        
+                        {{-- estacionamientos --}}
+                        @if($aviso->inmueble->estacionamientos())
+                            <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
+                                <div class="d-flex">
+                                    <i class="fa-solid fa-car fa-lg icon-orange p-1"></i>
+                                    <h5 class="text-secondary m-1 fw-bold"> {{ $aviso->inmueble->estacionamientos() }} </h5>
+                                </div>
+                                <h6 class="text-secondary m-0"> estacion. </h6>
+                            </div>
+                        @endif
+
+                        {{-- area total --}}
+                        @if($aviso->inmueble->area())
+                            <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
+                                <div class="d-flex">
+                                    <i class="fa-solid fa-ruler-combined fa-lg icon-orange p-1"></i>
+                                    <h5 class="text-secondary m-1 fw-bold"> 
+                                        {{-- <span>{{ $aviso->inmueble->area(); }}</span> --}}
+                                        @if ( $aviso->inmueble->remate_precio_base() )
+                                            <span>{{ number_format($aviso->inmueble->area(), 2, '.', ','); }}</span>
+                                        @else
+                                            <span>{{ number_format($aviso->inmueble->area(), 0, '', ','); }}</span>
+                                        @endif
+                                        <span>m</span>
+                                        <sup>2</sup>
+                                    </h5>
+                                </div>
+                                <h6 class="text-secondary m-0"> area total </h6>
+                            </div>
+                        @endif
+                        
+                        {{-- area techada --}}
+                        @if($aviso->inmueble->areaConstruida())
+                            <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
+                                <div class="d-flex">
+                                    <i class="fa-solid fa-ruler-combined fa-lg icon-orange p-1"></i>
+                                    <h5 class="text-secondary m-1 fw-bold"> 
+                                        {{-- <span>{{ $aviso->inmueble->areaConstruida(); }}</span> --}}
+                                        {{-- <span>{{ number_format($aviso->inmueble->areaConstruida(), 0, '', ','); }}</span> --}}
+                                        @if ( $aviso->inmueble->remate_precio_base() )
+                                            <span>{{ number_format($aviso->inmueble->areaConstruida(), 2, '.', ','); }}</span>
+                                        @else
+                                            <span>{{ number_format($aviso->inmueble->areaConstruida(), 0, '', ','); }}</span>
+                                        @endif
+                                        <span>m</span>
+                                        <sup>2</sup>
+                                    </h5>
+                                </div>
+                                <h6 class="text-secondary m-0"> area construida </h6>
+                            </div>
+                        @endif
+
+                    </div>
+
+                    {{-- Card - descripción --}}
+                    <div class="description-container mt-5">
+                        <h3 class="fw-bold">Sobre este inmueble</h3>
+
+                        <p> <span class="fw-bold">Antigüedad:</span>
+                            @if ( $aviso->inmueble->antiguedad() === 0 )
+                                <span>En construccion</span>
+                            @elseif ( $aviso->inmueble->antiguedad() === 1 )
+                                <span>En estreno</span>
+                            @elseif ( $aviso->inmueble->antiguedad() === 2 )
+                                <span class=" fw-normal">{{ $aviso->inmueble->aniosAntiguedad() }} años</span>
+                            @endif
+                        </p>
+
+                        <div class="description-container mt-4">
+                            <h4 class="fw-bold">Descripción</h4>
+    
+                            @if ($acepta_puja)
+                                <span class="badge text-bg-primary text-white fw-lighter my-3">Este aviso acepta ofertas en cuanto al precio que le ofrezcas</span> 
+                            @endif
+    
+                            <form id="editDescriptionForm" action="{{ route('posts.edit_description') }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <div class="form-group">
+                                    <input type="hidden" name="aviso_id" value="{{ $aviso->id }}">
+                                    <textarea class="form-control" id="editDescriptionTextarea" name="description" disabled>{!! $aviso->inmueble->principal->caracteristicas->descripcion !!}</textarea>
+                                </div>
+                                @if ( $ad_belongs && !in_array($aviso->historial[0]->estado, ["Publicado", "Aceptado"]) )
+                                    <div class="btn-group border mt-3" role="group">
+                                        <button type="button" id="editDesciptionButton" class="btn border-0 button-orange" style="width: 80px;">Editar</button>
+                                        <button type="submit" id="saveDesciptionButton" class="btn border-0 button-orange" style="width: 80px;" disabled>Guardar</button>
+                                    </div>
+                                @endif
+                            </form>
                         </div>
-
-
-
+                    </div>
 
                     {{-- Más Características --}}
                     <div class="mt-5">
                         <h3 class="fw-bold">Más Características</h3>
 
                         <ul class="list-unstyled d-flex flex-wrap justify-content-between">
-                            {{-- @dd($aviso->inmueble->extra->caracteristicas); --}}
                             @foreach($aviso->inmueble->extra->caracteristicas as $caracteristica)
-                                {{-- <li>{{ $caracteristica->caracteristica }}: {{ $caracteristica->id }}</li> --}}
                                 @if ( $caracteristica->categoria_caracteristica_id === $id_categoria_caracteristicas )
-                                    <li class="mt-3" style="min-width: 250px;">
-                                        <h6 class="text-secondary">
+                                <li class="mt-3" style="min-width: 250px;">
+                                    <h6 class="text-secondary">
                                         <i class="fa-solid {{ $caracteristica->icono }} icon-orange me-2"></i>
                                         {{ $caracteristica->caracteristica }}
-                                        </h6>
-                                    </li>
+                                    </h6>
+                                </li>
                                 @endif
                             @endforeach
                         </ul>
@@ -397,14 +392,14 @@
 
                             <ul class="list-unstyled d-flex flex-wrap justify-content-between">
                                 @foreach($aviso->inmueble->extra->caracteristicas as $caracteristica)
-                                    @if ( $caracteristica->categoria_caracteristica_id == 2 )
-                                        <li class="mt-3" style="min-width: 250px;">
-                                            <h6 class="text-secondary">
-                                                <i class="fa-solid {{ $caracteristica->icono }} icon-orange me-2"></i>
-                                                {{ $caracteristica->caracteristica }}
-                                            </h6>
-                                        </li>
-                                    @endif
+                                @if ( $caracteristica->categoria_caracteristica_id == 2 )
+                                <li class="mt-3" style="min-width: 250px;">
+                                    <h6 class="text-secondary">
+                                        <i class="fa-solid {{ $caracteristica->icono }} icon-orange me-2"></i>
+                                        {{ $caracteristica->caracteristica }}
+                                    </h6>
+                                </li>
+                                @endif
                                 @endforeach
                             </ul>
                         </div>
@@ -413,7 +408,6 @@
                     {{-- Geolocalización --}}
                     <div class="mt-5">
                         <h3 class="fw-bold">Localización</h3>
-
                         {{-- direccion --}}
                         <p class="p-0">
                             <i class="fa-solid fa-location-dot icon-orange"></i>
@@ -425,7 +419,7 @@
                         </p>
 
                         @if ($aviso->inmueble->principal->ubicacion->latitud)
-                            <div class="mt-3" id="map" style="height: 600px; width: 100%"></div>
+                        <div class="mt-3" id="map" style="height: 600px; width: 100%"></div>
                         @endif
                     </div>
                 </div>  
@@ -500,7 +494,6 @@
                             </div>
                         @endif
                     @endif
-
 
                     <!-- Modal confirmacion de publicacion -->
                     <div class="modal fade" id="publicarAviso" tabindex="-1" aria-labelledby="publicarAvisoLabel" aria-hidden="true">
@@ -655,7 +648,6 @@
         let marker
         let circle
         function initMap() {
-
             // Definir los estilos para ocultar POI (puntos de interés) y otros elementos.
             const mapStyles = [
                 {
@@ -716,8 +708,7 @@
                 event.preventDefault();
                 
                 const formData = new FormData(form);
-                formData.append('_method', 'PUT'); // Asegurarse de que el método sea PUT
-                // formData.append('description', editDescriptionTextarea.value);
+                formData.append('_method', 'PUT');
                 fetch(form.action, {
                     method: 'POST',
                     headers: {
@@ -758,7 +749,7 @@
             document.getElementById('whatsapp_contact_button').addEventListener('click', function(event) {
                 event.preventDefault();
                 clearErrors();
-                submitForm('{{ route('procesar_contacto') }}', 'whatsapp');  // Primero validamos antes de enviar WhatsApp
+                submitForm('{{ route('procesar_contacto') }}', 'whatsapp');
             });
         }
 
@@ -766,7 +757,7 @@
             let form = document.getElementById('send_contact');
             let formData = new FormData(form);
             formData.append('current_url', window.location.href);
-            formData.append('accion', accion);  // Agregamos la acción para que el backend sepa qué hacer
+            formData.append('accion', accion);
 
             fetch(actionUrl, {
                 method: 'POST',
@@ -796,10 +787,8 @@
             });
         }
 
-
         function handleErrors(errors) {
             for (const field in errors) {
-                
                 const inputElement = document.querySelector(`[name="${field}"]`);
                 const feedbackElement = document.getElementById(`validationServer${capitalizeFirstLetter(field)}Feedback`);
 

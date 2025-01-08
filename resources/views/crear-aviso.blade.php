@@ -52,7 +52,6 @@
 
         <div class="container">
             <div class="col-12 col-lg-6 px-lg-5">
-
                 <div id="error-container" class="mt-3" style="margin-bottom: -1rem;"></div>
 
                 <!-- Paso 1: Operación y tipo de inmueble -->
@@ -295,38 +294,156 @@
                                         >
                                     </div>
                                 </div>
+                            </div>
 
-                                {{-- Precios para remate --}}
-                                <div class="form-group w-100" x-show="perfil_acreedor">
-                                    <label class="text-secondary" for="base_remate">Base de Remate</label>
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text">US$</span>
-                                        <input 
-                                            type="text" 
-                                            id="base_remate" 
-                                            x-model="base_remate" 
-                                            class="form-control" 
-                                            {{-- @input="formatAmount('base_remate')"  --}}
-                                            {{-- @blur="formatAmount('base_remate', true)"  --}}
-                                            :required="isVisible">
+
+                            <div x-show="perfil_acreedor">
+                                {{-- <div class="d-flex justify-content-between gap-4">
+                                    <div class="form-group w-100" x-show="perfil_acreedor">
+                                        <label class="text-secondary" for="fecha_remate">
+                                            Fecha del Remate
+                                            <span style="font-size: .75rem">(opcional)</span>
+                                        </label>
+                                        <input type="date" id="fecha_remate" x-model="fecha_remate" class="form-control">
+                                    </div>
+                                    <div class="form-group w-100" x-show="perfil_acreedor">
+                                        <label class="text-secondary" for="hora_remate">
+                                            Hora del Remate
+                                            <span style="font-size: .75rem">(opcional)</span>
+                                        </label>
+                                        <input type="time" id="hora_remate" x-model="hora_remate" min="07:00" max="22:00" class="form-control">
                                     </div>
                                 </div>
+    
+                                <div class="d-flex justify-content-between gap-4">
+                                    <div class="form-group w-100">
+                                        <label class="text-secondary" for="base_remate">Base de Remate</label>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">US$</span>
+                                            <input 
+                                                type="text" 
+                                                id="base_remate" 
+                                                x-model="base_remate" 
+                                                class="form-control" 
+                                                :required="isVisible">
+                                        </div>
+                                    </div>
+    
+                                    <div class="form-group w-100">
+                                        <label class="text-secondary" for="valor_tasacion">Valor de Tasación</label>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">US$</span>
+                                            <input 
+                                                type="text" 
+                                                id="valor_tasacion" 
+                                                x-model="valor_tasacion" 
+                                                class="form-control" 
+                                                :required="isVisible"
+                                            >
+                                        </div>
+                                    </div>
+                                </div> --}}
 
-                                <div class="form-group w-100" x-show="perfil_acreedor">
-                                    <label class="text-secondary" for="valor_tasacion">Valor de Tasación</label>
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text">US$</span>
-                                        <input 
-                                            type="text" 
-                                            id="valor_tasacion" 
-                                            x-model="valor_tasacion" 
-                                            class="form-control" 
-                                            {{-- @input="formatAmount('valor_tasacion')"  --}}
-                                            {{-- @blur="formatAmount('valor_tasacion', true)"  --}}
-                                            :required="isVisible"
+
+                                <template x-for="(remate, index) in remates" :key="index">
+                                    <div class="border p-3 mb-3">
+                                        <!-- TÍTULO QUE MUESTRA EL NÚMERO DE REMATE -->
+                                        <h5 class="fw-bold mb-3">
+                                            Datos del 
+                                            <span x-text="remate.numero_remate"></span> 
+                                            remate
+                                        </h5>
+                            
+                                        <div class="d-flex justify-content-between gap-4">
+                                            <!-- Fecha del Remate -->
+                                            <div class="form-group w-100">
+                                                <label :for="`fecha_remate_${index}`">
+                                                    Fecha del Remate
+                                                    <span style="font-size: .75rem">(opcional)</span>
+                                                </label>
+                                                <input
+                                                    type="date"
+                                                    :id="`fecha_remate_${index}`"
+                                                    x-model="remate.fecha_remate"
+                                                    class="form-control"
+                                                >
+                                            </div>
+                                            
+                                            <!-- Hora del Remate -->
+                                            <div class="form-group w-100">
+                                                <label :for="`hora_remate_${index}`">
+                                                    Hora del Remate
+                                                    <span style="font-size: .75rem">(opcional)</span>
+                                                </label>
+                                                <input
+                                                    type="time"
+                                                    :id="`hora_remate_${index}`"
+                                                    x-model="remate.hora_remate"
+                                                    min="07:00"
+                                                    max="22:00"
+                                                    class="form-control"
+                                                >
+                                            </div>
+                                        </div>
+                            
+                                        <div class="d-flex justify-content-between gap-4 mt-3">
+                                            <!-- Base de Remate -->
+                                            <div class="form-group w-100">
+                                                <label :for="`base_remate_${index}`">
+                                                    Base de Remate
+                                                </label>
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text">US$</span>
+                                                    <input
+                                                        type="text"
+                                                        :id="`base_remate_${index}`"
+                                                        x-model="remate.base_remate"
+                                                        class="form-control"
+                                                    >
+                                                </div>
+                                            </div>
+                                
+                                            <!-- Valor de Tasación -->
+                                            <div class="form-group w-100">
+                                                <label :for="`valor_tasacion_${index}`">
+                                                    Valor de Tasación
+                                                </label>
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text">US$</span>
+                                                    <input
+                                                        type="text"
+                                                        :id="`valor_tasacion_${index}`"
+                                                        x-model="remate.valor_tasacion"
+                                                        class="form-control"
+                                                    >
+                                                </div>
+                                            </div>
+                                        </div>
+                            
+                                        <!-- Botón para eliminar este remate (solo si hay más de 1) -->
+                                        <button
+                                            type="button"
+                                            class="btn btn-outline-danger btn-sm mt-2"
+                                            @click="removeRemate(index)"
+                                            x-show="remates.length > 1"
                                         >
+                                            Eliminar este remate
+                                        </button>
                                     </div>
-                                </div>
+                                </template>
+                            
+                                <!-- Botón para agregar un nuevo remate -->
+                                <button 
+                                    type="button" 
+                                    class="btn btn-outline-primary" 
+                                    @click="addRemate"
+                                >
+                                    Agregar otro remate
+                                </button>
+                            
+
+
+
                             </div>
                         </fieldset>
 
@@ -334,7 +451,6 @@
                         <fieldset x-show="perfil_acreedor">
                          
                             <legend>Detalles del Remate</legend>
-                            
 
                             <div class=" d-flex flex-column gap-3">
                                 <div>
@@ -379,23 +495,6 @@
                                         <span style="font-size: .75rem">(opcional)</span>
                                     </label>
                                     <input type="text" id="partida_registral" x-model="partida_registral" class="form-control">
-                                </div>
-    
-                                <div class="d-flex justify-content-between gap-4">
-                                    <div class="form-group w-100">
-                                        <label class="text-secondary" for="fecha_remate">
-                                            Fecha del Remate
-                                            <span style="font-size: .75rem">(opcional)</span>
-                                        </label>
-                                        <input type="date" id="fecha_remate" x-model="fecha_remate" class="form-control">
-                                    </div>
-                                    <div class="form-group w-100">
-                                        <label class="text-secondary" for="hora_remate">
-                                            Hora del Remate
-                                            <span style="font-size: .75rem">(opcional)</span>
-                                        </label>
-                                        <input type="time" id="hora_remate" x-model="hora_remate" min="07:00" max="22:00" class="form-control">
-                                    </div>
                                 </div>
                                 
                                 <div class="form-group w-100">
@@ -848,75 +947,106 @@
 
         function avisoForm() {
             return {
-                    step: {{ session('step', 1) }},
-                    aviso_id: {{ session('aviso_id', 'null') }},
+                step: {{ session('step', 1) }},
+                aviso_id: {{ session('aviso_id', 'null') }},
 
-                    perfil_acreedor: @json($es_acreedor),
+                perfil_acreedor: @json($es_acreedor),
 
-                    is_puja: false,
+                is_puja: false,
 
-                    // el campo es visible cuando es requerido
-                    isVisible: false,
-                    notVisible: true,
-                    
-                    tipo_operacion: '',
-                    subtipos: [],
-                    selectedSubtipo: '',
-                    titulo: '',
-                    description: '',
+                // el campo es visible cuando es requerido
+                isVisible: false,
+                notVisible: true,
+                
+                tipo_operacion: '',
+                subtipos: [],
+                selectedSubtipo: '',
+                titulo: '',
+                description: '',
 
-                    direccion: '',
-                    departamentos: [],
-                    provincias: [],
-                    distritos: [],
-                    selectedDepartamento: '',
-                    selectedProvincia: '',
-                    selectedDistrito: '',
+                direccion: '',
+                departamentos: [],
+                provincias: [],
+                distritos: [],
+                selectedDepartamento: '',
+                selectedProvincia: '',
+                selectedDistrito: '',
 
-                    extras: [],
-                    extras2: [],
-                    extras3: [],
-                    adicionales: [],
-                    comodidades: [],
+                extras: [],
+                extras2: [],
+                extras3: [],
+                adicionales: [],
+                comodidades: [],
 
-                    fotos: [],
-                    imagen_principal: null,
-                    videos: null,
-                    planos: [],
-                    dormitorios: '',
-                    banios: '',
-                    medio_banios: '',
-                    estacionamiento: '',
-                    area_construida: '',
-                    area_total: '',
-                    antiguedad: '',
-                    anios_antiguedad: '',
-                    precio_soles: '',
-                    precio_dolares: '',
-                    acceso_playa: false,
-                    aire_acondicionado: false,
-                    acceso_parque: false,
-                    ascensores: false,
-                    codigo_unico: '',
+                fotos: [],
+                imagen_principal: null,
+                videos: null,
+                planos: [],
+                dormitorios: '',
+                banios: '',
+                medio_banios: '',
+                estacionamiento: '',
+                area_construida: '',
+                area_total: '',
+                antiguedad: '',
+                anios_antiguedad: '',
+                precio_soles: '',
+                precio_dolares: '',
+                acceso_playa: false,
+                aire_acondicionado: false,
+                acceso_parque: false,
+                ascensores: false,
+                codigo_unico: '',
 
-                    // detalles de remate
-                    base_remate: '',
-                    valor_tasacion: '',
-                    direccion_remate: '',
-                    remate_nombre_centro: '',
-                    remate_direccion_id: 1,
-                    partida_registral: '',
-                    fecha_remate: '',
-                    hora_remate: '',
-                    contacto_remate: '',
-                    telefono_contacto_remate: '',
-                    correo_contacto_remate: '',
+                // detalles de remate
+                base_remate: '',
+                valor_tasacion: '',
+                direccion_remate: '',
+                remate_nombre_centro: '',
+                remate_direccion_id: 1,
+                partida_registral: '',
+                fecha_remate: '',
+                hora_remate: '',
+                contacto_remate: '',
+                telefono_contacto_remate: '',
+                correo_contacto_remate: '',
 
-                    map: null,
-                    marker: null,
-                    es_exacta: 1,
-                    latitude: null,
-                    longitude: null,
+                map: null,
+                marker: null,
+                es_exacta: 1,
+                latitude: null,
+                longitude: null,
+
+                remates: [
+                    {
+                        numero_remate: 1,
+                        fecha_remate: '',
+                        hora_remate: '',
+                        base_remate: '',
+                        valor_tasacion: ''
+                    }
+                ],
+
+                addRemate() {
+                    this.remates.push({
+                        numero_remate: this.remates.length + 1,
+                        fecha_remate: '',
+                        hora_remate: '',
+                        base_remate: '',
+                        valor_tasacion: ''
+                    });
+                },
+
+                removeRemate(index) {
+                    this.remates.splice(index, 1);
+                    this.renumberRemates();
+                },
+
+                renumberRemates() {
+                    this.remates.forEach((r, i) => {
+                        r.numero_remate = i + 1; 
+                    });
+                },
 
                 selectDireccionRemate(val) {
                     const $direccion_remate = document.getElementById("direccion_remate")
@@ -1084,14 +1214,16 @@
                             formData.append('precio_soles', this.precio_soles)
                             formData.append('precio_dolares', this.precio_dolares)
                             
+                            formData.append('remate_fecha', this.fecha_remate)
+                            formData.append('remate_hora', this.hora_remate)
                             formData.append('remate_precio_base', this.base_remate)
                             formData.append('remate_valor_tasacion', this.valor_tasacion)
+                            formData.append('remates', JSON.stringify(this.remates))
+
                             formData.append('remate_partida_registral', this.partida_registral)
                             formData.append('remate_direccion_id', this.remate_direccion_id)
                             formData.append('remate_direccion', this.direccion_remate)
                             formData.append('remate_nombre_centro', this.remate_nombre_centro)
-                            formData.append('remate_fecha', this.fecha_remate)
-                            formData.append('remate_hora', this.hora_remate)
                             formData.append('remate_nombre_contacto', this.contacto_remate)
                             formData.append('remate_telef_contacto', this.telefono_contacto_remate)
                             formData.append('remate_correo_contacto', this.correo_contacto_remate)

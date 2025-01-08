@@ -211,14 +211,14 @@ class Inmueble extends Model
         return 300;
     }
 
-    public function remate_precio_base()
+    /* public function remate_precio_base()
     {
         return optional(optional($this->principal)->caracteristicas)->remate_precio_base;
     }
     public function remate_valor_tasacion()
     {
         return optional(optional($this->principal)->caracteristicas)->remate_valor_tasacion;
-    }
+    } */
     public function remate_partida_registral()
     {
         return optional(optional($this->principal)->caracteristicas)->remate_partida_registral;
@@ -231,14 +231,14 @@ class Inmueble extends Model
     {
         return optional(optional($this->principal)->caracteristicas)->remate_nombre_centro;
     }
-    public function remate_fecha()
+    /* public function remate_fecha()
     {
         return optional(optional($this->principal)->caracteristicas)->remate_fecha;
     }
     public function remate_hora()
     {
         return optional(optional($this->principal)->caracteristicas)->remate_hora;
-    }
+    } */
     public function remate_nombre_contacto()
     {
         return optional(optional($this->principal)->caracteristicas)->remate_nombre_contacto;
@@ -251,6 +251,55 @@ class Inmueble extends Model
     {
         return optional(optional($this->principal)->caracteristicas)->remate_correo_contacto;
     }
+
+
+    public function nextRemate()
+    {
+        return optional(optional($this->principal)->caracteristicas)->nextRemate();
+    }
+    /* public function fecha_remate()
+    {
+        return optional($this->nextRemate())->fecha;
+    }
+    public function hora_remate()
+    {
+        return optional($this->nextRemate())->hora ? substr($this->nextRemate()->hora, 0, 5) : null;
+    }
+    public function base_remate()
+    {
+        return optional($this->nextRemate())->base_remate;
+    }
+    public function valor_tasacion_remate()
+    {
+        return optional($this->nextRemate())->valor_tasacion;
+    } */
+
+        /**
+     * Obtener la fecha del próximo remate.
+     */
+
+    public function numero_remate()
+    {
+        return optional($this->nextRemate())->numero_remate;
+    }
+    public function remate_fecha()
+    {
+        return optional($this->nextRemate())->fecha;
+    }
+    public function remate_hora()
+    {
+        return optional($this->nextRemate())->hora ? substr($this->nextRemate()->hora, 0, 5) : null;
+    }
+    public function remate_precio_base()
+    {
+        return optional($this->nextRemate())->base_remate;
+    }
+    public function remate_valor_tasacion()
+    {
+        return optional($this->nextRemate())->valor_tasacion;
+    }
+
+
 
     public function getPujaDescripcionAttribute()
     {
@@ -314,26 +363,26 @@ class Inmueble extends Model
 
         // REMATE
         $remate = "";
-        $remate_precio_base = number_format($this->remate_precio_base(), 2, '.', ',');
-        $remate_valor_tasacion = number_format($this->remate_valor_tasacion(), 2, '.', ',');
-        if ( $this->remate_precio_base() ) {
-            $remate .= "Este inmueble en remate tiene un precio base de $ {$remate_precio_base}";
-        }
-        if ( $this->remate_valor_tasacion() ) {
-            $remate .= ", tiene un valor de tasación de $ {$remate_valor_tasacion}";
-        }
+        // $remate_precio_base = number_format($this->remate_precio_base(), 2, '.', ',');
+        // $remate_valor_tasacion = number_format($this->remate_valor_tasacion(), 2, '.', ',');
+        // if ( $this->remate_precio_base() ) {
+        //     $remate .= "Este inmueble en remate tiene un precio base de $ {$remate_precio_base}";
+        // }
+        // if ( $this->remate_valor_tasacion() ) {
+        //     $remate .= ", tiene un valor de tasación de $ {$remate_valor_tasacion}";
+        // }
         if ( $this->remate_partida_registral() ) {
-            $remate .= ", con la siguiente partida registral {$this->remate_partida_registral()}";
+            $remate .= "Este inmueble en remate tiene la siguiente partida registral {$this->remate_partida_registral()}";
         }
         if ( $this->remate_direccion() ) {
             $remate .= ", la dirección del remate del inmueble es en {$this->remate_direccion()}";
         }
-        if ( $this->remate_fecha() ) {
-            $remate .= ", con fecha {$this->remate_fecha()}";
-        }
-        if ( $this->remate_hora() ) {
-            $remate .= " y hora {$this->remate_hora()}";
-        }
+        // if ( $this->remate_fecha() ) {
+        //     $remate .= ", con fecha {$this->remate_fecha()}";
+        // }
+        // if ( $this->remate_hora() ) {
+        //     $remate .= " y hora {$this->remate_hora()}";
+        // }
         if ( $this->remate_nombre_contacto() ) {
             $remate .= ", el nombre del contacto es {$this->remate_nombre_contacto()}";
         }

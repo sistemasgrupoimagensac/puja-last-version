@@ -56,4 +56,20 @@ class CaracteristicaInmueble extends Model
     {
         return 'USD ';
     }
+
+    public function remates()
+    {
+        return $this->hasMany(Remate::class, 'caracteristicas_inmueble_id');
+    }
+
+    public function nextRemate()
+    {
+        return 
+            $this->remates()
+                ->vigente()
+                ->orderBy('fecha', 'asc')
+                ->orderBy('hora', 'asc')
+            ->first();
+    }
+
 }

@@ -24,6 +24,7 @@ use App\Models\PrincipalInmueble;
 use App\Models\Provincia;
 use App\Models\Proyecto;
 use App\Models\ProyectoContact;
+use App\Models\Remate;
 use App\Models\SubTipoInmueble;
 use App\Models\UbicacionInmueble;
 use App\Models\User;
@@ -295,7 +296,32 @@ class MyPostsController extends Controller
                     'details' => $e->getMessage(),
                 ], 500);
             }
+            
+            $rematesString = $request->input('remates', null); 
+            if ( $rematesString ) {
+                $rematesArray = json_decode($rematesString, true);
+                if ( 
+                    !empty($rematesArray[0]['fecha_remate']) || 
+                    !empty($rematesArray[0]['fecha_remate']) || 
+                    !empty($rematesArray[0]['base_remate']) || 
+                    !empty($rematesArray[0]['valor_tasacion']) ) {
 
+                    Remate::where('caracteristicas_inmueble_id', $carac_inmueble->id)->delete();
+
+                    foreach ($rematesArray as $remateData) {
+                        $baseRemateFloat         = $this->convertStringToFloat($remateData['base_remate'] ?? 0);
+                        $valorTasacionFloat      = $this->convertStringToFloat($remateData['valor_tasacion'] ?? 0);
+
+                        $carac_inmueble->remates()->create([
+                            'numero_remate'      => $remateData['numero_remate'] ?? 1,
+                            'fecha'             => $remateData['fecha_remate']   ?? null,
+                            'hora'              => $remateData['hora_remate']    ?? null,
+                            'base_remate'       => $baseRemateFloat,
+                            'valor_tasacion'    => $valorTasacionFloat,
+                        ]);
+                    }
+                }
+            }
             
             if (!$carac_inmueble) {
                 return response()->json([
@@ -564,6 +590,7 @@ class MyPostsController extends Controller
 
         if ( isset($principal_inmueble_id) ) {
             $caract_inmueble_id = CaracteristicaInmueble::where("principal_inmueble_id", $principal_inmueble_id)->first();
+            $remates = Remate::where('caracteristicas_inmueble_id', $caract_inmueble_id->id)->get();
             $op_inmueble = OperacionTipoInmueble::where("principal_inmueble_id", $principal_inmueble_id)->first();
             $ubi_inmueble = UbicacionInmueble::where("principal_inmueble_id", $principal_inmueble_id)->first();
         } else {
@@ -601,7 +628,7 @@ class MyPostsController extends Controller
         }
 
         if ($aviso) {
-            return view("editar-aviso", compact('inmueble','op_inmueble', 'ubi_inmueble', 'caract_inmueble_id', 'mult_inmueble', 'imgs_inmueble', 'videos_inmueble', 'planos_inmueble', 'extra_inmueble', 'extra_carac_inmueble', 'es_acreedor', 'es_propietario', 'es_corredor', 'es_proyecto'));
+            return view("editar-aviso", compact('inmueble','op_inmueble', 'ubi_inmueble', 'caract_inmueble_id', 'remates', 'mult_inmueble', 'imgs_inmueble', 'videos_inmueble', 'planos_inmueble', 'extra_inmueble', 'extra_carac_inmueble', 'es_acreedor', 'es_propietario', 'es_corredor', 'es_proyecto'));
         } else {
             dd("Aviso no encontrado, $aviso no existe");
         }

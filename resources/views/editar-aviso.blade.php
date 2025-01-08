@@ -23,7 +23,8 @@
         {{ json_encode($imgs_inmueble) }}, 
         {{ json_encode($videos_inmueble) }}, 
         {{ json_encode($planos_inmueble) }}, 
-        {{ json_encode($extra_carac_inmueble) }}
+        {{ json_encode($extra_carac_inmueble) }},
+        {{ json_encode($remates) }}
     )">
         
         <!-- Menú de los pasos -->
@@ -302,8 +303,7 @@
                                     </div>
                                 </div>
 
-                                {{-- Precios para remate --}}
-                                <div class="form-group w-100" x-show="perfil_acreedor">
+                                {{-- <div class="form-group w-100" x-show="perfil_acreedor">
                                     <label class="text-secondary" for="base_remate">Base de Remate</label>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">US$</span>
@@ -312,8 +312,6 @@
                                             id="base_remate" 
                                             x-model="base_remate" 
                                             class="form-control" 
-                                            {{-- @input="formatAmount('base_remate')" 
-                                            @blur="formatAmount('base_remate', true)"  --}}
                                             :required="isVisible">
                                     </div>
                                 </div>
@@ -327,13 +325,103 @@
                                             id="valor_tasacion" 
                                             x-model="valor_tasacion" 
                                             class="form-control" 
-                                            {{-- @input="formatAmount('valor_tasacion')" 
-                                            @blur="formatAmount('valor_tasacion', true)"  --}}
                                             :required="isVisible"
                                         >
                                     </div>
-                                </div>
+                                </div> --}}
 
+                            </div>
+
+                            <div x-show="perfil_acreedor">
+                                <template x-for="(remate, index) in remates" :key="index">
+                                    <div class="border p-3 mb-3">
+                                        <h5 class="fw-bold mb-3">
+                                            Datos del 
+                                            <span x-text="remate.numero_remate"></span> 
+                                            remate
+                                        </h5>
+                            
+                                        <div class="d-flex justify-content-between gap-4">
+                                            <div class="form-group w-100">
+                                                <label :for="`fecha_remate_${index}`">
+                                                    Fecha del Remate
+                                                    <span style="font-size: .75rem">(opcional)</span>
+                                                </label>
+                                                <input
+                                                    type="date"
+                                                    :id="`fecha_remate_${index}`"
+                                                    x-model="remate.fecha_remate"
+                                                    class="form-control"
+                                                >
+                                            </div>
+                                            
+                                            <div class="form-group w-100">
+                                                <label :for="`hora_remate_${index}`">
+                                                    Hora del Remate
+                                                    <span style="font-size: .75rem">(opcional)</span>
+                                                </label>
+                                                <input
+                                                    type="time"
+                                                    :id="`hora_remate_${index}`"
+                                                    x-model="remate.hora_remate"
+                                                    min="07:00"
+                                                    max="22:00"
+                                                    class="form-control"
+                                                >
+                                            </div>
+                                        </div>
+                            
+                                        <div class="d-flex justify-content-between gap-4 mt-3">
+                                            <div class="form-group w-100">
+                                                <label :for="`base_remate_${index}`">
+                                                    Base de Remate
+                                                </label>
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text">US$</span>
+                                                    <input
+                                                        type="text"
+                                                        :id="`base_remate_${index}`"
+                                                        x-model="remate.base_remate"
+                                                        class="form-control"
+                                                    >
+                                                </div>
+                                            </div>
+                                
+                                            <!-- Valor de Tasación -->
+                                            <div class="form-group w-100">
+                                                <label :for="`valor_tasacion_${index}`">
+                                                    Valor de Tasación
+                                                </label>
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text">US$</span>
+                                                    <input
+                                                        type="text"
+                                                        :id="`valor_tasacion_${index}`"
+                                                        x-model="remate.valor_tasacion"
+                                                        class="form-control"
+                                                    >
+                                                </div>
+                                            </div>
+                                        </div>
+                            
+                                        <button
+                                            type="button"
+                                            class="btn btn-outline-danger btn-sm mt-2"
+                                            @click="removeRemate(index)"
+                                            x-show="remates.length > 1"
+                                        >
+                                            Eliminar este remate
+                                        </button>
+                                    </div>
+                                </template>
+                            
+                                <button 
+                                    type="button" 
+                                    class="btn btn-outline-primary" 
+                                    @click="addRemate"
+                                >
+                                    Agregar otro remate
+                                </button>
                             </div>
                         </fieldset>
 
@@ -392,7 +480,7 @@
                                     <input type="text" id="partida_registral" x-model="partida_registral" class="form-control">
                                 </div>
     
-                                <div class="d-flex justify-content-between gap-4">
+                                {{-- <div class="d-flex justify-content-between gap-4">
                                     <div class="form-group w-100">
                                         <label class="text-secondary" for="fecha_remate">
                                             Fecha del Remate
@@ -407,7 +495,7 @@
                                         </label>
                                         <input type="time" id="hora_remate" x-model="hora_remate" min="07:00" max="22:00" class="form-control">
                                     </div>
-                                </div>
+                                </div> --}}
                                 
                                 <div class="form-group w-100">
                                     <label class="text-secondary" for="contacto_remate">
@@ -880,7 +968,39 @@
             });
         }
 
-        function avisoForm(inmueble, op_inmueble, ubi_inmueble, caract_inmueble_id, mult_inmueble, imgs_inmueble, videos_inmueble, planos_inmueble, extra_carac_inmueble) {
+        function avisoForm(inmueble, op_inmueble, ubi_inmueble, caract_inmueble_id, mult_inmueble, imgs_inmueble, videos_inmueble, planos_inmueble, extra_carac_inmueble, remates) {
+            // if (!Array.isArray(remates) || remates.length === 0) {
+            //     remates = [{
+            //         numero_remate: 1,
+            //         fecha_remate: '',
+            //         hora_remate: '',
+            //         base_remate: '',
+            //         valor_tasacion: '',
+            //     }];
+
+                
+            // }
+            const normalizedRemates = remates.map((r, i) => {
+                // Tomar la fecha de r.fecha_remate o r.fecha
+                let fechaVal = r.fecha_remate || r.fecha || '';
+                
+                // Tomar la hora de r.hora_remate o r.hora
+                // y recortar a HH:MM si trae segundos
+                let horaVal = r.hora_remate || r.hora || '';
+                if (horaVal.length === 8) {
+                    // significa que viene algo como "21:39:00"
+                    horaVal = horaVal.substring(0, 5); // => "21:39"
+                }
+
+                return {
+                    id: r.id ?? null,
+                    numero_remate: r.numero_remate ?? (i + 1),
+                    fecha_remate: fechaVal, // "2025-01-08" -> válido en <input type="date" />
+                    hora_remate: horaVal,   // "21:39"      -> válido en <input type="time" />
+                    base_remate: r.base_remate ?? '',
+                    valor_tasacion: r.valor_tasacion ?? '',
+                }
+            });
             return {
                 step: {{ session('step', 1) }},
                 aviso_id: {{ session('aviso_id', 'null') }},
@@ -911,6 +1031,18 @@
                 extras2: [],
                 extras3: [],
                 extra_carac_inmueble: @json($extra_carac_inmueble),
+                remates: normalizedRemates.length > 0
+                    ? normalizedRemates
+                    : [
+                        // si está vacío, uno por defecto
+                        {
+                            numero_remate: 1,
+                            fecha_remate: '',
+                            hora_remate: '',
+                            base_remate: '',
+                            valor_tasacion: ''
+                        }
+                    ],
                 
                 adicionales: [],
                 comodidades: [],
@@ -953,6 +1085,30 @@
                 es_exacta: ubi_inmueble ? ubi_inmueble.es_exacta : 1,
                 latitude: null,
                 longitude: null,
+
+
+                
+
+                addRemate() {
+                    this.remates.push({
+                        numero_remate: this.remates.length + 1,
+                        fecha_remate: '',
+                        hora_remate: '',
+                        base_remate: '',
+                        valor_tasacion: ''
+                    });
+                },
+
+                removeRemate(index) {
+                    this.remates.splice(index, 1);
+                    this.renumberRemates();
+                },
+
+                renumberRemates() {
+                    this.remates.forEach((r, i) => {
+                        r.numero_remate = i + 1; 
+                    });
+                },
 
                 selectDireccionRemate(val) {
                     const $direccion_remate = document.getElementById("direccion_remate")
@@ -998,6 +1154,7 @@
 
                 init() {
 
+                    console.log(remates)
                     if ({{ $show_rematar ? 'true' : 'false' }} && !{{ $show_vender ? 'true' : 'false' }} && !{{ $show_alquilar ? 'true' : 'false' }}) {
                         this.tipo_operacion = 3; 
                     };
@@ -1131,17 +1288,19 @@
                             formData.append('precio_soles', this.precio_soles)
                             formData.append('precio_dolares', this.precio_dolares)
 
-                            formData.append('remate_precio_base', this.base_remate)
-                            formData.append('remate_valor_tasacion', this.valor_tasacion)
                             formData.append('remate_partida_registral', this.partida_registral)
                             formData.append('remate_direccion_id', this.remate_direccion_id)
                             formData.append('remate_direccion', this.direccion_remate)
                             formData.append('remate_nombre_centro', this.remate_nombre_centro)
-                            formData.append('remate_fecha', this.fecha_remate)
-                            formData.append('remate_hora', this.hora_remate)
                             formData.append('remate_nombre_contacto', this.contacto_remate)
                             formData.append('remate_telef_contacto', this.telefono_contacto_remate)
                             formData.append('remate_correo_contacto', this.correo_contacto_remate)
+                            
+                            formData.append('remate_fecha', this.fecha_remate)
+                            formData.append('remate_hora', this.hora_remate)
+                            formData.append('remate_precio_base', this.base_remate)
+                            formData.append('remate_valor_tasacion', this.valor_tasacion)
+                            formData.append('remates', JSON.stringify(this.remates))
 
                             formData.append('titulo', this.titulo)
                             formData.append('description', this.description)
