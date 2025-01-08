@@ -206,14 +206,14 @@
                                 <div class="form-group w-100">
                                     <label class="text-secondary" for="area_construida">Área Construida</label>
                                     <div class="input-group mb-3">
-                                        <input type="text" id="area_construida" x-model="area_construida" min="0.01" max="999999" class="form-control numeros-normales" required>
+                                        <input type="text" id="area_construida" x-model="area_construida" class="form-control montos-areas" required>
                                         <span class="input-group-text">m<sup>2</sup></span>
                                     </div>
                                 </div>
                                 <div class="form-group w-100">
                                     <label class="text-secondary" for="area_total">Área Total</label>
                                     <div class="input-group mb-3">
-                                        <input type="text" id="area_total" x-model="area_total" min="0.01" max="999999" class="form-control numeros-normales" required>
+                                        <input type="text" id="area_total" x-model="area_total" class="form-control montos-areas" required>
                                         <span class="input-group-text">m<sup>2</sup></span>
                                     </div>
                                 </div>
@@ -271,9 +271,7 @@
                                             type="text"
                                             id="precio_soles"
                                             x-model="precio_soles" 
-                                            class="form-control"
-                                            @input="formatAmount('precio_soles')"
-                                            @blur="formatAmount('precio_soles', true)"
+                                            class="form-control montos-areas"
                                             :required="!precio_soles && !precio_dolares && notVisible"
                                         >
                                     </div>
@@ -287,9 +285,7 @@
                                             type="text" 
                                             id="precio_dolares" 
                                             x-model="precio_dolares" 
-                                            class="form-control" 
-                                            @input="formatAmount('precio_dolares')" 
-                                            @blur="formatAmount('precio_dolares', true)" 
+                                            class="form-control montos-areas" 
                                             :required="!precio_soles && !precio_dolares && notVisible"
                                         >
                                     </div>
@@ -298,51 +294,6 @@
 
 
                             <div x-show="perfil_acreedor">
-                                {{-- <div class="d-flex justify-content-between gap-4">
-                                    <div class="form-group w-100" x-show="perfil_acreedor">
-                                        <label class="text-secondary" for="fecha_remate">
-                                            Fecha del Remate
-                                            <span style="font-size: .75rem">(opcional)</span>
-                                        </label>
-                                        <input type="date" id="fecha_remate" x-model="fecha_remate" class="form-control">
-                                    </div>
-                                    <div class="form-group w-100" x-show="perfil_acreedor">
-                                        <label class="text-secondary" for="hora_remate">
-                                            Hora del Remate
-                                            <span style="font-size: .75rem">(opcional)</span>
-                                        </label>
-                                        <input type="time" id="hora_remate" x-model="hora_remate" min="07:00" max="22:00" class="form-control">
-                                    </div>
-                                </div>
-    
-                                <div class="d-flex justify-content-between gap-4">
-                                    <div class="form-group w-100">
-                                        <label class="text-secondary" for="base_remate">Base de Remate</label>
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text">US$</span>
-                                            <input 
-                                                type="text" 
-                                                id="base_remate" 
-                                                x-model="base_remate" 
-                                                class="form-control" 
-                                                :required="isVisible">
-                                        </div>
-                                    </div>
-    
-                                    <div class="form-group w-100">
-                                        <label class="text-secondary" for="valor_tasacion">Valor de Tasación</label>
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text">US$</span>
-                                            <input 
-                                                type="text" 
-                                                id="valor_tasacion" 
-                                                x-model="valor_tasacion" 
-                                                class="form-control" 
-                                                :required="isVisible"
-                                            >
-                                        </div>
-                                    </div>
-                                </div> --}}
 
 
                                 <template x-for="(remate, index) in remates" :key="index">
@@ -398,7 +349,7 @@
                                                         type="text"
                                                         :id="`base_remate_${index}`"
                                                         x-model="remate.base_remate"
-                                                        class="form-control"
+                                                        class="form-control montos-areas"
                                                     >
                                                 </div>
                                             </div>
@@ -414,7 +365,7 @@
                                                         type="text"
                                                         :id="`valor_tasacion_${index}`"
                                                         x-model="remate.valor_tasacion"
-                                                        class="form-control"
+                                                        class="form-control montos-areas"
                                                     >
                                                 </div>
                                             </div>
@@ -787,16 +738,44 @@
         let geocoder;
 
         document.addEventListener('DOMContentLoaded', function () {
-            const $inputFields = document.querySelectorAll('.numeros-normales');
+            const inputFields = document.querySelectorAll('.montos-areas');
 
-            $inputFields.forEach(function(inputField) {
-                inputField.addEventListener('input', function () {
-                    const regex = /^[1-9][0-9]{0,7}$/; // Permite hasta 8 dígitos, el primero debe ser del 1 al 9
+            inputFields.forEach(function(input) {
+                input.addEventListener('input', function(e) {
+                    let value = input.value;
+                    value = value.replace(/[^0-9.]/g, '');
 
-                    // Si el valor del campo no coincide con la expresión regular, lo truncamos
-                    if (!regex.test(inputField.value)) {
-                        inputField.value = inputField.value.slice(0, 8).replace(/^0+/, '');
+                    const parts = value.split('.');
+                    if (parts.length > 2) {
+                        value = parts[0] + '.' + parts.slice(1).join('');
                     }
+
+                    if (parts.length > 1) {
+                        parts[1] = parts[1].slice(0, 2);
+                        value = parts[0] + '.' + parts[1];
+                    } else {
+                        value = parts[0];
+                    }
+
+                    let integerPart = parts[0];
+                    let decimalPart = parts.length > 1 ? '.' + parts[1] : '';
+
+                    integerPart = integerPart.replace(/^0+(?!$)/, '');
+
+                    if (integerPart.length > 8) {
+                        integerPart = integerPart.slice(0, 8);
+                    }
+
+                    if (integerPart.length > 0) {
+                        integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    }
+
+                    if (integerPart === '' && decimalPart) {
+                        integerPart = '0';
+                    }
+
+                    value = integerPart + decimalPart;
+                    input.value = value;
                 });
             });
         });
@@ -947,7 +926,7 @@
 
         function avisoForm() {
             return {
-                step: {{ session('step', 1) }},
+                step: {{ session('step', 3) }},
                 aviso_id: {{ session('aviso_id', 'null') }},
 
                 perfil_acreedor: @json($es_acreedor),
