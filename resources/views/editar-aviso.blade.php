@@ -982,7 +982,7 @@
                 }
             });
             return {
-                step: {{ session('step', 3) }},
+                step: {{ session('step', 1) }},
                 aviso_id: {{ session('aviso_id', 'null') }},
 
                 perfil_acreedor: @json($es_acreedor),
