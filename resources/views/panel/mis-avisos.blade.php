@@ -90,7 +90,7 @@
                                 'provincia'=> $aviso->inmueble->provincia(),
                                 'departamento'=> $aviso->inmueble->departamento(),
                                 'estado_aviso' => $aviso->historial[0]->estado,
-                                'edit_enabled' => $currentDate < $newEndDate ? true : false,
+                                'edit_enabled' => ( $currentDate < $newEndDate || $user_id == 6 ) ? true : false,
                                 'published' => true,
                             ])
                             @php

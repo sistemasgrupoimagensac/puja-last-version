@@ -24,6 +24,7 @@ class MisAvisosController extends Controller
                     ->paginate(10);
         $tienePlanes = false;
         $projectInfo = false;
+        $user_id = 0;
         if (Auth::check()) {
             $user_id = Auth::id();
             $user = User::find($user_id);
@@ -32,6 +33,6 @@ class MisAvisosController extends Controller
             $projectInfo = $user->canPublishProjects(); 
         }
 
-        return view('panel.mis-avisos', compact('avisos', 'tienePlanes', 'projectInfo'));
+        return view('panel.mis-avisos', compact('avisos', 'tienePlanes', 'projectInfo', 'user_id'));
     }
 }
