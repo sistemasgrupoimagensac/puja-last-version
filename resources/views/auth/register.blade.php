@@ -118,8 +118,8 @@
 				
 							<small>
 								<div class="form-group d-flex gap-3 align-items-center">
-									<input type="checkbox" name="terminos" id="terminos" class="form-check-input m-0" required/>
-									<label for="terminos">Acepto los <a href="/terminos-uso" target="_blank" class="custom-link-register text-decoration-none">Términos y Condiciones de Uso</a> y las <a href="/politica-privacidad" target="_blank" class="custom-link-register text-decoration-none">Políticas de Privacidad</a></label>
+									<input type="checkbox" name="terminos" id="terminos" class="form-check-input m-0" style="border: 3px solid black; cursor: pointer;" required/>
+									<label for="terminos" style="cursor: pointer;">Acepto los <a href="/terminos-uso" target="_blank" class="custom-link-register text-decoration-none">Términos y Condiciones de Uso</a> y las <a href="/politica-privacidad" target="_blank" class="custom-link-register text-decoration-none">Políticas de Privacidad</a></label>
 									<div id="validationServerTerminosFeedback" class="invalid-feedback"></div>
 								</div>
 							</small>
