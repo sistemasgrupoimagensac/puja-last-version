@@ -49,7 +49,8 @@
 				<fieldset>
 					<legend class="text-secondary text-left h6 mb-3">2. Elige el tipo de aviso para tu remate</legend>
 					<div>
-						<div role="group" class="d-flex flex-column align-items-center flex-md-row gap-4 mt-4 w-100">
+						{{-- <div role="group" class="d-flex flex-column align-items-center flex-md-row gap-4 mt-4 w-100"> --}}
+						<div role="group" class="row row-cols-1 row-cols-md-3 g-4 d-flex align-items-stretch mt-4 w-100">
 
 							<template x-for="plan in planes" :key="plan.id">
 								<div>
@@ -63,108 +64,104 @@
 									>
 
 									<label
-										class="card btn btn-lg p-0 card-plan-propietario-label rounded-4"
+										class="card btn btn-lg p-0 card-plan-propietario-label rounded-4 h-100"
 										:class="plan.class_name"
 										:for="`plan-${plan.id}`"
 									>
-										<div>
-											<div class="card-body p-0">
-												<h3 class="card-title fw-bolder mt-3" x-text="plan.name"></h3>
-												
-												
-												<template x-if="plan.promotion && plan.promotion2">
-													<div>
-														<h4 class="card-subtitle mb-2">
-															S/ <span x-text="
-																formatPrice(
-																	plan.price * (1 - plan.promotion.percentage / 100) * (1 - plan.promotion2.percentage / 100)
-																)
-															"></span>
-															por <span x-text="plan.duration_in_days"></span> días
-														</h4>
-														<h6 class="fw-bolder">
-															Primera promo: <span x-text="plan.promotion.percentage"></span>%
-															<br>
-															Segunda promo: <span x-text="plan.promotion2.percentage"></span>%
-														</h6>
-														<h6 class="card-subtitle mb-2">
-															precio regular S/ <span x-text="formatPrice(plan.price)"></span>
-														</h6>
-													</div>
-												</template>
-	
-												<template x-if="plan.promotion && !plan.promotion2">
-													<div>
-														<h4 class="card-subtitle mb-2">
-															S/ <span x-text="
-																formatPrice(
-																	plan.price * (1 - plan.promotion.percentage / 100)
-																)
-															"></span>
-															por <span x-text="plan.duration_in_days"></span> días
-														</h4>
-														<h6 class="fw-bolder">
-															ahorras <span x-text="plan.promotion.percentage"></span>%
-														</h6>
-														<h6 class="card-subtitle mb-2">
-															precio regular S/ <span x-text="formatPrice(plan.price)"></span>
-														</h6>
-													</div>
-												</template>
-	
-												<template x-if="!plan.promotion && plan.promotion2">
-													<div>
-														<h4 class="card-subtitle mb-2">
-															S/ <span x-text="
-																formatPrice(
-																	plan.price * (1 - plan.promotion2.percentage / 100)
-																)
-															"></span>
-															por <span x-text="plan.duration_in_days"></span> días
-														</h4>
-														<h6 class="fw-bolder">
-															ahorras <span x-text="plan.promotion2.percentage"></span>%
-														</h6>
-														<h6 class="card-subtitle mb-2">
-															precio regular S/ <span x-text="formatPrice(plan.price)"></span>
-														</h6>
-													</div>
-												</template>
-	
-												<template x-if="!plan.promotion && !plan.promotion2">
-													<div>
-														<h4 class="card-subtitle mb-2">
-															S/ <span x-text="formatPrice(plan.price)"></span>
-															por <span x-text="plan.duration_in_days"></span> días
-														</h4>
-													</div>
-												</template>
-
-
-												<hr>
-												<div class="card-description-plan d-flex justify-content-start px-4">
-													<ul class="list-unstyled text-start h6 mb-4">
-														<li>Publicación de Aviso <span x-text="plan.tipoAviso"></span></li>
-														<li><span x-text="plan.duration_in_days"></span> días de publicación</li>
-								
-														<template x-if="plan.name === 'Plan Premium'">
-															<li>Genera interesados</li>
-															<li>Alta visibilidad</li>
-															<li>Exposición Óptima</li>
-														</template>
-														<template x-if="plan.name === 'Plan Top'">
-															<li>Genera interesados</li>
-															<li>Alta visibilidad</li>
-														</template>
-														<template x-if="plan.name === 'Plan Estandar'">
-															<li>Visibilidad Convencional</li>
-														</template>
-													</ul>
+										<div class="card-body d-flex flex-column p-0">
+											<h3 class="card-title fw-bolder mt-3" x-text="plan.name"></h3>
+											
+											<template x-if="plan.promotion && plan.promotion2">
+												<div>
+													<h4 class="card-subtitle mb-2">
+														S/ <span x-text="
+															formatPrice(
+																plan.price * (1 - plan.promotion.percentage / 100) * (1 - plan.promotion2.percentage / 100)
+															)
+														"></span>
+														por <span x-text="plan.duration_in_days"></span> días
+													</h4>
+													<h6 class="fw-bolder">
+														Primer descuento: <span x-text="plan.promotion.percentage"></span>%
+														<br>
+														Segundo descuento: <span x-text="plan.promotion2.percentage"></span>%
+													</h6>
+													<h6 class="card-subtitle mb-2">
+														precio regular S/ <span x-text="formatPrice(plan.price)"></span>
+													</h6>
 												</div>
-											</div>
-											<div class="card-footer fw-bold fs-5">
-												¡Lo quiero!
-											</div>
+											</template>
+
+											<template x-if="plan.promotion && !plan.promotion2">
+												<div>
+													<h4 class="card-subtitle mb-2">
+														S/ <span x-text="
+															formatPrice(
+																plan.price * (1 - plan.promotion.percentage / 100)
+															)
+														"></span>
+														por <span x-text="plan.duration_in_days"></span> días
+													</h4>
+													<h6 class="fw-bolder">
+														Primer descuento: <span x-text="plan.promotion.percentage"></span>%
+													</h6>
+													<h6 class="card-subtitle mb-2">
+														precio regular S/ <span x-text="formatPrice(plan.price)"></span>
+													</h6>
+												</div>
+											</template>
+
+											<template x-if="!plan.promotion && plan.promotion2">
+												<div>
+													<h4 class="card-subtitle mb-2">
+														S/ <span x-text="
+															formatPrice(
+																plan.price * (1 - plan.promotion2.percentage / 100)
+															)
+														"></span>
+														por <span x-text="plan.duration_in_days"></span> días
+													</h4>
+													<h6 class="fw-bolder">
+														Primer descuento: <span x-text="plan.promotion2.percentage"></span>%
+													</h6>
+													<h6 class="card-subtitle mb-2">
+														precio regular S/ <span x-text="formatPrice(plan.price)"></span>
+													</h6>
+												</div>
+											</template>
+
+											<template x-if="!plan.promotion && !plan.promotion2">
+												<div>
+													<h4 class="card-subtitle mb-2">
+														S/ <span x-text="formatPrice(plan.price)"></span>
+														por <span x-text="plan.duration_in_days"></span> días
+													</h4>
+												</div>
+											</template>
+
+										</div>
+										<hr>
+										<div class="card-description-plan d-flex justify-content-start px-4">
+											<ul class="list-unstyled text-start h6 mb-4">
+												<li>Publicación de Aviso <span x-text="plan.tipoAviso"></span></li>
+												<li><span x-text="plan.duration_in_days"></span> días de publicación</li>
+						
+												<template x-if="plan.name === 'Plan Premium'">
+													<li>Genera interesados</li>
+													<li>Alta visibilidad</li>
+													<li>Exposición Óptima</li>
+												</template>
+												<template x-if="plan.name === 'Plan Top'">
+													<li>Genera interesados</li>
+													<li>Alta visibilidad</li>
+												</template>
+												<template x-if="plan.name === 'Plan Estandar'">
+													<li>Visibilidad Convencional</li>
+												</template>
+											</ul>
+										</div>
+										<div class="card-footer fw-bold fs-5">
+											¡Lo quiero!
 										</div>
 									</label>
 
