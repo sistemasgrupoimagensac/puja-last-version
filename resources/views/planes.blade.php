@@ -175,12 +175,12 @@
 													por <span x-text="plan.duration_in_days"></span> días
 												</h4>
 												<h6 class="fw-bolder">
-													Primer descuento: <span x-text="plan.promotion.percentage"></span>%
+													Descuento especial: <span x-text="plan.promotion.percentage"></span>%
 													<br>
-													Segundo descuento: <span x-text="plan.promotion2.percentage"></span>%
+													Descuento adicional: <span x-text="plan.promotion2.percentage"></span>%
 												</h6>
 												<h6 class="card-subtitle mb-2">
-													precio regular S/ <span x-text="formatPrice(plan.price)"></span>
+													Precio regular: S/ <span x-text="formatPrice(plan.price)"></span>
 												</h6>
 											</div>
 										</template>
@@ -196,10 +196,10 @@
 													por <span x-text="plan.duration_in_days"></span> días
 												</h4>
 												<h6 class="fw-bolder">
-													Primer descuento: <span x-text="plan.promotion.percentage"></span>%
+													Descuento especial: <span x-text="plan.promotion.percentage"></span>%
 												</h6>
 												<h6 class="card-subtitle mb-2">
-													precio regular S/ <span x-text="formatPrice(plan.price)"></span>
+													Precio regular: S/ <span x-text="formatPrice(plan.price)"></span>
 												</h6>
 											</div>
 										</template>
@@ -215,10 +215,10 @@
 													por <span x-text="plan.duration_in_days"></span> días
 												</h4>
 												<h6 class="fw-bolder">
-													Primer descuento: <span x-text="plan.promotion2.percentage"></span>%
+													Descuento especial: <span x-text="plan.promotion2.percentage"></span>%
 												</h6>
 												<h6 class="card-subtitle mb-2">
-													precio regular S/ <span x-text="formatPrice(plan.price)"></span>
+													Precio regular: S/ <span x-text="formatPrice(plan.price)"></span>
 												</h6>
 											</div>
 										</template>
