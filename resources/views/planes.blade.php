@@ -268,14 +268,15 @@
 						class="row
 						row-cols-1 
 						row-cols-sm-2 
-						row-cols-md-3 
-						row-cols-xl-3
+						{{-- row-cols-md-4  --}}
+						{{-- row-cols-xl-3 --}}
 						g-4
 						align-items-stretch
     					justify-content-center
 						mt-4
 						w-100
 						cards-group_promo"
+						:class=class_cards
 					>
 
 						<template x-for="plan in planes" :key="plan.id">
@@ -478,9 +479,9 @@
 				tipoDeAviso: null,
 				tipoPlan: 'Plan Estandar',
 				pagoFree: false,
+				class_cards: 3,
 
 				fetchPlanes() {
-					console.log("Esa ejecutando la funcion fetchPlanes()")
 					$loaderOverlay.style.display = 'flex';
 					document.body.style.pointerEvents = 'none';
 
@@ -508,7 +509,7 @@
 						this.loading = false;
 						if(data.status === 'Success') {
 							this.planes = data.data;
-							console.log(this.planes)
+							this.class_cards = "row-cols-md-"+data.data.length
 						} else {
 							this.error = data.message || 'Error al obtener los planes.';
 						}
@@ -570,10 +571,7 @@
 							this.pagoFree = true
 						} else {
 							this.pagoFree = false
-						}
-						console.log("El plan id es: ", this.planId)
-						console.log("El pago es FREE ?: ", this.pagoFree)
-						
+						}						
 					})
 					.catch(error => {
 						console.error('Error:', error.message)

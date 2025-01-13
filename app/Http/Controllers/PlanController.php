@@ -736,6 +736,7 @@ class PlanController extends Controller
                 // ->where('price', '>=', 1.00)
                 ->where('name', '!=', "plan free acreedor")
                 ->where([
+                    'estado' => 1,
                     'package_id' => $package_id,
                     'total_ads' => $total_ads,
                     'duration_in_days' => $duration_in_days,

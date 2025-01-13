@@ -10,7 +10,7 @@ class Plan extends Model
     use HasFactory;
     
     protected $table = "plans";
-    protected $fillable = ['package_id', "name", 'price', "duration_in_days", 'total_ads', "typical_ads", 'top_ads', "premium_ads", "promotion_id", "promotion2_id"];
+    protected $fillable = ['package_id', "name", 'price', "duration_in_days", 'total_ads', "typical_ads", 'top_ads', "premium_ads", "promotion_id", "promotion2_id", 'estado'];
 
     public function package()
     {

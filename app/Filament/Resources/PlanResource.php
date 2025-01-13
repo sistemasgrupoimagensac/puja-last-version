@@ -8,6 +8,7 @@ use App\Models\Plan;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -79,10 +80,13 @@ class PlanResource extends Resource
                     ->label('Color (clase bootstrap)')
                 ->maxLength(255),
 
-                /* TextInput::make('duration_in_days')
-                    ->label('Duración (días)')
-                    ->numeric()
-                ->required(), */
+                Toggle::make('estado')
+                    ->label('Estado')
+                    ->onColor('success')
+                    ->offColor('danger')
+                    ->default(1)
+                    ->dehydrateStateUsing(fn (bool $state) => $state ? 1 : 0)
+                ->inline(false),
 
                 Select::make('promotion_id')
                     ->label('Promoción')
@@ -151,10 +155,10 @@ class PlanResource extends Resource
                     ->sortable()
                 ->searchable(),
 
-                // TextColumn::make('promotion.status')
-                //     ->label('Estado Promo')
-                //     ->formatStateUsing(fn ($state) => $state ? 'Activo' : 'Inactivo')
-                // ->sortable(),
+                TextColumn::make('estado')
+                    ->label('Estado')
+                    ->formatStateUsing(fn ($state) => $state ? 'Activo' : 'Inactivo')
+                ->color(fn ($state) => $state ? 'success' : 'danger'),
 
             ])
             ->filters([
