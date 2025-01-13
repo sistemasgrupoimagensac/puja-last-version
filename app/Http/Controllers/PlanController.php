@@ -733,13 +733,15 @@ class PlanController extends Controller
                         ->where('promo_start', '<=', Carbon::now())
                     ->where('promo_end', '>=', Carbon::now());
                 }])
-                ->where('price', '>=', 1.00)
+                // ->where('price', '>=', 1.00)
+                ->where('name', '!=', "plan free acreedor")
                 ->where([
                     'package_id' => $package_id,
                     'total_ads' => $total_ads,
                     'duration_in_days' => $duration_in_days,
                 ])
-                ->orderBy('price', 'desc')
+                // ->orderBy('price', 'desc')
+                ->orderByRaw('price = 0 DESC, price DESC')
             ->get();
 
             if ( !$plans ) {

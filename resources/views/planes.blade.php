@@ -12,6 +12,126 @@
     @include('components.header', ['tienePlanes' => $tienePlanes])
 @endsection
 
+<style>
+
+/* .ribbon {
+  font-size: 28px;
+  font-weight: bold;
+  color: #fff;
+}
+.ribbon {
+  --s: 1.8em;
+  --d: .8em;
+  --c: .8em;
+  
+  padding: 0 calc(var(--s) + .5em) var(--d);
+  line-height: 1.8;
+  background:
+    conic-gradient(at left  var(--s) bottom var(--d),
+     #0000 25%,#0008 0 37.5%,#0004 0) 0   /50% 100% no-repeat,
+    conic-gradient(at right var(--s) bottom var(--d),
+     #0004 62.5%,#0008 0 75%,#0000 0) 100%/50% 100% no-repeat;
+  clip-path: polygon(0 var(--d), var(--s) var(--d),var(--s) 0,calc(100% - var(--s)) 0,calc(100% - var(--s)) var(--d),100% var(--d),calc(100% - var(--c)) calc(50% + var(--d)/2),100% 100%,calc(100% - var(--s) - var(--d)) 100%,calc(100% - var(--s) - var(--d)) calc(100% - var(--d)),calc(var(--s) + var(--d)) calc(100% - var(--d)),calc(var(--s) + var(--d)) 100%,0 100%,var(--c) calc(50% + var(--d)/2));
+  background-color: blue;
+  width: fit-content;
+  transform: rotate(-45deg);
+} */
+
+
+
+/* Ribbon base */
+.ribbona {
+  --s: 1.8em; /* Tamaño base de la cinta */
+  --d: 0; /* Profundidad */
+  --c: 0.8em; /* Parte recortada */
+  
+  position: absolute;  /* Permite ubicarla en la esquina */
+  top: 0;              /* Anclar arriba */
+  left: 0;             /* Anclar izquierda */
+  z-index: 9999;       /* Para que quede por encima de otros elementos */
+  
+  font-size: 1.2rem;   /* Ajusta a tu gusto */
+  font-weight: bold;
+  color: #fff;
+  
+  /* Ribbon “diagonal” con transform */
+  transform: rotate(-45deg) translate(-25%, 0); 
+  /* El translate(-25%, 0) ayuda a centrar mejor la cinta en la esquina;
+     juega con esos valores para ajustarla a tu gusto. */
+
+  /* Propiedades originales */
+  padding: 0 calc(var(--s) + .5em) var(--d);
+  line-height: 1.8;
+  background:
+    conic-gradient(at left  var(--s) bottom var(--d),
+     #0000 25%, #0008 0 37.5%, #0004 0) 0 / 50% 100% no-repeat,
+    conic-gradient(at right var(--s) bottom var(--d),
+     #0004 62.5%,#0008 0 75%, #0000 0) 100%/50% 100% no-repeat;
+  clip-path: polygon(
+    0 var(--d), var(--s) var(--d), var(--s) 0,
+    calc(100% - var(--s)) 0, calc(100% - var(--s)) var(--d),
+    100% var(--d), calc(100% - var(--c)) calc(50% + var(--d)/2),
+    100% 100%, calc(100% - var(--s) - var(--d)) 100%,
+    calc(100% - var(--s) - var(--d)) calc(100% - var(--d)),
+    calc(var(--s) + var(--d)) calc(100% - var(--d)),
+    calc(var(--s) + var(--d)) 100%, 0 100%, var(--c) calc(50% + var(--d)/2)
+  );
+  background-color: blue; /* color principal de la cinta */
+  width: fit-content;
+}
+
+/* .ribbon {
+  font-size: 28px;
+  font-weight: bold;
+  color: #fff;
+}
+.ribbon {
+  --s: 1.8em;
+  --d: 0;
+  --c: .8em;
+  
+  padding: var(--d) calc(var(--s) + .5em) 0;
+  line-height: 1.8;
+  background:
+    conic-gradient(from  45deg at left  var(--s) top var(--d),
+     #0008 12.5%,#0000 0 37.5%,#0004 0) 0   /50% 100% no-repeat,
+    conic-gradient(from -45deg at right var(--s) top var(--d),
+     #0004 62.5%,#0000 0 87.5%,#0008 0) 100%/50% 100% no-repeat;
+  clip-path: polygon(0 0,calc(var(--s) + var(--d)) 0,calc(var(--s) + var(--d)) var(--d),calc(100% - var(--s) - var(--d)) var(--d),calc(100% - var(--s) - var(--d)) 0,100% 0, calc(100% - var(--c)) calc(50% - var(--d)/2),100% calc(100% - var(--d)),calc(100% - var(--s)) calc(100% - var(--d)),calc(100% - var(--s)) 100%,var(--s) 100%,var(--s) calc(100% - var(--d)),0 calc(100% - var(--d)),var(--c) calc(50% - var(--d)/2));
+  background-color: blue;
+  width: fit-content;
+  transform: rotate(-45deg) translate(-25%, 0); 
+} */
+
+
+/* HTML: <div class="ribbon">Your text content</div> */
+.ribbon {
+	font-size: 28px;
+	font-weight: bold;
+	color: #fff;
+	top: -25px !important;
+}
+.ribbon {
+	--s: .8em; /* the ribbon size */
+	--d: .1em;  /* the depth */
+	--c: .8em;  /* the cutout part */
+	
+	padding: var(--d) calc(var(--s) + .5em) 0;
+	line-height: 1.8;
+	background:
+		conic-gradient(from  45deg at left  var(--s) top var(--d),
+		#0008 12.5%,#0000 0 37.5%,#0004 0) 0   /50% 100% no-repeat,
+		conic-gradient(from -45deg at right var(--s) top var(--d),
+		#0004 62.5%,#0000 0 87.5%,#0008 0) 100%/50% 100% no-repeat;
+	clip-path: polygon(0 0,calc(var(--s) + var(--d)) 0,calc(var(--s) + var(--d)) var(--d),calc(100% - var(--s) - var(--d)) var(--d),calc(100% - var(--s) - var(--d)) 0,100% 0, calc(100% - var(--c)) calc(50% - var(--d)/2),100% calc(100% - var(--d)),calc(100% - var(--s)) calc(100% - var(--d)),calc(100% - var(--s)) 100%,var(--s) 100%,var(--s) calc(100% - var(--d)),0 calc(100% - var(--d)),var(--c) calc(50% - var(--d)/2));
+	background-color: blue; /* the main color */
+	width: fit-content;
+	transform: rotate(-45deg) translate(-25%, 0); 
+}
+
+
+</style>
+
 @section('content')
 
 	<div id="loader-overlay">
@@ -142,10 +262,24 @@
 					<legend class="text-secondary text-left h6 mb-3">3. Selecciona el mejor paquete para ti.</legend>
 					
 					{{-- <div role="group" class="d-flex flex-column align-items-center flex-md-row gap-4 mt-4 w-100"> --}}
-					<div role="group" class="row row-cols-1 row-cols-md-3 g-4 d-flex align-items-stretch mt-4 w-100">
+					{{-- <div role="group" class="row row-cols-1 row-cols-md-3 g-4 d-flex align-items-stretch mt-4 w-100"> --}}
+					<div 
+						role="group"
+						class="row
+						row-cols-1 
+						row-cols-sm-2 
+						row-cols-md-3 
+						row-cols-xl-3
+						g-4
+						align-items-stretch
+    					justify-content-center
+						mt-4
+						w-100
+						cards-group_promo"
+					>
 
 						<template x-for="plan in planes" :key="plan.id">
-							<div>
+							<div class="col">
 								<input 
 									type="radio" 
 									class="btn-check" 
@@ -155,9 +289,34 @@
 									@click="selectPlan(plan.id)"
 								>
 
+								<template x-if="plan.name === 'Promoción de Lanzamiento'">
+									<label
+									class="card btn btn-lg p-0 card-plan-label rounded-4 h-100 position-relative button-orange text-white"
+									style="overflow: visible;"
+									:for="`plan-${plan.id}`"
+									>
+										<div class="ribbon">Gratis</div>
+
+										<div class="card-body d-flex flex-column align-items-center {{-- p-4 --}}">
+											<h4 class="card-title fw-bolder mt-3 text-left" x-text="plan.name"></h4>
+											<span class="text-center mt-2 fs-6">Publica tus avisos gratis hasta el 30 de abril 2025.</span>
+											<span class="fw-bold fs-6 text-center mt-2">
+												<span x-text="plan.typical_ads"></span> Avisos Típicos por 
+												<span x-text="plan.duration_in_days"></span> días.
+											</span>
+										</div>
+
+										<div class="card-footer fw-bold fs-5 text-center text-orange rounded-bottom">
+											Publicar Gratis.
+										</div>
+									</label>
+								</template>
+
+								<template x-if="plan.name !== 'Promoción de Lanzamiento'">
 								<label
 									class="card btn btn-lg p-0 card-plan-label rounded-4 h-100"
-									:class="plan.class_name"
+									{{-- :class="plan.class_name" --}}
+									:class="plan.class_name ? plan.class_name : 'button-orange'"
 									:for="`plan-${plan.id}`"
 								>
 
@@ -252,6 +411,7 @@
 									</div>
 
 								</label>
+								</template>
 							</div>
 						</template>
 
@@ -269,6 +429,12 @@
 						userPhone="{{ $user->celular }}"
 						userTypeId="{{ $user->tipo_usuario_id }}"
 					>
+						<x-card-plan-checkout
+							showPlan="Promoción de Lanzamiento"
+							title="Promoción de Lanzamiento"
+							bgColor="button-orange"
+						/>
+
 						<x-card-plan-checkout
 						showPlan="Plan Estandar"
 						title="Plan Estandar"
@@ -311,6 +477,7 @@
 				prices: 0,
 				tipoDeAviso: null,
 				tipoPlan: 'Plan Estandar',
+				pagoFree: false,
 
 				fetchPlanes() {
 					console.log("Esa ejecutando la funcion fetchPlanes()")
@@ -392,13 +559,20 @@
 						}
 						this.prices = this.formatPrice(this.prices)
 						this.tipoPlan = data.data.name
-						if ( this.tipoPlan === "Plan Estandar" ) {
+						if ( this.tipoPlan === "Plan Estandar" || this.tipoPlan === "Promoción de Lanzamiento" ) {
 							this.tipoDeAviso = 1
 						} else if ( this.tipoPlan === "Plan VIP" ) {
 							this.tipoDeAviso = 2
 						} else if ( this.tipoPlan === "Plan Premium" ) {
 							this.tipoDeAviso = 3
 						}
+						if ( this.planId >= 118 && this.planId <= 123 ) {
+							this.pagoFree = true
+						} else {
+							this.pagoFree = false
+						}
+						console.log("El plan id es: ", this.planId)
+						console.log("El pago es FREE ?: ", this.pagoFree)
 						
 					})
 					.catch(error => {

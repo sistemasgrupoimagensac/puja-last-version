@@ -21,7 +21,7 @@
                         </div>
             
                         {{-- Datos de la tarjeta de crédito --}}
-                        <div class="m-2 col p-lg-5 m-lg-0">
+                        <div x-show="!pagoFree" class="m-2 col p-lg-5 m-lg-0">
                             <h6 class="icon-orange fw-bold">Pago con tarjeta</h6>
                             {{-- Número de la tarjeta de crédito o débito --}}
                             <div class="mb-3">
@@ -63,16 +63,18 @@
                     </div>
                 </div>
 
-                <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center gap-2 p-2 px-md-5 w-100">
-                    <button type="button" class="btn btn-outline-secondary rounded-3" data-bs-target="#modalOtroDNI" data-bs-toggle="modal">
-                        ¿Desea pagar con una distinta Razón Social?
-                    </button>
-                    <div>
-                        <template x-if="resultados">
-                            <div>
-                                <p class="m-0"><span class="fw-bold">Nombre:</span> <span x-text="getNombre()"></span></p>
-                            </div>
-                        </template>
+                <div x-show="!pagoFree">
+                    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center gap-2 p-2 px-md-5 w-100">
+                        <button type="button" class="btn btn-outline-secondary rounded-3" data-bs-target="#modalOtroDNI" data-bs-toggle="modal">
+                            ¿Desea pagar con una distinta Razón Social?
+                        </button>
+                        <div>
+                            <template x-if="resultados">
+                                <div>
+                                    <p class="m-0"><span class="fw-bold">Nombre:</span> <span x-text="getNombre()"></span></p>
+                                </div>
+                            </template>
+                        </div>
                     </div>
                 </div>
 
@@ -193,7 +195,13 @@
             },
 
             isValidForm() {
-                return this.numeroTarjeta && this.nombreTarjeta && this.fechaTarjeta && this.cvcTarjeta
+                
+                console.log("Entro al validate", this.pagoFree)
+                if ( !this.pagoFree ) {
+                    return this.numeroTarjeta && this.nombreTarjeta && this.fechaTarjeta && this.cvcTarjeta
+                } else {
+                    return true
+                }
             },
 
             createToken(callback) {
@@ -371,8 +379,10 @@
                     .then(data => {
                         if (data.status === "Success") {
                             const planUserId = data.planuser_id
-                            this.factElectronica(price, planUserId, description)
-                            window.location.href = '/panel/avisos'
+                            if ( !this.pagoFree ) {
+                                this.factElectronica(price, planUserId, description)
+                            }
+                            // window.location.href = '/panel/avisos'
                         } else {
                             console.error('Error en la suscripción:', data.message);
                         }
@@ -461,12 +471,20 @@
                 document.getElementById('pay-button').addEventListener('click', () => {
                     const errorInline = document.getElementById('error-message')
                     if (this.isProcessing) return
+                    console.log("Entro al boton")
                     if (this.isValidForm()) {
+                        console.log("Entro al IF de validate()")
                         this.isProcessing = true
                         document.getElementById('pay-button').disabled = true
 
-                        this.createToken(this.handleTokenSuccess.bind(this))
+                        if ( this.pagoFree ) {
+                            this.contratarPlan(0, "Promocion de inicio.")
+                        } else {
+                            this.createToken(this.handleTokenSuccess.bind(this))
+                        }
                     } else {
+                        console.log("Entro al ELSE de validate()")
+                        return false
                         setTimeout(() => {
                             this.errorInputCreditcard = false
                         }, 3000)

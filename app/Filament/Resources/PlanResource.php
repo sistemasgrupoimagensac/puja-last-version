@@ -42,8 +42,42 @@ class PlanResource extends Resource
 
                 TextInput::make('price')
                     ->label('Precio')
+                    ->default(0)
                     ->numeric()
                 ->required(),
+
+                TextInput::make('duration_in_days')
+                    ->label('Duración (días)')
+                    ->numeric()
+                ->required(),
+
+                TextInput::make('total_ads')
+                    ->label('Total de avisos')
+                    ->numeric()
+                    ->default(1)
+                ->required(),
+
+                TextInput::make('premium_ads')
+                    ->label('Cantidad de avisos Premium')
+                    ->numeric()
+                    ->default(0)
+                ->required(),
+
+                TextInput::make('top_ads')
+                    ->label('Cantidad de avisos Top')
+                    ->numeric()
+                    ->default(0)
+                ->required(),
+
+                TextInput::make('typical_ads')
+                    ->label('Cantidad de avisos Típicos')
+                    ->numeric()
+                    ->default(0)
+                ->required(),
+
+                TextInput::make('class_name')
+                    ->label('Color (clase bootstrap)')
+                ->maxLength(255),
 
                 TextInput::make('duration_in_days')
                     ->label('Duración (días)')

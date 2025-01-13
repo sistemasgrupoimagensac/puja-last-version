@@ -5,6 +5,18 @@
 }
 
 .card-plan-label {
+  min-width: 14rem; /* límite superior opcional */
+  max-width: 15rem; /* límite superior opcional */
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  width: 14rem;
+  // width: 14rem;
+}
+
+.row {
+  flex-wrap: wrap; 
+}
+
+@media (max-width: 575px) {
+  .cards-group_promo {
+    display: block;
+  }
 }
