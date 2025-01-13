@@ -167,6 +167,8 @@
 				const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
 				passwordInput.setAttribute('type', type);
 
+				// this.classList.toggle('fa-eye-slash'); // Cambia a "ojito tachado" cuando se muestre el password
+
 				/* if ( passwordInput.getAttribute('type') === 'password' ) {
 					ojito.style.display();
 					ojito.classList.add('fa-eye');

@@ -79,10 +79,10 @@ class PlanResource extends Resource
                     ->label('Color (clase bootstrap)')
                 ->maxLength(255),
 
-                TextInput::make('duration_in_days')
+                /* TextInput::make('duration_in_days')
                     ->label('Duración (días)')
                     ->numeric()
-                ->required(),
+                ->required(), */
 
                 Select::make('promotion_id')
                     ->label('Promoción')
