@@ -61,9 +61,31 @@
 									<div id="validationServerEmailFeedback" class="invalid-feedback"></div>
 								</div>
 									
-								<div class="form-floating">
-									<input type="password" class="form-control" id="password-registro" name="contraseña" placeholder="Contraseña" minlength="6" maxlength="20" x-bind:disabled="userType === ''" required>
+								<div class="form-floating position-relative">
+									<input
+										type="password"
+										class="form-control"
+										id="password-registro"
+										name="contraseña"
+										placeholder="Contraseña"
+										minlength="6"
+										maxlength="20"
+										x-bind:disabled="userType === ''"
+										required
+									/>
 									<label class="text-secondary" for="password-registro">Contraseña</label>
+									<div id="togglePassword">
+									<i
+										id="ojito"
+										class="fa-solid fa-eye position-absolute"
+										style="top: 37%; right: 1.5rem; transform: translateY(-50%); cursor: pointer;"
+									></i>
+									{{-- <i
+										id="ojito-oculto"
+										class="fa-solid fa-eye-slash position-absolute d-none"
+										style="top: 37%; right: 1.5rem; transform: translateY(-50%); cursor: pointer;"
+									></i> --}}
+									</div>
 									<p class="form-text m-0 p-0" id="password_limits">Mínimo 6 y máximo 20 caracteres</p>
 									<div id="validationServerContraseñaFeedback" class="invalid-feedback"></div>
 								</div>
@@ -135,6 +157,24 @@
 
 	<script>
   		const $loaderOverlay = document.getElementById('loader-overlay');
+
+			const togglePassword = document.getElementById('togglePassword');
+			const passwordInput  = document.getElementById('password-registro');
+			const ojito = document.getElementById('ojito');
+
+			togglePassword.addEventListener('click', function() {
+				console.log("entro")
+				const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+				passwordInput.setAttribute('type', type);
+
+				/* if ( passwordInput.getAttribute('type') === 'password' ) {
+					ojito.style.display();
+					ojito.classList.add('fa-eye');
+				} else {
+					ojito.classList.remove('fa-eye');
+					ojito.classList.add('fa-eye-slash');
+				} */
+			});
 
 		document.getElementById('submit-register-button').addEventListener('click', (event) => {
 			event.preventDefault();
