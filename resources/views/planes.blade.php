@@ -268,15 +268,13 @@
 						class="row
 						row-cols-1 
 						row-cols-sm-2 
-						{{-- row-cols-md-4  --}}
-						{{-- row-cols-xl-3 --}}
 						g-4
 						align-items-stretch
     					justify-content-center
 						mt-4
 						w-100
 						cards-group_promo"
-						:class=class_cards
+						:class="class_cards"
 					>
 
 						<template x-for="plan in planes" :key="plan.id">
@@ -509,7 +507,12 @@
 						this.loading = false;
 						if(data.status === 'Success') {
 							this.planes = data.data;
-							this.class_cards = "row-cols-md-"+data.data.length
+							const screenWidth = window.innerWidth;
+							if (this.planes.length === 4 && screenWidth >= 768 && screenWidth <= 990) {
+								this.class_cards = "row-cols-md-2";
+							} else {
+								this.class_cards = "row-cols-md-" + this.planes.length;
+							}
 						} else {
 							this.error = data.message || 'Error al obtener los planes.';
 						}
@@ -608,6 +611,7 @@
 
 				init() {
 
+					window.addEventListener('resize', () => this.fetchPlanes());
 					this.debounceFetch();
 
 					this.$watch('numAvisos', () => {
