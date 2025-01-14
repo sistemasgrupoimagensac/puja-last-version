@@ -30,6 +30,7 @@ class InmuebleController extends Controller
                 $user = Auth::user();
                 $tipo_usuario = $user->tipo_usuario_id;
                 if ( $tipo_usuario === 4 && $user->not_pay === 1 ) $user_not_pay = true;
+                if ( $tipo_usuario === 3 && $user->not_pay === 1 ) $user_not_pay = true;
 
             }
             $ad_user_id = $aviso->inmueble->user_id;
