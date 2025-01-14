@@ -955,6 +955,7 @@ class MyPostsController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'aviso_id' => 'required|integer',
+            'aviso_estado' => 'required|integer',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -964,9 +965,16 @@ class MyPostsController extends Controller
                 'errors' => $validator->errors()
             ], 422);
         }
+
+        if ( $request->aviso_estado == 3 ) {
+            $estado_new = 7;
+        } else if ( $request->aviso_estado == 7 ) {
+            $estado_new = 3;
+        }
+
         $aviso = Aviso::findOrFail($request->aviso_id);
-        $aviso->estado = 7;
-        $aviso->save();
+        $aviso->historial->first()->pivot->estado_aviso_id = $estado_new;
+        $aviso->historial->first()->pivot->save();
 
         return response()->json([
             'htpp_code' => 200,

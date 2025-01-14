@@ -70,7 +70,7 @@
                             $newEndDate = $endDate->addHours(72);
                             $currentDate = \Carbon\Carbon::now();
                         @endphp
-                        @if ( $aviso->historial->first()->pivot->estado_aviso_id === 3 )
+                        @if ( $aviso->historial->first()->pivot->estado_aviso_id === 3 || $aviso->historial->first()->pivot->estado_aviso_id === 7 )
                             @include('components.aviso_simple', [
                                 'id' => $aviso->id,
                                 'codigo_unico' => $aviso->inmueble->codigo_unico,
@@ -145,20 +145,21 @@
             <div class="modal-content">
                 <div class="modal-content py-4">
                     
-                    <i class="fa-regular fa-circle-xmark fa-4x text-danger"></i>
+                    <i class="fa-regular fa-ban fa-4x text-danger"></i>
     
                     <div class="modal-header justify-content-center">
-                        <h4 class="modal-title">¿Seguro quiere cancelar el Aviso?</h4>
+                        <h4 class="modal-title">¿Seguro quiere <span id="aviso-cancelar-activar-main"></span> el Aviso?</h4>
                     </div>
     
                     <div class="modal-body">
-                        <p class="text-secondary m-0">Cancelar el aviso <span class="fw-bold" id="aviso-title-to-cancel"></span> es un proceso que SI se puede revertir.</p>
+                        <p class="text-secondary m-0"><span id="aviso-cancelar-activar"></span> el aviso <span class="fw-bold" id="aviso-title-to-cancel"></span> es un proceso que SI se puede revertir.</p>
                         <input type="hidden" id="aviso-id-to-cancel"> <!-- Input oculto para el ID del aviso -->
+                        <input type="hidden" id="aviso-estado-to-cancel"> <!-- Input oculto para el ID del aviso -->
                     </div>
     
                     <div class="d-flex p-3 justify-content-center gap-3">
-                        <button type="button" class="btn btn-danger w-100" id="cancel-aviso-btn">Cancelar aviso</button>
-                        <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">No cancelar</button>
+                        <button type="button" class="btn btn-danger w-100" id="cancel-aviso-btn"><span id="aviso-cancelar-activar-acept"></span> aviso</button>
+                        <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Descartar operación</button>
                     </div>
     
                 </div>

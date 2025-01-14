@@ -11,20 +11,19 @@ document.getElementById('delete-aviso-btn').addEventListener('click', function (
 	fetch('/my-post/delete', {
 		method: 'POST',
 		headers: {
-		'Accept': 'application/json',
-		'Content-Type': 'application/json',
-		'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // Agrega el token CSRF
+			'Accept': 'application/json',
+			'Content-Type': 'application/json',
+			'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // Agrega el token CSRF
 		},
 		body: JSON.stringify({ aviso_id: avisoId }) // Enviar el ID del aviso como JSON
 	})
 	.then(response => response.json())
 	.then(data => {
 		if (data.htpp_code === 200) {
-		alert('Aviso eliminado correctamente.');
-		// Aquí puedes recargar la página o eliminar el aviso del DOM sin recargar
-		location.reload();
+			alert('Aviso eliminado correctamente.');
+			location.reload();
 		} else {
-		alert('Hubo un error al eliminar el aviso.');
+			alert('Hubo un error al eliminar el aviso.');
 		}
 	})
 	.catch(error => {
@@ -33,32 +32,48 @@ document.getElementById('delete-aviso-btn').addEventListener('click', function (
 });
 
 
-function avisoCancelModal(title, id) {
+function setCancelModal(title, id, estado) {
+	let act_canc;
+	if ( estado == 3 ) {
+		act_canc = "Cancelar"
+	} else if ( estado == 7 ) {
+		act_canc = "Activar"
+	}
+	document.getElementById('aviso-cancelar-activar-main').innerText = act_canc.toLocaleLowerCase();
+	document.getElementById('aviso-cancelar-activar').innerText = act_canc;
+	document.getElementById('aviso-cancelar-activar-acept').innerText = act_canc;
 	document.getElementById('aviso-title-to-cancel').innerText = title;
-	document.getElementById('aviso-id-to-cancel').value = id;  // Asigna el ID del aviso al input oculto
+	document.getElementById('aviso-id-to-cancel').value = id;
+	document.getElementById('aviso-estado-to-cancel').value = estado;
 }
 
-window.avisoCancelModal = avisoCancelModal;
+window.setCancelModal = setCancelModal;
 
 document.getElementById('cancel-aviso-btn').addEventListener('click', function () {
 	const avisoId = document.getElementById('aviso-id-to-cancel').value;
+	const avisoEstado = document.getElementById('aviso-estado-to-cancel').value;
+
+	const datos = {
+		aviso_id: avisoId,
+		aviso_estado: avisoEstado,
+	}
 	
 	fetch('/my-post/cancel', {
 		method: 'POST',
 		headers: {
-		'Accept': 'application/json',
-		'Content-Type': 'application/json',
-		'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // Agrega el token CSRF
+			'Accept': 'application/json',
+			'Content-Type': 'application/json',
+			'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 		},
-		body: JSON.stringify({ aviso_id: avisoId })
+		body: JSON.stringify(datos)
 	})
 	.then(response => response.json())
 	.then(data => {
 		if (data.htpp_code === 200) {
-			alert('Aviso Cancelado correctamente.');
+			alert('Aviso actualizado correctamente.');
 			location.reload();
 		} else {
-			alert('Hubo un error al eliminar el aviso.');
+			alert('Hubo un error al actualizar el aviso.');
 		}
 	})
 	.catch(error => {
