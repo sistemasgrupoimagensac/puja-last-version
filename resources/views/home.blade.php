@@ -8,6 +8,20 @@
     @include('components.header', ['tienePlanes' => $tienePlanes, ])
 @endsection
 
+<style>
+    .carousel-wrapper {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+  
+    #carousel-container {
+        /* display: flex; */
+        gap: 20px; /* Espaciado entre cards */
+        max-width: 100%;
+    }
+</style>
+
 @section('content')
 
     <main class="container-fluid main-container">
@@ -94,8 +108,6 @@
         </div>
 
     </main>
-
-
 
     {{-- Main: incluye el buscador y Titular --}}
     
