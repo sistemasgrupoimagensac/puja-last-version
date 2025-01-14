@@ -138,6 +138,33 @@
             </div>
         </div>
     </div>
+
+    {{-- Modal confirmación de Cancelar aviso --}}
+    <div class="modal fade" id="avisoCancelModal" tabindex="-1" aria-labelledby="avisoCancelModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-content py-4">
+                    
+                    <i class="fa-regular fa-circle-xmark fa-4x text-danger"></i>
+    
+                    <div class="modal-header justify-content-center">
+                        <h4 class="modal-title">¿Seguro quiere cancelar el Aviso?</h4>
+                    </div>
+    
+                    <div class="modal-body">
+                        <p class="text-secondary m-0">Cancelar el aviso <span class="fw-bold" id="aviso-title-to-cancel"></span> es un proceso que SI se puede revertir.</p>
+                        <input type="hidden" id="aviso-id-to-cancel"> <!-- Input oculto para el ID del aviso -->
+                    </div>
+    
+                    <div class="d-flex p-3 justify-content-center gap-3">
+                        <button type="button" class="btn btn-danger w-100" id="cancel-aviso-btn">Cancelar aviso</button>
+                        <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">No cancelar</button>
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+    </div>
     
 
 @endsection

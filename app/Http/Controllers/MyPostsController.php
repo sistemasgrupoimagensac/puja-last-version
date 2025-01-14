@@ -951,6 +951,30 @@ class MyPostsController extends Controller
         ], 200);
     }
 
+    public function my_post_cancel (Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'aviso_id' => 'required|integer',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'htpp_code' => 400,
+                'status' => 'Error',
+                'message' => 'Error de validación.',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+        $aviso = Aviso::findOrFail($request->aviso_id);
+        $aviso->estado = 7;
+        $aviso->save();
+
+        return response()->json([
+            'htpp_code' => 200,
+            'status' => 'Success',
+            'message' => 'Aviso cancelado.',
+        ], 200);
+    }
+
     // Funciones XD
     private function convertStringToFloat($value)
     {

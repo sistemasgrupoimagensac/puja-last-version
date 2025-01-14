@@ -84,6 +84,20 @@
                 <div class="card-footer">
                     <div class="d-flex justify-content-end gap-3 mx-lg-4">
 
+                        
+                        {{-- @if ( $user_id == 6 )
+                            <button 
+                                type="button" 
+                                class="action cancel border-0 bg-transparent p-1"
+                                title="Cancelar aviso"
+                                data-bs-toggle="modal" 
+                                data-bs-target="#avisoCancelModal"
+                                onclick="setCancelModal('{{ $title }}', '{{ $id }}')">
+                            >
+                                <i class="fa-solid fa-ban w-100 h-100 text-danger"></i>
+                            </button>
+                        @endif --}}
+
                         {{-- Editar aviso --}}
                         @if ( $edit_enabled )
                             <button type="button" class="action edit border-0 bg-transparent p-1"
