@@ -173,6 +173,11 @@ class Inmueble extends Model
         return optional(optional($this->principal)->caracteristicas)->habitaciones;
     }
 
+    public function mantenimiento()
+    {
+        return optional(optional($this->principal)->caracteristicas)->mantenimiento;
+    }
+
     public function banios()
     {
         return optional(optional($this->principal)->caracteristicas)->banios;
@@ -318,8 +323,13 @@ class Inmueble extends Model
             $this->principal->ubicacion->departamento->nombre . '. ';
 
         $habitaciones = '';
-        if ( $this->dormitorios() == 1 ) $habitaciones = 'una habitación, ';
-        if ( $this->dormitorios() > 1 ) $habitaciones = $this->dormitorios() . ' habitaciones, ';
+        if ( $this->typeInmueble() == 'Oficina' ) {
+            if ( $this->dormitorios() == 1 ) $habitaciones = 'un ambiente, ';
+            if ( $this->dormitorios() > 1 ) $habitaciones = $this->dormitorios() . ' ambientes, ';
+        } else {
+            if ( $this->dormitorios() == 1 ) $habitaciones = 'una habitación, ';
+            if ( $this->dormitorios() > 1 ) $habitaciones = $this->dormitorios() . ' habitaciones, ';
+        }
         $banios = '';
         if ( $this->banios() == 1 ) 'un baño, ';
         if ( $this->banios() > 1 ) $banios = $this->banios() . ' baños, ';
@@ -395,7 +405,14 @@ class Inmueble extends Model
             $caracteristicas_extras .= $value->caracteristica;
             ( $key < $totalCaracteristicas - 1 ) ? $caracteristicas_extras .= ", " : $caracteristicas_extras .= ".";
         }
-        return "{$subtipo_inmueble} en {$tipo_operacion} ubicada en {$direccion_completa}{$espacios} {$caracteristicas}. {$remate}El inmueble cuenta con una lista de características y comodidades que se presentan a continuación: {$caracteristicas_extras}";
+
+        $mantenimiento = '';
+        if ( $this->mantenimiento() ) {
+            $precio_mantenimiento = number_format($this->mantenimiento(), 2, '.', ',');
+            $mantenimiento = "El pago de mantenimiento es de S/ {$precio_mantenimiento}.";
+        }
+
+        return "{$subtipo_inmueble} en {$tipo_operacion} ubicada en {$direccion_completa}{$espacios} {$caracteristicas}. {$remate}El inmueble cuenta con una lista de características y comodidades que se presentan a continuación: {$caracteristicas_extras} {$mantenimiento}";
     }
 
 }

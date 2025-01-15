@@ -24,6 +24,7 @@ class CaracteristicaInmueble extends Model
         'anios_antiguedad',
         'precio_soles',
         'precio_dolares',
+        'mantenimiento',
 
         'remate_precio_base',
         'remate_valor_tasacion',

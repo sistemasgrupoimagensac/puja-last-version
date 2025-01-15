@@ -249,7 +249,11 @@
                                     <i class="fa-solid fa-bed fa-lg icon-orange p-1"></i>
                                     <h5 class="text-secondary m-1 fw-bold"> {{ $aviso->inmueble->dormitorios() }} </h5>
                                 </div>
-                                <h6 class="text-secondary m-0"> dorm. </h6>
+                                @if($aviso->inmueble->typeInmueble() !== "Oficina")
+                                    <h6 class="text-secondary m-0"> dorm. </h6>
+                                @else
+                                    <h6 class="text-secondary m-0"> ambientes. </h6>
+                                @endif
                             </div>
                         @endif
 
@@ -286,6 +290,18 @@
                             </div>
                         @endif
 
+                        {{-- mantenimiento --}}
+                        @if($aviso->inmueble->mantenimiento())
+                            <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
+                                <div class="d-flex">
+                                    <i class="fa-solid fa-screwdriver-wrench fa-lg icon-orange p-1"></i>
+                                    <span class="text-secondary m-1 fw-bold">S/</span>
+                                    <h5 class="text-secondary m-1 fw-bold">{{ number_format($aviso->inmueble->mantenimiento(), 2, '.', ',') }} </h5>
+                                </div>
+                                <h6 class="text-secondary m-0"> mantenim. </h6>
+                            </div>
+                        @endif
+
                         {{-- area total --}}
                         @if($aviso->inmueble->area())
                             <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
@@ -302,7 +318,7 @@
                                         <sup>2</sup>
                                     </h5>
                                 </div>
-                                <h6 class="text-secondary m-0"> area total </h6>
+                                <h6 class="text-secondary m-0"> área total </h6>
                             </div>
                         @endif
                         
@@ -323,7 +339,7 @@
                                         <sup>2</sup>
                                     </h5>
                                 </div>
-                                <h6 class="text-secondary m-0"> area construida </h6>
+                                <h6 class="text-secondary m-0"> área construida </h6>
                             </div>
                         @endif
 

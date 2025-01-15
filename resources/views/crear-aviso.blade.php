@@ -165,7 +165,7 @@
                             <div class="d-flex justify-content-between gap-4">
                                 <div class="form-group w-100">
                                     <label class="text-secondary" for="dormitorios">
-                                        Dormitorios
+                                        <span x-text="ambienteDormitoriosText"></span>
                                         <span style="font-size: .75rem">(opcional)</span>
                                     </label>
                                     <input type="number" id="dormitorios" x-model="dormitorios" min="0" max="99" class="form-control">
@@ -257,7 +257,7 @@
 
                         <fieldset>
                             <legend>
-                                Precio
+                                Precios
                                 <span style="font-size: .75rem">(Debe registrar mínimo un precio.)</span>
                             </legend>
 
@@ -292,9 +292,26 @@
                                 </div>
                             </div>
 
+                            <div class="d-flex justify-content-between gap-4">
+                                <div class="form-group" x-show="selectedSubtipo == 20" style="width: 48% !important;">
+                                    <label class="text-secondary" for="precio_mantenimiento">
+                                        Mantenimiento
+                                        <span style="font-size: .75rem">(opcional)</span>
+                                    </label>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text">S/</span>
+                                        <input 
+                                            type="text"
+                                            id="precio_mantenimiento"
+                                            x-model="precio_mantenimiento" 
+                                            class="form-control montos-areas"
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+
 
                             <div x-show="perfil_acreedor">
-
 
                                 <template x-for="(remate, index) in remates" :key="index">
                                     <div class="border p-3 mb-3">
@@ -391,9 +408,6 @@
                                 >
                                     Agregar otro remate
                                 </button>
-                            
-
-
 
                             </div>
                         </fieldset>
@@ -976,6 +990,8 @@
                 acceso_parque: false,
                 ascensores: false,
                 codigo_unico: '',
+                ambienteDormitoriosText: "Dormitorios",
+                precio_mantenimiento: 0,
 
                 // detalles de remate
                 base_remate: '',
@@ -1116,6 +1132,12 @@
                     $loaderOverlay.style.display = 'flex';
                     document.body.style.pointerEvents = 'none';
 
+                    if ( this.selectedSubtipo == 20 ) {
+                        this.ambienteDormitoriosText = "Cant. ambientes"
+                    }else{
+                        this.ambienteDormitoriosText = "Dormitorios"
+                    }
+
                     const stepMap = {
                         1: `/my-post/store`,
                         2: `/my-post/store`,
@@ -1183,6 +1205,7 @@
                         } else if (step === 3) /* Caracteristicas */ {
                             formData.append('is_puja', this.is_puja ? 1 : 0)
                             formData.append('habitaciones', this.dormitorios)
+                            formData.append('mantenimiento', this.precio_mantenimiento)
                             formData.append('banios', this.banios)
                             formData.append('medio_banios', this.medio_banios)
                             formData.append('estacionamientos', this.estacionamiento)

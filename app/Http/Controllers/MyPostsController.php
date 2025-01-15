@@ -154,15 +154,18 @@ class MyPostsController extends Controller
             if ( (int)$request->subtipo_inmueble_id >= 1 && (int)$request->subtipo_inmueble_id <= 5 ) {
                 //casa
                 $tipo_inmueble = 1;
-            } else if ( (int)$request->subtipo_inmueble_id >= 6 && (int)$request->subtipo_inmueble_id <= 11 ) {
+            } else if ( (int)$request->subtipo_inmueble_id >= 6 && (int)$request->subtipo_inmueble_id <= 14 ) {
                 //Depa
                 $tipo_inmueble = 2;
-            } else if ( (int)$request->subtipo_inmueble_id >= 12 && (int)$request->subtipo_inmueble_id <= 13 ) {
+            } else if ( (int)$request->subtipo_inmueble_id >= 15 && (int)$request->subtipo_inmueble_id <= 17 ) {
                 //Terreno
-                $tipo_inmueble = 3;
-            } else if ( (int)$request->subtipo_inmueble_id >= 14 && (int)$request->subtipo_inmueble_id <= 15 ) {
-                //Local
                 $tipo_inmueble = 4;
+            } else if ( (int)$request->subtipo_inmueble_id >= 18 && (int)$request->subtipo_inmueble_id <= 19 ) {
+                //Local
+                $tipo_inmueble = 5;
+            } else if ( (int)$request->subtipo_inmueble_id == 20 ) {
+                //Oficina
+                $tipo_inmueble = 3;
             }
 
             $ope_tipo_inmueble = OperacionTipoInmueble::updateOrCreate([
@@ -234,6 +237,7 @@ class MyPostsController extends Controller
                 'anios_antiguedad' => 'nullable|max:999',
                 'precio_soles' => 'nullable|string',
                 'precio_dolares' => 'nullable|string',
+                'mantenimiento' => 'nullable|string',
                 
                 'remate_precio_base' => 'nullable|string',
                 'remate_valor_tasacion' => 'nullable|string',
@@ -258,6 +262,7 @@ class MyPostsController extends Controller
 
             $request->precio_soles          ? $precio_soles = $this->convertStringToFloat($request->precio_soles)                   : $precio_soles = null;
             $request->precio_dolares        ? $precio_dolares = $this->convertStringToFloat($request->precio_dolares)               : $precio_dolares = null;
+            $request->mantenimiento         ? $mantenimiento = $this->convertStringToFloat($request->mantenimiento)                 : $mantenimiento = null;
             $request->remate_precio_base    ? $remate_precio_base = $this->convertStringToFloat($request->remate_precio_base)       : $remate_precio_base = null;
             $request->remate_valor_tasacion ? $remate_valor_tasacion = $this->convertStringToFloat($request->remate_valor_tasacion) : $remate_valor_tasacion = null;
 
@@ -276,6 +281,7 @@ class MyPostsController extends Controller
                     'anios_antiguedad' => $request->anios_antiguedad !== null ? (int)$request->anios_antiguedad : 0,
                     "precio_soles" => $precio_soles,
                     "precio_dolares" => $precio_dolares,
+                    "mantenimiento" => $mantenimiento,
                     "remate_precio_base" => $remate_precio_base,
                     "remate_valor_tasacion" => $remate_valor_tasacion,
                     "remate_partida_registral" => $request->remate_partida_registral,
