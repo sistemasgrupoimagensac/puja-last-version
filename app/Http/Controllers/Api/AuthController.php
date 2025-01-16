@@ -9,42 +9,46 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
 {
     public function register(Request $request)
     {
-
         $request->validate([
-            // 'tipo_de_usuario' => 'required|integer',
-            // 'apellido' => 'required|string|max:250',
+            'user_type' => 'required|integer|in:2,3,4,5',
             'name' => 'required|string|max:250',
+            'lastname' => 'required|string|max:250',
             'email' => 'required|email|max:100|unique:users,email',
             'password' => 'required|string|min:6|max:20|confirmed',
-            // 'tipo_documento' => 'required|integer|in:1,2,3',
-            // 'telefono' => 'required|integer|digits:9',
-            // 'direccion' => 'required|string|max:255',
-            // 'numero_de_documento' => 'required|string|max:30',
-            // 'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            // 'terminos' => 'accepted',
+            'document_type' => 'required|integer|in:1,2,3',
+            'phone' => 'required|integer|digits:9',
+            'address' => 'required|string|max:255',
+            'document_number' => 'required|string|max:30',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'terms' => 'accepted',
         ]);
 
         $user = User::create([
+            'tipo_usuario_id' => $request->user_type,
             'nombres' => $request->name,
+            'apellidos' => $request->input('lastname'),
             'email' => $request->email,
             'password' => bcrypt($request->password),
+            'tipo_documento_id' => $request->document_type,
+            'celular' => $request->phone,
+            'direccion' => $request->address,
+            'numero_documento' => $request->document_number,
+            'acepta_termino_condiciones' => $request->terms,
         ]);
 
         $token = $user->createToken($request->email);
 
-        return [
-            'user' => $user,
+        return response()->json([
+            'message' => 'Registrado correctamente.',
+            'status' => 'success',
             'token' => $token->plainTextToken,
-        ];
-
-
-
-
+        ]);
     }
 
     public function login(Request $request)
@@ -144,16 +148,85 @@ class AuthController extends Controller
 
     }
 
+    public function sendPasswordResetLink(Request $request)
+    {
+        $request->validate(['email' => 'required|email']);
 
+        $status = Password::sendResetLink($request->only('email'));
+
+        if ($status === Password::RESET_LINK_SENT) {
+            return response()->json([
+                'message' => 'Se ha enviado el enlace de restablecimiento de contraseña a tu correo.',
+                'status' => 'success',
+            ], 200);
+        }
+
+        return response()->json([
+            'message' => 'No se pudo enviar el enlace de restablecimiento. Verifica tu correo.',
+            'status' => 'error',
+        ], 400);
+    }
 
     public function logout(Request $request)
     {
         $request->user()->tokens()->delete();
 
-        $response[] = ['opracion' => 'Cierre de sesion'];
+        return response()->json([
+            'message' => 'Sesión cerrada.',
+            'status' => 'success',
+        ]);
+    }
 
-        return response()->json($response);
+    public function updateProfile(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:250',
+            'lastname' => 'required|string|max:255',
+            'document_type' => 'required|integer|in:1,2,3',
+            'phone' => 'required|integer|digits:9',
+            'address' => 'required|string|max:250',
+            'document_number' => 'required|string|max:30',
+        ]);
 
+        $user = User::findOrFail($id);
+        $user->update([
+            'nombres' => $request->name,
+            'apellidos' => $request->lastname,
+            'tipo_documento_id' => $request->document_type,
+            'celular' => $request->phone,
+            'direccion' => $request->address,
+            'numero_documento' => $request->document_number,
+        ]);
+
+        return response()->json([
+            'message' => 'Datos de usuario actulizados.',
+            'status' => "success",
+            'user' => $user,
+        ]);
+    }
+
+    public function updatePassword(Request $request, $id)
+    {
+        $request->validate([
+            'current_password' => 'required|string',
+            'password' => 'required|string|min:6|max:20|confirmed',
+        ]);
+    
+        $user = User::findOrFail($id);
+        if (!Hash::check($request->current_password, $user->password)) {
+            return response()->json([
+                'message' => 'La contraseña actual es incorrecta.',
+                'status' => "error",
+            ]);
+        }
+    
+        $user->password = Hash::make($request->password);
+        $user->save();
+    
+        return response()->json([
+            'message' => 'Contraseña actualizada.',
+            'status' => "success",
+        ]);
     }
 
 }
