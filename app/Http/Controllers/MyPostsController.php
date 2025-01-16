@@ -192,8 +192,8 @@ class MyPostsController extends Controller
                 'provincia_id' => 'required|integer|digits_between:1,5',
                 'distrito_id' => 'required|integer|digits_between:1,7',
                 'es_exacta' => 'required|boolean',
-                'latitud' => 'string|max:500',
-                'longitud' => 'string|max:500',
+                'latitud' => 'required|numeric|present',
+                'longitud' => 'required|numeric|present',
             ]);
             if ($validator->fails()) {
                 return response()->json([
