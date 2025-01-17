@@ -27,6 +27,7 @@ class CancelAuctions extends Command
                 ->where([
                     'o.tipo_operacion_id' =>  3,
                     'h.estado_aviso_id' =>  3,
+                    'avisos.estado' =>  1,
                 ])
                 ->select([
                     'avisos.id AS aviso_id',
@@ -36,6 +37,7 @@ class CancelAuctions extends Command
 
         if ( count($auctions) > 0 ) {
             foreach ($auctions as $auction) {
+                Log::info(" Entramos al aviso {$auction->aviso_id}");
                 $remate = Remate::where('caracteristicas_inmueble_id', $auction->caracteristica_id)->orderBy('numero_remate','DESC')->first();
                 $date = "{$remate->fecha} {$remate->hora}"; // Esto espero obtener: "2025-01-10 15:59:00"
 
