@@ -37,35 +37,22 @@ class CancelAuctions extends Command
 
         if ( count($auctions) > 0 ) {
             foreach ($auctions as $auction) {
-                Log::info(" Entramos al aviso {$auction->aviso_id}");
                 $remate = Remate::where('caracteristicas_inmueble_id', $auction->caracteristica_id)->orderBy('numero_remate','DESC')->first();
-                $date = "{$remate->fecha} {$remate->hora}"; // Esto espero obtener: "2025-01-10 15:59:00"
-
-                if (!$remate) {
-                    Log::warning("Remate no encontrado para caracteristica_id: {$auction->caracteristica_id}");
-                    continue;
-                }
+                $date = "{$remate->fecha} {$remate->hora}";
 
                 if ( $remate ) {
                     if ( Carbon::parse($date)->lessThan(Carbon::now()) ) {
                         $aviso = Aviso::find($auction->aviso_id);
-                        if (!$aviso) {
-                            Log::warning("Aviso no encontrado para aviso_id: {$auction->aviso_id}");
-                            continue;
-                        }
                         if ( $aviso ) {
                             $aviso->historial->first()->pivot->estado_aviso_id = 7;
                             $aviso->historial->first()->pivot->save();
                             Log::info("Aviso {$auction->aviso_id} cancelado correctamente.");
                         }
-                    } else {
-                        Log::info("Aviso {$auction->aviso_id} aun cuenta con vigencia su ultimo remate es el {$date} ");
                     }
                 }
             }
-        } else {
-            Log::info("No se encontraron remates para cancelar.");
         }
-
+        
+        Log::info("Cron: Cancelar remates -- FINALIZADO");
     }
 }
