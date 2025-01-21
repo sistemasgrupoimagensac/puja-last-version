@@ -124,7 +124,7 @@
 		conic-gradient(from -45deg at right var(--s) top var(--d),
 		#0004 62.5%,#0000 0 87.5%,#0008 0) 100%/50% 100% no-repeat;
 	clip-path: polygon(0 0,calc(var(--s) + var(--d)) 0,calc(var(--s) + var(--d)) var(--d),calc(100% - var(--s) - var(--d)) var(--d),calc(100% - var(--s) - var(--d)) 0,100% 0, calc(100% - var(--c)) calc(50% - var(--d)/2),100% calc(100% - var(--d)),calc(100% - var(--s)) calc(100% - var(--d)),calc(100% - var(--s)) 100%,var(--s) 100%,var(--s) calc(100% - var(--d)),0 calc(100% - var(--d)),var(--c) calc(50% - var(--d)/2));
-	background-color: blue; /* the main color */
+	background-color: #0092ec; /* the main color */
 	width: fit-content;
 	transform: rotate(-45deg) translate(-25%, 0); 
 }
