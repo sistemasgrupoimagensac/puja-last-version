@@ -205,7 +205,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function updatePassword(Request $request, $id)
+    public function updatePassword_old(Request $request, $id)
     {
         $request->validate([
             'current_password' => 'required|string',
@@ -218,6 +218,61 @@ class AuthController extends Controller
                 'message' => 'La contraseña actual es incorrecta.',
                 'status' => "error",
             ]);
+        }
+    
+        $user->password = Hash::make($request->password);
+        $user->save();
+    
+        return response()->json([
+            'message' => 'Contraseña actualizada.',
+            'status' => "success",
+        ]);
+    }
+
+    public function updateUser(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|integer',
+            'name' => 'required|string|max:250',
+            'lastname' => 'required|string|max:255',
+            'document_type' => 'required|integer|in:1,2,3',
+            'phone' => 'required|integer|digits:9',
+            'address' => 'required|string|max:250',
+            'document_number' => 'required|string|max:30',
+        ]);
+
+        $user = User::findOrFail($request->user_id);
+        $user->update([
+            'nombres' => $request->name,
+            'apellidos' => $request->lastname,
+            'tipo_documento_id' => $request->document_type,
+            'celular' => $request->phone,
+            'direccion' => $request->address,
+            'numero_documento' => $request->document_number,
+        ]);
+
+        return response()->json([
+            'message' => 'Actualización del perfil correcta',
+            'status' => "success",
+            'user' => $user,
+        ]);
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|integer',
+            'current_password' => 'required|string',
+            'password' => 'required|string|min:6|max:20|confirmed',
+        ]);
+    
+        $user = User::findOrFail($request->user_id);
+        if (!Hash::check($request->current_password, $user->password)) {
+            return response()->json([
+                'message' => 'La contraseña actual no es correcta.',
+                'status' => "error",
+            ]);
+            return back()->withErrors(['current_password' => 'La contraseña actual no es correcta.']);
         }
     
         $user->password = Hash::make($request->password);
