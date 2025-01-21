@@ -1,3 +1,49 @@
+<style>
+    /* .btn-outline-terceraty{
+        --bs-btn-color: white;
+        --bs-btn-border-color: #0092ec;
+        --bs-btn-hover-color: #0092ec;
+        --bs-btn-hover-bg: white;
+        --bs-btn-hover-border-color: white;
+        --bs-btn-focus-shadow-rgb: 108, 117, 125;
+        --bs-btn-active-color: #0092ec;
+        --bs-btn-active-bg: #0092ec;
+        --bs-btn-active-border-color: white;
+        --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+        --bs-btn-disabled-color: white;
+        --bs-btn-disabled-bg: transparent;
+        --bs-btn-disabled-border-color: white;
+        --bs-gradient: none;
+        background-color: #0092ec;
+    }
+    .btn-outline-terceraty:hover{
+        background-color: fff;
+        border-color: #0092ec
+    } */
+
+    .btn-outline-terceraty{
+        --bs-btn-color: #0092ec; 
+        --bs-btn-border-color: #0092ec;
+        --bs-btn-hover-color: white;
+        --bs-btn-hover-bg: #0092ec;
+        --bs-btn-hover-border-color: #0092ec;
+        --bs-btn-focus-shadow-rgb: 108, 117, 125;
+        --bs-btn-active-color: white;
+        --bs-btn-active-bg: white;
+        --bs-btn-active-border-color: #0092ec;
+        --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+        --bs-btn-disabled-color: #0092ec;
+        --bs-btn-disabled-bg: transparent;
+        --bs-btn-disabled-border-color: #0092ec;
+        --bs-gradient: none;
+        background-color: white;
+    }
+    .btn-outline-terceraty:hover{
+        background-color: #0092ec;
+        border-color: #0092ec
+    }
+</style>
+
 <header class="custom-container">
 
     {{-- Navbar Desktop --}}
@@ -191,13 +237,13 @@
                     
                     @if (isset($tienePlanes)) 
                         @if (!$tienePlanes && $tipoUsuarioID === 3)
-                            <a href="/planes-inmobiliaria" class="btn-outline-secondary aside-menu btn mx-4">Publica Aquí</a>
+                            <a href="/planes-inmobiliaria" class="btn-outline-terceraty aside-menu btn mx-4">Publica Aquí</a>
                         @elseif ( $canEditProject && $tipoUsuarioID === 5 )
-                            <a href="{{ route("proyectos.create") }}" class="btn-outline-secondary aside-menu btn mx-4">Publica Aquí</a>
+                            <a href="{{ route("proyectos.create") }}" class="btn-outline-terceraty aside-menu btn mx-4">Publica Aquí</a>
                         @elseif ( !$canEditProject && $tipoUsuarioID === 5 )
-                            <a class="btn-outline-secondary aside-menu btn mx-4" href="/publica-tu-inmueble">Publica Aquí</a>
+                            <a class="btn-outline-terceraty aside-menu btn mx-4" href="/publica-tu-inmueble">Publica Aquí</a>
                         @else 
-                            <a href="{{ route("posts.create") }}" class="btn-outline-secondary aside-menu btn mx-4">Publica Aquí</a>
+                            <a href="{{ route("posts.create") }}" class="btn-outline-terceraty aside-menu btn mx-4">Publica Aquí</a>
                         @endif
                     @endif
                 
@@ -272,7 +318,7 @@
                             </div>
                         </nav>
                     @else
-                        <a class="btn-outline-secondary btn mx-1" href="/publica-tu-inmueble">Publica Aquí</a>
+                        <a class="btn-outline-terceraty btn mx-1" href="/publica-tu-inmueble">Publica Aquí</a>
                         <a class="button-orange btn mx-1" href="{{ route("sign_in", ['profile_type' => 2]) }}">Iniciar Sesión</a>
                     @endauth
 
