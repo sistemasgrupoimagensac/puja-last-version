@@ -1,5 +1,5 @@
 <style>
-    /* .btn-outline-terceraty{
+    .btn-outline-terceraty{
         --bs-btn-color: white;
         --bs-btn-border-color: #0092ec;
         --bs-btn-hover-color: #0092ec;
@@ -17,11 +17,12 @@
         background-color: #0092ec;
     }
     .btn-outline-terceraty:hover{
-        background-color: fff;
-        border-color: #0092ec
-    } */
+        background-color: 76f66e;
+        border-color: #0092ec;
+        color: white;
+    }
 
-    .btn-outline-terceraty{
+    /* .btn-outline-terceraty{
         --bs-btn-color: #0092ec; 
         --bs-btn-border-color: #0092ec;
         --bs-btn-hover-color: white;
@@ -41,7 +42,7 @@
     .btn-outline-terceraty:hover{
         background-color: #0092ec;
         border-color: #0092ec
-    }
+    } */
 </style>
 
 <header class="custom-container">
