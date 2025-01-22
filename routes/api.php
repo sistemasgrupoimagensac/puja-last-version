@@ -62,7 +62,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     
     // Route::post('/users/{user_id}/plans', [PlanController::class, 'userPlans']);
-    Route::post('/pagar-planes-propietario', [PlanController::class, 'planes_propietario']);
+    Route::post('/plans', [PlanController::class, 'hirePlanAd']);
     
 });
 
@@ -73,6 +73,7 @@ Route::get('/ubication/{province_id}/districts', [MyPostsController::class, 'dis
 Route::get('/extras/{category_extra_id}', [MyPostsController::class, 'extras']);
 
 Route::get('/plans', [PlanController::class, 'getPlans']);
+Route::get('/plans/{plan_id}', [PlanController::class, 'getPlan']);
 
 
 
