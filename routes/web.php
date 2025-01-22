@@ -147,6 +147,7 @@ Route::get('wsb-dev/{name_dev}/proyectos/images/{id_proyecto}/{archivo}', [Image
 
 // Rutas planos UNIDADES de PROYECTOS para desarrollo
 Route::get('wsb-dev/{name_dev}/proyectos/unidades/{id_proyecto}/{id_unidad}/{archivo}', [ImagesController::class, 'dev_get_project_unidad_images']);
+Route::get('/proyectos/unidades/{id_proyecto}/{id_unidad}/{archivo}', [ImagesController::class, 'dev_get_project_unidad_images']);
 
 // Route::get('/openpay', [MyPostsController::class, 'openpay'])->middleware('sessiondata');
 Route::post('/generarComprobanteElec/{id}', [BillingController::class, 'generarFactura'])->middleware(SessionData::class);
