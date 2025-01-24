@@ -144,9 +144,11 @@ Route::get('wsb-dev/{name_dev}/videos/{id_inmueble}/{archivo}', [ImagesControlle
 
 // Rutas imagenes de PROYECTOS para desarrollo
 Route::get('wsb-dev/{name_dev}/proyectos/images/{id_proyecto}/{archivo}', [ImagesController::class, 'dev_get_project_images']);
+Route::get('/proyectos/images/{id_proyecto}/{archivo}', [ImagesController::class, 'get_project_images']);
 
 // Rutas planos UNIDADES de PROYECTOS para desarrollo
 Route::get('wsb-dev/{name_dev}/proyectos/unidades/{id_proyecto}/{id_unidad}/{archivo}', [ImagesController::class, 'dev_get_project_unidad_images']);
+Route::get('/proyectos/unidades/{id_proyecto}/{id_unidad}/{archivo}', [ImagesController::class, 'get_project_unidad_images']);
 
 // Route::get('/openpay', [MyPostsController::class, 'openpay'])->middleware('sessiondata');
 Route::post('/generarComprobanteElec/{id}', [BillingController::class, 'generarFactura'])->middleware(SessionData::class);

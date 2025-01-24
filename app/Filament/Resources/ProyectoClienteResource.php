@@ -231,19 +231,25 @@ class ProyectoClienteResource extends Resource
                                 Checkbox::make('renovacion_automatica')
                                     ->label('Renovación automática')
                                     ->inline(false),
+                                
+                                ToggleButtons::make('pago_gratis')
+                                    ->label('Contrato Gratis')
+                                    ->boolean()
+                                    ->default(fn ($record) => $record->pago_gratis ?? false)
+                                ->inline(),
 
                                 ToggleButtons::make('activo')
                                     ->label('Activo')
                                     ->boolean()
                                     ->inline()
-                                    ->disabled()
+                                    // ->disabled()
                                     ->default(fn ($record) => $record->activo ?? false),
 
                                 ToggleButtons::make('pagado')
                                     ->label('Pago Total')
                                     ->boolean()
-                                    ->inline()
-                                    ->disabled(),
+                                    ->default(fn ($record) => $record->pagado ?? false)
+                                    ->inline(),
 
                                 FileUpload::make('contrato_url')
                                     ->label('Contrato')

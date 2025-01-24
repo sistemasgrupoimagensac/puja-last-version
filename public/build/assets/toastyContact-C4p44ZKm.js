@@ -1,0 +1,1 @@
+import{a}from"./bootstrap.esm-Cu-1HGb6.js";const t=document.getElementById("toastBtnContact"),o=document.getElementById("contactToast");if(t){const e=a.getOrCreateInstance(o,{autohide:!0,delay:1e3});t.addEventListener("click",()=>{e.show()})}o.addEventListener("hidden.bs.toast",()=>{window.location.href=contactoUrl});

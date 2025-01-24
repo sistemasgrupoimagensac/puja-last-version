@@ -263,6 +263,7 @@
 				periodoPlan: 30,
 				loading: false,
 				error: '',
+				pagoFree: false,
 
 				fetchPlanes() {
 					$loaderOverlay.style.display = 'flex';

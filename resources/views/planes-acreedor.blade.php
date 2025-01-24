@@ -226,6 +226,7 @@
 				periodoPlan: 15,
 				loading: false,
 				error: '',
+				pagoFree: false,
 
 				priceTable: {
 					'7': [150, 200, 240], '15': [250, 350, 420] ,
