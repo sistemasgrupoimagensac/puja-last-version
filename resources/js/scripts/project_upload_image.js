@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const proyectoImgInput = document.getElementById('proyectoImgInput');
     const proyectoImgPreviewContainer = document.getElementById('proyectoImgPreviewContainer');
     const proyectoImgUploadButton = document.getElementById('proyectoImgUploadButton');
-    const maxImageSize = 1024 * 1024; // 1024 KB en bytes
+    const maxImageSize = 10240 * 10240; // 1024 KB en bytes
     const maxImageCount = 50;
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     const existingImageDeleteButtons = document.querySelectorAll('.delete-image-btn');
