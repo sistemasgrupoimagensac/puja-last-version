@@ -27,7 +27,7 @@ class ProyectoImagenController extends Controller
 
         $validator = Validator::make($request->all(), [
             'images' => 'required|array|min:1',
-            'images.*' => 'required|image|mimes:jpg,jpeg,png,webp|max:400'
+            'images.*' => 'required|image|mimes:jpg,jpeg,png,webp|max:10240'
         ]);
 
         if ($validator->fails()) {

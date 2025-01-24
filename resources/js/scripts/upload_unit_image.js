@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const unidadExistingImagesContainer = document.getElementById('unidadExistingImagesContainer');
     const unidadImgUploadModal = document.getElementById('unidadImgUploadModal');
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    const maxImageSize = 400 * 1024; // 400 KB en bytes
+    const maxImageSize = 4000 * 10240; // 400 KB en bytes
     const maxImageCount = 50;
 
     const existingUnitImageDeleteButtons = document.querySelectorAll('.delete-image-unidad-btn');
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Validar tamaño y formato de los archivos
     function validateFile(file) {
-        if (file.size > maxImageSize) return showAlert(`La imagen ${file.name} supera el tamaño máximo de 400KB.`);
+        if (file.size > maxImageSize) return showAlert(`La imagen ${file.name} supera el tamaño máximo de 4000KB.`);
         if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) return showAlert(`El formato ${file.name} no es válido.`);
         if (selectedImages.length >= maxImageCount) return showAlert(`Has alcanzado el límite de 50 imágenes.`);
         return true;
