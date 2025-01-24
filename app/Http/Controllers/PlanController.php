@@ -9,6 +9,7 @@ use App\Models\HistorialAvisos;
 use App\Models\Plan;
 use App\Models\PlanUser;
 use App\Models\ProyectoCliente;
+use App\Models\ProyectoCronogramaPago;
 use App\Models\ProyectoPlanesActivos;
 use App\Models\Subscription;
 use App\Models\SubscriptionPlanProject;
@@ -409,18 +410,23 @@ class PlanController extends Controller
         $proyectoClienteId = session('proyectoClienteId');
         // $proyectoCliente = ProyectoCliente::find($proyectoClienteId);
         $proyectoCliente = ProyectoCliente::join('proyecto_planes_activos', 'proyecto_clientes.id', '=', 'proyecto_planes_activos.proyecto_cliente_id')
-            ->where('proyecto_cliente_id', $proyectoClienteId)
-            ->where('fecha_inicio', '<=', Carbon::now())
-            ->where('fecha_fin', '>=', Carbon::now())
+            ->where('proyecto_clientes.id', $proyectoClienteId)
+            ->where('proyecto_planes_activos.fecha_inicio', '<=', Carbon::now())
+            ->where('proyecto_planes_activos.fecha_fin', '>=', Carbon::now())
             ->select(
+                'proyecto_clientes.id as id',
                 'proyecto_clientes.user_id as user_id',
                 'proyecto_clientes.pagado as pagado',
+                'proyecto_planes_activos.id as plan_activo_id',
                 'proyecto_planes_activos.pago_unico as pago_unico',
                 'proyecto_planes_activos.pago_fraccionado as pago_fraccionado',
                 'proyecto_planes_activos.monto as precio_plan',
+                'proyecto_planes_activos.pago_gratis as pago_gratis',
             )
             // ->orderBy('proyecto_planes_activos.fecha_inicio', 'desc')
         ->first();
+
+
         $planUser = PlanUser::where('user_id', $proyectoCliente->user_id)->first();
         // dd($planUser);
         $planUserId = $planUser->id;
@@ -431,7 +437,8 @@ class PlanController extends Controller
         }
     
         // Recuperar los datos de la sesión
-        $precio = session('precio');
+        $precio = $proyectoCliente->precio_plan;
+        // $precio = session('precio');
         $precioPlan = $proyectoCliente->precio_plan;
         $razonSocial = session('razonSocial');
         $correo = session('correo');
@@ -456,8 +463,62 @@ class PlanController extends Controller
         if (!$precio || !$razonSocial) {
             return response()->view('errors.404', [], 404);
         }
+
+
+        $pago_gratis = $proyectoCliente->pago_gratis;
+
+        if ( $pago_gratis ) {
+            if ( $proyectoCliente->pago_unico ) {
+                $cronograma = ProyectoCronogramaPago::where('proyecto_cliente_id', $proyectoCliente->id)
+                    ->where('proyecto_plan_activo_id', $proyectoCliente->plan_activo_id)
+                ->first();
+
+                if ($cronograma) {
+                    $cronograma->update([
+                        'estado_pago_id' => 2, // pagado
+                        'fecha_ultimo_intento' => now(),
+                    ]);
+                }
+        
+                // Marcar el proyecto como completamente pagado y al día
+                $proyectoCliente->update([
+                    'pagado' => true,
+                    'al_dia' => true,
+                ]);
+            } else {
+                // Si es un pago fraccionado, actualizar el primer pago pendiente
+                $primerPagoPendiente = ProyectoCronogramaPago::where('proyecto_cliente_id', $proyectoCliente->id)
+                ->where('estado_pago_id', '!=', 2)
+                ->orderBy('fecha_programada', 'asc')
+                ->first();
+                
+                if ($primerPagoPendiente) {
+                    $primerPagoPendiente->update([
+                        'estado_pago_id' => 2,
+                        'fecha_ultimo_intento' => now(),
+                    ]);
+                    
+                    // Marcar como "al día" porque el primer pago pendiente se realizó con éxito
+                    $proyectoCliente->update(['al_dia' => true]);
+                }
+        
+                // Verificar si todos los pagos están completados
+                $todosPagosRealizados = ProyectoCronogramaPago::where('proyecto_cliente_id', $proyectoCliente->id)
+                    ->where('estado_pago_id', '!=', 2)
+                    ->doesntExist();
+        
+                if ($todosPagosRealizados) {
+                    // Marcar el proyecto como completamente pagado si no hay pagos pendientes
+                    $proyectoCliente->update(['pagado' => true]);
+                }
+            }
+            $user = User::findOrFail($proyectoCliente->user_id);
+            Auth::login($user);
+            return redirect(route('panel.mis-avisos')) ;
+        }
     
         return view('proyecto-pago', compact(
+            'pago_gratis',
             'precio', 
             'precioPlan',
             'razonSocial', 

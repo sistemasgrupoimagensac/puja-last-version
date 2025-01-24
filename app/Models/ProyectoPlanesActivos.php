@@ -18,6 +18,7 @@ class ProyectoPlanesActivos extends Model
         'fecha_inicio',
         'fecha_fin',
         'monto',
+        'pago_gratis',
         'numero_anuncios',
         'pago_unico',
         'pago_fraccionado',

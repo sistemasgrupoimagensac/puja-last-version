@@ -127,12 +127,13 @@ class LoginController extends Controller
                     'proyecto_clientes.id as id',
                     'proyecto_clientes.al_dia as al_dia',
                     'proyecto_clientes.razon_social as razon_social',
+                    'proyecto_planes_activos.id as plan_activo_id',
                     'proyecto_planes_activos.duracion as periodo_plan',
                     'proyecto_planes_activos.fecha_fin as fecha_fin_contrato',
                     'proyecto_planes_activos.numero_anuncios as numero_anuncios',
                     'proyecto_planes_activos.fecha_inicio as fecha_inicio_contrato',
                 )
-                ->orderBy('proyecto_planes_activos.fecha_inicio', 'desc')
+                ->orderBy('proyecto_planes_activos.fecha_inicio', 'asc')
             ->first();
 
             if ($proyectoCliente) {
@@ -153,8 +154,9 @@ class LoginController extends Controller
                 if (!$proyectoCliente->al_dia) {
                     // Obtener el primer pago del cronograma de pagos
                     $primerPago = ProyectoCronogramaPago::where('proyecto_cliente_id', $proyectoCliente->id)
+                        ->where('proyecto_plan_activo_id', $proyectoCliente->plan_activo_id)
                         ->orderBy('fecha_programada', 'asc')
-                        ->first();
+                    ->first();
 
                     if (!$primerPago) {
                         return response()->json([
