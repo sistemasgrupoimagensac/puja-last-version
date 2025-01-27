@@ -180,33 +180,44 @@ class CreateProyectoCliente extends CreateRecord
                 'proyecto_planes_activos.duracion as periodo_plan',
                 'proyecto_planes_activos.pago_unico as pago_unico',
                 'proyecto_planes_activos.monto as precio_plan',
+                'proyecto_planes_activos.pago_gratis as pago_gratis',
                 'proyecto_planes_activos.fecha_fin as fecha_fin_contrato',
                 'proyecto_planes_activos.numero_anuncios as numero_anuncios',
                 'proyecto_planes_activos.fecha_inicio as fecha_inicio_contrato',
             )
-            // ->orderBy('proyecto_planes_activos.fecha_inicio', 'desc')
         ->get();
-        // $proyectoCliente->proyectoPlanesActivos;
-        Log::info("Entra una y otra vez");
-        Log::info($proyectoCliente_all);
         
         foreach ($proyectoCliente_all as $proyectoCliente) {
-            Log::info("dentro del foreach");
-            Log::info($proyectoCliente->plan_activo_id);
             
             $fechaInicio = Carbon::parse($proyectoCliente->fecha_inicio_contrato);
         
             if ($proyectoCliente->pago_unico) {
-                // Caso de pago único
-                ProyectoCronogramaPago::create([
-                    'proyecto_cliente_id' => $proyectoCliente->id,
+
+                $cronograma = ProyectoCronogramaPago::create([
+                    'proyecto_cliente_id'     => $proyectoCliente->id,
                     'proyecto_plan_activo_id' => $proyectoCliente->plan_activo_id,
-                    'fecha_programada' => $fechaInicio,
-                    'monto' => $proyectoCliente->precio_plan,
-                    'estado_pago_id' => $estadoPendiente,
-                    'intentos' => 0,
+                    'fecha_programada'        => $fechaInicio,
+                    'monto'                   => $proyectoCliente->precio_plan,
+                    'estado_pago_id'          => $estadoPendiente,
+                    'intentos'                => 0,
                 ]);
+
+                if ( $proyectoCliente->pago_gratis === 1 ) {
+                    
+                    ProyectoCliente::findOrFail($proyectoCliente->id)->update(['al_dia' => 1]);
+                    ProyectoPlanesActivos::where('id', $proyectoCliente->plan_activo_id)->update(['pagado' => true]);
+                    $cronograma->update(['estado_pago_id' => 2, 'fecha_ultimo_intento' => now()]); // pagado
+
+                }
+
+
+
+
+
+
+
             } else {
+                
                 // Caso de pago fraccionado con el 50% inicial
                 $primerPago = $proyectoCliente->precio_plan * 0.5; // 50% del total
                 $montoRestante = $proyectoCliente->precio_plan * 0.5; // 50% restante

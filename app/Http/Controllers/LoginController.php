@@ -66,145 +66,136 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         try {
+            $validator = Validator::make($request->all(), [
+                'user_type' => 'required|string',
+                'correo' => 'required|email',
+                'contraseña' => 'required',
+            ]);
+
+            if ( $validator->fails() ) {
+                return response()->json([
+                    'message' => 'Errores de validación',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+    
+            $user = User::where('email', $request->input('correo'))->first();
+
+            if ( !$user ) {
+                return response()->json([
+                    'message' => 'El correo electrónico no está registrado.',
+                    'errors' => [
+                        'correo' => ['El correo electrónico no está registrado.']
+                    ]
+                ], 422);
+            }
+    
+            if (is_null($user->password) || empty($user->password)) {
+                return response()->json([
+                    'message' => 'Este usuario fue creado con un inicio de sesión externo (como Google). Por favor, utilice el método de inicio de sesión correspondiente.',
+                    'errors' => [
+                        'correo' => ['El usuario debe iniciar sesión con su cuenta de Google.']
+                    ]
+                ], 422);
+            }
+    
+            if (!Hash::check($request->input('contraseña'), $user->password)) {
+                return response()->json([
+                    'message' => 'La contraseña es incorrecta.',
+                    'errors' => [
+                        'contraseña' => ['La contraseña es incorrecta.']
+                    ]
+                ], 422);
+            }
+
+            // Usuario Proyectos
+            if ( $user->tipo_usuario_id == 5 ) {
+                // $proyectoCliente = ProyectoCliente::where('user_id', $user->id)->first();
+                $proyectoCliente = ProyectoCliente::join('proyecto_planes_activos', 'proyecto_clientes.id', '=', 'proyecto_planes_activos.proyecto_cliente_id')
+                    ->where('proyecto_clientes.user_id', $user->id)
+                    ->where('proyecto_planes_activos.fecha_inicio', '<=', Carbon::now())
+                    ->where('proyecto_planes_activos.fecha_fin', '>=', Carbon::now())
+                    ->select(
+                        'proyecto_clientes.id as id',
+                        'proyecto_clientes.al_dia as al_dia',
+                        'proyecto_clientes.razon_social as razon_social',
+                        'proyecto_planes_activos.id as plan_activo_id',
+                        'proyecto_planes_activos.duracion as tiempo_en_meses',
+                        'proyecto_planes_activos.fecha_fin as fecha_fin_contrato',
+                        'proyecto_planes_activos.numero_anuncios as numero_anuncios',
+                        'proyecto_planes_activos.fecha_inicio as fecha_inicio_contrato',
+                    )
+                    ->orderBy('proyecto_planes_activos.fecha_inicio', 'asc')
+                ->first();
+                // return $proyectoCliente;
+
+                if ( $proyectoCliente ) {
+
+                    $userTypeId = $user->tipoUsuario->id;
+                    $proyectoClienteId = $proyectoCliente->id;
+                    $razonSocial = $proyectoCliente->razon_social;
+                    $correo = $user->getEmailAttribute();
+                    $telefono = $user->getPhoneAttribute();
+                    $documento = $user->getDniAttribute();
+                    $tipoDocumento = $user->tipoDocumento->documento;
+                    $proyecto_plan_activo_id = $proyectoCliente->plan_activo_id;
+                    $fechaInicio = $proyectoCliente->fecha_inicio_contrato;
+                    $fechaFin = $proyectoCliente->fecha_fin_contrato;
+                    $periodoPlan = $proyectoCliente->tiempo_en_meses;
+                    $numeroAnuncios = $proyectoCliente->numero_anuncios;
+
+                    if ( !$proyectoCliente->al_dia ) {
             
-        
-        // Validación inicial de los campos del formulario
-        $validator = Validator::make($request->all(), [
-            'user_type' => 'required|string',
-            'correo' => 'required|email',
-            'contraseña' => 'required',
-        ]);
-    
-        // Si la validación falla, devuelve los errores
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => 'Errores de validación',
-                'errors' => $validator->errors()
-            ], 422);
-        }
-    
-        // Buscar al usuario por correo electrónico
-        $user = User::where('email', $request->input('correo'))->first();
+                        $primerPago = ProyectoCronogramaPago::where('proyecto_cliente_id', $proyectoCliente->id)
+                            ->where('proyecto_plan_activo_id', $proyectoCliente->plan_activo_id)
+                            ->orderBy('fecha_programada', 'asc')
+                        ->first();
 
-        // Validar si el usuario existe en la base de datos
-        if (!$user) {
-            return response()->json([
-                'message' => 'El correo electrónico no está registrado.',
-                'errors' => [
-                    'correo' => ['El correo electrónico no está registrado.']
-                ]
-            ], 422);
-        }
-    
-        // Verificar si el usuario tiene una contraseña en la base de datos
-        if (is_null($user->password) || empty($user->password)) {
-            return response()->json([
-                'message' => 'Este usuario fue creado con un inicio de sesión externo (como Google). Por favor, utilice el método de inicio de sesión correspondiente.',
-                'errors' => [
-                    'correo' => ['El usuario debe iniciar sesión con su cuenta de Google.']
-                ]
-            ], 422);
-        }
-    
-        // Verificar si la contraseña es correcta
-        if (!Hash::check($request->input('contraseña'), $user->password)) {
-            return response()->json([
-                'message' => 'La contraseña es incorrecta.',
-                'errors' => [
-                    'contraseña' => ['La contraseña es incorrecta.']
-                ]
-            ], 422);
-        }
+                        if ( !$primerPago ) {
+                            return response()->json([
+                                'message' => 'No se encontró el cronograma de pagos.',
+                                'status' => 'error',
+                            ], 400);
+                        }
 
-        // Verificar si el usuario es del tipo 5 y su estado de pago
-        if ($user->tipo_usuario_id == 5) {
-            // $proyectoCliente = ProyectoCliente::where('user_id', $user->id)->first();
-            $proyectoCliente = ProyectoCliente::join('proyecto_planes_activos', 'proyecto_clientes.id', '=', 'proyecto_planes_activos.proyecto_cliente_id')
-                ->where('proyecto_clientes.user_id', $user->id)
-                ->where('proyecto_planes_activos.fecha_inicio', '<=', Carbon::now())
-                ->where('proyecto_planes_activos.fecha_fin', '>=', Carbon::now())
-                ->select(
-                    'proyecto_clientes.id as id',
-                    'proyecto_clientes.al_dia as al_dia',
-                    'proyecto_clientes.razon_social as razon_social',
-                    'proyecto_planes_activos.id as plan_activo_id',
-                    'proyecto_planes_activos.duracion as periodo_plan',
-                    'proyecto_planes_activos.fecha_fin as fecha_fin_contrato',
-                    'proyecto_planes_activos.numero_anuncios as numero_anuncios',
-                    'proyecto_planes_activos.fecha_inicio as fecha_inicio_contrato',
-                )
-                ->orderBy('proyecto_planes_activos.fecha_inicio', 'asc')
-            ->first();
+                        session([
+                            'proyectoPlanActivoId' => $proyecto_plan_activo_id,
+                            'precio' => $primerPago->monto,
+                            'fechaInicio' => $fechaInicio,
+                            'fechaFin' => $fechaFin,
+                            'periodoPlan' => $periodoPlan,
+                            'numeroAnuncios' => $numeroAnuncios,
 
-            if ($proyectoCliente) {
-                // Obtener detalles del proyecto
-                $razonSocial = $proyectoCliente->razon_social;
-                $fechaInicio = $proyectoCliente->fecha_inicio_contrato;
-                $fechaFin = $proyectoCliente->fecha_fin_contrato;
-                $periodoPlan = $proyectoCliente->periodo_plan;
-                $numeroAnuncios = $proyectoCliente->numero_anuncios;
-                $correo = $user->getEmailAttribute();
-                $telefono = $user->getPhoneAttribute();
-                $documento = $user->getDniAttribute();
-                $tipoDocumento = $user->tipoDocumento->documento;
-                $userTypeId = $user->tipoUsuario->id;
-                $proyectoClienteId = $proyectoCliente->id;
+                            'razonSocial' => $razonSocial,
+                            'correo' => $correo,
+                            'telefono' => $telefono,
+                            'tipoDocumento' => $tipoDocumento,
+                            'documento' => $documento,
+                            'userTypeId' => $userTypeId,
+                            'proyectoClienteId' => $proyectoClienteId,
+                        ]);
 
-                // Verificar el estado del cliente (pagado o al día)
-                if (!$proyectoCliente->al_dia) {
-                    // Obtener el primer pago del cronograma de pagos
-                    $primerPago = ProyectoCronogramaPago::where('proyecto_cliente_id', $proyectoCliente->id)
-                        ->where('proyecto_plan_activo_id', $proyectoCliente->plan_activo_id)
-                        ->orderBy('fecha_programada', 'asc')
-                    ->first();
-
-                    if (!$primerPago) {
                         return response()->json([
-                            'message' => 'Error: No se encontró el cronograma de pagos.',
-                        ], 500);
+                            'message' => 'Pago pendiente.',
+                            'redirect' => route('ruta.proyecto.pago') // Pasarela de pagos
+                        ]);
                     }
-
-                    // Guardar los datos en la sesión
-                    session([
-                        'precio' => $primerPago->monto, // Monto del primer pago
-                        'razonSocial' => $razonSocial,
-                        'correo' => $correo,
-                        'telefono' => $telefono,
-                        'documento' => $documento,
-                        'tipoDocumento' => $tipoDocumento,
-                        'fechaInicio' => $fechaInicio,
-                        'fechaFin' => $fechaFin,
-                        'periodoPlan' => $periodoPlan,
-                        'numeroAnuncios' => $numeroAnuncios,
-                        'userTypeId' => $userTypeId,
-                        'proyectoClienteId' => $proyectoClienteId,
-                    ]);
-
-                    // Redirigir al flujo de pagos
-                    return response()->json([
-                        'message' => 'Pago pendiente.',
-                        'redirect' => route('ruta.proyecto.pago') // Pasarela de pagos
-                    ], 200);
                 }
             }
-        }
 
-        // Si las credenciales son correctas, iniciar sesión
-        Auth::login($user);
+            Auth::login($user);
     
-        // Redireccionar al usuario a la página de inicio
-        return response()->json([
-            'message' => 'Inicio de sesión exitoso.',
-            'redirect' => redirect()->intended(route('panel.mis-avisos'))->getTargetUrl(),
-        ]);
+            return response()->json([
+                'message' => 'Inicio de sesión exitoso.',
+                'redirect' => redirect()->intended(route('panel.mis-avisos'))->getTargetUrl(),
+            ]);
 
         } catch (\Throwable $th) {
-            Log::info($th->getMessage());
             return response()->json([
                 'http_code' => 400,
                 'message' => 'Error al loguearse',
-                'error' => $th->getMessage() // Mensaje de error detallado
-            ], 400); // Código de estado HTTP 500 (Internal Server Error)
+                'error' => $th->getMessage()
+            ], 400);
         }
     }    
 

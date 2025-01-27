@@ -5,6 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use App\Models\ProyectoCliente;
+use App\Models\ProyectoPlanesActivos;
+use Illuminate\Support\Facades\Log;
 
 class CheckPaymentProjectStatus
 {
@@ -14,16 +16,18 @@ class CheckPaymentProjectStatus
     public function handle(Request $request, Closure $next)
     {
         $proyectoClienteId = session('proyectoClienteId');
+        $proyectoPlanActivoId = session('proyectoPlanActivoId');
         
         // Si no hay un ID de proyecto en la sesión, redirigir a 404
-        if (!$proyectoClienteId) {
+        if ( !$proyectoClienteId || !$proyectoPlanActivoId ) {
             return response()->view('errors.404', [], 404);
         }
 
         // Obtener el proyecto del cliente y verificar si ya está pagado
         $proyectoCliente = ProyectoCliente::find($proyectoClienteId);
+        $proyectoPlanActivo = ProyectoPlanesActivos::find($proyectoPlanActivoId);
 
-        if (!$proyectoCliente || $proyectoCliente->pagado) {
+        if ( !$proyectoPlanActivo || $proyectoPlanActivo->pagado ) {
             return response()->view('errors.404', [], 404); // Redirigir a 404 si ya está pagado
         }
 

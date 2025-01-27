@@ -426,7 +426,6 @@ class PlanController extends Controller
             // ->orderBy('proyecto_planes_activos.fecha_inicio', 'desc')
         ->first();
 
-
         $planUser = PlanUser::where('user_id', $proyectoCliente->user_id)->first();
         // dd($planUser);
         $planUserId = $planUser->id;
