@@ -23,6 +23,11 @@ class PlanResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()?->can('view plans') ?? false;
+    }
+
     public static function form(Form $form): Form
     {
         return $form

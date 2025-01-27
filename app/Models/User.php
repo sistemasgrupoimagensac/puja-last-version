@@ -15,11 +15,12 @@ use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 // class User extends Authenticatable implements MustVerifyEmail
 class User extends Authenticatable implements MustVerifyEmail, FilamentUser
 {
-    use HasApiTokens, HasFactory, Notifiable, CanResetPassword;
+    use HasApiTokens, HasFactory, Notifiable, CanResetPassword, HasRoles;
 
     protected $fillable = [
         'tipo_usuario_id',
@@ -153,7 +154,8 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     public function canAccessPanel(Panel $panel): bool
     {
         // return $this->tipoUsuario->nombres === 'Admin' && $this->hasVerifiedEmail();
-        return $this->nombres === 'Admin';
+        // return $this->nombres === 'Admin';
+        return $this->hasAnyRole(['admin', 'asesor_venta']);
     }
 
     public function creator()

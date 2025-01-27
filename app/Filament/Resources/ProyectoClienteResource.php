@@ -37,6 +37,11 @@ class ProyectoClienteResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()?->can('view projects') ?? false;
+    }
+
     public static function form(Form $form): Form
     {
         return $form

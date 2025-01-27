@@ -27,6 +27,11 @@ class ProyectoLeadResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()?->can('view leads') ?? false;
+    }
+
     public static function form(Form $form): Form
     {
         return $form

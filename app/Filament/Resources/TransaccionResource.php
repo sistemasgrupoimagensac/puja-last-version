@@ -20,6 +20,11 @@ class TransaccionResource extends Resource
 {
     protected static ?string $model = Transaccion::class;
 
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()?->can('view transactions') ?? false;
+    }
+
     public static function getModelLabel(): string
     {
         return 'Transacción';
