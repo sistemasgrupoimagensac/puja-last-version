@@ -127,7 +127,6 @@ class LoginController extends Controller
                     )
                     ->orderBy('proyecto_planes_activos.fecha_inicio', 'asc')
                 ->first();
-                // return $proyectoCliente;
 
                 if ( $proyectoCliente ) {
 
