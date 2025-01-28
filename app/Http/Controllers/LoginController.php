@@ -108,13 +108,13 @@ class LoginController extends Controller
                 ], 422);
             }
 
-            // Usuario Proyectos
             if ( $user->tipo_usuario_id == 5 ) {
-                // $proyectoCliente = ProyectoCliente::where('user_id', $user->id)->first();
+
                 $proyectoCliente = ProyectoCliente::join('proyecto_planes_activos', 'proyecto_clientes.id', '=', 'proyecto_planes_activos.proyecto_cliente_id')
                     ->where('proyecto_clientes.user_id', $user->id)
                     ->where('proyecto_planes_activos.fecha_inicio', '<=', Carbon::now())
                     ->where('proyecto_planes_activos.fecha_fin', '>=', Carbon::now())
+                    ->where('proyecto_planes_activos.pagado', 0)
                     ->select(
                         'proyecto_clientes.id as id',
                         'proyecto_clientes.al_dia as al_dia',

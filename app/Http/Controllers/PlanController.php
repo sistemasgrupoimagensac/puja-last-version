@@ -408,47 +408,43 @@ class PlanController extends Controller
     public function mostrarPagoProyecto(Request $request)
     {
         $proyectoClienteId = session('proyectoClienteId');
-        // $proyectoCliente = ProyectoCliente::find($proyectoClienteId);
+        $proyectoPlanActivoId = session('proyectoPlanActivoId');
+        
         $proyectoCliente = ProyectoCliente::join('proyecto_planes_activos', 'proyecto_clientes.id', '=', 'proyecto_planes_activos.proyecto_cliente_id')
             ->where('proyecto_clientes.id', $proyectoClienteId)
+            ->where('proyecto_planes_activos.id', $proyectoPlanActivoId)
             ->where('proyecto_planes_activos.fecha_inicio', '<=', Carbon::now())
             ->where('proyecto_planes_activos.fecha_fin', '>=', Carbon::now())
+            ->where('proyecto_planes_activos.pagado', 0)
             ->select(
                 'proyecto_clientes.id as id',
                 'proyecto_clientes.user_id as user_id',
-                'proyecto_clientes.pagado as pagado',
+                'proyecto_planes_activos.pagado as pagado',
                 'proyecto_planes_activos.id as plan_activo_id',
                 'proyecto_planes_activos.pago_unico as pago_unico',
                 'proyecto_planes_activos.pago_fraccionado as pago_fraccionado',
                 'proyecto_planes_activos.monto as precio_plan',
                 'proyecto_planes_activos.pago_gratis as pago_gratis',
             )
-            // ->orderBy('proyecto_planes_activos.fecha_inicio', 'desc')
         ->first();
 
         $planUser = PlanUser::where('user_id', $proyectoCliente->user_id)->first();
-        // dd($planUser);
         $planUserId = $planUser->id;
     
-        // Evitar que accedan a la pantalla de pago si ya está pagado
-        if (!$proyectoCliente || $proyectoCliente->pagado) {
-            return response()->view('errors.404', [], 404);
-        }
-    
-        // Recuperar los datos de la sesión
         $precio = $proyectoCliente->precio_plan;
-        // $precio = session('precio');
-        $precioPlan = $proyectoCliente->precio_plan;
-        $razonSocial = session('razonSocial');
+        // $precioPlan = $proyectoCliente->precio_plan;
+        $precio = session('precio');
+        $fechaInicioRaw = session('fechaInicio');
+        $numeroAnuncios = session('numeroAnuncios');
+        $fechaFinRaw = session('fechaFin');
+        $periodoPlan = session('periodoPlan');
+
         $correo = session('correo');
         $telefono = session('telefono');
         $documento = session('documento');
-        $tipoDocumento = session('tipoDocumento');
-        $fechaInicioRaw = session('fechaInicio');
-        $fechaFinRaw = session('fechaFin');
-        $periodoPlan = session('periodoPlan');
-        $numeroAnuncios = session('numeroAnuncios');
         $userTypeId = session('userTypeId');
+        $razonSocial = session('razonSocial');
+        $tipoDocumento = session('tipoDocumento');
         $pagoUnico = $proyectoCliente->pago_unico;
         $pagoFraccionado = $proyectoCliente->pago_fraccionado;
     
@@ -463,80 +459,37 @@ class PlanController extends Controller
             return response()->view('errors.404', [], 404);
         }
 
-
         $pago_gratis = $proyectoCliente->pago_gratis;
 
         if ( $pago_gratis ) {
-            if ( $proyectoCliente->pago_unico ) {
-                $cronograma = ProyectoCronogramaPago::where('proyecto_cliente_id', $proyectoCliente->id)
-                    ->where('proyecto_plan_activo_id', $proyectoCliente->plan_activo_id)
-                ->first();
 
-                if ($cronograma) {
-                    $cronograma->update([
-                        'estado_pago_id' => 2, // pagado
-                        'fecha_ultimo_intento' => now(),
-                    ]);
-                }
-        
-                // Marcar el proyecto como completamente pagado y al día
-                $proyectoCliente->update([
-                    'pagado' => true,
-                    'al_dia' => true,
-                ]);
-            } else {
-                // Si es un pago fraccionado, actualizar el primer pago pendiente
-                $primerPagoPendiente = ProyectoCronogramaPago::where('proyecto_cliente_id', $proyectoCliente->id)
-                ->where('estado_pago_id', '!=', 2)
-                ->orderBy('fecha_programada', 'asc')
-                ->first();
-                
-                if ($primerPagoPendiente) {
-                    $primerPagoPendiente->update([
-                        'estado_pago_id' => 2,
-                        'fecha_ultimo_intento' => now(),
-                    ]);
-                    
-                    // Marcar como "al día" porque el primer pago pendiente se realizó con éxito
-                    $proyectoCliente->update(['al_dia' => true]);
-                }
-        
-                // Verificar si todos los pagos están completados
-                $todosPagosRealizados = ProyectoCronogramaPago::where('proyecto_cliente_id', $proyectoCliente->id)
-                    ->where('estado_pago_id', '!=', 2)
-                    ->doesntExist();
-        
-                if ($todosPagosRealizados) {
-                    // Marcar el proyecto como completamente pagado si no hay pagos pendientes
-                    $proyectoCliente->update(['pagado' => true]);
-                }
-            }
             $user = User::findOrFail($proyectoCliente->user_id);
             Auth::login($user);
             return redirect(route('panel.mis-avisos')) ;
+
         }
     
         return view('proyecto-pago', compact(
-            'pago_gratis',
             'precio', 
-            'precioPlan',
-            'razonSocial', 
             'correo', 
             'telefono', 
-            'documento', 
-            'tipoDocumento', 
-            'userTypeId',
-            'fechaInicio',
             'fechaFin',
+            'documento', 
+            'pagoUnico',
+            'planUserId',
+            'precioPlan',
+            'userTypeId',
+            'pago_gratis',
+            'razonSocial', 
             'periodoPlan',
-            'numeroAnuncios',
-            'proyectoClienteId',
-            'fechaInicioRaw',
             'fechaFinRaw',
             'descripcion',
-            'pagoUnico',
+            'fechaInicio',
+            'tipoDocumento', 
+            'numeroAnuncios',
+            'fechaInicioRaw',
             'pagoFraccionado',
-            'planUserId',
+            'proyectoClienteId',
         ));
     }
     

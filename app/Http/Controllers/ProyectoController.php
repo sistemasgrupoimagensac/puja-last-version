@@ -13,6 +13,7 @@ use App\Models\ProyectoProgreso;
 use App\Models\ProyectoUnidades;
 use App\Models\User;
 use App\Services\Proyectos\ServicioEstadoCliente;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Exception;
@@ -20,9 +21,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ProyectoController extends Controller
 {
-    /**
-     * Mostrar el formulario de creación o edición de un proyecto.
-     */
     public function create($id = null)
     {
         $bancos = Banco::all();
@@ -31,7 +29,6 @@ class ProyectoController extends Controller
         $imagenes = collect(); // Colección vacía si es un nuevo proyecto
         $imagenesUnidades = collect(); // Colección para las imágenes de las unidades
     
-        // Si se pasa un ID, estamos en modo edición, buscar el proyecto y cargar sus datos e imágenes
         if ($id) {
             $proyecto = Proyecto::with(['unidades' => function ($query) {
                 $query->where('estado', 1); // Filtrar solo las unidades activas
@@ -49,7 +46,6 @@ class ProyectoController extends Controller
 
         $imagenesUnidades = $imagenesUnidades ?? [];
     
-        // Pasar la variable $imagenes y $imagenesUnidades a la vista
         return view('proyectos.create', compact('bancos', 'progresos', 'proyecto', 'imagenes', 'imagenesUnidades'));
     }
 
@@ -57,28 +53,38 @@ class ProyectoController extends Controller
     {
         $user = Auth::user();
 
-        // Buscar el cliente de proyecto asociado al usuario autenticado
-        $proyectoCliente = ProyectoCliente::where('user_id', $user->id)->first();
+        $proyectoCliente = ProyectoCliente::join('proyecto_planes_activos', 'proyecto_planes_activos.proyecto_cliente_id', '=', 'proyecto_clientes.id')
+            ->where('user_id', $user->id)
+            ->where('proyecto_planes_activos.fecha_inicio', '<=', Carbon::now())
+            ->where('proyecto_planes_activos.fecha_fin', '>=', Carbon::now())
+            ->select(
+                'proyecto_clientes.id as id',
+                'proyecto_planes_activos.id as plan_activo_id',
+                'proyecto_planes_activos.numero_anuncios as plan_activo_cant_anuncios',
+            )
+            ->orderBy('proyecto_planes_activos.fecha_inicio', 'asc')
+        ->first();
 
         if (!$proyectoCliente) {
             return back()->with('error', 'No se encontró un cliente asociado a este usuario.');
         }
 
-        if($request->proyecto_id === null){
+        if( $request->proyecto_id === null ){
 
-            // Verificar la cantidad de proyectos actuales del cliente
-            $cantidadProyectos = Proyecto::where('proyecto_cliente_id', $proyectoCliente->id)->count();
+            $cantidadProyectos = Proyecto::where('proyecto_cliente_id', $proyectoCliente->id)
+                ->where('proyecto_plan_activo_id', $proyectoCliente->plan_activo_id)
+            ->count();
     
-            // Verificar si ha alcanzado el límite de proyectos permitidos
-            if ($cantidadProyectos >= $proyectoCliente->numero_anuncios) {
+            if ( $cantidadProyectos >= $proyectoCliente->plan_activo_cant_anuncios ) {
+
                 return response()->json([
                     'message' => 'Límite de anuncios disponibles alcanzado. No puedes crear más proyectos.',
                 ], 403);
+
             }
 
         }
 
-        // Validaciones
         $validator = Validator::make($request->all(), [
             'proyecto_id' => 'nullable|exists:proyectos,id',
             'nombre_proyecto' => 'required|string|max:255',
@@ -104,59 +110,53 @@ class ProyectoController extends Controller
         }
 
         try {
-            // Convertir el campo unidades a un array si no está vacío
+
             $unidadesArray = $request->filled('unidades') ? json_decode($request->unidades, true) : [];
 
-            // Crear o actualizar el proyecto
-            $proyecto = Proyecto::updateOrCreate(
-                ['id' => $request->proyecto_id],
-                [
-                    'nombre_proyecto' => $request->nombre_proyecto,
-                    'proyecto_cliente_id' => $proyectoCliente->id,
-                    'unidades_cantidad' => $request->unidades_cantidad,
-                    'banco_id' => $request->banco_id,
-                    'proyecto_progreso_id' => $request->proyecto_progreso_id,
-                    'descripcion' => $request->descripcion,
-                    'fecha_entrega' => $request->fecha_entrega,
-                    'area_desde' => $request->input('area_desde', 0),
-                    'area_hasta' => $request->input('area_hasta', 0),
-                    'area_techada_desde' => $request->input('area_techada_desde', 0),
-                    'area_techada_hasta' => $request->input('area_techada_hasta', 0),
-                    'dormitorios_desde' => $request->input('dormitorios_desde', 0),
-                    'dormitorios_hasta' => $request->input('dormitorios_hasta', 0),
-                    'banios_desde' => $request->input('banios_desde', 0),
-                    'banios_hasta' => $request->input('banios_hasta', 0),
-                    'precio_desde' => $request->input('precio_desde', 0),
-                    'direccion' => $request->direccion,
-                    'distrito' => $request->distrito,
-                    'provincia' => $request->provincia,
-                    'departamento' => $request->departamento,
-                    'latitude' => $request->latitude,
-                    'longitude' => $request->longitude,
-                ]
-            );
+            $proyecto = Proyecto::updateOrCreate([
+                'id' => $request->proyecto_id
+                ],[
+                'proyecto_cliente_id' => $proyectoCliente->id,
+                'proyecto_plan_activo_id' => $proyectoCliente->plan_activo_id,
+                'nombre_proyecto' => $request->nombre_proyecto,
+                'unidades_cantidad' => $request->unidades_cantidad,
+                'banco_id' => $request->banco_id,
+                'proyecto_progreso_id' => $request->proyecto_progreso_id,
+                'descripcion' => $request->descripcion,
+                'fecha_entrega' => $request->fecha_entrega,
+                'area_desde' => $request->input('area_desde', 0),
+                'area_hasta' => $request->input('area_hasta', 0),
+                'area_techada_desde' => $request->input('area_techada_desde', 0),
+                'area_techada_hasta' => $request->input('area_techada_hasta', 0),
+                'dormitorios_desde' => $request->input('dormitorios_desde', 0),
+                'dormitorios_hasta' => $request->input('dormitorios_hasta', 0),
+                'banios_desde' => $request->input('banios_desde', 0),
+                'banios_hasta' => $request->input('banios_hasta', 0),
+                'precio_desde' => $request->input('precio_desde', 0),
+                'direccion' => $request->direccion,
+                'distrito' => $request->distrito,
+                'provincia' => $request->provincia,
+                'departamento' => $request->departamento,
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude,
+            ]);
 
-            // Guardar o actualizar las unidades con el estado enviado desde el frontend
             foreach ($unidadesArray as $key => $unidadData) {
-                $unidad = ProyectoUnidades::updateOrCreate(
-                    [
-                        'id' => $unidadData['id'] ?? null,  // Actualizar si ya existe `id`
-                        'proyecto_id' => $proyecto->id,
-                    ],
-                    [
-                        'dormitorios' => $unidadData['dormitorios'],
-                        'banios' => $unidadData['banios'],
-                        'precio_soles' => $unidadData['precio_soles'],
-                        // 'precio_dolares' => $unidadData['precio_dolares'] ?? 0,
-                        'precio_dolares' => is_numeric($unidadData['precio_dolares']) ? $unidadData['precio_dolares'] : 0,
-                        'area' => $unidadData['area'],
-                        'area_techada' => $unidadData['area_techada'] ?? 0,
-                        'piso_numero' => $unidadData['piso_numero'],
-                        'estado' => $unidadData['estado'],
-                    ]
-                );
+                $unidad = ProyectoUnidades::updateOrCreate([
+                    'id' => $unidadData['id'] ?? null,
+                    'proyecto_id' => $proyecto->id,
+                    ],[
+                    'dormitorios' => $unidadData['dormitorios'],
+                    'banios' => $unidadData['banios'],
+                    'precio_soles' => $unidadData['precio_soles'],
+                    // 'precio_dolares' => $unidadData['precio_dolares'] ?? 0,
+                    'precio_dolares' => is_numeric($unidadData['precio_dolares']) ? $unidadData['precio_dolares'] : 0,
+                    'area' => $unidadData['area'],
+                    'area_techada' => $unidadData['area_techada'] ?? 0,
+                    'piso_numero' => $unidadData['piso_numero'],
+                    'estado' => $unidadData['estado'],
+                ]);
 
-                // Actualizar el ID de la unidad si es nueva
                 $unidadesArray[$key]['id'] = $unidad->id;
             }
 
@@ -165,11 +165,14 @@ class ProyectoController extends Controller
                 'proyecto' => $proyecto,
                 'unidades' => $unidadesArray,
             ], 201);
+
         } catch (Exception $e) {
+
             return response()->json([
                 'message' => 'Error al guardar el proyecto.',
                 'error' => $e->getMessage(),
             ], 500);
+
         }
     }
 

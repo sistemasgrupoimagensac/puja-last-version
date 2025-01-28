@@ -71,6 +71,10 @@ class EditProyectoCliente extends EditRecord
     
     private function generatePaymentSchedule($proyectoCliente): void
     {
+        
+        // $proyectoPlanesActivos = $proyectoCliente->proyectoPlanesActivos;
+        // dd($proyectoPlanesActivos);
+
         $estadoPendiente = ProyectoPagoEstado::where('nombre', 'pendiente')->first()->id;
 
         $proyectoCliente_all = ProyectoCliente::join('proyecto_planes_activos', 'proyecto_clientes.id', '=', 'proyecto_planes_activos.proyecto_cliente_id')
@@ -80,16 +84,17 @@ class EditProyectoCliente extends EditRecord
                 'proyecto_clientes.al_dia as al_dia',
                 'proyecto_clientes.razon_social as razon_social',
                 'proyecto_planes_activos.id as plan_activo_id',
+                'proyecto_planes_activos.monto as precio_plan',
                 'proyecto_planes_activos.duracion as periodo_plan',
                 'proyecto_planes_activos.pago_unico as pago_unico',
-                'proyecto_planes_activos.monto as precio_plan',
+                'proyecto_planes_activos.pago_gratis as pago_gratis',
                 'proyecto_planes_activos.fecha_fin as fecha_fin_contrato',
                 'proyecto_planes_activos.numero_anuncios as numero_anuncios',
                 'proyecto_planes_activos.fecha_inicio as fecha_inicio_contrato',
             )
         ->get();
-        
-        foreach ($proyectoCliente_all as $proyectoCliente) {
+
+        foreach ( $proyectoCliente_all as $proyectoCliente ) {
             
             $fechaInicio = Carbon::parse($proyectoCliente->fecha_inicio_contrato);
         
@@ -119,41 +124,36 @@ class EditProyectoCliente extends EditRecord
 
                 }
 
-
-
-
             } else {
 
-                // Caso de pago fraccionado con el 50% inicial
-                $primerPago = $proyectoCliente->precio_plan * 0.5; // 50% del total
-                $montoRestante = $proyectoCliente->precio_plan * 0.5; // 50% restante
+                $primerPago = $proyectoCliente->precio_plan * 0.5;
+                $montoRestante = $proyectoCliente->precio_plan * 0.5;
                 $numeroPagosRestantes = $proyectoCliente->periodo_plan - 1;
-        
-                // Monto mensual para los pagos restantes
+
                 $montoMensual = $numeroPagosRestantes > 0 ? $montoRestante / $numeroPagosRestantes : 0;
         
-                // Primer pago al inicio del contrato
                 ProyectoCronogramaPago::updateOrCreate([
-                    'proyecto_cliente_id' => $proyectoCliente->id,
+                    'proyecto_cliente_id'     => $proyectoCliente->id,
                     'proyecto_plan_activo_id' => $proyectoCliente->plan_activo_id,
                     ],[
-                    'fecha_programada' => $fechaInicio,
-                    'monto' => $primerPago,
-                    'estado_pago_id' => $estadoPendiente,
-                    'intentos' => 0,
+                    'fecha_programada'        => $fechaInicio,
+                    'monto'                   => $primerPago,
+                    'estado_pago_id'          => $estadoPendiente,
+                    'intentos'                => 0,
                 ]);
         
-                // Pagos restantes divididos en los meses restantes
-                for ($i = 1; $i < $proyectoCliente->periodo_plan; $i++) {
-                    ProyectoCronogramaPago::create([
-                        'proyecto_cliente_id' => $proyectoCliente->id,
+                for ( $i = 1; $i < $proyectoCliente->periodo_plan; $i++ ) {
+                    ProyectoCronogramaPago::updateOrCreate([
+                        'proyecto_cliente_id'     => $proyectoCliente->id,
                         'proyecto_plan_activo_id' => $proyectoCliente->plan_activo_id,
-                        'fecha_programada' => $fechaInicio->copy()->addMonths($i),
-                        'monto' => $montoMensual,
-                        'estado_pago_id' => $estadoPendiente,
-                        'intentos' => 0,
+                        ],[
+                        'fecha_programada'        => $fechaInicio->copy()->addMonths($i),
+                        'monto'                   => $montoMensual,
+                        'estado_pago_id'          => $estadoPendiente,
+                        'intentos'                => 0,
                     ]);
                 }
+
             }
         }
     }

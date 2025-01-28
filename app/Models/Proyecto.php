@@ -15,6 +15,7 @@ class Proyecto extends Model
         'banco_id',
         'proyecto_progreso_id',
         'proyecto_cliente_id',
+        'proyecto_plan_activo_id',
         'descripcion',
         'fecha_entrega',
         'area_desde',
