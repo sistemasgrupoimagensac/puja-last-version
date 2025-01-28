@@ -157,12 +157,11 @@ class ProyectoClienteResource extends Resource
                                 DatePicker::make('fecha_inicio')
                                     ->required()
                                     ->label('Fecha de Inicio del Contrato')
-                                    ->reactive(),
+                                ->reactive(),
 
                                 DatePicker::make('fecha_fin')
                                     ->label('Fecha fin del contrato')
-                                    ->readOnly(),
-                                    // ->disabled(),
+                                ->readOnly(),
 
                                 Select::make('duracion')
                                     ->label('Periodo del Plan')
@@ -171,7 +170,6 @@ class ProyectoClienteResource extends Resource
                                         6 => '6 meses',
                                         12 => '12 meses',
                                     ])
-                                    ->required()
                                     ->reactive()
                                     ->afterStateUpdated(function ($state, callable $get, callable $set) {
                                         $fechaInicio = $get('fecha_inicio');
@@ -191,18 +189,19 @@ class ProyectoClienteResource extends Resource
                                         if (isset($duracionToPlanId[$state])) {
                                             $set('proyecto_planes_id', $duracionToPlanId[$state]);
                                         }
-                                    }),
+                                    })
+                                ->required(),
+
                                 Hidden::make('proyecto_planes_id'),
 
-                                Hidden::make('estado_id')
-                                ->default(2),
+                                Hidden::make('estado_id')->default(2),
 
                                 TextInput::make('numero_anuncios')
                                     ->numeric()
                                     ->label('Número de Anuncios')
                                     ->required()
                                     ->default(1)
-                                    ->minValue(1),
+                                ->minValue(1),
                                     
                                 TextInput::make('monto')
                                     ->label('Costo del Proyecto')
@@ -210,51 +209,44 @@ class ProyectoClienteResource extends Resource
                                     ->required()
                                     ->minValue(0)
                                     ->prefix('S/')
-                                    ->placeholder('Ingrese el monto del proyecto'),
+                                    ->disabled(fn (callable $get) => $get('pago_gratis'))
+                                ->placeholder('Ingrese el monto del proyecto'),
+
+                                Toggle::make('pago_gratis')
+                                    ->inline(false)
+                                    ->reactive()
+                                    ->default(fn ($record) => $record->pago_gratis ?? false)
+                                    ->afterStateUpdated(function (callable $set, $state) {
+                                        if ($state) {
+                                            $set('monto', 0.00);
+                                            $set('pago_unico', true);
+                                            $set('pago_fraccionado', false);
+                                            $set('renovacion_automatica', false);
+                                        }
+                                    })
+                                ->label('Contrato Gratis'),
 
                                 Checkbox::make('pago_unico')
-                                    ->label('Pago único')
                                     ->inline(false)
                                     ->reactive()
                                     ->afterStateUpdated(function (callable $set, $state) {
                                         if ($state) {
                                             $set('pago_fraccionado', false);
                                         }
-                                    }),
+                                    })
+                                ->label('Pago único'),
 
                                 Checkbox::make('pago_fraccionado')
-                                    ->label('Pago fraccionado')
-                                    ->inline(false)
                                     ->reactive()
+                                    ->inline(false)
                                     ->default(true)
                                     ->afterStateUpdated(function (callable $set, $state) {
                                         if ($state) {
                                             $set('pago_unico', false);
                                         }
-                                    }),
-                                    
-                                Checkbox::make('renovacion_automatica')
-                                    ->label('Renovación automática')
-                                    ->inline(false),
-                                
-                                ToggleButtons::make('pago_gratis')
-                                    ->label('Contrato Gratis')
-                                    ->boolean()
-                                    ->default(fn ($record) => $record->pago_gratis ?? false)
-                                ->inline(),
-
-                                ToggleButtons::make('activo')
-                                    ->label('Activo')
-                                    ->boolean()
-                                    ->inline()
-                                    // ->disabled()
-                                    ->default(fn ($record) => $record->activo ?? false),
-
-                                ToggleButtons::make('pagado')
-                                    ->label('Pago Total')
-                                    ->boolean()
-                                    ->default(fn ($record) => $record->pagado ?? false)
-                                    ->inline(),
+                                    })
+                                    ->disabled(fn (callable $get) => $get('pago_gratis'))
+                                ->label('Pago fraccionado'),
 
                                 FileUpload::make('contrato_url')
                                     ->label('Contrato')
@@ -263,8 +255,26 @@ class ProyectoClienteResource extends Resource
                                     ->directory('proyectos/contratos')
                                     ->visibility('public')
                                     ->required()
-                                    ->maxSize(4096),
-                                    /* ->columnSpan(2) */
+                                ->maxSize(4096),
+                                    
+                                Checkbox::make('renovacion_automatica')
+                                    ->label('Renovación automática')
+                                    ->disabled(fn (callable $get) => $get('pago_gratis'))
+                                ->inline(false),
+
+                                ToggleButtons::make('activo')
+                                    ->label('Activo')
+                                    ->boolean()
+                                    ->inline()
+                                    ->default(fn ($record) => $record->activo ?? false)
+                                ->disabled(),
+
+                                ToggleButtons::make('pagado')
+                                    ->label('Pago Total')
+                                    ->boolean()
+                                    ->default(fn ($record) => $record->pagado ?? false)
+                                    ->inline()
+                                ->disabled(),
                             ])
                             ->addActionLabel('Agregar Contrato')
                             ->columns(4),
@@ -285,13 +295,13 @@ class ProyectoClienteResource extends Resource
                                 ];
                             })
                             ->validationAttribute('Correo Electrónico de Inicio de Sesión')
-                            ->disabled(fn ($livewire) => $livewire instanceof \Filament\Resources\Pages\EditRecord),
+                        ->disabled(fn ($livewire) => $livewire instanceof \Filament\Resources\Pages\EditRecord),
 
                         TextInput::make('user_password')
                             ->label('Contraseña')
                             ->password()
                             ->default(fn () => Str::random(10))
-                            ->hidden(),
+                        ->hidden(),
                     ])
                     ->columns(2),
             ]);
@@ -306,19 +316,15 @@ class ProyectoClienteResource extends Resource
                 TextColumn::make('user.email')->label('Correo Electrónico'),
                 TextColumn::make('fecha_inicio_contrato')->label('Inicio de Contrato'),
                 TextColumn::make('fecha_fin_contrato')->label('Fin de Contrato'),
-                IconColumn::make('activo')
-                    ->boolean()
-                    ->label('Activo'),
-                IconColumn::make('vigente')
-                    ->boolean()
-                    ->label('Vigente'),
+                IconColumn::make('activo')->boolean()->label('Activo'),
+                IconColumn::make('vigente')->boolean()->label('Vigente'),
                 TextColumn::make('contrato_url')
                     ->label('Contrato')
                     ->formatStateUsing(fn ($state) => !empty($state) ? 'Ver Contrato' : 'No Disponible')
                     ->url(fn ($record) => $record->contrato_url ? route('contratos.get', ['archivo' => basename($record->contrato_url)]) : null)
                     ->openUrlInNewTab()
                     ->badge()
-                    ->color(fn ($state) => $state === 'Ver Contrato' ? 'success' : 'warning'),
+                ->color(fn ($state) => $state === 'Ver Contrato' ? 'success' : 'warning'),
             ])
             ->actions([
                 Action::make('verCronograma')
@@ -337,10 +343,10 @@ class ProyectoClienteResource extends Resource
             ->filters([
                 Filter::make('activo')
                     ->label('Clientes Activos')
-                    ->query(fn (Builder $query) => $query->where('activo', true)),
+                ->query(fn (Builder $query) => $query->where('activo', true)),
                 Filter::make('inactivo')
                     ->label('Clientes Inactivos')
-                    ->query(fn (Builder $query) => $query->where('activo', false)),
+                ->query(fn (Builder $query) => $query->where('activo', false)),
             ]);
     }
 
