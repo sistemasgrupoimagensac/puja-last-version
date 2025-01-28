@@ -210,6 +210,7 @@ class ProyectoClienteResource extends Resource
                                     ->minValue(0)
                                     ->prefix('S/')
                                     ->disabled(fn (callable $get) => $get('pago_gratis'))
+                                    ->dehydrated(fn (callable $get) => !$get('pago_gratis') || $get('monto') === 0)
                                 ->placeholder('Ingrese el monto del proyecto'),
 
                                 Toggle::make('pago_gratis')
