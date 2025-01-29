@@ -170,6 +170,16 @@
                                 </div>
                             </div>
 
+                            <div class="d-flex justify-content-between gap-4 my-3">
+                                <div class="form-group w-100">
+                                    <label class="text-secondary" for="titulo">
+                                        Título
+                                        <span style="font-size: .75rem">(opcional)</span>
+                                    </label>
+                                    <input type="text" id="titulo" x-model="titulo" placeholder="" class="form-control">
+                                </div>
+                            </div>
+
                             <div class="d-flex justify-content-between gap-4">
                                 <div class="form-group w-100">
                                     <label class="text-secondary" for="dormitorios">
@@ -1013,7 +1023,6 @@
                 tipo_operacion: op_inmueble ? op_inmueble.tipo_operacion_id : '', // Maneja null
                 subtipos: [],
                 selectedSubtipo: '',
-                titulo: '',
                 description: '',
 
                 direccion: ubi_inmueble ? ubi_inmueble.direccion : '',
@@ -1051,6 +1060,7 @@
 
                 imagenesAEliminar: [],
 
+                titulo: caract_inmueble_id ? caract_inmueble_id.titulo : '',
                 dormitorios: caract_inmueble_id ? caract_inmueble_id.habitaciones : '',
                 banios: caract_inmueble_id ? caract_inmueble_id.banios : '',
                 medio_banios: caract_inmueble_id ? caract_inmueble_id.medio_banios : '',
@@ -1066,19 +1076,19 @@
                 ambienteDormitoriosText: "Dormitorios",
                 precio_mantenimiento: caract_inmueble_id ? caract_inmueble_id.mantenimiento : '',
 
-                // detalles de remate
-                base_remate: caract_inmueble_id ? caract_inmueble_id.remate_precio_base : '',
-                valor_tasacion: caract_inmueble_id ? caract_inmueble_id.remate_valor_tasacion : '',
-                direccion_remate: caract_inmueble_id ? caract_inmueble_id.remate_direccion : '',
-                remate_direccion_id: caract_inmueble_id ? caract_inmueble_id.remate_direccion_id : '',
-                remate_nombre_centro: caract_inmueble_id ? caract_inmueble_id.remate_nombre_centro : '',
-                partida_registral: caract_inmueble_id ? caract_inmueble_id.remate_partida_registral : '',
-                fecha_remate: caract_inmueble_id ? caract_inmueble_id.remate_fecha : '',
-                hora_remate: caract_inmueble_id ? caract_inmueble_id.remate_hora : '',
-                contacto_remate: caract_inmueble_id ? caract_inmueble_id.remate_nombre_contacto : '',
-                telefono_contacto_remate: caract_inmueble_id ? caract_inmueble_id.remate_telef_contacto : '',
-                correo_contacto_remate: caract_inmueble_id ? caract_inmueble_id.remate_correo_contacto : '',
-
+                // detalles de remate                
+                hora_remate:              caract_inmueble_id?.remate_hora ?? '',
+                fecha_remate:             caract_inmueble_id?.remate_fecha ?? '',
+                base_remate:              caract_inmueble_id?.remate_precio_base ?? '',
+                direccion_remate:         caract_inmueble_id?.remate_direccion ?? '',
+                valor_tasacion:           caract_inmueble_id?.remate_valor_tasacion ?? '',
+                contacto_remate:          caract_inmueble_id?.remate_nombre_contacto ?? '',
+                remate_direccion_id:      caract_inmueble_id?.remate_direccion_id ?? '',
+                remate_nombre_centro:     caract_inmueble_id?.remate_nombre_centro ?? '',
+                partida_registral:        caract_inmueble_id?.remate_partida_registral ?? '',
+                correo_contacto_remate:   caract_inmueble_id?.remate_correo_contacto ?? '',
+                telefono_contacto_remate: caract_inmueble_id?.remate_telef_contacto ?? '',
+                
                 map: null,
                 marker: null,
                 es_exacta: ubi_inmueble ? ubi_inmueble.es_exacta : 1,

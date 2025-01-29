@@ -362,37 +362,26 @@ class Inmueble extends Model
         $monto = '';
         $monto_soles = number_format($this->precioSoles(), 2, '.', ',');
         $monto_dolares = number_format($this->precioDolares(), 2, '.', ',');
+
+        $venta_alquiler = $this->principal->operacion->tipoOperacion->slug;
+
         if ( $this->precioSoles() && $this->precioDolares() ) {
-            $monto = " y el precio de venta es de S/ {$monto_soles} ó $ {$monto_dolares}";
+            $monto = " y el precio de {$venta_alquiler} es de S/ {$monto_soles} ó $ {$monto_dolares}";
         } else if ( $this->precioSoles() && !$this->precioDolares() ) {
-            $monto = " y el precio de venta es de S/ {$monto_soles}";
+            $monto = " y el precio de {$venta_alquiler} es de S/ {$monto_soles}";
         } else if ( !$this->precioSoles() && $this->precioDolares() ) {
-            $monto = " y el precio de venta es de $ {$monto_dolares}";
+            $monto = " y el precio de {$venta_alquiler} es de $ {$monto_dolares}";
         }
         $caracteristicas = "{$tipo_inmueble} {$antiguedad} {$area_total} {$area_construida}{$monto}" ;
 
         // REMATE
         $remate = "";
-        // $remate_precio_base = number_format($this->remate_precio_base(), 2, '.', ',');
-        // $remate_valor_tasacion = number_format($this->remate_valor_tasacion(), 2, '.', ',');
-        // if ( $this->remate_precio_base() ) {
-        //     $remate .= "Este inmueble en remate tiene un precio base de $ {$remate_precio_base}";
-        // }
-        // if ( $this->remate_valor_tasacion() ) {
-        //     $remate .= ", tiene un valor de tasación de $ {$remate_valor_tasacion}";
-        // }
         if ( $this->remate_partida_registral() ) {
             $remate .= "Este inmueble en remate tiene la siguiente partida registral {$this->remate_partida_registral()}";
         }
         if ( $this->remate_direccion() ) {
             $remate .= ", la dirección del remate del inmueble es en {$this->remate_direccion()}";
         }
-        // if ( $this->remate_fecha() ) {
-        //     $remate .= ", con fecha {$this->remate_fecha()}";
-        // }
-        // if ( $this->remate_hora() ) {
-        //     $remate .= " y hora {$this->remate_hora()}";
-        // }
         if ( $this->remate_nombre_contacto() ) {
             $remate .= ", el nombre del contacto es {$this->remate_nombre_contacto()}";
         }
@@ -407,12 +396,14 @@ class Inmueble extends Model
         }
 
         $mantenimiento = '';
-        if ( $this->mantenimiento() ) {
+        if ( $this->mantenimiento() && $this->mantenimiento() > 0 ) {
             $precio_mantenimiento = number_format($this->mantenimiento(), 2, '.', ',');
             $mantenimiento = "El pago de mantenimiento es de S/ {$precio_mantenimiento}.";
         }
 
-        return "{$subtipo_inmueble} en {$tipo_operacion} ubicada en {$direccion_completa}{$espacios} {$caracteristicas}. {$remate}El inmueble cuenta con una lista de características y comodidades que se presentan a continuación: {$caracteristicas_extras} {$mantenimiento}";
+        $tlf_contacto = "El número de contacto para mayor información o citas es " .$this->user->celular . ".";
+
+        return "{$subtipo_inmueble} en {$tipo_operacion} ubicada en {$direccion_completa}{$espacios} {$caracteristicas}. {$remate}El inmueble cuenta con una lista de características y comodidades que se presentan a continuación: {$caracteristicas_extras} {$mantenimiento} {$tlf_contacto}";
     }
 
 }

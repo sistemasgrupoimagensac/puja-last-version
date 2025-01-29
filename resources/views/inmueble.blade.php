@@ -142,7 +142,7 @@
                             <div style="max-width: 700px">
                                 {{-- title --}}
                                 <h1 class="p-0 h3 fw-bold">
-                                    {{ $aviso->inmueble->title() }}
+                                    {{ $aviso->inmueble->tituloReal() ?? $aviso->inmueble->title() }}
                                 </h1>
                                 {{-- direccion --}}
                                 <h5 class="p-0">
@@ -373,7 +373,7 @@
                                     <input type="hidden" name="aviso_id" value="{{ $aviso->id }}">
                                     <textarea class="form-control" id="editDescriptionTextarea" name="description" disabled>{!! $aviso->inmueble->principal->caracteristicas->descripcion !!}</textarea>
                                 </div>
-                                @if ( $ad_belongs && !in_array($aviso->historial[0]->estado, ["Publicado", "Aceptado"]) )
+                                @if ( $ad_belongs && ( !in_array($aviso->historial[0]->estado, ["Publicado", "Aceptado"]) || in_array($tipo_usuario, [2,3]) ) )
                                     <div class="btn-group border mt-3" role="group">
                                         <button type="button" id="editDesciptionButton" class="btn border-0 button-orange" style="width: 80px;">Editar</button>
                                         <button type="submit" id="saveDesciptionButton" class="btn border-0 button-orange" style="width: 80px;" disabled>Guardar</button>

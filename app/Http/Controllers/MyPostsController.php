@@ -227,6 +227,7 @@ class MyPostsController extends Controller
 
             $validator = Validator::make($request->all(), [
                 'is_puja' => 'nullable|boolean',
+                'titulo' => 'nullable|string',
                 'habitaciones' => 'nullable|max:999',
                 'banios' => 'nullable|max:999',
                 'medio_banios' => 'nullable|max:999',
@@ -272,6 +273,7 @@ class MyPostsController extends Controller
                     ],[
                     "is_puja" => $request->is_puja,
                     'habitaciones' => $request->habitaciones !== null ? (int)$request->habitaciones : 0,
+                    'titulo' => $request->filled('titulo') && trim($request->input('titulo')) !== '' ? trim($request->input('titulo')) : null,
                     'banios' => $request->banios !== null ? (int)$request->banios : 0,
                     'medio_banios' => $request->medio_banios !== null ? (int)$request->medio_banios : 0,
                     'estacionamientos' => $request->estacionamientos !== null ? (int)$request->estacionamientos : 0,
@@ -284,15 +286,16 @@ class MyPostsController extends Controller
                     "mantenimiento" => $mantenimiento,
                     "remate_precio_base" => $remate_precio_base,
                     "remate_valor_tasacion" => $remate_valor_tasacion,
-                    "remate_partida_registral" => $request->remate_partida_registral,
-                    "remate_direccion_id" => $request->remate_direccion_id,
-                    "remate_direccion" => $request->remate_direccion,
-                    "remate_nombre_centro" => $request->remate_nombre_centro,
-                    "remate_fecha" => $request->remate_fecha,
-                    "remate_hora" => $request->remate_hora,
-                    "remate_nombre_contacto" => $request->remate_nombre_contacto,
-                    "remate_telef_contacto" => $request->remate_telef_contacto,
-                    "remate_correo_contacto" => $request->remate_correo_contacto,
+                    "remate_valor_tasacion" => $request->input('remate_valor_tasacion', null),
+                    "remate_partida_registral" => $request->input('remate_partida_registral', null),
+                    "remate_direccion_id" => $request->input('remate_direccion_id', null),
+                    "remate_direccion" => $request->input('remate_direccion', null),
+                    "remate_nombre_centro" => $request->input('remate_nombre_centro', null),
+                    "remate_fecha" => $request->input('remate_fecha', null),
+                    "remate_hora" => $request->input('remate_hora', null),
+                    "remate_nombre_contacto" => $request->input('remate_nombre_contacto', null),
+                    "remate_telef_contacto" => $request->input('remate_telef_contacto', null),
+                    "remate_correo_contacto" => $request->input('remate_correo_contacto', null),
                     "estado" => 1,
                 ]);
             } catch (\Exception $e) {
@@ -526,15 +529,12 @@ class MyPostsController extends Controller
                     }
                 }
             }
-
-
-
-
-            $aviso->inmueble->principal->caracteristicas->descripcion = $aviso->inmueble->descripcion;
-            $aviso->inmueble->principal->caracteristicas->save();
-
-
+            
             if ( $aviso->historial->first()->pivot->estado_aviso_id !== 3 ) {
+                
+                $aviso->inmueble->principal->caracteristicas->descripcion = $aviso->inmueble->descripcion;
+                $aviso->inmueble->principal->caracteristicas->save();
+
                 $hist_aviso = HistorialAvisos::updateOrCreate([
                     "aviso_id" => $aviso->id,
                     ],[
@@ -547,24 +547,6 @@ class MyPostsController extends Controller
                     ], 422);
                 }
 
-            }
-
-
-            $aviso->inmueble->principal->caracteristicas->descripcion = $aviso->inmueble->descripcion;
-            $aviso->inmueble->principal->caracteristicas->save();
-
-            if ( $aviso->historial->first()->pivot->estado_aviso_id !== 3 ) {
-                $hist_aviso = HistorialAvisos::updateOrCreate([
-                    "aviso_id" => $aviso->id,
-                    ],[
-                    "estado_aviso_id" => 2,
-                ]);
-                if (!$hist_aviso) {
-                    return response()->json([
-                        'message' => 'Falló porque no se actualizo el historial avisos',
-                        'error' => true
-                    ], 422);
-                }
             }
 
             return response()->json([

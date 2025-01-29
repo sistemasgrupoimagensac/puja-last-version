@@ -43,7 +43,7 @@ class ProyectoPlanesActivos extends Model
     
     public function proyectos()
     {
-        return $this->hasMany(Proyecto::class, 'proyecto_plan_activo_idproyecto_plan_activo_id');
+        return $this->hasMany(Proyecto::class, 'proyecto_plan_activo_id');
     }
 
     public function estado()

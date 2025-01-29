@@ -162,6 +162,16 @@
                                 </div>
                             </div>
 
+                            <div class="d-flex justify-content-between gap-4 my-3">
+                                <div class="form-group w-100">
+                                    <label class="text-secondary" for="titulo">
+                                        Título
+                                        <span style="font-size: .75rem">(opcional)</span>
+                                    </label>
+                                    <input type="text" id="titulo" x-model="titulo" placeholder="" class="form-control">
+                                </div>
+                            </div>
+
                             <div class="d-flex justify-content-between gap-4">
                                 <div class="form-group w-100">
                                     <label class="text-secondary" for="dormitorios">
