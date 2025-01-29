@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Proyectos
+    Proyectosaa
 @endsection
 
 @push('styles')

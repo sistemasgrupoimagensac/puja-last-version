@@ -15,7 +15,7 @@ class ProyectosController extends Controller
         $proyectos = Proyecto::with(['banco', 'progreso', 'imagenesAdicionales' => function ($query) {
             $query->where('tipo', 1); // Obtener la imagen con el menor ID
         }])
-        ->whereHas('cliente', function ($query) {
+        ->whereHas('planesActivos', function ($query) {
             $query->where('activo', 1); // Filtrar solo aquellos proyectos cuyo cliente esté activo
         })
         ->paginate(9); // Paginación para los proyectos

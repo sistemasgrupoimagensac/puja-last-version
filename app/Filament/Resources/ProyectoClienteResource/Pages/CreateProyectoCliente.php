@@ -18,7 +18,6 @@ use Carbon\Carbon;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
@@ -29,9 +28,6 @@ class CreateProyectoCliente extends CreateRecord
     protected static string $resource = ProyectoClienteResource::class;
     protected $randomPassword;
 
-    /**
-     * Valida y prepara los datos antes de la creación.
-     */
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $this->validateUserEmail($data['user_email']);
@@ -75,10 +71,7 @@ class CreateProyectoCliente extends CreateRecord
         // Actualiza vigencia
         app(ServicioVigenciaProyecto::class)->actualizarVigencia();
     }
-
-    /**
-     * Valida el correo electrónico del usuario.
-     */
+    
     private function validateUserEmail(string $email): void
     {
         $validator = Validator::make(['email' => $email], [
@@ -89,10 +82,7 @@ class CreateProyectoCliente extends CreateRecord
             throw ValidationException::withMessages(['user_email' => 'El correo ya está registrado.']);
         }
     }
-
-    /**
-     * Crea un usuario asociado al cliente.
-     */
+    
     private function createUser(array $data, string $password): User
     {
         return User::create([
@@ -111,10 +101,7 @@ class CreateProyectoCliente extends CreateRecord
             'created_by' => Auth::id(),
         ]);
     }
-
-    /**
-     * Calcula fecha de fin y mensualidad.
-     */
+    
     private function calculateContractDetails(array $data): array
     {
         if (isset($data['fecha_inicio_contrato'], $data['periodo_plan'])) {
@@ -124,18 +111,12 @@ class CreateProyectoCliente extends CreateRecord
 
         return $data;
     }
-
-    /**
-     * Envía las credenciales al correo del usuario.
-     */
+    
     private function sendCredentialsNotification(User $user, string $email, string $password): void
     {
         $user->notify(new SendCredentialsProjectNotification($email, $email, $password));
     }
-
-    /**
-     * Notifica a los contactos habilitados.
-     */
+    
     private function notifyContacts($proyectoCliente): void
     {
         $contactos = ProyectoClienteContacto::where('proyecto_cliente_id', $proyectoCliente->id)
@@ -147,9 +128,6 @@ class CreateProyectoCliente extends CreateRecord
         }
     }
 
-    /**
-     * Maneja la subida y almacenamiento del contrato.
-     */
     private function handleContractUpload($proyectoCliente): void
     {
         if (request()->hasFile('contrato_url')) {
@@ -162,10 +140,7 @@ class CreateProyectoCliente extends CreateRecord
             $proyectoCliente->update(['contrato_url' => $ruta]);
         }
     }
-
-    /**
-     * Genera el cronograma de pagos.
-     */
+    
     private function generatePaymentSchedule($proyectoCliente): void
     {
         $estadoPendiente = ProyectoPagoEstado::where('nombre', 'pendiente')->first()->id;
@@ -206,7 +181,7 @@ class CreateProyectoCliente extends CreateRecord
                 if ( $proyectoCliente->pago_gratis === 1 ) {
 
                     ProyectoCliente::findOrFail($proyectoCliente->id)->update(['al_dia' => 1]);
-                    ProyectoPlanesActivos::where('id', $proyectoCliente->plan_activo_id)->update(['pagado' => true]);
+                    ProyectoPlanesActivos::where('id', $proyectoCliente->plan_activo_id)->update(['pagado' => true, 'activo' => true]);
                     $cronograma->update(['estado_pago_id' => 2, 'fecha_ultimo_intento' => now()]); // pagado
 
                 }
@@ -242,10 +217,7 @@ class CreateProyectoCliente extends CreateRecord
             }
         }
     }
-    
-    /**
-     * Crea un registro en la tabla de planes activos.
-     */
+
     private function createActivePlan($proyectoCliente): void
     {
         // Asociar el plan según la duración seleccionada

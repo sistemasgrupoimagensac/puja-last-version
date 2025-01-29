@@ -87,6 +87,11 @@ class Proyecto extends Model
         return $this->belongsTo(ProyectoCliente::class, 'proyecto_cliente_id');
     }
 
+    public function planesActivos()
+    {
+        return $this->belongsTo(ProyectoPlanesActivos::class, 'proyecto_plan_activo_id');
+    }
+
     // Relación con imágenes principales
     public function imagenesPrincipales()
     {

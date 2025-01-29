@@ -40,6 +40,11 @@ class ProyectoPlanesActivos extends Model
     {
         return $this->belongsTo(ProyectoPlanes::class, 'proyecto_planes_id');
     }
+    
+    public function proyectos()
+    {
+        return $this->hasMany(Proyecto::class, 'proyecto_plan_activo_idproyecto_plan_activo_id');
+    }
 
     public function estado()
     {

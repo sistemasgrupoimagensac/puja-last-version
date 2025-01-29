@@ -7,13 +7,10 @@ use App\Models\ProyectoCliente;
 use App\Models\ProyectoCronogramaPago;
 use App\Models\ProyectoPagoEstado;
 use App\Models\ProyectoPlanesActivos;
-use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use App\Models\User;
 use App\Services\Proyectos\ServicioVigenciaProyecto;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Validation\ValidationException;
 
 class EditProyectoCliente extends EditRecord
 {
@@ -71,9 +68,6 @@ class EditProyectoCliente extends EditRecord
     
     private function generatePaymentSchedule($proyectoCliente): void
     {
-        
-        // $proyectoPlanesActivos = $proyectoCliente->proyectoPlanesActivos;
-        // dd($proyectoPlanesActivos);
 
         $estadoPendiente = ProyectoPagoEstado::where('nombre', 'pendiente')->first()->id;
 
@@ -113,13 +107,13 @@ class EditProyectoCliente extends EditRecord
                 if ( $proyectoCliente->pago_gratis === 1 ) {
                     
                     ProyectoCliente::findOrFail($proyectoCliente->id)->update(['al_dia' => 1]);
-                    ProyectoPlanesActivos::where('id', $proyectoCliente->plan_activo_id)->update(['pagado' => true]);
+                    ProyectoPlanesActivos::where('id', $proyectoCliente->plan_activo_id)->update(['pagado' => true, 'activo' => true]);
                     $cronograma->update(['estado_pago_id' => 2, 'fecha_ultimo_intento' => now()]); // pagado
 
                 } else {
 
                     ProyectoCliente::findOrFail($proyectoCliente->id)->update(['al_dia' => 0]);
-                    ProyectoPlanesActivos::where('id', $proyectoCliente->plan_activo_id)->update(['pagado' => false]);
+                    ProyectoPlanesActivos::where('id', $proyectoCliente->plan_activo_id)->update(['pagado' => false, 'activo' => false]);
                     $cronograma->update(['estado_pago_id' => 1, 'fecha_ultimo_intento' => now()]); // pendiente
 
                 }
