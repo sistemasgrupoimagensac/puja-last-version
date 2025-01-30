@@ -24,7 +24,7 @@ class InmuebleResource extends Resource
 
     public static function shouldRegisterNavigation(): bool
     {
-        return auth()->user()?->can('view plans') ?? false;
+        return auth()->user()?->can('view publicaciones') ?? false;
     }
 
     public static function getNavigationLabel(): string
