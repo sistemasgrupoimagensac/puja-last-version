@@ -1060,7 +1060,7 @@
 
                 imagenesAEliminar: [],
 
-                titulo: caract_inmueble_id ? caract_inmueble_id.titulo : '',
+                titulo:              caract_inmueble_id?.titulo ?? '',
                 dormitorios: caract_inmueble_id ? caract_inmueble_id.habitaciones : '',
                 banios: caract_inmueble_id ? caract_inmueble_id.banios : '',
                 medio_banios: caract_inmueble_id ? caract_inmueble_id.medio_banios : '',
