@@ -112,7 +112,7 @@ class BillingController extends Controller
 
             Mail::to($email)
                 ->cc(['soporte@pujainmobiliaria.com.pe'])
-                ->bcc(['grupoimagen.908883889@gmail.com'])
+                ->bcc(['grupoimagen.908883889@gmail.com', 'salvarado@grupoimagensac.com.pe'])
             ->send(new SubscriptionMail($pdfPath_fix, $request->plan_name));
             
             return [
