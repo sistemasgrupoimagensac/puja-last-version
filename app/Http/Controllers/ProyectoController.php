@@ -190,7 +190,7 @@ class ProyectoController extends Controller
             $imagenes = ProyectoImagenesAdicionales::where('proyecto_id', $proyecto->id)
                 ->where('estado', 1) // Solo imágenes activas
                 ->get()
-                ->toArray();
+            ->toArray();
 
             usort($imagenes, function ($a, $b) {
                 // Ordena primero las imágenes con tipo=1

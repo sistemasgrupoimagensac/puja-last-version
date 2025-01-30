@@ -387,7 +387,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === "Success") {
-                    accion === 'whatsapp' ? sendWsp(phoneContacto) : alert('Formulario enviado correctamente');
+                    accion === 'whatsapp' ? sendWsp(data.numero_contacto) : alert('Formulario enviado correctamente');
                     sendContactForm.reset();
                 } else {
                     handleFormErrors(data.errors);

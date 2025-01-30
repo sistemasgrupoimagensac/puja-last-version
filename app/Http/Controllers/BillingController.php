@@ -78,9 +78,10 @@ class BillingController extends Controller
     public function generarFactura(Request $request, $id)
     {
         try {
+
             $data = PlanUser::find($id);
-        
             $tipo_doc_electronico = $request->document_type_id;
+
             if ( $request->num_doc == null ) {
                 $user_id = $data->user_id;
                 $user = User::findOrFail($user_id);
@@ -91,7 +92,6 @@ class BillingController extends Controller
                 }
             }
 
-            // $data->state = 1;
             $data->num_receipt_owner = $request->num_doc;
             $data->name_receipt_owner = $request->receipt_name;
             $data->document_type_id = $tipo_doc_electronico;
@@ -99,45 +99,36 @@ class BillingController extends Controller
 
             $data->client;
 
-            Log::info("typo_doc");
-            Log::info($data->documentType->type_doc);
-            if($data->documentType->type_doc == '02') {
+            if ( $data->documentType->type_doc == '02' ) {
                 $response = $this->generarFEBoleta($request, $data, $request->num_doc, $request->receipt_name);
-            }
-            else if($data->documentType->type_doc == '03')  {
+            } else if ( $data->documentType->type_doc == '03' ) {
                 $response = $this->generarFEFactura($request, $data, $request->num_doc, $request->receipt_name);
-            }
-            else {
+            } else {
                 $response = $this->generarNotaVenta($request, $data);
             }
-
-            // $pdfPath = public_path($response['data']['file_name']);
-            // $pdfPath_fix = public_path(substr($response['data']['file_name'].'-a4.pdf', 1)); // ALMACENAMIENTO LOCAL
-            $pdfPath_fix = url($response['data']['file_name'].'-a4.pdf'); // ALMACENAMIENTO EXTERNO
+            
+            $pdfPath_fix = url($response['data']['file_name'].'-a4.pdf');
             $email = $response['data']['client']['email'];
-            Log::info('Iniciando el envío de correo...');
+
             Mail::to($email)
                 ->cc(['soporte@pujainmobiliaria.com.pe'])
                 ->bcc(['grupoimagen.908883889@gmail.com'])
             ->send(new SubscriptionMail($pdfPath_fix, $request->plan_name));
-            Log::info('Correo enviado.');
-
-            Log::info("Return 1");
-            Log::info($response['data']);
+            
             return [
-                // "data" => $response,
                 'data' => $response['data'],
                 'serie' => $response['serie'],
                 'message' => $response['message'],
             ];
 
         } catch (\Throwable $th) {
-            Log::info($th->getMessage());
+
             return response()->json([
                 'http_code' => 500,
                 'message' => 'Error al generar la factura',
-                'error' => $th->getMessage() // Mensaje de error detallado
-            ], 500); // Código de estado HTTP 500 (Internal Server Error)
+                'error' => $th->getMessage(),
+            ], 500);
+
         }
     }
 
@@ -250,10 +241,6 @@ class BillingController extends Controller
 
     public function generarFEBoleta($request, $data, $num_doc, $receipt_name) {
 
-        try{
-
-
-
         $correlative = $this->generateCorrelative($data->document_type_id);
         
         $util = FactUtil::getInstance();
@@ -363,28 +350,21 @@ class BillingController extends Controller
 
         $invoice->setObservacion($request->note);
 
-        Log::info("antes de get See");
         // Envío a SUNAT
         $see = $util->getSee();
-        Log::info("despues de get See");
-        
 
         $result = $see->send($invoice);
         $util->writeXml($invoice, $see->getFactory()->getLastXml());
         
         // Verificamos que la conexión con SUNAT fue exitosa.
         if (!$result->isSuccess()) {
-            // Mostrar error al conectarse a SUNAT.
-            Log::info("Antes de successRepso -- Generar Boleta");
-            Log::info($result->getError()->getMessage());
+            
             return [
                 'status'=> "message",
                 'message'=> $result->getError()->getMessage(),
             ];
-            /* return $this->successResponse([
-                'result'=>'error',
-                'message'=> $result->getError()->getMessage()]); */
             exit();
+
         }
 
         // Generar formato A4
@@ -452,15 +432,6 @@ class BillingController extends Controller
             echo 'Excepción';
         }
 
-
-        } catch (\Throwable $th) {
-            log::info($th->getMessage());
-            return response()->json([
-                'http_code' => 500,
-                'message' => 'Error al generar la factura',
-                'error' => $th->getMessage() // Mensaje de error detallado
-            ], 500); // Código de estado HTTP 500 (Internal Server Error)
-        }
     }
     
     public function generarFEFactura($request, $data, $num_doc, $receipt_name) {
@@ -584,16 +555,10 @@ class BillingController extends Controller
         // Verificamos que la conexión con SUNAT fue exitosa.
         if (!$result->isSuccess()) {
             // Mostrar error al conectarse a SUNAT.
-            Log::info("Antes de successRepso -- Generar Factura");
-            Log::info($result->getError()->getMessage());
-            
             return [
                 'status'=> "message",
                 'message'=> $result->getError()->getMessage(),
             ];
-            /* return $this->successResponse([
-                'result'=>'error',
-                'message'=> $result->getError()->getMessage()]); */
             exit();
         }
 

@@ -814,11 +814,24 @@ class MyPostsController extends Controller
         // Verificamos qué tipo de acción es (WhatsApp o Correo)
         if ($request->accion == 'whatsapp') {
             // Para WhatsApp, solo retornamos la respuesta para que el frontend lo maneje
+
+            $numero_contacto = "";
+            foreach ( $contactos as $contacto ) {
+                if ( strlen($contacto->telefono) === 9 ) {
+                    $numero_contacto = $contacto->telefono;
+                    break;
+                }
+            }
+
             return response()->json([
-                'http_code' => 200,
-                'status' => 'Success',
-                'message' => 'Validación correcta. Se puede enviar el mensaje por WhatsApp.',
-            ], 200);
+                'http_code' => isset($numero_contacto) ? 200 : 400,
+                'status' => isset($numero_contacto) ? 'Success' : 'error',
+                'numero_contacto' => $numero_contacto ?? null,
+                'message' => isset($numero_contacto) 
+                    ? 'Validación correcta. Se puede enviar el mensaje por WhatsApp.' 
+                    : 'No se cuenta con un celular válido de contacto.',
+            ]);
+
         }
 
         // Para correo, enviamos el email como ya lo haces

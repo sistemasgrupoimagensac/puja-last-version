@@ -11,40 +11,36 @@ class ProyectosController extends Controller
 {
     public function index()
     {
-        // Obtener todos los proyectos cuyos clientes estén activos (activo = 1)
         $proyectos = Proyecto::with(['banco', 'progreso', 'imagenesAdicionales' => function ($query) {
-            $query->where('tipo', 1); // Obtener la imagen con el menor ID
-        }])
-        ->whereHas('planesActivos', function ($query) {
-            $query->where('activo', 1); // Filtrar solo aquellos proyectos cuyo cliente esté activo
-        })
-        ->paginate(9); // Paginación para los proyectos
+                $query->where('tipo', 1);
+            }])
+            ->whereHas('planesActivos', function ($query) {
+                $query->where('activo', 1);
+            })
+        ->paginate(9);
 
         return $this->renderView($proyectos);
     }
 
     public function filtrarProyectos($filtro)
     {
-        // Definir los estados de progreso según el filtro
         $progresoMap = [
-            'en-planos' => 1,
-            'en-construccion' => 2,
+            'en-planos'         => 1,
+            'en-construccion'   => 2,
             'entrega-inmediata' => 3,
         ];
 
-        // Verificar si el filtro es válido
-        if (!array_key_exists($filtro, $progresoMap)) {
-            abort(404); // Si el filtro no es válido, mostrar un error 404
+        if ( !array_key_exists($filtro, $progresoMap) ) {
+            abort(404);
         }
 
-        // Obtener los proyectos según el estado de progreso
         $proyectos = Proyecto::with(['banco', 'progreso', 'imagenesAdicionales' => function ($query) {
-            $query->where('tipo', 1); // Obtener la imagen con el menor ID
-        }])
-        ->where('proyecto_progreso_id', $progresoMap[$filtro])
-        ->whereHas('cliente', function ($query) {
-            $query->where('activo', 1); // Filtrar solo proyectos cuyo cliente esté activo
-        })
+                $query->where('tipo', 1);
+            }])
+            ->where('proyecto_progreso_id', $progresoMap[$filtro])
+            ->whereHas('planesActivos', function ($query) {
+                $query->where('activo', 1);
+            })
         ->paginate(9);
 
         return $this->renderView($proyectos);
@@ -55,7 +51,6 @@ class ProyectosController extends Controller
         $tienePlanes = false;
         $projectInfo = false;
 
-        // Verificar si el usuario está autenticado
         if (Auth::check()) {
             $user_id = Auth::id();
             $user = User::find($user_id);
@@ -65,7 +60,7 @@ class ProyectosController extends Controller
             $projectInfo = $user->canPublishProjects(); 
         }
 
-        // Retornar la vista con los proyectos y las imágenes
         return view('proyectos', compact('proyectos', 'tienePlanes', 'projectInfo'));
     }
+    
 }

@@ -412,7 +412,7 @@
                         num_doc: numeroDocumento,
                         tipo_doc: tipoDocumento,
                         receipt_name: nombreDocumento,
-                        plan_name: `Plan ${this.tipoPlan}`,
+                        plan_name: `${this.tipoPlan}`,
                     }
 
                     fetch(`/generarComprobanteElec/${planUserId}`, {
