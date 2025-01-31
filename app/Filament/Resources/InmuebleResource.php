@@ -94,8 +94,8 @@ class InmuebleResource extends Resource
                 TextColumn::make('Promo_1')->label('Promoción 1'),
                 TextColumn::make('Promo_2')->label('Promoción 2'),
                 TextColumn::make('cpe')
-                    ->label('Comprobante')
-                    ->formatStateUsing(fn ($state) => !empty($state) ? 'Ver Contrato' : 'No Disponible')
+                    ->label('CPE')
+                    ->formatStateUsing(fn ($state) => !empty($state) ? 'Ver CPE' : 'No Disponible')
                     ->url(fn ($record) => !empty($record->cpe) ? route('cpe.get', ['archivo' => basename($record->cpe)]) : null)
                     ->openUrlInNewTab()
                     ->badge()
