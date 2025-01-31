@@ -134,7 +134,7 @@ Route::get('/proyectos', function() {
 Route::get('/images/{id_inmueble}/{archivo}', [ImagesController::class, 'get_images']);
 Route::get('/planos/{id_inmueble}/{archivo}', [ImagesController::class, 'get_planos']);
 Route::get('/videos/{id_inmueble}/{archivo}', [ImagesController::class, 'get_videos']);
-Route::get('/pdf/{archivo}', [ImagesController::class, 'get_pdf']);
+Route::get('/pdf/{archivo}', [ImagesController::class, 'get_pdf'])->name('cpe.get');
 // Rutas para el entorno DEV
 Route::get('wsb-dev/{name_dev}/images/{id_inmueble}/{archivo}', [ImagesController::class, 'dev_get_images']);
 Route::get('wsb-dev/{name_dev}/planos/{id_inmueble}/{archivo}', [ImagesController::class, 'dev_get_planos']);
