@@ -18,6 +18,7 @@
                 'nombre_proyecto' => $proyecto->nombre_proyecto,
                 'entrega' => \Carbon\Carbon::parse($proyecto->fecha_entrega)->locale('es')->translatedFormat('F Y'),
                 'direccion' => $proyecto->direccion,
+                'nombre_user' => $proyecto->cliente->user->nombres,
                 'distrito' => $proyecto->distrito,
                 'provincia' => $proyecto->provincia,
                 'departamento' => $proyecto->departamento,

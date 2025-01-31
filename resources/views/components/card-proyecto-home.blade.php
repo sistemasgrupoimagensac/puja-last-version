@@ -2,8 +2,17 @@
     <div class="row g-0 h-100">
         <div class="col-lg-4 h-100 position-relative">
             <a href="{{ $link }}" target="_blank" class="text-decoration-none text-reset">
-                <img src="{{ $image }}" class="card-inmueble-image rounded" alt="imagen proyecto">
+                <img src="{{ $image }}" class="card-inmueble-image rounded w-100 h-100 object-fit-cover" alt="imagen proyecto">
             </a>
+
+            <div class="position-absolute top-0 start-0 bg-white text-dark fw-bold px-3 py-1 rounded shadow-lg m-3">
+                {{ $estado }}
+            </div>
+
+            <div class="position-absolute bottom-0 start-0 w-100 bg-dark-blue text-white p-2 d-flex align-items-center">
+                <i class="fa-solid fa-building"></i>
+                <span class="fw-semibold mx-2"> Entrega {{ $entrega }}</span>
+            </div>
         </div>
 
         <div class="col-lg-8">
@@ -52,11 +61,12 @@
                 </div>
 
                 <div class="card-footer bg-dark-subtle border-0">
-                    <div class="py-2 d-flex flex-column flex-md-row gap-3 justify-content-between align-items-center">
+                    <div class="py-0 d-flex flex-column flex-md-row gap-3 justify-content-between align-items-center">
 
-                        <h5 class="btn-group p-0 m-0 h-100" role="group" aria-label="Basic example">
-                            <span class="badge bg-dark-blue rounded-end-0 p-2 px-4">{{ $estado }}</span>
-                            <span class="badge text-bg-light rounded-start-0 p-2 px-4">Entrega {{ $entrega }}</span>                    
+                        <h5 class="p-2 m-2 h-100" role="group" aria-label="Basic example">
+                            <span class="badge text-bg-light"><span class="text-secondary">Publicado por: </span>{{ $nombre_user }}</span>
+                            {{-- <span class="badge bg-dark-blue rounded-end-0 p-2 px-4">{{ $estado }}</span>
+                            <span class="badge text-bg-light rounded-start-0 p-2 px-4">Entrega {{ $entrega }}</span> --}}
                         </h5>
 
                         <img src="/images/bancos/{{ $banco }}.png" alt="" style="height: 40px" class=" rounded rounded-2">

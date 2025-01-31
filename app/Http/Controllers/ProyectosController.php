@@ -11,7 +11,7 @@ class ProyectosController extends Controller
 {
     public function index()
     {
-        $proyectos = Proyecto::with(['banco', 'progreso', 'imagenesAdicionales' => function ($query) {
+        $proyectos = Proyecto::with(['cliente', 'banco', 'progreso', 'imagenesAdicionales' => function ($query) {
                 $query->where('tipo', 1);
             }])
             ->whereHas('planesActivos', function ($query) {
@@ -34,7 +34,7 @@ class ProyectosController extends Controller
             abort(404);
         }
 
-        $proyectos = Proyecto::with(['banco', 'progreso', 'imagenesAdicionales' => function ($query) {
+        $proyectos = Proyecto::with(['cliente', 'banco', 'progreso', 'imagenesAdicionales' => function ($query) {
                 $query->where('tipo', 1);
             }])
             ->where('proyecto_progreso_id', $progresoMap[$filtro])
