@@ -114,7 +114,7 @@
 
         <h3 class="mx-3 my-5 font-weight-bold fs-md-5 mx-md-5">Últimos inmuebles</h3>
 
-        <div class="mt-2">
+        <div>
             @include('components.container-cards_nuevos')
         </div>
     </section>

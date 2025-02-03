@@ -1,8 +1,8 @@
-<div class="container mt-4">
-	<div id="" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center">
+<div class="mt-4">
+	<div id="" class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 justify-content-between">
 	@foreach($avisos_nuevos as $aviso)
-		<div class="col d-flex justify-content-center"> 
-		@include('components.card_simple', [
+		{{-- <div class="col">  --}}
+		@include('components.card_nuevos', [
 			'link' => route('inmueble.single', ['inmueble' => $aviso->link()]),
 			'title' => $aviso->inmueble->title(),
 			'image' => $aviso->inmueble->imagenPrincipal(),
@@ -18,7 +18,7 @@
 			'bathrooms' => $aviso->inmueble->banios(),
 			'like' => false,
 		])
-		</div>
+		{{-- </div> --}}
 	@endforeach
 	</div>
 </div>

@@ -23,7 +23,7 @@ class MainController extends Controller
     public function __invoke(Request $request)
     {
         $avisos = (new ObtenerAvisosPrincipales($this->repository_aviso))->__invoke();
-        $avisos_nuevos = (new ObtenerAvisosPrincipales($this->repository_aviso))->__invoke()->take(6);
+        $avisos_nuevos = (new ObtenerAvisosPrincipales($this->repository_aviso))->__invoke()->take(8);
         $tipos_inmuebles = (new ObtenerTiposInmuebles($this->repository_tipoinmueble))->__invoke();
 
         // Inicializar las variables
