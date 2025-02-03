@@ -23,6 +23,7 @@ class MainController extends Controller
     public function __invoke(Request $request)
     {
         $avisos = (new ObtenerAvisosPrincipales($this->repository_aviso))->__invoke();
+        $avisos_nuevos = (new ObtenerAvisosPrincipales($this->repository_aviso))->__invoke()->take(6);
         $tipos_inmuebles = (new ObtenerTiposInmuebles($this->repository_tipoinmueble))->__invoke();
 
         // Inicializar las variables
@@ -43,6 +44,6 @@ class MainController extends Controller
         $proyecto = $imagenFondo ? Proyecto::where('id', $imagenFondo->proyecto_id)->first() : null;
 
         // Pasar la variable $imagenFondo y $projectInfo a la vista
-        return view('home', compact('avisos', 'tipos_inmuebles', 'tienePlanes', 'imagenFondo', 'projectInfo', 'proyecto'));
+        return view('home', compact('avisos', 'avisos_nuevos', 'tipos_inmuebles', 'tienePlanes', 'imagenFondo', 'projectInfo', 'proyecto'));
     }
 }

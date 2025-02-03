@@ -108,13 +108,23 @@
         </div>
 
     </main>
+    
+    {{-- Sección de NUEVOS --}}
+    <section class="custom-container">
+
+        <h3 class="mx-3 my-5 font-weight-bold fs-md-5 mx-md-5">Últimos inmuebles</h3>
+
+        <div class="mt-2">
+            @include('components.container-cards_nuevos')
+        </div>
+    </section>
 
     {{-- Main: incluye el buscador y Titular --}}
     
     {{-- Sección de Recomendados --}}
-    <section class="custom-container">
+    <section class="custom-container mt-5">
 
-        <h3 class="mx-3 my-5 font-weight-bold fs-md-5 mx-md-5">Últimos inmuebles</h3>
+        {{-- <h3 class="mx-3 my-5 font-weight-bold fs-md-5 mx-md-5">Últimos inmuebles</h3> --}}
 
         <div>
             @include('components.carousel')
