@@ -24,14 +24,16 @@
 
 @section('content')
 
-    <main class="container-fluid main-container">
+    <main class="container-fluid main-container main-home">
+        <div class="main-home-background-image-container position-relative">
 
-        {{-- Main: incluye el buscador y Titular --}}
-        <div class="main-home">
-        
-            <div class="main-home-background-image-container">
-                <img src="{{ $imagenFondo ? $imagenFondo->image_url : asset('images/slide1.webp') }}" class="rounded rounded-3 w-100 h-100 main-home-background-image" alt="Imagen de Fondo">
-            </div>
+            <img
+                src="{{ $imagenFondo ? $imagenFondo->image_url : asset('images/slide1.webp') }}"
+                class="rounded-3 w-100 h-100 main-home-background-image"
+                alt="Imagen de Fondo"
+            >
+
+            <div class="overlay"></div>
 
             @php
 
@@ -46,82 +48,128 @@
 
             @endphp
 
-            {{-- datos proyecto --}}
             @if (isset($proyecto))
-                
-
-                    <a href="{{ route('proyecto.show', ['slug' => $proyecto->slug] ) }}" class="main-home-proyecto-data text-decoration-none rounded-3">
-
-                        <h4 class=" fw-bold">
-                            {{ $nombreProyecto }}
-                        </h4>
-                        <p class="m-0 p-0"> precio desde:
-                            <span class="fw-bold">
-                                S/ {{ $precioDesde }}
-                            </span>
-                        </p>
-
-                    </a>
-
+                <a href="{{ route('proyecto.show', ['slug' => $proyecto->slug] ) }}" class="main-home-proyecto-data text-decoration-none rounded-3">
+                    <h4 class=" fw-bold">
+                        {{ $nombreProyecto }}
+                    </h4>
+                    <p class="m-0 p-0"> precio desde:
+                        <span class="fw-bold">
+                            S/ {{ $precioDesde }}
+                        </span>
+                    </p>
+                </a>
             @endif
             
             
-            {{-- Main: Buscador --}}
-            <div class="main-home-search rounded rounded-3">
-        
-                <form action="{{ route('filter_search') }}" class="m-auto">
-                    <h2 class="main-home-titular text-white font-weight-bold text-center mb-4 mb-md-5">Consigue tu Próximo Inmueble</h2>
-                    <div class="main-home-filter">
-        
-                        <div class="d-flex flex-column flex-md-row justify-content-between gap-2">
-                            
-                            <div class="input-group-lg mr-4">
-                                <select class="form-select" aria-label="Tipo de Propiedad" name="categoria">
-                                    @foreach($tipos_inmuebles as $tipo)
-                                    <option value="{{ $tipo->id }}" @if($loop->first) selected @endif>{{ $tipo->tipo }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+            <div class="main-home-search">
+                <h1 class="main-home-titular text-white fw-bold mb-4 text-center">
+                    Consigue tu Próximo Inmueble
+                </h1>
+
+                <div class="d-flex justify-content-center mb-3">
+                    <div class="btn-group" role="group" aria-label="Tipo de transacción">
+                        <input type="radio" class="btn-check" name="transaccion" id="venta" autocomplete="off" value="1" checked>
+                        <label class="btn p-2 px-3 mb-2 btn-light fs-5 text-body-secondary" for="venta">Comprar</label>
                         
-                            <div class="btn-group ml-4" role="group" aria-label="tipo de transaccion">
-                                <input type="radio" class="btn-check" name="transaccion" id="comprar" autocomplete="off" value="1" checked>
-                                <label class="btn p-2 px-3 mb-2 btn-light fs-5 text-body-secondary" for="comprar">Comprar</label>
-                                
-                                <input type="radio" class="btn-check" name="transaccion" id="alquilar" autocomplete="off" value="2">
-                                <label class="btn p-2 px-3 mb-2 btn-light fs-5 text-body-secondary" for="alquilar">Alquilar</label>
+                        <input type="radio" class="btn-check" name="transaccion" id="alquiler" autocomplete="off" value="2">
+                        <label class="btn p-2 px-3 mb-2 btn-light fs-5 text-body-secondary" for="alquiler">Alquilar</label>
+                
+                        <input type="radio" class="btn-check" name="transaccion" id="alquiler_temporal" autocomplete="off" value="3">
+                        <label class="btn p-2 px-3 mb-2 btn-light fs-5 text-body-secondary" for="alquiler_temporal">Remates</label>
+                    </div>
+                </div>
         
-                                <input type="radio" class="btn-check" name="transaccion" id="remates" autocomplete="off" value="3">
-                                <label class="btn p-2 px-3 mb-2 btn-light fs-5 text-body-secondary" for="remates">Remates</label>
-                            </div>
+                <form action="{{ route('filter_search') }}" class="d-flex justify-content-center">
+                    <div class="input-group input-group-lg" style="max-width: 600px;">
         
-                        </div>
                         
-                        <div class="input-group input-group-lg">
-                            <input type="text" class="form-control" placeholder="Ciudad, provincia o distrito" aria-label="direccion" aria-describedby="direccion" name="direccion">
-                            <input class="button-orange btn" type="submit" value="Buscar">
-                        </div>
+                        <select class="form-select rounded-start" aria-label="Tipo de Propiedad" name="categoria" style="width: 120px; min-width:100px; flex: 0 0 auto;">
+                            @foreach($tipos_inmuebles as $tipo)
+                            <option value="{{ $tipo->id }}" @if($loop->first) selected @endif>{{ $tipo->tipo }}</option>
+                            @endforeach
+                        </select>
+                        
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Ciudad, provinicia o distrito"
+                            aria-label="direccion"
+                            aria-describedby="direccion"
+                            name="direccion"
+                        >
+
+                        <button class="btn button-orange" type="submit">  
+                            <i class="fas fa-search"></i> 
+                        </button>     
                     </div>
                 </form>
-                
             </div>
-        
         </div>
-
     </main>
 
-    {{-- Main: incluye el buscador y Titular --}}
+    <section class="info-section py-5">
+        <div class="container">
+            <div class="row g-4">
+            
+                <div class="col-md-4">
+                    <div class="info-card p-4 h-100">
+                        <a href="{{ url('blog') }}" class="text-decoration-none text-body">
+                            <div class="info-icon mb-3">
+                                <i class="fa-solid fa-file-invoice" style="color: #f57c00; height: 45px;"></i>
+                            </div>
+                            <h3 class="info-title mb-2">Nuestro blog</h3>
+                            <p class="info-text m-0">
+                                Novedades y consejos sobre adquisición de inmuebles.
+                            </p>
+                        </a>
+                    </div>
+                </div>
+            
+                <div class="col-md-4">
+                    <div class="info-card p-4 h-100">
+                        <a href="{{ url('blog/tendencias-del-mercado-departamentos-en-venta-en-lima-2024') }}" class="text-decoration-none text-body">
+                            <div class="info-icon mb-3">
+                                <i class="fa-solid fa-chart-pie" style="color: #f57c00; height: 45px;"></i>
+                            </div>
+                            <h3 class="info-title mb-2">Tendencias</h3>
+                            <p class="info-text m-0">
+                                Te informamos sobre la demandas sostenida y nuevas zonas de expansión.
+                            </p>
+                        </a>
+                    </div>
+                </div>
+            
+                <div class="col-md-4">
+                    <div class="info-card p-4 h-100">
+                        <a href="{{ route('contacto') }}" class="text-decoration-none text-body">
+                            <div class="info-icon mb-3">
+                                <i class="fa-solid fa-door-open" style="color: #f57c00; height: 45px;"></i>
+                            </div>
+                            <h3 class="info-title mb-2">Contáctanos</h3>
+                            <p class="info-text m-0">
+                                Ponte en contacto con nosotros para esclarecer tus dudas para una mayor experiencia.
+                            </p>
+                        </a>
+                    </div>
+                </div>
+        
+            </div>
+        </div>
+    </section>
     
-    {{-- Sección de Recomendados --}}
     <section class="custom-container">
-
-        <h3 class="mx-3 my-5 font-weight-bold fs-md-5 mx-md-5">Últimos inmuebles</h3>
+        <div class="d-flex justify-content-between">
+            <h3 class="mx-3 my-5 font-weight-bold fs-md-5 mx-md-5">Últimos inmuebles</h3>
+            <a href="/inmuebles/inmuebles-en-venta-y-alquiler" class="text-body">
+                <h4 class="mx-3 my-5 fw-bold">Recomendaciones</h4>
+            </a>
+        </div>
 
         <div>
             @include('components.carousel')
         </div>
     </section>
-    {{-- Sección de Recomendados --}}
-
     
     {{-- Sección de Destacados --}}
     <section class="custom-container">

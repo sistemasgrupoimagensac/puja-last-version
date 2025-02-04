@@ -104,6 +104,11 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         return $this->hasMany(Inmueble::class, 'user_id');
     }
 
+    public function avisosLikeados()
+    {
+        return $this->belongsToMany(Aviso::class, 'aviso_likes')->withTimestamps();
+    }
+
     public function getDniAttribute()
     {
         return $this->attributes['numero_documento'];

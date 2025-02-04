@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AvisoLikeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MyPostsController;
 use Illuminate\Support\Facades\Route;
@@ -84,6 +85,8 @@ Route::middleware(['guest'])->group(function() {
 Route::middleware('auth')->group(function () {
     Route::put('editar-perfil/{id}', [LoginController::class, 'editProfile'])->name('auth.edit-profile');
     Route::put('cambiar-contrasena/{id}', [LoginController::class, 'editPassword'])->name('auth.edit-password');
+
+    Route::post('/avisos/{aviso}/like', [AvisoLikeController::class, 'toggleLike'])->name('avisos.toggleLike');
 });
 
 Route::get('/publica-tu-inmueble', [LoginController::class, 'select_profile'])->name('login.publica_tu_inmueble');
