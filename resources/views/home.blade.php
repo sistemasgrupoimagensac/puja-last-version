@@ -107,16 +107,6 @@
             </div>
         </div>
     </main>
-    
-    {{-- Sección de NUEVOS --}}
-    <section class="custom-container">
-
-        <h3 class="mx-3 my-5 font-weight-bold fs-md-5 mx-md-5">Últimos inmuebles</h3>
-
-        <div>
-            @include('components.container-cards_nuevos')
-        </div>
-    </section>
 
     <section class="info-section py-5">
         <div class="container">
@@ -165,6 +155,16 @@
                 </div>
         
             </div>
+        </div>
+    </section>
+    
+    {{-- Sección de NUEVOS --}}
+    <section class="custom-container">
+
+        <h3 class="mx-3 my-5 font-weight-bold fs-md-5 mx-md-5">Últimos inmuebles</h3>
+
+        <div>
+            @include('components.container-cards_nuevos')
         </div>
     </section>
     
