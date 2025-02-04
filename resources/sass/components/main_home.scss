@@ -1,89 +1,111 @@
 @import '../variables';
 
 .main-container {
-  padding: 1rem;
+	padding: 0;
+	margin: 0;
 }
 
 .main-home {
-  margin-top: 2rem;
-  position: relative;
-  
-  .main-home-search {
-    position: absolute;
+	position: relative;
 
-    bottom: 0;
-    padding: 1rem;
+	.main-home-background-image-container {
+		position: relative;
+		width: 100%;
+		height: 90vh; 
+		overflow: hidden;
 
-    .main-home-titular {
-      text-shadow: 3px 3px 3px $dark_gray;
-    }
-  }
+		.main-home-background-image {
+			object-fit: cover;
+			width: 100%;
+			height: 100%;
+		}
+		
+		.overlay {
+			position: absolute;
+			top: 0; left: 0;
+			width: 100%; height: 100%;
+			background: rgba(0, 0, 0, 0.3); 
+		}
+  	}
 
-  .main-home-proyecto-data {
-    position: absolute;
-    top: 0;
-    right: 0;
+	.main-home-search {
+		position: absolute;
+		top: 50%; 
+		left: 50%;
+		transform: translate(-50%, -50%); 
+		color: white;
+		text-align: center;
+		width: 100%;
+		max-width: 1000px;
 
-    padding: 1rem;
-    margin: 1rem;
-    color: $white;
-    background-color: rgba($color: #081f41, $alpha: .8);
+		.main-home-titular {
+			text-shadow: 2px 2px 3px rgba(0,0,0,0.5);
+			font-size: 2rem; 
+		}
 
-  }
+		form {
+			.input-group {
+				.form-select,
+				.form-control {
+					border-radius: 0;
+				}
+
+				.button-orange {
+					background-color: #f57c00;
+					border: none;
+					color: #fff;
+					&:hover {
+						background-color: #e06900;
+					}
+				}
+			}
+		}
+  	}
+
+	.main-home-proyecto-data {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		background-color: rgba(8, 31, 65, 0.8);
+		padding: 1rem;
+		border-radius: 5px;
+		color: #fff;
+	}
+
+	@media (min-width: $md) {
+		.main-home-background-image-container {
+			height: 100vh;
+		}
+		
+		.main-home-search {
+			.main-home-titular {
+				font-size: 2.5rem;
+			}
+		}
+	}
 }
 
-.main-home-background-image {
-  object-fit: cover;
+.info-section {
+	background-color: #fff;
 }
 
-.main-home-background-image-container {
-  height: 550px;
+.info-card {
+	background-color: #f8f9fa;
+	border-radius: .5rem;
+	box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+	text-align: center;
 }
 
-@media (min-width: $md) {
-
-  .main-home {
-    padding: 2rem;
-  
-    .main-home-search {
-      bottom: 3rem;
-      left: calc(50% - 275px);
-
-      padding: 1.2rem;
-      background-color: rgba($color: #081f41, $alpha: .8);
-    }
-
-    .main-home-proyecto-data {
-      top: 2rem;
-      right: 2rem;
-    }
-  }
-
-  .main-home-background-image {
-    object-fit: cover;
-  }
-  
-  .main-home-background-image-container {
-    height: 600px;
-  }
-
+.info-icon img {
+	max-width: 60px;
 }
 
-@media (min-width: $lg) {
-
-  .main-home {
-    .main-home-search {
-      bottom: 3rem;
-      left: 3rem;
-    }
-  }
-
+.info-title {
+	font-weight: 600;
+	font-size: 1.25rem;
 }
 
-
-@media (min-width: $xxl) {
-
-  .main-container {
-    padding: 0 8rem;
-  }
+.info-text {
+	color: #6c757d;
+	font-size: 0.95rem;
 }

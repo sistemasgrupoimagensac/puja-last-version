@@ -1,8 +1,28 @@
+@php
+    $user = auth()->user();
+    $yaLikeado = false;
+
+    if ( $user ) {
+        $yaLikeado = $user->avisosLikeados()->where('aviso_id', $aviso->id)->exists();
+    }
+@endphp
+
 <div class="card simple-card bg-white">
-	<a href="{{ $link }}" target="_blank" class="text-decoration-none text-reset h-100">
+	<a href="{{ $link }}" target="_blank" class="text-decoration-none text-reset h-100 position-relative">
 		<div class="card-image-container">
 			<img src="{{ $image }}" class="card-image-custom" alt="{{ $title }}">
 		</div>
+		<a 
+			href="#"
+			class="toggle-like-btn position-absolute top-0 end-0 bg-white text-dark fw-bold px-3 py-1 rounded shadow-lg m-3 d-flex justify-content-center align-items-center"
+			style="height: 2rem;"
+    		data-aviso-id="{{ $aviso->id }}"
+			>
+				<i
+					id="heart-icon-{{ $aviso->id }}"
+					class="{{ $yaLikeado ? 'fa-solid' : 'fa-regular' }} fa-heart"
+				></i>
+		</a>
 	
 		<div class="card-body px-3 py-2">
 			<p class="mb-2">
@@ -38,11 +58,5 @@
 			@endif
 			@if($bathrooms)<small class="text-body-secondary mr-2">{{ $bathrooms }} Bañ.</small>@endif
 		</p>
-
-		{{-- <button class="general-button p-0 heart-button" data-like="{{ $like ? 'true' : 'false' }}">
-			<i class="fa-{{ $like ? 'solid' : 'regular' }} fa-heart icon-orange"></i>
-		</button> --}}
 	</div>
 </div>
-
-

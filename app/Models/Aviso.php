@@ -46,4 +46,9 @@ class Aviso extends Model
     {
         return $this->belongsTo(PlanUser::class, 'plan_user_id');
     }
+
+    public function likes()
+    {
+        return $this->belongsToMany(User::class, 'aviso_likes')->withTimestamps();
+    }
 }

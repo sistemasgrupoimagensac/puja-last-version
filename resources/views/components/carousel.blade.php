@@ -17,6 +17,7 @@
 					'bedrooms' => $aviso->inmueble->dormitorios(),
 					'bathrooms' => $aviso->inmueble->banios(),
 					'like' => false,
+					'avisoId' => $aviso->id,
 				])
 			</div>
 		@endforeach

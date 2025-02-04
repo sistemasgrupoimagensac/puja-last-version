@@ -530,15 +530,15 @@
                         </div>
                     </div>
                     
-                    <!-- Modal eleccion de tipo aviso -->
+                    <!-- Modal eleccion de tipo aviso --> 
                     <div class="modal fade" id="modalEleccionTipoAviso" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalEleccionTipoAvisoLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
-                                <div class="modal-header">
+                                <div class="modal-header" style="position: relative;">
                                     <h1 class="modal-title fs-5 icon-orange" id="modalEleccionTipoAvisoLabel">Elige el tipo de aviso</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <div class="modal-body">
+                                <div class="modal-body" >
                                     <div class="d-flex flex-column gap-3">
                                         <input type="radio" class="btn-check" name="btnradio" id="btnPremiumAds" autocomplete="off">
                                         <label class="btn btn-outline-secondary" for="btnPremiumAds">Aviso Premium: <span id="premiumAdsRemaining"></span></label>
