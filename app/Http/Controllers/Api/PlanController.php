@@ -11,11 +11,12 @@ use App\Models\PlanUser;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 
 class PlanController extends Controller
 {
-    public function userPlans($userId)
+    public function getUserPlans($userId)
     {
         $user = User::findOrFail($userId);
         $user_plans = $user->active_plans()->get();
@@ -239,6 +240,65 @@ class PlanController extends Controller
         ]);
     }
 
+    public function getOpenpayData()
+    {
+        $openpay = [];
+        $openpay_id = env('OPENPAY_ID', '');
+        $openpay_pk = env('OPENPAY_PK', '');
+        $openpay_sb_mode = filter_var(env('OPENPAY_SANDBOX_MODE', false), FILTER_VALIDATE_BOOLEAN);
+        
+        if ( !empty($openpay_id) && !empty($openpay_pk) ) {
+
+            $openpay = [
+                "id" => $openpay_id,
+                "pk" => $openpay_pk,
+                "sb_mode" => $openpay_sb_mode,
+            ];
+
+            return response()->json([
+                "message" => "Data de openPay entregada correctamente.",
+                "status" => "success",
+                "openpay" => $openpay,
+            ]);
+
+        } else {
+
+            return response()->json([
+                "message" => "Error al consultar la data de openPay.",
+                "status" => "error",
+            ], 400);
+
+        }
+    }
+
+    public function pay(Request $request)
+    {
+        $base_url = env('OPENPAY_URL');
+        $openpay_id = env('OPENPAY_ID');
+        $openpay_sk = env('OPENPAY_SK');
+
+        $request->validate([
+            'amount' => 'required|decimal:2',
+            'plan_id' => 'nullable|integer',
+            'currency' => 'nullable|string',
+            'customer_name' => 'nullable|string',
+            'customer_email' => 'nullable|string',
+            'customer_phone_number' => 'nullable|string',
+            'description' => 'nullable|string',
+        ]);
+
+        $urlAPI = $base_url . $openpay_id . '/charges';
+        $encoded_sk = base64_encode("$openpay_sk:");
+
+        $data = json_encode($request->all());
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Basic ' . $encoded_sk,
+        ])->withBody($data, 'application/json')->post($urlAPI);
+
+        return response()->json($response->json());
+    }
 
 
 }

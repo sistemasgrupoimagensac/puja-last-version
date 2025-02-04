@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\ProyectoCliente;
 use App\Models\ProyectoCronogramaPago;
+use App\Models\TipoDocumento;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -48,6 +49,33 @@ class AuthController extends Controller
             'message' => 'Registrado correctamente.',
             'status' => 'success',
             'token' => $token->plainTextToken,
+        ]);
+    }
+
+    public function show(Request $request, $id)
+    {
+        if ( !is_numeric($id) || intval($id) <= 0 ) {
+            return response()->json([
+                'message' => 'Invalid user ID',
+                'status' => 'error',
+            ], 422);
+        }
+
+        $user = User::findOrFail($request->user_id);
+        $document_types = TipoDocumento::where('estado', 1)->get();
+        $hasPlans = false;
+        $projectInfo = false;
+        
+        $hasPlans = $user->active_plans()->exists();
+        $projectInfo = $user->canPublishProjects(); 
+        
+        return response()->json([
+            'message' => 'Perfil de usuario.',
+            'status' => 'success',
+            'document_types' => $document_types,
+            'user' => $user,
+            'hasPlans' => $hasPlans,
+            'projectInfo' => $projectInfo,
         ]);
     }
 
@@ -177,7 +205,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function updateProfile(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'name' => 'required|string|max:250',
@@ -229,44 +257,22 @@ class AuthController extends Controller
         ]);
     }
 
-    public function updateUser(Request $request)
+    public function updatePassword(Request $request, $id)
     {
+        
+        if ( !is_numeric($id) || intval($id) <= 0 ) {
+            return response()->json([
+                'message' => 'Invalid user ID',
+                'status' => 'error',
+            ], 422);
+        }
+
         $request->validate([
-            'user_id' => 'required|integer',
-            'name' => 'required|string|max:250',
-            'lastname' => 'required|string|max:255',
-            'document_type' => 'required|integer|in:1,2,3',
-            'phone' => 'required|integer|digits:9',
-            'address' => 'required|string|max:250',
-            'document_number' => 'required|string|max:30',
-        ]);
-
-        $user = User::findOrFail($request->user_id);
-        $user->update([
-            'nombres' => $request->name,
-            'apellidos' => $request->lastname,
-            'tipo_documento_id' => $request->document_type,
-            'celular' => $request->phone,
-            'direccion' => $request->address,
-            'numero_documento' => $request->document_number,
-        ]);
-
-        return response()->json([
-            'message' => 'Actualización del perfil correcta',
-            'status' => "success",
-            'user' => $user,
-        ]);
-    }
-
-    public function updatePassword(Request $request)
-    {
-        $request->validate([
-            'user_id' => 'required|integer',
             'current_password' => 'required|string',
             'password' => 'required|string|min:6|max:20|confirmed',
         ]);
     
-        $user = User::findOrFail($request->user_id);
+        $user = User::findOrFail($request->id);
         if (!Hash::check($request->current_password, $user->password)) {
             return response()->json([
                 'message' => 'La contraseña actual no es correcta.',

@@ -56,22 +56,5 @@ class MisAvisosController extends Controller
             'status' => 'success',
             'ads' => $ads,
         ]);
-
-        $tienePlanes = false;
-        $projectInfo = false;
-
-        if ( $userId ) {
-            $user = User::findOrFail($userId);
-            $tienePlanes = $user->active_plans()->exists();
-            $projectInfo = $user->canPublishProjects(); 
-        }
-
-        return response()->json([
-            'message' => 'Avisos por usuario.',
-            'status' => 'success',
-            'ads' => $ads,
-            'hasPlans' => $tienePlanes,
-            'projectInfo' => $projectInfo,
-        ]);
     }
 }

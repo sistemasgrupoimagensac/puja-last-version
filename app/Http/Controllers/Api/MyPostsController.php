@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\SendDataMail;
+use App\Models\AdContact;
 use App\Models\Aviso;
 use App\Models\Caracteristica;
 use App\Models\CaracteristicaInmueble;
@@ -18,6 +20,8 @@ use App\Models\OperacionTipoInmueble;
 use App\Models\PlanoInmueble;
 use App\Models\PrincipalInmueble;
 use App\Models\Provincia;
+use App\Models\Proyecto;
+use App\Models\ProyectoContact;
 use App\Models\Remate;
 use App\Models\SubTipoInmueble;
 use App\Models\TipoInmueble;
@@ -25,6 +29,7 @@ use App\Models\UbicacionInmueble;
 use App\Models\VideoInmueble;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class MyPostsController extends Controller
@@ -445,7 +450,7 @@ class MyPostsController extends Controller
         ]);
     }
 
-    public function sellAd(Request $request) 
+    public function sellAd(Request $request)
     {
         $request->validate(['ad_id' => 'required|integer']);
 
@@ -499,9 +504,152 @@ class MyPostsController extends Controller
         ]);
     }
 
+    public function processContact(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'nullable|integer',
+            'accion' => 'required|integer', // 1 whatsapp, 2 correo
+            'current_url' => 'required|string|max:50',
+            'ad_id' => 'required|integer',
+            'name' => 'required|string|max:50',
+            'email' => 'required|email',
+            'phone' => 'required|string|min:9|max:9|regex:/^9[0-9+\-()\s]*$/',
+            'bid_amount' => 'nullable|string',
+            'currency_type' => 'nullable|integer',
+            'message' => 'required|string',
+            'accept_terms' => 'required|accepted',
+        ]);
+
+        $aviso_url = $request->current_url;
+        $aviso = Aviso::findOrFail($request->ad_id);
+        $email_owner = $aviso->inmueble->user->email;
+
+        $ad_contact = AdContact::updateOrCreate([
+            'aviso_id' => $request->ad_id,
+            'email' => $request->email,
+            'user_id' => $request->user_id ?? null,
+            ],[
+            'full_name' => $request->name,
+            'status' => 1,
+            'phone' => $request->phone,
+            'bid_amount' => $request->bid_amount,
+            'type_currency_id' => $request->currency_type, // 1 soles - 2 dolares
+            'message' => $request->message,
+            'accept_terms' => true,
+        ]);
+
+        if ($request->accion == 1) {
+            return response()->json([
+                'message' => 'Validación correcta. Se puede enviar el mensaje por WhatsApp.',
+                'status' => 'success',
+            ]);
+        }
+
+        Mail::to($email_owner)
+            ->cc(['soporte@pujainmobiliaria.com.pe'])
+            ->bcc(['grupoimagen.908883889@gmail.com'])
+        ->send(new SendDataMail($ad_contact, $aviso_url));
+
+        return response()->json([
+            'message' => 'Registro para contactar, correcto.',
+            'status' => 'success',
+            'ad_contact_id' => $ad_contact->id,
+        ]);
+    }
+
+    public function procesar_contacto_proyecto (Request $request) 
+    {
+        $request->validate([
+            'user_id' => 'nullable|integer',
+            'accion' => 'required|integer', // 1 whatsapp, 2 correo
+            'current_url' => 'required|string|max:50',
+            'project_id' => 'required|integer',
+            'name' => 'required|string|max:50',
+            'email' => 'required|email',
+            'phone' => 'required|string|min:9|max:9|regex:/^9[0-9+\-()\s]*$/',
+            'bid_amount' => 'nullable|string',
+            'currency_type' => 'nullable|integer',
+            'message' => 'required|string',
+            'time' => 'required|string',
+            'accept_terms' => 'required|accepted',
+        ]);
+
+        $proyecto_url = $request->current_url;
+        $proyecto = Proyecto::findOrFail($request->project_id);
+        $contactos = $proyecto->cliente->contactos;
+        $googleSheet = $proyecto->cliente->googleSheet;
+        $user_id = $proyecto->cliente->user_id;
+        $now = now();
+        $fechaHora = $now->format('Y-m-d H:i:s');
+
+        $proyecto_contact = ProyectoContact::updateOrCreate([
+            'proyecto_id' => $request->project_id,
+            'email' => $request->email,
+            'user_id' => $user_id ?? null,
+            ],[
+            'full_name' => $request->name,
+            'status' => 0,
+            'phone' => $request->phone,
+            'message' => $request->message,
+            'time' => $request->time,
+            'accept_terms' => true,
+        ]);
+
+        if ($request->accion == 1) {
+
+            $numero_contacto = "";
+            foreach ( $contactos as $contacto ) {
+                if ( strlen($contacto->telefono) === 9 ) {
+                    $numero_contacto = $contacto->telefono;
+                    break;
+                }
+            }
+
+            return response()->json([
+                'http_code' => isset($numero_contacto) ? 200 : 400,
+                'status' => isset($numero_contacto) ? 'Success' : 'error',
+                'numero_contacto' => $numero_contacto ?? null,
+                'message' => isset($numero_contacto) 
+                    ? 'Validación correcta. Se puede enviar el mensaje por WhatsApp.' 
+                    : 'No se cuenta con un celular válido de contacto.',
+            ]);
+
+        }
+
+        // Para correo, enviamos el email como ya lo haces
+        Log::info('Iniciando el envío de correo para contactos ...');
+        foreach ($contactos as $contacto) {
+            Mail::to($contacto->email)
+                ->cc(['soporte@pujainmobiliaria.com.pe'])
+                ->bcc(['grupoimagen.908883889@gmail.com'])
+                ->send(new SendProjectMail($proyecto_contact, $proyecto_url));
+        }
+        Log::info('Correo enviado para contactos .');
+
+        // Si está habilitada la opción de Google Sheet:
+        if ($googleSheet && $googleSheet->sheet_habilitado) {
+
+            $this->sendToGoogleSheet($googleSheet->google_sheet_url, [
+                $fechaHora,
+                $request->nombre_contacto,
+                $request->email,
+                $request->telefono_contacto,
+                $request->contact_message,
+                $request->time
+            ]);
+        }
+
+        return response()->json([
+            'http_code' => 200,
+            'status' => 'Success',
+            'message' => 'Registro para contactar, correcto.',
+            'ad_contact_id' => $proyecto_contact->id,
+        ], 200);
+    }
 
 
-    // Catalogos
+
+    // Catálogos
 
     public function subtypes() 
     {
@@ -562,4 +710,6 @@ class MyPostsController extends Controller
     {
         return floatval(str_replace(',', '', $value));
     }
+
+    
 }
