@@ -4,6 +4,10 @@
     Blog
 @endsection
 
+@section('header')
+    @include('components.header')
+@endsection
+
 @push('styles')
     @vite(['resources/sass/pages/blog.scss'])
 @endpush

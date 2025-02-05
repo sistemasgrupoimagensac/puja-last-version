@@ -72,6 +72,7 @@ Route::post('/procesar-contacto-proyecto', [MyPostsController::class, 'procesar_
 Route::get('/main', MainController::class);
 Route::get('/complaints-book', [SuppliersController::class, 'ComplaintsBook']);
 
+// Route::post('/contacto', [ContactoController::class, 'store']);
 
 
 
@@ -83,8 +84,12 @@ Route::get('/complaints-book', [SuppliersController::class, 'ComplaintsBook']);
 
 
 /* 
+    
+    Route::get('/contacto', [ContactoController::class, 'index'])->name('contacto');
+    Route::post('/contacto', [ContactoController::class, 'store'])->name('post.contacto');
 
-
+    Route::get('/contacto/proyecto', [ContactoController::class, 'contacto_proyecto'])->name('contacto_proyecto');
+    Route::post('/contacto/proyecto', [ContactoController::class, 'contacto_lead_proyecto_store'])->name('contacto_lead_proyecto_store');
 
  */
 

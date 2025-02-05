@@ -114,7 +114,7 @@
             
                 <div class="col-md-4">
                     <div class="info-card p-4 h-100">
-                        <a href="{{ url('blog') }}" class="text-decoration-none text-body">
+                        <a href="{{ url('blog') }}" target="_blank" class="text-decoration-none text-body">
                             <div class="info-icon mb-3">
                                 <i class="fa-solid fa-file-invoice" style="color: #f57c00; height: 45px;"></i>
                             </div>
@@ -128,7 +128,7 @@
             
                 <div class="col-md-4">
                     <div class="info-card p-4 h-100">
-                        <a href="{{ url('blog/tendencias-del-mercado-departamentos-en-venta-en-lima-2024') }}" class="text-decoration-none text-body">
+                        <a href="{{ url('blog/tendencias-del-mercado-departamentos-en-venta-en-lima-2024') }}" target="_blank" class="text-decoration-none text-body">
                             <div class="info-icon mb-3">
                                 <i class="fa-solid fa-chart-pie" style="color: #f57c00; height: 45px;"></i>
                             </div>
@@ -142,7 +142,7 @@
             
                 <div class="col-md-4">
                     <div class="info-card p-4 h-100">
-                        <a href="{{ route('contacto') }}" class="text-decoration-none text-body">
+                        <a href="{{ route('contacto') }}" target="_blank" class="text-decoration-none text-body">
                             <div class="info-icon mb-3">
                                 <i class="fa-solid fa-door-open" style="color: #f57c00; height: 45px;"></i>
                             </div>
