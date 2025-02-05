@@ -9,6 +9,12 @@
 		<meta name="description" content="Servicio online de remates de inmuebles a nivel nacional - Grupo Imagen 2024"/>
 		<meta name="csrf-token" content="{{ csrf_token() }}">
 		<link rel="shortcut icon" href="{{ asset('favicon.png') }}" type="image/x-icon">
+		
+		<meta property="og:title" content="Puja Inmobiliaria - Remates de Inmuebles en Perú">
+		<meta property="og:description" content="Encuentra remates de inmuebles a nivel nacional con Puja Inmobiliaria.">
+		<meta property="og:image" content="{{ url('images/home.jpg') }}">
+		<meta property="og:url" content="{{ url('/') }}">
+		<meta property="og:type" content="website">
 
 		<!-- Google Tag Manager -->
 		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
