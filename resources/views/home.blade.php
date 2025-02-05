@@ -28,8 +28,8 @@
         <div class="main-home-background-image-container position-relative">
 
             <img
-                src="{{ $imagenFondo ? $imagenFondo->image_url : asset('images/home.jpg') }}"
-                class="rounded-3 w-100 h-100 main-home-background-image"
+                src="{{ $imagenFondo ? $imagenFondo->image_url : asset('images/home1.jpg') }}"
+                class="w-100 h-100 main-home-background-image"
                 alt="Imagen de Fondo"
             >
 
