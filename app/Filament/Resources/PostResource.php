@@ -26,6 +26,10 @@ class PostResource extends Resource
     protected static ?string $model = Post::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-window';
+    
+    protected static ?string $navigationLabel = 'Blogs';
+
+    protected static ?int $navigationSort = 4;
 
     public static function shouldRegisterNavigation(): bool
     {

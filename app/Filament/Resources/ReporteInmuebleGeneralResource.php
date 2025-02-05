@@ -23,14 +23,24 @@ class ReporteInmuebleGeneralResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-chart-bar';
 
+    protected static ?string $navigationLabel = 'Reporte general';
+
+    protected static ?int $navigationSort = 22;
+
     public static function shouldRegisterNavigation(): bool
+
     {
         return auth()->user()?->can('view avisos generales') ?? false;
     }
 
-    public static function getNavigationLabel(): string
+    public static function canCreate(): bool
     {
-        return 'Reporte general';
+        return false;
+    }
+
+    public static function canEdit($record): bool
+    {
+        return false;
     }
 
     public static function form(Form $form): Form

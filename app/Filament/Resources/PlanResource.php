@@ -22,6 +22,10 @@ class PlanResource extends Resource
     protected static ?string $model = Plan::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
+    
+    protected static ?string $navigationLabel = 'Planes';
+
+    protected static ?int $navigationSort = 5;
 
     public static function shouldRegisterNavigation(): bool
     {

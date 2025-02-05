@@ -31,11 +31,13 @@ use Illuminate\Support\Facades\Log;
 
 class ProyectoClienteResource extends Resource
 {
+    protected static ?string $model = ProyectoCliente::class;
+    
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    
     protected static ?string $navigationLabel = 'Ejecutivo de Cuenta';
 
-    protected static ?string $model = ProyectoCliente::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static ?int $navigationSort = 3;
 
     public static function shouldRegisterNavigation(): bool
     {
