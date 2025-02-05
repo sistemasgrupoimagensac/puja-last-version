@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
             e.preventDefault();
 
             let avisoId = this.dataset.avisoId;
-            let icon = document.getElementById(`heart-icon-${avisoId}`);
+            let icons = document.querySelectorAll(`.heart-icon-${avisoId}`);
 
             try {
                 let response = await fetch(`/avisos/${avisoId}/like`, {
@@ -25,11 +25,15 @@ document.addEventListener('DOMContentLoaded', function () {
                     let data = await response.json();
                     
                     if (data.liked) {
-                        icon.classList.remove('fa-regular');
-                        icon.classList.add('fa-solid');
+                        icons.forEach((icon) => {
+                            icon.classList.remove('fa-regular');
+                            icon.classList.add('fa-solid');
+                        })
                     } else {
-                        icon.classList.remove('fa-solid');
-                        icon.classList.add('fa-regular');
+                        icons.forEach((icon) => {
+                            icon.classList.remove('fa-solid');
+                            icon.classList.add('fa-regular');
+                        })
                     }
                 }
             } catch (error) {

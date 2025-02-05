@@ -18,10 +18,7 @@
 			style="height: 2rem;"
     		data-aviso-id="{{ $aviso->id }}"
 			>
-				<i
-					id="heart-icon-{{ $aviso->id }}"
-					class="{{ $yaLikeado ? 'fa-solid' : 'fa-regular' }} fa-heart"
-				></i>
+				<i class="{{ $yaLikeado ? 'fa-solid' : 'fa-regular' }} fa-heart heart-icon-{{ $aviso->id }}"></i>
 		</a>
 	
 		<div class="card-body px-3 py-2">
