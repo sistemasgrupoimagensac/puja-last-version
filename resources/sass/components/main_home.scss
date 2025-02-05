@@ -11,7 +11,7 @@
 	.main-home-background-image-container {
 		position: relative;
 		width: 100%;
-		height: 90vh; 
+		height: 100vh; 
 		overflow: hidden;
 
 		.main-home-background-image {
@@ -74,7 +74,7 @@
 
 	@media (min-width: $md) {
 		.main-home-background-image-container {
-			height: 100vh;
+			height: 50vh;
 		}
 		
 		.main-home-search {
