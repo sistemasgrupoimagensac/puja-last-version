@@ -169,10 +169,10 @@
     </section>
     
     <section class="custom-container">
-        <div class="d-flex justify-content-between">
-            <h3 class="mx-3 my-5 font-weight-bold fs-md-5 mx-md-5">Últimos inmuebles</h3>
-            <a href="/inmuebles/inmuebles-en-venta-y-alquiler" class="text-body">
-                <h4 class="mx-3 my-5 fw-bold">Recomendaciones</h4>
+        <div class="d-flex justify-content-end">
+            {{-- <h3 class="mx-3 my-5 font-weight-bold fs-md-5 mx-md-5">Últimos inmuebles</h3> --}}
+            <a href="/inmuebles/inmuebles-en-venta-y-alquiler" class="text-decoration-none">
+                <h5 class="mx-3 my-5 fw-bold">Recomendaciones</h5>
             </a>
         </div>
 
