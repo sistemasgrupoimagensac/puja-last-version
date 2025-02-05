@@ -24,14 +24,23 @@ class InmuebleResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document-chart-bar';
 
+    protected static ?string $navigationLabel = 'Reporte publicaciones';
+
+    protected static ?int $navigationSort = 21;
+
     public static function shouldRegisterNavigation(): bool
     {
         return auth()->user()?->can('view publicaciones') ?? false;
     }
 
-    public static function getNavigationLabel(): string
+    public static function canCreate(): bool
     {
-        return 'Publicaciones';
+        return false;
+    }
+
+    public static function canEdit($record): bool
+    {
+        return false;
     }
 
     public static function form(Form $form): Form

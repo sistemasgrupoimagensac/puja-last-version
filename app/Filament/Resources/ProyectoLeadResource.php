@@ -21,11 +21,13 @@ use Filament\Forms\Components\Toggle;
 
 class ProyectoLeadResource extends Resource
 {
-    protected static ?string $navigationLabel = 'Leads de Web';
-
     protected static ?string $model = ProyectoLead::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
+    
+    protected static ?string $navigationLabel = 'Leads de Web';
+
+    protected static ?int $navigationSort = 2;
 
     public static function shouldRegisterNavigation(): bool
     {

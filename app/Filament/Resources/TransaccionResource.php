@@ -20,6 +20,12 @@ class TransaccionResource extends Resource
 {
     protected static ?string $model = Transaccion::class;
 
+    protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
+    
+    protected static ?string $navigationLabel = 'Transacciones';
+
+    protected static ?int $navigationSort = 1;
+
     public static function shouldRegisterNavigation(): bool
     {
         return auth()->user()?->can('view transactions') ?? false;
@@ -34,8 +40,6 @@ class TransaccionResource extends Resource
     {
         return 'Transacciones';
     }
-
-    protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
 
     public static function table(Table $table): Table
     {

@@ -22,6 +22,10 @@ class PromotionResource extends Resource
     protected static ?string $model = Promotion::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-receipt-percent';
+    
+    protected static ?string $navigationLabel = 'Promociones';
+
+    protected static ?int $navigationSort = 6;
 
     public static function shouldRegisterNavigation(): bool
     {
