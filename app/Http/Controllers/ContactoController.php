@@ -6,7 +6,6 @@ use App\Models\ProyectoLead;
 use Hamcrest\Type\IsString;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class ContactoController extends Controller
@@ -18,7 +17,6 @@ class ContactoController extends Controller
 
     public function store(Request $request)
     {
-        // try{
         $validator = Validator::make($request->all(), [
             'nombre' => 'required|string|max:50',
             'correo' => 'required|string|email|max:60',
@@ -36,7 +34,6 @@ class ContactoController extends Controller
             ], 422);
         }
 
-        // guardar en la base de datos
         $contacto = Contacto::create([
             'nombre' => $request->input('nombre'),
             'correo' => $request->input('correo'),
@@ -45,31 +42,13 @@ class ContactoController extends Controller
             'mensaje' => $request->input('mensaje'),
         ]);
 
-        /* return response()->json([
-            'http_code' => 300,
-            'status' => 'Succssess',
-            'message' => 'Easnvío de consulta correcto',
-        ]);
-
-        $this->sendDataToGoogleSheet($contacto); */
+        $this->sendDataToGoogleSheet($contacto);
 
         return response()->json([
             'http_code' => 200,
             'status' => 'Success',
             'message' => 'Envío de consulta correcto',
         ]);
-        
-        /* } catch (\Exception $e) {
-            Log::error($e->getMessage());
-
-            return response()->json([
-                'http_code' => 500,
-                'status' => 'Error',
-                'message' => 'Error al enviar datos a Google Sheets.',
-                'error' => $e->getMessage(),
-            ], 500);
-        } */
-
     }
 
     public function contacto_proyecto() 
@@ -171,7 +150,7 @@ class ContactoController extends Controller
 
     private function sendDataToGoogleSheet($lead)
     {
-        $scriptUrl = 'https://script.google.com/macros/s/AKfycbx6Glg1Q0z54OHwqMs5LDt-psGwVRPLhw6o7WnaAod8CIUAIfcSf3zajnrgM-ol2H3q/exec?action=addRow';
+        $scriptUrl = env('SHEET_CONTACTOS_MARIAMELIA');
 
         $data = [
             'action' => 'addRow',
@@ -184,7 +163,6 @@ class ContactoController extends Controller
         $response = Http::post($scriptUrl, $data);
 
         if ($response->failed()) {
-            // Log::error($response);
             throw new \Exception('Error al enviar datos a Google Sheets.');
         }
     }

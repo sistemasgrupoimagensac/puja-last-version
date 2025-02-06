@@ -28,7 +28,17 @@ document.addEventListener('DOMContentLoaded', () => {
 			},
 			body: formData
 		})
-		.then(response => response.json())
+		// .then(response => response.json())
+		.then(response => {
+			if (!response.ok) {
+				// Captura todos los errores HTTP (400, 422, 500, etc.)
+				return response.text().then(text => {
+					throw new Error(`HTTP ${response.status}: ${text}`);
+				});
+			}
+			return response.json();
+		})
+	
 		.then(data => {
 			if (data.status == "Success") {
 				alert('Enviado Correctamente ¡Pronto nos pondremos en contacto con usted!');
@@ -39,7 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		})
 		.catch(error => {
-			console.error('Error:', error);
+			console.error('Error capturado:', error);
+			alert('Ocurrió un error. Revisa la consola para más detalles.');
 		});
 	}
 
