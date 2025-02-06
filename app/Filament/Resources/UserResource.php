@@ -55,7 +55,7 @@ class UserResource extends Resource
                 User::query()
                     ->select([
                         'users.id as id',
-                        DB::raw('CONCAT(users.nombres, " ", users.apellidos) as cliente'),
+                        DB::raw('CONCAT(IFNULL(users.nombres, ""), " ", IFNULL(users.apellidos, "")) as cliente'),
                         "users.celular",
                         "users.email",
                         DB::raw('IFNULL(td.documento, "") AS tipo_documento'),
