@@ -42,6 +42,8 @@
                 'fecha_publicacion' => Carbon\Carbon::parse($aviso->fecha_publicacion)->format('Y-m-d H:i'),
                 'type_ad' => $aviso->ad_type ,
                 'views' => $aviso->views ,
+                'inmueble_id' => $aviso->inmueble->id,
+                'like' => false,
             ])
         @endforeach
         {{ $avisos->onEachSide(1)->links() }}

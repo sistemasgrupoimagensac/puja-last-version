@@ -16,8 +16,7 @@
     }
   
     #carousel-container {
-        /* display: flex; */
-        gap: 20px; /* Espaciado entre cards */
+        gap: 20px;
         max-width: 100%;
     }
 </style>
@@ -60,7 +59,6 @@
                     </p>
                 </a>
             @endif
-            
             
             <div class="main-home-search">
                 <h1 class="main-home-titular text-white fw-bold mb-4 text-center">
@@ -116,7 +114,7 @@
                     <div class="info-card p-4 h-100">
                         <a href="{{ url('blog') }}" target="_blank" class="text-decoration-none text-body">
                             <div class="info-icon mb-3">
-                                <i class="fa-solid fa-file-invoice" style="color: #f57c00; height: 45px;"></i>
+                                <img src="{{ asset('images/articulo.gif') }}" alt="Contáctanos">
                             </div>
                             <h3 class="info-title mb-2">Nuestro blog</h3>
                             <p class="info-text m-0">
@@ -130,7 +128,7 @@
                     <div class="info-card p-4 h-100">
                         <a href="{{ url('blog/tendencias-del-mercado-departamentos-en-venta-en-lima-2024') }}" target="_blank" class="text-decoration-none text-body">
                             <div class="info-icon mb-3">
-                                <i class="fa-solid fa-chart-pie" style="color: #f57c00; height: 45px;"></i>
+                                <img src="{{ asset('images/estadistica.gif') }}" alt="Contáctanos">
                             </div>
                             <h3 class="info-title mb-2">Tendencias</h3>
                             <p class="info-text m-0">
@@ -144,7 +142,7 @@
                     <div class="info-card p-4 h-100">
                         <a href="{{ route('contacto') }}" target="_blank" class="text-decoration-none text-body">
                             <div class="info-icon mb-3">
-                                <i class="fa-solid fa-door-open" style="color: #f57c00; height: 45px;"></i>
+                                <img src="{{ asset('images/contacto.gif') }}" alt="Contáctanos">
                             </div>
                             <h3 class="info-title mb-2">Contáctanos</h3>
                             <p class="info-text m-0">

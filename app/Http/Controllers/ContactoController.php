@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 use App\Models\Contacto;
+use App\Models\Inmueble;
 use App\Models\ProyectoLead;
 use Hamcrest\Type\IsString;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class ContactoController extends Controller
@@ -164,6 +167,97 @@ class ContactoController extends Controller
 
         if ($response->failed()) {
             throw new \Exception('Error al enviar datos a Google Sheets.');
+        }
+    }
+
+    public function whatsappContact(Request $request)
+    {
+        // Validar los campos que vienen del formulario
+        $data = $request->validate([
+            'inmueble_id' => 'required|integer',
+            'nombre'      => 'required|string',
+            'email'       => 'required|email',
+            'telefono'    => 'required|string', 
+            // ... más campos si deseas
+        ]);
+
+        // Buscar el inmueble
+        $inmueble = Inmueble::findOrFail($data['inmueble_id']);
+
+        // Obtener el usuario propietario
+        $owner = $inmueble->user;  // asumiendo que tu relación se llama "user"
+
+        // El número de celular del propietario
+        // Ajusta según el nombre real de tu columna en BD
+        $phoneOwner = $owner->celular ?? '51999999999';
+
+        // Crear un mensaje que quieras precargar en el chat:
+        $mensaje = "Hola, mi nombre es {$data['nombre']} y estoy interesado en el inmueble ID: {$inmueble->id}.";
+        // Agrega todo lo que gustes, por ejemplo su correo y teléfono.
+        // $mensaje .= " Mi correo es: {$data['email']} y mi número es: {$data['telefono']}";
+
+        // Retornamos respuesta JSON
+        return response()->json([
+            'success'         => true,
+            'phone'           => $phoneOwner,
+            'whatsappMessage' => $mensaje,
+        ]);
+    }
+
+    public function emailContact(Request $request)
+    {
+        // Validamos los datos enviados desde el formulario
+        $data = $request->validate([
+            'inmueble_id' => 'required|integer',
+            'nombre'      => 'required|string|max:255',
+            'email'       => 'required|email|max:255',
+            'telefono'    => 'required|string|max:50',
+            'mensaje'     => 'required|string',
+        ]);
+
+        // Buscamos el inmueble
+        $inmueble = Inmueble::findOrFail($data['inmueble_id']);
+
+        // Obtenemos el propietario
+        $owner = $inmueble->user; // Ajusta según tu relación
+
+        // Si no tiene un email, retornamos un error
+        if (!$owner || !$owner->email) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No se encontró el correo del propietario.'
+            ]);
+        }
+
+        // Construimos data adicional para el correo
+        $correoPropietario = $owner->email;
+        $datosEmail = [
+            'nombreRemitente' => $data['nombre'],
+            'emailRemitente'  => $data['email'],
+            'telefono'        => $data['telefono'],
+            'mensaje'         => $data['mensaje'],
+            'inmuebleId'      => $inmueble->id,
+            // Agrega más datos si lo requieres
+        ];
+
+        // Enviamos el correo usando Mail
+        try {
+            Mail::send('mails.contacto_inmueble', $datosEmail, function($message) use ($correoPropietario) {
+                $message->to($correoPropietario)
+                    ->subject('Nuevo contacto desde el inmueble');
+            });
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Correo enviado exitosamente.'
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al enviar el correo: ' . $e->getMessage()
+            ]);
         }
     }
 }

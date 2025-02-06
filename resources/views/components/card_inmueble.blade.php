@@ -1,4 +1,14 @@
+@php
+    $yaLikeado = false;
+    $usuario = auth()->user();
+
+    if ( $usuario ) {
+        $yaLikeado = $usuario->avisosLikeados()->where('aviso_id', $aviso->id)->exists();
+    }
+@endphp
+
 <div class="card my-4 card-inmueble shadow border-0 bg-white filterAvisos-card"
+    style="overflow: visible !important;"
     data-relevancia="{{ $type_ad }}"
     data-precio_soles="{{ $price }}"
     data-precio_dolares="{{ $price_dolar??$remate_precio_base }}"
@@ -7,10 +17,36 @@
 >
     <div class="row g-0 h-100">
 
+        <div class="card-header text-secondary d-flex justify-content-between align-items-center d-block d-md-none">
+            <p class="m-0">
+                {{ $user }}
+            </p>
+        </div>
         <div class="col-lg-4 h-100 position-relative">
             <a href="{{ $link }}" target="_blank" class="text-decoration-none text-reset">
                 <img src="{{ asset($image) }}" class="card-inmueble-image rounded" alt="imagen inmueble">
             </a>
+
+            <div 
+                class="position-absolute top-0 end-0 m-2 d-flex flex-column align-items-center bg-white px-2 rounded shadow-lg"
+                style="z-index: 20;"
+            >
+                <a 
+                    href="#"
+                    class="toggle-like-btn text-dark d-flex justify-content-center align-items-center"
+                    style="height: 1.5rem;"
+                    data-aviso-id="{{ $aviso->id }}"
+                >
+                    <i class="{{ $yaLikeado ? 'fa-solid' : 'fa-regular' }} fa-heart heart-icon-{{ $aviso->id }}"></i>
+                </a>
+                
+                <span class="small">
+                    Likes: 
+                    <span class="total-likes-{{ $aviso->id }}">
+                        {{ $aviso->likes()->count() }}
+                    </span>
+                </span>
+            </div>
 
             @if ($type === 'Remate')
                 <div class="position-absolute top-0 end-0 mt-4 me-2">
@@ -123,18 +159,14 @@
                 </div>
 
                 {{-- Footer Card Inmueble --}}
-                <div class="card-footer text-secondary d-flex justify-content-between align-items-center">
-                    <p class="m-0">
+                <div class="card-footer text-secondary d-flex align-items-center justify-content-end justify-content-md-between">
+                    <p class="m-0 d-none d-md-inline">
                         {{ $user }}
                     </p>
 
                     <div class="d-flex gap-2">
-
-                        {{-- <x-whatsapp-modal-contact :idCaracteristica="$idCaracteristica" :isPuja="$isPuja"></x-whatsapp-modal-contact> --}}
-
-                        {{-- <button class="btn btn-light border-secondary-subtle bg-white">
-                            <i class="fas fa-envelope"></i> Email
-                        </button> --}}
+                        <x-whatsapp-modal-contact :inmuebleId="$inmueble_id" />
+                        <x-email-modal-contact :inmuebleId="$inmueble_id" />
                     </div>
                 </div>
             </div>

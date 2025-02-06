@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
             e.preventDefault();
 
             let avisoId = this.dataset.avisoId;
+            let totalLikes = document.querySelectorAll(`.total-likes-${avisoId}`);
             let icons = document.querySelectorAll(`.heart-icon-${avisoId}`);
 
             try {
@@ -35,6 +36,9 @@ document.addEventListener('DOMContentLoaded', function () {
                             icon.classList.add('fa-regular');
                         })
                     }
+                    totalLikes.forEach( cant_likes => {
+                        cant_likes.textContent = data.total_likes
+                    } )
                 }
             } catch (error) {
                 console.error('Error:', error);

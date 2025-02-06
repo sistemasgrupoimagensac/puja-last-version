@@ -25,7 +25,7 @@ class AvisoLikeController extends Controller
         return response()->json([
             'status' => 'success',
             'liked' => $liked,
-            // 'total_likes' => $aviso->likes()->count(),
+            'total_likes' => $aviso->likes()->count(),
         ]);
     }
 }
