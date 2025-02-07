@@ -2,12 +2,12 @@
 
 <button 
     type="button" 
-    class="btn btn-success text-white btn-responsive" 
+    class="btn btn-success text-white btn-responsive d-flex align-items-center justify-content-center gap-2" 
     data-bs-toggle="modal" 
     data-bs-target="#whatsappModal-{{ $inmuebleId }}"
 >
     <i class="fab fa-whatsapp"></i>
-     WhatsApp
+    <span>WhatsApp</span>
 </button>
 
 <div 
