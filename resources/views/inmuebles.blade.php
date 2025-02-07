@@ -4,6 +4,20 @@
     Inmuebles
 @endsection
 
+<style>
+    @media (max-width: 425px) {
+    .contact-buttons {
+        display: flex;
+        gap: 8px; /* Espaciado entre botones */
+    }
+
+    .contact-buttons .btn-responsive {
+        flex: 1;  /* Hace que cada botón ocupe el 50% */
+        text-align: center;
+    }
+}
+</style>
+
 @section('header')
     @include('components.header', ['tienePlanes' => $tienePlanes])
 @endsection
@@ -44,6 +58,7 @@
                 'views' => $aviso->views ,
                 'inmueble_id' => $aviso->inmueble->id,
                 'like' => false,
+                'comodidades' => $aviso->inmueble->extra->caracteristicas->where('categoria_caracteristica_id', 2)->take(3),
             ])
         @endforeach
         {{ $avisos->onEachSide(1)->links() }}

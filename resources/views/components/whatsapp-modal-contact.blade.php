@@ -2,7 +2,7 @@
 
 <button 
     type="button" 
-    class="btn btn-success text-white" 
+    class="btn btn-success text-white btn-responsive" 
     data-bs-toggle="modal" 
     data-bs-target="#whatsappModal-{{ $inmuebleId }}"
 >

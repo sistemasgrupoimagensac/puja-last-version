@@ -154,17 +154,34 @@
                             {{-- descripcion del inmueble --}}
                             <p class="card-text card-inmueble-description"> {{ $description }} </p>
 
+                            {{-- <div 
+                                class="m-2 d-flex bg-white px-2 rounded shadow-lg font-weight-bold"
+                                style="z-index: 20;"
+                            >
+                                esto
+                            </div> --}}
+
+                            <div class="d-flex gap-3 flex-nowrap overflow-hidden" style="white-space: nowrap;">
+                                @foreach ($comodidades as $comodidad)
+
+                                <div class="badge bg-light text-black text-wrap p-3 w-auto"{{--  style="width: 10rem;" --}}>
+                                    {{ $comodidad->caracteristica; }}
+                                </div>
+                                    
+                                @endforeach
+                            </div>
+
                         </div>
                     </a>
                 </div>
 
                 {{-- Footer Card Inmueble --}}
                 <div class="card-footer text-secondary d-flex align-items-center justify-content-end justify-content-md-between">
-                    <p class="m-0 d-none d-md-inline">
+                    <p class="m-0 d-none d-md-inline w-100">
                         {{ $user }}
                     </p>
 
-                    <div class="d-flex gap-2">
+                    <div class="d-flex gap-2 w-100 flex-wrap contact-buttons justify-content-end justify-content-md-end">
                         <x-whatsapp-modal-contact :inmuebleId="$inmueble_id" />
                         <x-email-modal-contact :inmuebleId="$inmueble_id" />
                     </div>

@@ -2,7 +2,7 @@
 
 <button 
     type="button"
-    class="btn btn-primary border-secondary-subtle text-white"
+    class="btn btn-primary border-secondary-subtle text-white btn-responsive"
     data-bs-toggle="modal"
     data-bs-target="#emailModal-{{ $inmuebleId }}"
 >
