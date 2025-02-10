@@ -14,6 +14,10 @@
 		.card-destacados {
 			height: 27rem;
 		}
+
+		.remate-label-destacados {
+			font-size: 1.3rem;
+		}
 	}
 </style>
 
@@ -34,7 +38,7 @@
 
 		@if ($type === 'Remate')
 			<div class="position-absolute top-0 end-0 mt-4 me-2">
-				<h3><span class="badge text-bg-danger">REMATE PÚBLICO</span></h3>
+				<h3 class="remate-label-destacados"><span class="badge text-bg-danger">REMATE PÚBLICO</span></h3>
 			</div>
 		@endif
 
