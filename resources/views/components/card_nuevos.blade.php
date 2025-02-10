@@ -7,17 +7,16 @@
     }
 @endphp
 
-<div class="card card-nuevos bg-white p-0" style="height: 29rem;">
-	<a href="{{ $link }}" target="_blank" class="text-decoration-none text-reset h-100 position-relative">
+<div class="card card-nuevos bg-white p-0" style="height: 26rem;">
+	<a href="{{ $link }}" target="_blank" class="text-decoration-none text-reset  position-relative">
 		<div class="card-image-container">
-
 			<img src="{{ $image }}" class="card-image-custom" alt="{{ $title }}">
 		</div>
 		
 		<a 
 			href="#"
 			class="toggle-like-btn position-absolute end-0 bg-white text-dark fw-bold px-3 py-1 rounded shadow-lg m-3 d-flex justify-content-center align-items-center"
-			style="height: 2rem; top:30%"
+			style="height: 2rem; top:32%"
 			data-aviso-id="{{ $aviso->id }}"
 			>
 				<i class="{{ $yaLikeado ? 'fa-solid' : 'fa-regular' }} fa-heart heart-icon-{{ $aviso->id }}"></i>
@@ -62,8 +61,6 @@
 					
 				@endforeach
 			</div>
-
-			
 
 			<div class="d-flex gap-2 w-100 flex-wrap contact-buttons justify-content-center mt-2 d-md-none">
 				<x-whatsapp-modal-contact :inmuebleId="$inmueble_id" />
