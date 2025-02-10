@@ -9,6 +9,7 @@ use App\Models\ProyectoCronogramaPago;
 use App\Models\ProyectoImagenesAdicionales;
 use App\Models\ProyectoImagenesUnidades;
 use App\Models\ProyectoPagoEstado;
+use App\Models\ProyectoPlanesActivos;
 use App\Models\ProyectoProgreso;
 use App\Models\ProyectoUnidades;
 use App\Models\User;
@@ -233,9 +234,10 @@ class ProyectoController extends Controller
     public function savePaidProjectStatus(Request $request)
     {
         // Buscar el cliente del proyecto
-        $proyectoCliente = ProyectoCliente::find($request->proyectoClienteId);
-    
-        if (!$proyectoCliente) {
+        $proyectoPlanActivo = ProyectoPlanesActivos::find($request->proyectoPlanActivoId);
+        $proyectoCliente = ProyectoCliente::where('id', $proyectoPlanActivo->proyecto_cliente_id)->first();
+
+        if (!$proyectoPlanActivo) {
             return response()->json([
                 'status' => 'Error',
                 'message' => 'ProyectoCliente no encontrado.',
@@ -253,9 +255,9 @@ class ProyectoController extends Controller
         }
     
         // Actualizar el cronograma según el tipo de pago
-        if ($proyectoCliente->pago_unico) {
+        if ($proyectoPlanActivo->pago_unico) {
             // Si es un pago único, actualizar el único registro del cronograma
-            $cronograma = ProyectoCronogramaPago::where('proyecto_cliente_id', $proyectoCliente->id)->first();
+            $cronograma = ProyectoCronogramaPago::where('proyecto_plan_activo_id', $proyectoPlanActivo->id)->first();
     
             if ($cronograma) {
                 $cronograma->update([
@@ -265,15 +267,17 @@ class ProyectoController extends Controller
             }
     
             // Marcar el proyecto como completamente pagado y al día
-            $proyectoCliente->update([
+            $proyectoPlanActivo->update([
                 'pagado' => true,
-                'al_dia' => true,
+                'activo' => true,
             ]);
+            $proyectoCliente->update(['al_dia' => 1]);
+
         } else {
             // Si es un pago fraccionado, actualizar el primer pago pendiente
-            $primerPagoPendiente = ProyectoCronogramaPago::where('proyecto_cliente_id', $proyectoCliente->id)
-            ->where('estado_pago_id', '!=', $estadoPagado->id)
-            ->orderBy('fecha_programada', 'asc')
+            $primerPagoPendiente = ProyectoCronogramaPago::where('proyecto_plan_activo_id', $proyectoPlanActivo->id)
+                ->where('estado_pago_id', '!=', $estadoPagado->id)
+                ->orderBy('fecha_programada', 'asc')
             ->first();
             
             if ($primerPagoPendiente) {
@@ -281,19 +285,23 @@ class ProyectoController extends Controller
                     'estado_pago_id' => $estadoPagado->id,
                     'fecha_ultimo_intento' => now(),
                 ]);
-                
+
+                $proyectoPlanActivo->update([
+                    'pagado' => true,
+                    'activo' => true,
+                ]);
                 // Marcar como "al día" porque el primer pago pendiente se realizó con éxito
-                $proyectoCliente->update(['al_dia' => true]);
+                $proyectoCliente->update(['al_dia' => 1]);
             }
     
             // Verificar si todos los pagos están completados
-            $todosPagosRealizados = ProyectoCronogramaPago::where('proyecto_cliente_id', $proyectoCliente->id)
+            $todosPagosRealizados = ProyectoCronogramaPago::where('proyecto_plan_activo_id', $proyectoPlanActivo->id)
                 ->where('estado_pago_id', '!=', $estadoPagado->id)
                 ->doesntExist();
     
             if ($todosPagosRealizados) {
                 // Marcar el proyecto como completamente pagado si no hay pagos pendientes
-                $proyectoCliente->update(['pagado' => true]);
+                $proyectoCliente->update(['al_dia' => 1]);
             }
         }
     

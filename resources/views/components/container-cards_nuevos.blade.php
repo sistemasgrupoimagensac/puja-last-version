@@ -1,5 +1,5 @@
 <div class="mt-4">
-	<div id="" class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 justify-content-between">
+	<div id="" class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 justify-content-center mx-auto">
 	@foreach($avisos_nuevos as $aviso)
 		{{-- <div class="col">  --}}
 		@include('components.card_nuevos', [

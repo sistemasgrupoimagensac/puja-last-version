@@ -526,7 +526,7 @@
 
             savePaidProjectStatus() {
                 const dataProyectoClienteId = {
-                    "proyectoClienteId": {{ $proyectoClienteId }},
+                    "proyectoPlanActivoId": {{ $proyectoPlanActivoId }},
                 };
 
                 fetch("/save-paid-project-status", {

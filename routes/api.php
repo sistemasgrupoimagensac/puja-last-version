@@ -8,9 +8,13 @@ use App\Http\Controllers\Api\MyPostsController;
 use App\Http\Controllers\Api\PerfilController;
 use App\Http\Controllers\Api\PlanController;
 use App\Http\Controllers\Api\PlanesContratadosController;
+use App\Http\Controllers\Api\ProyectoController;
+use App\Http\Controllers\Api\ProyectosController;
 use App\Http\Controllers\Api\SuppliersController;
 use App\Http\Controllers\BillingController;
+use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\DocumentoController;
+use App\Http\Controllers\TransactionsController;
 use App\Http\Middleware\SessionData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -42,14 +46,31 @@ Route::middleware('auth:sanctum')->group(function () {
     
     Route::post('/cpe/{plan_user_id}', [BillingController::class, 'generarFactura'])->middleware(SessionData::class); // Mismo metodo
 
-    Route::post('/openpay-data', [PlanController::class, 'getOpenpayData']);
     Route::post('/openpay', [PlanController::class, 'pay']);
+    Route::post('/openpay/data', [PlanController::class, 'getOpenpayData']);
+    Route::post('/openpay/save-transaction', [TransactionsController::class, 'store']);
+
     
     Route::post('/consult-document', [DocumentoController::class, 'consultar_dni_ruc']);
 
+
+
+    
+    Route::post('/users/{user}/projects', [ProyectoController::class, 'store']);
+    Route::post('/save-paid-project-status', [ProyectoController::class, 'savePaidProjectStatus']);
+    
     
     
 });
+Route::get('/project/banks', [ProyectoController::class, 'banks']);
+Route::get('/project/progress', [ProyectoController::class, 'progress']);
+Route::get('/project/{id}', [ProyectoController::class, 'show']);
+
+Route::get('/proyectos', [ProyectosController::class, 'index']);
+Route::get('/proyectos/{filtro}', [ProyectosController::class, 'filtrarProyectos'])->name('proyectos.filtrar');
+
+
+
 
 
 Route::prefix('/immovables/{operation}')->controller([InmueblesController::class, 'searchImmovables']);
@@ -72,7 +93,14 @@ Route::post('/procesar-contacto-proyecto', [MyPostsController::class, 'procesar_
 Route::get('/main', MainController::class);
 Route::get('/complaints-book', [SuppliersController::class, 'ComplaintsBook']);
 
-// Route::post('/contacto', [ContactoController::class, 'store']);
+Route::post('/send-information', [ContactoController::class, 'store']);
+Route::post('/send-information/project', [ContactoController::class, 'contacto_lead_proyecto_store']);
+
+Route::get('/blogs',[SuppliersController::class, 'indexBlog']);
+Route::get('/blogs/{slug}',[SuppliersController::class, 'showBlog']);
+
+
+
 
 
 
@@ -85,11 +113,7 @@ Route::get('/complaints-book', [SuppliersController::class, 'ComplaintsBook']);
 
 /* 
     
-    Route::get('/contacto', [ContactoController::class, 'index'])->name('contacto');
-    Route::post('/contacto', [ContactoController::class, 'store'])->name('post.contacto');
-
-    Route::get('/contacto/proyecto', [ContactoController::class, 'contacto_proyecto'])->name('contacto_proyecto');
-    Route::post('/contacto/proyecto', [ContactoController::class, 'contacto_lead_proyecto_store'])->name('contacto_lead_proyecto_store');
+    
 
  */
 

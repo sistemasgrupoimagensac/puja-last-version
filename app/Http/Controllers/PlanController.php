@@ -490,6 +490,7 @@ class PlanController extends Controller
             'fechaInicioRaw',
             'pagoFraccionado',
             'proyectoClienteId',
+            'proyectoPlanActivoId',
         ));
     }
     
@@ -531,75 +532,75 @@ class PlanController extends Controller
         return response()->json($response->json());
     }
 
-    // public function crearCliente(Request $request)
-    // {
-    //     $base_url = env('OPENPAY_URL');
-    //     $openpay_id = env('OPENPAY_ID');
-    //     $openpay_sk = env('OPENPAY_SK');
+    /* public function crearCliente(Request $request)
+    {
+        $base_url = env('OPENPAY_URL');
+        $openpay_id = env('OPENPAY_ID');
+        $openpay_sk = env('OPENPAY_SK');
     
-    //     // Verificar configuración
-    //     if (!$base_url || !$openpay_id || !$openpay_sk) {
-    //         return response()->json([
-    //             'status' => 'error',
-    //             'message' => 'Configuración de OpenPay incompleta.',
-    //         ], 500);
-    //     }
+        // Verificar configuración
+        if (!$base_url || !$openpay_id || !$openpay_sk) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Configuración de OpenPay incompleta.',
+            ], 500);
+        }
     
-    //     $encoded_sk = base64_encode("$openpay_sk:");
-    //     $urlCustomerAPI = "{$base_url}{$openpay_id}/customers";
+        $encoded_sk = base64_encode("$openpay_sk:");
+        $urlCustomerAPI = "{$base_url}{$openpay_id}/customers";
     
-    //     // Datos del cliente
-    //     $customerData = [
-    //         'name' => $request->input('name'),
-    //         'email' => $request->input('email'),
-    //         'phone_number' => $request->input('phone_number'),
-    //     ];
+        // Datos del cliente
+        $customerData = [
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'phone_number' => $request->input('phone_number'),
+        ];
     
-    //     try {
-    //         // Realizar la petición HTTP
-    //         $response = Http::withHeaders([
-    //             'Content-Type' => 'application/json',
-    //             'Authorization' => 'Basic ' . $encoded_sk,
-    //         ])->withBody(json_encode($customerData), 'application/json')->post($urlCustomerAPI);
+        try {
+            // Realizar la petición HTTP
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Basic ' . $encoded_sk,
+            ])->withBody(json_encode($customerData), 'application/json')->post($urlCustomerAPI);
     
-    //         // Registrar la respuesta para auditoría o depuración
-    //         Log::info('Respuesta de OpenPay al crear cliente', [
-    //             'url' => $urlCustomerAPI,
-    //             'request' => $customerData,
-    //             'status' => $response->status(),
-    //             'body' => $response->json(),
-    //         ]);
+            // Registrar la respuesta para auditoría o depuración
+            Log::info('Respuesta de OpenPay al crear cliente', [
+                'url' => $urlCustomerAPI,
+                'request' => $customerData,
+                'status' => $response->status(),
+                'body' => $response->json(),
+            ]);
     
-    //         // Verificar si hubo error en la respuesta
-    //         if ($response->failed()) {
-    //             return response()->json([
-    //                 'status' => 'error',
-    //                 'message' => 'Error al crear el cliente en OpenPay.',
-    //                 'details' => $response->json(),
-    //             ], $response->status());
-    //         }
+            // Verificar si hubo error en la respuesta
+            if ($response->failed()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Error al crear el cliente en OpenPay.',
+                    'details' => $response->json(),
+                ], $response->status());
+            }
     
-    //         // Retornar respuesta exitosa
-    //         return response()->json([
-    //             'status' => 'success',
-    //             'message' => 'Cliente creado exitosamente en OpenPay.',
-    //             'data' => $response->json(),
-    //         ], 200);
-    //     } catch (\Exception $e) {
-    //         // Manejo de excepciones
-    //         Log::error('Error al conectar con OpenPay', [
-    //             'url' => $urlCustomerAPI,
-    //             'request' => $customerData,
-    //             'exception' => $e->getMessage(),
-    //         ]);
+            // Retornar respuesta exitosa
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Cliente creado exitosamente en OpenPay.',
+                'data' => $response->json(),
+            ], 200);
+        } catch (\Exception $e) {
+            // Manejo de excepciones
+            Log::error('Error al conectar con OpenPay', [
+                'url' => $urlCustomerAPI,
+                'request' => $customerData,
+                'exception' => $e->getMessage(),
+            ]);
     
-    //         return response()->json([
-    //             'status' => 'error',
-    //             'message' => 'No se pudo conectar con OpenPay.',
-    //             'details' => $e->getMessage(),
-    //         ], 500);
-    //     }
-    // }
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No se pudo conectar con OpenPay.',
+                'details' => $e->getMessage(),
+            ], 500);
+        }
+    } */
     
     public function asociarTarjeta(Request $request)
     {
@@ -624,29 +625,29 @@ class PlanController extends Controller
         return response()->json($response->json());
     }
 
-    // public function saveSubscriptionStatus(Request $request)
-    // {
-    //     // Obtiene el `proyectoClienteId` y el `subscription_id` desde la solicitud
-    //     $subscription = SubscriptionPlanProject::create([
-    //         'subscription_id' => $request->input('subscription_id'),
-    //         'status' => $request->input('status'),
-    //         'proyecto_cliente_id' => $request->input('proyectoClienteId')
-    //     ]);
+    /* public function saveSubscriptionStatus(Request $request)
+    {
+        // Obtiene el `proyectoClienteId` y el `subscription_id` desde la solicitud
+        $subscription = SubscriptionPlanProject::create([
+            'subscription_id' => $request->input('subscription_id'),
+            'status' => $request->input('status'),
+            'proyecto_cliente_id' => $request->input('proyectoClienteId')
+        ]);
 
-    //     dd($subscription);
+        dd($subscription);
 
-    //     if ($subscription) {
-    //         return response()->json([
-    //             'status' => 'Success',
-    //             'message' => 'El estado de la suscripción ha sido guardado correctamente.'
-    //         ], 200);
-    //     } else {
-    //         return response()->json([
-    //             'status' => 'Error',
-    //             'message' => 'No se pudo guardar el estado de la suscripción.'
-    //         ], 500);
-    //     }
-    // }
+        if ($subscription) {
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'El estado de la suscripción ha sido guardado correctamente.'
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'No se pudo guardar el estado de la suscripción.'
+            ], 500);
+        }
+    } */
 
     public function realizarDebito(Request $request)
     {
