@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\PerfilController;
 use App\Http\Controllers\Api\PlanController;
 use App\Http\Controllers\Api\PlanesContratadosController;
 use App\Http\Controllers\Api\ProyectoController;
+use App\Http\Controllers\Api\ProyectoImagenUnidadController;
 use App\Http\Controllers\Api\ProyectosController;
 use App\Http\Controllers\Api\SuppliersController;
 use App\Http\Controllers\BillingController;
@@ -58,6 +59,9 @@ Route::middleware('auth:sanctum')->group(function () {
     
     Route::post('/users/{user}/projects', [ProyectoController::class, 'store']);
     Route::post('/save-paid-project-status', [ProyectoController::class, 'savePaidProjectStatus']);
+
+    Route::post('/unidades/{unidadId}/imagenes', [ProyectoImagenUnidadController::class, 'store']);
+    Route::delete('/unidades/imagenes/{imagenId}', [ProyectoImagenUnidadController::class, 'destroy']);
     
     
     
@@ -67,8 +71,26 @@ Route::get('/project/progress', [ProyectoController::class, 'progress']);
 Route::get('/project/{id}', [ProyectoController::class, 'show']);
 
 Route::get('/proyectos', [ProyectosController::class, 'index']);
-Route::get('/proyectos/{filtro}', [ProyectosController::class, 'filtrarProyectos'])->name('proyectos.filtrar');
+Route::get('/proyectos/{filtro}', [ProyectosController::class, 'filtrarProyectos']);
 
+Route::get('unidades/{unidadId}/imagenes', [ProyectoImagenUnidadController::class, 'index']);
+
+Route::get('panel-proyecto', [ProyectoImagenUnidadController::class, 'index']);
+
+
+/* 
+Route::middleware(['auth', 'verified', CheckUserProjectType::class])->group(function() {
+    Route::prefix('/panel-proyecto')->name('panel.proyecto.')->group(function() {
+        Route::get('/', fn() => redirect()->route('panel.proyecto.mis-proyectos'));
+        Route::get('/proyectos', MisProyectosController::class)->name('mis-proyectos');
+        // Ruta para perfil del proyecto
+        Route::get('/perfil', PerfilController::class)->name('perfil');
+        Route::get('/proyectos-contratados', ProyectosContratadosController::class)->name('proyectos-contratados');
+        Route::get('/interesados', ProyectoInteresadosController::class)->name('interesados');
+        // Si tienes cambiar contraseña para proyectos, puedes agregarlo aquí
+        Route::get('/password', PasswordController::class)->name('password');
+    });
+}); */
 
 
 
