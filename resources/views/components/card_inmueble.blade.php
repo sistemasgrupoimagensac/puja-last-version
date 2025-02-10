@@ -28,7 +28,7 @@
             </a>
 
             <div 
-                class="position-absolute top-0 end-0 m-2 d-flex flex-column align-items-center bg-white px-2 rounded shadow-lg"
+                class="position-absolute bottom-0 end-0 m-2 d-flex flex-column align-items-center bg-white px-2 rounded shadow-lg"
                 style="z-index: 20;"
             >
                 <a 
