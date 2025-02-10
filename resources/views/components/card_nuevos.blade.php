@@ -6,8 +6,18 @@
         $yaLikeado = $user->avisosLikeados()->where('aviso_id', $aviso->id)->exists();
     }
 @endphp
+<style>
+	.card-destacados{
+		height: 30rem;
+	}
+	@media (min-width: 768px) {
+		.card-destacados {
+			height: 27rem;
+		}
+	}
+</style>
 
-<div class="card card-nuevos bg-white p-0" style="height: 28rem;">
+<div class="card card-nuevos bg-white p-0 card-destacados">
 	<a href="{{ $link }}" target="_blank" class="text-decoration-none text-reset  position-relative">
 		<div class="card-image-container">
 			<img src="{{ $image }}" class="card-image-custom" alt="{{ $title }}">
