@@ -7,7 +7,7 @@
     }
 @endphp
 
-<div class="card card-nuevos bg-white p-0" style="height: 26rem;">
+<div class="card card-nuevos bg-white p-0" style="height: 27rem;">
 	<a href="{{ $link }}" target="_blank" class="text-decoration-none text-reset  position-relative">
 		<div class="card-image-container">
 			<img src="{{ $image }}" class="card-image-custom" alt="{{ $title }}">
