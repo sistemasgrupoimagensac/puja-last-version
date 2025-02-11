@@ -76,10 +76,20 @@
 				@endforeach
 			</div>
 
-			<div class="d-flex gap-2 w-100 flex-wrap contact-buttons justify-content-center mt-2 d-md-none">
-				<x-whatsapp-modal-contact :inmuebleId="$inmueble_id" />
-				<x-email-modal-contact :inmuebleId="$inmueble_id" />
+			<div class="row g-2 w-100 contact-buttons justify-content-center mt-2 d-md-none">
+				<div class="col-6">
+					<x-whatsapp-modal-contact
+						:inmuebleId="$inmueble_id"
+						class="w-100"
+					/>
+				</div>
+				<div class="col-6">
+					<x-email-modal-contact
+					:inmuebleId="$inmueble_id"
+					class="w-100"
+				/>
 			</div>
+		</div>
 		</div>
 	</a>
 

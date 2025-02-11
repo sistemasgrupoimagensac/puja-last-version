@@ -78,7 +78,7 @@
                     </div>
                 </div>
         
-                <form action="{{ route('filter_search') }}" class="d-flex justify-content-center">
+                <form action="{{ route('filter_search') }}" class="d-flex justify-content-center px-2">
                     <div class="input-group input-group-lg" style="max-width: 600px;">
         
                         

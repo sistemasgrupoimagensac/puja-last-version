@@ -2,7 +2,10 @@
 
 <button 
     type="button"
-    class="btn btn-primary border-secondary-subtle text-white btn-responsive d-flex align-items-center justify-content-center gap-2"
+    {{-- class="btn btn-primary border-secondary-subtle text-white btn-responsive d-flex align-items-center justify-content-center gap-2" --}}
+    {{ $attributes->merge([
+        'class' => 'btn btn-primary border-secondary-subtle text-white btn-responsive d-flex align-items-center justify-content-center gap-2'
+    ]) }}
     data-bs-toggle="modal"
     data-bs-target="#emailModal-{{ $inmuebleId }}"
 >

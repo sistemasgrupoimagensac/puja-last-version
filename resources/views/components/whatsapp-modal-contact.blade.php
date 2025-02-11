@@ -2,7 +2,10 @@
 
 <button 
     type="button" 
-    class="btn btn-success text-white btn-responsive d-flex align-items-center justify-content-center gap-2" 
+    {{-- class="btn btn-success text-white btn-responsive d-flex align-items-center justify-content-center gap-2"  --}}
+    {{ $attributes->merge([
+        'class' => 'btn btn-success text-white btn-responsive d-flex align-items-center justify-content-center gap-2'
+    ]) }}
     data-bs-toggle="modal" 
     data-bs-target="#whatsappModal-{{ $inmuebleId }}"
 >

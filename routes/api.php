@@ -4,12 +4,15 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\InmueblesController;
 use App\Http\Controllers\Api\MainController;
 use App\Http\Controllers\Api\MisAvisosController;
+use App\Http\Controllers\Api\MisProyectosController;
 use App\Http\Controllers\Api\MyPostsController;
 use App\Http\Controllers\Api\PerfilController;
 use App\Http\Controllers\Api\PlanController;
 use App\Http\Controllers\Api\PlanesContratadosController;
 use App\Http\Controllers\Api\ProyectoController;
 use App\Http\Controllers\Api\ProyectoImagenUnidadController;
+use App\Http\Controllers\Api\ProyectoInteresadosController;
+use App\Http\Controllers\Api\ProyectosContratadosController;
 use App\Http\Controllers\Api\ProyectosController;
 use App\Http\Controllers\Api\SuppliersController;
 use App\Http\Controllers\BillingController;
@@ -64,6 +67,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/unidades/imagenes/{imagenId}', [ProyectoImagenUnidadController::class, 'destroy']);
     
     
+    Route::get('/panel-proyecto/proyectos-contratados', ProyectosContratadosController::class)->name('proyectos-contratados');
     
 });
 Route::get('/project/banks', [ProyectoController::class, 'banks']);
@@ -76,6 +80,9 @@ Route::get('/proyectos/{filtro}', [ProyectosController::class, 'filtrarProyectos
 Route::get('unidades/{unidadId}/imagenes', [ProyectoImagenUnidadController::class, 'index']);
 
 Route::get('panel-proyecto', [ProyectoImagenUnidadController::class, 'index']);
+Route::get('panel-proyecto/proyectos', MisProyectosController::class);
+// Route::get('panel-proyecto/perfil', PerfilController::class);
+Route::get('panel-proyecto/interesados', ProyectoInteresadosController::class);
 
 
 /* 
