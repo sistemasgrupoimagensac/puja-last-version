@@ -21,16 +21,6 @@ class ProyectoInteresadosController extends Controller
             'interesados' => $interesados,
         ]);
 
-       /*  $tienePlanes = false;
-        $projectInfo = false;
-        $interesados = [];
-
-
-            $active_plan_users = $user->active_plans()->get();
-            $tienePlanes = $active_plan_users->isNotEmpty();
-            $projectInfo = $user->canPublishProjects();
-
-        return view('panel.proyecto-interesados', compact('tienePlanes', 'projectInfo', 'interesados')); */
     }
 
     public function updateStatus(Request $request)

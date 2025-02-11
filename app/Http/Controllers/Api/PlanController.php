@@ -8,11 +8,14 @@ use App\Models\Aviso;
 use App\Models\HistorialAvisos;
 use App\Models\Plan;
 use App\Models\PlanUser;
+use App\Models\ProyectoCliente;
 use App\Models\User;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
+use IntlDateFormatter;
 
 class PlanController extends Controller
 {
@@ -298,6 +301,258 @@ class PlanController extends Controller
         ])->withBody($data, 'application/json')->post($urlAPI);
 
         return response()->json($response->json());
+    }
+
+
+
+
+
+    public function mostrarPagoProyecto(Request $request)
+    {
+
+        $request->validate([
+            'proyectoClienteId' => 'required|integer',
+            'proyectoPlanActivoId' => 'required|integer',
+            'precio' => 'required|decimal:2',
+            'fechaInicio' => 'required|string',
+            'fechaFin' => 'required|string',
+            'numeroAnuncios' => 'required|integer',
+            'periodoPlan' => 'required|integer',
+            'correo' => 'required|email',
+            'telefono' => 'required|digits:9',
+            'documento' => 'required|string',
+            'userTypeId' => 'required|integer',
+            'razonSocial' => 'required|string',
+            'tipoDocumento' => 'required|integer',
+        ]);
+
+        $proyectoClienteId =  $request->proyectoClienteId;
+        $proyectoPlanActivoId =  $request->proyectoPlanActivoId;
+
+        $proyectoCliente = ProyectoCliente::join('proyecto_planes_activos', 'proyecto_clientes.id', '=', 'proyecto_planes_activos.proyecto_cliente_id')
+            ->where('proyecto_clientes.id', $proyectoClienteId)
+            ->where('proyecto_planes_activos.id', $proyectoPlanActivoId)
+            ->where('proyecto_planes_activos.fecha_inicio', '<=', Carbon::now())
+            ->where('proyecto_planes_activos.fecha_fin', '>=', Carbon::now())
+            ->where('proyecto_planes_activos.pagado', 0)
+            ->select(
+                'proyecto_clientes.id as id',
+                'proyecto_clientes.user_id as user_id',
+                'proyecto_planes_activos.pagado as pagado',
+                'proyecto_planes_activos.id as plan_activo_id',
+                'proyecto_planes_activos.pago_unico as pago_unico',
+                'proyecto_planes_activos.pago_fraccionado as pago_fraccionado',
+                'proyecto_planes_activos.monto as precio_plan',
+                'proyecto_planes_activos.pago_gratis as pago_gratis',
+            )
+        ->first();
+
+        if ( !$proyectoCliente ) {
+            return response()->json([
+                'message' => 'No se encontró el proyecto o no está disponible.',
+                'status' => 'error',
+            ], 400);
+        }
+
+        $planUser = PlanUser::where('user_id', $proyectoCliente->user_id)->first();
+        if (! $planUser) {
+            return response()->json([
+                'message' => 'No se encontró el plan para el usuario.',
+                'status' => 'error',
+            ], 400);
+        }
+        $planUserId = $planUser->id;
+    
+        $precio = $proyectoCliente->precio_plan;
+        $fechaInicioRaw = $request->fechaInicio;
+        $numeroAnuncios = $request->numeroAnuncios;
+        $fechaFinRaw = $request->fechaFin;
+        $periodoPlan = $request->periodoPlan;
+
+        $correo = $request->correo;
+        $telefono = $request->telefono;
+        $documento = $request->documento;
+        $userTypeId = $request->userTypeId;
+        $razonSocial = $request->razonSocial;
+        $tipoDocumento = $request->tipoDocumento;
+        $pagoUnico = $proyectoCliente->pago_unico;
+        $pagoFraccionado = $proyectoCliente->pago_fraccionado;
+    
+        $fechaInicio = $this->formatearFecha($fechaInicioRaw);
+        $fechaFin = $this->formatearFecha($fechaFinRaw);
+
+        $descripcion = $proyectoCliente->pago_unico 
+            ? 'Pago único por la totalidad del plan.' 
+            : 'Primer pago mensual del plan.';
+    
+        if ( !$precio || !$razonSocial ) {
+            return response()->json([
+                "message" => "No existe precio o razon social.",
+                "status" => "error",
+            ], 400);
+        }
+
+        $pago_gratis = $proyectoCliente->pago_gratis;
+
+        if ( $pago_gratis ) {
+
+            $user = User::findOrFail($proyectoCliente->user_id);
+            return response()->json([
+                "message" => "Debe pasar a sus avisos, pago gratis activo.",
+                "status" => "success",
+                "is_free" => true,
+            ]);
+        }
+
+        $data = [
+            'proyectoClienteId' => $proyectoClienteId,
+            'proyectoPlanActivoId' => $proyectoPlanActivoId,
+            'planUserId' => $planUserId,
+            'precio' => $precio,
+            'numeroAnuncios' => $numeroAnuncios,
+            'periodoPlan' => $periodoPlan,
+            'correo' => $correo,
+            'telefono' => $telefono,
+            'documento' => $documento,
+            'userTypeId' => $userTypeId,
+            'razonSocial' => $razonSocial,
+            'tipoDocumento' => $tipoDocumento,
+            'pagoUnico' => $pagoUnico,
+            'fechaInicio' => $fechaInicio,
+            'fechaFin' => $fechaFin,
+            'fechaInicioRaw' => $fechaInicioRaw,
+            'fechaFinRaw' => $fechaFinRaw,
+            'pagoFraccionado' => $pagoFraccionado,
+            'descripcion' => $descripcion,
+            'pago_gratis' => $pago_gratis,
+        ];
+
+        return response()->json([
+            "message" => "Plan con pago requerido.",
+            "status" => "success",
+            "is_free" => false,
+            'data' => $data,
+        ]);
+
+    }
+    
+    private function formatearFecha($fecha)
+    {
+        $date = new DateTime($fecha);
+
+        $formatter = new IntlDateFormatter(
+            'es_ES',
+            IntlDateFormatter::LONG,
+            IntlDateFormatter::NONE
+        );
+        
+        return $formatter->format($date);
+    }
+
+    public function crearCliente(Request $request)
+    {
+        $request->validate([            
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'phone_number' => 'required|integer|digits:9',
+        ]);
+
+        $base_url = env('OPENPAY_URL');
+        $openpay_id = env('OPENPAY_ID');
+        $openpay_sk = env('OPENPAY_SK');
+        $encoded_sk = base64_encode("$openpay_sk:");
+
+        $urlCustomerAPI = "{$base_url}{$openpay_id}/customers";
+
+        $customerData = [
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'phone_number' => $request->input('phone_number')
+        ];
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Basic ' . $encoded_sk,
+        ])->withBody(json_encode($customerData), 'application/json')->post($urlCustomerAPI);
+
+        return response()->json($response->json());
+    }
+    
+    public function asociarTarjeta(Request $request)
+    {
+        $request->validate([            
+            'customer_id' => 'required|string',
+            'source_id' => 'required|string',
+            'device_session_id' => 'required|string',
+        ]);
+
+        $base_url = env('OPENPAY_URL');
+        $openpay_id = env('OPENPAY_ID');
+        $openpay_sk = env('OPENPAY_SK');
+        $encoded_sk = base64_encode("$openpay_sk:");
+
+        $customerId = $request->input('customer_id');
+        $urlCardAPI = "{$base_url}{$openpay_id}/customers/{$customerId}/cards";
+
+        $cardData = [
+            'token_id' => $request->input('source_id'),
+            'device_session_id' => $request->input('device_session_id'),
+        ];
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Basic ' . $encoded_sk,
+        ])->withBody(json_encode($cardData), 'application/json')->post($urlCardAPI);
+
+        return response()->json($response->json());
+    }
+
+    public function realizarDebito(Request $request)
+    {
+        $request->validate([
+            'customer_id' => 'required|string',
+            'card_id' => 'required|string',
+            'amount' => 'required|numeric',
+            'description' => 'required|string',
+        ]);
+
+        $base_url = env('OPENPAY_URL');
+        $openpay_id = env('OPENPAY_ID');
+        $openpay_sk = env('OPENPAY_SK');
+        $encoded_sk = base64_encode("$openpay_sk:");
+
+        $urlChargeAPI = "{$base_url}{$openpay_id}/customers/{$request->customer_id}/charges";
+
+        // Datos del cargo
+        $chargeData = [
+            'method' => 'card',
+            'source_id' => $request->card_id,
+            'amount' => $request->amount,
+            'currency' => 'PEN',
+            'description' => $request->description,
+            'device_session_id' => $request->device_session_id,
+        ];
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Basic ' . $encoded_sk,
+        ])->withBody(json_encode($chargeData), 'application/json')->post($urlChargeAPI);
+
+        $chargeResponse = $response->json();
+
+        if ($response->successful() && isset($chargeResponse['id'])) {
+            return response()->json([
+                'status' => 'Success',
+                'charge_id' => $chargeResponse['id'],
+                'message' => 'El débito se ha realizado con éxito.',
+            ], 201);
+        }
+
+        return response()->json([
+            'status' => 'Error',
+            'message' => 'Error al realizar el débito.',
+            'details' => $chargeResponse,
+        ], 500);
     }
 
 

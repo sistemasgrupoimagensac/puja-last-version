@@ -1,11 +1,14 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ConfirmacionPagoAntesDeDebitar;
+use App\Http\Controllers\Api\CustomerCardController;
 use App\Http\Controllers\Api\InmueblesController;
 use App\Http\Controllers\Api\MainController;
 use App\Http\Controllers\Api\MisAvisosController;
 use App\Http\Controllers\Api\MisProyectosController;
 use App\Http\Controllers\Api\MyPostsController;
+use App\Http\Controllers\Api\PDFController;
 use App\Http\Controllers\Api\PerfilController;
 use App\Http\Controllers\Api\PlanController;
 use App\Http\Controllers\Api\PlanesContratadosController;
@@ -14,7 +17,9 @@ use App\Http\Controllers\Api\ProyectoImagenUnidadController;
 use App\Http\Controllers\Api\ProyectoInteresadosController;
 use App\Http\Controllers\Api\ProyectosContratadosController;
 use App\Http\Controllers\Api\ProyectosController;
+use App\Http\Controllers\Api\RenovacionController;
 use App\Http\Controllers\Api\SuppliersController;
+use App\Http\Controllers\Api\UserProjectSubscriptionController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\DocumentoController;
@@ -57,8 +62,6 @@ Route::middleware('auth:sanctum')->group(function () {
     
     Route::post('/consult-document', [DocumentoController::class, 'consultar_dni_ruc']);
 
-
-
     
     Route::post('/users/{user}/projects', [ProyectoController::class, 'store']);
     Route::post('/save-paid-project-status', [ProyectoController::class, 'savePaidProjectStatus']);
@@ -68,7 +71,12 @@ Route::middleware('auth:sanctum')->group(function () {
     
     
     Route::get('/panel-proyecto/proyectos-contratados', ProyectosContratadosController::class)->name('proyectos-contratados');
-    
+    Route::post('/contactar-plan-proyecto', [ProyectosContratadosController::class, 'contactarPlanProyecto']);
+    Route::post('/panel-proyecto/interesados/update-status', [ProyectoInteresadosController::class, 'updateStatus']);
+
+    Route::get('/contratos/{archivo}', [PDFController::class, 'getPDF'])->name('contratos.get');
+    Route::post('/planes/renovacion/toggle', [RenovacionController::class, 'toggleRenovacion']);
+
 });
 Route::get('/project/banks', [ProyectoController::class, 'banks']);
 Route::get('/project/progress', [ProyectoController::class, 'progress']);
@@ -83,23 +91,20 @@ Route::get('panel-proyecto', [ProyectoImagenUnidadController::class, 'index']);
 Route::get('panel-proyecto/proyectos', MisProyectosController::class);
 // Route::get('panel-proyecto/perfil', PerfilController::class);
 Route::get('panel-proyecto/interesados', ProyectoInteresadosController::class);
+// Route::get('panel-proyecto/password', PasswordController::class);
 
+Route::get('/proyecto-pago', [PlanController::class, 'mostrarPagoProyecto']);
+Route::post('/crear_cliente', [PlanController::class, 'crearCliente']);
+Route::post('/asociar_tarjeta', [PlanController::class, 'asociarTarjeta']);
 
-/* 
-Route::middleware(['auth', 'verified', CheckUserProjectType::class])->group(function() {
-    Route::prefix('/panel-proyecto')->name('panel.proyecto.')->group(function() {
-        Route::get('/', fn() => redirect()->route('panel.proyecto.mis-proyectos'));
-        Route::get('/proyectos', MisProyectosController::class)->name('mis-proyectos');
-        // Ruta para perfil del proyecto
-        Route::get('/perfil', PerfilController::class)->name('perfil');
-        Route::get('/proyectos-contratados', ProyectosContratadosController::class)->name('proyectos-contratados');
-        Route::get('/interesados', ProyectoInteresadosController::class)->name('interesados');
-        // Si tienes cambiar contraseña para proyectos, puedes agregarlo aquí
-        Route::get('/password', PasswordController::class)->name('password');
-    });
-}); */
+// Route::post('/save-subscription-status', [PlanController::class, 'saveSubscriptionStatus']);
+Route::post('/guardar_tarjeta', [CustomerCardController::class, 'store']);
+Route::post('/suscribir_plan', [UserProjectSubscriptionController::class, 'suscribirPlan']);
+Route::post('/realizar_debito', [PlanController::class, 'realizarDebito']);
 
-
+// Route::get('/planes/renovacion/{plan_id}', [PlanController::class, 'showRenovacionPage']);
+Route::post('/confirmacion_pago_proyecto', [ConfirmacionPagoAntesDeDebitar::class, 'check']);
+// Route::post('/crear_plan_user_proyectos', [PlanController::class, 'crearPlanUserProyectos']);
 
 
 Route::prefix('/immovables/{operation}')->controller([InmueblesController::class, 'searchImmovables']);
@@ -135,14 +140,4 @@ Route::get('/blogs/{slug}',[SuppliersController::class, 'showBlog']);
 
 
 
-
-
-
-
-
-/* 
-    
-    
-
- */
 
