@@ -114,6 +114,10 @@ class PlanController extends Controller
             $aviso_id = $request->aviso_id;
             $plan_user_id = $request->plan_user_id;
 
+            $promo1 = null;
+            $promo2 = null;
+            $selected_plan = null;
+
             if ( !$plan_user_id ) {
                 $selected_plan = Plan::find($plan_id);
                 $typical_ad = (int)$selected_plan->typical_ads;
@@ -121,6 +125,42 @@ class PlanController extends Controller
                 $premium_ad = (int)$selected_plan->premium_ads;
                 $start_date = now();
                 $end_date = Carbon::now()->addDays($selected_plan->duration_in_days);
+
+                $plan = Plan::with(['promotion' => function ($query) {
+                    $query->where('status', 1)
+                            ->where('promo_start', '<=', Carbon::now())
+                        ->where('promo_end', '>=', Carbon::now());
+                    }])
+                    ->with(['promotion2' => function ($query) {
+                        $query->where('status', 1)
+                            ->where('promo_start', '<=', Carbon::now())
+                        ->where('promo_end', '>=', Carbon::now());
+                    }])
+                    ->where('id', $plan_id)
+                ->first();
+
+                if ( $plan->promotion ) {
+                    $promo1 = (float)$plan->promotion->percentage;
+                }
+
+                if ( $plan->promotion2 ) {
+                    $promo2 = (float)$plan->promotion2->percentage;
+                }
+
+                if ( $promo1 && $promo2 ) {
+                    $precio_descuento = $plan->price
+                        * (1 - $promo1 / 100)
+                        * (1 - $promo2 / 100);
+                } else if ( $promo1 && !$promo2 ) {
+                    $precio_descuento = $plan->price
+                        * (1 - $promo1 / 100);
+                } else if ( !$promo1 && $promo2 ) {
+                    $precio_descuento = $plan->price
+                        * (1 - $promo2 / 100);
+                } else {
+                    $precio_descuento = $plan->price;
+                }
+
             } else {
                 $selected_plan_user = PlanUser::find($plan_user_id);
                 $plan_id = (int)$selected_plan_user->plan_id;
@@ -185,6 +225,14 @@ class PlanController extends Controller
                 'top_ads_remaining' => $top_ad,
                 'premium_ads_remaining' => $premium_ad,
             ]);
+
+            if ( $selected_plan ) {
+                $plan_user->update([
+                    'price' => $precio_descuento,
+                    'promo1' => $promo1,
+                    'promo2' => $promo2,
+                ]);
+            }
 
             $aviso = "No se publicó ningun aviso.";
             if ( isset($aviso_id) ) {

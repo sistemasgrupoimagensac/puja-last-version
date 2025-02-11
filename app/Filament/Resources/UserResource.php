@@ -56,6 +56,7 @@ class UserResource extends Resource
                     ->select([
                         'users.id as id',
                         DB::raw('CONCAT(IFNULL(users.nombres, ""), " ", IFNULL(users.apellidos, "")) as cliente'),
+                        "users.created_at as fecha_registro",
                         "users.celular",
                         "users.email",
                         DB::raw('IFNULL(td.documento, "") AS tipo_documento'),
@@ -63,7 +64,6 @@ class UserResource extends Resource
                         DB::raw('IFNULL(users.direccion, "") AS direccion'),
                         DB::raw('IF(users.email_verified_at IS NULL, "NO", "SI") AS puede_publicar'),
                         DB::raw('IF(users.not_pay = 1, "SI", "NO") AS pago_gratis'),
-                        "users.created_at as fecha_registro",
                     ])
                     ->join('tipos_usuario as tu', 'users.tipo_usuario_id', '=', 'tu.id')
                     ->leftJoin('tipos_documento as td', 'users.tipo_documento_id', '=', 'td.id')
@@ -72,6 +72,7 @@ class UserResource extends Resource
             ->columns([
                 TextColumn::make('id')->label('ID')->sortable(),
                 TextColumn::make('cliente')->label('Cliente')->searchable(),
+                TextColumn::make('fecha_registro')->label('Fecha de registro')->dateTime(),
                 TextColumn::make('celular')->label('Celular'),
                 TextColumn::make('email')->label('Correo'),
                 TextColumn::make('tipo_documento')->label('Tipo documento'),
@@ -79,7 +80,6 @@ class UserResource extends Resource
                 TextColumn::make('direccion')->label('Dirección'),
                 TextColumn::make('puede_publicar')->label('Puede publicar'),
                 TextColumn::make('pago_gratis')->label('Pago gratis'),
-                TextColumn::make('fecha_registro')->label('Fecha de registro')->dateTime(),
             ])
             ->filters([
                 //

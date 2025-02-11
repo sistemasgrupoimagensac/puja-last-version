@@ -66,10 +66,13 @@ class InmuebleResource extends Resource
                         "pk.name as Nombre_paquete",
                         "p.name as Nombre_del_plan",
                         "p.price as Monto_del_plan",
+                        "pu.price as monto_pagado",
                         "p.duration_in_days as Duracion_en_dias",
                         "p.total_ads as Total_de_avisos",
-                        DB::raw('IFNULL(CONCAT(pro.percentage, "%"), "-") AS Promo_1'),
-                        DB::raw('IFNULL(CONCAT(pro2.percentage, "%"), "-") AS Promo_2'),
+                        DB::raw('IFNULL(CONCAT(pu.promo1, "%"), "") AS Promo_1'),
+                        DB::raw('IFNULL(CONCAT(pu.promo2, "%"), "") AS Promo_2'),
+                        // DB::raw('IFNULL(CONCAT(pro.percentage, "%"), "") AS Promo_1'),
+                        // DB::raw('IFNULL(CONCAT(pro2.percentage, "%"), "") AS Promo_2'),
                         DB::raw('CONCAT(pu.file_name, "-a4.pdf") as cpe')
                     ])
                     ->join('users as u', 'inmuebles.user_id', '=', 'u.id')
@@ -98,6 +101,7 @@ class InmuebleResource extends Resource
                 TextColumn::make('Nombre_paquete')->label('Paquete'),
                 TextColumn::make('Nombre_del_plan')->label('Plan'),
                 TextColumn::make('Monto_del_plan')->label('Monto')->money('PEN'),
+                TextColumn::make('monto_pagado')->label('Monto Pagado')->money('PEN'),
                 TextColumn::make('Duracion_en_dias')->label('Días de Duración'),
                 TextColumn::make('Total_de_avisos')->label('Total de Avisos'),
                 TextColumn::make('Promo_1')->label('Promoción 1'),

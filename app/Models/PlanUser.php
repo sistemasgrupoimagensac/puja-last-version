@@ -11,20 +11,23 @@ class PlanUser extends Model
     
     protected $table = "plan_user";
     protected $fillable = [
-        'user_id', 
-        'plan_id', 
-        'document_type_id', 
-        'num_receipt_owner', 
-        'name_receipt_owner', 
-        'estado', 
-        'typical_ads_remaining', 
-        'top_ads_remaining', 
-        'premium_ads_remaining', 
-        'start_date', 
-        'end_date', 
-        'physical_proof_number', 
-        'file_name', 
-        'state_et', 
+        'user_id',
+        'plan_id',
+        'price',
+        'promo1',
+        'promo2',
+        'document_type_id',
+        'num_receipt_owner',
+        'name_receipt_owner',
+        'estado',
+        'typical_ads_remaining',
+        'top_ads_remaining',
+        'premium_ads_remaining',
+        'start_date',
+        'end_date',
+        'physical_proof_number',
+        'file_name',
+        'state_et',
         'state_billed'
     ];
 

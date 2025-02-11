@@ -66,8 +66,11 @@ class ReporteInmuebleGeneralResource extends Resource
                         "pk.name as Nombre_paquete",
                         "p.name as Nombre_del_plan",
                         "p.price as Monto_del_plan",
-                        DB::raw('IFNULL(CONCAT(pro.percentage, "%"), "-") AS Promo_1'),
-                        DB::raw('IFNULL(CONCAT(pro2.percentage, "%"), "-") AS Promo_2')
+                        "pu.price as monto_pagado",
+                        DB::raw('IFNULL(CONCAT(pu.promo1, "%"), "") AS Promo_1'),
+                        DB::raw('IFNULL(CONCAT(pu.promo2, "%"), "") AS Promo_2')
+                        // DB::raw('IFNULL(CONCAT(pro.percentage, "%"), "-") AS Promo_1'),
+                        // DB::raw('IFNULL(CONCAT(pro2.percentage, "%"), "-") AS Promo_2')
                     ])
                     ->join('users as u', 'inmuebles.user_id', '=', 'u.id')
                     ->join('avisos as a', 'inmuebles.id', '=', 'a.inmueble_id')
@@ -82,7 +85,7 @@ class ReporteInmuebleGeneralResource extends Resource
                     ->leftJoin('promotions as pro', 'p.promotion_id', '=', 'pro.id')
                     ->leftJoin('promotions as pro2', 'p.promotion2_id', '=', 'pro2.id')
                     ->where('h.created_at', '>', Carbon::parse('2025-01-07 00:00:00'))
-                    ->groupBy('u.id', 'u.nombres', 'u.apellidos', 'u.email', 'tu.tipo', 'pk.name', 'p.name', 'p.price', 'pro.percentage', 'pro2.percentage')
+                    ->groupBy('u.id', 'u.nombres', 'u.apellidos', 'u.email', 'tu.tipo', 'pk.name', 'p.name', 'p.price', 'pu.price', 'pu.promo1', 'pu.promo2' /* 'pro.percentage', 'pro2.percentage' */)
                 ->orderBy(DB::raw('MAX(h.updated_at)'), 'DESC')
             )
             ->columns([
@@ -96,6 +99,7 @@ class ReporteInmuebleGeneralResource extends Resource
                 TextColumn::make('Nombre_paquete')->label('Paquete'),
                 TextColumn::make('Nombre_del_plan')->label('Plan'),
                 TextColumn::make('Monto_del_plan')->label('Monto')->money('PEN'),
+                TextColumn::make('monto_pagado')->label('Monto Pagado')->money('PEN'),
                 TextColumn::make('Promo_1')->label('Promoción 1'),
                 TextColumn::make('Promo_2')->label('Promoción 2'),
             ])
