@@ -30,7 +30,7 @@
       <p class="p-0 m-0">Oficina No 41 y 42</p>
       <p class="p-0 m-0">Cuarto Piso, San Isidro</p>
       <p class="p-0 m-0">consulta@pujainmobiliaria.com.pe</p>
-      <p class="p-0 m-0">(01) 408 - 4541</p>
+      <p class="p-0 m-0">(01) 480 - 0197</p>
       <p class="p-0 m-0">+51 912 265 670</p>
     </div>
 

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ConfirmacionPagoAntesDeDebitar;
 use App\Http\Controllers\Api\CustomerCardController;
+use App\Http\Controllers\Api\InmuebleController;
 use App\Http\Controllers\Api\InmueblesController;
 use App\Http\Controllers\Api\MainController;
 use App\Http\Controllers\Api\MisAvisosController;
@@ -31,6 +32,14 @@ use Illuminate\Support\Facades\Route;
 /* Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum'); */
+
+Route::get('/main', MainController::class);
+// Route::get('/complaints-book', [SuppliersController::class, 'ComplaintsBook']);
+
+Route::get('/inmuebles/{operation}', [InmueblesController::class, 'searchImmovables']);
+Route::get('/inmuebles/filter/search', [InmueblesController::class, 'filterSearch']);
+
+Route::get('/inmueble/{inmueble}', InmuebleController::class);
 
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/users', [AuthController::class, 'register']);
@@ -107,8 +116,6 @@ Route::post('/confirmacion_pago_proyecto', [ConfirmacionPagoAntesDeDebitar::clas
 // Route::post('/crear_plan_user_proyectos', [PlanController::class, 'crearPlanUserProyectos']);
 
 
-Route::prefix('/immovables/{operation}')->controller([InmueblesController::class, 'searchImmovables']);
-Route::prefix('/immovables/filter/search')->controller([InmueblesController::class, 'filterSearch']);
 
 Route::get('/operation/subtypes', [MyPostsController::class, 'subtypes']);
 Route::get('/ubication/departments', [MyPostsController::class, 'departments']);
@@ -124,8 +131,8 @@ Route::post('/procesar-contacto-proyecto', [MyPostsController::class, 'procesar_
 
 
 
-Route::get('/main', MainController::class);
-Route::get('/complaints-book', [SuppliersController::class, 'ComplaintsBook']);
+
+
 
 Route::post('/send-information', [ContactoController::class, 'store']);
 Route::post('/send-information/project', [ContactoController::class, 'contacto_lead_proyecto_store']);
