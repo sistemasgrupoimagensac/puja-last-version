@@ -87,6 +87,12 @@ class InmuebleController extends Controller
                 'longitud' => $aviso->inmueble->principal->ubicacion->longitud,
                 'es_exacta' => $aviso->inmueble->principal->ubicacion->es_exacta,
                 'phone' => $aviso->inmueble->user->phone,
+            ];
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Inmueble detalle',
+                'aviso' => $ad,
 
                 'ad_belongs' => $ad_belongs,
                 'publicado' => $publicado,
@@ -94,26 +100,7 @@ class InmuebleController extends Controller
                 'user_not_pay' => $user_not_pay,
                 'plan_id' => $plan_id,
                 'tipo_aviso' => $tipo_aviso,
-            ];
-
-
-            /* $tienePlanes = null;
-            $projectInfo = false;
-            if (Auth::check()) {
-                $user_id = Auth::id();
-                $user = User::find($user_id);
-                $active_plan_users = $user->active_plans()->get();
-                $tienePlanes = $active_plan_users->isNotEmpty();
-                $projectInfo = $user->canPublishProjects(); 
-            } */
-
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Inmueble detalle',
-                'aviso' => $ad,
             ]);
-            // return view('inmueble', compact('aviso', 'ad_belongs', 'publicado', 'tipo_usuario', 'tienePlanes', 'user_not_pay', 'plan_id', 'tipo_aviso', 'projectInfo'));
-            
 
         } catch (\Throwable $th) {
             

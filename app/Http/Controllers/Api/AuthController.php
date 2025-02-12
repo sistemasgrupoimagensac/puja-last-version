@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ProyectoCliente;
 use App\Models\ProyectoCronogramaPago;
 use App\Models\TipoDocumento;
+use App\Models\TipoUsuario;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -54,18 +55,17 @@ class AuthController extends Controller
 
     public function show(Request $request, $id)
     {
-        if ( !is_numeric($id) || intval($id) <= 0 ) {
-            return response()->json([
-                'message' => 'Invalid user ID',
-                'status' => 'error',
-            ], 422);
-        }
+        $request->merge(['id' => $id]);
+        $request->validate([
+            'id' => 'required|integer|min:1',
+        ]);
 
         $user = User::findOrFail($request->user_id);
         $document_types = TipoDocumento::where('estado', 1)->get();
         $hasPlans = false;
         $projectInfo = false;
         
+        $active_plan_users = $user->active_plans()->get();
         $hasPlans = $user->active_plans()->exists();
         $projectInfo = $user->canPublishProjects(); 
         
@@ -74,8 +74,48 @@ class AuthController extends Controller
             'status' => 'success',
             'document_types' => $document_types,
             'user' => $user,
+            'active_plan_users' => $active_plan_users,
             'hasPlans' => $hasPlans,
             'projectInfo' => $projectInfo,
+        ]);
+    }
+
+    public function userTypes(Request $request)
+    {
+        $user_types = TipoUsuario::where('id', '>', 1)->where('id', '<', 5)->get();
+        return response()->json([
+            'message' => 'Tipos de usuario.',
+            'status' => 'success',
+            'user_types' => $user_types,
+        ]);
+    }
+
+    public function sign_in(Request $request)
+    {
+        $profile_type = $request->input('profile_type', 2);
+        switch ( $profile_type ) {
+            case '2':
+                $imagen_path = "/images/bg5.webp";
+                break;
+            case '3':
+                $imagen_path = "/images/sigin_corredor.webp";
+                break;
+            case '4':
+                $imagen_path = "/images/signin5.webp";
+                break;
+            default:
+                return response()->json([
+                    'message' => 'Tipo de perfil no valido.',
+                    'status' => 'error',
+                ]);
+                break;
+        }
+
+        return response()->json([
+            'message' => 'Iniciar sesion e imagen dedicada.',
+            'status' => 'success',
+            'profile_type' => $profile_type,
+            'imagen_path' => asset($imagen_path),
         ]);
     }
 
@@ -227,7 +267,7 @@ class AuthController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Datos de usuario actulizados.',
+            'message' => 'Datos de usuario actualizados.',
             'status' => "success",
             'user' => $user,
         ]);
@@ -260,14 +300,9 @@ class AuthController extends Controller
     public function updatePassword(Request $request, $id)
     {
         
-        if ( !is_numeric($id) || intval($id) <= 0 ) {
-            return response()->json([
-                'message' => 'Invalid user ID',
-                'status' => 'error',
-            ], 422);
-        }
-
+        $request->merge(['id' => $id]);
         $request->validate([
+            'id' => 'required|integer|min:1',
             'current_password' => 'required|string',
             'password' => 'required|string|min:6|max:20|confirmed',
         ]);
@@ -278,7 +313,6 @@ class AuthController extends Controller
                 'message' => 'La contraseña actual no es correcta.',
                 'status' => "error",
             ]);
-            return back()->withErrors(['current_password' => 'La contraseña actual no es correcta.']);
         }
     
         $user->password = Hash::make($request->password);
@@ -289,5 +323,7 @@ class AuthController extends Controller
             'status' => "success",
         ]);
     }
+
+    
 
 }

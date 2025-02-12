@@ -3,18 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-
-class ProyectoImagenUnidadController extends Controller
-{
-    <?php
-
-namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-use App\Models\ProyectoUnidades;
 use App\Models\ProyectoImagenesUnidades;
-use Illuminate\Support\Facades\App;
+use App\Models\ProyectoUnidades;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 

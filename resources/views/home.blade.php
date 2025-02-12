@@ -64,21 +64,20 @@
                 <h1 class="main-home-titular text-white fw-bold mb-4 text-center">
                     Consigue tu Próximo Inmueble
                 </h1>
-
-                <div class="d-flex justify-content-center mb-3">
-                    <div class="btn-group" role="group" aria-label="Tipo de transacción">
-                        <input type="radio" class="btn-check" name="transaccion" id="venta" autocomplete="off" value="1" checked>
-                        <label class="btn p-2 px-3 mb-2 btn-light fs-5 text-body-secondary" for="venta">Comprar</label>
-                        
-                        <input type="radio" class="btn-check" name="transaccion" id="alquiler" autocomplete="off" value="2">
-                        <label class="btn p-2 px-3 mb-2 btn-light fs-5 text-body-secondary" for="alquiler">Alquilar</label>
-                
-                        <input type="radio" class="btn-check" name="transaccion" id="alquiler_temporal" autocomplete="off" value="3">
-                        <label class="btn p-2 px-3 mb-2 btn-light fs-5 text-body-secondary" for="alquiler_temporal">Remates</label>
+                <form action="{{ route('filter_search') }}" class="d-flex flex-column justify-content-center align-items-center px-2">
+                    <div class="d-flex justify-content-center mb-3">
+                        <div class="btn-group" role="group" aria-label="Tipo de transacción">
+                            <input type="radio" class="btn-check" name="transaccion" id="venta" autocomplete="off" value="1" checked>
+                            <label class="btn p-2 px-3 mb-2 btn-light fs-5 text-body-secondary" for="venta">Comprar</label>
+                            
+                            <input type="radio" class="btn-check" name="transaccion" id="alquiler" autocomplete="off" value="2">
+                            <label class="btn p-2 px-3 mb-2 btn-light fs-5 text-body-secondary" for="alquiler">Alquilar</label>
+                    
+                            <input type="radio" class="btn-check" name="transaccion" id="alquiler_temporal" autocomplete="off" value="3">
+                            <label class="btn p-2 px-3 mb-2 btn-light fs-5 text-body-secondary" for="alquiler_temporal">Remates</label>
+                        </div>
                     </div>
-                </div>
         
-                <form action="{{ route('filter_search') }}" class="d-flex justify-content-center px-2">
                     <div class="input-group input-group-lg" style="max-width: 600px;">
         
                         
@@ -91,7 +90,7 @@
                         <input
                             type="text"
                             class="form-control"
-                            placeholder="Ciudad, provinicia o distrito"
+                            placeholder="Ciudad, provincia o distrito"
                             aria-label="direccion"
                             aria-describedby="direccion"
                             name="direccion"

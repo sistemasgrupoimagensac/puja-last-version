@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\AvisoLikeController;
 use App\Http\Controllers\Api\ConfirmacionPagoAntesDeDebitar;
 use App\Http\Controllers\Api\CustomerCardController;
 use App\Http\Controllers\Api\InmuebleController;
@@ -34,6 +35,7 @@ use Illuminate\Support\Facades\Route;
 })->middleware('auth:sanctum'); */
 
 Route::get('/main', MainController::class);
+Route::get('/tipos-inmuebles', [MainController::class, 'tiposInmuebles']);
 // Route::get('/complaints-book', [SuppliersController::class, 'ComplaintsBook']);
 
 Route::get('/inmuebles/{operation}', [InmueblesController::class, 'searchImmovables']);
@@ -41,16 +43,41 @@ Route::get('/inmuebles/filter/search', [InmueblesController::class, 'filterSearc
 
 Route::get('/inmueble/{inmueble}', InmuebleController::class);
 
+/* Route::middleware('auth')->group(function () {
+    Route::get('/email/verify', [EmailVerificationController::class, 'notice'])
+        ->name('verification.notice');
+    Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])
+        ->middleware('signed')->name('verification.verify');
+    Route::post('/email/verification-notification', [EmailVerificationController::class, 'send'])
+        ->middleware('throttle:6,1')->name('verification.send');
+}); */
+
+/* Route::get('/google-auth/redirect', [SuppliersController::class, 'selectAccountGoogle']);
+Route::get('/google-auth/callback', [SuppliersController::class, 'createLoginGoogle']); */
+
+/* Route::middleware(['guest'])->group(function() {
+    Route::get('/recuperar-contrasena', [LoginController::class, 'forgot_password'])->name('auth.forgot-password.index');
+    Route::post('/recuperar-contrasena', [LoginController::class, 'send_password'])->name('auth.forgot-password.send');
+    Route::get('/reset-password/{token}', [LoginController::class, 'recovery_password'])->name('password.reset');
+    Route::post('/reset-password', [LoginController::class, 'update_password'])->name('auth.password.reset.update');
+}); */
+
+Route::get('/login', [AuthController::class, 'sign_in']);
+Route::get('/users/types', [AuthController::class, 'userTypes']);
+
+
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/users', [AuthController::class, 'register']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
-    Route::post('/auth/password-reset', [AuthController::class, 'sendPasswordResetLink']);
+    Route::post('/recuperar-contrasena', [AuthController::class, 'sendPasswordResetLink']);
 
     Route::patch('/users/{id}', [AuthController::class, 'update']);
     Route::patch('/users/{id}/update-password', [AuthController::class, 'updatePassword']);
     Route::get('/users/{id}', [AuthController::class, 'show']);
+    
+    Route::post('/avisos/{aviso}/like', [AvisoLikeController::class, 'toggleLike']);
     
     Route::post('/users/{id}/ads', [MisAvisosController::class, 'getUserAds']);
     Route::get('/users/{id}/plans', [PlanController::class, 'getUserPlans']);
