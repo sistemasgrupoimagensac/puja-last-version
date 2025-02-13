@@ -60,8 +60,7 @@ class AuthController extends Controller
             'id' => 'required|integer|min:1',
         ]);
 
-        $user = User::findOrFail($request->user_id);
-        $document_types = TipoDocumento::where('estado', 1)->get();
+        $user = User::findOrFail($id);
         $hasPlans = false;
         $projectInfo = false;
         
@@ -72,7 +71,6 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Perfil de usuario.',
             'status' => 'success',
-            'document_types' => $document_types,
             'user' => $user,
             'active_plan_users' => $active_plan_users,
             'hasPlans' => $hasPlans,
@@ -80,13 +78,23 @@ class AuthController extends Controller
         ]);
     }
 
-    public function userTypes(Request $request)
+    public function userTypes()
     {
         $user_types = TipoUsuario::where('id', '>', 1)->where('id', '<', 5)->get();
         return response()->json([
             'message' => 'Tipos de usuario.',
             'status' => 'success',
             'user_types' => $user_types,
+        ]);
+    }
+
+    public function tiposDocuemntosIDentidad()
+    {
+        $document_types = TipoDocumento::where('estado', 1)->get();
+        return response()->json([
+            'message' => 'Tipos de usuario.',
+            'status' => 'success',
+            'user_types' => $document_types,
         ]);
     }
 
@@ -247,7 +255,9 @@ class AuthController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->merge(['id' => $id]);
         $request->validate([
+            'id' => 'required|integer|min:1',
             'name' => 'required|string|max:250',
             'lastname' => 'required|string|max:255',
             'document_type' => 'required|integer|in:1,2,3',
@@ -299,7 +309,6 @@ class AuthController extends Controller
 
     public function updatePassword(Request $request, $id)
     {
-        
         $request->merge(['id' => $id]);
         $request->validate([
             'id' => 'required|integer|min:1',

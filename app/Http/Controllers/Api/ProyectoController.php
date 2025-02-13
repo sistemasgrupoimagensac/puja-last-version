@@ -32,7 +32,7 @@ class ProyectoController extends Controller
         ]);
     }
     
-    public function project_progress()
+    public function progress()
     {
         $progress = ProyectoProgreso::all();
 
@@ -53,8 +53,8 @@ class ProyectoController extends Controller
 
         $units_imgs = ProyectoImagenesUnidades::where('proyecto_id', $id)
             ->where('estado', 1)
-            ->groupBy('proyecto_unidades_id')
-        ->get();
+            ->get()
+        ->groupBy('proyecto_unidades_id');
 
         return response()->json([
             'status' => 'success',

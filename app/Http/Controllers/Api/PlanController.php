@@ -281,13 +281,18 @@ class PlanController extends Controller
         $openpay_sk = env('OPENPAY_SK');
 
         $request->validate([
+            'source_id' => 'required|string',
+            'method' => 'required|string',
             'amount' => 'required|decimal:2',
-            'plan_id' => 'nullable|integer',
-            'currency' => 'nullable|string',
-            'customer_name' => 'nullable|string',
-            'customer_email' => 'nullable|string',
-            'customer_phone_number' => 'nullable|string',
-            'description' => 'nullable|string',
+            'plan_id' => 'integer',
+            'currency' => 'required|string',
+            'description' => 'string',
+            'device_session_id' => 'string',
+            'customer' => 'required|array',
+            'customer.name' => 'required|string|min:1',
+            'customer.last_name' => 'string',
+            'customer.phone_number' => 'string',
+            'customer.email' => 'email',
         ]);
 
         $urlAPI = $base_url . $openpay_id . '/charges';
@@ -303,13 +308,8 @@ class PlanController extends Controller
         return response()->json($response->json());
     }
 
-
-
-
-
     public function mostrarPagoProyecto(Request $request)
     {
-
         $request->validate([
             'proyectoClienteId' => 'required|integer',
             'proyectoPlanActivoId' => 'required|integer',

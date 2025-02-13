@@ -459,7 +459,7 @@ class MyPostsController extends Controller
         $aviso->historial->first()->pivot->save();
 
         return response()->json([
-            'message' => 'Aviso pagado.',
+            'message' => 'Aviso vendido.',
             'status' => 'success',
         ]);
     }

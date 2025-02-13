@@ -66,14 +66,14 @@ Route::get('/google-auth/callback', [SuppliersController::class, 'createLoginGoo
 
 Route::get('/login-image-type', [AuthController::class, 'sign_in']);
 Route::get('/users/types', [AuthController::class, 'userTypes']);
-
+Route::get('/tipos-documento-identidad', [AuthController::class, 'tiposDocuemntosIDentidad']);
 
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/users', [AuthController::class, 'register']);
+Route::post('/recuperar-contrasena', [AuthController::class, 'sendPasswordResetLink']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
-    Route::post('/recuperar-contrasena', [AuthController::class, 'sendPasswordResetLink']);
 
     Route::patch('/users/{id}', [AuthController::class, 'update']);
     Route::patch('/users/{id}/update-password', [AuthController::class, 'updatePassword']);
@@ -81,9 +81,9 @@ Route::middleware('auth:sanctum')->group(function () {
     
     Route::post('/avisos/{aviso}/like', [AvisoLikeController::class, 'toggleLike']);
     
-    Route::post('/users/{id}/ads', [MisAvisosController::class, 'getUserAds']);
+    Route::get('/users/{id}/ads', [MisAvisosController::class, 'getUserAds']);
     Route::get('/users/{id}/plans', [PlanController::class, 'getUserPlans']);
-    Route::post('/plans/subscribe', [PlanController::class, 'hirePlanAd']);
+    Route::post('/plans/subscribe', [PlanController::class, 'hirePlanAd']); // Falta probar
     
     Route::post('/ads', [MyPostsController::class, 'store']);
     Route::put('/ads/description', [MyPostsController::class, 'updateAdDescription']);
@@ -93,29 +93,28 @@ Route::middleware('auth:sanctum')->group(function () {
     
     Route::post('/cpe/{plan_user_id}', [BillingController::class, 'generarFactura'])->middleware(SessionData::class); // Mismo metodo
 
-    Route::post('/openpay', [PlanController::class, 'pay']);
     Route::post('/openpay/data', [PlanController::class, 'getOpenpayData']);
-    Route::post('/openpay/save-transaction', [TransactionsController::class, 'store']);
+    Route::post('/openpay', [PlanController::class, 'pay']); // Falta probar
+    Route::post('/openpay/save-transaction', [TransactionsController::class, 'store']); // Falta probar
 
-    
     Route::post('/consult-document', [DocumentoController::class, 'consultar_dni_ruc']);
-
     
-    Route::post('/users/{user}/projects', [ProyectoController::class, 'store']);
-    Route::post('/save-paid-project-status', [ProyectoController::class, 'savePaidProjectStatus']);
+    Route::post('/users/{user}/projects', [ProyectoController::class, 'store']);  // Falta probar
+    Route::post('/save-paid-project-status', [ProyectoController::class, 'savePaidProjectStatus']); // Falta probar
 
-    Route::post('/unidades/{unidadId}/imagenes', [ProyectoImagenUnidadController::class, 'store']);
-    Route::delete('/unidades/imagenes/{imagenId}', [ProyectoImagenUnidadController::class, 'destroy']);
+    Route::post('/unidades/{unidadId}/imagenes', [ProyectoImagenUnidadController::class, 'store']); // Falta probar
+    Route::delete('/unidades/imagenes/{imagenId}', [ProyectoImagenUnidadController::class, 'destroy']); // Falta probar
     
     
-    Route::get('/panel-proyecto/proyectos-contratados', ProyectosContratadosController::class)->name('proyectos-contratados');
-    Route::post('/contactar-plan-proyecto', [ProyectosContratadosController::class, 'contactarPlanProyecto']);
-    Route::post('/panel-proyecto/interesados/update-status', [ProyectoInteresadosController::class, 'updateStatus']);
+    Route::get('/panel-proyecto/proyectos-contratados', ProyectosContratadosController::class)->name('proyectos-contratados'); // Falta probar
+    Route::post('/contactar-plan-proyecto', [ProyectosContratadosController::class, 'contactarPlanProyecto']); // Falta probar
+    Route::post('/panel-proyecto/interesados/update-status', [ProyectoInteresadosController::class, 'updateStatus']); // Falta probar
 
-    Route::get('/contratos/{archivo}', [PDFController::class, 'getPDF'])->name('contratos.get');
-    Route::post('/planes/renovacion/toggle', [RenovacionController::class, 'toggleRenovacion']);
+    Route::get('/contratos/{archivo}', [PDFController::class, 'getPDF'])->name('contratos.get'); // Falta probar
+    Route::post('/planes/renovacion/toggle', [RenovacionController::class, 'toggleRenovacion']); // Falta probar
 
 });
+
 Route::get('/project/banks', [ProyectoController::class, 'banks']);
 Route::get('/project/progress', [ProyectoController::class, 'progress']);
 Route::get('/project/{id}', [ProyectoController::class, 'show']);
@@ -125,49 +124,48 @@ Route::get('/proyectos/{filtro}', [ProyectosController::class, 'filtrarProyectos
 
 Route::get('unidades/{unidadId}/imagenes', [ProyectoImagenUnidadController::class, 'index']);
 
-Route::get('panel-proyecto', [ProyectoImagenUnidadController::class, 'index']);
 Route::get('panel-proyecto/proyectos', MisProyectosController::class);
 // Route::get('panel-proyecto/perfil', PerfilController::class);
 Route::get('panel-proyecto/interesados', ProyectoInteresadosController::class);
 // Route::get('panel-proyecto/password', PasswordController::class);
 
 Route::get('/proyecto-pago', [PlanController::class, 'mostrarPagoProyecto']);
-Route::post('/crear_cliente', [PlanController::class, 'crearCliente']);
-Route::post('/asociar_tarjeta', [PlanController::class, 'asociarTarjeta']);
+Route::post('/crear-cliente', [PlanController::class, 'crearCliente']);
+Route::post('/asociar-tarjeta', [PlanController::class, 'asociarTarjeta']); // Falta probar
 
 // Route::post('/save-subscription-status', [PlanController::class, 'saveSubscriptionStatus']);
-Route::post('/guardar_tarjeta', [CustomerCardController::class, 'store']);
-Route::post('/suscribir_plan', [UserProjectSubscriptionController::class, 'suscribirPlan']);
-Route::post('/realizar_debito', [PlanController::class, 'realizarDebito']);
+Route::post('/guardar_tarjeta', [CustomerCardController::class, 'store']); // Falta probar
+Route::post('/suscribir_plan', [UserProjectSubscriptionController::class, 'suscribirPlan']); // Falta probar
+Route::post('/realizar_debito', [PlanController::class, 'realizarDebito']); // Falta probar
 
 // Route::get('/planes/renovacion/{plan_id}', [PlanController::class, 'showRenovacionPage']);
-Route::post('/confirmacion_pago_proyecto', [ConfirmacionPagoAntesDeDebitar::class, 'check']);
+Route::post('/confirmacion_pago_proyecto', [ConfirmacionPagoAntesDeDebitar::class, 'check']); // Falta probar
 // Route::post('/crear_plan_user_proyectos', [PlanController::class, 'crearPlanUserProyectos']);
 
 
 
-Route::get('/operation/subtypes', [MyPostsController::class, 'subtypes']);
-Route::get('/ubication/departments', [MyPostsController::class, 'departments']);
-Route::get('/ubication/{department_id}/provinces', [MyPostsController::class, 'provinces']);
-Route::get('/ubication/{province_id}/districts', [MyPostsController::class, 'districts']);
+Route::get('/inmuebles-subtipos', [MyPostsController::class, 'subtypes']);
+Route::get('/ubicacion/departamentos', [MyPostsController::class, 'departments']);
+Route::get('/ubicacion/{departamento_id}/provincias', [MyPostsController::class, 'provinces']);
+Route::get('/ubicacion/{provincia_id}/distritos', [MyPostsController::class, 'districts']);
 Route::get('/extras/{category_extra_id}', [MyPostsController::class, 'extras']);
 
 Route::get('/plans', [PlanController::class, 'getPlans']);
 Route::get('/plans/{plan_id}', [PlanController::class, 'getPlan']);
 
-Route::post('/process-contact', [MyPostsController::class, 'processContact']);
-Route::post('/procesar-contacto-proyecto', [MyPostsController::class, 'procesar_contacto_proyecto']);
+Route::post('/process-contact', [MyPostsController::class, 'processContact']); // Falta probar
+Route::post('/procesar-contacto-proyecto', [MyPostsController::class, 'procesar_contacto_proyecto']); // Falta probar
 
 
 
 
 
 
-Route::post('/send-information', [ContactoController::class, 'store']);
-Route::post('/send-information/project', [ContactoController::class, 'contacto_lead_proyecto_store']);
+Route::post('/send-information', [ContactoController::class, 'store']); // Falta probar
+Route::post('/send-information/project', [ContactoController::class, 'contacto_lead_proyecto_store']); // Falta probar
 
-Route::get('/blogs',[SuppliersController::class, 'indexBlog']);
-Route::get('/blogs/{slug}',[SuppliersController::class, 'showBlog']);
+Route::get('/blogs',[SuppliersController::class, 'indexBlog']); // Falta probar
+Route::get('/blogs/{slug}',[SuppliersController::class, 'showBlog']); // Falta probar
 
 
 

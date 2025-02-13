@@ -23,6 +23,7 @@ class MisProyectosController extends Controller
             ->orderBy('id', 'desc')
         ->get();
     
+        // Esto falta saber cual es su necesidad
         foreach ( $proyectos as $proyecto ) {
             $proyecto->selected_image = $proyecto->imagenesAdicionales
                 ->filter(fn($imagen) => $imagen->tipo === '1')
@@ -33,20 +34,8 @@ class MisProyectosController extends Controller
 
         return response()->json([
             'message' => 'Proyectos devueltos.',
-            'status' => 'success'
+            'status' => 'success',
+            'proyectos' => $proyectos,
         ]);
-    
-        /* $tienePlanes = false;
-        $projectInfo = false;
-        if (Auth::check()) {
-            $user_id = Auth::id();
-            $user = User::find($user_id);
-            $tipo_usuario = $user->tipo_usuario_id;
-            $active_plan_users = $user->active_plans()->get();
-            $tienePlanes = $active_plan_users->isNotEmpty();
-            $projectInfo = $user->canPublishProjects(); s
-        }
-    
-        return view('panel.mis-proyectos', compact('proyectos', 'tienePlanes', 'projectInfo')); */
     }
 }
