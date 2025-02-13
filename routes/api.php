@@ -38,8 +38,10 @@ Route::get('/main', MainController::class);
 Route::get('/tipos-inmuebles', [MainController::class, 'tiposInmuebles']);
 // Route::get('/complaints-book', [SuppliersController::class, 'ComplaintsBook']);
 
-Route::get('/inmuebles/{operation}', [InmueblesController::class, 'searchImmovables']);
 Route::get('/inmuebles/filter/search', [InmueblesController::class, 'filterSearch']);
+Route::get('/inmuebles/{operation}', [InmueblesController::class, 'searchImmovables']);
+Route::get('/caracteristicas', [InmueblesController::class, 'getCaracteristicas']);
+Route::get('/comodidades', [InmueblesController::class, 'getComodidades']);
 
 Route::get('/inmueble/{inmueble}', InmuebleController::class);
 
@@ -62,7 +64,7 @@ Route::get('/google-auth/callback', [SuppliersController::class, 'createLoginGoo
     Route::post('/reset-password', [LoginController::class, 'update_password'])->name('auth.password.reset.update');
 }); */
 
-Route::get('/login', [AuthController::class, 'sign_in']);
+Route::get('/login-image-type', [AuthController::class, 'sign_in']);
 Route::get('/users/types', [AuthController::class, 'userTypes']);
 
 

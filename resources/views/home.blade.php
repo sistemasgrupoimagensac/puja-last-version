@@ -79,8 +79,6 @@
                     </div>
         
                     <div class="input-group input-group-lg" style="max-width: 600px;">
-        
-                        
                         <select class="form-select rounded-start" aria-label="Tipo de Propiedad" name="categoria" style="width: 120px; min-width:100px; flex: 0 0 auto;">
                             @foreach($tipos_inmuebles as $tipo)
                             <option value="{{ $tipo->id }}" @if($loop->first) selected @endif>{{ $tipo->tipo }}</option>

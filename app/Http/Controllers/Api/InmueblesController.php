@@ -67,27 +67,22 @@ class InmueblesController extends Controller
         
             return $avisoArray;
         });
-
-        $caracteristicas = Caracteristica::where('categoria_caracteristica_id', 1)->get();
-        $comodidades = Caracteristica::where('categoria_caracteristica_id', 2)->get();
         
         return response()->json([
-            'message' => 'Búsqueda.',
+            'message' => 'Filtros.',
             'status' => 'success',
             'avisos' => $ads,
             'url_parse' => $url_parse,
             'tipos_inmuebles' => $tipos_inmuebles,
-            'caracteristicas' => $caracteristicas,
-            'comodidades' => $comodidades,
         ]);
     }
 
     public function filterSearch(Request $request)
     {
         $request->validate([
-            'category' => 'required',
-            'transaction' => 'required',
-            'address' => 'string',
+            'categoria' => 'required',
+            'transaccion' => 'required',
+            'direccion' => 'string',
         ]);
 
         $url_string = (new ParsearUrl($this->tipo_inmueble_repository, $this->tipo_operacion_repository))->makeUrl(tipo_inmueble: $request->categoria, tipo_operacion: $request->transaccion, direccion: $request->direccion);
@@ -96,6 +91,28 @@ class InmueblesController extends Controller
             'message' => 'Búsqueda filtrada.',
             'status' => 'success',
             'operation' => $url_string,
+        ]);
+    }
+
+    public function getCaracteristicas(Request $request)
+    {
+        $caracteristicas = Caracteristica::where('categoria_caracteristica_id', 1)->get();
+
+        return response()->json([
+            'message' => 'Características.',
+            'status' => 'success',
+            'caracteristicas' => $caracteristicas,
+        ]);
+    }
+
+    public function getComodidades(Request $request)
+    {
+        $comodidades = Caracteristica::where('categoria_caracteristica_id', 2)->get();
+
+        return response()->json([
+            'message' => 'Comodidades.',
+            'status' => 'success',
+            'comodidades' => $comodidades,
         ]);
     }
 }
