@@ -16,6 +16,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\DB;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class ReporteInmuebleGeneralResource extends Resource
 {
@@ -89,7 +90,7 @@ class ReporteInmuebleGeneralResource extends Resource
                 ->orderBy(DB::raw('MAX(h.updated_at)'), 'DESC')
             )
             ->columns([
-                TextColumn::make('row_number')->label('N°')->rowIndex(),
+                // TextColumn::make('row_number')->label('N°')->rowIndex(),
                 TextColumn::make('id')->label('ID usuario')->sortable(),
                 TextColumn::make('Cliente')->label('Cliente')->searchable(),
                 // TextColumn::make('email')->label('Correo'),
@@ -107,6 +108,9 @@ class ReporteInmuebleGeneralResource extends Resource
                 Tables\Filters\SelectFilter::make('user_id')
                     ->label('Filtrar por Cliente')
                 ->relationship('user', 'nombres'),
+            ])
+            ->bulkActions([
+                ExportBulkAction::make()
             ])
         ->paginated();
 
