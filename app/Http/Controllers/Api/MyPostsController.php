@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Mail\SendDataMail;
+use App\Mail\SendProjectMail;
 use App\Models\AdContact;
 use App\Models\Aviso;
 use App\Models\Caracteristica;
@@ -27,6 +28,8 @@ use App\Models\SubTipoInmueble;
 use App\Models\TipoInmueble;
 use App\Models\UbicacionInmueble;
 use App\Models\VideoInmueble;
+use Google\Client;
+use Google\Service\Sheets;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -645,6 +648,45 @@ class MyPostsController extends Controller
             'message' => 'Registro para contactar, correcto.',
             'ad_contact_id' => $proyecto_contact->id,
         ], 200);
+    }
+
+    protected function sendToGoogleSheet($sheetUrl, array $data)
+    {
+        // Configurar cliente de Google Sheets
+        $client = new Client();
+        $client->setApplicationName('Your App Name');
+        $client->setScopes([Sheets::SPREADSHEETS]);
+        $client->setAuthConfig([
+            "type" => env('GOOGLE_TYPE'),
+            "project_id" => env('GOOGLE_PROJECT_ID'),
+            "private_key_id" => env('GOOGLE_PRIVATE_KEY_ID'),
+            "private_key" => env('GOOGLE_PRIVATE_KEY'),
+            "client_email" => env('GOOGLE_CLIENT_EMAIL'),
+            "client_id" => env('GOOGLE_CLIENT_ID_SHEET'),
+            "auth_uri" => env('GOOGLE_AUTH_URI'),
+            "token_uri" => env('GOOGLE_TOKEN_URI'),
+            "auth_provider_x509_cert_url" => env('GOOGLE_AUTH_PROVIDER_X509_CERT_URL'),
+            "client_x509_cert_url" => env('GOOGLE_CLIENT_X509_CERT_URL'),
+        ]);
+
+        $service = new Sheets($client);
+
+        // Extraer el ID de la hoja de la URL
+        preg_match('/spreadsheets\/d\/([a-zA-Z0-9-_]+)/', $sheetUrl, $matches);
+        $spreadsheetId = $matches[1] ?? null;
+
+        if ($spreadsheetId) {
+            // Obtener las hojas del archivo
+            $spreadsheet = $service->spreadsheets->get($spreadsheetId);
+            $sheetName = $spreadsheet->getSheets()[0]->getProperties()->getTitle(); // Usa la primera hoja
+    
+            $range = $sheetName . '!A1';
+            $body = new Sheets\ValueRange([
+                'values' => [$data]
+            ]);
+            $params = ['valueInputOption' => 'RAW'];
+            $service->spreadsheets_values->append($spreadsheetId, $range, $body, $params);
+        }
     }
 
 
