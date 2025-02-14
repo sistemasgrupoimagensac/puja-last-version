@@ -695,7 +695,7 @@ class MyPostsController extends Controller
     {
         $extras = Caracteristica::where('categoria_caracteristica_id', $categoryExtraId)->where('estado', 1)->get();
         return response()->json([
-            'message' => 'Listado de distritos según provincia.',
+            'message' => 'Listado de caracteristicas.',
             'status' => 'success',
             'extras' => $extras,
         ]);
