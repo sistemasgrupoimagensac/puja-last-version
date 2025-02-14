@@ -3,21 +3,15 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\InmuebleResource\Pages;
-use App\Filament\Resources\InmuebleResource\RelationManagers;
 use App\Models\Inmueble;
 use Carbon\Carbon;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\DB;
-use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
 
 class InmuebleResource extends Resource
 {
@@ -72,8 +66,6 @@ class InmuebleResource extends Resource
                         "p.total_ads as Total_de_avisos",
                         DB::raw('IFNULL(CONCAT(pu.promo1, "%"), "") AS Promo_1'),
                         DB::raw('IFNULL(CONCAT(pu.promo2, "%"), "") AS Promo_2'),
-                        // DB::raw('IFNULL(CONCAT(pro.percentage, "%"), "") AS Promo_1'),
-                        // DB::raw('IFNULL(CONCAT(pro2.percentage, "%"), "") AS Promo_2'),
                         DB::raw('CONCAT(pu.file_name, "-a4.pdf") as cpe')
                     ])
                     ->join('users as u', 'inmuebles.user_id', '=', 'u.id')
@@ -120,8 +112,8 @@ class InmuebleResource extends Resource
                     ->label('Filtrar por Cliente')
                 ->relationship('user', 'nombres'),
             ])
-            ->bulkActions([
-                ExportBulkAction::make()
+            ->headerActions([
+                ExportAction::make()->label('Exportar Todo')
             ])
         ->paginated();
             

@@ -3,20 +3,15 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ReporteInmuebleGeneralResource\Pages;
-use App\Filament\Resources\ReporteInmuebleGeneralResource\RelationManagers;
 use App\Models\Inmueble;
-use App\Models\ReporteInmuebleGeneral;
 use Carbon\Carbon;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\DB;
-use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
 
 class ReporteInmuebleGeneralResource extends Resource
 {
@@ -63,15 +58,12 @@ class ReporteInmuebleGeneralResource extends Resource
                         "u.email",
                         DB::raw('COUNT(a.id) as Cant_publicaciones'),
                         DB::raw('MAX(h.updated_at) as Ultima_publicacion'),
-                        // "tu.tipo as Tipo_usuario",
                         "pk.name as Nombre_paquete",
                         "p.name as Nombre_del_plan",
                         "p.price as Monto_del_plan",
                         "pu.price as monto_pagado",
                         DB::raw('IFNULL(CONCAT(pu.promo1, "%"), "") AS Promo_1'),
                         DB::raw('IFNULL(CONCAT(pu.promo2, "%"), "") AS Promo_2')
-                        // DB::raw('IFNULL(CONCAT(pro.percentage, "%"), "-") AS Promo_1'),
-                        // DB::raw('IFNULL(CONCAT(pro2.percentage, "%"), "-") AS Promo_2')
                     ])
                     ->join('users as u', 'inmuebles.user_id', '=', 'u.id')
                     ->join('avisos as a', 'inmuebles.id', '=', 'a.inmueble_id')
@@ -93,10 +85,8 @@ class ReporteInmuebleGeneralResource extends Resource
                 // TextColumn::make('row_number')->label('N°')->rowIndex(),
                 TextColumn::make('id')->label('ID usuario')->sortable(),
                 TextColumn::make('Cliente')->label('Cliente')->searchable(),
-                // TextColumn::make('email')->label('Correo'),
                 TextColumn::make('Cant_publicaciones')->label('Cant. publicaciones'),
                 TextColumn::make('Ultima_publicacion')->label('Última publicación')->dateTime(),
-                // TextColumn::make('Tipo_usuario')->label('Tipo Usuario'),
                 TextColumn::make('Nombre_paquete')->label('Paquete'),
                 TextColumn::make('Nombre_del_plan')->label('Plan'),
                 TextColumn::make('Monto_del_plan')->label('Monto')->money('PEN'),
@@ -109,8 +99,8 @@ class ReporteInmuebleGeneralResource extends Resource
                     ->label('Filtrar por Cliente')
                 ->relationship('user', 'nombres'),
             ])
-            ->bulkActions([
-                ExportBulkAction::make()
+            ->headerActions([
+                ExportAction::make()->label('Exportar Todo')
             ])
         ->paginated();
 
