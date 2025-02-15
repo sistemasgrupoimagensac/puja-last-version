@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AvisoLikeController;
 use App\Http\Controllers\Api\ConfirmacionPagoAntesDeDebitar;
 use App\Http\Controllers\Api\CustomerCardController;
+use App\Http\Controllers\Api\EmailVerificationController;
 use App\Http\Controllers\Api\InmuebleController;
 use App\Http\Controllers\Api\InmueblesController;
 use App\Http\Controllers\Api\MainController;
@@ -78,6 +79,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/users/{id}', [AuthController::class, 'update']);
     Route::patch('/users/{id}/update-password', [AuthController::class, 'updatePassword']);
     Route::get('/users/{id}', [AuthController::class, 'show']);
+
+    Route::post('/email/verification-notification', [EmailVerificationController::class, 'send']);
     
     Route::post('/avisos/{aviso}/like', [AvisoLikeController::class, 'toggleLike']);
     
