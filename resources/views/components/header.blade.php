@@ -93,11 +93,11 @@
 
                                     <div class="d-flex flex-column">
                                         <h5 class="text-dark h6 fw-bold">Dormitorios</h5>
-                                        <a class="text-decoration-none text-dark mb-1" href="#">3 dormitorios</a>
-                                        <a class="text-decoration-none text-dark mb-1" href="#">2 dormitorios</a>
-                                        <a class="text-decoration-none text-dark mb-1" href="#">1 dormitorio</a>
-                                        <a class="text-decoration-none text-dark mb-1" href="#">4 dormitorios</a>
-                                        <a class="text-decoration-none text-dark mb-1" href="#">5 o más dormitorios</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta')]) }}?dormitorios=3">3 o más dormitorios</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta')]) }}?dormitorios=2">2 o más dormitorios</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta')]) }}?dormitorios=1">1 o más dormitorio</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta')]) }}?dormitorios=4">4 o más dormitorios</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta')]) }}?dormitorios=5">5 o más dormitorios</a>
                                     </div>
 
                                     <div class="d-flex flex-column">
@@ -142,11 +142,11 @@
 
                                     <div class="d-flex flex-column">
                                         <h5 class="text-dark h6 fw-bold">Dormitorios</h5>
-                                        <a class="text-decoration-none text-dark mb-1" href="#">3 dormitorios</a>
-                                        <a class="text-decoration-none text-dark mb-1" href="#">2 dormitorios</a>
-                                        <a class="text-decoration-none text-dark mb-1" href="#">1 dormitorio</a>
-                                        <a class="text-decoration-none text-dark mb-1" href="#">4 dormitorios</a>
-                                        <a class="text-decoration-none text-dark mb-1" href="#">5 o más dormitorios</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler')]) }}?dormitorios=3">3 o más dormitorios</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler')]) }}?dormitorios=2">2 o más dormitorios</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler')]) }}?dormitorios=1">1 o más dormitorio</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler')]) }}?dormitorios=4">4 o más dormitorios</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Alquiler')]) }}?dormitorios=5">5 o más dormitorios</a>
                                     </div>
 
                                     <div class="d-flex flex-column">
@@ -199,11 +199,11 @@
 
                                     <div class="d-flex flex-column">
                                         <h5 class="text-dark h6 fw-bold">Dormitorios</h5>
-                                        <a class="text-decoration-none text-dark mb-1" href="#">3 dormitorios</a>
-                                        <a class="text-decoration-none text-dark mb-1" href="#">2 dormitorios</a>
-                                        <a class="text-decoration-none text-dark mb-1" href="#">1 dormitorio</a>
-                                        <a class="text-decoration-none text-dark mb-1" href="#">4 dormitorios</a>
-                                        <a class="text-decoration-none text-dark mb-1" href="#">5 o más dormitorios</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate')]) }}?dormitorios=3">3 o más dormitorios</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate')]) }}?dormitorios=2">2 o más dormitorios</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate')]) }}?dormitorios=1">1 o más dormitorio</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate')]) }}?dormitorios=4">4 o más dormitorios</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Remate')]) }}?dormitorios=5">5 o más dormitorios</a>
                                     </div>
                                 </div>
                             </div>

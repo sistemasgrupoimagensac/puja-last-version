@@ -86,9 +86,9 @@
                             for="terminos-{{ $inmuebleId }}"
                         >
                             Acepto los 
-                            <a href="#" target="_blank">Términos y Condiciones de Uso</a> 
+                            <a href="{{ url('terminos-uso') }}" target="_blank">Términos y Condiciones de Uso</a> 
                             y las 
-                            <a href="#" target="_blank">Políticas de Privacidad</a>.
+                            <a href="{{ url('politica-privacidad') }}" target="_blank">Políticas de Privacidad</a>.
                         </label>
                     </div>
 

@@ -13,9 +13,8 @@ class SuppliersController extends Controller
         return 'libro';
     }
 
-    public function indexBlog($slug)
+    public function indexBlog()
     {
-        
         $posts = Post::where('is_published', true)->latest()->get();
 
         return response()->json([

@@ -99,11 +99,9 @@ Route::get('/recuperar-password', [LoginController::class, 'recovery_password'])
 
 Route::post('/store-completeUserGoogle', [LoginController::class, 'complete_user_google'])->middleware('auth');
 
-Route::post('/inmueble/whatsapp-contact', [ContactoController::class, 'whatsappContact'])
-    ->name('inmueble.whatsappContact');
+Route::post('/inmueble/whatsapp-contact', [ContactoController::class, 'whatsappContact'])->name('inmueble.whatsappContact');
 
-Route::post('/inmueble/email-contact', [ContactoController::class, 'emailContact'])
-    ->name('inmueble.emailContact');
+Route::post('/inmueble/email-contact', [ContactoController::class, 'emailContact'])->name('inmueble.emailContact');
 
 Route::middleware('auth')->group(function () {
     Route::get('/my-posts/create', [MyPostsController::class, 'create'])->name('posts.create')->middleware('verified');

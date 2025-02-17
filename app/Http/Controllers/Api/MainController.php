@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Proyecto;
 use App\Models\ProyectoImagenesAdicionales;
+use App\Models\TipoOperacion;
 use App\Repositories\AvisoRepository;
 use App\Repositories\TipoInmuebleRepository;
 use App\Services\Aviso\ObtenerAvisosPrincipales;
@@ -49,6 +50,7 @@ class MainController extends Controller
             $avisoArray['area'] = $aviso->inmueble->area();
             $avisoArray['dormitorios'] = $aviso->inmueble->dormitorios();
             $avisoArray['banios'] = $aviso->inmueble->banios();
+            $avisoArray['comodidades'] = $aviso->inmueble->extra->caracteristicas->where('categoria_caracteristica_id', 2);
         
             return $avisoArray;
         });
@@ -74,6 +76,17 @@ class MainController extends Controller
             'message' => 'Tipos de inmuebles.',
             'status' => 'success',
             'tipos_inmuebles' => $tipos_inmuebles,
+        ]);
+    }
+    
+    public function tiposOperacion()
+    {
+        $tipo_operacion = TipoOperacion::get();
+
+        return response()->json([
+            'message' => 'Tipos de inmuebles.',
+            'status' => 'success',
+            'tipo_operacion' => $tipo_operacion,
         ]);
     }
 }

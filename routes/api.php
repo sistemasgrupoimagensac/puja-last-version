@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AvisoLikeController;
 use App\Http\Controllers\Api\ConfirmacionPagoAntesDeDebitar;
+use App\Http\Controllers\Api\ContactoController;
 use App\Http\Controllers\Api\CustomerCardController;
 use App\Http\Controllers\Api\EmailVerificationController;
 use App\Http\Controllers\Api\InmuebleController;
@@ -24,7 +25,6 @@ use App\Http\Controllers\Api\RenovacionController;
 use App\Http\Controllers\Api\SuppliersController;
 use App\Http\Controllers\Api\UserProjectSubscriptionController;
 use App\Http\Controllers\BillingController;
-use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\TransactionsController;
 use App\Http\Middleware\SessionData;
@@ -37,14 +37,19 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/main', MainController::class);
 Route::get('/tipos-inmuebles', [MainController::class, 'tiposInmuebles']);
+Route::get('/tipos-operacion', [MainController::class, 'tiposOperacion']);
 // Route::get('/complaints-book', [SuppliersController::class, 'ComplaintsBook']);
 
 Route::get('/inmuebles/filter/search', [InmueblesController::class, 'filterSearch']);
 Route::get('/inmuebles/{operation}', [InmueblesController::class, 'searchImmovables']);
-Route::get('/caracteristicas', [InmueblesController::class, 'getCaracteristicas']);
+Route::get('/adicionales', [InmueblesController::class, 'getCaracteristicas']);
 Route::get('/comodidades', [InmueblesController::class, 'getComodidades']);
 
+Route::post('/inmueble/whatsapp-contact', [ContactoController::class, 'whatsappContact']);
+Route::post('/inmueble/email-contact', [ContactoController::class, 'emailContact']);
 Route::get('/inmueble/{inmueble}', InmuebleController::class);
+Route::get('/blogs',[SuppliersController::class, 'indexBlog']);
+Route::get('/blogs/{slug}',[SuppliersController::class, 'showBlog']);
 
 /* Route::middleware('auth')->group(function () {
     Route::get('/email/verify', [EmailVerificationController::class, 'notice'])
@@ -163,12 +168,10 @@ Route::post('/procesar-contacto-proyecto', [MyPostsController::class, 'procesar_
 
 
 
+// Route::post('/send-information', [ContactoController::class, 'store']); // Falta probar
+// Route::post('/send-information/project', [ContactoController::class, 'contacto_lead_proyecto_store']); // Falta probar
 
-Route::post('/send-information', [ContactoController::class, 'store']); // Falta probar
-Route::post('/send-information/project', [ContactoController::class, 'contacto_lead_proyecto_store']); // Falta probar
 
-Route::get('/blogs',[SuppliersController::class, 'indexBlog']); // Falta probar
-Route::get('/blogs/{slug}',[SuppliersController::class, 'showBlog']); // Falta probar
 
 
 

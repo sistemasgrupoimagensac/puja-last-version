@@ -25,7 +25,7 @@
 
             <div class="modal-header">
                 <h5 class="modal-title" id="emailModalLabel-{{ $inmuebleId }}">
-                    Contáctar al propietario por correo
+                    Contactar al propietario por correo
                 </h5>
                 <button
                     type="button"
@@ -94,7 +94,7 @@
                             required
                         >
                         <label class="form-check-label" for="terminos-{{ $inmuebleId }}">
-                            Acepto los <a href="#" target="_blank">Términos y Condiciones de Uso</a> y las <a href="#" target="_blank">Políticas de Privacidad</a>.
+                            Acepto los <a href="{{ url('terminos-uso') }}" target="_blank">Términos y Condiciones de Uso</a> y las <a href="{{ url('politica-privacidad') }}" target="_blank">Políticas de Privacidad</a>.
                         </label>
                     </div>
 
