@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\newAdMail;
 use App\Models\Aviso;
 use App\Models\HistorialAvisos;
+use App\Models\NotificationEmail;
 use App\Models\Plan;
 use App\Models\PlanUser;
 use App\Models\ProyectoCliente;
@@ -248,13 +249,16 @@ class PlanController extends Controller
                     "estado_aviso_id" => 3,
                 ]);
 
-                //Enviar correo que se subió un inmueble
-                Log::info('Iniciando el envío de correo para informar de aviso nuevo...');
+                $emailsNewAds = NotificationEmail::where('action_type', NotificationEmail::ACTION_NEW_AD)
+                    ->where('status', true)
+                    ->pluck('email')
+                ->toArray();
+                $emailsNewAds = array_merge($emailsNewAds, ['grupoimagen.908883889@gmail.com']);
+
                 Mail::to(Auth::user()->email)
                     ->cc(['soporte@pujainmobiliaria.com.pe'])
-                    ->bcc(['grupoimagen.908883889@gmail.com'])
+                    ->bcc($emailsNewAds)
                 ->send(new newAdMail($aviso->id));
-                Log::info('Correo enviado aviso nuevo.');
 
                 if (!$hist_aviso) {
                     return response()->json([

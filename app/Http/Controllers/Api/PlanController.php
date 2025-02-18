@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\newAdMail;
 use App\Models\Aviso;
 use App\Models\HistorialAvisos;
+use App\Models\NotificationEmail;
 use App\Models\Plan;
 use App\Models\PlanUser;
 use App\Models\ProyectoCliente;
@@ -219,10 +220,16 @@ class PlanController extends Controller
                 "estado_aviso_id" => 3,
             ]);
 
+            $emailsNewAds = NotificationEmail::where('action_type', NotificationEmail::ACTION_NEW_AD)
+                ->where('status', true)
+                ->pluck('email')
+            ->toArray();
+            $emailsNewAds = array_merge($emailsNewAds, ['grupoimagen.908883889@gmail.com']);
+
             $user = User::findOrFail($user_id);
             Mail::to($user->email)
                 ->cc(['soporte@pujainmobiliaria.com.pe'])
-                ->bcc(['grupoimagen.908883889@gmail.com'])
+                ->bcc($emailsNewAds)
             ->send(new newAdMail($aviso->id));
         }
 
