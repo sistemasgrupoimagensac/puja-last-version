@@ -8,6 +8,7 @@ use App\Mail\SubscriptionMail;
 use Illuminate\Http\Request;
 use App\Models\SaleModel;
 use App\Models\DocumentType;
+use App\Models\NotificationEmail;
 use App\Models\PlanUser;
 use App\Models\User;
 use App\Utils\FactUtil;
@@ -110,9 +111,14 @@ class BillingController extends Controller
             $pdfPath_fix = url($response['data']['file_name'].'-a4.pdf');
             $email = $response['data']['client']['email'];
 
+            $emailsNewCPE = NotificationEmail::where('action_type', NotificationEmail::ACTION_NEW_CPE)
+                    ->where('status', true)
+                    ->pluck('email')
+                ->toArray();
+            $emailsNewCPE = array_merge($emailsNewCPE, ['grupoimagen.908883889@gmail.com']);
             Mail::to($email)
                 ->cc(['soporte@pujainmobiliaria.com.pe'])
-                ->bcc(['grupoimagen.908883889@gmail.com', 'salvarado@grupoimagensac.com.pe'])
+                ->bcc($emailsNewCPE)
             ->send(new SubscriptionMail($pdfPath_fix, $request->plan_name));
             
             return [

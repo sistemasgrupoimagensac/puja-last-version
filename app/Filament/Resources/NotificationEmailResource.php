@@ -40,8 +40,7 @@ class NotificationEmailResource extends Resource
                 TextInput::make('email')
                     ->label('Correo Electrónico')
                     ->required()
-                    ->email()
-                ->unique(),
+                ->email(),
 
                 TextInput::make('owner_name')
                     ->label('Nombre del usuario')
@@ -51,7 +50,7 @@ class NotificationEmailResource extends Resource
                     ->label('Tipo de Notificación')
                     ->options([
                         NotificationEmail::ACTION_NEW_AD => 'Nuevo Aviso Publicado',
-                        // NotificationEmail::ACTION_NEW_USER => 'Nuevo Usuario Registrado',
+                        NotificationEmail::ACTION_NEW_CPE => 'Nuevo CPE',
                     ])
                 ->required(),
 
@@ -71,7 +70,7 @@ class NotificationEmailResource extends Resource
                     ->label('Tipo de Notificación')
                     ->formatStateUsing(fn ($state) => match ($state) {
                         NotificationEmail::ACTION_NEW_AD => 'Nuevo Aviso Publicado',
-                        // NotificationEmail::ACTION_NEW_USER => 'Nuevo Usuario Registrado',
+                        NotificationEmail::ACTION_NEW_CPE => 'Nuevo CPE',
                         default => 'Desconocido'
                     }),
                     ToggleColumn::make('status')
@@ -82,7 +81,7 @@ class NotificationEmailResource extends Resource
                 Tables\Filters\SelectFilter::make('action_type')
                     ->options([
                         NotificationEmail::ACTION_NEW_AD => 'Nuevo Aviso Publicado',
-                        // NotificationEmail::ACTION_NEW_USER => 'Nuevo Usuario Registrado',
+                        NotificationEmail::ACTION_NEW_CPE => 'Nuevo CPE',
                     ])
                 ->label('Filtrar por Tipo'),
             ])

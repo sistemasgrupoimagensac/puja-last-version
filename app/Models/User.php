@@ -94,6 +94,13 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
             ->wherePivot('estado', 1);
     }
 
+    public function plans()
+    {
+        return $this->belongsToMany(Plan::class, 'plan_user')
+            ->as('plan_user')
+            ->withPivot('id','typical_ads_remaining', 'top_ads_remaining', 'premium_ads_remaining', 'start_date', 'end_date', 'estado', 'price');
+    }
+
     public function tipoDocumento(): BelongsTo
     {
         return $this->belongsTo(TipoDocumento::class, 'tipo_documento_id');

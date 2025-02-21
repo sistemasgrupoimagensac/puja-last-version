@@ -13,7 +13,8 @@ class NotificationEmail extends Model
     protected $fillable = ['email', 'owner_name', 'status', 'action_type'];
 
     public const ACTION_NEW_AD = 1;
-    public const ACTION_NEW_USER = 2;
+    public const ACTION_NEW_CPE = 2;
+    public const ACTION_NEW_USER = 3;
 
     public function isActive(): bool
     {

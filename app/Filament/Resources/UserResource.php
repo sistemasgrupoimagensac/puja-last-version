@@ -7,6 +7,7 @@ use App\Models\User;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\DB;
@@ -85,7 +86,12 @@ class UserResource extends Resource
                 ExportAction::make()->label('Exportar Todo')
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Action::make('verPlanes')
+                    ->label('Ver Planes')
+                    ->icon('heroicon-o-eye')
+                    ->modalHeading('Planes del Usuario')
+                    ->modalContent(fn ($record) => view('filament.modals.planes-usuario', ['user' => $record]))
+                    ->modalButton('Cerrar'),
             ]);
     }
 
