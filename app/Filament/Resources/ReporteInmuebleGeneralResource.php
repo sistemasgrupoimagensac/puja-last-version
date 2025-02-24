@@ -54,7 +54,9 @@ class ReporteInmuebleGeneralResource extends Resource
                 Inmueble::query()
                     ->select([
                         "u.id",
-                        DB::raw('CONCAT(u.nombres, " ", u.apellidos) AS Cliente'),
+                        "u.created_at as fecha_registro",
+                        DB::raw('CONCAT(IFNULL(u.nombres, ""), " ", IFNULL(u.apellidos, "")) as cliente'),
+                        "u.celular",
                         "u.email",
                         DB::raw('COUNT(a.id) as Cant_publicaciones'),
                         DB::raw('MAX(h.updated_at) as Ultima_publicacion'),
@@ -78,13 +80,16 @@ class ReporteInmuebleGeneralResource extends Resource
                     ->leftJoin('promotions as pro', 'p.promotion_id', '=', 'pro.id')
                     ->leftJoin('promotions as pro2', 'p.promotion2_id', '=', 'pro2.id')
                     ->where('h.created_at', '>', Carbon::parse('2025-01-07 00:00:00'))
-                    ->groupBy('u.id', 'u.nombres', 'u.apellidos', 'u.email', 'tu.tipo', 'pk.name', 'p.name', 'p.price', 'pu.price', 'pu.promo1', 'pu.promo2' /* 'pro.percentage', 'pro2.percentage' */)
+                    ->groupBy('u.id', 'u.nombres', 'u.apellidos', 'u.email', 'tu.tipo', 'pk.name', 'p.name', 'p.price', 'pu.price', 'pu.promo1', 'pu.promo2', 'u.created_at', 'u.celular', 'u.email')
                 ->orderBy(DB::raw('MAX(h.updated_at)'), 'DESC')
             )
             ->columns([
                 // TextColumn::make('row_number')->label('N°')->rowIndex(),
                 TextColumn::make('id')->label('ID usuario')->sortable(),
-                TextColumn::make('Cliente')->label('Cliente')->searchable(),
+                TextColumn::make('fecha_registro')->label('Fecha de registro')->dateTime(),
+                TextColumn::make('cliente')->label('Cliente')->searchable(),
+                TextColumn::make('celular')->label('Celular'),
+                TextColumn::make('email')->label('Correo'),
                 TextColumn::make('Cant_publicaciones')->label('Cant. publicaciones'),
                 TextColumn::make('Ultima_publicacion')->label('Última publicación')->dateTime(),
                 TextColumn::make('Nombre_paquete')->label('Paquete'),
