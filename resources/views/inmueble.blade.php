@@ -68,7 +68,10 @@
                     </div>
                     
                     <input type="hidden" name="" id="views" value="{{ $views }}">
-                    <p class="fw-bolder">Visitante N°: <span id="visit-counter" class="fs-4 text-primary"></span></p>
+                    <div class="d-flex justify-content-between">
+                        <span class="fw-bolder">Visitante N°: <span id="visit-counter" class="fs-4 text-primary ms-1"></span></span>
+                        <span class="fw-bolder">Fecha de publicación: <span class="fs-5 text-primary">{{ $fecha_publicacion->format('Y-m-d') }}</span></span>
+                    </div>
                     
                     {{-- modal --}}
                     <div class="modal fade" id="modalImagesCarousel" tabindex="-1">

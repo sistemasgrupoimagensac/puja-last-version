@@ -72,7 +72,7 @@ class InmuebleController extends Controller
                 $projectInfo = $user->canPublishProjects(); 
             }
             
-            return view('inmueble', compact('aviso', 'ad_belongs', 'publicado', 'tipo_usuario', 'tienePlanes', 'user_not_pay', 'plan_id', 'tipo_aviso', 'projectInfo', 'views'));
+            return view('inmueble', compact('aviso', 'ad_belongs', 'publicado', 'tipo_usuario', 'tienePlanes', 'user_not_pay', 'plan_id', 'tipo_aviso', 'projectInfo', 'views', 'fecha_publicacion'));
 
         } catch (\Throwable $th) {
             return response()->json([
