@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Parameter;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -34,6 +35,21 @@ class SuppliersController extends Controller
             'message' => 'Se envia el blog.',
             'status' => 'success',
             'post' => $post,
+        ]);
+
+    }
+
+    public function landingCount()
+    {
+        
+        $param = Parameter::where('status', 1)->where('name', 'landing')->firstOrFail();
+        (int)$param->value++;
+        $param->save();
+
+        return response()->json([
+            'message' => 'Retorno de cantidad de vistas.',
+            'status' => 'success',
+            'param' => $param,
         ]);
 
     }
