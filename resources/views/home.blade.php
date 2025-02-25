@@ -103,6 +103,12 @@
         </div>
     </main>
 
+    <div class="container mt-4">
+        <input type="hidden" id="views" value="{{ $views }}">
+        <p class="fw-bolder text-center mb-0">Tu eres nuestro visitante N°: <span id="visit-counter" class="ms-2 fs-4 text-primary"></span></p>
+        <hr class="text-primary border-4 mt-2">
+    </div>
+
     <section class="info-section py-5">
         <div class="container">
             <div class="row g-4">

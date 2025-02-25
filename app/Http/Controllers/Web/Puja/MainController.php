@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web\Puja;
 
 use App\Http\Controllers\Controller;
+use App\Models\Parameter;
 use App\Models\Proyecto;
 use App\Models\ProyectoCliente;
 use App\Repositories\AvisoRepository;
@@ -43,7 +44,14 @@ class MainController extends Controller
         $imagenFondo = ProyectoImagenesAdicionales::where('tipo', 1)->inRandomOrder()->first();
         $proyecto = $imagenFondo ? Proyecto::where('id', $imagenFondo->proyecto_id)->first() : null;
 
+        $views = 0;
+        $sum_random = rand(1, 10);
+        $param = Parameter::where('status', 1)->where('name', 'count-main')->firstOrFail();
+        (int)$param->value = $param->value + $sum_random;
+        $param->save();
+        $views = $param->value;
+
         // Pasar la variable $imagenFondo y $projectInfo a la vista
-        return view('home', compact('avisos', 'avisos_nuevos', 'tipos_inmuebles', 'tienePlanes', 'imagenFondo', 'projectInfo', 'proyecto'));
+        return view('home', compact('avisos', 'avisos_nuevos', 'tipos_inmuebles', 'tienePlanes', 'imagenFondo', 'projectInfo', 'proyecto', 'views'));
     }
 }

@@ -28,14 +28,14 @@
         @include('components.filters')
     </section>
 
-    <div class="custom-container mt-2 fw-bold">
+    <div class="custom-container mt-4 fw-bold">
         @if ( $key_word )
-            <p>{{$key_word}}</p>
+            <p class="fs-5">{{$key_word}}</p>
         @endif
     </div>
     
     {{-- Sección de cards de inmuebles --}}
-    <section class="custom-container my-5 filterAvisos-container">
+    <section class="custom-container mb-5 filterAvisos-container">
         @foreach($avisos as $aviso)
             @include('components.card_inmueble', [
                 'link' => route('inmueble.single', ['inmueble' => $aviso->link()]),

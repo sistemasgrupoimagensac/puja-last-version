@@ -1,1 +1,0 @@
-const e=window.innerWidth;if(e>=992){const s=document.getElementById("flush-colapsaVentas"),a=document.getElementById("flush-colapsaAlquiler"),t=document.getElementById("flush-colapsaRemates");s.classList.add("show"),a.classList.add("show"),t.classList.add("show")}
