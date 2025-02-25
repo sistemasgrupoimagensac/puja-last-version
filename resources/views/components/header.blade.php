@@ -80,6 +80,7 @@
                                         <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Cusco')]) }}">Cusco</a>
                                         <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Tumbes')]) }}">Tumbes</a>
                                         <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Propiedades en Venta en Junín')]) }}">Junín</a>
+                                        <a class="text-decoration-none text-dark mb-1" href="{{ route('busqueda_inmuebles', ['operacion' => Str::slug('Departamentos en Venta en Chiclayo')]) }}">Chiclayo</a>
                                     </div>
 
                                     <div class="d-flex flex-column">

@@ -28,6 +28,12 @@
         @include('components.filters')
     </section>
 
+    <div class="custom-container mt-2 fw-bold">
+        @if ( $key_word )
+            <p>{{$key_word}}</p>
+        @endif
+    </div>
+    
     {{-- Sección de cards de inmuebles --}}
     <section class="custom-container my-5 filterAvisos-container">
         @foreach($avisos as $aviso)

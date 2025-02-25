@@ -67,6 +67,9 @@
 
                     </div>
                     
+                    <input type="hidden" name="" id="views" value="{{ $views }}">
+                    <p class="fw-bolder">Visitante N°: <span id="visit-counter" class="fs-4 text-primary"></span></p>
+                    
                     {{-- modal --}}
                     <div class="modal fade" id="modalImagesCarousel" tabindex="-1">
                         <div class="modal-dialog modal-xl modal-dialog-centered inmueble-modal-dialog">

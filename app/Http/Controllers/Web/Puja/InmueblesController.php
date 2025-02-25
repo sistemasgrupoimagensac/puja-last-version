@@ -43,7 +43,27 @@ class InmueblesController extends Controller
             $projectInfo = $user->canPublishProjects(); 
         }
 
-        return view('inmuebles', compact('avisos', 'url_parse', 'tipos_inmuebles', 'tienePlanes', 'caracteristicas', 'comodidades', 'projectInfo'));
+        $key_word = null;
+
+        if ( $operacion === "inmuebles-en-venta" ) {
+            $key_word = "Propiedades e inmuebles en venta, en Lima";
+        } else if ( $operacion === "casas-en-venta" ) {
+            $key_word = "Casas en Venta, en  Lima";
+        } else if ( $operacion === "departamentos-en-venta" ) {
+            $key_word = "Departamentos en Venta, en  Lima";
+        } else if ( $operacion === "inmuebles-en-remate" ) {
+            $key_word = "Remates en Subasta, en  Lima";
+        } else if ( $operacion === "oficinas-en-venta" ) {
+            $key_word = "Oficinas en Venta, en  Lima";
+        } else if ( $operacion === "inmuebles-en-alquiler" ) {
+            $key_word = "Propiedades en Alquiler, en Lima";
+        } else if ( $operacion === "terrenos-en-venta" ) {
+            $key_word = "Terrenos en Venta, en Lima";
+        } else if ( $operacion === "departamentos-en-venta-en-chiclayo" ) {
+            $key_word = "Departamento a la Venta, en Chiclayo";
+        }
+
+        return view('inmuebles', compact('avisos', 'url_parse', 'tipos_inmuebles', 'tienePlanes', 'caracteristicas', 'comodidades', 'projectInfo', 'key_word'));
     }
 
     public function filterSearch(Request $request)

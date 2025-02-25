@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Services\Aviso\ObtenerAviso;
 use Illuminate\Http\Request;
 use App\Models\User;
-
+use Carbon\Carbon;
 
 class InmuebleController extends Controller
 {
@@ -43,6 +43,18 @@ class InmuebleController extends Controller
                 $aviso->save();
             }
 
+            $fecha_publicacion =  Carbon::parse($aviso->historial[0]->created_at);
+            $fecha_actual = Carbon::today();
+            $views = 0;
+
+            if ( $fecha_publicacion->equalTo($fecha_actual) ) {
+                $views = ceil($aviso->views * 1.07);
+            } elseif ( $fecha_publicacion->equalTo($fecha_actual->copy()->subDay()) ) {
+                $views = 1400 + ceil($aviso->views * 1.07);
+            } elseif ( $fecha_publicacion->lessThanOrEqualTo($fecha_actual->copy()->subDays(2)) ) {
+                $views = 2400 + ceil($aviso->views * 1.07);
+            }
+
             $tienePlanes = null;
             $projectInfo = false;
             if (Auth::check()) {
@@ -53,7 +65,7 @@ class InmuebleController extends Controller
                 $projectInfo = $user->canPublishProjects(); 
             }
             
-            return view('inmueble', compact('aviso', 'ad_belongs', 'publicado', 'tipo_usuario', 'tienePlanes', 'user_not_pay', 'plan_id', 'tipo_aviso', 'projectInfo'));
+            return view('inmueble', compact('aviso', 'ad_belongs', 'publicado', 'tipo_usuario', 'tienePlanes', 'user_not_pay', 'plan_id', 'tipo_aviso', 'projectInfo', 'views'));
 
         } catch (\Throwable $th) {
             return response()->json([
