@@ -183,7 +183,7 @@ Route::post('/consulta-dni-ruc', [DocumentoController::class, 'consultar_dni_ruc
 Route::post('/enviar-datos-dni-ruc', [BillingController::class, 'recibirDatos']);
 
 // Procesar contacto interesado en un inmueble
-Route::post('/procesar-contacto', [MyPostsController::class, 'procesar_contacto'])->name('procesar_contacto');
+Route::post('/procesar-contacto/{tipo_contacto}', [MyPostsController::class, 'procesar_contacto'])->name('procesar_contacto');
 
 // Procesar contacto interesado en un proyecto
 Route::post('/procesar-contacto-proyecto', [MyPostsController::class, 'procesar_contacto_proyecto'])->name('procesar_contacto_proyecto');

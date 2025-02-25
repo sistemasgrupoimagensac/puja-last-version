@@ -70,10 +70,11 @@ class ReporteInmuebleGeneralResource extends Resource
                     ])
                     ->join('users as u', 'inmuebles.user_id', '=', 'u.id')
                     ->join('avisos as a', 'inmuebles.id', '=', 'a.inmueble_id')
-                    ->join('historial_avisos as h', function ($join) {
+                    /* ->join('historial_avisos as h', function ($join) {
                         $join->on('a.id', '=', 'h.aviso_id')
                              ->where('h.estado_aviso_id', '=', 3);
-                    })
+                    }) */
+                    ->join('historial_avisos as h', 'a.id', '=', 'h.aviso_id')
                     ->leftJoin('plan_user as pu', 'a.plan_user_id', '=', 'pu.id')
                     ->join('plans as p', 'pu.plan_id', '=', 'p.id')
                     ->join('packages as pk', 'p.package_id', '=', 'pk.id')

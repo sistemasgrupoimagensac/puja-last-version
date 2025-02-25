@@ -47,12 +47,19 @@ class InmuebleController extends Controller
             $fecha_actual = Carbon::today();
             $views = 0;
 
+            $cant_first = 1400;
+            $cant_second = 2400;
+            if ( $aviso->inmueble->type() == "Remate" ) {
+                $cant_first = 90;
+                $cant_second = 120;
+            }
+
             if ( $fecha_publicacion->equalTo($fecha_actual) ) {
                 $views = ceil($aviso->views * 1.07);
             } elseif ( $fecha_publicacion->equalTo($fecha_actual->copy()->subDay()) ) {
-                $views = 1400 + ceil($aviso->views * 1.07);
+                $views = $cant_first + ceil($aviso->views * 1.07);
             } elseif ( $fecha_publicacion->lessThanOrEqualTo($fecha_actual->copy()->subDays(2)) ) {
-                $views = 2400 + ceil($aviso->views * 1.07);
+                $views = $cant_second + ceil($aviso->views * 1.07);
             }
 
             $tienePlanes = null;

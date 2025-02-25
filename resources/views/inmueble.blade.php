@@ -761,14 +761,14 @@
             document.getElementById('btn-enviar-form-single').addEventListener('click', function(event) {
                 event.preventDefault();
                 clearErrors();
-                submitForm('{{ route('procesar_contacto') }}', 'correo');
+                submitForm('{{ route('procesar_contacto', ['tipo_contacto' => 'email']) }}', 'correo');
             });
 
             // Evento para el botón de WhatsApp
             document.getElementById('whatsapp_contact_button').addEventListener('click', function(event) {
                 event.preventDefault();
                 clearErrors();
-                submitForm('{{ route('procesar_contacto') }}', 'whatsapp');
+                submitForm('{{ route('procesar_contacto', ['tipo_contacto' => 'wsp']) }}', 'whatsapp');
             });
         }
 

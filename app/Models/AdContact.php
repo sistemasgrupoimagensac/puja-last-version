@@ -10,7 +10,7 @@ class AdContact extends Model
     use HasFactory;
 
     protected $table = "ad_contacts";
-    protected $fillable = ['aviso_id', 'user_id', 'status', 'full_name', 'email', 'phone', 'bid_amount', 'message', 'accept_terms', 'type_currency_id'];
+    protected $fillable = ['aviso_id', 'contact_type', 'user_id', 'status', 'full_name', 'email', 'phone', 'bid_amount', 'message', 'accept_terms', 'type_currency_id'];
 
     public function aviso()
     {

@@ -695,6 +695,7 @@ class MyPostsController extends Controller
         $validator = Validator::make($request->all(), [
             'nombre_contacto' => 'required|string|max:50',
             'email_contacto' => 'required|email',
+            'tipo_contacto' => 'nullable|in:email,wsp',
             'telefono_contacto' => 'required|string|min:9|max:9|regex:/^9[0-9+\-()\s]*$/',
             'contact_monto_puja' => 'nullable|string',
             'contact_message' => 'required|string',
@@ -720,9 +721,10 @@ class MyPostsController extends Controller
     }
 
     // Función para procesar la solicitud, ya sea para enviar correo o WhatsApp
-    public function procesar_contacto(Request $request)
+    public function procesar_contacto(Request $request, $tipo_contacto)
     {
         // Validamos el formulario antes de continuar
+        $request->merge(['tipo_contacto' => $tipo_contacto]);
         $response = $this->validar_formulario_contacto($request);
 
         // Si la validación falla, retornamos la respuesta de error
@@ -741,6 +743,7 @@ class MyPostsController extends Controller
             'aviso_id' => $request->aviso_id,
             'email' => $request->email_contacto,
             'user_id' => $user_id,
+            'contact_type' => $request->tipo_contacto,
             ],[
             'full_name' => $request->nombre_contacto,
             'status' => 1,
