@@ -39,6 +39,9 @@
         
             {{-- Caracteristicas del inmueble --}}
             <div class="col-lg-8 pe-lg-3">
+                <div class="d-flex justify-content-start">
+                    <span class="fs-4 fw-bolder">{{ $aviso->inmueble->category() }} en {{ $aviso->inmueble->type() }}</span>
+                </div>
                 <div class="py-3">
 
                     {{-- Imagenes --}}
@@ -69,7 +72,7 @@
                     
                     <input type="hidden" name="" id="views" value="{{ $views }}">
                     <div class="d-flex justify-content-between">
-                        <span class="fw-bolder">Visitante N°: <span id="visit-counter" class="fs-4 text-primary ms-1"></span></span>
+                        <span class="fw-bolder">Tu eres el visitante N°: <span id="visit-counter" class="fs-4 text-primary ms-1"></span></span>
                         <span class="fw-bolder">Fecha de publicación: <span class="fs-5 text-primary">{{ $fecha_publicacion->format('Y-m-d') }}</span></span>
                     </div>
                     
