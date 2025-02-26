@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\Puja;
 use App\Repositories\AvisoRepository;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Models\HistorialAvisos;
 use App\Services\Aviso\ObtenerAviso;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -43,7 +44,9 @@ class InmuebleController extends Controller
                 $aviso->save();
             }
 
-            $fecha_publicacion =  Carbon::parse($aviso->historial[0]->created_at);
+            $last_publicado = HistorialAvisos::where('aviso_id', $aviso->id)->where('estado_aviso_id', 3)->orderByDesc('id')->first();
+
+            $fecha_publicacion =  Carbon::parse($last_publicado->created_at);
             $fecha_actual = Carbon::today();
             $views = 0;
 

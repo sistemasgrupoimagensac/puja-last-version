@@ -162,7 +162,7 @@ Route::get('/extras/{category_extra_id}', [MyPostsController::class, 'extras']);
 Route::get('/plans', [PlanController::class, 'getPlans']);
 Route::get('/plans/{plan_id}', [PlanController::class, 'getPlan']);
 
-Route::post('/process-contact', [MyPostsController::class, 'processContact']); // Falta probar
+Route::post('/process-contact/{tipo_contacto}', [MyPostsController::class, 'processContact']); // Falta probar
 Route::post('/procesar-contacto-proyecto', [MyPostsController::class, 'procesar_contacto_proyecto']); // Falta probar
 
 

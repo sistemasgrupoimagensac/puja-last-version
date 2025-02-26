@@ -507,8 +507,9 @@ class MyPostsController extends Controller
         ]);
     }
 
-    public function processContact(Request $request)
+    public function processContact(Request $request, $tipo_contacto)
     {
+        $request->merge(['tipo_contacto' => $tipo_contacto]);
         $request->validate([
             'user_id' => 'nullable|integer',
             'accion' => 'required|integer', // 1 whatsapp, 2 correo
@@ -516,6 +517,7 @@ class MyPostsController extends Controller
             'ad_id' => 'required|integer',
             'name' => 'required|string|max:50',
             'email' => 'required|email',
+            'tipo_contacto' => 'nullable|in:email,wsp',
             'phone' => 'required|string|min:9|max:9|regex:/^9[0-9+\-()\s]*$/',
             'bid_amount' => 'nullable|string',
             'currency_type' => 'nullable|integer',
@@ -531,6 +533,7 @@ class MyPostsController extends Controller
             'aviso_id' => $request->ad_id,
             'email' => $request->email,
             'user_id' => $request->user_id ?? null,
+            'contact_type' => $request->tipo_contacto,
             ],[
             'full_name' => $request->name,
             'status' => 1,
