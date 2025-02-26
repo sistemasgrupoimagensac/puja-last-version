@@ -40,7 +40,7 @@
             {{-- Caracteristicas del inmueble --}}
             <div class="col-lg-8 pe-lg-3">
                 <div class="d-flex justify-content-start">
-                    <span class="fs-4 fw-bolder">{{ $aviso->inmueble->category() }} en {{ $aviso->inmueble->type() }}</span>
+                    <span class="fs-4 fw-bolder">{{ $aviso->inmueble->title() }}</span>
                 </div>
                 <div class="py-3">
 
