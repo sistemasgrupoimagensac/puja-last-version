@@ -35,7 +35,8 @@ class InmuebleController extends Controller
 
             }
             $ad_user_id = $aviso->inmueble->user_id;
-            $publicado = $aviso->historial[0]->estado == "Publicado" ? true : false;
+            $ultimoHistorial = $aviso->historial()->orderByDesc('historial_avisos.id')->first()->id;
+            $publicado = $ultimoHistorial == 3 ? true : false;
             $ad_belongs = false;
             if ( (int)$user_login_id === (int)$ad_user_id ) {
                 $ad_belongs = true;
@@ -44,25 +45,30 @@ class InmuebleController extends Controller
                 $aviso->save();
             }
 
-            $last_publicado = HistorialAvisos::where('aviso_id', $aviso->id)->where('estado_aviso_id', 3)->orderByDesc('id')->first();
-
-            $fecha_publicacion =  Carbon::parse($last_publicado->created_at);
+            $fecha_publicacion = null;
             $fecha_actual = Carbon::today();
             $views = 0;
 
-            $cant_first = 1400;
-            $cant_second = 2400;
-            if ( $aviso->inmueble->type() == "Remate" ) {
-                $cant_first = 90;
-                $cant_second = 120;
-            }
+            $last_publicado = HistorialAvisos::where('aviso_id', $aviso->id)->where('estado_aviso_id', 3)->orderByDesc('id')->first();
 
-            if ( $fecha_publicacion->equalTo($fecha_actual) ) {
-                $views = ceil($aviso->views * 1.07);
-            } elseif ( $fecha_publicacion->equalTo($fecha_actual->copy()->subDay()) ) {
-                $views = $cant_first + ceil($aviso->views * 1.07);
-            } elseif ( $fecha_publicacion->lessThanOrEqualTo($fecha_actual->copy()->subDays(2)) ) {
-                $views = $cant_second + ceil($aviso->views * 1.07);
+            if ( $last_publicado ) {
+                $fecha_publicacion = Carbon::parse($last_publicado->created_at);
+                
+                $cant_first = 1400;
+                $cant_second = 2400;
+
+                if ( $aviso->inmueble->type() == "Remate" ) {
+                    $cant_first = 90;
+                    $cant_second = 120;
+                }
+    
+                if ( $fecha_publicacion->equalTo($fecha_actual) ) {
+                    $views = ceil($aviso->views * 1.07);
+                } elseif ( $fecha_publicacion->equalTo($fecha_actual->copy()->subDay()) ) {
+                    $views = $cant_first + ceil($aviso->views * 1.07);
+                } elseif ( $fecha_publicacion->lessThanOrEqualTo($fecha_actual->copy()->subDays(2)) ) {
+                    $views = $cant_second + ceil($aviso->views * 1.07);
+                }
             }
 
             $tienePlanes = null;

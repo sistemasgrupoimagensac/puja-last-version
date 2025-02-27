@@ -32,7 +32,7 @@ class InmueblesController extends Controller
         $ads = $avisos->map(function ($aviso) {
             $avisoArray = $aviso->toArray();
         
-            $avisoArray['estado_aviso_id'] = $aviso->historial->first()->pivot->estado_aviso_id;
+            $avisoArray['estado_aviso_id'] = $aviso->historial()->orderByDesc('historial_avisos.id')->first()->id;
             $avisoArray['codigo_unico'] = $aviso->inmueble->codigo_unico;
             $avisoArray['link'] = $aviso->link();
             $avisoArray['nombres'] = $aviso->inmueble->user->nombres;
@@ -53,7 +53,7 @@ class InmueblesController extends Controller
             $avisoArray['distrito'] = $aviso->inmueble->distrito();
             $avisoArray['provincia'] = $aviso->inmueble->provincia();
             $avisoArray['departamento'] = $aviso->inmueble->departamento();
-            $avisoArray['estado'] = $aviso->historial[0]->estado;
+            $avisoArray['estado'] = $aviso->historial()->orderByDesc('historial_avisos.id')->first()->estado;
             $avisoArray['fecha_publicacion'] = $aviso->fecha_publicacion;
             $avisoArray['title'] = $aviso->inmueble->title();
             $avisoArray['area'] = $aviso->inmueble->area();

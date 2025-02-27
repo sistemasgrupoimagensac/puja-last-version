@@ -88,13 +88,14 @@ class MyPostsController extends Controller
                 "estado" => 1,
         ]);
 
-        if ( count($aviso->historial) === 0 ) {
+        // if ( count($aviso->historial) === 0 ) {
             $hist_aviso = HistorialAvisos::updateOrCreate([
-                    "aviso_id" => $aviso->id,
-                ],[
-                    "estado_aviso_id" => 1,
-            ]);
-        }
+                "aviso_id" => $aviso->id,
+                "estado_aviso_id" => 1,
+                ],[]
+            );
+            $hist_aviso->touch();
+        // }
         
         if ($request->principal) {
             $request->validate([
@@ -409,12 +410,15 @@ class MyPostsController extends Controller
             $aviso->inmueble->principal->caracteristicas->descripcion = $aviso->inmueble->descripcion;
             $aviso->inmueble->principal->caracteristicas->save();
 
-            if ( $aviso->historial->first()->pivot->estado_aviso_id !== 3 ) {
+            $historial_aviso = $aviso->historial()->orderByDesc('historial_avisos.id')->first();
+            if ( $historial_aviso && in_array($historial_aviso->id, [1, 2]) ) {
+            // if ( $aviso->historial->first()->pivot->estado_aviso_id !== 3 ) {
                 $hist_aviso = HistorialAvisos::updateOrCreate([
-                        "aviso_id" => $aviso->id,
-                    ],[
-                        "estado_aviso_id" => 2,
-                ]);
+                    "aviso_id" => $aviso->id,
+                    "estado_aviso_id" => 2,
+                    ],[]
+                );
+                $hist_aviso->touch();
                 if (!$hist_aviso) {
                     return response()->json([
                         'message' => 'Falló porque no se actualizo el historial avisos',
@@ -458,8 +462,12 @@ class MyPostsController extends Controller
         $request->validate(['ad_id' => 'required|integer']);
 
         $aviso = Aviso::findOrFail($request->ad_id);
-        $aviso->historial->first()->pivot->estado_aviso_id = 4;
-        $aviso->historial->first()->pivot->save();
+        // $aviso->historial->first()->pivot->estado_aviso_id = 4;
+        // $aviso->historial->first()->pivot->save();
+        HistorialAvisos::create([
+            'aviso_id' => $aviso->id,
+            'estado_aviso_id' => 4,
+        ]);
 
         return response()->json([
             'message' => 'Aviso vendido.',
@@ -472,8 +480,12 @@ class MyPostsController extends Controller
         $request->validate(['ad_id' => 'required|integer']);
 
         $aviso = Aviso::findOrFail($request->ad_id);
-        $aviso->historial->first()->pivot->estado_aviso_id = 6;
-        $aviso->historial->first()->pivot->save();
+        // $aviso->historial->first()->pivot->estado_aviso_id = 6;
+        // $aviso->historial->first()->pivot->save();
+        HistorialAvisos::create([
+            'aviso_id' => $aviso->id,
+            'estado_aviso_id' => 6,
+        ]);
 
         return response()->json([
             'message' => 'Aviso eliminado.',
@@ -488,7 +500,8 @@ class MyPostsController extends Controller
         ]);
 
         $aviso = Aviso::findOrFail($request->ad_id);
-        $ad_status = $aviso->historial->first()->pivot->estado_aviso_id;
+        // $ad_status = $aviso->historial->first()->pivot->estado_aviso_id;
+        $ad_status = $aviso->historial()->orderByDesc('historial_avisos.id')->first()->id;
 
         if ( !($ad_status === 3 || $ad_status === 7) ) {
             return response()->json([
@@ -498,8 +511,12 @@ class MyPostsController extends Controller
         }
 
         $new_state = $ad_status === 3 ? 7 : 3;
-        $aviso->historial->first()->pivot->estado_aviso_id = $new_state;
-        $aviso->historial->first()->pivot->save();
+        // $aviso->historial->first()->pivot->estado_aviso_id = $new_state;
+        // $aviso->historial->first()->pivot->save();
+        HistorialAvisos::create([
+            'aviso_id' => $aviso->id,
+            'estado_aviso_id' => $new_state,
+        ]);
 
         return response()->json([
             'message' => 'Estado del aviso actualizado.',

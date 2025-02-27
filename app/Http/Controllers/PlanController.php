@@ -243,9 +243,8 @@ class PlanController extends Controller
                 $aviso->plan_user_id = $plan_user->id;
                 $aviso->save();
 
-                $hist_aviso = HistorialAvisos::updateOrCreate([
-                    "aviso_id" => $aviso->id,
-                    ],[
+                $hist_aviso = HistorialAvisos::create([
+                    'aviso_id' => $aviso->id,
                     "estado_aviso_id" => 3,
                 ]);
 

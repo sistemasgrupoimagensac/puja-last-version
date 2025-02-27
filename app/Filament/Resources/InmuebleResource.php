@@ -56,6 +56,7 @@ class InmuebleResource extends Resource
                         DB::raw('CONCAT(u.nombres, " ", u.apellidos) as Cliente'),
                         "u.email",
                         "u.celular as Celular" ,
+                        "h.estado_aviso_id as id_estado_aviso", 
                         "h.updated_at as Fecha_de_publicacion", 
                         "tu.tipo as Tipo_usuario",
                         "pk.name as Nombre_paquete",
@@ -72,7 +73,8 @@ class InmuebleResource extends Resource
                     ->join('avisos as a', 'inmuebles.id', '=', 'a.inmueble_id')
                     ->join('historial_avisos as h', function ($join) {
                         $join->on('a.id', '=', 'h.aviso_id')
-                             ->where('h.estado_aviso_id', '=', 3);
+                            //  ->where('h.estado_aviso_id', '=', 3);
+                             ->whereRaw('h.id = (SELECT MAX(h2.id) FROM historial_avisos h2 WHERE h2.aviso_id = h.aviso_id AND h2.estado_aviso_id >= 3)');
                     })
                     ->leftJoin('plan_user as pu', 'a.plan_user_id', '=', 'pu.id')
                     ->join('plans as p', 'pu.plan_id', '=', 'p.id')
@@ -89,6 +91,7 @@ class InmuebleResource extends Resource
                 TextColumn::make('Cliente')->label('Cliente')->searchable(),
                 TextColumn::make('email')->label('Correo'),
                 TextColumn::make('Celular')->label('Celular'),
+                TextColumn::make('id_estado_aviso')->label('ID estado Aviso'),
                 TextColumn::make('Fecha_de_publicacion')->label('Fecha de Publicación')->dateTime(),
                 TextColumn::make('Tipo_usuario')->label('Tipo Usuario'),
                 TextColumn::make('Nombre_paquete')->label('Paquete'),

@@ -70,11 +70,13 @@
 
                     </div>
                     
-                    <input type="hidden" name="" id="views" value="{{ $views }}">
-                    <div class="d-flex justify-content-between">
-                        <span class="fw-bolder">Tu eres el visitante N°: <span id="visit-counter" class="fs-4 text-primary ms-1"></span></span>
-                        <span class="fw-bolder">Fecha de publicación: <span class="fs-5 text-primary">{{ $fecha_publicacion->format('Y-m-d') }}</span></span>
-                    </div>
+                    @if ( $fecha_publicacion )
+                        <input type="hidden" name="" id="views" value="{{ $views }}">
+                        <div class="d-flex justify-content-between">
+                            <span class="fw-bolder">Tu eres el visitante N°: <span id="visit-counter" class="fs-4 text-primary ms-1"></span></span>
+                            <span class="fw-bolder">Fecha de publicación: <span class="fs-5 text-primary">{{ $fecha_publicacion->format('Y-m-d') }}</span></span>
+                        </div>
+                    @endif
                     
                     {{-- modal --}}
                     <div class="modal fade" id="modalImagesCarousel" tabindex="-1">
@@ -382,7 +384,7 @@
                                     <input type="hidden" name="aviso_id" value="{{ $aviso->id }}">
                                     <textarea class="form-control" id="editDescriptionTextarea" name="description" disabled>{!! $aviso->inmueble->principal->caracteristicas->descripcion !!}</textarea>
                                 </div>
-                                @if ( $ad_belongs && ( !in_array($aviso->historial[0]->estado, ["Publicado", "Aceptado"]) || in_array($tipo_usuario, [2,3,4]) ) )
+                                @if ( $ad_belongs && ( !in_array($aviso->historial()->orderByDesc('historial_avisos.id')->first()->estado, ["Publicado", "Aceptado"]) || in_array($tipo_usuario, [2,3,4]) ) )
                                     <div class="btn-group border mt-3" role="group">
                                         <button type="button" id="editDesciptionButton" class="btn border-0 button-orange" style="width: 80px;">Editar</button>
                                         <button type="submit" id="saveDesciptionButton" class="btn border-0 button-orange" style="width: 80px;" disabled>Guardar</button>
@@ -480,12 +482,12 @@
                                         <div>
                                             {{-- Card Comprar Plan --}}
                                             <div class="card text-bg-light mb-3">
-                                                <div class="card-body text-center">
-                                                    <p class="m-0">Adquiere un plan con los mejores precios del mercado.</p>
+                                                <div class="card-body text-center py-4">
+                                                    <p class="m-0">Adquiere tu plan y publica tu aviso.</p>
                                                 </div>
 
                                                 @if ($tipo_usuario === 2)
-                                                    <button class="btn btn-danger fs-5 rounded-top-0" id="redirect-button">
+                                                    <button class="btn btn-danger fs-5 rounded-top-0 py-2" id="redirect-button">
                                                         <i class="fa-solid fa-plus "></i>
                                                         Plan
                                                     </button>
@@ -494,12 +496,12 @@
                                                         <input type="hidden" name="aviso_id" value="{{ $aviso->id }}">
                                                     </form>
                                                 @elseif ($tipo_usuario === 3)
-                                                    <a class="btn btn-danger fs-5 rounded-top-0" href="/planes-inmobiliaria">
+                                                    <a class="btn btn-danger fs-5 rounded-top-0  py-2" href="/planes-inmobiliaria">
                                                         <i class="fa-solid fa-plus "></i>
                                                         Plan
                                                     </a>
                                                 @elseif ($tipo_usuario === 4)
-                                                    <button class="btn btn-danger fs-5 rounded-top-0" id="redirect-button-acreedor">
+                                                    <button class="btn btn-danger fs-5 rounded-top-0  py-2" id="redirect-button-acreedor">
                                                         <i class="fa-solid fa-plus "></i>
                                                         Plan
                                                     </button>

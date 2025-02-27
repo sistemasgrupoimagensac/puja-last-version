@@ -129,13 +129,15 @@ class MyPostsController extends Controller
         ]);
 
 
-        if ( count($aviso->historial) === 0 ) {
+        // if ( count($aviso->historial) === 0 ) {
             $hist_aviso = HistorialAvisos::updateOrCreate([
                 "aviso_id" => $aviso->id,
-                ],[
                 "estado_aviso_id" => 1,
-            ]);
-        }
+                ],
+                []
+            );
+            $hist_aviso->touch();
+        // }
         
         if ($request->principal) {
             $validator = Validator::make($request->all(), [
@@ -530,16 +532,21 @@ class MyPostsController extends Controller
                 }
             }
             
-            if ( $aviso->historial->first()->pivot->estado_aviso_id !== 3 ) {
+            $historial_aviso = $aviso->historial()->orderByDesc('historial_avisos.id')->first();
+            
+            if ( $historial_aviso && in_array($historial_aviso->id, [1, 2]) ) {
+                // if ( $aviso->historial->first()->pivot->estado_aviso_id !== 3 ) {
                 
                 $aviso->inmueble->principal->caracteristicas->descripcion = $aviso->inmueble->descripcion;
                 $aviso->inmueble->principal->caracteristicas->save();
 
                 $hist_aviso = HistorialAvisos::updateOrCreate([
                     "aviso_id" => $aviso->id,
-                    ],[
                     "estado_aviso_id" => 2,
-                ]);
+                    ],
+                    []
+                );
+                $hist_aviso->touch();
                 if (!$hist_aviso) {
                     return response()->json([
                         'message' => 'Falló porque no se actualizo el historial avisos',
@@ -977,8 +984,12 @@ class MyPostsController extends Controller
         }
 
         $aviso = Aviso::findOrFail($request->aviso_id);
-        $aviso->historial->first()->pivot->estado_aviso_id = $estado_new;
-        $aviso->historial->first()->pivot->save();
+        // $aviso->historial->first()->pivot->estado_aviso_id = $estado_new;
+        // $aviso->historial->first()->pivot->save();
+        HistorialAvisos::create([
+            'aviso_id' => $aviso->id,
+            'estado_aviso_id' => $estado_new,
+        ]);
 
         return response()->json([
             'htpp_code' => 200,

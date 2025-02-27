@@ -25,11 +25,11 @@
                         $total_avisos_porpublicar = 0
                     @endphp
                     @foreach ($avisos as $aviso)
-                        @if ( $aviso->historial->first()->pivot->estado_aviso_id === 1 || $aviso->historial->first()->pivot->estado_aviso_id === 2 )
+                        @if ( $aviso->historial()->orderByDesc('historial_avisos.id')->first()->id === 1 || $aviso->historial()->orderByDesc('historial_avisos.id')->first()->id === 2 )
                             @include('components.aviso_simple', [
                                 'id' => $aviso->id,
                                 'codigo_unico' => $aviso->inmueble->codigo_unico,
-                                'link' => $aviso->historial->first()->pivot->estado_aviso_id === 1 ? route('posts.edit', $aviso->id) :  route('inmueble.single', ['inmueble' => $aviso->link()]),
+                                'link' => $aviso->historial()->orderByDesc('historial_avisos.id')->first()->id === 1 ? route('posts.edit', $aviso->id) :  route('inmueble.single', ['inmueble' => $aviso->link()]),
                                 'title' => $aviso->inmueble->tituloReal() ?? $aviso->inmueble->title(),
                                 'image' => $aviso->inmueble->imagenPrincipal(),
                                 'type' => $aviso->inmueble->type(), 
@@ -44,7 +44,7 @@
                                 'distrito'=> $aviso->inmueble->distrito(),
                                 'provincia'=> $aviso->inmueble->provincia(),
                                 'departamento'=> $aviso->inmueble->departamento(),
-                                'estado_aviso' => $aviso->historial[0]->estado,
+                                'estado_aviso' => $aviso->historial()->orderByDesc('historial_avisos.id')->first()->estado,
                                 'edit_enabled' => true,
                                 'published' => false,
                             ])
@@ -70,7 +70,7 @@
                             $newEndDate = $endDate->addHours(72);
                             $currentDate = \Carbon\Carbon::now();
                         @endphp
-                        @if ( $aviso->historial->first()->pivot->estado_aviso_id === 3 || $aviso->historial->first()->pivot->estado_aviso_id === 7 )
+                        @if ( $aviso->historial()->orderByDesc('historial_avisos.id')->first()->id === 3 || $aviso->historial()->orderByDesc('historial_avisos.id')->first()->id === 7 )
                             @include('components.aviso_simple', [
                                 'id' => $aviso->id,
                                 'codigo_unico' => $aviso->inmueble->codigo_unico,
@@ -89,7 +89,7 @@
                                 'distrito'=> $aviso->inmueble->distrito(),
                                 'provincia'=> $aviso->inmueble->provincia(),
                                 'departamento'=> $aviso->inmueble->departamento(),
-                                'estado_aviso' => $aviso->historial[0]->estado,
+                                'estado_aviso' => $aviso->historial()->orderByDesc('historial_avisos.id')->first()->estado,
                                 'edit_enabled' => ( $currentDate < $newEndDate || $user_id == 6 ) ? true : false,
                                 'published' => true,
                             ])

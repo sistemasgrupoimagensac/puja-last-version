@@ -84,16 +84,16 @@
                 <div class="card-footer">
                     <div class="d-flex justify-content-end gap-3 mx-lg-4">
                         
-                        @if ( $user_id === 6 && ($aviso->historial->first()->pivot->estado_aviso_id == 3 || $aviso->historial->first()->pivot->estado_aviso_id == 7) )
+                        @if ( $user_id === 6 && ($aviso->historial()->orderByDesc('historial_avisos.id')->first()->id == 3 || $aviso->historial()->orderByDesc('historial_avisos.id')->first()->id == 7) )
                             <button 
                                 type="button" 
                                 class="action cancel border-0 bg-transparent p-1"
                                 title="Cancelar aviso"
                                 data-bs-toggle="modal" 
                                 data-bs-target="#avisoCancelModal"
-                                onclick="setCancelModal('{{ $title }}', '{{ $id }}', '{{ $aviso->historial->first()->pivot->estado_aviso_id }}')"
+                                onclick="setCancelModal('{{ $title }}', '{{ $id }}', '{{ $aviso->historial()->orderByDesc('historial_avisos.id')->first()->id }}')"
                             >
-                                @if ( $aviso->historial->first()->pivot->estado_aviso_id == 3 )
+                                @if ( $aviso->historial()->orderByDesc('historial_avisos.id')->first()->id == 3 )
                                     <i class="fa-solid fa-ban w-100 h-100 text-danger"></i>
                                 @else
                                     <i class="fa-solid fa-circle-check w-100 h-100 text-success"></i>

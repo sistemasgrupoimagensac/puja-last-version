@@ -49,7 +49,7 @@ class InmueblesController extends Controller
             $key_word = "Propiedades e inmuebles en venta en Lima";
         } else if ( $operacion === "casas-en-venta" ) {
             $key_word = "Casas en Venta en Lima";
-        } else if ( $operacion === "departamentos-en-venta" ) {
+        } else if ( $operacion === "departamentos-en-venta" || $operacion === "departamentos-en-venta-en-lima") {
             $key_word = "Departamentos en Venta en Lima";
         } else if ( $operacion === "inmuebles-en-remate" ) {
             $key_word = "Remates en Subasta, en Lima";

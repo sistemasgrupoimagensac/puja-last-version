@@ -36,7 +36,8 @@ class InmuebleController extends Controller
             }
 
             $ad_user_id = $aviso->inmueble->user_id;
-            $publicado = $aviso->historial[0]->estado == "Publicado" ? true : false;
+            $ultimoHistorial = $aviso->historial()->orderByDesc('historial_avisos.id')->first()->id;
+            $publicado = $ultimoHistorial == 3 ? true : false;
             $ad_belongs = false;
             if ( (int)$user_login_id === (int)$ad_user_id ) {
                 $ad_belongs = true;
@@ -81,7 +82,7 @@ class InmuebleController extends Controller
                 'antiguedad' => $aviso->inmueble->antiguedad(),
                 'aniosAntiguedad' => $aviso->inmueble->aniosAntiguedad(),
                 'descripcion' => $aviso->inmueble->principal->caracteristicas->descripcion,
-                'estado' => $aviso->historial[0]->estado,
+                'estado' => $ultimoHistorial->estado,
                 'caracteristicas' => $aviso->inmueble->extra->caracteristicas,
                 'latitud' => $aviso->inmueble->principal->ubicacion->latitud,
                 'longitud' => $aviso->inmueble->principal->ubicacion->longitud,

@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Aviso;
+use App\Models\HistorialAvisos;
 use App\Models\Remate;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -44,8 +45,12 @@ class CancelAuctions extends Command
                     if ( Carbon::parse($date)->lessThan(Carbon::now()) ) {
                         $aviso = Aviso::find($auction->aviso_id);
                         if ( $aviso ) {
-                            $aviso->historial->first()->pivot->estado_aviso_id = 7;
-                            $aviso->historial->first()->pivot->save();
+                            HistorialAvisos::create([
+                                'aviso_id' => $aviso->id,
+                                'estado_aviso_id' => 5,
+                            ]);
+                            // $aviso->historial->first()->pivot->estado_aviso_id = 7;
+                            // $aviso->historial->first()->pivot->save();
                             Log::info("Aviso {$auction->aviso_id} cancelado correctamente.");
                         }
                     }

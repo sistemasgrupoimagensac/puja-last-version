@@ -19,7 +19,17 @@ class AvisoRepository
     {
         return $this->model->where('estado', 1)
                             ->whereHas('inmueble', fn($q) => $q->where('estado', 1))
-                            ->whereHas('historial', fn($q) => $q->where('estados_avisos.id', 3))
+                            // ->whereHas('historial', fn($q) => $q->where('estados_avisos.id', 3))
+                            ->whereHas('historial', function ($q) {
+                                $q->whereRaw('
+                                    historial_avisos.id = (
+                                        SELECT MAX(h2.id) 
+                                        FROM historial_avisos h2 
+                                        WHERE h2.aviso_id = historial_avisos.aviso_id
+                                    )
+                                    AND historial_avisos.estado_aviso_id = 3
+                                ');
+                            })
                             ->get();
     }
 
@@ -34,7 +44,17 @@ class AvisoRepository
     public function getByFilter($slug, $request)
     {
         $query = $this->model->where('estado', 1)
-                    ->whereHas('historial', fn($q) => $q->where('estados_avisos.id', 3))
+                    // ->whereHas('historial', fn($q) => $q->where('estados_avisos.id', 3))
+                    ->whereHas('historial', function ($q) {
+                        $q->whereRaw('
+                            historial_avisos.id = (
+                                SELECT MAX(h2.id) 
+                                FROM historial_avisos h2 
+                                WHERE h2.aviso_id = historial_avisos.aviso_id
+                            )
+                            AND historial_avisos.estado_aviso_id = 3
+                        ');
+                    })
                     ->whereHas('inmueble', fn($q) => $q->where('estado', 1))
                     ->whereHas('inmueble.principal.operacion', function($q) use($slug){
                         if ($slug['operacion'] != null) {

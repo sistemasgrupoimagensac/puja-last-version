@@ -44,7 +44,11 @@ class AdExpired extends Command
             $planUser = PlanUser::find($aviso->plan_user_id);
 
             if ($planUser && $planUser->end_date < $currentDate) {
-                $aviso->historial()->update(['estado_aviso_id' => 5]);
+                // $aviso->historial()->update(['estado_aviso_id' => 5]);
+                HistorialAvisos::create([
+                    'aviso_id' => $aviso->id,
+                    'estado_aviso_id' => 5,
+                ]);
                 $cont_avisos_caducados++;
                 Log::info("Aviso ID {$aviso->id} ha sido actualizado a estado 5 (Vencido).");
             }
