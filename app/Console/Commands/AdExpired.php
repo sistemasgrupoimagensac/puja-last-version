@@ -33,8 +33,15 @@ class AdExpired extends Command
     {
         $currentDate = Carbon::now();
         $avisos = Aviso::whereNotNull('plan_user_id')
-                    ->whereHas('historial', function($query) {
-                        $query->where('estado_aviso_id', 3);
+                    ->whereHas('historial', function ($q) {
+                        $q->whereRaw('
+                            historial_avisos.id = (
+                                SELECT MAX(h2.id) 
+                                FROM historial_avisos h2 
+                                WHERE h2.aviso_id = historial_avisos.aviso_id
+                            )
+                            AND historial_avisos.estado_aviso_id = 3
+                        ');
                     })
         ->get();
         Log::info("Cantidad de avisos publicados: {$avisos->count()} hasta \"{$currentDate}\" horas, antes de actualizar los vencidos.");

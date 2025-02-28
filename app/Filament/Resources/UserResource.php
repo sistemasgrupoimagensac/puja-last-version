@@ -53,6 +53,15 @@ class UserResource extends Resource
                 User::query()
                     ->select([
                         'users.id as id',
+                        DB::raw('
+                            CASE 
+                                WHEN tu.id = 1 THEN "GOOGLE"
+                                WHEN tu.id = 2 THEN "Propietario"
+                                WHEN tu.id = 3 THEN "Corredor"
+                                WHEN tu.id = 4 THEN "Acreedor"
+                                WHEN tu.id = 5 THEN "Proyecto"
+                            END as tipo_usuario
+                        '),
                         DB::raw('CONCAT(IFNULL(users.nombres, ""), " ", IFNULL(users.apellidos, "")) as cliente'),
                         "users.created_at as fecha_registro",
                         "users.celular",
@@ -69,6 +78,7 @@ class UserResource extends Resource
             )
             ->columns([
                 TextColumn::make('id')->label('ID')->sortable(),
+                TextColumn::make('tipo_usuario')->label('Tipo usuario')->sortable(),
                 TextColumn::make('cliente')->label('Cliente')->searchable(),
                 TextColumn::make('fecha_registro')->label('Fecha de registro')->dateTime(),
                 TextColumn::make('celular')->label('Celular'),

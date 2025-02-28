@@ -84,7 +84,6 @@ class MyPostsController extends Controller
         $aviso = Aviso::updateOrCreate([
                 "inmueble_id" => $inmueble->id,
             ],[
-                "fecha_publicacion" => now(),
                 "estado" => 1,
         ]);
 
