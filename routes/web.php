@@ -153,6 +153,7 @@ Route::get('wsb-dev/{name_dev}/proyectos/unidades/{id_proyecto}/{id_unidad}/{arc
 
 // Route::get('/openpay', [MyPostsController::class, 'openpay'])->middleware('sessiondata');
 Route::post('/generarComprobanteElec/{id}', [BillingController::class, 'generarFactura'])->middleware(SessionData::class);
+Route::post('/anular-boleta/{id}', [BillingController::class, 'anularBoleta'])->middleware(SessionData::class);
 
 Route::get('/send_mail', [BillingController::class, 'sendMail']);
 

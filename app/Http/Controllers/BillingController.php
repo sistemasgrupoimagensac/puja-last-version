@@ -24,6 +24,14 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
+//Nuevos
+use Greenter\Model\Voided\Voided;
+use Greenter\Model\Voided\VoidedDetail;
+use Greenter\Model\Summary\Summary;
+use Greenter\Model\Summary\SummaryDetail;
+use Greenter\Model\Sale\Document;
+use Greenter\Model\Sale\Note;
+
 class BillingController extends Controller
 {
     public function __construct()
@@ -636,6 +644,74 @@ class BillingController extends Controller
         }
     }
 
+    public function anularBoleta(Request $request, $id)
+    {
+        // Venta
+        /* return response()->json([
+            'message' => "Entroooooooo"
+        ]); */
+        // $sale = Sale::find($id);
+
+        $util = FactUtil::getInstance();
+        $correlative = $this->generateCorrelative(2);
+
+        // Detalles de la venta, todos los productos vendidos
+        // $details = SaleDetail::where('IDVenta', $sale->IDVenta)->get();
+        $newRequest = new Request();
+        $newRequest->merge(['details' => $request->details]);
+        $calculoImpuesto = $this->calcularImpuestos($newRequest);
+
+        $detail = new SummaryDetail();
+        $detail->setTipoDoc('03') // Boleta
+        ->setSerieNro($correlative->series . '-' . $correlative->correlative)
+        // ->setSerieNro('B002' . '-' . '33')
+        ->setEstado('3') // 3 para anulación
+        ->setClienteTipo('1')
+        ->setClienteNro($request->dni)
+        ->setTotal($calculoImpuesto['Total'])
+        ->setMtoOperGravadas($calculoImpuesto['subTotal'])
+        ->setMtoIGV($calculoImpuesto['Igv']);
+
+        $resumen = new Summary();
+        $resumen->setFecGeneracion(new \DateTime($request->FechaHora)) //Fecha de emision de la boleta a anular
+        ->setFecResumen(new \DateTime())
+        ->setCorrelativo($correlative->correlative)
+        ->setCompany($util->getCompany())
+        ->setDetails([$detail]);
+
+        // Envío a SUNAT
+        $see = $util->getSee();
+        $see->setConnectionTimeout(20); // 20 segundos
+        $see->setResponseTimeout(40); 
+        $result = $see->send($resumen);
+
+        // Verificamos que la conexión con SUNAT fue exitosa.
+        if (!$result->isSuccess()) {
+            return response()->json([
+                'result'=>'error',
+                'message'=> $result->getError()->getMessage()]);
+            exit();
+        }
+
+        $ticket = $result->getTicket();
+        sleep(5); // demora unos segundos en obtener el tiket puedes probar entre 1 a 5
+        $status = $see->getStatus($ticket);
+
+        if (!$status->isSuccess()) {
+            return response()->json([
+                'result'=>'error',
+                'message'=> $status->getError()->getMessage()]);
+            exit();
+        }
+
+        // Guardar el CDR
+        $cdr = $status->getCdrResponse();
+
+        return response()->json([
+            'result'=>'success', 
+            'message' => $cdr->getDescription().PHP_EOL
+        ]);
+    }
 
     private function generateCorrelative($id) {
         $data = DocumentType::find($id);

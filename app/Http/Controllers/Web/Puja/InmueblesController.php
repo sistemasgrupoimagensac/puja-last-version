@@ -47,8 +47,10 @@ class InmueblesController extends Controller
 
         if ( $operacion === "inmuebles-en-venta" ) {
             $key_word = "Propiedades e inmuebles en venta en Lima";
+        } else if ( $operacion === "inmuebles-en-venta-y-alquiler" ) {
+            $key_word = "Inmuebles en Venta y en Alquiler";
         } else if ( $operacion === "casas-en-venta" ) {
-            $key_word = "Casas en Venta en Lima";
+            $key_word = "Casas en Venta";
         } else if ( $operacion === "departamentos-en-venta" || $operacion === "departamentos-en-venta-en-lima") {
             $key_word = "Departamentos en Venta en Lima";
         } else if ( $operacion === "inmuebles-en-remate" ) {
@@ -61,6 +63,22 @@ class InmueblesController extends Controller
             $key_word = "Terrenos en Venta en Lima";
         } else if ( $operacion === "departamentos-en-venta-en-chiclayo" ) {
             $key_word = "Departamento a la Venta en Chiclayo";
+        } else if ( $operacion === "casas-en-venta-y-alquiler" ) {
+            $key_word = "Casas en Venta y en Alquiler";
+        } else if ( $operacion === "departamentos-en-venta-y-alquiler" ) {
+            $key_word = "Departamentos en Venta y en Alquiler";
+        } else if ( $operacion === "oficinas-en-venta-y-alquiler" ) {
+            $key_word = "Oficinas en Venta y en Alquiler";
+        } else if ( $operacion === "terrenos-en-venta-y-alquiler" ) {
+            $key_word = "Terrenos en Venta y en Alquiler";
+        } else if ( $operacion === "locales-en-venta-y-alquiler" ) {
+            $key_word = "Locales en Venta y en Alquiler";
+        } else if ( strpos($operacion, "venta") !== false ) {
+            $key_word = "Propiedades en Venta";
+        } else if ( strpos($operacion, "alquiler") !== false ) {
+            $key_word = "Propiedades en Alquiler";
+        } else if ( strpos($operacion, "remate") !== false ) {
+            $key_word = "Propiedades en Subasta";
         }
 
         return view('inmuebles', compact('avisos', 'url_parse', 'tipos_inmuebles', 'tienePlanes', 'caracteristicas', 'comodidades', 'projectInfo', 'key_word'));
