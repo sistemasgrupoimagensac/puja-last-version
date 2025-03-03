@@ -126,6 +126,7 @@ class PlanController extends Controller
                 $premium_ad = (int)$selected_plan->premium_ads;
                 $start_date = now();
                 $end_date = Carbon::now()->addDays($selected_plan->duration_in_days);
+                $expiration_date = Carbon::now()->addDays($selected_plan->duration_in_days);
 
                 $plan = Plan::with(['promotion' => function ($query) {
                     $query->where('status', 1)
@@ -171,6 +172,9 @@ class PlanController extends Controller
                 $start_date = $selected_plan_user->start_date;
                 $end_date = $selected_plan_user->end_date;
 
+                $plan_duration = Plan::findOrFail($selected_plan_user->plan_id)->duration_in_days;
+                $expiration_date = Carbon::now()->addDays($plan_duration);
+
                 if ( (int)$selected_plan_user->estado !== 1 ) {
                     return response()->json([
                         'http_code' => 400,
@@ -179,7 +183,7 @@ class PlanController extends Controller
                         'message' => "El plan que deseas publicar está en estado inactivo.",
                     ], 400);
                 }
-                $end_date_for_compare = Carbon::parse($selected_plan_user->end_date);
+                /* $end_date_for_compare = Carbon::parse($selected_plan_user->end_date);
                 if ( $end_date_for_compare->lessThanOrEqualTo(now()) ) {
                     return response()->json([
                         'http_code' => 400,
@@ -187,7 +191,7 @@ class PlanController extends Controller
                         'error' => true,
                         'message' => "El plan que deseas usar está caducado.",
                     ], 400);
-                }
+                } */
             }
             
             if ( isset($aviso_id) ) {
@@ -240,6 +244,7 @@ class PlanController extends Controller
                 $aviso = Aviso::find($aviso_id);
                 $aviso->ad_type = $tipo_aviso;
                 $aviso->fecha_publicacion = now();
+                $aviso->fecha_vencimiento = $expiration_date;
                 $aviso->plan_user_id = $plan_user->id;
                 $aviso->save();
 
@@ -352,7 +357,7 @@ class PlanController extends Controller
         }
     }
 
-    public function pay_plan(Request $request)
+    /* public function pay_plan(Request $request)
     {
         try {
             return response()->json([
@@ -391,7 +396,7 @@ class PlanController extends Controller
                 'error' => $th->getMessage() // Mensaje de error detallado
             ], 500); // Código de estado HTTP 500 (Internal Server Error)
         }
-    }
+    } */
 
     // Listar todos los planes activos por usuario
     public function list_plans_user(Request $request)

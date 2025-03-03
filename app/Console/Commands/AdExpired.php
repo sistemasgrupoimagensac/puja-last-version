@@ -48,9 +48,11 @@ class AdExpired extends Command
 
         $cont_avisos_caducados = 0;
         foreach ($avisos as $aviso) {
-            $planUser = PlanUser::find($aviso->plan_user_id);
+            // $planUser = PlanUser::find($aviso->plan_user_id);
+            $fechaVencimiento = Carbon::parse($aviso->fecha_vencimiento);
 
-            if ($planUser && $planUser->end_date < $currentDate) {
+            // if ($planUser && $planUser->end_date < $currentDate) {
+            if ( $fechaVencimiento->lt($currentDate) ) {
                 // $aviso->historial()->update(['estado_aviso_id' => 5]);
                 HistorialAvisos::create([
                     'aviso_id' => $aviso->id,

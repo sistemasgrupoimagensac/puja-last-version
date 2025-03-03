@@ -644,13 +644,26 @@ class BillingController extends Controller
         }
     }
 
-    public function anularBoleta(Request $request, $id)
+    public function anularBoleta(Request $request)
     {
         // Venta
-        /* return response()->json([
-            'message' => "Entroooooooo"
-        ]); */
         // $sale = Sale::find($id);
+        $serie = $request->serie;
+        $correlativo = $request->correlativo;
+        $precio = $request->precio;
+        $dni = $request->dni;
+        $detalles = [[
+            "price" => $precio,
+            "quantity" => 1
+        ]];
+
+        $plan_user = PlanUser::where('file_name', 'LIKE', "%-$serie-$correlativo")->first();
+        if( !$plan_user ) {
+            return response()->json([
+                'message' => "No existe el comprobante",
+                'status' => "error"
+            ]);
+        }
 
         $util = FactUtil::getInstance();
         $correlative = $this->generateCorrelative(2);
@@ -658,22 +671,22 @@ class BillingController extends Controller
         // Detalles de la venta, todos los productos vendidos
         // $details = SaleDetail::where('IDVenta', $sale->IDVenta)->get();
         $newRequest = new Request();
-        $newRequest->merge(['details' => $request->details]);
+        $newRequest->merge(['details' => $detalles]);
         $calculoImpuesto = $this->calcularImpuestos($newRequest);
 
         $detail = new SummaryDetail();
         $detail->setTipoDoc('03') // Boleta
         ->setSerieNro($correlative->series . '-' . $correlative->correlative)
-        // ->setSerieNro('B002' . '-' . '33')
         ->setEstado('3') // 3 para anulación
         ->setClienteTipo('1')
-        ->setClienteNro($request->dni)
+        ->setClienteNro($dni)
         ->setTotal($calculoImpuesto['Total'])
         ->setMtoOperGravadas($calculoImpuesto['subTotal'])
         ->setMtoIGV($calculoImpuesto['Igv']);
 
         $resumen = new Summary();
-        $resumen->setFecGeneracion(new \DateTime($request->FechaHora)) //Fecha de emision de la boleta a anular
+        // $resumen->setFecGeneracion(new \DateTime($request->FechaHora)) //Fecha de emision de la boleta a anular
+        $resumen->setFecGeneracion(new \DateTime($plan_user->created_at))
         ->setFecResumen(new \DateTime())
         ->setCorrelativo($correlative->correlative)
         ->setCompany($util->getCompany())
@@ -681,8 +694,6 @@ class BillingController extends Controller
 
         // Envío a SUNAT
         $see = $util->getSee();
-        $see->setConnectionTimeout(20); // 20 segundos
-        $see->setResponseTimeout(40); 
         $result = $see->send($resumen);
 
         // Verificamos que la conexión con SUNAT fue exitosa.
@@ -694,7 +705,7 @@ class BillingController extends Controller
         }
 
         $ticket = $result->getTicket();
-        sleep(5); // demora unos segundos en obtener el tiket puedes probar entre 1 a 5
+        sleep(3); // demora unos segundos en obtener el tiket puedes probar entre 1 a 5
         $status = $see->getStatus($ticket);
 
         if (!$status->isSuccess()) {

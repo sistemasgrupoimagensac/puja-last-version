@@ -1205,6 +1205,13 @@
                         } else if (step === 2) /* Ubicacion */ {
                             if ( lat_inmueble === undefined || lng_inmueble === undefined ){
                                 alert("Debe seleccionar un punto en el mapa.")
+                                this.hideLoader();
+                                return false
+                            }
+                            if ( input.value.includes("+") ){
+                                alert("La dirección no debe contener el simbolo de '+' o códigos ilegibles.")
+                                this.hideLoader();
+                                return false
                             }
                             formData.append('direccion', input.value)
                             formData.append('departamento_id', this.selectedDepartamento)
