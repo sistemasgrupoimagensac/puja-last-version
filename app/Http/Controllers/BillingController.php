@@ -646,8 +646,6 @@ class BillingController extends Controller
 
     public function anularBoleta(Request $request)
     {
-        // Venta
-        // $sale = Sale::find($id);
         $serie = $request->serie;
         $correlativo = $request->correlativo;
         $precio = $request->precio;
@@ -666,7 +664,7 @@ class BillingController extends Controller
         }
 
         $util = FactUtil::getInstance();
-        $correlative = $this->generateCorrelative(2);
+        $correlative = $this->generateCorrelative(4);
 
         // Detalles de la venta, todos los productos vendidos
         // $details = SaleDetail::where('IDVenta', $sale->IDVenta)->get();
@@ -676,7 +674,7 @@ class BillingController extends Controller
 
         $detail = new SummaryDetail();
         $detail->setTipoDoc('03') // Boleta
-        ->setSerieNro($correlative->series . '-' . $correlative->correlative)
+        ->setSerieNro($serie."-".$correlativo)
         ->setEstado('3') // 3 para anulación
         ->setClienteTipo('1')
         ->setClienteNro($dni)
@@ -699,18 +697,78 @@ class BillingController extends Controller
         // Verificamos que la conexión con SUNAT fue exitosa.
         if (!$result->isSuccess()) {
             return response()->json([
-                'result'=>'error',
+                'result'=>'error1',
                 'message'=> $result->getError()->getMessage()]);
             exit();
         }
 
         $ticket = $result->getTicket();
-        sleep(3); // demora unos segundos en obtener el tiket puedes probar entre 1 a 5
+        // sleep(3); // demora unos segundos en obtener el tiket puedes probar entre 1 a 5
         $status = $see->getStatus($ticket);
 
         if (!$status->isSuccess()) {
             return response()->json([
-                'result'=>'error',
+                'result'=>'error2',
+                'message'=> $status->getError()->getMessage()]);
+            exit();
+        }
+
+        // Guardar el CDR
+        $cdr = $status->getCdrResponse();
+
+        return response()->json([
+            'result'=>'success', 
+            'message' => $cdr->getDescription().PHP_EOL
+        ]);
+    }
+
+    public function anularFactura(Request $request)
+    {
+        $serie = $request->serie;
+        $correlativo = $request->correlativo;
+        $motivo = $request->motivo;
+
+        $plan_user = PlanUser::where('file_name', 'LIKE', "%-$serie-$correlativo")->first();
+        if( !$plan_user ) {
+            return response()->json([
+                'message' => "No existe el comprobante",
+                'status' => "error"
+            ]);
+        }
+
+        $util = FactUtil::getInstance();
+        $correlative = $this->generateCorrelative(5);
+
+        $detalle = new VoidedDetail();
+        $detalle->setTipoDoc('01') // Factura
+        ->setSerie($serie) // REFERNCIA LAFACTURA DE LAVENTA A ANULAR
+        ->setCorrelativo($correlativo) // Correlativo de la venta a anular
+        ->setDesMotivoBaja($motivo);
+
+        $voided = new Voided();
+        $voided->setCorrelativo($correlative->correlative) // Correlativo de la comunicación de baja   
+        ->setFecComunicacion(new \DateTime())
+        ->setFecGeneracion(new \DateTime($plan_user->created_at)) // Fecha de emision de la factura a anular
+        ->setCompany($util->getCompany())
+        ->setDetails([$detalle]);
+
+        $see = $util->getSee();
+        $result = $see->send($voided);
+
+        if (!$result->isSuccess()) {
+            return response()->json([
+                'result'=>'error1',
+                'message'=> $result->getError()->getMessage()]);
+            exit();
+        }
+
+        $ticket = $result->getTicket();
+        // sleep(3); // demora unos segundos en obtener el tiket puedes probar entre 1 a 5
+        $status = $see->getStatus($ticket);
+
+        if (!$status->isSuccess()) {
+            return response()->json([
+                'result'=>'error2',
                 'message'=> $status->getError()->getMessage()]);
             exit();
         }
@@ -729,6 +787,16 @@ class BillingController extends Controller
         $data->correlative = $data->correlative + 1;
         $data->save();
 
+        return $data;
+    }
+
+    private function generarNotaCredito(Request $request) {
+        $data = "ere";
+        return $data;
+    }
+
+    private function generarNotaDebito(Request $request) {
+        $data = "ere";
         return $data;
     }
 

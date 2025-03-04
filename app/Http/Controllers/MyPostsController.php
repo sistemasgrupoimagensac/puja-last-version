@@ -950,9 +950,10 @@ class MyPostsController extends Controller
                 'errors' => $validator->errors()
             ], 422);
         }
-        $aviso = Aviso::findOrFail($request->aviso_id);
-        $aviso->estado = 6;
-        $aviso->save();
+        HistorialAvisos::create([
+            'aviso_id' => $request->aviso_id,
+            'estado_aviso_id' => 6,
+        ]);
 
         return response()->json([
             'htpp_code' => 200,
@@ -983,8 +984,6 @@ class MyPostsController extends Controller
         }
 
         $aviso = Aviso::findOrFail($request->aviso_id);
-        // $aviso->historial->first()->pivot->estado_aviso_id = $estado_new;
-        // $aviso->historial->first()->pivot->save();
         HistorialAvisos::create([
             'aviso_id' => $aviso->id,
             'estado_aviso_id' => $estado_new,

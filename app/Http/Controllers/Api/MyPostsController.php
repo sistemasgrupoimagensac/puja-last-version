@@ -479,8 +479,6 @@ class MyPostsController extends Controller
         $request->validate(['ad_id' => 'required|integer']);
 
         $aviso = Aviso::findOrFail($request->ad_id);
-        // $aviso->historial->first()->pivot->estado_aviso_id = 6;
-        // $aviso->historial->first()->pivot->save();
         HistorialAvisos::create([
             'aviso_id' => $aviso->id,
             'estado_aviso_id' => 6,

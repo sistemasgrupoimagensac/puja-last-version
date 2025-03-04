@@ -56,8 +56,9 @@ class InmuebleResource extends Resource
                         DB::raw('CONCAT(u.nombres, " ", u.apellidos) as Cliente'),
                         "u.email",
                         "u.celular as Celular" ,
-                        "h.estado_aviso_id as id_estado_aviso", 
-                        "a.fecha_publicacion as fecha_publicacion", 
+                        "e.estado as id_estado_aviso", 
+                        "a.fecha_publicacion",
+                        DB::raw('IFNULL(a.fecha_vencimiento, "") as fecha_vencimiento'),
                         "tu.tipo as Tipo_usuario",
                         "pk.name as Nombre_paquete",
                         "p.name as Nombre_del_plan",
@@ -73,9 +74,9 @@ class InmuebleResource extends Resource
                     ->join('avisos as a', 'inmuebles.id', '=', 'a.inmueble_id')
                     ->join('historial_avisos as h', function ($join) {
                         $join->on('a.id', '=', 'h.aviso_id')
-                            //  ->where('h.estado_aviso_id', '=', 3);
-                             ->whereRaw('h.id = (SELECT MAX(h2.id) FROM historial_avisos h2 WHERE h2.aviso_id = h.aviso_id AND h2.estado_aviso_id >= 3)');
+                            ->whereRaw('h.id = (SELECT MAX(h2.id) FROM historial_avisos h2 WHERE h2.aviso_id = h.aviso_id AND h2.estado_aviso_id >= 3)');
                     })
+                    ->join('estados_avisos as e', 'h.estado_aviso_id', '=', 'e.id')
                     ->leftJoin('plan_user as pu', 'a.plan_user_id', '=', 'pu.id')
                     ->join('plans as p', 'pu.plan_id', '=', 'p.id')
                     ->join('packages as pk', 'p.package_id', '=', 'pk.id')
@@ -93,6 +94,7 @@ class InmuebleResource extends Resource
                 TextColumn::make('Celular')->label('Celular'),
                 TextColumn::make('id_estado_aviso')->label('ID estado Aviso'),
                 TextColumn::make('fecha_publicacion')->label('Fecha de Publicación')->dateTime(),
+                TextColumn::make('fecha_vencimiento')->label('Fecha de Vencimiento')->dateTime(),
                 TextColumn::make('Tipo_usuario')->label('Tipo Usuario'),
                 TextColumn::make('Nombre_paquete')->label('Paquete'),
                 TextColumn::make('Nombre_del_plan')->label('Plan'),
