@@ -48,7 +48,7 @@ class CancelAuctions extends Command
                         if ( $aviso ) {
                             HistorialAvisos::create([
                                 'aviso_id' => $aviso->id,
-                                'estado_aviso_id' => 5,
+                                'estado_aviso_id' => 7,
                             ]);
                         }
                     }
