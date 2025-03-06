@@ -6,7 +6,8 @@ export default defineConfig({
     laravel({
       input: [
         //sass
-        "resources/sass/app.scss",
+        "resources/sass/app.scss", // Bootstrap (Frontend)
+        'resources/css/filament.css', // Tailwind (Filament)
         // sass - pages
         'resources/sass/pages/inmueble.scss',
         'resources/sass/pages/publica-inmueble.scss',

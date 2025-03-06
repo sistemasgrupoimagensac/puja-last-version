@@ -30,6 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->defaultThemeMode(ThemeMode::Dark)
             ->brandName('Puja Inmobiliaria')
+            ->viteTheme('resources/css/filament.css')
             ->favicon(asset('favicon.png'))
             ->colors([
                 'primary' => Color::Amber,

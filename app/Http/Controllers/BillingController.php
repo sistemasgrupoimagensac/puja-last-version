@@ -644,142 +644,451 @@ class BillingController extends Controller
         }
     }
 
+    private function validarCPE($serie, $correlativo)
+    {
+        $plan_user = PlanUser::where('file_name', 'LIKE', "%-$serie-$correlativo")->first();
+
+        if ( !$plan_user ) throw new \Exception("No existe el comprobante");
+
+        return $plan_user;
+    }
+
     public function anularBoleta(Request $request)
     {
-        $serie = $request->serie;
-        $correlativo = $request->correlativo;
-        $precio = $request->precio;
-        $dni = $request->dni;
-        $detalles = [[
-            "price" => $precio,
-            "quantity" => 1
-        ]];
+        try {
 
-        $plan_user = PlanUser::where('file_name', 'LIKE', "%-$serie-$correlativo")->first();
-        if( !$plan_user ) {
+            $serie = $request->serie;
+            $correlativo = $request->correlativo;
+            $precio = $request->precio;
+            $dni = $request->dni;
+            $detalles = [[
+                "price" => $precio,
+                "quantity" => 1
+            ]];
+            $plan_user = $this->validarCPE($serie, $correlativo);
+
+            $util = FactUtil::getInstance();
+            $correlative = $this->generateCorrelative(4);
+
+            // Detalles de la venta, todos los productos vendidos
+            // $details = SaleDetail::where('IDVenta', $sale->IDVenta)->get();
+            $newRequest = new Request();
+            $newRequest->merge(['details' => $detalles]);
+            $calculoImpuesto = $this->calcularImpuestos($newRequest);
+
+            $detail = new SummaryDetail();
+            $detail->setTipoDoc('03') // Boleta
+            ->setSerieNro($serie."-".$correlativo)
+            ->setEstado('3') // 3 para anulación
+            ->setClienteTipo('1')
+            ->setClienteNro($dni)
+            ->setTotal($calculoImpuesto['Total'])
+            ->setMtoOperGravadas($calculoImpuesto['subTotal'])
+            ->setMtoIGV($calculoImpuesto['Igv']);
+
+            $resumen = new Summary();
+            // $resumen->setFecGeneracion(new \DateTime($request->FechaHora)) //Fecha de emision de la boleta a anular
+            $resumen->setFecGeneracion(new \DateTime($plan_user->created_at))
+            ->setFecResumen(new \DateTime())
+            ->setCorrelativo($correlative->correlative)
+            ->setCompany($util->getCompany())
+            ->setDetails([$detail]);
+
+            // Envío a SUNAT
+            $see = $util->getSee();
+            $result = $see->send($resumen);
+
+            // Verificamos que la conexión con SUNAT fue exitosa.
+            if (!$result->isSuccess()) {
+                return response()->json([
+                    'result'=>'error1',
+                    'message'=> $result->getError()->getMessage()]);
+                exit();
+            }
+
+            $ticket = $result->getTicket();
+            // sleep(3); // demora unos segundos en obtener el tiket puedes probar entre 1 a 5
+            $status = $see->getStatus($ticket);
+
+            if (!$status->isSuccess()) {
+                return response()->json([
+                    'result'=>'error2',
+                    'message'=> $status->getError()->getMessage()]);
+                exit();
+            }
+
+            // Guardar el CDR
+            $cdr = $status->getCdrResponse();
+
             return response()->json([
-                'message' => "No existe el comprobante",
+                'result'=>'success', 
+                'message' => $cdr->getDescription().PHP_EOL
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
                 'status' => "error"
             ]);
         }
-
-        $util = FactUtil::getInstance();
-        $correlative = $this->generateCorrelative(4);
-
-        // Detalles de la venta, todos los productos vendidos
-        // $details = SaleDetail::where('IDVenta', $sale->IDVenta)->get();
-        $newRequest = new Request();
-        $newRequest->merge(['details' => $detalles]);
-        $calculoImpuesto = $this->calcularImpuestos($newRequest);
-
-        $detail = new SummaryDetail();
-        $detail->setTipoDoc('03') // Boleta
-        ->setSerieNro($serie."-".$correlativo)
-        ->setEstado('3') // 3 para anulación
-        ->setClienteTipo('1')
-        ->setClienteNro($dni)
-        ->setTotal($calculoImpuesto['Total'])
-        ->setMtoOperGravadas($calculoImpuesto['subTotal'])
-        ->setMtoIGV($calculoImpuesto['Igv']);
-
-        $resumen = new Summary();
-        // $resumen->setFecGeneracion(new \DateTime($request->FechaHora)) //Fecha de emision de la boleta a anular
-        $resumen->setFecGeneracion(new \DateTime($plan_user->created_at))
-        ->setFecResumen(new \DateTime())
-        ->setCorrelativo($correlative->correlative)
-        ->setCompany($util->getCompany())
-        ->setDetails([$detail]);
-
-        // Envío a SUNAT
-        $see = $util->getSee();
-        $result = $see->send($resumen);
-
-        // Verificamos que la conexión con SUNAT fue exitosa.
-        if (!$result->isSuccess()) {
-            return response()->json([
-                'result'=>'error1',
-                'message'=> $result->getError()->getMessage()]);
-            exit();
-        }
-
-        $ticket = $result->getTicket();
-        // sleep(3); // demora unos segundos en obtener el tiket puedes probar entre 1 a 5
-        $status = $see->getStatus($ticket);
-
-        if (!$status->isSuccess()) {
-            return response()->json([
-                'result'=>'error2',
-                'message'=> $status->getError()->getMessage()]);
-            exit();
-        }
-
-        // Guardar el CDR
-        $cdr = $status->getCdrResponse();
-
-        return response()->json([
-            'result'=>'success', 
-            'message' => $cdr->getDescription().PHP_EOL
-        ]);
     }
 
     public function anularFactura(Request $request)
     {
-        $serie = $request->serie;
-        $correlativo = $request->correlativo;
-        $motivo = $request->motivo;
+        try {
+            $serie = $request->serie;
+            $correlativo = $request->correlativo;
+            $motivo = $request->motivo;
+            $plan_user = $this->validarCPE($serie, $correlativo);
 
-        $plan_user = PlanUser::where('file_name', 'LIKE', "%-$serie-$correlativo")->first();
-        if( !$plan_user ) {
+            $util = FactUtil::getInstance();
+            $correlative = $this->generateCorrelative(5);
+
+            $detalle = new VoidedDetail();
+            $detalle->setTipoDoc('01') // Factura
+            ->setSerie($serie) // REFERNCIA LAFACTURA DE LAVENTA A ANULAR
+            ->setCorrelativo($correlativo) // Correlativo de la venta a anular
+            ->setDesMotivoBaja($motivo);
+
+            $voided = new Voided();
+            $voided->setCorrelativo($correlative->correlative) // Correlativo de la comunicación de baja   
+            ->setFecComunicacion(new \DateTime())
+            ->setFecGeneracion(new \DateTime($plan_user->created_at)) // Fecha de emision de la factura a anular
+            ->setCompany($util->getCompany())
+            ->setDetails([$detalle]);
+
+            $see = $util->getSee();
+            $result = $see->send($voided);
+
+            if (!$result->isSuccess()) {
+                return response()->json([
+                    'result'=>'error1',
+                    'message'=> $result->getError()->getMessage()]);
+                exit();
+            }
+
+            $ticket = $result->getTicket();
+            // sleep(3); // demora unos segundos en obtener el tiket puedes probar entre 1 a 5
+            $status = $see->getStatus($ticket);
+
+            if (!$status->isSuccess()) {
+                return response()->json([
+                    'result'=>'error2',
+                    'message'=> $status->getError()->getMessage()]);
+                exit();
+            }
+
+            // Guardar el CDR
+            $cdr = $status->getCdrResponse();
+
             return response()->json([
-                'message' => "No existe el comprobante",
+                'result'=>'success', 
+                'message' => $cdr->getDescription().PHP_EOL
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
                 'status' => "error"
             ]);
         }
+    }
 
-        $util = FactUtil::getInstance();
-        $correlative = $this->generateCorrelative(5);
+    public function generarNotaCredito(Request $request)
+    {
+        try {
+            $serie = $request->serie;
+            $correlativo = $request->correlativo;
+            $motivo = $request->motivo;
+            $precio = $request->precio;
+            $detalles = [[
+                "price" => $precio,
+                "quantity" => 1            
+            ]];
+                
+            if ( $serie === 'B002' ) {
+                $tipoDoc_SUNAT = '03';
+            } else if ( $serie === 'F002' ) {
+                $tipoDoc_SUNAT = '01';
+            } else {
+                throw new \Exception("Número de serie no válido");
+            }
 
-        $detalle = new VoidedDetail();
-        $detalle->setTipoDoc('01') // Factura
-        ->setSerie($serie) // REFERNCIA LAFACTURA DE LAVENTA A ANULAR
-        ->setCorrelativo($correlativo) // Correlativo de la venta a anular
-        ->setDesMotivoBaja($motivo);
+            $plan_user = $this->validarCPE($serie, $correlativo);
+            
+            $detalles[0]['product'] = [
+                "id" => $plan_user->plan->id,
+                "name" => $plan_user->plan->name,
+                "type" => 1
+            ];
+            
+            $nro_documento = $plan_user->num_receipt_owner ?? $plan_user->client->numero_documento;
+            if ( (int)$plan_user->documentType->id === 2 ) { // BOLETA
+                $tipo_documento = 1;
+            } else if ( (int)$plan_user->documentType->id === 3 ) { // FACTURA
+                $tipo_documento = 6;
+            } else {
+                throw new \Exception("Tipo de documento no válido registrado.");
+            }
 
-        $voided = new Voided();
-        $voided->setCorrelativo($correlative->correlative) // Correlativo de la comunicación de baja   
-        ->setFecComunicacion(new \DateTime())
-        ->setFecGeneracion(new \DateTime($plan_user->created_at)) // Fecha de emision de la factura a anular
-        ->setCompany($util->getCompany())
-        ->setDetails([$detalle]);
+            $name = $plan_user->name_receipt_owner ?? $plan_user->client->nombres . $plan_user->client->apellidos;
+            $address = $plan_user->client->direccion;
 
-        $see = $util->getSee();
-        $result = $see->send($voided);
+            $correlative = $this->generateCorrelative(6);
 
-        if (!$result->isSuccess()) {
+            $util = FactUtil::getInstance();
+
+            // Cliente
+            $client = new Client();
+            $client->setTipoDoc($tipo_documento) // Tipo Doc: Boleta '1', Factura '6'
+            ->setNumDoc($nro_documento)  // Tipo Doc: 1 DNI, 2 RUC
+            ->setRznSocial($name)
+            ->setAddress((new Address())
+                ->setDireccion($address));
+
+            $newRequest = new Request();
+            $newRequest->merge(['details' => $detalles]);
+            $calculoImpuesto = $this->calcularImpuestos($newRequest);
+
+            $note = new Note();
+            $note->setUblVersion('2.1')
+            ->setTipoDoc('07')
+            ->setSerie($correlative->series)  // FF01
+            ->setCorrelativo($correlative->correlative)
+            ->setFechaEmision(new DateTime())
+            ->setTipDocAfectado($tipoDoc_SUNAT) // Tipo Doc: Boleta '03', Factura '01'
+            ->setNumDocfectado($serie .'-'. $correlativo) // Factura: Serie-Correlativo            
+            ->setCodMotivo('07') // Catalogo. 09
+            ->setDesMotivo($motivo)
+            ->setTipoMoneda('PEN')
+            /* Guias (Opcional) */
+            /*->setGuias([
+                (new DocumentFact())
+                ->setTipoDoc('09')
+                ->setNroDoc('0001-213')
+            ])*/
+            ->setCompany($util->getCompany())
+            ->setClient($client)
+            ->setMtoOperGravadas($calculoImpuesto['subTotal'])
+            ->setMtoIGV($calculoImpuesto['Igv'])
+            ->setTotalImpuestos($calculoImpuesto['Igv'])
+            ->setMtoImpVenta($calculoImpuesto['Total']);
+
+            $items = [];
+            foreach ($newRequest->details as $item) {
+                $detail = (new SaleDetail())
+                ->setCodProducto($item['product']['id'])
+                ->setUnidad($item['product']['type'] == 1 ? 'NIU' : 'ZZ') // Unidad - Catalog. 03
+                ->setCantidad($item['quantity'])
+                ->setDescripcion($item['product']['name']);
+                
+                $subtotal = (float)($item['price'] * $item['quantity'])/1.18;
+                $igv = (float)(($item['price'] * $item['quantity']) - $subtotal);
+                $importe = (float)($item['price'] * $item['quantity']);
+
+                $detail->setMtoBaseIgv($subtotal)
+                ->setPorcentajeIgv(18) // 18%
+                ->setIgv($igv)
+                ->setTipAfeIgv('10') // Gravado Op. Onerosa - Catalog. 07
+                ->setTotalImpuestos($igv)
+                ->setMtoValorVenta($subtotal)
+                ->setMtoValorUnitario((float)$item['price']/1.18)
+                ->setMtoPrecioUnitario($item['price']);
+
+                $items[] = $detail;
+            }
+
+            $formatter = new NumeroALetras();
+            $Total = $formatter->toInvoice($calculoImpuesto['Total'], 2, '');
+
+            $note->setDetails($items)
+            ->setLegends([
+                (new Legend())
+                ->setCode('1000')
+                ->setValue($Total
+                )
+            ]);
+
+            // Envio a SUNAT.
+            $see = $util->getSee();
+            $result = $see->send($note);
+            $util->writeXml($note, $see->getFactory()->getLastXml());
+
+            if (!$result->isSuccess()) {
+                // Mostrar error al conectarse a SUNAT.
+                return response()->json([
+                    'result'=>'error',
+                    'message'=> $result->getError()->getMessage()]);
+                exit();
+            }
+            // throw new \Exception("Entrooooo aquiiiiiiii");
+
+            // Generar formato A4
+            $pdfA4 = $util->getPdfA4($note,'2');
+
+            // CDR Resultado
+            $cdr = $result->getCdrResponse();
+            $util->writeCdr($note, $result->getCdrZip());
+
+            // Guardar el formato PDF tipo Ticket
+            $util->showPdf($pdfA4, $note->getName().'-a4.pdf');
+
             return response()->json([
-                'result'=>'error1',
-                'message'=> $result->getError()->getMessage()]);
-            exit();
-        }
+                'result'=>'success', 
+                'message' => $cdr->getDescription().PHP_EOL
+            ]);
 
-        $ticket = $result->getTicket();
-        // sleep(3); // demora unos segundos en obtener el tiket puedes probar entre 1 a 5
-        $status = $see->getStatus($ticket);
-
-        if (!$status->isSuccess()) {
+        } catch (\Exception $e) {
             return response()->json([
-                'result'=>'error2',
-                'message'=> $status->getError()->getMessage()]);
-            exit();
+                'message' => $e->getMessage(),
+                'status' => "error"
+            ]);
         }
+    }
 
-        // Guardar el CDR
-        $cdr = $status->getCdrResponse();
+    public function generarNotaDebito(Request $request)
+    {
+        try {
+            $serie = $request->serie;
+            $correlativo = $request->correlativo;
+            $motivo = $request->motivo;
+            $precio = $request->precio;
+            $detalles = [[
+                "price" => $precio,
+                "quantity" => 1
+            ]];
+                
+            if ( $serie === 'B002' ) {
+                $tipoDoc_SUNAT = '03';
+            } else if ( $serie === 'F002' ) {
+                $tipoDoc_SUNAT = '01';
+            } else {
+                throw new \Exception("Número de serie no válido");
+            }
 
-        return response()->json([
-            'result'=>'success', 
-            'message' => $cdr->getDescription().PHP_EOL
-        ]);
+            $plan_user = $this->validarCPE($serie, $correlativo);
+            
+            $detalles[0]['product'] = [
+                "id" => $plan_user->plan->id,
+                "name" => $plan_user->plan->name,
+                "type" => 1
+            ];
+
+            $nro_documento = $plan_user->num_receipt_owner ?? $plan_user->client->numero_documento;
+            if ( (int)$plan_user->documentType->id === 2 ) { // BOLETA
+                $tipo_documento = 1;
+            } else if ( (int)$plan_user->documentType->id === 3 ) { // FACTURA
+                $tipo_documento = 6;
+            } else {
+                throw new \Exception("Tipo de documento no válido registrado.");
+            }
+
+            $name = $plan_user->name_receipt_owner ?? $plan_user->client->nombres . $plan_user->client->apellidos;
+            $address = $plan_user->client->direccion;
+
+            $correlative = $this->generateCorrelative(7);
+
+            $util = FactUtil::getInstance();
+
+            // Cliente
+            $client = new Client();
+            $client->setTipoDoc($tipo_documento) // Tipo Doc: Boleta '1', Factura '6'
+            ->setNumDoc($nro_documento)  // Tipo Doc: 1 DNI, 2 RUC
+            ->setRznSocial($name)
+            ->setAddress((new Address())
+                ->setDireccion($address));
+
+            $newRequest = new Request();
+            $newRequest->merge(['details' => $detalles]);
+            $calculoImpuesto = $this->calcularImpuestos($newRequest);
+
+            $note = new Note();
+            $note->setUblVersion('2.1')
+            ->setTipoDoc('08')
+            ->setSerie($correlative->series)
+            ->setCorrelativo($correlative->correlative)
+            ->setFechaEmision(new DateTime())
+            ->setTipDocAfectado($tipoDoc_SUNAT) // Tipo Doc: Boleta '03', Factura '01'
+            ->setNumDocfectado($serie .'-'.$correlativo) // Factura: Serie-Correlativo
+            ->setCodMotivo('02') // Catalogo. 10
+            ->setDesMotivo($motivo)
+            ->setTipoMoneda('PEN')
+            ->setCompany($util->getCompany())
+            ->setClient($client)
+            ->setMtoOperGravadas($calculoImpuesto['subTotal'])
+            ->setMtoIGV($calculoImpuesto['Igv'])
+            ->setTotalImpuestos($calculoImpuesto['Igv'])
+            ->setMtoImpVenta($calculoImpuesto['Total']);
+
+            $items = [];
+            foreach ($newRequest->details as $item) {
+                $detail = (new SaleDetail())
+                ->setCodProducto($item['product']['id'])
+                ->setUnidad($item['product']['type'] == 1 ? 'NIU' : 'ZZ') // Unidad - Catalog. 03
+                ->setCantidad($item['quantity'])
+                ->setDescripcion($item['product']['name']);
+                
+                $subtotal = (float)($item['price'] * $item['quantity'])/1.18;
+                $igv = (float)(($item['price'] * $item['quantity']) - $subtotal);
+                $importe = (float)($item['price'] * $item['quantity']);
+
+                $detail->setMtoBaseIgv($subtotal)
+                ->setPorcentajeIgv(18) // 18%
+                ->setIgv($igv)
+                ->setTipAfeIgv('10') // Gravado Op. Onerosa - Catalog. 07
+                ->setTotalImpuestos($igv)
+                ->setMtoValorVenta($subtotal)
+                ->setMtoValorUnitario((float)$item['price']/1.18)
+                ->setMtoPrecioUnitario($item['price']);
+
+                $items[] = $detail;
+            }
+
+            $formatter = new NumeroALetras();
+            $Total = $formatter->toInvoice($calculoImpuesto['Total'], 2, '');
+
+            $note->setDetails($items)
+            ->setLegends([
+                (new Legend())
+                ->setCode('1000')
+                ->setValue($Total
+                )
+            ]);
+
+            // Envio a SUNAT.
+            $see = $util->getSee();
+            $result = $see->send($note);
+            $util->writeXml($note, $see->getFactory()->getLastXml());
+
+            if (!$result->isSuccess()) {
+                // Mostrar error al conectarse a SUNAT.
+                return response()->json([
+                    'result'=>'error',
+                    'message'=> $result->getError()->getMessage()]);
+                exit();
+            }
+
+            // Generar formato A4
+            $pdfA4 = $util->getPdfA4($note,'2');
+
+            // CDR Resultado
+            $cdr = $result->getCdrResponse();
+            $util->writeCdr($note, $result->getCdrZip());
+
+            // Guardar el formato PDF tipo Ticket
+            $util->showPdf($pdfA4, $note->getName().'-a4.pdf');
+
+            return response()->json([
+                'result'=>'success', 
+                'message' => $cdr->getDescription().PHP_EOL
+            ]);
+        
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'status' => "error"
+            ]);
+        }
     }
 
     private function generateCorrelative($id) {
@@ -787,16 +1096,6 @@ class BillingController extends Controller
         $data->correlative = $data->correlative + 1;
         $data->save();
 
-        return $data;
-    }
-
-    private function generarNotaCredito(Request $request) {
-        $data = "ere";
-        return $data;
-    }
-
-    private function generarNotaDebito(Request $request) {
-        $data = "ere";
         return $data;
     }
 

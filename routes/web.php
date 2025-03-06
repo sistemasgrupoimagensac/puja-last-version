@@ -155,8 +155,8 @@ Route::get('wsb-dev/{name_dev}/proyectos/unidades/{id_proyecto}/{id_unidad}/{arc
 Route::post('/generarComprobanteElec/{id}', [BillingController::class, 'generarFactura'])->middleware(SessionData::class);
 Route::post('/anular-boleta', [BillingController::class, 'anularBoleta'])->middleware(SessionData::class);
 Route::post('/anular-factura', [BillingController::class, 'anularFactura'])->middleware(SessionData::class);
-Route::post('/nota-credito', [BillingController::class, 'generarNotaCredito']);
-Route::post('/nota-debito', [BillingController::class, 'generarNotaDebito']);
+Route::post('/nota-credito', [BillingController::class, 'generarNotaCredito'])->middleware(SessionData::class);
+Route::post('/nota-debito', [BillingController::class, 'generarNotaDebito'])->middleware(SessionData::class);
 
 Route::get('/send_mail', [BillingController::class, 'sendMail']);
 

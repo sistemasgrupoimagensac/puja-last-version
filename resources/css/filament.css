@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
+
+/* Corregir estilos que cambian Filament */
+/* @layer components {
+    .fi-sidebar {
+        border-bottom: none !important;
+        text-decoration: none !important;
+    }
+
+    .fi-button {
+        box-shadow: none !important;
+    }
+} */

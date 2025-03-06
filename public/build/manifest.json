@@ -35,6 +35,11 @@
     "file": "assets/fa-v4compatibility-BRdYr4HJ.woff2",
     "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2"
   },
+  "resources/css/filament.css": {
+    "file": "assets/filament-C1ug7C2K.css",
+    "src": "resources/css/filament.css",
+    "isEntry": true
+  },
   "resources/images/bg3.webp": {
     "file": "assets/bg3-UVkOpnB3.webp",
     "src": "resources/images/bg3.webp"
@@ -44,7 +49,7 @@
     "src": "resources/images/slide2.webp"
   },
   "resources/js/app.js": {
-    "file": "assets/app-8D9v-bBk.js",
+    "file": "assets/app-B7M8n8l7.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
@@ -52,7 +57,7 @@
       "_bootstrap.esm-Cu-1HGb6.js"
     ],
     "css": [
-      "assets/app-DMqKAXLC.css"
+      "assets/app-B9_kHxJ7.css"
     ],
     "assets": [
       "assets/fa-brands-400-Ch568Ea9.woff2",
@@ -219,7 +224,7 @@
     "isEntry": true
   },
   "resources/sass/app.scss": {
-    "file": "assets/app-BMuYD8gD.css",
+    "file": "assets/app-bCmzmF6h.css",
     "src": "resources/sass/app.scss",
     "isEntry": true
   },
@@ -269,12 +274,12 @@
     "isEntry": true
   },
   "resources/sass/pages/create_project.scss": {
-    "file": "assets/create_project-D6iPnIlz.css",
+    "file": "assets/create_project-WNkm7v5Y.css",
     "src": "resources/sass/pages/create_project.scss",
     "isEntry": true
   },
   "resources/sass/pages/inmueble.scss": {
-    "file": "assets/inmueble-BXVhG_4I.css",
+    "file": "assets/inmueble-f9k7OdIy.css",
     "src": "resources/sass/pages/inmueble.scss",
     "isEntry": true
   },
@@ -289,7 +294,7 @@
     "isEntry": true
   },
   "resources/sass/pages/post.scss": {
-    "file": "assets/post-YuzB7luc.css",
+    "file": "assets/post--4Dgi3nL.css",
     "src": "resources/sass/pages/post.scss",
     "isEntry": true
   },
@@ -299,17 +304,17 @@
     "isEntry": true
   },
   "resources/sass/pages/recover-password.scss": {
-    "file": "assets/recover-password-D--AjwqR.css",
+    "file": "assets/recover-password-DHeoe2FV.css",
     "src": "resources/sass/pages/recover-password.scss",
     "isEntry": true
   },
   "resources/sass/pages/register.scss": {
-    "file": "assets/register-D-H6y-iV.css",
+    "file": "assets/register-z3ABnuJB.css",
     "src": "resources/sass/pages/register.scss",
     "isEntry": true
   },
   "resources/sass/pages/signin.scss": {
-    "file": "assets/signin-DHw37iqX.css",
+    "file": "assets/signin-BRyx4moF.css",
     "src": "resources/sass/pages/signin.scss",
     "isEntry": true
   },
