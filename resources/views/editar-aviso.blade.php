@@ -265,7 +265,7 @@
 
                             </div>
 
-                            <div class="form-check">
+                            <div class="form-check @if ($es_acreedor) d-none @endif">
                                 <input class="form-check-input" type="radio" x-model="antiguedad" id="construccion" value="0">
                                 <label class="form-check-label" for="construccion">
                                     En construcción
@@ -991,7 +991,7 @@
         }
 
         function avisoForm(inmueble, op_inmueble, ubi_inmueble, caract_inmueble_id, mult_inmueble, imgs_inmueble, videos_inmueble, planos_inmueble, extra_carac_inmueble, remates) {
-            const normalizedRemates = remates.map((r, i) => {
+            const normalizedRemates = (remates ?? []).map((r, i) => {
                 let fechaVal = r.fecha_remate || r.fecha || '';
                 
                 let horaVal = r.hora_remate || r.hora || '';
@@ -1141,7 +1141,7 @@
                     } else if ( val === 4 ) {
                         this.remate_direccion_id = val
                         this.direccion_remate = "Remate Virtual"                        
-                        this.remate_nombre_centro = "Remate electrónico judicial"
+                        this.remate_nombre_centro = "REMAJU"
                     }
                 },
 

@@ -257,7 +257,7 @@
 
                             </div>
 
-                            <div class="form-check">
+                            <div class="form-check @if ($es_acreedor) d-none @endif">
                                 <input class="form-check-input" type="radio" x-model="antiguedad" id="construccion" value="0" required>
                                 <label class="form-check-label" for="construccion">
                                     En construcción
@@ -1075,7 +1075,7 @@
                     } else if ( val === 4 ) {
                         this.remate_direccion_id = val
                         this.direccion_remate = "Remate Virtual"                        
-                        this.remate_nombre_centro = "Remate electrónico judicial"
+                        this.remate_nombre_centro = "REMAJU"
                     }
                 },
 

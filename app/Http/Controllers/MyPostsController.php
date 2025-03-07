@@ -582,11 +582,14 @@ class MyPostsController extends Controller
         $inmueble = Inmueble::where("id", $aviso->inmueble_id)->first();
         $principal_inmueble_id = PrincipalInmueble::where("inmueble_id", $aviso->inmueble_id)->pluck('id')->first();
 
+        $remates = null;
         if ( isset($principal_inmueble_id) ) {
-            $caract_inmueble_id = CaracteristicaInmueble::where("principal_inmueble_id", $principal_inmueble_id)->first();
-            $remates = Remate::where('caracteristicas_inmueble_id', $caract_inmueble_id->id)->get();
             $op_inmueble = OperacionTipoInmueble::where("principal_inmueble_id", $principal_inmueble_id)->first();
             $ubi_inmueble = UbicacionInmueble::where("principal_inmueble_id", $principal_inmueble_id)->first();
+            $caract_inmueble_id = CaracteristicaInmueble::where("principal_inmueble_id", $principal_inmueble_id)->first();
+            if ( $caract_inmueble_id ) {
+                $remates = Remate::where('caracteristicas_inmueble_id', $caract_inmueble_id->id)->get();
+            }
         } else {
             $caract_inmueble_id = null;
             $op_inmueble = null;

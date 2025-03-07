@@ -59,8 +59,9 @@ class ReporteInmuebleGeneralResource extends Resource
                         "tu.tipo as tipo_usuario",
                         "u.celular",
                         "u.email",
-                        DB::raw('COUNT(a.id) as Cant_publicaciones'),
-                        DB::raw('MAX(h.updated_at) as Ultima_publicacion'),
+                        "a.plan_user_id as plan_user_id",
+                        // DB::raw('COUNT(a.id) as Cant_publicaciones'),
+                        DB::raw('a.fecha_publicacion as Ultima_publicacion'),
                         "pk.name as Nombre_paquete",
                         "p.name as Nombre_del_plan",
                         "p.price as Monto_del_plan",
@@ -69,21 +70,22 @@ class ReporteInmuebleGeneralResource extends Resource
                         DB::raw('IFNULL(CONCAT(pu.promo2, "%"), "") AS Promo_2')
                     ])
                     ->join('users as u', 'inmuebles.user_id', '=', 'u.id')
-                    ->join('avisos as a', 'inmuebles.id', '=', 'a.inmueble_id')
-                    /* ->join('historial_avisos as h', function ($join) {
-                        $join->on('a.id', '=', 'h.aviso_id')
-                             ->where('h.estado_aviso_id', '=', 3);
-                    }) */
-                    ->join('historial_avisos as h', 'a.id', '=', 'h.aviso_id')
-                    ->leftJoin('plan_user as pu', 'a.plan_user_id', '=', 'pu.id')
+                    ->join('plan_user as pu', 'u.id', '=', 'pu.user_id')
                     ->join('plans as p', 'pu.plan_id', '=', 'p.id')
                     ->join('packages as pk', 'p.package_id', '=', 'pk.id')
                     ->join('tipos_usuario as tu', 'pk.user_type_id', '=', 'tu.id')
-                    ->leftJoin('promotions as pro', 'p.promotion_id', '=', 'pro.id')
-                    ->leftJoin('promotions as pro2', 'p.promotion2_id', '=', 'pro2.id')
-                    ->where('h.created_at', '>', Carbon::parse('2025-01-07 00:00:00'))
-                    ->groupBy('u.id', 'u.nombres', 'u.apellidos', 'u.email', 'tu.tipo', 'pk.name', 'p.name', 'p.price', 'pu.price', 'pu.promo1', 'pu.promo2', 'u.created_at', 'u.celular', 'u.email')
-                ->orderBy(DB::raw('MAX(h.updated_at)'), 'DESC')
+                    ->leftJoin(DB::raw('(SELECT a1.*
+                                        FROM avisos a1
+                                        WHERE a1.fecha_publicacion = 
+                                            (SELECT MAX(a2.fecha_publicacion) 
+                                            FROM avisos a2 
+                                            WHERE a2.plan_user_id = a1.plan_user_id)
+                                    ) as a'), function ($join) {
+                        $join->on('pu.id', '=', 'a.plan_user_id');
+                    })
+                    ->where('a.fecha_publicacion', '>', Carbon::parse('2025-01-07 00:00:00'))
+                    ->groupBy('u.id', 'u.created_at', 'u.nombres', 'u.apellidos', 'tu.tipo', 'u.celular', 'u.email', 'a.plan_user_id', 'a.fecha_publicacion', 'pk.name', 'p.name', 'p.price', 'pu.price', 'pu.promo1', 'pu.promo2')
+                // ->orderBy(DB::raw('MAX(h.updated_at)'), 'DESC')
             )
             ->columns([
                 // TextColumn::make('row_number')->label('N°')->rowIndex(),
@@ -93,6 +95,7 @@ class ReporteInmuebleGeneralResource extends Resource
                 TextColumn::make('tipo_usuario')->label('Tipo Usuario'),
                 TextColumn::make('celular')->label('Celular'),
                 TextColumn::make('email')->label('Correo'),
+                TextColumn::make('plan_user_id')->label('PU-ID'),
                 TextColumn::make('Cant_publicaciones')->label('Cant. publicaciones'),
                 TextColumn::make('Ultima_publicacion')->label('Última publicación')->dateTime(),
                 TextColumn::make('Nombre_paquete')->label('Paquete'),
