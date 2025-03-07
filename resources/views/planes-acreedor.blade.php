@@ -33,13 +33,13 @@
 					<legend class="h6 text-secondary mb-3">1. Elige el tiempo de duración del aviso</legend>
 				
 						<div role="group" class="planes-numero-avisos d-flex flex-column flex-md-row justify-content-center align-items-center w-100 gap-3 gap-lg-4 px-1 p-lg-0 mt-4">
-							<div>
+							{{-- <div>
 								<input type="radio" class="btn-check" id="7" value="7" autocomplete="off" x-model="periodoPlan">
 								<label class="btn btn-lg btn-outline-secondary fs-4 px-0 py-1" for="7">7 días</label>
-							</div>
+							</div> --}}
 							<div>
-								<input type="radio" class="btn-check" id="15" value="15" autocomplete="off" x-model="periodoPlan">
-								<label class="btn btn-lg btn-outline-secondary fs-4 px-0 py-1" for="15">15 días</label>
+								<input type="radio" class="btn-check" id="15" value="30" autocomplete="off" x-model="periodoPlan">
+								<label class="btn btn-lg btn-outline-secondary fs-4 px-0 py-1" for="15">30 días</label>
 							</div>
 						</div>
 				
@@ -143,17 +143,18 @@
 										<hr>
 										<div class="card-description-plan d-flex justify-content-start px-4">
 											<ul class="list-unstyled text-start h6 mb-4">
-												<li>Publicación de Aviso <span x-text="plan.tipoAviso"></span></li>
-												<li><span x-text="plan.duration_in_days"></span> días de publicación</li>
+												{{-- <li>Publicación de Aviso <span x-text="plan.tipoAviso"></span></li> --}}
+												<li>Vigencia del aviso <span x-text="plan.duration_in_days"></span> días</li>
 						
 												<template x-if="plan.name === 'Plan Premium'">
-													<li>Genera interesados</li>
-													<li>Alta visibilidad</li>
-													<li>Exposición Óptima</li>
+													{{-- <li>Genera interesados</li> --}}
+													{{-- <li>Alta visibilidad</li> --}}
+													<li>Visibilidad Destacada</li>
 												</template>
 												<template x-if="plan.name === 'Plan Top'">
-													<li>Genera interesados</li>
-													<li>Alta visibilidad</li>
+													{{-- <li>Genera interesados</li> --}}
+													{{-- <li>Alta visibilidad</li> --}}
+													<li>Visibilidad en primeras posiciones</li>
 												</template>
 												<template x-if="plan.name === 'Plan Estandar'">
 													<li>Visibilidad Convencional</li>
@@ -223,17 +224,17 @@
 				categoriaPlan: 'acreedor',
 				tipoDeAviso: 0,
 				numAvisos: 1,
-				periodoPlan: 15,
+				periodoPlan: 30,
 				loading: false,
 				error: '',
 				pagoFree: false,
 
 				priceTable: {
-					'7': [150, 200, 240], '15': [250, 350, 420] ,
+					'7': [150, 200, 240], '30': [250, 350, 420] ,
 				},
 
 				ids: {
-					'7': [109, 110, 111], '15': [112, 113, 114],
+					'7': [109, 110, 111], '30': [112, 113, 114],
 				},
 
 				updatePrices() {
