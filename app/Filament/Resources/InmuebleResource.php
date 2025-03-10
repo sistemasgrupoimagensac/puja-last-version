@@ -53,7 +53,7 @@ class InmuebleResource extends Resource
                 Inmueble::query()
                     ->select([
                         'inmuebles.id as id',
-                        DB::raw('CONCAT(u.nombres, " ", u.apellidos) as Cliente'),
+                        DB::raw('CONCAT(IFNULL(u.nombres, ""), " ", IFNULL(u.apellidos, "")) as cliente'),
                         "u.email",
                         "u.celular as celular",
                         "e.estado as id_estado_aviso", 
@@ -89,8 +89,8 @@ class InmuebleResource extends Resource
                 // TextColumn::make('row_number')->label('N°')->rowIndex(),
                 TextColumn::make('id')->label('ID')->sortable(),
                 TextColumn::make('Tipo_usuario')->label('Tipo Usuario'),
-                TextColumn::make('Cliente')->label('Cliente')->searchable(query: function ($query, $search) {
-                    return $query->whereRaw("CONCAT(u.nombres, ' ', u.apellidos) LIKE ?", ["%{$search}%"]);
+                TextColumn::make('cliente')->label('Cliente')->searchable(query: function ($query, $search) {
+                    return $query->whereRaw("CONCAT(IFNULL(u.nombres, ''), ' ', IFNULL(u.apellidos, '')) LIKE ?", ["%{$search}%"]);
                 }),
                 TextColumn::make('email')->label('Correo')->searchable(),
                 TextColumn::make('celular')->label('Celular'),

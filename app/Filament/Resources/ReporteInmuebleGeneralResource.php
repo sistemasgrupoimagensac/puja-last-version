@@ -19,7 +19,7 @@ class ReporteInmuebleGeneralResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-chart-bar';
 
-    protected static ?string $navigationLabel = 'Reporte general';
+    protected static ?string $navigationLabel = 'Reporte Planes Contratado';
 
     protected static ?int $navigationSort = 22;
 
@@ -60,7 +60,6 @@ class ReporteInmuebleGeneralResource extends Resource
                         "u.celular",
                         "u.email",
                         "a.plan_user_id as plan_user_id",
-                        // DB::raw('COUNT(a.id) as Cant_publicaciones'),
                         DB::raw('a.fecha_publicacion as Ultima_publicacion'),
                         "pk.name as Nombre_paquete",
                         "p.name as Nombre_del_plan",
@@ -91,13 +90,14 @@ class ReporteInmuebleGeneralResource extends Resource
                 // TextColumn::make('row_number')->label('N°')->rowIndex(),
                 TextColumn::make('id')->label('ID usuario')->sortable(),
                 TextColumn::make('fecha_registro')->label('Fecha de registro')->dateTime(),
-                TextColumn::make('cliente')->label('Cliente')->searchable(),
+                TextColumn::make('cliente')->label('Cliente')->searchable(query: function ($query, $search) {
+                    return $query->whereRaw("CONCAT(IFNULL(u.nombres, ''), ' ', IFNULL(u.apellidos, '')) LIKE ?", ["%{$search}%"]);
+                }),
                 TextColumn::make('tipo_usuario')->label('Tipo Usuario'),
                 TextColumn::make('celular')->label('Celular'),
                 TextColumn::make('email')->label('Correo'),
                 TextColumn::make('plan_user_id')->label('PU-ID'),
-                TextColumn::make('Cant_publicaciones')->label('Cant. publicaciones'),
-                TextColumn::make('Ultima_publicacion')->label('Última publicación')->dateTime(),
+                TextColumn::make('Ultima_publicacion')->label('Última publicación')->dateTime()->sortable(),
                 TextColumn::make('Nombre_paquete')->label('Paquete'),
                 TextColumn::make('Nombre_del_plan')->label('Plan'),
                 TextColumn::make('Monto_del_plan')->label('Monto')->money('PEN'),

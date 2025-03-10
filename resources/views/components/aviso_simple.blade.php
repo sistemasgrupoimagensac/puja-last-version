@@ -64,7 +64,7 @@
                                 <div class="d-flex flex-column">
 
                                     <span>Fecha publicación: <span class="fw-semibold">{{ \Carbon\Carbon::parse($aviso->fecha_publicacion)->format('d . m . Y') }}</span></span>
-                                    <span>Fecha finalización: <span class="fw-semibold">{{ \Carbon\Carbon::parse($aviso->planUser->end_date)->format('d . m . Y') }}</span></span>
+                                    <span>Fecha finalización: <span class="fw-semibold">{{ \Carbon\Carbon::parse($aviso->fecha_vencimiento)->format('d . m . Y') }}</span></span>
                                     
                                     @if ( $aviso->ad_type === 3 )
                                         <span>Aviso tipo: <span class="fw-semibold">Premium</span></span>

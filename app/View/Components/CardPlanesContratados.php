@@ -11,7 +11,6 @@ class CardPlanesContratados extends Component
     public $planTitle;
     public $term;
     public $start;
-    public $end;
     public $totalAdsHired;
     public $typicalAdsHired;
     public $topAdsHired;
@@ -20,12 +19,11 @@ class CardPlanesContratados extends Component
     public $topAdsRemaining;
     public $topPlusAdsRemaining;
 
-    public function __construct($planTitle, $term, $start, $end, $totalAdsHired, $typicalAdsHired, $topAdsHired, $topPlusAdsHired, $typicalAdsRemaining, $topAdsRemaining, $topPlusAdsRemaining)
+    public function __construct($planTitle, $term, $start, $totalAdsHired, $typicalAdsHired, $topAdsHired, $topPlusAdsHired, $typicalAdsRemaining, $topAdsRemaining, $topPlusAdsRemaining)
     {
         $this->planTitle = $planTitle;
         $this->term = $term;
         $this->start = $start;
-        $this->end = $end;
         $this->totalAdsHired = $totalAdsHired;
         $this->typicalAdsHired = $typicalAdsHired;
         $this->topAdsHired = $topAdsHired;

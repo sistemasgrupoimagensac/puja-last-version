@@ -47,7 +47,7 @@
 
                             term="{{ $plan['duration_in_days'] }}"
                             start="{{ \Carbon\Carbon::parse($plan['plan_user']['start_date'])->format('d/m/Y') }}"
-                            end="{{ \Carbon\Carbon::parse($plan['plan_user']['end_date'])->format('d/m/Y') }}"
+                            {{-- end="{{ \Carbon\Carbon::parse($plan['plan_user']['end_date'])->format('d/m/Y') }}" --}}
 
                             totalAdsHired="{{ $plan['total_ads'] }}"
                             typicalAdsHired="{{ $plan['typical_ads'] }}"

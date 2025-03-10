@@ -78,9 +78,11 @@ class UserResource extends Resource
             )
             ->columns([
                 TextColumn::make('id')->label('ID')->sortable(),
-                TextColumn::make('tipo_usuario')->label('Tipo usuario')->sortable(),
-                TextColumn::make('cliente')->label('Cliente')->searchable(),
-                TextColumn::make('fecha_registro')->label('Fecha de registro')->dateTime(),
+                TextColumn::make('tipo_usuario')->label('Tipo usuario'),
+                TextColumn::make('cliente')->label('Cliente')->searchable(query: function ($query, $search) {
+                    return $query->whereRaw("CONCAT(IFNULL(users.nombres, ''), ' ', IFNULL(users.apellidos, '')) LIKE ?", ["%{$search}%"]);
+                }),
+                TextColumn::make('fecha_registro')->label('Fecha de registro')->dateTime()->sortable(),
                 TextColumn::make('celular')->label('Celular'),
                 TextColumn::make('email')->label('Correo'),
                 TextColumn::make('tipo_documento')->label('Tipo documento'),

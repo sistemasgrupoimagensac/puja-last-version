@@ -5,7 +5,7 @@
     <h5 class="card-title fw-bold text-primary">Periodo del plan</h5>
     <p class="m-0"><span class="fw-bold">Duración: </span>{{ $term }} días</p>
     <p class="m-0"><span class="fw-bold">Inicio del plan: </span>{{ $start }}</p>
-    <p class="m-0"><span class="fw-bold">Fin del Plan: </span>{{ $end }}</p>
+    {{-- <p class="m-0"><span class="fw-bold">Fin del Plan: </span>{{ $end }}</p> --}}
 
     <hr>
 
