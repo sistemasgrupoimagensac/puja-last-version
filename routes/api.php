@@ -50,7 +50,7 @@ Route::post('/inmueble/email-contact', [ContactoController::class, 'emailContact
 Route::get('/inmueble/{inmueble}', InmuebleController::class);
 Route::get('/blogs',[SuppliersController::class, 'indexBlog']);
 Route::get('/blogs/{slug}',[SuppliersController::class, 'showBlog']);
-Route::get('/landing-count',[SuppliersController::class, 'landingCount']);
+Route::get('/landing-count/{slug}',[SuppliersController::class, 'landingCount']);
 
 /* Route::middleware('auth')->group(function () {
     Route::get('/email/verify', [EmailVerificationController::class, 'notice'])

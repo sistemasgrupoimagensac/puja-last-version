@@ -39,10 +39,10 @@ class SuppliersController extends Controller
 
     }
 
-    public function landingCount()
+    public function landingCount($slug)
     {
         
-        $param = Parameter::where('status', 1)->where('name', 'landing')->firstOrFail();
+        $param = Parameter::where('status', 1)->where('name', $slug)->firstOrFail();
         (int)$param->value++;
         $param->save();
 
