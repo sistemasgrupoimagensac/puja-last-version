@@ -82,9 +82,13 @@ class AdContactResource extends Resource
             )
             ->columns([
                 TextColumn::make('id')->label('ID')->sortable(),
-                TextColumn::make('title')->label('Título'),
+                TextColumn::make('title')->label('Título')->searchable(query: function ($query, $search) {
+                    return $query->whereRaw("CONCAT(IFNULL(ti.tipo, ''), ' en ', IFNULL(to.tipo, ''), ' en ', IFNULL(d.nombre, '')) LIKE ?", ["%{$search}%"]);
+                }),
                 TextColumn::make('aviso_id')->label('Aviso id')->searchable(),
-                TextColumn::make('owner')->label('Dueño'),
+                TextColumn::make('owner')->label('Dueño')->searchable(query: function ($query, $search) {
+                    return $query->whereRaw("CONCAT(IFNULL(uo.nombres, ''), ' ', IFNULL(uo.apellidos, '')) LIKE ?", ["%{$search}%"]);
+                }),
                 TextColumn::make('tipo_contacto')->label('Tipo contacto'),
                 TextColumn::make('usuario')->label('Usuario'),
                 TextColumn::make('full_name')->label('Nombre'),
