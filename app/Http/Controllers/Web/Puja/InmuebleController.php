@@ -49,10 +49,10 @@ class InmuebleController extends Controller
             $fecha_actual = Carbon::today();
             $views = 0;
 
-            $last_publicado = HistorialAvisos::where('aviso_id', $aviso->id)->where('estado_aviso_id', 3)->orderByDesc('id')->first();
+            $last_publicado = HistorialAvisos::where('aviso_id', $aviso->id)->orderByDesc('id')->first();
 
-            if ( $last_publicado ) {
-                $fecha_publicacion = Carbon::parse($last_publicado->created_at);
+            if ( (int)$last_publicado->estado_aviso_id === 3 ) {
+                $fecha_publicacion = Carbon::parse($aviso->fecha_publicacion)->startOfDay();
                 
                 $cant_first = 1400;
                 $cant_second = 2400;
