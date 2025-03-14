@@ -57,6 +57,8 @@ class InmuebleResource extends Resource
                         "u.email",
                         "u.celular as celular",
                         "e.estado as id_estado_aviso", 
+                        "to.tipo as tipo_operacion",
+                        "ti.tipo as tipo_inmueble",
                         "d.nombre as distrito",
                         "a.fecha_publicacion",
                         DB::raw('IFNULL(a.fecha_vencimiento, "") as fecha_vencimiento'),
@@ -74,6 +76,9 @@ class InmuebleResource extends Resource
                     ])
                     ->join('users as u', 'inmuebles.user_id', '=', 'u.id')
                     ->join('principal_inmuebles as pi', 'inmuebles.id', '=', 'pi.inmueble_id')
+                    ->join('operaciones_tipos_inmuebles as o', 'pi.id', '=', 'o.principal_inmueble_id')
+                    ->join('tipos_operaciones as to', 'o.tipo_operacion_id', '=', 'to.id')
+                    ->join('tipos_inmuebles as ti', 'o.tipo_inmueble_id', '=', 'ti.id')
                     ->join('ubicaciones_inmuebles as ui', 'pi.id', '=', 'ui.principal_inmueble_id')
                     ->join('distritos as d', 'ui.distrito_id', '=', 'd.id')
                     ->join('avisos as a', 'inmuebles.id', '=', 'a.inmueble_id')
@@ -99,6 +104,8 @@ class InmuebleResource extends Resource
                 TextColumn::make('email')->label('Correo')->searchable(),
                 TextColumn::make('celular')->label('Celular'),
                 TextColumn::make('id_estado_aviso')->label('Estado'),
+                TextColumn::make('tipo_operacion')->label('T. operación'),
+                TextColumn::make('tipo_inmueble')->label('T. inmueble'),
                 TextColumn::make('distrito')->label('Distrito'),
                 TextColumn::make('fecha_publicacion')->label('Fecha de Publicación')->dateTime()->sortable(),
                 TextColumn::make('fecha_vencimiento')->label('Fecha de Vencimiento')->dateTime()->sortable(),
