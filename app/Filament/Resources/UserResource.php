@@ -83,10 +83,10 @@ class UserResource extends Resource
                     return $query->whereRaw("CONCAT(IFNULL(users.nombres, ''), ' ', IFNULL(users.apellidos, '')) LIKE ?", ["%{$search}%"]);
                 }),
                 TextColumn::make('fecha_registro')->label('Fecha de registro')->dateTime()->sortable(),
-                TextColumn::make('celular')->label('Celular'),
-                TextColumn::make('email')->label('Correo'),
+                TextColumn::make('celular')->label('Celular')->searchable(),
+                TextColumn::make('email')->label('Correo')->searchable(),
                 TextColumn::make('tipo_documento')->label('Tipo documento'),
-                TextColumn::make('nro_documento')->label('Nro. documento'),
+                TextColumn::make('nro_documento')->label('Nro. documento')->searchable(),
                 TextColumn::make('direccion')->label('Dirección'),
                 TextColumn::make('puede_publicar')->label('Puede publicar'),
                 TextColumn::make('pago_gratis')->label('Pago gratis'),

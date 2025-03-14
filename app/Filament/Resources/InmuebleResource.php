@@ -57,6 +57,7 @@ class InmuebleResource extends Resource
                         "u.email",
                         "u.celular as celular",
                         "e.estado as id_estado_aviso", 
+                        "d.nombre as distrito",
                         "a.fecha_publicacion",
                         DB::raw('IFNULL(a.fecha_vencimiento, "") as fecha_vencimiento'),
                         "tu.tipo as Tipo_usuario",
@@ -72,6 +73,9 @@ class InmuebleResource extends Resource
                         DB::raw('CONCAT(pu.file_name, "-a4.pdf") as cpe')
                     ])
                     ->join('users as u', 'inmuebles.user_id', '=', 'u.id')
+                    ->join('principal_inmuebles as pi', 'inmuebles.id', '=', 'pi.inmueble_id')
+                    ->join('ubicaciones_inmuebles as ui', 'pi.id', '=', 'ui.principal_inmueble_id')
+                    ->join('distritos as d', 'ui.distrito_id', '=', 'd.id')
                     ->join('avisos as a', 'inmuebles.id', '=', 'a.inmueble_id')
                     ->join('historial_avisos as h', function ($join) {
                         $join->on('a.id', '=', 'h.aviso_id')
@@ -95,6 +99,7 @@ class InmuebleResource extends Resource
                 TextColumn::make('email')->label('Correo')->searchable(),
                 TextColumn::make('celular')->label('Celular'),
                 TextColumn::make('id_estado_aviso')->label('Estado'),
+                TextColumn::make('distrito')->label('Distrito'),
                 TextColumn::make('fecha_publicacion')->label('Fecha de Publicación')->dateTime()->sortable(),
                 TextColumn::make('fecha_vencimiento')->label('Fecha de Vencimiento')->dateTime()->sortable(),
                 TextColumn::make('Nombre_paquete')->label('Paquete'),

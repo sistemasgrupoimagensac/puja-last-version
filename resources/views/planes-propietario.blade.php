@@ -183,21 +183,32 @@
 										<hr>
 										<div class="card-description-plan d-flex justify-content-start px-4">
 											<ul class="list-unstyled text-start h6 mb-4">
-												<li>Publicación de Aviso <span x-text="plan.tipoAviso"></span></li>
+												
+												<li x-show="plan.name === 'Plan Premium'">Visibilidad destacada</li>
+												<li x-show="plan.name === 'Plan Premium'">Genera interesados</li>
+												<li x-show="plan.name === 'Plan Premium'">Exposición óptima</li>
+												
+												<li x-show="plan.name === 'Plan Top'">Alta visibilidad</li>
+												<li x-show="plan.name === 'Plan Top'">Genera interesados</li>
+												
+												<li x-show="plan.name === 'Plan Estandar'">Visibilidad convencional</li>
+												
+												<li>
+													<span x-show="plan.premium_ads > 0">
+														<span x-text="plan.premium_ads"></span>
+														 aviso(s) premium
+													</span>
+													<span x-show="plan.top_ads > 0">
+														<span x-text="plan.top_ads"></span>
+														 aviso(s) top
+													</span>
+													<span x-show="plan.typical_ads > 0">
+														<span x-text="plan.typical_ads"></span>
+														 aviso(s) típico
+													</span>
+												</li>
+
 												<li><span x-text="plan.duration_in_days"></span> días de publicación</li>
-						
-												<template x-if="plan.name === 'Plan Premium'">
-													<li>Genera interesados</li>
-													<li>Alta visibilidad</li>
-													<li>Exposición Óptima</li>
-												</template>
-												<template x-if="plan.name === 'Plan Top'">
-													<li>Genera interesados</li>
-													<li>Alta visibilidad</li>
-												</template>
-												<template x-if="plan.name === 'Plan Estandar'">
-													<li>Visibilidad Convencional</li>
-												</template>
 											</ul>
 										</div>
 										<div class="card-footer fw-bold fs-5">

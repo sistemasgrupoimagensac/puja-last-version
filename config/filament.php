@@ -6,9 +6,9 @@ return [
 
     'auth' => [
         'guard' => 'web',
-        'check' => function (Filament\Panel $panel, $user) {
-            return $user->hasAnyRole(['admin', 'asesor_venta']);
-        },
+        // 'check' => function (Filament\Panel $panel, $user) {
+        //     return $user->hasAnyRole(['admin', 'asesor_venta']);
+        // },
     ],
 
     /*

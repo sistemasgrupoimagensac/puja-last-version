@@ -168,7 +168,8 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         // return $this->tipoUsuario->nombres === 'Admin' && $this->hasVerifiedEmail();
         // return $this->nombres === 'Admin';
         // return $this->hasAnyRole(['admin', 'asesor_venta']);
-        return true;
+        return $this->tipo_usuario_id === 6;
+        // return true;
     }
 
     public function creator()
