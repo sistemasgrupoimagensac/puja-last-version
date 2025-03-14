@@ -53,6 +53,38 @@ class InmuebleResource extends Resource
                 Inmueble::query()
                     ->select([
                         'inmuebles.id as id',
+                        DB::raw(
+                            "CONCAT(
+                                '". env('APP_URL') ."inmuebles/',
+                                ti.slug,
+                                '-en-',
+                                to.slug,
+                                '-en-',
+                                LOWER(
+                                    REPLACE(
+                                    REPLACE(
+                                    REPLACE(
+                                    REPLACE(
+                                    REPLACE(
+                                    REPLACE(
+                                    REPLACE(
+                                    REPLACE(
+                                    REPLACE(
+                                    REPLACE(
+                                    REPLACE(d.nombre, ' ', '-'),
+                                    'á', 'a'),
+                                    'é', 'e'),
+                                    'í', 'i'),
+                                    'ó', 'o'),
+                                    'ú', 'u'),
+                                    'Á', 'A'),
+                                    'É', 'E'),
+                                    'Í', 'I'),
+                                    'Ó', 'O'),
+                                    'Ú', 'U') 
+                                    )
+                                )
+                            as segmentacion_distrito"),
                         DB::raw('CONCAT(IFNULL(u.nombres, ""), " ", IFNULL(u.apellidos, "")) as cliente'),
                         "u.email",
                         "u.celular as celular",
@@ -109,6 +141,7 @@ class InmuebleResource extends Resource
                 TextColumn::make('distrito')->label('Distrito'),
                 TextColumn::make('fecha_publicacion')->label('Fecha de Publicación')->dateTime()->sortable(),
                 TextColumn::make('fecha_vencimiento')->label('Fecha de Vencimiento')->dateTime()->sortable(),
+                TextColumn::make('segmentacion_distrito')->label('URL por distrito'),
                 TextColumn::make('Nombre_paquete')->label('Paquete'),
                 TextColumn::make('Nombre_del_plan')->label('Plan'),
                 TextColumn::make('Monto_del_plan')->label('Monto')->money('PEN'),
