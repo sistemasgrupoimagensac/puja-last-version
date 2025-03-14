@@ -371,7 +371,7 @@ class MyPostsController extends Controller
                 }
         
                 $validator = Validator::make($request->all(), [
-                    'imagen_principal' => 'required|image|max:10240',
+                    'imagen_principal' => 'required|image|max:20000',
                 ]);
 
                 if ($validator->fails()) {
@@ -417,7 +417,7 @@ class MyPostsController extends Controller
                     foreach ($request->file('imagen') as $imagen) {
     
                         $validator = Validator::make(['imagen' => $imagen], [
-                            'imagen' => 'image|max:10240',
+                            'imagen' => 'image|max:20000',
                         ]);
                         if ($validator->fails()) {
                             return response()->json([
@@ -442,7 +442,7 @@ class MyPostsController extends Controller
 
             if ( $request->hasFile('video') ) {
                 $validator = Validator::make($request->all(), [
-                    'video' => 'mimes:mp4,mov,ogg,qt|max:51200',
+                    'video' => 'mimes:mp4,mov,ogg,qt|max:60000',
                 ]);
                 if ($validator->fails()) {
                     return response()->json([
@@ -469,7 +469,7 @@ class MyPostsController extends Controller
         
                 foreach ($request->file('planos') as $plano) {
                     $validator = Validator::make(['planos' => $plano], [
-                        'planos' => 'image|max:10240',
+                        'planos' => 'image|max:20000',
                     ]);
                     if ($validator->fails()) {
                         return response()->json([
