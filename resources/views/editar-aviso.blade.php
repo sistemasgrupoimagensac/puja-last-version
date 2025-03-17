@@ -1356,12 +1356,18 @@
                                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
                             }
                         })
-                        .then(response => response.json())
+                        .then(response => {
+                            if (!response.ok) {
+                                return response.json().then(errorData => {
+                                    throw errorData;
+                                });
+                            }
+                            return response.json();
+                        })
                         .then(data => {
                             if (data.codigo_unico) {
                                 this.codigo_unico = data.codigo_unico;
                             }
-                            console.log(this.codigo_unico);
 
                             if (step === 1) {
                                 this.aviso_id = data.id;
@@ -1379,7 +1385,30 @@
                             }
                         })
                         .catch(error => {
-                            console.error('Error:', error);
+
+                            if (step === 4 && error.message_error) {
+
+                                document.getElementById('error-principal-image-message-edit').innerText = error.message_error;
+                                triggerToastPrincipalImageErrorEdit()
+
+                            } else if (step === 4 && error.errors) {
+
+                                for (let key in error.errors) {
+                                    if (error.errors[key].length > 0) {
+                                        const errorMessageElement = document.getElementById('error-principal-image-message-edit');
+
+                                        if (errorMessageElement) {
+                                            errorMessageElement.innerText = error.errors[key][0];
+                                        }
+                                        triggerToastPrincipalImageErrorEdit();
+                                        break;
+                                    }
+                                }
+
+                            } else {
+                                console.error('Error: ', error)
+                            }
+
                         })
                         .finally(() => {
                             this.hideLoader();
