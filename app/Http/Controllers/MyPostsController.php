@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Mail\newAdMail;
+use App\Mail\SendConfirmationToContact;
 use App\Mail\SendDataMail;
 use App\Mail\SendProjectMail;
 use App\Models\AdContact;
@@ -61,16 +62,16 @@ class MyPostsController extends Controller
             return redirect('/');
         }
         $user = Auth::user();
-    
+
         $es_propietario = $user->tipo_usuario_id == 2 ? true : false;
         $es_corredor = $user->tipo_usuario_id == 3 ? true : false;
         $es_acreedor = $user->tipo_usuario_id == 4 ? true : false;
         $es_proyecto = $user->tipo_usuario_id == 5 ? true : false;
         $show_modal = !$user->celular && !$user->numero_documento;
-    
+
         return view('crear-aviso', compact('es_acreedor', 'es_propietario', 'es_corredor', 'es_proyecto', 'show_modal'));
     }
-    
+
     public function store (Request $request)
     {
         $user_id = Auth::id();
@@ -114,7 +115,7 @@ class MyPostsController extends Controller
             ],[
             "estado" => 1,
         ]);
-        
+
         $principal_inmueble = PrincipalInmueble::updateOrCreate([
             "inmueble_id" => $inmueble->id,
             ],[
@@ -137,7 +138,7 @@ class MyPostsController extends Controller
             );
             $hist_aviso->touch();
         // }
-        
+
         if ($request->principal) {
             $validator = Validator::make($request->all(), [
                 'tipo_operacion_id' => 'required|integer|digits_between:1,3',
@@ -185,7 +186,7 @@ class MyPostsController extends Controller
                 ], 422);
             }
         }
-        
+
         if ($request->ubicacion) {
             $validator = Validator::make($request->all(), [
                 'direccion' => 'required|string|max:250',
@@ -223,7 +224,7 @@ class MyPostsController extends Controller
                 ], 422);
             }
         }
-        
+
         if ($request->caracteristicas) {
 
             $validator = Validator::make($request->all(), [
@@ -240,7 +241,7 @@ class MyPostsController extends Controller
                 'precio_soles' => 'nullable|string',
                 'precio_dolares' => 'nullable|string',
                 'mantenimiento' => 'nullable|string',
-                
+
                 'remate_precio_base' => 'nullable|string',
                 'remate_valor_tasacion' => 'nullable|string',
                 'remate_partida_registral' => 'nullable|string',
@@ -306,14 +307,14 @@ class MyPostsController extends Controller
                     'details' => $e->getMessage(),
                 ], 500);
             }
-            
-            $rematesString = $request->input('remates', null); 
+
+            $rematesString = $request->input('remates', null);
             if ( $rematesString ) {
                 $rematesArray = json_decode($rematesString, true);
-                if ( 
-                    !empty($rematesArray[0]['fecha_remate']) || 
-                    !empty($rematesArray[0]['fecha_remate']) || 
-                    !empty($rematesArray[0]['base_remate']) || 
+                if (
+                    !empty($rematesArray[0]['fecha_remate']) ||
+                    !empty($rematesArray[0]['fecha_remate']) ||
+                    !empty($rematesArray[0]['base_remate']) ||
                     !empty($rematesArray[0]['valor_tasacion']) ) {
 
                     Remate::where('caracteristicas_inmueble_id', $carac_inmueble->id)->delete();
@@ -332,7 +333,7 @@ class MyPostsController extends Controller
                     }
                 }
             }
-            
+
             if (!$carac_inmueble) {
                 return response()->json([
                     'message' => 'No se pudo guardar el registro de caracteristicas',
@@ -340,7 +341,7 @@ class MyPostsController extends Controller
                 ], 422);
             }
         }
-        
+
         if ($request->multimedia) {
             $routeImages = "images/{$inmueble->id}";
             $routePlans = "planos/{$inmueble->id}";
@@ -358,7 +359,7 @@ class MyPostsController extends Controller
                     'message_error' => 'Sube una imagen principal',
                 ], 402);
             }
-        
+
             // Archivo (file) de la imagen principal
             if ($request->hasFile('imagen_principal')) {
 
@@ -369,7 +370,7 @@ class MyPostsController extends Controller
                         Storage::disk('wasabi')->delete(str_replace(url('/'), '', $existingImage));
                     }
                 }
-        
+
                 $validator = Validator::make($request->all(), [
                     'imagen_principal' => 'required|image|max:25000',
                 ],
@@ -385,12 +386,12 @@ class MyPostsController extends Controller
                         'errors' => $validator->errors()
                     ], 422);
                 }
-        
+
                 $image = $request->file('imagen_principal');
                 $path = Storage::disk('wasabi')->put($routeImages, $image);
                 $imageURL = basename($path);
                 $imagenUrl1 = url($routeImages . '/' . $imageURL);
-        
+
                 MultimediaInmueble::updateOrCreate(
                     ["inmueble_id" => $inmueble->id],
                     ["imagen_principal" => $imagenUrl1, "estado" => 1]
@@ -398,29 +399,29 @@ class MyPostsController extends Controller
             }
 
             $multi_inmueble_id = MultimediaInmueble::where('inmueble_id', $inmueble->id)->value('id');
-        
+
 
             if ($request->imagen) {
 
                 if ($request->filled('imagenes_a_eliminar')) {
                     $imagenesAEliminar = explode(',', $request->imagenes_a_eliminar);
-                
+
                     foreach ($imagenesAEliminar as $imagenId) {
                         $imagen = ImagenInmueble::where('id', $imagenId)->first();
-                
+
                         if ($imagen) {
                             // Eliminar la imagen de Wasabi
                             Storage::disk('wasabi')->delete(str_replace(url('/'), '', $imagen->imagen));
-                
+
                             // Eliminar la referencia de la base de datos
                             $imagen->delete();
                         }
                     }
-                }                
+                }
 
                 if ( $request->file('imagen') !== null ) {
                     foreach ($request->file('imagen') as $imagen) {
-    
+
                         $validator = Validator::make(['imagen' => $imagen], [
                             'imagen' => 'image|max:24000',
                         ]);
@@ -430,11 +431,11 @@ class MyPostsController extends Controller
                                 'errors' => $validator->errors(),
                             ], 422);
                         }
-    
+
                         $path = Storage::disk('wasabi')->put($routeImages, $imagen);
                         $imagenURL = basename($path);
                         $imagenUrl_1 = url($routeImages . '/' . $imagenURL);
-            
+
                         ImagenInmueble::create([
                             'multimedia_inmueble_id' => $multi_inmueble_id,
                             'imagen' => $imagenUrl_1,
@@ -442,7 +443,7 @@ class MyPostsController extends Controller
                         ]);
                     }
                 }
-        
+
             }
 
             if ( $request->hasFile('video') ) {
@@ -459,7 +460,7 @@ class MyPostsController extends Controller
                 $video_path = Storage::disk('wasabi')->put($routeVideos, $video);
                 $videoURL = basename($video_path);
                 $videoUrl_2 = url($routeVideos . '/' . $videoURL);
-        
+
                 VideoInmueble::updateOrCreate([
                     'multimedia_inmueble_id' => $multi_inmueble_id,
                 ],[
@@ -467,11 +468,11 @@ class MyPostsController extends Controller
                     "estado" => 1,
                 ]);
             }
-        
+
             // Planos
             if ($request->hasFile('planos')) {
                 PlanoInmueble::where('multimedia_inmueble_id', $multi_inmueble_id)->delete();
-        
+
                 foreach ($request->file('planos') as $plano) {
                     $validator = Validator::make(['planos' => $plano], [
                         'planos' => 'image|max:24000',
@@ -485,7 +486,7 @@ class MyPostsController extends Controller
                     $plano_path = Storage::disk('wasabi')->put($routePlans, $plano);
                     $basename_plano_path = basename($plano_path);
                     $planoUrl = url($routePlans . '/' . $basename_plano_path);
-        
+
                     PlanoInmueble::create([
                         'multimedia_inmueble_id' => $multi_inmueble_id,
                         'plano' => $planoUrl,
@@ -494,8 +495,8 @@ class MyPostsController extends Controller
                 }
             }
         }
-        
-        
+
+
         if ($request->extras) {
             // $extra_inmueble = ExtraInmueble::where('inmueble_id', $inmueble->id)->first();
             $extra_inmueble = ExtraInmueble::updateOrCreate([
@@ -518,7 +519,7 @@ class MyPostsController extends Controller
                         'errors' => $validator->errors()
                     ], 422);
                 }
-        
+
                 foreach ($selectedOptions as $option) {
                     $extra_carac = ExtraInmueblesCaracteristicas::updateOrCreate([
                         'extra_inmueble_id' => $extra_inmueble->id,
@@ -526,7 +527,7 @@ class MyPostsController extends Controller
                         ],[
                         'estado' => 1,
                     ]);
-    
+
                     if (!$extra_carac) {
                         return response()->json([
                             'message' => 'No se pudo guardar el registro de una caracteristica extra',
@@ -535,12 +536,12 @@ class MyPostsController extends Controller
                     }
                 }
             }
-            
+
             $historial_aviso = $aviso->historial()->orderByDesc('historial_avisos.id')->first();
-            
+
             if ( $historial_aviso && in_array($historial_aviso->id, [1, 2]) ) {
                 // if ( $aviso->historial->first()->pivot->estado_aviso_id !== 3 ) {
-                
+
                 $aviso->inmueble->principal->caracteristicas->descripcion = $aviso->inmueble->descripcion;
                 $aviso->inmueble->principal->caracteristicas->save();
 
@@ -571,14 +572,14 @@ class MyPostsController extends Controller
         return response()->json([
             'message' => 'Registro exitoso',
             'error' => false,
-            'codigo_unico' => $inmueble->codigo_unico 
+            'codigo_unico' => $inmueble->codigo_unico
         ], 201);
     }
 
     public function edit (Aviso $aviso)
     {
         $user = Auth::user();
-    
+
         $es_propietario = $user->tipo_usuario_id == 2 ? true : false;
         $es_corredor = $user->tipo_usuario_id == 3 ? true : false;
         $es_acreedor = $user->tipo_usuario_id == 4 ? true : false;
@@ -620,7 +621,7 @@ class MyPostsController extends Controller
             }
             $planos_inmueble = null;
         }
-        
+
         $extra_inmueble = ExtraInmueble::where("inmueble_id", $aviso->inmueble_id)->first();
 
         if ( isset($extra_inmueble) ) {
@@ -664,7 +665,7 @@ class MyPostsController extends Controller
         ], 200);
     }
 
-    public function get_subtipos() 
+    public function get_subtipos()
     {
         $subtipos = SubTipoInmueble::where('estado', 1)->get();
         return response()->json([
@@ -784,6 +785,9 @@ class MyPostsController extends Controller
             ->cc(['soporte@pujainmobiliaria.com.pe'])
             ->bcc(['grupoimagen.908883889@gmail.com'])
             ->send(new SendDataMail($ad_contact, $aviso_url));
+
+        Mail::to($ad_contact->email)->cc(['soporte@pujainmobiliaria.com.pe'])->send(new SendConfirmationToContact($aviso, $aviso_url));
+
         Log::info('Correo enviado para contactos .');
 
         return response()->json([
@@ -795,11 +799,11 @@ class MyPostsController extends Controller
     }
 
     // Método para procesar el contacto por un proyecto inmobiliario desde un interesado
-    public function procesar_contacto_proyecto (Request $request) 
+    public function procesar_contacto_proyecto (Request $request)
     {
         // Validamos el formulario antes de continuar
         $response = $this->validar_formulario_contacto($request);
-        
+
         // Si la validación falla, retornamos la respuesta de error
         if ($response->getStatusCode() !== 200) {
             return $response;
@@ -844,8 +848,8 @@ class MyPostsController extends Controller
                 'http_code' => isset($numero_contacto) ? 200 : 400,
                 'status' => isset($numero_contacto) ? 'Success' : 'error',
                 'numero_contacto' => $numero_contacto ?? null,
-                'message' => isset($numero_contacto) 
-                    ? 'Validación correcta. Se puede enviar el mensaje por WhatsApp.' 
+                'message' => isset($numero_contacto)
+                    ? 'Validación correcta. Se puede enviar el mensaje por WhatsApp.'
                     : 'No se cuenta con un celular válido de contacto.',
             ]);
 
@@ -911,7 +915,7 @@ class MyPostsController extends Controller
             // Obtener las hojas del archivo
             $spreadsheet = $service->spreadsheets->get($spreadsheetId);
             $sheetName = $spreadsheet->getSheets()[0]->getProperties()->getTitle(); // Usa la primera hoja
-    
+
             $range = $sheetName . '!A1';
             $body = new Sheets\ValueRange([
                 'values' => [$data]
@@ -921,7 +925,7 @@ class MyPostsController extends Controller
         }
     }
 
-    public function my_post_sold (Request $request) 
+    public function my_post_sold (Request $request)
     {
         $validator = Validator::make($request->all(), [
             'aviso_id' => 'required|integer',

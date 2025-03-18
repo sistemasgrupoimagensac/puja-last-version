@@ -17,7 +17,7 @@
     <div id="loader-overlay">
         <img src="{{ asset('images/loader.svg') }}" alt="Cargando...">
     </div>
-    
+
     @php
         $acepta_puja = false;
         if ($aviso->inmueble->is_puja() === 1) {
@@ -36,7 +36,7 @@
 
     <div class="custom-container my-3 my-md-5">
         <div class="d-flex flex-column flex-lg-row">
-        
+
             {{-- Caracteristicas del inmueble --}}
             <div class="col-lg-8 pe-lg-3">
                 <div class="d-flex justify-content-start">
@@ -52,7 +52,7 @@
                                 <h3 class="h2"><span class="badge text-bg-danger">REMATE PÚBLICO</span></h3>
                             </div>
                         @endif
-                        
+
                         @if ($aviso->ad_type === 3)
                             <div class="ribbon premium">Premium</div>
                         @elseif ($aviso->ad_type === 2)
@@ -69,7 +69,7 @@
                         @endforeach
 
                     </div>
-                    
+
                     @if ( $fecha_publicacion )
                         <input type="hidden" name="" id="views" value="{{ $views }}">
                         <div class="d-flex justify-content-between">
@@ -77,7 +77,7 @@
                             <span class="fw-bolder">Fecha de publicación: <span class="fs-5 text-primary">{{ $fecha_publicacion->format('Y-m-d') }}</span></span>
                         </div>
                     @endif
-                    
+
                     {{-- modal --}}
                     <div class="modal fade" id="modalImagesCarousel" tabindex="-1">
                         <div class="modal-dialog modal-xl modal-dialog-centered inmueble-modal-dialog">
@@ -87,7 +87,7 @@
                                     {{-- imagenes carrusel --}}
                                     <div id="carouselImagesInmueble" class="carousel slide carousel-fade">
                                         <div class="carousel-inner">
-                                            <div class="carousel-item active"> 
+                                            <div class="carousel-item active">
                                                 <img src="{{ $aviso->inmueble->imagenPrincipal() }}" class="d-block w-100" alt="{{ $aviso->inmueble->title() }}">
                                             </div>
                                             @foreach($aviso->inmueble->imagenes as $image)
@@ -115,20 +115,20 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     {{-- Precio del inmueble Remate --}}
                     @if($inmueble_en_remate)
                         <div class="card m-0 my-4 text-bg-dark shadow p-3">
                             <p class="h3">
                                 <strong class="fw-bold text-primary">
-                                    ¡Gran oportunidad! 
-                                </strong> 
-                                Adquiere esta propiedad por 
+                                    ¡Gran oportunidad!
+                                </strong>
+                                Adquiere esta propiedad por
                                 <strong class="text-primary fw-bolder fs-2">
                                     {{-- USD {{ $aviso->inmueble->remate_precio_base() }} --}}
                                     USD {{ number_format($aviso->inmueble->remate_precio_base(), 2, '.', ',') }}
                                 </strong>
-                                    de precio base, muy por debajo de su valor tasado en 
+                                    de precio base, muy por debajo de su valor tasado en
                                 <strong>
                                     {{-- USD {{ $aviso->inmueble->remate_valor_tasacion() }} --}}
                                     USD {{ number_format($aviso->inmueble->remate_valor_tasacion(), 2, '.', ',') }}
@@ -165,7 +165,7 @@
                                     <span>{{ $aviso->inmueble->provincia() }}</span>
                                 </h5>
                             </div>
-                
+
                             {{-- Precio del inmueble Alquiler y Venta --}}
                             @if (!$inmueble_en_remate)
                                 <div class="d-flex justify-content-between">
@@ -289,7 +289,7 @@
                                 <h6 class="text-secondary m-0"> 1/2 bañ. </h6>
                             </div>
                         @endif
-                        
+
                         {{-- estacionamientos --}}
                         @if($aviso->inmueble->estacionamientos())
                             <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
@@ -318,7 +318,7 @@
                             <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
                                 <div class="d-flex">
                                     <i class="fa-solid fa-ruler-combined fa-lg icon-orange p-1"></i>
-                                    <h5 class="text-secondary m-1 fw-bold"> 
+                                    <h5 class="text-secondary m-1 fw-bold">
                                         {{-- <span>{{ $aviso->inmueble->area(); }}</span> --}}
                                         @if ( $aviso->inmueble->remate_precio_base() )
                                             <span>{{ number_format($aviso->inmueble->area(), 2, '.', ','); }}</span>
@@ -332,13 +332,13 @@
                                 <h6 class="text-secondary m-0"> área total </h6>
                             </div>
                         @endif
-                        
+
                         {{-- area techada --}}
                         @if($aviso->inmueble->areaConstruida())
                             <div class="d-flex flex-column justify-content-between align-items-center" style="width: 110px;">
                                 <div class="d-flex">
                                     <i class="fa-solid fa-ruler-combined fa-lg icon-orange p-1"></i>
-                                    <h5 class="text-secondary m-1 fw-bold"> 
+                                    <h5 class="text-secondary m-1 fw-bold">
                                         {{-- <span>{{ $aviso->inmueble->areaConstruida(); }}</span> --}}
                                         {{-- <span>{{ number_format($aviso->inmueble->areaConstruida(), 0, '', ','); }}</span> --}}
                                         @if ( $aviso->inmueble->remate_precio_base() )
@@ -372,11 +372,11 @@
 
                         <div class="description-container mt-4">
                             <h4 class="fw-bold">Descripción</h4>
-    
+
                             @if ($acepta_puja)
-                                <span class="badge text-bg-primary text-white fw-lighter my-3">Este aviso acepta ofertas en cuanto al precio que le ofrezcas</span> 
+                                <span class="badge text-bg-primary text-white fw-lighter my-3">Este aviso acepta ofertas en cuanto al precio que le ofrezcas</span>
                             @endif
-    
+
                             <form id="editDescriptionForm" action="{{ route('posts.edit_description') }}" method="POST">
                                 @csrf
                                 @method('PUT')
@@ -449,7 +449,7 @@
                         <div class="mt-3" id="map" style="height: 600px; width: 100%"></div>
                         @endif
                     </div>
-                </div>  
+                </div>
             </div>
 
             {{-- Aside Formulario Contacto --}}
@@ -540,8 +540,8 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Modal eleccion de tipo aviso --> 
+
+                    <!-- Modal eleccion de tipo aviso -->
                     <div class="modal fade" id="modalEleccionTipoAviso" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalEleccionTipoAvisoLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
@@ -553,10 +553,10 @@
                                     <div class="d-flex flex-column gap-3">
                                         <input type="radio" class="btn-check" name="btnradio" id="btnPremiumAds" autocomplete="off">
                                         <label class="btn btn-outline-secondary" for="btnPremiumAds">Aviso Premium: <span id="premiumAdsRemaining"></span></label>
-                                      
+
                                         <input type="radio" class="btn-check" name="btnradio" id="btnTopAds" autocomplete="off">
                                         <label class="btn btn-outline-secondary" for="btnTopAds">Aviso Top: <span id="topAdsRemaining"></span></label>
-                                      
+
                                         <input type="radio" class="btn-check" name="btnradio" id="btnTypicalAds" autocomplete="off">
                                         <label class="btn btn-outline-secondary" for="btnTypicalAds">Aviso Típico: <span id="typicalAdsRemaining"></span></label>
                                     </div>
@@ -572,7 +572,7 @@
                     </div>
 
                 @else
-                    
+
                     <div class="sticky-lg-top py-3">
                         <div class="rounded bg-white border shadow">
                             <form class="d-flex flex-column gap-3 p-3" method="POST" id="send_contact">
@@ -594,13 +594,13 @@
                                     <input type="email" class="form-control" id="email_contacto" name="email_contacto" placeholder="Correo electrónico" required>
                                     <label class="text-secondary" for="email_contacto">Correo Electrónico</label>
                                     <div id="validationServerEmail_contactoFeedback" class="invalid-feedback"></div>
-                                </div>  
+                                </div>
 
                                 <div class="form-floating">
                                     <input type="phone" class="form-control" id="telefono_contacto" maxlength="9" minlength="9" name="telefono_contacto" placeholder="Teléfono" required>
                                     <label class="text-secondary" for="telefono_contacto">Teléfono</label>
                                     <div id="validationServerTelefono_contactoFeedback" class="invalid-feedback"></div>
-                                </div>  
+                                </div>
 
                                 {{-- si admite oferta --}}
                                 @if ( $aviso->inmueble->is_puja() )
@@ -609,17 +609,17 @@
                                             <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                                                 <input type="radio" class="btn-check" name="contact_divisa_monto" value="1" id="soles" autocomplete="off" checked>
                                                 <label class="btn btn-outline-secondary" for="soles" style="width: 40px">S/</label>
-                                              
+
                                                 <input type="radio" class="btn-check" name="contact_divisa_monto" value="2" id="dolares" autocomplete="off">
                                                 <label class="btn btn-outline-secondary rounded-end-0" for="dolares" style="width: 40px">$</label>
                                             </div>
 
                                             <input type="text" class="form-control" name="contact_monto_puja" placeholder="Oferta un Precio" aria-label="Example text with two button addons">
 
-                                            <span type="button" class="input-group-text"> 
-                                                <div 
+                                            <span type="button" class="input-group-text">
+                                                <div
                                                     class="d-flex align-items-center"
-                                                    data-bs-toggle="tooltip" 
+                                                    data-bs-toggle="tooltip"
                                                     data-bs-placement="top"
                                                     data-bs-custom-class="custom-tooltip"
                                                     data-bs-title="Oferta sobre el precio del inmueble publicado. Puede ser mayor o menor del monto que publicó el propietario.">
@@ -629,7 +629,7 @@
                                         </div>
                                     </div>
                                 @endif
-                                    
+
                                 {{-- Mensaje --}}
                                 <div class="form-floating">
                                     <textarea class="form-control" placeholder="Contactame" id="contact-message" name="contact_message" style="height: 100px">¡Hola! Deseo que me contacten por este inmueble</textarea>
@@ -640,18 +640,18 @@
                                 <button class="btn btn-light border-secondary-subtle" type="button" id="whatsapp_contact_button">
                                     <i class="fab fa-whatsapp"></i> WhatsApp
                                 </button>
-                
+
                                 {{-- contacto por correo --}}
                                 <button class="btn btn-light border-secondary-subtle" id="btn-enviar-form-single">
                                     <i class="fa-regular fa-paper-plane"></i> Enviar
                                 </button>
-                
+
                                 <div class="form-group d-flex align-items-top gap-2 mb-4 position-relative">
-                                  
+
                                     <input type="checkbox" name="accept_terms" id="terminos" class="form-check-input" required/>
                                     <label for="terminos">Acepto los <a href="/terminos-uso" target="_blank" class="custom-link-register text-decoration-none">Términos y Condiciones de Uso</a> y las <a href="/politica-privacidad" target="_blank" class="custom-link-register text-decoration-none">Políticas de Privacidad</a></label>
                                     <div id="validationServerAccept_termsFeedback" class="invalid-feedback position-absolute top-100 px-4"></div>
-                                
+
                                 </div>
                             </form>
                         </div>
@@ -699,7 +699,7 @@
                     map: map,
                     icon: {
                         url: "/images/svg/marker_puja.svg",
-                        scaledSize: new google.maps.Size(80, 80), 
+                        scaledSize: new google.maps.Size(80, 80),
                         origin: new google.maps.Point(0, 0),
                         anchor: new google.maps.Point(40, 80)
                     }
@@ -733,7 +733,7 @@
 
             form.addEventListener('submit', function (event) {
                 event.preventDefault();
-                
+
                 const formData = new FormData(form);
                 formData.append('_method', 'PUT');
                 fetch(form.action, {
@@ -801,7 +801,7 @@
                         sendWsp(owner_phone);
                     } else {
                         // Si la acción es correo, mostramos el mensaje de éxito
-                        alert('Formulario enviado correctamente');
+                        alert('Sus datos fueron enviado correctamente, el anunciante se comunicara con usted');
                         form.reset();
                     }
                 } else {
@@ -859,7 +859,7 @@
             const phone = init_phone ? `Teléfono llamada: ${init_phone}\n` : ''
             const message = init_message ? `Mensaje: ${init_message}\n` : ''
             const currentUrl = `\n${window.location.href}`
-            
+
             const fullMessage = `${name + email + monto + phone + message + currentUrl}`;
             var encodedMessage = encodeURIComponent(fullMessage);
             const url = `https://wa.me/+51${phoneNumber}?text=${encodedMessage}`;

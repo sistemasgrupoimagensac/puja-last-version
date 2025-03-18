@@ -12,7 +12,7 @@ class EmailVerificationController extends Controller
     {
         return view('auth.verify-email');
     }
-    
+
     public function verify (EmailVerificationRequest $request)
     {
         $request->fulfill();

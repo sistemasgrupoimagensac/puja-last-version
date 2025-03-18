@@ -11,7 +11,7 @@ use App\Models\Aviso;
 class MisAvisosController extends Controller
 {
     public function __construct()
-    {        
+    {
     }
 
     public function __invoke(Request $request)
@@ -30,7 +30,7 @@ class MisAvisosController extends Controller
             $user = User::find($user_id);
             $active_plan_users = $user->active_plans()->get();
             $tienePlanes = $active_plan_users->isNotEmpty();
-            $projectInfo = $user->canPublishProjects(); 
+            $projectInfo = $user->canPublishProjects();
         }
 
         return view('panel.mis-avisos', compact('avisos', 'tienePlanes', 'projectInfo', 'user_id'));
