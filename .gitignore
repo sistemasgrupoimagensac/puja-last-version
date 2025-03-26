@@ -22,3 +22,4 @@ yarn-error.log
 /public_html
 /public/billing/
 /migraciones.txt
+/app/cache/*

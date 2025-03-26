@@ -382,7 +382,7 @@
                             if ( !this.pagoFree ) {
                                 this.factElectronica(price, planUserId, description)
                             }
-                            window.location.href = '/panel/avisos'
+                           // window.location.href = '/panel/avisos'
                         } else {
                             console.error('Error en la suscripción:', data.message);
                         }
