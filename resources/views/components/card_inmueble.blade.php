@@ -27,11 +27,11 @@
                 <img src="{{ asset($image) }}" class="card-inmueble-image rounded" alt="imagen inmueble">
             </a>
 
-            <div 
+            <div
                 class="position-absolute bottom-0 end-0 m-2 d-flex flex-column align-items-center bg-white px-2 rounded shadow-lg"
                 style="z-index: 20;"
             >
-                <a 
+                <a
                     href="#"
                     class="toggle-like-btn text-dark d-flex justify-content-center align-items-center"
                     style="height: 1.5rem;"
@@ -39,9 +39,9 @@
                 >
                     <i class="{{ $yaLikeado ? 'fa-solid' : 'fa-regular' }} fa-heart heart-icon-{{ $aviso->id }}"></i>
                 </a>
-                
+
                 <span class="small">
-                    Likes: 
+                    Likes:
                     <span class="total-likes-{{ $aviso->id }}">
                         {{ $aviso->likes()->count() }}
                     </span>
@@ -51,6 +51,10 @@
             @if ($type === 'Remate')
                 <div class="position-absolute top-0 end-0 mt-4 me-2">
                     <h3><span class="badge text-bg-danger">REMATE PÚBLICO</span></h3>
+                </div>
+            @elseif($aviso->estado_aviso === 8)
+                <div class="position-absolute top-0 end-0 mt-4 me-2">
+                    <h3 class="remate-label-destacados"><span class="badge text-bg-success">VENDIDO</span></h3>
                 </div>
             @endif
 
@@ -100,7 +104,7 @@
                                                 <span class="fs-4">{{ $currency_dolar }}</span>
                                                 <span class="fs-4">{{ number_format($remate_valor_tasacion) }}</span>
                                             </div>
-    
+
                                             {{-- <span> - </span> --}}
                                             <div class="text-primary">
                                                 <span class="fs-5">Precio base</span>
@@ -118,7 +122,7 @@
                                     <span class="text-secondary me-1">m²</span>
                                     <i class="fa-solid fa-ruler-combined icon-orange"></i>
 
-                                    
+
                                     @if ( $bedrooms )
                                     <span class="text-secondary mx-2">-</span>
 
@@ -126,7 +130,7 @@
                                     <span class="text-secondary me-1">dorm.</span>
                                     <i class="fa-solid fa-bed icon-orange"></i>
                                     @endif
-                                    
+
                                     @if ( $bathrooms )
                                     <span class="text-secondary mx-2">-</span>
 
@@ -154,7 +158,7 @@
                             {{-- descripcion del inmueble --}}
                             <p class="card-text card-inmueble-description"> {{ $description }} </p>
 
-                            {{-- <div 
+                            {{-- <div
                                 class="m-2 d-flex bg-white px-2 rounded shadow-lg font-weight-bold"
                                 style="z-index: 20;"
                             >
@@ -167,7 +171,7 @@
                                 <div class="badge bg-light text-black text-wrap p-3 w-auto"{{--  style="width: 10rem;" --}}>
                                     {{ $comodidad->caracteristica; }}
                                 </div>
-                                    
+
                                 @endforeach
                             </div>
 

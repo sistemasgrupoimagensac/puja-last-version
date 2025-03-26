@@ -1,13 +1,26 @@
 function setDeleteModal(title, id) {
 	document.getElementById('aviso-title-to-delete').innerText = title;
 	document.getElementById('aviso-id-to-delete').value = id;  // Asigna el ID del aviso al input oculto
+    document.getElementById('motivo-eliminacion').selectedIndex = 0;
+    const caja_motivo_text = document.getElementById('caja-text-motivo-eliminacion');
+    caja_motivo_text.classList.add('d-none');
 }
 
 window.setDeleteModal = setDeleteModal;
 
 document.getElementById('delete-aviso-btn').addEventListener('click', function () {
   	const avisoId = document.getElementById('aviso-id-to-delete').value;
-  
+
+    let motivo_text = document.getElementById('motivo-eliminacion').value;
+    if (motivo_text === 'otro') {
+        motivo_text = document.getElementById('text-motivo-eliminacion').value;
+    }
+
+    if (motivo_text.trim() === '') {
+        alert('Debe especificar un motivo de eliminación');
+        return;
+    }
+
 	fetch('/my-post/delete', {
 		method: 'POST',
 		headers: {
@@ -15,7 +28,7 @@ document.getElementById('delete-aviso-btn').addEventListener('click', function (
 			'Content-Type': 'application/json',
 			'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // Agrega el token CSRF
 		},
-		body: JSON.stringify({ aviso_id: avisoId }) // Enviar el ID del aviso como JSON
+		body: JSON.stringify({ aviso_id: avisoId, motivo: motivo_text }) // Enviar el ID del aviso y el motivo de edición como JSON
 	})
 	.then(response => response.json())
 	.then(data => {
@@ -29,6 +42,16 @@ document.getElementById('delete-aviso-btn').addEventListener('click', function (
 	.catch(error => {
 		console.error('Error:', error);
 	});
+});
+
+document.getElementById('motivo-eliminacion').addEventListener('change', function () {
+    const caja_motivo_text = document.getElementById('caja-text-motivo-eliminacion');
+
+    if (this.value === 'otro') {
+        caja_motivo_text.classList.remove('d-none');
+    }else {
+        caja_motivo_text.classList.add('d-none');
+    }
 });
 
 
@@ -57,7 +80,7 @@ document.getElementById('cancel-aviso-btn').addEventListener('click', function (
 		aviso_id: avisoId,
 		aviso_estado: avisoEstado,
 	}
-	
+
 	fetch('/my-post/cancel', {
 		method: 'POST',
 		headers: {

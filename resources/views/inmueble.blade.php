@@ -51,6 +51,10 @@
                             <div class="position-absolute top-0 end-0 mt-4 me-2">
                                 <h3 class="h2"><span class="badge text-bg-danger">REMATE PÚBLICO</span></h3>
                             </div>
+                        @elseif($aviso->estado_aviso === 8)
+                            <div class="position-absolute top-0 end-0 mt-4 me-2">
+                                <h3 class="remate-label-destacados"><span class="badge text-bg-success">VENDIDO</span></h3>
+                            </div>
                         @endif
 
                         @if ($aviso->ad_type === 3)

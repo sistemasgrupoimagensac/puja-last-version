@@ -10,5 +10,5 @@ class HistorialAvisos extends Model
     use HasFactory;
 
     protected $table = "historial_avisos";
-    protected $fillable = ['aviso_id', 'estado_aviso_id'];
+    protected $fillable = ['aviso_id', 'estado_aviso_id', 'observacion'];
 }

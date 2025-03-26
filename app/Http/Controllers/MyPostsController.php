@@ -953,6 +953,7 @@ class MyPostsController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'aviso_id' => 'required|integer',
+            'motivo'   => 'required|min:1',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -962,9 +963,11 @@ class MyPostsController extends Controller
                 'errors' => $validator->errors()
             ], 422);
         }
+
         HistorialAvisos::create([
             'aviso_id' => $request->aviso_id,
-            'estado_aviso_id' => 6,
+            'estado_aviso_id' => 8,
+            'observacion' => $request->motivo,
         ]);
 
         return response()->json([

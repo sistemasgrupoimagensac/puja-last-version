@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Aviso;
+use Illuminate\Support\Facades\DB;
 
 class AvisoRepository
 {
@@ -23,13 +24,15 @@ class AvisoRepository
                             ->whereHas('historial', function ($q) {
                                 $q->whereRaw('
                                     historial_avisos.id = (
-                                        SELECT MAX(h2.id) 
-                                        FROM historial_avisos h2 
+                                        SELECT MAX(h2.id)
+                                        FROM historial_avisos h2
                                         WHERE h2.aviso_id = historial_avisos.aviso_id
                                     )
-                                    AND historial_avisos.estado_aviso_id = 3
+                                    AND historial_avisos.estado_aviso_id IN(3, 8)
                                 ');
                             })
+                            ->select()
+                            ->addSelect(DB::raw("(select estado_aviso_id from historial_avisos where aviso_id = avisos.id order by historial_avisos.id desc limit 1) AS estado_aviso"))
                             ->get();
     }
 
@@ -38,6 +41,8 @@ class AvisoRepository
         return $this->model->where('estado', 1)
                     ->where('id', $id)
                     ->whereHas('inmueble', fn($q) => $q->where('estado', 1))
+                    ->select()
+                    ->addSelect(DB::raw("(select estado_aviso_id from historial_avisos where aviso_id = avisos.id order by historial_avisos.id desc limit 1) AS estado_aviso"))
                     ->first();
     }
 
@@ -48,11 +53,11 @@ class AvisoRepository
                     ->whereHas('historial', function ($q) {
                         $q->whereRaw('
                             historial_avisos.id = (
-                                SELECT MAX(h2.id) 
-                                FROM historial_avisos h2 
+                                SELECT MAX(h2.id)
+                                FROM historial_avisos h2
                                 WHERE h2.aviso_id = historial_avisos.aviso_id
                             )
-                            AND historial_avisos.estado_aviso_id = 3
+                            AND historial_avisos.estado_aviso_id IN(3, 8)
                         ');
                     })
                     ->whereHas('inmueble', fn($q) => $q->where('estado', 1))
@@ -109,9 +114,11 @@ class AvisoRepository
                 $q->whereIn('caracteristicas_extra.id', $idsCaracteristica);
             });
         }
-        
+
         return $query->orderBy('ad_type', 'desc')
                     ->orderBy('fecha_publicacion', 'desc')
+                    ->select()
+                    ->addSelect(DB::raw("(select estado_aviso_id from historial_avisos where aviso_id = avisos.id order by historial_avisos.id desc limit 1) AS estado_aviso"))
                     ->paginate(10);
     }
 }

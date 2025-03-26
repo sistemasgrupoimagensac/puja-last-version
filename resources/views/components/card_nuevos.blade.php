@@ -26,8 +26,8 @@
 		<div class="card-image-container">
 			<img src="{{ $image }}" class="card-image-custom" alt="{{ $title }}">
 		</div>
-		
-		<a 
+
+		<a
 			href="#"
 			class="toggle-like-btn position-absolute end-0 bg-white text-dark fw-bold px-3 py-1 rounded shadow-lg m-3 d-flex justify-content-center align-items-center"
 			style="height: 2rem; top:32%"
@@ -40,6 +40,10 @@
 			<div class="position-absolute top-0 end-0 mt-4 me-2">
 				<h3 class="remate-label-destacados"><span class="badge text-bg-danger">REMATE PÚBLICO</span></h3>
 			</div>
+        @elseif($aviso->estado_aviso === 8)
+            <div class="position-absolute top-0 end-0 mt-4 me-2">
+                <h3 class="remate-label-destacados"><span class="badge text-bg-success">VENDIDO</span></h3>
+            </div>
 		@endif
 
 
@@ -48,7 +52,7 @@
 		@elseif ($aviso->ad_type === 2)
 			<div class="ribbon top">Top</div>
 		@endif
-	
+
 		<div class="card-body px-3 py-2">
 			<p class="mb-2 fw-bold">
 				<small class="text-black-50">{{ $type }}</small>
@@ -72,7 +76,7 @@
 				<div class="badge bg-light text-black text-wrap p-3 w-auto"{{--  style="width: 10rem;" --}}>
 					{{ $comodidad->caracteristica; }}
 				</div>
-					
+
 				@endforeach
 			</div>
 
@@ -98,7 +102,7 @@
 			@if($area)<small class="text-body-secondary mr-2">{{ $area }} m<sup>2</sup></small>@endif
 			@if($bedrooms)
 				<small class="text-body-secondary mr-2">
-					{{ $bedrooms }} 
+					{{ $bedrooms }}
 					@if ( $aviso->inmueble->typeInmueble() != 'Oficina' )
 						Dorm.
 					@else

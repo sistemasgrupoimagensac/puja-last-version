@@ -74,7 +74,7 @@ class MyPostsController extends Controller
             ],[
                 "estado" => 1,
         ]);
-        
+
         $principal_inmueble = PrincipalInmueble::updateOrCreate([
                 "inmueble_id" => $inmueble->id,
             ],[
@@ -95,13 +95,13 @@ class MyPostsController extends Controller
             );
             $hist_aviso->touch();
         // }
-        
+
         if ($request->principal) {
             $request->validate([
                 'tipo_operacion_id' => 'required|integer|digits_between:1,3',
                 'subtipo_inmueble_id' => 'required|integer|digits_between:1,3',
             ]);
-            
+
             $subtipoInmueble = SubTipoInmueble::findOrFail($request->subtipo_inmueble_id);
             if ( !$subtipoInmueble ) {
                 return response()->json([
@@ -127,7 +127,7 @@ class MyPostsController extends Controller
                 ], 422);
             }
         }
-        
+
         if ($request->ubicacion) {
             $request->validate([
                 'direccion' => 'required|string|max:250',
@@ -159,7 +159,7 @@ class MyPostsController extends Controller
                 ], 422);
             }
         }
-        
+
         if ($request->caracteristicas) {
             $request->validate([
                 'is_puja' => 'nullable|boolean',
@@ -174,7 +174,7 @@ class MyPostsController extends Controller
                 'precio_soles' => 'nullable|string',
                 'precio_dolares' => 'nullable|string',
                 'mantenimiento' => 'nullable|string',
-                
+
                 // 'remate_precio_base' => 'nullable|string',
                 // 'remate_valor_tasacion' => 'nullable|string',
                 'remate_partida_registral' => 'nullable|string',
@@ -222,14 +222,14 @@ class MyPostsController extends Controller
                     "remate_correo_contacto" => $request->remate_correo_contacto,
                     "estado" => 1,
             ]);
-            
-            $rematesString = $request->input('remates', null); 
+
+            $rematesString = $request->input('remates', null);
             if ( $rematesString ) {
                 $rematesArray = json_decode($rematesString, true);
-                if ( 
-                    !empty($rematesArray[0]['fecha_remate']) || 
-                    !empty($rematesArray[0]['hora_remate']) || 
-                    !empty($rematesArray[0]['base_remate']) || 
+                if (
+                    !empty($rematesArray[0]['fecha_remate']) ||
+                    !empty($rematesArray[0]['hora_remate']) ||
+                    !empty($rematesArray[0]['base_remate']) ||
                     !empty($rematesArray[0]['valor_tasacion']) ) {
 
                     Remate::where('caracteristicas_inmueble_id', $carac_inmueble->id)->delete();
@@ -256,7 +256,7 @@ class MyPostsController extends Controller
                 ], 422);
             }
         }
-        
+
         if ($request->multimedia) {
             $routeImages = "images/{$inmueble->id}";
             $routePlans = "planos/{$inmueble->id}";
@@ -268,7 +268,7 @@ class MyPostsController extends Controller
                     'status' => 'error',
                 ], 402);
             }
-        
+
             if ($request->hasFile('imagen_principal')) {
 
                 if (isset($multi_inmueble_id)) {
@@ -277,16 +277,16 @@ class MyPostsController extends Controller
                         Storage::disk('wasabi')->delete(str_replace(url('/'), '', $existingImage));
                     }
                 }
-                
+
                 $request->validate([
                     'imagen_principal' => 'required|image|max:10240',
                 ]);
-        
+
                 $image = $request->file('imagen_principal');
                 $path = Storage::disk('wasabi')->put($routeImages, $image);
                 $imageURL = basename($path);
                 $imagenUrl1 = url($routeImages . '/' . $imageURL);
-        
+
                 MultimediaInmueble::updateOrCreate(
                     ["inmueble_id" => $inmueble->id],
                     ["imagen_principal" => $imagenUrl1, "estado" => 1]
@@ -299,16 +299,16 @@ class MyPostsController extends Controller
 
                 if ($request->filled('imagenes_a_eliminar')) {
                     $imagenesAEliminar = explode(',', $request->imagenes_a_eliminar);
-                
+
                     foreach ($imagenesAEliminar as $imagenId) {
                         $imagen = ImagenInmueble::where('id', $imagenId)->first();
-                
+
                         if ($imagen) {
                             Storage::disk('wasabi')->delete(str_replace(url('/'), '', $imagen->imagen));
                             $imagen->delete();
                         }
                     }
-                }                
+                }
 
                 if ( $request->file('imagen') !== null ) {
 
@@ -321,7 +321,7 @@ class MyPostsController extends Controller
                         $path = Storage::disk('wasabi')->put($routeImages, $imagen);
                         $imagenURL = basename($path);
                         $imagenUrl_1 = url($routeImages . '/' . $imagenURL);
-            
+
                         ImagenInmueble::create([
                             'multimedia_inmueble_id' => $multi_inmueble_id,
                             'imagen'                 => $imagenUrl_1,
@@ -329,7 +329,7 @@ class MyPostsController extends Controller
                         ]);
                     }
                 }
-        
+
             }
 
             if ( $request->hasFile('video') ) {
@@ -341,7 +341,7 @@ class MyPostsController extends Controller
                 $video_path = Storage::disk('wasabi')->put($routeVideos, $video);
                 $videoURL = basename($video_path);
                 $videoUrl_2 = url($routeVideos . '/' . $videoURL);
-        
+
                 VideoInmueble::updateOrCreate([
                         'multimedia_inmueble_id' => $multi_inmueble_id,
                     ],[
@@ -349,7 +349,7 @@ class MyPostsController extends Controller
                         "estado" => 1,
                 ]);
             }
-        
+
             if ($request->hasFile('planos')) {
 
                 $request->validate([
@@ -358,12 +358,12 @@ class MyPostsController extends Controller
                 ]);
 
                 PlanoInmueble::where('multimedia_inmueble_id', $multi_inmueble_id)->delete();
-        
+
                 foreach ($request->file('planos') as $plano) {
                     $plano_path = Storage::disk('wasabi')->put($routePlans, $plano);
                     $basename_plano_path = basename($plano_path);
                     $planoUrl = url($routePlans . '/' . $basename_plano_path);
-        
+
                     PlanoInmueble::create([
                         'multimedia_inmueble_id' => $multi_inmueble_id,
                         'plano' => $planoUrl,
@@ -372,7 +372,7 @@ class MyPostsController extends Controller
                 }
             }
         }
-        
+
         if ($request->extras) {
             $extra_inmueble = ExtraInmueble::updateOrCreate([
                     "inmueble_id" => $inmueble->id,
@@ -388,7 +388,7 @@ class MyPostsController extends Controller
                     'options' => 'required|array',
                     'options.*' => 'required|integer',
                 ]);
-        
+
                 foreach ($selectedOptions as $option) {
                     $extra_carac = ExtraInmueblesCaracteristicas::updateOrCreate([
                             'extra_inmueble_id' => $extra_inmueble->id,
@@ -396,7 +396,7 @@ class MyPostsController extends Controller
                         ],[
                             'estado' => 1,
                     ]);
-    
+
                     if (!$extra_carac) {
                         return response()->json([
                             'message' => 'No se pudo guardar el registro de una caracteristica extra',
@@ -435,7 +435,7 @@ class MyPostsController extends Controller
         return response()->json([
             'message' => 'Registro exitoso pero no culminado.',
             'status' => 'success',
-            'codigo_unico' => $inmueble->codigo_unico 
+            'codigo_unico' => $inmueble->codigo_unico
         ]);
     }
 
@@ -476,12 +476,13 @@ class MyPostsController extends Controller
 
     public function deleteAd(Request $request)
     {
-        $request->validate(['ad_id' => 'required|integer']);
+        $request->validate(['ad_id' => 'required|integer', 'motivo' => 'required|min:1',]);
 
         $aviso = Aviso::findOrFail($request->ad_id);
         HistorialAvisos::create([
             'aviso_id' => $aviso->id,
-            'estado_aviso_id' => 6,
+            'estado_aviso_id' => 8,
+            'observacion' => $request->motivo,
         ]);
 
         return response()->json([
@@ -577,7 +578,7 @@ class MyPostsController extends Controller
         ]);
     }
 
-    public function procesar_contacto_proyecto (Request $request) 
+    public function procesar_contacto_proyecto (Request $request)
     {
         $request->validate([
             'user_id' => 'nullable|integer',
@@ -629,8 +630,8 @@ class MyPostsController extends Controller
                 'http_code' => isset($numero_contacto) ? 200 : 400,
                 'status' => isset($numero_contacto) ? 'Success' : 'error',
                 'numero_contacto' => $numero_contacto ?? null,
-                'message' => isset($numero_contacto) 
-                    ? 'Validación correcta. Se puede enviar el mensaje por WhatsApp.' 
+                'message' => isset($numero_contacto)
+                    ? 'Validación correcta. Se puede enviar el mensaje por WhatsApp.'
                     : 'No se cuenta con un celular válido de contacto.',
             ]);
 
@@ -696,7 +697,7 @@ class MyPostsController extends Controller
             // Obtener las hojas del archivo
             $spreadsheet = $service->spreadsheets->get($spreadsheetId);
             $sheetName = $spreadsheet->getSheets()[0]->getProperties()->getTitle(); // Usa la primera hoja
-    
+
             $range = $sheetName . '!A1';
             $body = new Sheets\ValueRange([
                 'values' => [$data]
@@ -710,7 +711,7 @@ class MyPostsController extends Controller
 
     // Catálogos
 
-    public function subtypes() 
+    public function subtypes()
     {
         $subtypes = SubTipoInmueble::where('estado', 1)->get();
         return response()->json([
@@ -762,7 +763,7 @@ class MyPostsController extends Controller
 
 
 
-    
+
 
     // Funciones XD
     private function convertStringToFloat($value)
@@ -770,5 +771,5 @@ class MyPostsController extends Controller
         return floatval(str_replace(',', '', $value));
     }
 
-    
+
 }

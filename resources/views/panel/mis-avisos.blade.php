@@ -124,13 +124,18 @@
                     </div>
 
                     <div class="modal-body">
-                        <p class="text-secondary m-0">Eliminar el aviso <span class="fw-bold" id="aviso-title-to-delete"></span> es un proceso que no se puede revertir</p>
+                        <p class="text-secondary m-0 lh-sm">Eliminar el aviso <span class="fw-bold" id="aviso-title-to-delete"></span> es un proceso que no se puede revertir</p>
                         <input type="hidden" id="aviso-id-to-delete"> <!-- Input oculto para el ID del aviso -->
-                        <div class="form-group mt-3">
+                        <div class="form-group mt-4">
                             <label>Motivo de eliminación</label>
                             <select name="" id="motivo-eliminacion" class="form-select">
-                                <option value="0">seleccione</option>
+                                <option value="Vendi mi inmueble con nosotros">Vendi mi inmueble con nosotros</option>
+                                <option value="Vendi mi inmueble con otra plataforma">Vendi mi inmueble con otra plataforma</option>
+                                <option value="otro">Otro</option>
                             </select>
+                        </div>
+                        <div id="caja-text-motivo-eliminacion" class="form-group mt-3 d-none">
+                            <textarea name="" id="text-motivo-eliminacion" cols="30" rows="5" class="form-control"></textarea>
                         </div>
                     </div>
 
