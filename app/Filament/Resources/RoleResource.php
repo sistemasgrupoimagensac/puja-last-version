@@ -26,7 +26,7 @@ class RoleResource extends Resource
     protected static ?string $model = Role::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-puzzle-piece';
-    
+
     protected static ?string $navigationLabel = 'Roles';
 
     protected static ?int $navigationSort = 19;
@@ -43,7 +43,7 @@ class RoleResource extends Resource
                 TextInput::make('name')
                     ->unique(ignoreRecord: true)
                 ->required(),
-    
+
                 CheckboxList::make('permissions')
                     ->relationship('permissions', 'name')
                     ->options(

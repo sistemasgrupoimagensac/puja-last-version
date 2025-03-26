@@ -32,7 +32,7 @@
                                 'link' => $aviso->historial()->orderByDesc('historial_avisos.id')->first()->id === 1 ? route('posts.edit', $aviso->id) :  route('inmueble.single', ['inmueble' => $aviso->link()]),
                                 'title' => $aviso->inmueble->tituloReal() ?? $aviso->inmueble->title(),
                                 'image' => $aviso->inmueble->imagenPrincipal(),
-                                'type' => $aviso->inmueble->type(), 
+                                'type' => $aviso->inmueble->type(),
                                 'category' => $aviso->inmueble->category(),
                                 'currencySoles' => $aviso->inmueble->currencySoles(),
                                 'currencyDolares' => $aviso->inmueble->currencyDolares(),
@@ -114,27 +114,33 @@
     <div class="modal fade" id="avisoDeleteModal" tabindex="-1" aria-labelledby="avisoDeleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-    
+
                 <div class="modal-content py-4">
-                    
+
                     <i class="fa-regular fa-circle-xmark fa-4x text-danger"></i>
-    
+
                     <div class="modal-header justify-content-center">
                         <h4 class="modal-title">¿Seguro quiere eliminar el Aviso?</h4>
                     </div>
-    
+
                     <div class="modal-body">
                         <p class="text-secondary m-0">Eliminar el aviso <span class="fw-bold" id="aviso-title-to-delete"></span> es un proceso que no se puede revertir</p>
                         <input type="hidden" id="aviso-id-to-delete"> <!-- Input oculto para el ID del aviso -->
+                        <div class="form-group mt-3">
+                            <label>Motivo de eliminación</label>
+                            <select name="" id="motivo-eliminacion" class="form-select">
+                                <option value="0">seleccione</option>
+                            </select>
+                        </div>
                     </div>
-    
+
                     <div class="d-flex p-3 justify-content-center gap-3">
                         <button type="button" class="btn btn-danger w-100" id="delete-aviso-btn">Eliminar</button>
                         <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Cancelar</button>
                     </div>
-    
+
                 </div>
-                    
+
             </div>
         </div>
     </div>
@@ -144,29 +150,29 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-content py-4">
-                    
+
                     <i class="fa-regular fa-ban fa-4x text-danger"></i>
-    
+
                     <div class="modal-header justify-content-center">
                         <h4 class="modal-title">¿Seguro quiere <span id="aviso-cancelar-activar-main"></span> el Aviso?</h4>
                     </div>
-    
+
                     <div class="modal-body">
                         <p class="text-secondary m-0"><span id="aviso-cancelar-activar"></span> el aviso <span class="fw-bold" id="aviso-title-to-cancel"></span> es un proceso que SI se puede revertir.</p>
                         <input type="hidden" id="aviso-id-to-cancel"> <!-- Input oculto para el ID del aviso -->
                         <input type="hidden" id="aviso-estado-to-cancel"> <!-- Input oculto para el ID del aviso -->
                     </div>
-    
+
                     <div class="d-flex p-3 justify-content-center gap-3">
                         <button type="button" class="btn btn-danger w-100" id="cancel-aviso-btn"><span id="aviso-cancelar-activar-acept"></span> aviso</button>
                         <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Descartar operación</button>
                     </div>
-    
+
                 </div>
             </div>
         </div>
     </div>
-    
+
 
 @endsection
 

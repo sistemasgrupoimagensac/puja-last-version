@@ -21,7 +21,7 @@ class TransaccionResource extends Resource
     protected static ?string $model = Transaccion::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
-    
+
     protected static ?string $navigationLabel = 'Transacciones';
 
     protected static ?int $navigationSort = 1;
@@ -117,5 +117,5 @@ class TransaccionResource extends Resource
             'index' => Pages\ListTransaccions::route('/'),
         ];
     }
-    
+
 }

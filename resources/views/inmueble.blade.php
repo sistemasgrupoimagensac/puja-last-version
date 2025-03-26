@@ -528,7 +528,7 @@
                             <div class="modal-content">
                                 <div class="modal-body">
                                     <div class="alert alert-danger m-0" role="alert">
-                                        ¿Seguro quieres publicar tu inmuble con este Plan?
+                                        ¿Seguro quieres publicar tu inmueble con este Plan?
                                     </div>
                                 </div>
                                 <div class="modal-footer">

@@ -19,7 +19,7 @@
                         <div class="z-0 col p-lg-5">
                             {{ $slot }}
                         </div>
-            
+
                         {{-- Datos de la tarjeta de crédito --}}
                         <div x-show="!pagoFree" class="m-2 col p-lg-5 m-lg-0">
                             <h6 class="icon-orange fw-bold">Pago con tarjeta</h6>
@@ -31,7 +31,7 @@
                                     <span class="input-group-text"><i class="fa-regular fa-credit-card"></i></span>
                                 </div>
                             </div>
-        
+
                             {{-- Nombre de la tarjeta --}}
                             <div class="mb-3">
                                 <label for="nombreTarjeta" class="form-label m-0 custom">Nombre en la Tarjeta</label>
@@ -39,14 +39,14 @@
                                     <input type="text" class="form-control shadow-none" id="nombreTarjeta" x-model="nombreTarjeta" inputmode="latin-name" maxlength="26" data_openpay_card />
                                 </div>
                             </div>
-        
+
                             <div class="d-flex justify-content-between">
                                 {{-- Fecha de vencimiento --}}
                                 <div class="col-7">
                                     <label for="fechaTarjeta" class="form-label m-0 custom">Fecha de Vencimiento</label>
                                     <input type="text" class="form-control shadow-none" id="fechaTarjeta" x-model="fechaTarjeta" placeholder="MM/AA" maxlength="5" @input="formatExpiryDate" data_openpay_card />
                                 </div>
-                                
+
                                 <div class="col-4">
                                     <label for="cvcTarjeta" class="form-label m-0 custom">CVV</label>
                                     <div class="input-group">
@@ -59,7 +59,7 @@
                             </div>
 
                         </div>
-                        
+
                     </div>
                 </div>
 
@@ -79,12 +79,12 @@
                 </div>
 
                 <div class="d-flex justify-content-center w-100">
-                    <button type="button" class="btn button-orange fs-3 rounded-3 m-2 m-lg-2 mx-lg-5 w-100" id="pay-button">Pagar S/ 
+                    <button type="button" class="btn button-orange fs-3 rounded-3 m-2 m-lg-2 mx-lg-5 w-100" id="pay-button">Pagar S/
                         {{-- <x-miles-coma amount="prices[tipoPlan]"></x-miles-coma> --}}
                         <span x-text="formatPrice(prices)"></span>
                     </button>
                 </div>
-                <small class="text-body-tertiary py-1 px-3 py-lg-3 px-lg-5">Al hacer clic en Pagar, está aceptando nuestros 
+                <small class="text-body-tertiary py-1 px-3 py-lg-3 px-lg-5">Al hacer clic en Pagar, está aceptando nuestros
                     <a href="/terminos-contratacion" target="blank">Términos y Condiciones de Contratación</a>
                 </small>
             </form>
@@ -187,15 +187,15 @@
                 }
 
                 if (input.length = 2) {
-                    input = input.substring(0, 4) 
-                    input = input.replace(/(\d{2})(\d{1,2})/, '$1/$2') 
+                    input = input.substring(0, 4)
+                    input = input.replace(/(\d{2})(\d{1,2})/, '$1/$2')
                 }
 
                 this.fechaTarjeta = input
             },
 
             isValidForm() {
-                
+
                 console.log("Entro al validate", this.pagoFree)
                 if ( !this.pagoFree ) {
                     return this.numeroTarjeta && this.nombreTarjeta && this.fechaTarjeta && this.cvcTarjeta
@@ -307,7 +307,7 @@
                         };
 
                         this.saveTransaction(transactionData);
-                        
+
                         this.clearForm()
                         this.isProcessing = false
                         document.getElementById('pay-button').disabled = false
@@ -399,7 +399,7 @@
                             {
                                 price: price,
                                 quantity: 1,
-                                product: 
+                                product:
                                     {
                                         id: this.planId,
                                         name: description,
@@ -516,7 +516,7 @@
             tipo: 'DNI',
             resultados: null,
             error: null,
-            
+
             consultarDocumento() {
                 this.resultados = null
                 this.error = null
