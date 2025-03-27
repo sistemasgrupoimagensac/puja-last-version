@@ -11,12 +11,10 @@ use Illuminate\Console\Command;
 class CancelAuctions extends Command
 {
     protected $signature = 'app:cancel-auctions';
-    
     protected $description = 'Actualizar el estado de los anuncios según su fecha de vencimiento';
 
     public function handle()
     {
-
         $auctions =
             Aviso::join('inmuebles as i', 'i.id', '=', 'avisos.inmueble_id')
                 ->join('principal_inmuebles as pi', 'pi.inmueble_id', '=', 'i.id')
@@ -27,9 +25,12 @@ class CancelAuctions extends Command
                     'avisos.estado' =>  1,
                 ])
                 ->whereHas('historial', function ($q) {
-                    $q->where('estado_aviso_id', 3)
-                        ->orderByDesc('historial_avisos.id')
-                    ->limit(1);
+                    $q->whereIn('historial_avisos.id', function ($query) {
+                        $query->selectRaw('max(h2.id)')
+                            ->from('historial_avisos as h2')
+                            ->groupBy('h2.aviso_id');
+                    })
+                        ->where('historial_avisos.estado_aviso_id', 3);
                 })
                 ->select([
                     'avisos.id AS aviso_id',
@@ -37,24 +38,21 @@ class CancelAuctions extends Command
                 ])
         ->get();
 
-        if ( count($auctions) > 0 ) {
-            foreach ($auctions as $auction) {
-                $remate = Remate::where('caracteristicas_inmueble_id', $auction->caracteristica_id)->orderBy('numero_remate','DESC')->first();
-                
-                if ( $remate ) {
-                    $date = "{$remate->fecha} {$remate->hora}";
-                    if ( Carbon::parse($date)->lessThan(Carbon::now()) ) {
-                        $aviso = Aviso::find($auction->aviso_id);
-                        if ( $aviso ) {
-                            HistorialAvisos::create([
-                                'aviso_id' => $aviso->id,
-                                'estado_aviso_id' => 7,
-                            ]);
-                        }
+        foreach ($auctions as $auction) {
+            $remate = Remate::where('caracteristicas_inmueble_id', $auction->caracteristica_id)->orderBy('numero_remate','DESC')->first();
+
+            if ( $remate ) {
+                $date = "{$remate->fecha} {$remate->hora}";
+                if ( Carbon::parse($date)->lessThan(Carbon::now()) ) {
+                    $aviso = Aviso::find($auction->aviso_id);
+                    if ( $aviso ) {
+                        HistorialAvisos::create([
+                            'aviso_id' => $aviso->id,
+                            'estado_aviso_id' => 7,
+                        ]);
                     }
                 }
             }
         }
-        
     }
 }
