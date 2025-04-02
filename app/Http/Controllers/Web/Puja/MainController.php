@@ -46,8 +46,11 @@ class MainController extends Controller
 
         $views = 0;
         $sum_random = rand(1, 10);
-        $param = Parameter::where('status', 1)->where('name', 'count-main')->firstOrFail();
-        (int)$param->value = $param->value + $sum_random;
+        $param = Parameter::firstOrCreate(
+            ['name' => 'count-main', 'status' => 1],
+            ['value' => 0]
+        );
+        $param->value = (int)$param->value + rand(1, 10);
         $param->save();
         $views = $param->value;
 
