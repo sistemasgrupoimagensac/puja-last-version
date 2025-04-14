@@ -1,5 +1,5 @@
 <div class="carousel-wrapper">
-	<div id="carousel-container" class="carousel overflow-hidden" data-flickity='{ "wrapAround": true, "autoPlay": true }'>
+	<div id="carousel-container" class="carousel overflow-hidden" data-flickity='{ "wrapAround": true, "autoPlay": true, "pageDots": false }'>
 		@foreach($avisos as $aviso)
 			<div class="carousel-cell">
 				@include('components.card_simple', [
