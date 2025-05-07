@@ -91,7 +91,8 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         return $this->belongsToMany(Plan::class, 'plan_user')
             ->as('plan_user')
             ->withPivot('id','typical_ads_remaining', 'top_ads_remaining', 'premium_ads_remaining', 'start_date', 'end_date')
-            ->wherePivot('estado', 1);
+            ->wherePivot('estado', 1)
+            ->where('plans.estado', 1);
     }
 
     public function plans()
