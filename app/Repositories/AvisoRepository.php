@@ -33,7 +33,7 @@ class AvisoRepository
                             })
                             ->select('avisos.*')
                             ->addSelect(DB::raw("(select estado_aviso_id from historial_avisos where aviso_id = avisos.id order by historial_avisos.id desc limit 1) AS estado_aviso"))
-                            ->orderByDesc(DB::raw('(SELECT MAX(id) FROM historial_avisos WHERE aviso_id = avisos.id)'))
+                            ->orderByDesc('avisos.id')
                             ->limit(15)
                             ->get();
     }
