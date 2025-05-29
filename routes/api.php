@@ -35,6 +35,8 @@ use Illuminate\Support\Facades\Route;
     return $request->user();
 })->middleware('auth:sanctum'); */
 
+Route::get('/remates', [InmueblesController::class, 'getRemates']);
+
 Route::get('/main', MainController::class);
 Route::get('/tipos-inmuebles', [MainController::class, 'tiposInmuebles']);
 Route::get('/tipos-operacion', [MainController::class, 'tiposOperacion']);
@@ -87,19 +89,19 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/users/{id}', [AuthController::class, 'show']);
 
     Route::post('/email/verification-notification', [EmailVerificationController::class, 'send']);
-    
+
     Route::post('/avisos/{aviso}/like', [AvisoLikeController::class, 'toggleLike']);
-    
+
     Route::get('/users/{id}/ads', [MisAvisosController::class, 'getUserAds']);
     Route::get('/users/{id}/plans', [PlanController::class, 'getUserPlans']);
     Route::post('/plans/subscribe', [PlanController::class, 'hirePlanAd']); // Falta probar
-    
+
     Route::post('/ads', [MyPostsController::class, 'store']);
     Route::put('/ads/description', [MyPostsController::class, 'updateAdDescription']);
     Route::put('ads/sell', [MyPostsController::class, 'sellAd']);
     Route::delete('/ads', [MyPostsController::class, 'deleteAd']);
     Route::put('/ads/cancel-activate', [MyPostsController::class, 'cancelOrActivateAd']);
-    
+
     Route::post('/cpe/{plan_user_id}', [BillingController::class, 'generarFactura'])->middleware(SessionData::class); // Mismo metodo
 
     Route::post('/openpay/data', [PlanController::class, 'getOpenpayData']);
@@ -107,14 +109,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/openpay/save-transaction', [TransactionsController::class, 'store']); // Falta probar
 
     Route::post('/consult-document', [DocumentoController::class, 'consultar_dni_ruc']);
-    
+
     Route::post('/users/{user}/projects', [ProyectoController::class, 'store']);  // Falta probar
     Route::post('/save-paid-project-status', [ProyectoController::class, 'savePaidProjectStatus']); // Falta probar
 
     Route::post('/unidades/{unidadId}/imagenes', [ProyectoImagenUnidadController::class, 'store']); // Falta probar
     Route::delete('/unidades/imagenes/{imagenId}', [ProyectoImagenUnidadController::class, 'destroy']); // Falta probar
-    
-    
+
+
     Route::get('/panel-proyecto/proyectos-contratados', ProyectosContratadosController::class)->name('proyectos-contratados'); // Falta probar
     Route::post('/contactar-plan-proyecto', [ProyectosContratadosController::class, 'contactarPlanProyecto']); // Falta probar
     Route::post('/panel-proyecto/interesados/update-status', [ProyectoInteresadosController::class, 'updateStatus']); // Falta probar

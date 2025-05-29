@@ -37,6 +37,7 @@ class CaracteristicaInmueble extends Model
         'remate_nombre_contacto',
         'remate_telef_contacto',
         'remate_correo_contacto',
+        'remate_edicto',
 
         'titulo',
         'descripcion',
@@ -65,7 +66,7 @@ class CaracteristicaInmueble extends Model
 
     public function nextRemate()
     {
-        return 
+        return
             $this->remates()
                 ->vigente()
                 ->orderBy('fecha', 'asc')

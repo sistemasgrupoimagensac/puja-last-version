@@ -15,18 +15,18 @@
     </div>
 
     <div x-data="avisoForm(
-        {{ json_encode($inmueble) }}, 
-        {{ json_encode($op_inmueble) }}, 
-        {{ json_encode($ubi_inmueble) }}, 
-        {{ json_encode($caract_inmueble_id) }}, 
-        {{ json_encode($mult_inmueble) }}, 
-        {{ json_encode($imgs_inmueble) }}, 
-        {{ json_encode($videos_inmueble) }}, 
-        {{ json_encode($planos_inmueble) }}, 
+        {{ json_encode($inmueble) }},
+        {{ json_encode($op_inmueble) }},
+        {{ json_encode($ubi_inmueble) }},
+        {{ json_encode($caract_inmueble_id) }},
+        {{ json_encode($mult_inmueble) }},
+        {{ json_encode($imgs_inmueble) }},
+        {{ json_encode($videos_inmueble) }},
+        {{ json_encode($planos_inmueble) }},
         {{ json_encode($extra_carac_inmueble) }},
         {{ json_encode($remates) }}
     )">
-        
+
         <!-- Menú de los pasos -->
         <div class="py-3 py-lg-4 bg-body-tertiary border-bottom">
             <div class="d-flex justify-content-around align-items-center fw-semibold text-light-emphasis">
@@ -97,22 +97,22 @@
                             <div class="btn-group" role="group">
 
                                 {{-- vender --}}
-                                <input type="radio" x-model="tipo_operacion" id="vender" autocomplete="off" value="1" required 
+                                <input type="radio" x-model="tipo_operacion" id="vender" autocomplete="off" value="1" required
                                 class="btn-check
                                     @if (!$show_vender) d-none @endif
                                 ">
-                                <label for="vender" 
+                                <label for="vender"
                                 class="btn btn-outline-secondary button-filter
                                     @if (!$show_vender) d-none @endif
                                     @if ($vender_last) rounded-end @endif
                                 ">Vender</label>
 
                                 {{-- alquilar --}}
-                                <input type="radio" x-model="tipo_operacion" id="alquilar" autocomplete="off" value="2" required 
+                                <input type="radio" x-model="tipo_operacion" id="alquilar" autocomplete="off" value="2" required
                                 class="btn-check
                                     @if (!$show_alquilar) d-none @endif
                                 ">
-                                <label for="alquilar" 
+                                <label for="alquilar"
                                 class="btn btn-outline-secondary button-filter
                                     @if (!$show_alquilar) d-none @endif
                                     @if ($alquilar_last) rounded-end @endif
@@ -123,7 +123,7 @@
                                 class="btn-check
                                     @if (!$show_rematar) d-none @endif
                                 ">
-                                <label for="rematar" 
+                                <label for="rematar"
                                 class="btn btn-outline-secondary button-filter
                                     @if (!$show_rematar) d-none @endif
                                     @if ($rematar_last) rounded @endif
@@ -162,7 +162,7 @@
                                         <input class="form-check-input" type="checkbox" role="switch" id="is_puja" x-model="is_puja">
                                         <span data-bs-toggle="tooltip"
                                             data-bs-placement="top"
-                                            data-bs-custom-class="custom-tooltip" 
+                                            data-bs-custom-class="custom-tooltip"
                                             data-bs-title="Seleccionar el campo si queremos que los posibles compradores puedan enviarnos sus montos que ofrecen.">
                                             <i class="fa-solid fa-circle-info ms-2"></i>
                                         </span>
@@ -285,10 +285,10 @@
                                     <label class="text-secondary" for="precio_soles">Precio soles</label>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">S/</span>
-                                        <input 
+                                        <input
                                             type="text"
                                             id="precio_soles"
-                                            x-model="precio_soles" 
+                                            x-model="precio_soles"
                                             class="form-control montos-areas"
                                             :required="!precio_soles && !precio_dolares && notVisible"
                                         >
@@ -299,11 +299,11 @@
                                     <label class="text-secondary" for="precio_dolares">Precio dólares</label>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">US$</span>
-                                        <input 
-                                            type="text" 
-                                            id="precio_dolares" 
-                                            x-model="precio_dolares" 
-                                            class="form-control montos-areas" 
+                                        <input
+                                            type="text"
+                                            id="precio_dolares"
+                                            x-model="precio_dolares"
+                                            class="form-control montos-areas"
                                             :required="!precio_soles && !precio_dolares && notVisible"
                                         >
                                     </div>
@@ -318,10 +318,10 @@
                                     </label>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">S/</span>
-                                        <input 
+                                        <input
                                             type="text"
                                             id="precio_mantenimiento"
-                                            x-model="precio_mantenimiento" 
+                                            x-model="precio_mantenimiento"
                                             class="form-control montos-areas"
                                         >
                                     </div>
@@ -332,11 +332,11 @@
                                 <template x-for="(remate, index) in remates" :key="index">
                                     <div class="border p-3 mb-3">
                                         <h5 class="fw-bold mb-3">
-                                            Datos del 
-                                            <span x-text="remate.numero_remate"></span> 
+                                            Datos del
+                                            <span x-text="remate.numero_remate"></span>
                                             remate
                                         </h5>
-                            
+
                                         <div class="d-flex justify-content-between gap-4">
                                             <div class="form-group w-100">
                                                 <label :for="`fecha_remate_${index}`">
@@ -350,7 +350,7 @@
                                                     class="form-control"
                                                 >
                                             </div>
-                                            
+
                                             <div class="form-group w-100">
                                                 <label :for="`hora_remate_${index}`">
                                                     Hora del Remate
@@ -366,7 +366,7 @@
                                                 >
                                             </div>
                                         </div>
-                            
+
                                         <div class="d-flex justify-content-between gap-4 mt-3">
                                             <div class="form-group w-100">
                                                 <label :for="`base_remate_${index}`">
@@ -382,7 +382,7 @@
                                                     >
                                                 </div>
                                             </div>
-                                
+
                                             <!-- Valor de Tasación -->
                                             <div class="form-group w-100">
                                                 <label :for="`valor_tasacion_${index}`">
@@ -399,7 +399,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                            
+
                                         <button
                                             type="button"
                                             class="btn btn-outline-danger btn-sm mt-2"
@@ -410,10 +410,10 @@
                                         </button>
                                     </div>
                                 </template>
-                            
-                                <button 
-                                    type="button" 
-                                    class="btn btn-outline-primary" 
+
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-primary"
                                     @click="addRemate"
                                 >
                                     Agregar otro remate
@@ -423,9 +423,9 @@
 
                         {{-- Detalles del remate --}}
                         <fieldset x-cloak x-show="perfil_acreedor">
-                         
+
                             <legend>Detalles del Remate</legend>
-                            
+
 
                             <div class=" d-flex flex-column gap-3">
                                 <div>
@@ -435,7 +435,7 @@
                                         <span
                                             data-bs-toggle="tooltip"
                                             data-bs-placement="top"
-                                            data-bs-custom-class="custom-tooltip" 
+                                            data-bs-custom-class="custom-tooltip"
                                             data-bs-title="Puede autocompletar la dirección del centro de arbitraje"
                                         >
                                             <i class="fa-solid fa-circle-info ms-2"></i>
@@ -444,10 +444,10 @@
                                     </label>
                                     <div class="input-group">
                                         <input type="text" id="direccion_remate" x-model="direccion_remate" class="form-control">
-                                        <button 
-                                            class="btn btn-outline-secondary dropdown-toggle" 
-                                            type="button" 
-                                            data-bs-toggle="dropdown" 
+                                        <button
+                                            class="btn btn-outline-secondary dropdown-toggle"
+                                            type="button"
+                                            data-bs-toggle="dropdown"
                                             aria-expanded="false"
                                         >Arbitraje</button>
                                         <ul class="dropdown-menu dropdown-menu-end">
@@ -467,7 +467,7 @@
 
 
                                 </div>
-    
+
                                 <div class="form-group w-100">
                                     <label class="text-secondary" for="partida_registral">
                                         Partida Registral
@@ -475,15 +475,15 @@
                                     </label>
                                     <input type="text" id="partida_registral" x-model="partida_registral" class="form-control">
                                 </div>
-                                
+
                                 <div class="form-group w-100">
                                     <label class="text-secondary" for="contacto_remate">
                                         Nombre del Contacto
-                                        <span class="h6">(opcional)</span>    
+                                        <span class="h6">(opcional)</span>
                                     </label>
                                     <input type="text" id="contacto_remate" x-model="contacto_remate" class="form-control">
                                 </div>
-    
+
                                 <div class="form-group w-100">
                                     <label class="text-secondary" for="telefono_contacto_remate">
                                         Teléfono del Contacto
@@ -503,6 +503,14 @@
                                     </div>
                                 </div>
 
+                                {{-- <div class="form-group w-100">
+                                    <label class="text-secondary" for="edicto_remate">
+                                        Edicto
+                                        <span style="font-size: .75rem">(opcional)</span>
+                                    </label>
+                                    <input type="file" id="edicto_remate" class="form-control" @change="handleFiles($event, 'edicto')">
+                                </div> --}}
+
                             </div>
 
                         </fieldset>
@@ -521,7 +529,7 @@
                         @csrf
                         <h2 class="m-0">Multimedia</h2>
                         <input type="hidden" name="multimedia" :value="step === 4 ? 1 : 0">
-                
+
                         <!-- Input para la imagen principal -->
                         <div class="form-group">
                             <label for="imagen_principal" class="form-label text-secondary">Imagen Principal</label>
@@ -529,15 +537,15 @@
                             <!-- Mostrar miniatura de la imagen principal seleccionada -->
                             <div class="mt-3" x-show="imagen_principal">
                                 <h4>Miniatura de Imagen Principal</h4>
-                                <img 
-                                    :src=" (typeof imagen_principal === 'string') || (imagen_principal === null) ? imagen_principal : URL.createObjectURL(imagen_principal)" 
+                                <img
+                                    :src=" (typeof imagen_principal === 'string') || (imagen_principal === null) ? imagen_principal : URL.createObjectURL(imagen_principal)"
                                     class="img-thumbnail" style="max-width: 200px" alt="Imagen Principal"
                                 >
                                 <!-- Botón para eliminar la imagen principal -->
                                 <button type="button" class="btn btn-danger btn-sm mt-2" @click="eliminarImagen('imagen_principal')">Eliminar</button>
                             </div>
                         </div>
-                
+
                         <!-- Input para seleccionar imágenes -->
                         <div class="form-group">
                             <label for="images" class="form-label text-secondary">
@@ -551,9 +559,9 @@
                                 <div class="row">
                                     <template x-for="(foto, index) in fotos" :key="index">
                                         <div class="col-md-3 mb-3">
-                                            <img 
-                                                :src="foto.url ? foto.url : URL.createObjectURL(foto)" 
-                                                class="img-thumbnail" 
+                                            <img
+                                                :src="foto.url ? foto.url : URL.createObjectURL(foto)"
+                                                class="img-thumbnail"
                                                 style="max-width: 100%;" :alt="'Imagen ' + (index + 1)"
                                             >
                                             <!-- Botón para eliminar imagen -->
@@ -562,10 +570,10 @@
                                     </template>
 
                                 </div>
-                                
+
                             </div>
                         </div>
-                
+
                         <!-- Input para videos -->
                         <div class="form-group">
                             <label class="text-secondary">
@@ -574,7 +582,7 @@
                             </label>
                             <input type="file" class="form-control" placeholder="URL de videos" @change="handleFiles($event, 'videos')">
                         </div>
-                        
+
                         <!-- Input para seleccionar planos -->
                         <div class="form-group">
                             <label for="planos" class="form-label text-secondary">
@@ -596,7 +604,7 @@
                                 </div>
                             </div>
                         </div>
-                
+
                         <!-- Botones de navegación -->
                         <div class="d-flex justify-content-between gap-2 w-100">
                             <button type="button" @click="prevStep()" class="btn btn-secondary w-100">Atrás</button>
@@ -604,7 +612,7 @@
                         </div>
                     </form>
                 </div>
-                
+
 
                 <!-- Toasty error subir imagen principal primero -->
                 <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
@@ -625,12 +633,12 @@
                             <form @submit.prevent="nextStep(2)" class="d-flex flex-column gap-4 my-4">
                                 @csrf
                                 <input type="hidden" name="ubicacion" :value="step === 2 ? 1 : 0">
-        
+
                                 <div class="form-floating">
                                     <input type="text" id="place_input" x-model="direccion" class="form-control" placeholder="Dirección" required>
                                     <label for="place_input">Dirección</label>
                                 </div>
-        
+
                                 <div class="form-floating">
                                     <select x-model="selectedDepartamento" @change="fetchProvincias()" class="form-select" id="departamento" required>
                                         <option value="">Seleccione un Departamento</option>
@@ -640,7 +648,7 @@
                                     </select>
                                 <label for="departamento">Departamento</label>
                                 </div>
-        
+
                                 <div class="form-floating">
                                     <select x-model="selectedProvincia" @change="fetchDistritos()" :disabled="!selectedDepartamento" class="form-select" id="provincia" required>
                                         <option value="">Seleccione una Provincia</option>
@@ -650,7 +658,7 @@
                                     </select>
                                     <label for="provincia">Provincia</label>
                                 </div>
-        
+
                                 <div class="form-floating">
                                     <select x-model="selectedDistrito" :disabled="!selectedProvincia" class="form-select" id="distrito" required>
                                         <option id="valueDistrito" value="">Seleccione un Distrito</option>
@@ -660,14 +668,14 @@
                                     </select>
                                     <label for="distrito">Distrito</label>
                                 </div>
-        
+
                                 <div class="d-flex justify-content-between gap-2 w-100">
                                     <button type="button" @click="prevStep()" class="btn btn-secondary w-100">Atrás</button>
                                     <button type="submit" class="btn button-orange w-100">Continuar</button>
                                 </div>
                             </form>
                         </div>
-    
+
                         <div class="w-100 my-4">
                             <div class="form-group mb-2">
                                 <label for="location-type">¿Cómo deseas mostrar la ubicación?</label>
@@ -706,16 +714,16 @@
                                 <template x-for="extra in extras" :key="extra.id">
                                     <div class="col-12 col-md-6 col-lg-4">
                                         <div class="form-check my-2">
-                                            <input 
-                                                class="form-check-input" 
-                                                type="checkbox" 
-                                                name="options[]" 
-                                                :id="'add_' + extra.id" 
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                name="options[]"
+                                                :id="'add_' + extra.id"
                                                 :value="extra.id"
                                                 :checked="extra_carac_inmueble?.map(e => e.caracteristica_extra_id).includes(extra.id)"
                                             >
-                                            <label 
-                                                class="form-check-label text-secondary filter-additional-input" 
+                                            <label
+                                                class="form-check-label text-secondary filter-additional-input"
                                                 :for="'add_' + extra.id"
                                             >
                                                 <i :class="'fa-solid ' + extra.icono + ' icon-orange mx-2'"></i>
@@ -729,7 +737,7 @@
                             <div class="mt-4" x-show="perfil_acreedor">
                                 <p>La propiedad en remate no tiene comodidades. Por favor continue.</p>
                             </div>
-                            
+
                         </div>
                         <div class="d-flex justify-content-between gap-2 crear-aviso-buttons-extras">
                             <button type="button" @click="prevStep()" class="btn btn-secondary w-100">Atrás</button>
@@ -750,16 +758,16 @@
                                 <template x-for="extra in extras2" :key="extra.id">
                                     <div class="col-12 col-md-6 col-lg-4">
                                         <div class="form-check my-2">
-                                            <input 
-                                                class="form-check-input" 
-                                                type="checkbox" 
-                                                name="options[]" 
-                                                :value="extra.id" 
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                name="options[]"
+                                                :value="extra.id"
                                                 :id="'add_' + extra.id"
                                                 :checked="extra_carac_inmueble?.map(e => e.caracteristica_extra_id).includes(extra.id)"
                                             >
-                                            <label 
-                                                class="form-check-label text-secondary filter-additional-input" 
+                                            <label
+                                                class="form-check-label text-secondary filter-additional-input"
                                                 :for="'add_' + extra.id"
                                             >
                                                 <i :class="'fa-solid ' + extra.icono + ' icon-orange mx-2'"></i>
@@ -858,7 +866,7 @@
 
             // Si hay coordenadas almacenadas, usarlas; de lo contrario, usar la ubicación predeterminada
             const initialLocation = storedLocation.lat && storedLocation.lng ? storedLocation : defaultLocation;
-            
+
             map = new google.maps.Map(mapDiv, {
                 center: initialLocation,
                 zoom: 14,
@@ -870,10 +878,10 @@
             marker = new google.maps.Marker({
                 position: initialLocation,
                 map: null,
-                draggable: true, 
+                draggable: true,
                 icon: {
                     url: "/images/svg/marker_puja.svg",
-                    scaledSize: new google.maps.Size(80, 80), 
+                    scaledSize: new google.maps.Size(80, 80),
                     origin: new google.maps.Point(0, 0),
                     anchor: new google.maps.Point(40, 80)
                 }
@@ -898,13 +906,13 @@
             } else {
                 esExactaData = false
             }
-            
+
             updateMapElements(initialLocation, esExactaData);
             initAutocomplete();
 
             map.addListener('click', (event) => {
                 const clickedLocation = event.latLng;
-                
+
                 lat_inmueble = clickedLocation.lat();
                 lng_inmueble = clickedLocation.lng();
 
@@ -920,7 +928,7 @@
                 geocoder.geocode({'location': newPosition}, (results, status) => {
                     if (status === 'OK' && results[0]) {
                         let cadena = results[0].formatted_address;
-                        
+
                         let ultimaComa = cadena.lastIndexOf(",");
                         if (ultimaComa !== -1) {
                             let penultimaComa = cadena.lastIndexOf(",", ultimaComa - 1);
@@ -976,7 +984,7 @@
             geocoder.geocode({'location': location}, (results, status) => {
                 if (status === 'OK' && results[0]) {
                     let cadena = results[0].formatted_address;
-                    
+
                     let ultimaComa = cadena.lastIndexOf(",");
                     if (ultimaComa !== -1) {
                         let penultimaComa = cadena.lastIndexOf(",", ultimaComa - 1);
@@ -993,7 +1001,7 @@
         function avisoForm(inmueble, op_inmueble, ubi_inmueble, caract_inmueble_id, mult_inmueble, imgs_inmueble, videos_inmueble, planos_inmueble, extra_carac_inmueble, remates) {
             const normalizedRemates = (remates ?? []).map((r, i) => {
                 let fechaVal = r.fecha_remate || r.fecha || '';
-                
+
                 let horaVal = r.hora_remate || r.hora || '';
                 if (horaVal.length === 8) {
                     horaVal = horaVal.substring(0, 5);
@@ -1049,7 +1057,7 @@
                             valor_tasacion: ''
                         }
                     ],
-                
+
                 adicionales: [],
                 comodidades: [],
 
@@ -1076,7 +1084,7 @@
                 ambienteDormitoriosText: "Dormitorios",
                 precio_mantenimiento: caract_inmueble_id ? caract_inmueble_id.mantenimiento : '',
 
-                // detalles de remate                
+                // detalles de remate
                 hora_remate:              caract_inmueble_id?.remate_hora ?? '',
                 fecha_remate:             caract_inmueble_id?.remate_fecha ?? '',
                 base_remate:              caract_inmueble_id?.remate_precio_base ?? '',
@@ -1088,7 +1096,8 @@
                 partida_registral:        caract_inmueble_id?.remate_partida_registral ?? '',
                 correo_contacto_remate:   caract_inmueble_id?.remate_correo_contacto ?? '',
                 telefono_contacto_remate: caract_inmueble_id?.remate_telef_contacto ?? '',
-                
+                edicto_remate:            caract_inmueble_id?.remate_edicto ?? null,
+
                 map: null,
                 marker: null,
                 es_exacta: ubi_inmueble ? ubi_inmueble.es_exacta : 1,
@@ -1096,7 +1105,7 @@
                 longitude: null,
 
 
-                
+
 
                 addRemate() {
                     this.remates.push({
@@ -1115,7 +1124,7 @@
 
                 renumberRemates() {
                     this.remates.forEach((r, i) => {
-                        r.numero_remate = i + 1; 
+                        r.numero_remate = i + 1;
                     });
                 },
 
@@ -1132,15 +1141,15 @@
                         $remate_nombre_centro.disabled = false;
                     } else if ( val === 2 ) {
                         this.remate_direccion_id = val
-                        this.direccion_remate = "Av. Arequipa 330, oficina 907, Cercado de Lima"                        
+                        this.direccion_remate = "Av. Arequipa 330, oficina 907, Cercado de Lima"
                         this.remate_nombre_centro = "Centro de arbitraje comercial Lima"
                     } else if ( val === 3 ) {
                         this.remate_direccion_id = val
-                        this.direccion_remate = "Av. Diez Canseco 442, oficina 202, Miraflores"                        
+                        this.direccion_remate = "Av. Diez Canseco 442, oficina 202, Miraflores"
                         this.remate_nombre_centro = "Centro de arbitraje financiero Inmobiliario"
                     } else if ( val === 4 ) {
                         this.remate_direccion_id = val
-                        this.direccion_remate = "Remate Virtual"                        
+                        this.direccion_remate = "Remate Virtual"
                         this.remate_nombre_centro = "REMAJU"
                     }
                 },
@@ -1165,7 +1174,7 @@
 
                     console.log(remates)
                     if ({{ $show_rematar ? 'true' : 'false' }} && !{{ $show_vender ? 'true' : 'false' }} && !{{ $show_alquilar ? 'true' : 'false' }}) {
-                        this.tipo_operacion = 3; 
+                        this.tipo_operacion = 3;
                     };
 
                     this.$watch('tipo_operacion', value => {
@@ -1183,10 +1192,10 @@
 
                 initializeSecondStep() {
                     console.log('inicia segundo paso');
-                    
+
                     this.fetchDepartamentos();
                     console.log('inicia llamado a provincias');
-                    
+
                     this.fetchProvincias();
                     this.fetchDistritos();
                 },
@@ -1272,7 +1281,7 @@
                             formData.append('principal', 1)
                             formData.append('codigo_unico', this.codigo_unico)
                             console.log(this.codigo_unico);
-                            
+
                         } else if (step === 2) /* Ubicacion */ {
 
                             const finalLat = lat_inmueble !== undefined ? lat_inmueble : parseFloat("{{ $ubi_inmueble->latitud ?? '0' }}");
@@ -1288,7 +1297,7 @@
                             formData.append('latitud', finalLat);
                             formData.append('longitud', finalLng);
 
-                            formData.append('codigo_unico', this.codigo_unico) 
+                            formData.append('codigo_unico', this.codigo_unico)
                         } else if (step === 3) /* Caracteristicas */ {
                             formData.append('is_puja', this.is_puja ? 1 : 0)
                             formData.append('habitaciones', this.dormitorios)
@@ -1309,8 +1318,11 @@
                             formData.append('remate_nombre_centro', this.remate_nombre_centro)
                             formData.append('remate_nombre_contacto', this.contacto_remate)
                             formData.append('remate_telef_contacto', this.telefono_contacto_remate)
+                            if (this.edicto_remate) {
+                                formData.append('edicto_remate', this.edicto_remate)
+                            }
                             formData.append('remate_correo_contacto', this.correo_contacto_remate)
-                            
+
                             formData.append('remate_fecha', this.fecha_remate)
                             formData.append('remate_hora', this.hora_remate)
                             formData.append('remate_precio_base', this.base_remate)
@@ -1325,8 +1337,8 @@
 
                             if (this.imagen_principal) {
                                 formData.append('imagen_principal', this.imagen_principal)
-                            } 
-                            
+                            }
+
                             this.fotos.forEach((foto, index) => {
                                 if (foto) {
                                     // Solo añadir si es un nuevo archivo (File)
@@ -1414,7 +1426,7 @@
                             this.hideLoader();
                         });
                     }
-                },  
+                },
 
                 hideLoader() {
                     setTimeout(() => {
@@ -1438,6 +1450,8 @@
                         this.imagen_principal = files[0]
                     } else if (type === 'videos') {
                         this.videos = files[0]
+                    } else if (type === 'edicto') {
+                        this.edicto_remate = files[0]
                     }
                 },
 
@@ -1501,7 +1515,7 @@
                 },
 
                 fetchProvincias() {
-                    if (this.selectedDepartamento) {    
+                    if (this.selectedDepartamento) {
                         fetch(`/my-post/ubicacion/provincias/${this.selectedDepartamento}`)
                         .then(response => response.json())
                         .then(data => {
@@ -1511,7 +1525,7 @@
                             this.selectedDistrito = '';
 
                             this.fetchDistritos();
-                            
+
                         })
                         .catch(error => {
                             console.error('Error fetching provincias:', error);
@@ -1546,7 +1560,7 @@
                     fetch(`/my-post/extras/${extra_id}`)
                     .then(response => response.json())
                     .then(data => {
-                        
+
                         if( extra_id === 2 ) {
                             this.extras = data;
                         } else if( extra_id === 1 ) {

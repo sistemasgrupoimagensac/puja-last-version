@@ -300,6 +300,28 @@ class MyPostsController extends Controller
                     "remate_correo_contacto" => $request->input('remate_correo_contacto', null),
                     "estado" => 1,
                 ]);
+
+                if ($request->hasFile('edicto_remate')) {
+
+                    $route_edicto = "edictos/{$inmueble->id}";
+                    if ( !App::environment('production') ) {
+                        $nameDev = "wsb-dev/".env('ROUTE_WSB')."/";
+                        $route_edicto = "{$nameDev}{$route_edicto}";
+                    }
+
+                    if ($carac_inmueble->remate_edicto) {
+                        Storage::disk('wasabi')->delete(str_replace(url('/'), '', $carac_inmueble->remate_edicto));
+                    }
+
+                    $edicto = $request->file('edicto_remate');
+                    $path_edicto = Storage::disk('wasabi')->put($route_edicto, $edicto);
+                    $imageURL_edicto = basename($path_edicto);
+                    $imagenUrl1_edicto = url($route_edicto . '/' . $imageURL_edicto);
+
+                    $carac_inmueble->remate_edicto = $imagenUrl1_edicto;
+                    $carac_inmueble->save();
+                }
+
             } catch (\Exception $e) {
                 return response()->json([
                     'message' => 'Error al guardar las características del inmueble',

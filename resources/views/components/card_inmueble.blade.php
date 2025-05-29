@@ -116,6 +116,11 @@
 
                                 </h2>
 
+                                {{-- <p>
+                                    <span class="text-secondary me-1">Edicto</span>
+                                    <i class="fa-solid fa-file-pdf icon-orange"></i>
+                                </p> --}}
+
                                 {{-- Caracteristicas del inmueble --}}
                                 <p class="m-0 d-flex card-inmuebles-features">
                                     <span class="text-secondary me-1">{{ $area }}</span>

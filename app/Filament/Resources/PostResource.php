@@ -26,7 +26,7 @@ class PostResource extends Resource
     protected static ?string $model = Post::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-window';
-    
+
     protected static ?string $navigationLabel = 'Blogs';
 
     protected static ?int $navigationSort = 4;
@@ -47,7 +47,7 @@ class PostResource extends Resource
                     ->maxLength(255)
                     ->afterStateUpdated(fn ($state, callable $set) => $set('slug', Str::slug($state)))
                     ->columnSpanFull(),
-                
+
                 TiptapEditor::make('content')
                     ->label('Content')
                     ->required()
@@ -57,19 +57,16 @@ class PostResource extends Resource
                 FileUpload::make('image')
                     ->disk('public')
                     ->directory('images/posts')
-                    ->image()
                     ->visibility('public')
-                    ->required()
-                    ->columnSpanFull()
-
                     ->image()
                     ->imageEditor()
                     ->imageEditorAspectRatios([
                         '16:9',
                         '4:3',
                         '1:1',
-                    ]),
-        
+                    ])
+//                    ->required()
+                    ->columnSpanFull()
             ]),
         ]);
     }
