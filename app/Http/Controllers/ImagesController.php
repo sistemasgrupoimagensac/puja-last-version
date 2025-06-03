@@ -16,7 +16,14 @@ class ImagesController extends Controller
         if (!$existe_archivo) abort(404, 'El archivo no existe');
         return Storage::disk('wasabi')->response($path);
     }
-    
+
+    public function get_edictos($id_inmueble, $archivo){
+        $path = "edictos/{$id_inmueble}/{$archivo}";
+        $existe_archivo = Storage::disk('wasabi')->exists($path);
+        if (!$existe_archivo) abort(404, 'El archivo no existe');
+        return Storage::disk('wasabi')->response($path);
+    }
+
     public function get_planos($id_inmueble, $archivo){
         $path = "planos/{$id_inmueble}/{$archivo}";
         $existe_archivo = Storage::disk('wasabi')->exists($path);
@@ -30,7 +37,7 @@ class ImagesController extends Controller
         if (!$existe_archivo) abort(404, 'El archivo no existe');
         return Storage::disk('wasabi')->response($path);
     }
-    
+
     public function get_pdf($archivo){
         $existe_archivo = Storage::disk('wasabi')->exists('pdf/'. $archivo);
         if (!$existe_archivo) {
@@ -47,7 +54,14 @@ class ImagesController extends Controller
         if (!$existe_archivo) abort(404, 'El archivo no existe');
         return Storage::disk('wasabi')->response($path);
     }
-    
+
+    public function dev_get_edictos($name_dev, $id_inmueble, $archivo){
+        $path = "wsb-dev/{$name_dev}/edictos/{$id_inmueble}/{$archivo}";
+        $existe_archivo = Storage::disk('wasabi')->exists($path);
+        if (!$existe_archivo) abort(404, 'El archivo no existe');
+        return Storage::disk('wasabi')->response($path);
+    }
+
     public function dev_get_planos($name_dev, $id_inmueble, $archivo){
         $path = "wsb-dev/{$name_dev}/planos/{$id_inmueble}/{$archivo}";
         $existe_archivo = Storage::disk('wasabi')->exists($path);

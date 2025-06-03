@@ -144,12 +144,14 @@ Route::get('/videos/{id_inmueble}/{archivo}', [ImagesController::class, 'get_vid
 Route::get('/pdf/{archivo}', [ImagesController::class, 'get_pdf'])->name('cpe.get');
 Route::get('/proyectos/images/{id_proyecto}/{archivo}', [ImagesController::class, 'get_project_images']);
 Route::get('/proyectos/unidades/{id_proyecto}/{id_unidad}/{archivo}', [ImagesController::class, 'get_project_unidad_images']);
+Route::get('/edictos/{id_inmueble}/{archivo}', [ImagesController::class, 'get_edictos']);
 // Rutas para el entorno DEV
 Route::get('wsb-dev/{name_dev}/images/{id_inmueble}/{archivo}', [ImagesController::class, 'dev_get_images']);
 Route::get('wsb-dev/{name_dev}/planos/{id_inmueble}/{archivo}', [ImagesController::class, 'dev_get_planos']);
 Route::get('wsb-dev/{name_dev}/videos/{id_inmueble}/{archivo}', [ImagesController::class, 'dev_get_videos']);
 Route::get('wsb-dev/{name_dev}/proyectos/images/{id_proyecto}/{archivo}', [ImagesController::class, 'dev_get_project_images']);
 Route::get('wsb-dev/{name_dev}/proyectos/unidades/{id_proyecto}/{id_unidad}/{archivo}', [ImagesController::class, 'dev_get_project_unidad_images']);
+Route::get('wsb-dev/{name_dev}/edictos/{id_inmueble}/{archivo}', [ImagesController::class, 'dev_get_edictos']);
 
 // Route::get('/openpay', [MyPostsController::class, 'openpay'])->middleware('sessiondata');
 Route::post('/generarComprobanteElec/{id}', [BillingController::class, 'generarFactura'])->middleware(SessionData::class);

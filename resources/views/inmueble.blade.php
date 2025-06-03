@@ -251,6 +251,13 @@
                                 </p>
                             @endif
 
+                            @if(optional(optional(optional($aviso->inmueble)->principal)->caracteristicas)->remate_edicto)
+                                <p>
+                                    <span class="fw-bolder">Edicto oficial:</span>
+                                    <a href="{{ optional(optional(optional($aviso->inmueble)->principal)->caracteristicas)->remate_edicto }}" target="_blank"><i class="fa-solid fa-file fa-lg icon-red p-2"></i></a>
+                                </p>
+                            @endif
+
                         </div>
                     @endif
 

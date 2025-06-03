@@ -499,13 +499,13 @@
                                     </div>
                                 </div>
 
-                                {{-- <div class="form-group w-100">
+                                <div class="form-group w-100">
                                     <label class="text-secondary" for="edicto_remate">
                                         Edicto
                                         <span style="font-size: .75rem">(opcional)</span>
                                     </label>
                                     <input type="file" id="edicto_remate" class="form-control" @change="handleFiles($event, 'edicto')">
-                                </div> --}}
+                                </div>
 
 
                             </div>

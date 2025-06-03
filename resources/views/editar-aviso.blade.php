@@ -503,13 +503,17 @@
                                     </div>
                                 </div>
 
-                                {{-- <div class="form-group w-100">
+                                <div class="form-group w-100">
                                     <label class="text-secondary" for="edicto_remate">
                                         Edicto
                                         <span style="font-size: .75rem">(opcional)</span>
                                     </label>
                                     <input type="file" id="edicto_remate" class="form-control" @change="handleFiles($event, 'edicto')">
-                                </div> --}}
+                                    <div class="mt-3" x-show="edicto_remate">
+                                        <h4>Edicto subido</h4>
+                                        <a :href="edicto_remate" target="_blank"><i class="fa-solid fa-file fa-lg icon-red p-2"></i></a>
+                                    </div>
+                                </div>
 
                             </div>
 
