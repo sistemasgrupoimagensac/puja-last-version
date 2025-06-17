@@ -9,6 +9,7 @@ use App\Mail\SendDataMail;
 use App\Mail\SendProjectMail;
 use App\Models\AdContact;
 use App\Models\Aviso;
+use App\Models\AvisoLog;
 use App\Models\Caracteristica;
 use App\Models\CaracteristicaInmueble;
 use App\Models\Departamento;
@@ -72,9 +73,24 @@ class MyPostsController extends Controller
         return view('crear-aviso', compact('es_acreedor', 'es_propietario', 'es_corredor', 'es_proyecto', 'show_modal'));
     }
 
+    public function avisosLog ( $avisoId=null, $type=null, $req=null, $res=null, $success=false )
+    {
+        return AvisoLog::create([
+            'aviso_id'  => $avisoId,
+            'type'      => $type,
+            'request'   => json_encode($req),
+            'response'  => json_encode($res),
+            'success'   => $success,
+            'user_id'   => Auth::id()
+        ]);
+
+    }
+
     public function store (Request $request)
     {
         $user_id = Auth::id();
+
+        $log = self::avisosLog(null, null, $request->all(), null, false);
 
         $validator = Validator::make($request->all(), [
             'principal' => 'boolean',
@@ -139,7 +155,9 @@ class MyPostsController extends Controller
             $hist_aviso->touch();
         // }
 
+        $tipo_operacion_log = '';
         if ($request->principal) {
+            $tipo_operacion_log = 'Operación y tipo de inmueble';
             $validator = Validator::make($request->all(), [
                 'tipo_operacion_id' => 'required|integer|digits_between:1,3',
                 // 'tipo_inmueble_id' => 'required|integer|digits_between:1,3',
@@ -188,6 +206,7 @@ class MyPostsController extends Controller
         }
 
         if ($request->ubicacion) {
+            $tipo_operacion_log = 'Ubicación';
             $validator = Validator::make($request->all(), [
                 'direccion' => 'required|string|max:250',
                 'departamento_id' => 'required|integer|digits_between:1,3',
@@ -226,6 +245,7 @@ class MyPostsController extends Controller
         }
 
         if ($request->caracteristicas) {
+            $tipo_operacion_log = 'Características';
 
             $validator = Validator::make($request->all(), [
                 'is_puja' => 'nullable|boolean',
@@ -365,6 +385,7 @@ class MyPostsController extends Controller
         }
 
         if ($request->multimedia) {
+            $tipo_operacion_log = 'Multimedia';
             $routeImages = "images/{$inmueble->id}";
             $routePlans = "planos/{$inmueble->id}";
             $routeVideos = "videos/{$inmueble->id}";
@@ -520,6 +541,7 @@ class MyPostsController extends Controller
 
 
         if ($request->extras) {
+            $tipo_operacion_log = 'Extras';
             // $extra_inmueble = ExtraInmueble::where('inmueble_id', $inmueble->id)->first();
             $extra_inmueble = ExtraInmueble::updateOrCreate([
                 "inmueble_id" => $inmueble->id,
@@ -583,6 +605,11 @@ class MyPostsController extends Controller
 
             }
 
+            $log->aviso_id = $aviso->id;
+            $log->type = $tipo_operacion_log;
+            $log->success = true;
+            $log->save();
+
             return response()->json([
                 'message' => 'Registro exitoso, finalizado correcto.',
                 'status' => 'Success',
@@ -590,6 +617,11 @@ class MyPostsController extends Controller
                 'error' => false
             ], 201);
         }
+
+        $log->aviso_id = $aviso->id;
+        $log->type = $tipo_operacion_log;
+        $log->success = true;
+        $log->save();
 
         return response()->json([
             'message' => 'Registro exitoso',
@@ -679,6 +711,8 @@ class MyPostsController extends Controller
         $aviso = Aviso::findOrFail($request->aviso_id);
         $aviso->inmueble->principal->caracteristicas->descripcion = trim($request->description);
         $aviso->inmueble->principal->caracteristicas->save();
+
+        self::avisosLog( $request->aviso_id, 'Actualización descripción', $request->all(), null, true);
 
         return response()->json([
             "http_code" => 200,
