@@ -475,7 +475,7 @@
 				planes: [],
 				categoriaPlan: 'mixto',
 				numAvisos: 5,
-				periodoPlan: 90,
+				periodoPlan: 30,
 				planId: null,
 				prices: 0,
 				tipoDeAviso: null,
