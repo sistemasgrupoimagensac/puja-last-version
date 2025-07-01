@@ -173,7 +173,8 @@ class PlanController extends Controller
                 $end_date = $selected_plan_user->end_date;
 
                 $plan_duration = Plan::findOrFail($selected_plan_user->plan_id)->duration_in_days;
-                $expiration_date = Carbon::now()->addDays($plan_duration);
+                // $expiration_date = Carbon::now()->addDays($plan_duration); // Comentado por la promocion de rematar planes por 1 sol
+                $expiration_date = $end_date;
 
                 if ( (int)$selected_plan_user->estado !== 1 ) {
                     return response()->json([

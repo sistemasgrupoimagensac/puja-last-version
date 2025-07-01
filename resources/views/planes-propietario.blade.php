@@ -74,14 +74,14 @@
 								<input type="radio" class="btn-check" id="30" value="30" autocomplete="off" x-model="periodoPlan">
 								<label class="btn btn-lg btn-outline-secondary fs-4 px-0 py-1" for="30">30 días</label>
 							</div>
-							<div>
+							{{-- <div>
 								<input type="radio" class="btn-check" id="60" value="60" autocomplete="off" x-model="periodoPlan">
 								<label class="btn btn-lg btn-outline-secondary fs-4 px-0 py-1" for="60">60 días</label>
 							</div>
 							<div>
 								<input type="radio" class="btn-check" id="90" value="90" autocomplete="off" x-model="periodoPlan">
 								<label class="btn btn-lg btn-outline-secondary fs-4 px-0 py-1" for="90">90 días</label>
-							</div>
+							</div> --}}
 						</div>
 					</div>
 				</fieldset>

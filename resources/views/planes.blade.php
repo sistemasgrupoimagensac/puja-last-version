@@ -227,14 +227,14 @@
 								<input type="radio" class="btn-check" id="30top" value="30" autocomplete="off" x-model="periodoPlan">
 								<label class="btn btn-lg btn-outline-secondary fs-4 px-0 py-1" for="30top">30 días</label>
 							</div>
-							<div>
+							{{-- <div>
 								<input type="radio" class="btn-check" id="60top" value="60" autocomplete="off" x-model="periodoPlan">
 								<label class="btn btn-lg btn-outline-secondary fs-4 px-0 py-1" for="60top">60 días</label>
 							</div>
 							<div>
 								<input type="radio" class="btn-check" id="90top" value="90" autocomplete="off" x-model="periodoPlan">
 								<label class="btn btn-lg btn-outline-secondary fs-4 px-0 py-1" for="90top">90 días</label>
-							</div>
+							</div> --}}
 						</div>
 					</div>
 
@@ -242,6 +242,10 @@
 					<div x-show=" categoriaPlan === 'mixto' ">
 						<div role="group" class="planes-numero-avisos d-flex flex-column flex-md-row justify-content-center align-items-center w-100 gap-3 gap-lg-4 px-1 p-lg-0 mt-4">
 							<div>
+								<input type="radio" class="btn-check" id="30mix" value="30" autocomplete="off" x-model="periodoPlan">
+								<label class="btn btn-lg btn-outline-secondary fs-4 px-0 py-1" for="30mix">30 días</label>
+							</div>
+							{{-- <div>
 								<input type="radio" class="btn-check" id="90mix" value="90" autocomplete="off" x-model="periodoPlan">
 								<label class="btn btn-lg btn-outline-secondary fs-4 px-0 py-1" for="90mix">90 días</label>
 							</div>
@@ -252,7 +256,7 @@
 							<div>
 								<input type="radio" class="btn-check" id="365mix" value="365" autocomplete="off" x-model="periodoPlan">
 								<label class="btn btn-lg btn-outline-secondary fs-4 px-0 py-1" for="365mix">365 días</label>
-							</div>
+							</div> --}}
 						</div>
 					</div>
 				</fieldset>
