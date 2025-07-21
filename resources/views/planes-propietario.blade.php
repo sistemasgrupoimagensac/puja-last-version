@@ -27,10 +27,10 @@
 		{{-- SWITCH PAQUETES UN AVISO O TOP --}}
 		<div class="text-center mt-5 mb-3">
 			<div class="btn-group btn-group-lg" role="group" aria-label="Basic radio toggle button group">
-				<input type="radio" class="btn-check" name="btnradio" id="unaviso" autocomplete="off" checked @click="categoriaPlan = 'unaviso'" />
-				<label class="btn btn-outline-dark" for="unaviso">Un Aviso</label>
+				{{-- <input type="radio" class="btn-check" name="btnradio" id="unaviso" autocomplete="off" checked @click="categoriaPlan = 'unaviso'" />
+				<label class="btn btn-outline-dark" for="unaviso">Un Aviso</label> --}}
 
-				<input type="radio" class="btn-check" name="btnradio" id="masavisos" autocomplete="off" @click="categoriaPlan = 'masavisos'" />
+				<input type="radio" class="btn-check" name="btnradio" id="masavisos" autocomplete="off" checked @click="categoriaPlan = 'masavisos'" />
 				<label class="btn btn-outline-dark" for="masavisos">Más Avisos</label>
 			</div>
 		</div>
@@ -55,14 +55,14 @@
 						</div>
 					</div>
 					{{-- UNICO AVISO --}}
-					<div x-show=" categoriaPlan === 'unaviso' ">
+					{{-- <div x-show=" categoriaPlan === 'unaviso' ">
 						<div role="group" class="planes-numero-avisos d-flex flex-column flex-md-row justify-content-center align-items-center w-100 gap-3 gap-lg-4 px-1 p-lg-0 mt-4">
 							<div>
 								<input type="radio" class="btn-check" id="unicoaviso" value="1" autocomplete="off" x-model="numAvisos" />
 								<label class="btn btn-lg btn-outline-secondary button-filter fs-3 px-0 py-2" for="unicoaviso">1 Aviso</label>
 							</div> 
 						</div>
-					</div>
+					</div> --}}
 				</fieldset>
 
 				{{-- duración del plan --}}
@@ -276,9 +276,9 @@
 				planes: [],
 				planId: null,
 				tipoPlan: "Plan Estandar",
-				categoriaPlan: 'unaviso',
+				categoriaPlan: 'masavisos',
 				tipoDeAviso: 0,
-				numAvisos: 1,
+				numAvisos: 3,
 				periodoPlan: 30,
 				loading: false,
 				error: '',
