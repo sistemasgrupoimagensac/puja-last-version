@@ -159,7 +159,7 @@
 			<div class="d-flex flex-column align-items-center py-3 gap-3" x-data="consultaDocumento()">
 				<!-- número de avisos del plan -->
 				<fieldset>
-					<legend class="text-secondary h6 mb-3">1. Selecciona el número de avisos.</legend>
+					<legend class="text-secondary text-center h6 mb-3">1. Selecciona el número de avisos.</legend>
 					
 					<div x-show=" categoriaPlan === 'top' ">
 						<div role="group" class="planes-numero-avisos d-flex flex-column flex-md-row justify-content-center align-items-center w-100 gap-3 gap-lg-4 px-1 p-lg-0 mt-4" x-data="{ open: false }">
