@@ -163,10 +163,10 @@
 					
 					<div x-show=" categoriaPlan === 'top' ">
 						<div role="group" class="planes-numero-avisos d-flex flex-column flex-md-row justify-content-center align-items-center w-100 gap-3 gap-lg-4 px-1 p-lg-0 mt-4" x-data="{ open: false }">
-							<div>
+							{{-- <div>
 								<input type="radio" class="btn-check" id="1avisotop" value="1" autocomplete="off" x-model="numAvisos" />
 								<label class="btn btn-lg btn-outline-secondary button-filter fs-3 px-0 py-2" for="1avisotop">1 Aviso</label>
-							</div>
+							</div> --}}
 							<div>
 								<input type="radio" class="btn-check" id="3avisotop" value="3" autocomplete="off" x-model="numAvisos" />
 								<label class="btn btn-lg btn-outline-secondary button-filter fs-3 px-0 py-2" for="3avisotop">3 Avisos</label>
