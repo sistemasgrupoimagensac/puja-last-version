@@ -97,7 +97,7 @@
 					{{-- <p>(válido en el Plan Estandar de 5 avisos)</p> --}}
 					<div>
 						{{-- <div role="group" class="d-flex flex-column align-items-center flex-md-row gap-4 mt-4 w-100"> --}}
-						<div role="group" class="row row-cols-12 row-cols-md-12 g-4 d-flex align-items-stretch mt-4 w-100 mx-auto">
+						<div role="group" class="row row-cols-12 row-cols-md-12 g-4 d-flex align-items-stretch mt-2 w-100 mx-auto">
 							
 							<template x-for="plan in planes" :key="plan.id">
 								<div>

@@ -281,7 +281,7 @@
 						g-4
 						align-items-stretch
     					justify-content-center
-						mt-4
+						mt-2
 						w-100
 						cards-group_promo
 						mx-auto
