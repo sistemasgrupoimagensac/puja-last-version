@@ -37,7 +37,7 @@
 
 		<form>
 			@csrf
-			<div class="d-flex flex-column align-items-center py-3 gap-5" x-data="consultaDocumento()">
+			<div class="d-flex flex-column align-items-center py-3 gap-3" x-data="consultaDocumento()">
 				<!-- número de avisos del plan -->
 				<fieldset>
 					<legend class="text-secondary h6 mb-3">1. Selecciona el número de avisos.</legend>
@@ -86,11 +86,18 @@
 					</div>
 				</fieldset>
 
-				<fieldset>
-					<legend class="text-secondary text-left h6 mb-3">3. Selecciona el mejor paquete para ti.</legend>
+				<fieldset class="text-center">
+					<legend class="text-secondary text-center h6 mb-3">3. Selecciona el mejor paquete para ti.</legend>
+					<h3 class="main-home-titular text-primary fw-bold mb-2 text-center">
+						¡Promoción por tiempo limitado!
+					</h3>
+					<h2 x-show="numAvisos && numAvisos > 1" class="text-primary">
+						 Solo S/1 por aviso
+					</h2>
+					{{-- <p>(válido en el Plan Estandar de 5 avisos)</p> --}}
 					<div>
 						{{-- <div role="group" class="d-flex flex-column align-items-center flex-md-row gap-4 mt-4 w-100"> --}}
-						<div role="group" class="row row-cols-1 row-cols-md-3 g-4 d-flex align-items-stretch mt-4 w-100">
+						<div role="group" class="row row-cols-12 row-cols-md-12 g-4 d-flex align-items-stretch mt-4 w-100 mx-auto">
 							
 							<template x-for="plan in planes" :key="plan.id">
 								<div>
@@ -100,11 +107,12 @@
 										x-model="planId" 
 										:id="`plan-${plan.id}`" 
 										:value="plan.id"
-										@click="selectPlan(plan.id)"
+										{{-- @click="selectPlan(plan.id)" --}}
+										@click="aviso_id ? selectPlan(plan.id) : window.location.href = '{{ route('sign_in', ['profile_type' => 2]) }}'"
 									>
 
 									<label
-										class="card btn btn-lg p-0 card-plan-propietario-label rounded-4  h-100"
+										class="card btn btn-lg p-0 card-plan-propietario-label rounded-4  h-100 mx-auto"
 										:class="plan.class_name"
 										:for="`plan-${plan.id}`"
 									>
@@ -263,7 +271,7 @@
 
 		function pricingData() {
 			return {
-				aviso_id: {{$aviso_id}},
+				aviso_id: {{$aviso_id ?? 'null'}},
 				prices: 0,
 				planes: [],
 				planId: null,

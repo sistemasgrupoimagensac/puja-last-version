@@ -74,17 +74,23 @@ class PlanController extends Controller
 
     public function planes_propietario(Request $request)
     {
-        if ( !Auth::check() ) return redirect()->route('sign_in')->with('error', 'Inicia sesión, por favor.');
-        $user = Auth::user();
-        $aviso_id = $request->input('aviso_id');
+        $user = 0;
+        if ( Auth::check() ) {
+            $user = Auth::user();
+        } 
+        // return redirect()->route('sign_in')->with('error', 'Inicia sesión, por favor.');
+        $aviso_id = $request->input('aviso_id', '');
         return view ('planes-propietario',compact('aviso_id', 'user'));
     }
 
     public function planes_acreedor(Request $request) 
     {
-        if ( !Auth::check() ) return redirect()->route('sign_in')->with('error', 'Inicia sesión, por favor.');
-        $user = Auth::user();
-        $aviso_id = $request->input('aviso_id');
+        $user = 0;
+        if ( Auth::check() ) {
+            $user = Auth::user();
+        }
+        // if ( !Auth::check() ) return redirect()->route('sign_in')->with('error', 'Inicia sesión, por favor.');
+        $aviso_id = $request->input('aviso_id', '');
         return view ('planes-acreedor',compact('aviso_id', 'user'));
     }
 

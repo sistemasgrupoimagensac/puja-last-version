@@ -167,6 +167,10 @@ Route::get('/planes-propietario', function() {
     return view('planes-propietario');
 });
 
+Route::get('/planes-acreedor', function() {
+    return view('planes-acreedor');
+});
+
 // Ruta Terminos de contratacion
 Route::get('/terminos-contratacion', function() {
     return view('legal/terminos-contratacion');

@@ -141,7 +141,7 @@
 	<div class="container my-5" x-data="pricingData()">
 		<x-completa-registro-google></x-completa-registro-google>
 
-		<h1 class="text-center fw-bold h2">¿cuantos inmuebles quieres publicar?</h1>
+		<h1 class="text-center fw-bold h2">¿Cuántos inmuebles deseas publicar?</h1>
 
 		{{-- SWITCH PAQUETES MIXTOS O TOP --}}
 		<div class="text-center mt-5 mb-3">
@@ -156,7 +156,7 @@
 
 		<form>
 			@csrf
-			<div class="d-flex flex-column align-items-center py-3 gap-5" x-data="consultaDocumento()">
+			<div class="d-flex flex-column align-items-center py-3 gap-3" x-data="consultaDocumento()">
 				<!-- número de avisos del plan -->
 				<fieldset>
 					<legend class="text-secondary h6 mb-3">1. Selecciona el número de avisos.</legend>
@@ -262,22 +262,30 @@
 				</fieldset>
 
 				<!-- categoria de plan -->
-				<fieldset>
-					<legend class="text-secondary text-left h6 mb-3">3. Selecciona el mejor paquete para ti.</legend>
+				<fieldset class="text-center">
+					<legend class="text-secondary text-center h6 mb-3">3. Selecciona el mejor paquete para ti.</legend>
+					<h3 class="main-home-titular text-primary fw-bold mb-2 text-center">
+						¡Promoción por tiempo limitado!
+					</h3>
+					<h2 x-show="numAvisos && numAvisos > 1" class="text-primary">
+						 Solo S/1 por aviso
+					</h2>
 					
 					{{-- <div role="group" class="d-flex flex-column align-items-center flex-md-row gap-4 mt-4 w-100"> --}}
 					{{-- <div role="group" class="row row-cols-1 row-cols-md-3 g-4 d-flex align-items-stretch mt-4 w-100"> --}}
 					<div 
 						role="group"
 						class="row
-						row-cols-1 
-						row-cols-sm-2 
+						row-cols-12 
+						row-cols-sm-12 
 						g-4
 						align-items-stretch
     					justify-content-center
 						mt-4
 						w-100
-						cards-group_promo"
+						cards-group_promo
+						mx-auto
+						"
 						:class="class_cards"
 					>
 
@@ -317,7 +325,7 @@
 
 								<template x-if="plan.name !== 'Promoción de Lanzamiento'">
 								<label
-									class="card btn btn-lg p-0 card-plan-label rounded-4 h-100"
+									class="card btn btn-lg p-0 card-plan-label rounded-4 h-100 mx-auto"
 									{{-- :class="plan.class_name" --}}
 									:class="plan.class_name ? plan.class_name : 'button-orange'"
 									:for="`plan-${plan.id}`"
