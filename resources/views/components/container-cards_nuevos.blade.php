@@ -16,7 +16,8 @@
 			'area' => $aviso->inmueble->area(),
 			'bedrooms' => $aviso->inmueble->dormitorios(),
 			'bathrooms' => $aviso->inmueble->banios(),
-			'comodidades' => $aviso->inmueble->extra->caracteristicas->where('categoria_caracteristica_id', 2)->take(2),
+			// 'comodidades' => $aviso->inmueble->extra->caracteristicas->where('categoria_caracteristica_id', 2)->take(2),
+			'comodidades' => $aviso->inmueble?->extra?->caracteristicas?->where('categoria_caracteristica_id', 2)->take(2) ?? collect([]),
 			'inmueble_id' => $aviso->inmueble->id,
 			'like' => false,
 		])
