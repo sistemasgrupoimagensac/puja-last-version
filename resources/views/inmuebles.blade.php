@@ -64,7 +64,8 @@
                 'views' => $aviso->views ,
                 'inmueble_id' => $aviso->inmueble->id,
                 'like' => false,
-                'comodidades' => $aviso->inmueble->extra->caracteristicas->where('categoria_caracteristica_id', 2)->take(3),
+                // 'comodidades' => $aviso->inmueble->extra->caracteristicas->where('categoria_caracteristica_id', 2)->take(3),
+			    'comodidades' => $aviso->inmueble?->extra?->caracteristicas?->where('categoria_caracteristica_id', 2)->take(2) ?? collect([]),
             ])
         @endforeach
         {{ $avisos->onEachSide(1)->links() }}
