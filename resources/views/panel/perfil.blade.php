@@ -94,6 +94,12 @@
                                         <label class="text-secondary" for="phone">Teléfono</label>
                                         <div id="validationServerTelefonoFeedback" class="invalid-feedback"></div>
                                     </div>
+                                    
+                                    <div class="form-floating">
+                                        <input type="phone" class="form-control shadow-none" id="phone_contact" maxlength="9" minlength="9" name="phone_contact" placeholder="Teléfono para contactar" value="{{ $user->cel_contactar }}" required>
+                                        <label class="text-secondary" for="phone_contact">Celular para contactos</label>
+                                        <div id="validationServerCelContactoFeedback" class="invalid-feedback"></div>
+                                    </div>
                       
                                 </fieldset>
 

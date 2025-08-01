@@ -25,7 +25,7 @@
         {{ json_encode($planos_inmueble) }},
         {{ json_encode($extra_carac_inmueble) }},
         {{ json_encode($remates) }}
-    )">
+    )"  x-init="initSortable()">
 
         <!-- Menú de los pasos -->
         <div class="py-3 py-lg-4 bg-body-tertiary border-bottom">
@@ -560,7 +560,7 @@
                             <!-- Mostrar miniaturas de las imágenes seleccionadas -->
                             <div class="mt-3" x-show="fotos.length > 0">
                                 <h4>Miniaturas</h4>
-                                <div class="row">
+                                <div class="row" id="sortable-fotos">
                                     <template x-for="(foto, index) in fotos" :key="index">
                                         <div class="col-md-3 mb-3">
                                             <img
@@ -794,6 +794,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
     <script>
         const $loaderOverlay = document.getElementById('loader-overlay');
         const defaultLocation = {lat: -12.09706477059002, lng: -77.02302118294135}; // Coordenadas iniciales de ejemplo
@@ -1477,6 +1478,36 @@
                     } else if (type === 'videos') {
                         this.videos = null
                     }
+                },
+
+                initSortable() {
+                    const el = document.getElementById('sortable-fotos');
+
+                    // Asegura que cada archivo tenga un ID único
+                    this.fotos.forEach((f, i) => {
+                        if (!f._id) f._id = `${Date.now()}-${i}-${Math.random().toString(36).substring(2, 8)}`;
+                    });
+
+                    Sortable.create(el, {
+                        animation: 150,
+                        onEnd: () => {
+                            const newOrder = [];
+                            const children = el.querySelectorAll('.col-md-3');
+
+                            children.forEach(child => {
+                                const img = child.querySelector('img');
+                                const src = img?.src;
+
+                                const match = this.fotos.find(f => URL.createObjectURL(f) === src || f._preview === src);
+                                if (match) newOrder.push(match);
+                            });
+
+                            // Si el reordenamiento no generó inconsistencias
+                            if (newOrder.length === this.fotos.length) {
+                                this.fotos = newOrder;
+                            }
+                        }
+                    });
                 },
 
                 updateStepStatus() {

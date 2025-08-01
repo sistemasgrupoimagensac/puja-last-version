@@ -35,6 +35,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         'tipo_documento_id',
         'numero_documento',
         'celular',
+        'cel_contactar',
         'imagen',
         'estado',
         'acepta_termino_condiciones',
@@ -155,6 +156,11 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     public function getPhoneAttribute()
     {
         return $this->attributes['celular'];
+    }
+
+    public function getContactoAttribute()
+    {
+        return $this->attributes['cel_contactar'];
     }
 
     public function sendPasswordResetNotification($token): void

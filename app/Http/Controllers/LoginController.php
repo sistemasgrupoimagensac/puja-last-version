@@ -382,6 +382,7 @@ class LoginController extends Controller
             'apellido' => 'required|string|max:255',
             'tipo_documento' => 'required|integer|in:1,2,3',
             'telefono' => 'required|integer|digits:9',
+            'phone_contact' => 'integer|digits:9',
             'direccion' => 'required|string|max:255',
             'numero_de_documento' => 'required|string|max:30',
         ]);
@@ -404,6 +405,7 @@ class LoginController extends Controller
             'tipo_documento_id' => $request->tipo_documento,
             'numero_documento' => $request->numero_de_documento,
             'celular' => $request->telefono,
+            'cel_contactar' => $request->phone_contact,
             'direccion' => $request->direccion,
         ]);
 

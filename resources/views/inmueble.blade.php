@@ -773,7 +773,7 @@
         });
 
         const adBelongs = @json($ad_belongs);
-        const owner_phone = @json( $aviso->inmueble->user->phone );
+        const owner_phone = @json( $aviso->inmueble->user->contacto ?? $aviso->inmueble->user->phone );
 
         if (!adBelongs) {
             // Evento para el botón de enviar por correo
