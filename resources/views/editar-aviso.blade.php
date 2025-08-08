@@ -556,7 +556,7 @@
                                 Imágenes
                                 <span class="h6">(opcional)</span>
                             </label>
-                            <input type="file" id="images" class="form-control" multiple @change="handleFiles($event, 'fotos')">
+                            <input type="file" id="images" class="form-control" multiple @change="handleFiles($event, 'fotos')" x-ref="fileInput">
                             <!-- Mostrar miniaturas de las imágenes seleccionadas -->
                             <div class="mt-3" x-show="fotos.length > 0">
                                 <h4>Miniaturas</h4>
@@ -573,6 +573,14 @@
                                         </div>
                                     </template>
 
+                                    <div class="col-md-3 mb-3 text-center">
+                                        <button type="button"
+                                            class="btn btn-outline-secondary"
+                                            style="width: 100%; height: 100px; font-size: 2rem; border: 2px dashed #ccc;"
+                                            @click="$refs.fileInput.click()">
+                                            +
+                                        </button>
+                                    </div>
                                 </div>
 
                             </div>

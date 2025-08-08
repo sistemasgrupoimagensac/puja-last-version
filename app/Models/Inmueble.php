@@ -401,7 +401,7 @@ class Inmueble extends Model
             $mantenimiento = "El pago de mantenimiento es de S/ {$precio_mantenimiento}.";
         }
 
-        $tlf_contacto = "El número de contacto para mayor información o citas es " .$this->user->celular . ".";
+        $tlf_contacto = "El número de contacto para mayor información o citas es " . ($this->user->cel_contactar ?? $this->user->celular) . ".";
 
         return "{$subtipo_inmueble} en {$tipo_operacion} ubicada en {$direccion_completa}{$espacios} {$caracteristicas}. {$remate}El inmueble cuenta con una lista de características y comodidades que se presentan a continuación: {$caracteristicas_extras} {$mantenimiento} {$tlf_contacto}";
     }
