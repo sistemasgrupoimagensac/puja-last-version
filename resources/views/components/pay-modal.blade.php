@@ -61,8 +61,10 @@
                             <template x-if="userBrokerNotRegister">
                                 <div>
                                     {{-- Correo electronico --}}
-                                    <div class="mb-3">
-                                        <label for="emailNuevo" class="form-label m-0 custom">Correo:</label>
+                                    <div class="my-3">
+                                        <label for="emailNuevo" class="form-label m-0 custom">Correo: </label>
+                                        <br>
+                                        <span style="font-weight: 700; font-size:.7rem">*Se enviará un correo con sus credenciales</span>
                                         <div class="input-group">
                                             <input type="email" class="form-control shadow-none" id="emailNuevo" x-model="emailNuevo" inputmode="latin-name" maxlength="50" data_openpay_card />
                                         </div>
