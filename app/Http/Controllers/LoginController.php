@@ -439,4 +439,15 @@ class LoginController extends Controller
     
         return to_route('login')->with('status', 'Contraseña actualizada correctamente.');
     }
+    
+
+    public function existMail(Request $request)
+    {
+        $emailExiste = User::where('email', $request->email)->exists();
+
+        return response()->json([
+            'ok' => true,
+            'existeEmail' => $emailExiste,
+        ]);
+    } 
 }

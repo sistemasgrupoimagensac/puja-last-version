@@ -196,6 +196,7 @@
             nombreTarjeta: '',
             fechaTarjeta: '',
             cvcTarjeta: '',
+            nombresNuevo: '',
             emailNuevo: '',
             celularNuevo: '',
             userBrokerNotRegister: Boolean(Number(@json($userBrokerNotRegister))),
@@ -230,8 +231,6 @@
             },
 
             isValidForm() {
-
-                console.log("Entro al validate", this.pagoFree)
                 if ( !this.pagoFree ) {
                     return this.numeroTarjeta && this.nombreTarjeta && this.fechaTarjeta && this.cvcTarjeta /* && this.emailNuevo && this.celularNuevo  */
                 } else {
@@ -519,11 +518,46 @@
                 });
             },
 
+            verificarEmail(email) {
+                fetch(`/verificarEmailExistente?email=${encodeURIComponent(email)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.ok) {
+                            if (data.existeEmail) {
+                                alert("El email ya existe, favor de loguearse y comprar el plan con su cuenta o de lo contrario registrar otro correo.");
+                                return false
+                            } else {
+                                console.log("El email está disponible");
+                            }
+                        }
+                    })
+                    .catch(error => console.error("Error en la petición:", error));
+            },
+
             registerPayButton() {
                 document.getElementById('pay-button').addEventListener('click', () => {
                     const errorInline = document.getElementById('error-message')
                     if (this.isProcessing) return
                     console.log("Entro al boton")
+
+                    if ( this.userBrokerNotRegister ) {
+                        if(this.emailNuevo.trim() === '' ){
+                            alert('Favor de registrar un correo');
+                            return false;
+                        }
+                        if(this.celularNuevo.trim() === '' ){
+                            alert('Favor de registrar un correo');
+                            return false;
+                        }
+                        this.verificarEmail(this.emailNuevo)
+                        const nombres = this.nombresNuevo.trim();
+
+                        if (nombres === '') {
+                            alert('Favor de consultar su número de documento');
+                            return false;
+                        }
+                    }
+
                     if (this.isValidForm()) {
                         console.log("Entro al IF de validate()")
                         this.isProcessing = true

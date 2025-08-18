@@ -161,6 +161,7 @@ Route::post('/nota-credito', [BillingController::class, 'generarNotaCreditoV2'])
 Route::post('/nota-debito', [BillingController::class, 'generarNotaDebitoV2'])->middleware(SessionData::class);
 
 Route::get('/send_mail', [BillingController::class, 'sendMail']);
+Route::get('/verificarEmailExistente', [LoginController::class, 'existMail']);
 
 // Ruta planes del propietario (dueño)
 Route::get('/planes-propietario', function() {
