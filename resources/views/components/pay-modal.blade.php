@@ -103,7 +103,7 @@
                         <div>
                             <template x-if="resultados">
                                 <div>
-                                    <p class="m-0"><span class="fw-bold">Nombre:</span> <span x-text="getNombre()"></span></p>
+                                    <p class="m-0"><span class="fw-bold">Nombre:</span> <span id="nombreSpan" x-text="getNombre()"></span></p>
                                 </div>
                             </template>
                         </div>
@@ -518,27 +518,23 @@
                 });
             },
 
-            verificarEmail(email) {
-                fetch(`/verificarEmailExistente?email=${encodeURIComponent(email)}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.ok) {
-                            if (data.existeEmail) {
-                                alert("El email ya existe, favor de loguearse y comprar el plan con su cuenta o de lo contrario registrar otro correo.");
-                                return false
-                            } else {
-                                console.log("El email está disponible");
-                            }
-                        }
-                    })
-                    .catch(error => console.error("Error en la petición:", error));
+            async verificarEmail(email) {
+                try {
+                    const resp = await fetch(`/verificarEmailExistente?email=${encodeURIComponent(email)}`);
+                    const data = await resp.json();
+                    if (data.ok) return Boolean(data.existeEmail);
+                    console.warn('Respuesta no OK en verificarEmail');
+                    return false;
+                } catch (e) {
+                    console.error("Error en la petición:", e);
+                    return true;
+                }
             },
 
             registerPayButton() {
-                document.getElementById('pay-button').addEventListener('click', () => {
+                document.getElementById('pay-button').addEventListener('click', async () => {
                     const errorInline = document.getElementById('error-message')
                     if (this.isProcessing) return
-                    console.log("Entro al boton")
 
                     if ( this.userBrokerNotRegister ) {
                         if(this.emailNuevo.trim() === '' ){
@@ -549,13 +545,18 @@
                             alert('Favor de registrar un celular');
                             return false;
                         }
-                        this.verificarEmail(this.emailNuevo)
+                        const existe = await this.verificarEmail(this.emailNuevo);
+                        if (existe) {
+                            alert('El email ya existe, favor de loguearse y comprar el plan con su cuenta o de lo contrario registrar otro correo.');
+                            return;
+                        }
 
-                        /* const nombres = this.nombresNuevo.trim();
-                        if (nombres === '') {
+                        const span = document.getElementById('nombreSpan');
+                        const nombre = span ? span.innerText.trim() : '';
+                        if (!nombre) {
                             alert('Favor de consultar su número de documento');
                             return false;
-                        } */
+                        }
                     }
 
                     if (this.isValidForm()) {
