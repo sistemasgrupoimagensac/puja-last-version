@@ -58,6 +58,29 @@
                                 </div>
                             </div>
 
+                            <template x-if="userBrokerNotRegister">
+                                <div>
+                                    {{-- Correo electronico --}}
+                                    <div class="mb-3">
+                                        <label for="emailNuevo" class="form-label m-0 custom">Correo:</label>
+                                        <div class="input-group">
+                                            <input type="email" class="form-control shadow-none" id="emailNuevo" x-model="emailNuevo" inputmode="latin-name" maxlength="50" data_openpay_card />
+                                        </div>
+                                    </div>
+
+                                    {{-- Celular --}}
+                                    <div class="mb-3">
+                                        <label for="celularNuevo" class="form-label m-0 custom">Celular:</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control shadow-none" id="celularNuevo" x-model="celularNuevo" inputmode="numeric" maxlength="50" data_openpay_card />
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" id="nombresNuevo" x-model="nombresNuevo" inputmode="latin-name" maxlength="100"/>
+                                    <input type="hidden" id="apellidosNuevo" x-model="apellidosNuevo" inputmode="latin-name" maxlength="100"/>
+                                </div>
+                            </template>
+
                         </div>
 
                     </div>
@@ -65,9 +88,18 @@
 
                 <div x-show="!pagoFree">
                     <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center gap-2 p-2 px-md-5 w-100">
-                        <button type="button" class="btn btn-outline-secondary rounded-3" data-bs-target="#modalOtroDNI" data-bs-toggle="modal">
-                            ¿Desea pagar con una distinta Razón Social?
-                        </button>
+                        <template x-if="userBrokerNotRegister">
+                            <button type="button"
+                                    class="btn btn-outline-secondary rounded-3"
+                                    data-bs-target="#modalOtroDNI" data-bs-toggle="modal">
+                                ¡Agregar su documento de identidad!
+                            </button>
+                        </template>
+                        <template x-if="!userBrokerNotRegister">
+                            <button type="button" class="btn btn-outline-secondary rounded-3" data-bs-target="#modalOtroDNI" data-bs-toggle="modal">
+                                ¿Desea pagar con una distinta Razón Social?
+                            </button>
+                        </template>
                         <div>
                             <template x-if="resultados">
                                 <div>
@@ -153,7 +185,7 @@
     </div>
 </div>
 
-@props(['avisoId', 'userName', 'userSurname', 'userEmail', 'userPhone', 'userTypeId'])
+@props(['avisoId', 'userName', 'userSurname', 'userEmail', 'userPhone', 'userTypeId', 'userBrokerNotRegister' => 0])
 
 <script>
 
@@ -164,6 +196,9 @@
             nombreTarjeta: '',
             fechaTarjeta: '',
             cvcTarjeta: '',
+            emailNuevo: '',
+            celularNuevo: '',
+            userBrokerNotRegister: Boolean(Number(@json($userBrokerNotRegister))),
             showCVC: false,
             toggleCVC() {
                 this.showCVC = !this.showCVC;
@@ -198,7 +233,7 @@
 
                 console.log("Entro al validate", this.pagoFree)
                 if ( !this.pagoFree ) {
-                    return this.numeroTarjeta && this.nombreTarjeta && this.fechaTarjeta && this.cvcTarjeta
+                    return this.numeroTarjeta && this.nombreTarjeta && this.fechaTarjeta && this.cvcTarjeta /* && this.emailNuevo && this.celularNuevo  */
                 } else {
                     return true
                 }
@@ -225,19 +260,34 @@
                 // })
             },
 
-            handleTokenSuccess(response) {
-                const source_id = response.data.id
-
+            getCliente() {
                 const userName = '{{ $userName }}';
                 const userSurname = '{{ $userSurname }}';
                 const userEmail = '{{ $userEmail }}';
                 const userPhone = '{{ $userPhone }}';
-                const cliente = {
-                    nombres: userName,
-                    apellidos: userSurname,
-                    email: userEmail,
-                    celular: userPhone
-                };
+
+                const cliente = (userEmail && userEmail.trim() !== '')
+                    ? {
+                        nombres:   userName,
+                        apellidos: userSurname,
+                        email:     userEmail,
+                        celular:   userPhone
+                    }
+                    : {
+                        nombres:   (document.getElementById('nombresNuevo')?.value || '').trim(),
+                        apellidos: (document.getElementById('apellidosNuevo')?.value || '').trim(),
+                        email:     this.emailNuevo || '',
+                        celular:   this.celularNuevo || '',
+                        tipDocId:  tipoIdDocumento,
+                        num_doc:   numeroDocumento
+                    };
+                
+                return cliente;
+            },
+
+            handleTokenSuccess(response) {
+                const source_id = response.data.id
+                let cliente = this.getCliente()
 
                 const categoriaPlan = this.categoriaPlan
                 const tipoPlan = this.tipoPlan
@@ -360,10 +410,12 @@
             },
 
             contratarPlan(price, description) {
+                    let cliente = this.getCliente()
                     const dataToSend = {
                         plan_id: this.planId,
                         tipo_aviso: this.tipoDeAviso,
                         aviso_id: {{ $avisoId }},
+                        cliente,
                     }
 
                     fetch('/contratar_plan', {
@@ -508,6 +560,7 @@
     let documentTypeId = 2
     let numeroDocumento
     let tipoDocumento
+    let tipoIdDocumento = 1
     let nombreDocumento
 
     function consultaDocumento() {
@@ -520,6 +573,9 @@
             consultarDocumento() {
                 this.resultados = null
                 this.error = null
+
+                document.getElementById('nombresNuevo').value = ''
+                document.getElementById('apellidosNuevo').value = ''
 
                 const bodyTipoDoc = this.tipo === 'DNI' ? 'dni' : 'ruc'
                 fetch("/consulta-dni-ruc", {
@@ -538,11 +594,21 @@
                         if(data_response.data.ruc) {
                             numeroDocumento = data_response.data.ruc
                             tipoDocumento = "RUC"
-                            nombreDocumento =data_response.data.nombre_o_razon_social
+                            tipoIdDocumento = 2
+                            nombreDocumento = data_response.data.nombre_o_razon_social
+
+                            document.getElementById('nombresNuevo').value = data_response.data.nombres
+                            document.getElementById('apellidosNuevo').value = ''
+                            
                         } else {
                             numeroDocumento = data_response.data.numero
                             tipoDocumento = "DNI"
+                            tipoIdDocumento = 1
                             nombreDocumento =data_response.data.nombre_completo
+
+                            document.getElementById('nombresNuevo').value = data_response.data.nombres
+                            document.getElementById('apellidosNuevo').value = data_response.data.apellido_paterno + " " + data_response.data.apellido_materno
+                        
                         }
                         this.resultados = data_response.data
 

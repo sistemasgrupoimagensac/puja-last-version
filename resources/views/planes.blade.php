@@ -431,14 +431,15 @@
 				</fieldset>
 
 				{{-- Modal de Pago --}}
-				@isset($user)
+				{{-- @isset($user) --}}
 					<x-pay-modal
 						avisoId="null"
-						userName="{{ $user->nombres }}"
-						userSurname="{{ $user->apellidos }}"
-						userEmail="{{ $user->email }}"
-						userPhone="{{ $user->celular }}"
-						userTypeId="{{ $user->tipo_usuario_id }}"
+						userName="{{ $user->nombres ?? '' }}"
+						userSurname="{{ $user->apellidos ?? '' }}"
+						userEmail="{{ $user->email ?? '' }}"
+						userPhone="{{ $user->celular ?? '' }}"
+						userTypeId="{{ $user->tipo_usuario_id ?? '3' }}"
+						userBrokerNotRegister="1"
 					>
 						<x-card-plan-checkout
 							showPlan="Promoción de Lanzamiento"
@@ -464,7 +465,7 @@
 						bgColor="text-bg-success"
 						/>
 					</x-pay-modal>
-				@endisset
+				{{-- @endisset --}}
 				
 			</div>    
 		</form>
@@ -489,7 +490,7 @@
 				tipoDeAviso: null,
 				tipoPlan: 'Plan Estandar',
 				pagoFree: false,
-				class_cards: 3,
+				class_cards: '3',
 
 				fetchPlanes() {
 					$loaderOverlay.style.display = 'flex';
@@ -519,12 +520,23 @@
 						this.loading = false;
 						if(data.status === 'Success') {
 							this.planes = data.data;
+							const n = this.planes.length;
 							const screenWidth = window.innerWidth;
-							if (this.planes.length === 4 && screenWidth >= 768 && screenWidth <= 990) {
+							/* if (this.planes.length === 4 && screenWidth >= 768 && screenWidth <= 990) {
 								this.class_cards = "row-cols-md-2";
 							} else {
 								this.class_cards = "row-cols-md-" + this.planes.length;
+							} */
+							let cols;
+          					if (n === 4 && screenWidth >= 768 && screenWidth <= 990) {
+								cols = 2;
+							} else {
+								cols = n;
 							}
+							// Bootstrap row-cols-md-* admite 1..6; hacemos clamp por seguridad
+							cols = Math.max(1, Math.min(cols, 6));
+
+							this.class_cards = `row-cols-md-${cols}`;
 						} else {
 							this.error = data.message || 'Error al obtener los planes.';
 						}
@@ -600,10 +612,10 @@
 				selectPlan(planId) {
 					this.planId = planId;
 
-					if (!window.sesionIniciada) {
+					/* if (!window.sesionIniciada) {
 						window.location.href = "{{ route('sign_in', ['profile_type' => 3]) }}";
 						return;
-					}
+					} */
 
 					this.getPlan();
 					const modalPago = new bootstrap.Modal('#modalPago');

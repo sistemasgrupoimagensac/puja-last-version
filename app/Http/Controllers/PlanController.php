@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Mail\newAdMail;
+use App\Mail\UserCreated;
 use App\Models\Aviso;
 use App\Models\HistorialAvisos;
 use App\Models\NotificationEmail;
@@ -23,6 +24,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use IntlDateFormatter;
 
 class PlanController extends Controller
@@ -114,8 +116,31 @@ class PlanController extends Controller
                     'errors' => $validator->errors()
                 ], 422);
             }
-            if ( !Auth::check() ) return redirect()->route('sign_in')->with('error', 'Inicia sesión, por favor.');
-            $user_id = Auth::id();
+            if ( !Auth::check() ) {
+
+                $plainPassword = Str::random(12);
+
+                $user = User::create([
+                    'tipo_usuario_id'           => 3,
+                    'codigo_unico'              => null,
+                    'nombres'                   => $request->cliente['nombres'],
+                    'apellidos'                 => $request->cliente['apellidos'],
+                    'email'                     => $request->cliente['email'],
+                    'password'                  => bcrypt($plainPassword),
+                    'tipo_documento_id'         => $request->cliente['tipDocId'],
+                    'celular'                   => $request->cliente['celular'],
+                    'numero_documento'          => $request->cliente['num_doc'],
+                    'estado'                    => 1,
+                    'acepta_termino_condiciones' => 1,
+                    'direccion'                 => '',
+                    'email_verified_at'         => now(),
+                ]);
+                $user_id = $user->id;
+                Mail::to($user->email)->send(new UserCreated($user, $plainPassword));
+                
+            } else {
+                $user_id = Auth::id();
+            }
             $plan_id = $request->plan_id;
             $tipo_aviso = $request->tipo_aviso;
             $aviso_id = $request->aviso_id;
