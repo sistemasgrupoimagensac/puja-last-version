@@ -546,16 +546,16 @@
                             return false;
                         }
                         if(this.celularNuevo.trim() === '' ){
-                            alert('Favor de registrar un correo');
+                            alert('Favor de registrar un celular');
                             return false;
                         }
                         this.verificarEmail(this.emailNuevo)
-                        const nombres = this.nombresNuevo.trim();
 
+                        /* const nombres = this.nombresNuevo.trim();
                         if (nombres === '') {
                             alert('Favor de consultar su número de documento');
                             return false;
-                        }
+                        } */
                     }
 
                     if (this.isValidForm()) {
