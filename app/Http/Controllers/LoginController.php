@@ -382,7 +382,7 @@ class LoginController extends Controller
             'apellido' => 'required|string|max:255',
             'tipo_documento' => 'required|integer|in:1,2,3',
             'telefono' => 'required|integer|digits:9',
-            'phone_contact' => 'integer|digits:9',
+            'phone_contact' => 'sometimes|nullable|digits:9',
             'direccion' => 'required|string|max:255',
             'numero_de_documento' => 'required|string|max:30',
         ]);
@@ -398,6 +398,11 @@ class LoginController extends Controller
             abort(Response::HTTP_FORBIDDEN, 'No puedes actualizar otro usuario');
         }
 
+        $phone_contacto = $request->input('phone_contact');
+        if ( trim($phone_contacto) == '' ) {
+            $phone_contacto = null;
+        }
+
         $user = User::findOrFail($id);
         $user->update([
             'nombres' => $request->nombre,
@@ -405,7 +410,7 @@ class LoginController extends Controller
             'tipo_documento_id' => $request->tipo_documento,
             'numero_documento' => $request->numero_de_documento,
             'celular' => $request->telefono,
-            'cel_contactar' => $request->phone_contact,
+            'cel_contactar' => $phone_contacto,
             'direccion' => $request->direccion,
         ]);
 
