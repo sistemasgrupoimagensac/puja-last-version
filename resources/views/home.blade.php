@@ -88,7 +88,7 @@
                         <input
                             type="text"
                             class="form-control"
-                            placeholder="Ciudad, provincia y/o distrito"
+                            placeholder="Ciudad, provincia o distrito"
                             aria-label="direccion"
                             aria-describedby="direccion"
                             name="direccion"
