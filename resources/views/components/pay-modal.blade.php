@@ -58,7 +58,7 @@
                                 </div>
                             </div>
 
-                            <template x-if="userBrokerNotRegister">
+                            <template x-if="userBrokerNotRegister && !usuarioEmail">
                                 <div>
                                     {{-- Correo electronico --}}
                                     <div class="my-3">
@@ -90,7 +90,7 @@
 
                 <div x-show="!pagoFree">
                     <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center gap-2 p-2 px-md-5 w-100">
-                        <template x-if="userBrokerNotRegister">
+                        <template x-if="userBrokerNotRegister && !usuarioEmail">
                             <button type="button"
                                     class="btn btn-outline-secondary rounded-3"
                                     data-bs-target="#modalOtroDNI" data-bs-toggle="modal">
@@ -201,6 +201,7 @@
             nombresNuevo: '',
             emailNuevo: '',
             celularNuevo: '',
+            usuarioEmail: @json($userEmail),
             userBrokerNotRegister: Boolean(Number(@json($userBrokerNotRegister))),
             showCVC: false,
             toggleCVC() {
@@ -538,7 +539,7 @@
                     const errorInline = document.getElementById('error-message')
                     if (this.isProcessing) return
 
-                    if ( this.userBrokerNotRegister ) {
+                    if ( this.userBrokerNotRegister && !this.usuarioEmail ) {
                         if(this.emailNuevo.trim() === '' ){
                             alert('Favor de registrar un correo');
                             return false;

@@ -439,7 +439,7 @@
 						userEmail="{{ $user->email ?? '' }}"
 						userPhone="{{ $user->celular ?? '' }}"
 						userTypeId="{{ $user->tipo_usuario_id ?? '3' }}"
-						userBrokerNotRegister="1"
+						userBrokerNotRegister="{{ (isset($user) && !empty($user->email)) ? 0 : 1 }}"
 					>
 						<x-card-plan-checkout
 							showPlan="Promoción de Lanzamiento"
